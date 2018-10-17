@@ -1,9 +1,13 @@
 // Background Image
-/* body {
-    background-image: image-url('space-background.jpg');
+body {
+    background-image: image-url('space-background-blur.png');
     background-size: cover;
     background-repeat: no-repeat;
-} */
+}
+.grid-bg {
+    height: calc(100vh - 30px);
+    background: image-url('space-background-grid.png') repeat center top;
+}
 
 // Helpers
 .display-inline {
@@ -24,14 +28,15 @@
     padding: 0;
 }
 .navbar-brand img {
-    margin-left: -20px;
+    margin-left: -25px;
     margin-top: -5px;
     height: 55px;
 }
 
 // Footer
 body {
-    padding-bottom: 60px;
+    padding-bottom: 30px;
+    min-height: 100vh;
 }
 footer {
     padding: 5px;
@@ -40,4 +45,19 @@ footer {
     bottom: 0;
     background-color: #073642 !important;
     width: 100%;
+}
+
+// Login
+.card-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// Cards
+.card-header {
+    background-color: #233F48;
+}
+.card-body {
+    background-color: #28424A;
 }

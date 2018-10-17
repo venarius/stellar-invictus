@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>Stellar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -12,14 +14,16 @@
   </head>
 
   <body>
-    <%= render 'layouts/navbar' %>
+    <div class="grid-bg">
+      <%= render 'layouts/navbar' %>
     
-    <div class="mt-1rem container">
-      <%= render 'layouts/alerts' %>
-      
-      <%= yield %>
-      
-      <%= render 'layouts/footer' %>
+      <div class="mt-1rem container">
+        <%= render 'layouts/alerts' %>
+        
+        <%= yield %>
+        
+        <%= render 'layouts/footer' %>
+      </div>
     </div>
   </body>
 </html>
