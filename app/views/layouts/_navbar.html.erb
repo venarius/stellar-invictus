@@ -20,12 +20,18 @@
         </li>
       </ul>
       <ul class="navbar-nav">
-        <li class="nav-item <%= 'active' if current_page?(new_user_session_path) %>">
-          <%= link_to new_user_session_path, class: 'nav-link' do %>
-            <%= I18n.t('connect_dic') %>
-            <%= " <span class='sr-only'>(current)</span>".html_safe if current_page?(new_user_session_path) %>
-          <% end %>
-        </li>
+        <% if current_user %>
+          <li class="nav-item">
+            <%= link_to I18n.t('logout_dic'), destroy_user_session_path, method: :delete, class: 'nav-link' %>
+          </li>
+        <% else %>
+          <li class="nav-item <%= 'active' if current_page?(new_user_session_path) %>">
+            <%= link_to new_user_session_path, class: 'nav-link' do %>
+              <%= I18n.t('connect_dic') %>
+              <%= " <span class='sr-only'>(current)</span>".html_safe if current_page?(new_user_session_path) %>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </div>
 </nav>

@@ -15,4 +15,9 @@ $( document ).on('turbolinks:load', function() {
     $( "input" ).keyup(function() {
         $(this).closest('.field_with_errors').removeClass('field_with_errors');
     });
+    
+    // Smooth alert slideout
+    $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert").slideUp(500);
+    });
 });

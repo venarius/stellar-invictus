@@ -15,3 +15,4 @@ en:
   not_a_valid_email_dic: "is not a valid email address"
   must_be_at_least_8_characters_dic: "Must contains at least 8 characters"
   resend_confirmation_dic: "Resend Confirmation"
+  logout_dic: "Logout"
