@@ -18,3 +18,26 @@
 .mb-0 {
     margin-bottom: 0;
 }
+
+// Navbar
+.navbar-brand {
+    padding: 0;
+}
+.navbar-brand img {
+    margin-left: -20px;
+    margin-top: -5px;
+    height: 55px;
+}
+
+// Footer
+body {
+    padding-bottom: 60px;
+}
+footer {
+    padding: 5px;
+    left: 0;
+    position: absolute;
+    bottom: 0;
+    background-color: #073642 !important;
+    width: 100%;
+}
