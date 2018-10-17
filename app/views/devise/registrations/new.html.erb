@@ -1,0 +1,38 @@
+<div class="mb-1rem">
+  <%= devise_error_messages! %>
+</div>
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card">
+      <h5 class="card-header"><%= I18n.t('enlist_now_dic') %></h5>
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        
+          <div class="field mb-3">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: I18n.t('email_dic'), class: 'form-control', required: true %>
+          </div>
+        
+          <div class="field mb-3">
+            <%= f.password_field :password, autocomplete: "new-password", placeholder: I18n.t('password_dic'), class: 'form-control', required: true %>
+          </div>
+        
+          <div class="field mb-3">
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: I18n.t('password_confirmation_dic'), class: 'form-control', required: true %>
+          </div>
+        
+          <div class="actions float-right">
+            <%= button_tag( class: 'btn btn-primary btn-sm') do %>
+              <%= I18n.t('enlist_now_dic') %>
+              &nbsp;<i class="fa fa-arrow-right"></i>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <div class="mt-3">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

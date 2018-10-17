@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">StellarInvictus</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item <%= 'active' if current_page?(root_path) %>">
+          <%= link_to root_path, class: 'nav-link' do %>
+            <%= I18n.t('home_dic') %>
+            <%= " <span class='sr-only'>(current)</span>".html_safe if current_page?(root_path) %>
+          <% end %>
+        </li>
+        <li class="nav-item <%= 'active' if current_page?(about_path) %>">
+          <%= link_to about_path, class: 'nav-link' do %>
+            <%= I18n.t('about_dic') %>
+            <%= " <span class='sr-only'>(current)</span>".html_safe if current_page?(about_path) %>
+          <% end %>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item <%= 'active' if current_page?(new_user_session_path) %>">
+          <%= link_to new_user_session_path, class: 'nav-link' do %>
+            <%= I18n.t('connect_dic') %>
+            <%= " <span class='sr-only'>(current)</span>".html_safe if current_page?(new_user_session_path) %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+</nav>

@@ -1,0 +1,30 @@
+<div class="mb-1rem">
+  <%= devise_error_messages! %>
+</div>
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card">
+      <h5 class="card-header"><%= I18n.t('account_recovery_dic') %></h5>
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        
+          <div class="field mb-3">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'Login', class: 'form-control', required: true %>
+          </div>
+        
+          <div class="actions float-right">
+            <%= button_tag(class: 'btn btn-primary btn-sm') do %>
+              <%= I18n.t('send_dic') %>
+              &nbsp;<i class='fa fa-arrow-right'></i>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <div class="mt-3">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

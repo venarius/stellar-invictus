@@ -1,0 +1,12 @@
+en:
+  hello: "Hello world"
+  home_dic: "Home"
+  about_dic: "About"
+  connect_dic: "Connect"
+  connect_to_game_dic: "Connect to Stellar Invictus"
+  password_dic: "Password"
+  password_confirmation_dic: "Password confirmation"
+  email_dic: "Email"
+  enlist_now_dic: "Enlist Now"
+  account_recovery_dic: "Account Recovery"
+  send_dic: "Send"

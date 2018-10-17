@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card">
+      <h5 class="card-header"><%= I18n.t('connect_to_game_dic') %></h5>
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <div class="field mb-3">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'Login', class: 'form-control', required: true %>
+          </div>
+        
+          <div class="field mb-3">
+            <%= f.password_field :password, autocomplete: "current-password", placeholder: I18n.t('password_dic'), class: 'form-control', required: true %>
+          </div>
+        
+          <% if devise_mapping.rememberable? -%>
+            <div class="field float-left">
+              <div class="form-check">
+                <%= f.check_box :remember_me, class: 'form-check-input' %>
+                <%= f.label :remember_me, class: 'form-check-label' %>
+              </div>
+            </div>
+          <% end -%>
+        
+          <div class="actions float-right">
+            <%= button_tag(class: 'btn btn-primary btn-sm') do %>
+              <%= I18n.t('connect_dic') %>
+              &nbsp;<i class='fas fa-arrow-right'></i>
+            <% end %>
+          </div>
+        <% end %><br>
+        
+        <div class="mt-3">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
