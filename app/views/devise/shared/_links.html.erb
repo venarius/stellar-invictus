@@ -1,9 +1,9 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to "<i class='fa fa-arrow-circle-right'></i> Connect".html_safe, new_session_path(resource_name) %>
+  <%= link_to "<i class='fa fa-arrow-circle-right'></i> Connect".html_safe, new_session_path(resource_name), class: 'display-inline-block' %>
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to "<i class='fa fa-lock'></i> Account Recovery".html_safe, new_password_path(resource_name), class: 'display-inline-block' %>
+  <%= link_to "<i class='fa fa-lock'></i> Account Recovery".html_safe, new_password_path(resource_name), class: 'display-inline-block ml-3' %>
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
@@ -11,7 +11,7 @@
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %><br />
+  <%= link_to "<i class='fa fa-arrow-circle-right'></i> Didn't receive confirmation instructions?".html_safe, new_confirmation_path(resource_name) %><br />
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>

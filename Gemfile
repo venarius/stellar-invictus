@@ -29,3 +29,5 @@ end
 
 # Authentication through devise
 gem 'devise'
+# Client-Side Validations
+gem 'client_side_validations'

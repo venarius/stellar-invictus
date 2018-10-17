@@ -28,9 +28,9 @@ body {
     padding: 0;
 }
 .navbar-brand img {
-    margin-left: -25px;
+    margin-left: -20px;
     margin-top: -5px;
-    height: 55px;
+    height: 45px;
 }
 
 // Footer
@@ -60,4 +60,10 @@ footer {
 }
 .card-body {
     background-color: #28424A;
+}
+
+// Errors
+.field_with_errors {
+    border: 2px solid #CB4B16;
+    border-radius: 5px;
 }

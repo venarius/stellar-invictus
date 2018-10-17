@@ -10,13 +10,13 @@
         <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
         
           <div class="field mb-3">
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'Login', class: 'form-control', required: true %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: I18n.t('email_dic'), class: 'form-control' %>
           </div>
         
           <div class="actions float-right">
-            <%= button_tag(class: 'btn btn-primary btn-sm') do %>
-              <%= I18n.t('send_dic') %>
-              &nbsp;<i class='fa fa-arrow-right'></i>
+            <%= button_tag(class: 'btn btn-primary btn-sm btn-load') do %>
+              <span><%= I18n.t('send_dic') %></span>
+              &nbsp;<i class='fas fa-arrow-right'></i>
             <% end %>
           </div>
         <% end %>
