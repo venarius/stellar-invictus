@@ -16,8 +16,8 @@ $( document ).on('turbolinks:load', function() {
         $(this).closest('.field_with_errors').removeClass('field_with_errors');
     });
     
-    // Smooth alert slideout
-    $(".alert").fadeTo(2000, 500).slideUp(500, function(){
-        $(".alert").slideUp(500);
-    });
+    // Smooth alert slides
+    $(".alert").hide();
+    $(".alert").slideDown(500);
+    $(".alert").delay(3000).slideUp(500);
 });
