@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_17_194733) do
+ActiveRecord::Schema.define(version: 2018_10_18_192657) do
+
+  create_table "factions", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "faction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["faction_id"], name: "index_factions_on_faction_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -25,8 +34,10 @@ ActiveRecord::Schema.define(version: 2018_10_17_194733) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.integer "faction_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["faction_id"], name: "index_users_on_faction_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

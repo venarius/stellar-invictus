@@ -1,12 +1,17 @@
 $( document ).on('turbolinks:load', function() {
     // Loading Button
     $('.btn-load').on('click', function() {
-        if ($('.field_with_errors').length == 0) {
+        if ($('.field_with_errors').length == 0 && $(this).is("button")) {
             var width = $(this).width();
             $(this).children('span').remove();
             $(this).children('.fas').removeClass('fa-arrow-right').addClass('fa-spinner fa-spin');
             $(this).width(width);
             $(this).closest('form').submit();   
+        } else if ($(this).is("a")) {
+            var width = $(this).width();
+            $(this).children('span').remove();
+            $(this).children('.fas').removeClass('fa-arrow-right').addClass('fa-spinner fa-spin');
+            $(this).width(width);
         }
     });
     

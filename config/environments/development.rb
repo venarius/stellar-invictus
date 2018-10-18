@@ -60,5 +60,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   
   # Devise Mailer
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: '8b6e2e87f3014c49a1f45e7882c11998.vfs.cloud9.eu-west-1.amazonaws.com' }
 end
