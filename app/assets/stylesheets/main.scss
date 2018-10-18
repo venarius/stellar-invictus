@@ -1,15 +1,29 @@
+// ###############
 // Background Image
-body {
-    background-image: image-url('space-background-blur.jpg');
+// ###############
+#main-bg {
+    width: 100%;
+    background: image-url('space-background-blur.jpg') no-repeat;
     background-size: cover;
-    background-repeat: no-repeat;
+    height: calc(100vh - 30px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -2;
 }
-.grid-bg {
+#grid-bg {
+    width: 100%;
     height: calc(100vh - 30px);
     background: image-url('space-background-grid.png') repeat center top;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
+// ###############
 // Helpers
+// ###############
 .display-inline {
     display: inline;
 }
@@ -33,12 +47,14 @@ body {
     height: 45px;
 }
 
+// ###############
 // Footer
+// ###############
 body {
     padding-bottom: 30px;
     min-height: 100vh;
 }
-footer {
+#footer {
     padding: 5px;
     left: 0;
     position: absolute;
@@ -47,14 +63,18 @@ footer {
     width: 100%;
 }
 
+// ###############
 // Login
+// ###############
 .card-center {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+// ###############
 // Cards
+// ###############
 .card-header {
     background-color: #233F48;
 }
@@ -62,8 +82,10 @@ footer {
     background-color: #28424A;
 }
 
+// ###############
 // Errors
+// ###############
 .field_with_errors {
-    border: 2px solid #CB4B16;
+    border: 2px solid #D33682;
     border-radius: 5px;
 }

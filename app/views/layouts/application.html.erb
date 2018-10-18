@@ -14,16 +14,17 @@
   </head>
 
   <body>
-    <div class="grid-bg">
-      <%= render 'layouts/navbar' %>
+    <div id="main-bg" data-turbolinks-permanent></div>
+    <div id="grid-bg" data-turbolinks-permanent></div>
     
-      <div class="mt-1rem container">
-        <%= render 'layouts/alerts' %>
-        
-        <%= yield %>
-        
-        <%= render 'layouts/footer' %>
-      </div>
+    <%= render 'layouts/navbar' %>
+  
+    <div class="mt-1rem container">
+      <%= render 'layouts/alerts' %>
+      
+      <%= yield %>
+      
+      <%= render 'layouts/footer' %>
     </div>
   </body>
 </html>
