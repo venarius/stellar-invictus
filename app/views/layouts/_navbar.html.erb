@@ -8,13 +8,13 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item <%= 'active' if current_page?(root_path) %>">
           <%= link_to root_path, class: 'nav-link' do %>
-            <%= I18n.t('home_dic') %>
+            <%= I18n.t('navbar.home') %>
             <%= " <span class='sr-only'>(current)</span>".html_safe if current_page?(root_path) %>
           <% end %>
         </li>
         <li class="nav-item <%= 'active' if current_page?(about_path) %>">
           <%= link_to about_path, class: 'nav-link' do %>
-            <%= I18n.t('about_dic') %>
+            <%= I18n.t('navbar.about') %>
             <%= " <span class='sr-only'>(current)</span>".html_safe if current_page?(about_path) %>
           <% end %>
         </li>
@@ -22,12 +22,12 @@
       <ul class="navbar-nav">
         <% if current_user %>
           <li class="nav-item">
-            <%= link_to I18n.t('logout_dic'), destroy_user_session_path, method: :delete, class: 'nav-link' %>
+            <%= link_to I18n.t('navbar.logout'), destroy_user_session_path, method: :delete, class: 'nav-link' %>
           </li>
         <% else %>
           <li class="nav-item <%= 'active' if current_page?(new_user_session_path) %>">
             <%= link_to new_user_session_path, class: 'nav-link' do %>
-              <%= I18n.t('connect_dic') %>
+              <%= I18n.t('navbar.connect') %>
               <%= " <span class='sr-only'>(current)</span>".html_safe if current_page?(new_user_session_path) %>
             <% end %>
           </li>

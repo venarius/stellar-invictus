@@ -1,25 +1,25 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to "<i class='fa fa-arrow-circle-right'></i> Connect".html_safe, new_session_path(resource_name), class: 'display-inline-block' %>
+  <%= link_to "<i class='fa fa-arrow-circle-right'></i> #{I18n.t('navbar.connect')}".html_safe, new_session_path(resource_name), class: 'display-inline-block' %>
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to "<i class='fa fa-lock'></i> Account Recovery".html_safe, new_password_path(resource_name), class: 'display-inline-block ml-3' %>
+  <%= link_to "<i class='fa fa-lock'></i> #{I18n.t('devise.account_recovery')}".html_safe, new_password_path(resource_name), class: 'display-inline-block ml-3' %>
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to "<i class='fa fa-arrow-circle-right'></i> Enlist Now".html_safe, new_registration_path(resource_name), class: 'display-inline-block ml-3' %><br />
+  <%= link_to "<i class='fa fa-arrow-circle-right'></i> #{I18n.t('devise.enlist_now')}".html_safe, new_registration_path(resource_name), class: 'display-inline-block ml-3' %><br />
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to "<i class='fa fa-arrow-circle-right'></i> Didn't receive confirmation instructions?".html_safe, new_confirmation_path(resource_name) %><br />
+  <%= link_to "<i class='fa fa-arrow-circle-right'></i> #{I18n.t('devise.didnt_receive_confirmation')}".html_safe, new_confirmation_path(resource_name) %><br />
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
+  <%= link_to "#{I18n.t('devise.didnt_receive_unlock')}", new_unlock_path(resource_name) %><br />
 <% end -%>
 
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
+    <%= link_to "#{I18n.t('devise.sign_in_with')} #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
   <% end -%>
 <% end -%>

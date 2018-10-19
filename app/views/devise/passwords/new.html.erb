@@ -5,17 +5,17 @@
 <div class="row">
   <div class="col-md-6 offset-md-3">
     <div class="card border-success">
-      <h5 class="card-header"><%= I18n.t('account_recovery_dic') %></h5>
+      <h5 class="card-header"><%= I18n.t('devise.account_recovery') %></h5>
       <div class="card-body">
         <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
         
           <div class="field mb-3">
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: I18n.t('email_dic'), class: 'form-control' %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>
           </div>
         
           <div class="actions float-right">
             <%= button_tag(class: 'btn btn-primary btn-sm btn-load') do %>
-              <span><%= I18n.t('send_dic') %></span>
+              <span><%= I18n.t('devise.send') %></span>
               &nbsp;<i class='fas fa-arrow-right'></i>
             <% end %>
           </div>

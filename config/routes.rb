@@ -5,4 +5,10 @@ Rails.application.routes.draw do
   
   get '/about', to: 'static_pages#about'
   get '/credits', to: 'static_pages#credits'
+  
+  resources :factions, only: [:index]
+  scope :faction do
+    post 'choose', to: 'factions#choose_faction', as: :choose_faction
+  end
+  
 end
