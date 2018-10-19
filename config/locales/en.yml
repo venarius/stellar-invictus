@@ -29,3 +29,5 @@ en:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
     must_be_at_least_8_characters: "Must contains at least 8 characters"
+    too_long: "cannot be longer than 20 characters"
+    too_short: "cannot be shorter than 2 characters"
