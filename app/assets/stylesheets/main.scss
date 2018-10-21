@@ -28,13 +28,19 @@
     display: inline;
 }
 .display-inline-block {
-    display: inline-block;
+    display: inline-block !important;
 }
 .mt-1rem {
     margin-top: 1rem;
 }
 .mb-0 {
     margin-bottom: 0;
+}
+.bg-black {
+    background-color: black;
+}
+.color-sec-high {
+    color: rgba(81, 203, 238, 1);
 }
 
 // Navbar
@@ -88,4 +94,22 @@ body {
 .field_with_errors {
     border: 2px solid #D33682;
     border-radius: 5px;
+}
+
+// ###############
+// Game
+// ############### 
+.system-card h4 .text-span {
+    padding: 5px 10px 5px 10px;
+    margin-left: 0.5rem;
+    display: inline-block;
+}
+.system-card {
+    background-image: image-url('space-background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px solid black;
+}
+.system-card h4:last-of-type {
+    margin-bottom: 0px;
 }

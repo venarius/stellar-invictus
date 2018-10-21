@@ -31,3 +31,6 @@ en:
     must_be_at_least_8_characters: "Must contains at least 8 characters"
     too_long: "cannot be longer than 20 characters"
     too_short: "cannot be shorter than 2 characters"
+  game:
+    current_location: "LOCATION:"
+    current_sec_level: "SECURITY:"
