@@ -4,6 +4,7 @@ en:
     about: "About"
     connect: "Connect"
     logout: "Logout"
+    game: "Game"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
