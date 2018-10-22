@@ -35,3 +35,5 @@ en:
   game:
     current_location: "LOCATION:"
     current_sec_level: "SECURITY:"
+    jumpgates: "Jumpgates"
+    players: "Other Players"

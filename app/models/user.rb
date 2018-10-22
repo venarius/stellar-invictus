@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   belongs_to :faction, optional: true
+  belongs_to :system, optional: true
   
   
   validates :name, :family_name, :email, :password, :password_confirmation, 

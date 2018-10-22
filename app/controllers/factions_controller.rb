@@ -10,6 +10,8 @@ class FactionsController < ApplicationController
   def choose_faction
     if !current_user.faction
       current_user.faction = Faction.find(params[:id])
+      # TODO Temporary 22.10.2018
+      current_user.system = System.first
       if current_user.faction and current_user.save(validate: false)
         redirect_to game_path
       else
