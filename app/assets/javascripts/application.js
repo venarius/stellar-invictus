@@ -14,7 +14,8 @@
 //= require activestorage
 //= require turbolinks
 //= require stimulus/init
-//= require jquery.min.js
+//= require jquery
+//= require jquery_ujs
 //= require popper.min.js
 //= require bootstrap.min.js
 //= require rails.validations

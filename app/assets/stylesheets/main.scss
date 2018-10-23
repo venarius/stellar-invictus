@@ -24,43 +24,42 @@
 // ###############
 // Helpers
 // ###############
-.display-inline {
-    display: inline;
-}
-.display-inline-block {
-    display: inline-block;
-}
-.mt-1rem {
-    margin-top: 1rem;
-}
-.mb-0 {
-    margin-bottom: 0;
-}
+.display-inline { display: inline; }
+.display-inline-block { display: inline-block !important; }
+.mt-1rem { margin-top: 1rem; }
+.mb-0 { margin-bottom: 0; }
+.bg-black { background-color: black; }
+.color-sec-high { color: rgba(81, 203, 238, 1); }
+.width-max { width: 100%; }
 
 // Navbar
 .navbar-brand {
-    padding: 0;
+  padding: 0;
 }
 .navbar-brand img {
-    margin-left: -20px;
-    margin-top: -5px;
-    height: 45px;
+  margin-left: -20px;
+  margin-top: -5px;
+  height: 45px;
 }
 
 // ###############
 // Footer
 // ###############
 body {
-    padding-bottom: 30px;
-    min-height: 100vh;
+  padding-bottom: 30px;
+  min-height: 100vh;
 }
 #footer {
-    padding: 5px;
-    left: 0;
-    position: absolute;
-    bottom: 0;
-    background-color: #073642 !important;
-    width: 100%;
+  padding: 5px;
+  left: 0;
+  position: absolute;
+  bottom: 0;
+  background-color: #060606 !important;
+  width: 100%;
+  border-top: 1px solid #282828;
+}
+a {
+  color: white;
 }
 
 // ###############
@@ -73,19 +72,48 @@ body {
 }
 
 // ###############
-// Cards
-// ###############
-.card-header {
-    background-color: #233F48;
-}
-.card-body {
-    background-color: #28424A;
-}
-
-// ###############
 // Errors
 // ###############
 .field_with_errors {
-    border: 2px solid #D33682;
-    border-radius: 5px;
+  border: 2px solid #CC0000;
+  border-radius: 5px;
+}
+
+// ###############
+// Game
+// ############### 
+.system-card {
+  background-image: image-url('space-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid black;
+  h4 .text-span {
+    padding: 5px 10px 5px 10px;
+    margin-left: 0.5rem;
+    display: inline-block;
+  }
+  h4:last-of-type {
+    margin-bottom: 0px;
+  }
+}
+.black-card {
+  color: white;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid grey;
+  .card-header {
+    border-bottom: 1px solid grey;
+  }
+}
+.jumpgate-card, .player-card {
+  background-color: black;
+  color: white;
+  img {
+    width: 40px;
+  }
+  a {
+    margin-top: 2px;
+  }
+  h5 {
+    margin-bottom: 0;
+  }
 }

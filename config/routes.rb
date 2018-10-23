@@ -7,8 +7,10 @@ Rails.application.routes.draw do
   get '/credits', to: 'static_pages#credits'
   
   resources :factions, only: [:index]
-  scope :faction do
+  scope :factions do
     post 'choose', to: 'factions#choose_faction', as: :choose_faction
   end
+  
+  get '/game', to: 'game#index'
   
 end
