@@ -1,19 +1,19 @@
 <div class="card">
-    <h5 class="card-header"><%= I18n.t('factions.choose_a_faction') %></h5>
-    <div class="card-body">
-        <div class="row">
-            <% @factions.each do |faction| %>
-                <div class="col-md-4">
-                    <h3><%= faction.name %></h3>
-                    
-                    <p><%= faction.description %></p>
-                    
-                    <%= link_to choose_faction_path(id: faction.id), method: :post, class: 'btn btn-primary btn-load' do %>
-                        <span><%= I18n.t('factions.choose') %></span>
-                        &nbsp;<i class="fas fa-arrow-right"></i>
-                    <% end %>
-                </div>
-            <% end %>
+  <h5 class="card-header"><%= I18n.t('factions.choose_a_faction') %></h5>
+  <div class="card-body">
+    <div class="row">
+      <% @factions.each do |faction| %>
+        <div class="col-md-4">
+          <h3><%= faction.name %></h3>
+          
+          <p><%= faction.description %></p>
+          
+          <%= button_to choose_faction_path(id: faction.id), class: 'btn btn-primary btn-load', method: :post do %>
+            <span><%= I18n.t('factions.choose') %></span>
+            &nbsp;<i class="fas fa-arrow-right"></i>
+          <% end %>
         </div>
+      <% end %>
     </div>
+  </div>
 </div>

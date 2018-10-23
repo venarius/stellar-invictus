@@ -19,7 +19,7 @@ RSpec.describe ApplicationController, type: :controller do
     it 'redirects to the / page if faction' do
       @user.faction = Faction.first
       @user.save(validate: false)
-      expect(controller.after_sign_in_path_for(@user)).to eq(root_path)
+      expect(controller.after_sign_in_path_for(@user)).to eq(game_path)
     end
   end
 end

@@ -1,11 +1,12 @@
 class User < ApplicationRecord
   belongs_to :faction, optional: true
+  belongs_to :system, optional: true
   
   
   validates :name, :family_name, :email, :password, :password_confirmation, 
             presence: true
             
-  validates_format_of :name, :family_name, :with => /\A[a-zA-Z\-]+\z/i,
+  validates_format_of :name, :family_name, :with => /\A[a-zA-Z]+\z/i,
                       message: I18n.t('validations.can_only_contain_letters')
                       
   validates :name, :family_name, length: { minimum: 2, maximum: 20,
