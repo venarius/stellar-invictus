@@ -1,5 +1,5 @@
 html {
-  background: image-url('space-background-grid.png') repeat center top, image-url('space-background-blur.jpg') no-repeat;
+  background: image-url('space-background-grid.png') repeat center top, image-url('space-background-blur.jpg') top left / cover no-repeat;
 }
 
 // ###############
@@ -12,6 +12,7 @@ html {
 .bg-black { background-color: black; }
 .color-sec-high { color: rgba(81, 203, 238, 1); }
 .width-max { width: 100%; }
+.mt-5px { margin-top: 5px; }
 
 // Navbar
 .navbar-brand {
@@ -99,5 +100,48 @@ a {
   }
   h5 {
     margin-bottom: 0;
+  }
+}
+
+// ###############
+// Chat
+// ############### 
+.chat-card {
+  .card-body {
+    padding: 5px;
+    .nav-tabs .nav-item {
+      margin-right: 5px;
+      .nav-link {
+        border-radius: 0;
+        background-color: black;
+        border: 1px solid #282828;
+      }
+      .nav-link.active {
+        border: 1px solid #2A9FD6;
+        border-bottom: 1px solid black;
+      }
+    }
+    .tab-content table {
+      font-size: 13px;;
+      margin-bottom: 5px;
+      tbody {
+        width: 100%;
+        overflow: auto;
+        height: 14.5rem;
+        display: block;
+        tr {
+          display: block;
+          td {
+            padding: 0.3rem;
+            display: block;
+          }
+        }
+      }
+    }
+    .tab-content input, .tab-content button {
+      color: white;
+      background-color: black;
+      border: 1px solid #282828;
+    }
   }
 }
