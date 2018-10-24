@@ -32,4 +32,7 @@ $( document ).on('turbolinks:load', function() {
             $(this).attr('href', '/connect')
         }
     });
+    if (window.location.pathname == "/nojs") {
+        window.location.href = "/connect";
+    }
 });
