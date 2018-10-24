@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_22_200317) do
+ActiveRecord::Schema.define(version: 2018_10_24_103915) do
 
   create_table "factions", force: :cascade do |t|
     t.string "name"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2018_10_22_200317) do
     t.datetime "confirmation_sent_at"
     t.integer "faction_id"
     t.integer "system_id"
+    t.boolean "online"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
