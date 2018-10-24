@@ -5,6 +5,7 @@ en:
     connect: "Connect"
     logout: "Logout"
     game: "Game"
+    profile: "Profile"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
@@ -21,6 +22,14 @@ en:
     sign_in_with: "Sign in with"
     change_password: "Change your password"
     new_password: "New password"
+    new_password_confirmation: "Confirm new password"
+    current_password: "Current password"
+    save: "Save"
+    retire: "Retire"
+    delete_account: "Delete my account"
+    i_am_sure: "Yes, I am sure"
+    cancel: "Cancel"
+    retire_account_message: "I am sorry to see you go :( Are you sure that you want to delete your account? It cannot be recovered after that."
   factions:
     choose_a_faction: "Please choose a Faction"
     choose: "Choose"
@@ -36,4 +45,4 @@ en:
     current_location: "LOCATION:"
     current_sec_level: "SECURITY:"
     jumpgates: "Jumpgates"
-    players: "Other Players"
+    proximity: "Proximity"
