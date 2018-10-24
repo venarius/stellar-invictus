@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   
   get '/game', to: 'game#index'
   
+  mount ActionCable.server => '/cable'
+  
 end

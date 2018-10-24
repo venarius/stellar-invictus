@@ -8,6 +8,10 @@ describe User do
       it { should respond_to :password_confirmation }
       it { should respond_to :name }
       it { should respond_to :family_name }
+      it { should respond_to :online }
+      it { should respond_to :full_name }
+      it { should respond_to :appear }
+      it { should respond_to :disappear }
       it { should respond_to :faction }
       it { should respond_to :system }
     end
@@ -43,6 +47,32 @@ describe User do
         it { should validate_length_of :family_name }
         it { should allow_values('Utrigas', 'Gregory', 'Meyers', 'Al').for :family_name }
         it { should_not allow_values('', nil, 'A', 'TestMeLongerThanTenChars', 'Utrgas11', '111').for :family_name }
+      end
+    end
+    
+    describe 'Functions' do
+      before(:each) do
+        @user = FactoryBot.create(:user)
+      end
+      
+      describe 'full_name' do
+        it 'should return full_name of user' do
+          expect(@user.full_name).to eq("#{@user.name} #{@user.family_name}")
+        end
+      end
+      
+      describe 'appear' do
+        it 'should set online to true' do
+          @user.appear
+          expect(@user.online).to eq(true)
+        end
+      end
+      
+      describe 'disappear' do
+        it 'should set online to false' do
+          @user.disappear
+          expect(@user.online).to eq(false)
+        end
       end
     end
   end
