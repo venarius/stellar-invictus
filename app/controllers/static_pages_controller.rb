@@ -9,4 +9,7 @@ class StaticPagesController < ApplicationController
   
   def credits
   end
+  
+  def nojs
+  end
 end

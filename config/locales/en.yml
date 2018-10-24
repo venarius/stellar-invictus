@@ -46,3 +46,10 @@ en:
     current_sec_level: "SECURITY:"
     jumpgates: "Jumpgates"
     proximity: "Proximity"
+  modal:
+    already_logged_in: "Already logged in"
+    already_logged_in_text: "You are currently connected on another device / browser. Please close your open session first and reconnect."
+  chat:
+    local: "Local Chat"
+    global: "Global Chat"
+    message: "Message"

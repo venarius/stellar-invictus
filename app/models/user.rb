@@ -20,12 +20,16 @@ class User < ApplicationRecord
   end
          
   def appear
-    Rails.logger.info("#{full_name} has logged in!")
-    self.update_columns(online: true)
+    unless online
+      Rails.logger.info("#{full_name} has logged in!")
+      self.update_columns(online: true)
+    end
   end
   
   def disappear
-    Rails.logger.info("#{full_name} has logged off!")
-    self.update_columns(online: false)
+    if online
+      Rails.logger.info("#{full_name} has logged off!")
+      self.update_columns(online: false)
+    end
   end
 end
