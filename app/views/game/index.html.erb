@@ -18,11 +18,11 @@
   </div>
   <div class="col-md-8 mb-3">
     <div class="card black-card">
-      <h5 class="card-header"><%= I18n.t('game.players') %></h5>
+      <h5 class="card-header"><%= I18n.t('game.proximity') %></h5>
       <div class="card-body">
         <div class="row">
           <% current_user.system.users.each do |user| %>
-            <% #next if user.id == current_user.id %>
+            <% next if user.id == current_user.id %>
             <div class="col-md-6">
               <div class="card player-card card-body border-primary mb-3">
                 <h5><%= image_tag('icons/helmet.png') %> <%= user.name %> <%= user.family_name %></h5>

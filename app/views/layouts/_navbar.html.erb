@@ -15,6 +15,7 @@
       </ul>
       <ul class="navbar-nav">
         <% if current_user %>
+          <%= navbar_item(edit_user_registration_path, 'navbar.profile') %>
           <li class="nav-item">
             <%= link_to I18n.t('navbar.logout'), destroy_user_session_path, method: :delete, class: 'nav-link' %>
           </li>

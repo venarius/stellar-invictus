@@ -1,24 +1,5 @@
-// ###############
-// Background Image
-// ###############
-#main-bg {
-    width: 100%;
-    background: image-url('space-background-blur.jpg') no-repeat;
-    background-size: cover;
-    height: calc(100vh - 30px);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -2;
-}
-#grid-bg {
-    width: 100%;
-    height: calc(100vh - 30px);
-    background: image-url('space-background-grid.png') repeat center top;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
+html {
+  background: image-url('space-background-grid.png') repeat center top, image-url('space-background-blur.jpg') no-repeat;
 }
 
 // ###############
@@ -46,14 +27,17 @@
 // Footer
 // ###############
 body {
-  padding-bottom: 30px;
+  padding-bottom: 75px;
   min-height: 100vh;
+  background-color: transparent;
+  position: relative;
 }
 #footer {
   padding: 5px;
   left: 0;
-  position: absolute;
   bottom: 0;
+  max-height: 75px;
+  position: absolute;
   background-color: #060606 !important;
   width: 100%;
   border-top: 1px solid #282828;
