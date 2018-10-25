@@ -14,4 +14,22 @@ class User < ApplicationRecord
   
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable
+         
+  def full_name
+    "#{name} #{family_name}"
+  end
+         
+  def appear
+    unless online
+      Rails.logger.info("#{full_name} has logged in!")
+      self.update_columns(online: true)
+    end
+  end
+  
+  def disappear
+    if online
+      Rails.logger.info("#{full_name} has logged off!")
+      self.update_columns(online: false)
+    end
+  end
 end

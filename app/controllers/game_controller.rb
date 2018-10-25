@@ -1,6 +1,5 @@
 class GameController < ApplicationController
-   before_action :authenticate_user!
-   
    def index
+      @current_user = User.includes(:system).find(current_user.id)
    end
 end

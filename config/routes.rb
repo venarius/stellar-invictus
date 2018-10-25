@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist'}
+  devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist', edit: 'pilot' }
   
   root 'static_pages#home'
   
   get '/about', to: 'static_pages#about'
   get '/credits', to: 'static_pages#credits'
+  get '/nojs', to: 'static_pages#nojs'
   
   resources :factions, only: [:index]
   scope :factions do
@@ -12,5 +13,7 @@ Rails.application.routes.draw do
   end
   
   get '/game', to: 'game#index'
+  
+  mount ActionCable.server => '/cable'
   
 end

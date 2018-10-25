@@ -1,24 +1,5 @@
-// ###############
-// Background Image
-// ###############
-#main-bg {
-    width: 100%;
-    background: image-url('space-background-blur.jpg') no-repeat;
-    background-size: cover;
-    height: calc(100vh - 30px);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -2;
-}
-#grid-bg {
-    width: 100%;
-    height: calc(100vh - 30px);
-    background: image-url('space-background-grid.png') repeat center top;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
+html {
+  background: image-url('space-background-grid.png') repeat center top, image-url('space-background-blur-tiled.jpg') top left / cover repeat;
 }
 
 // ###############
@@ -31,6 +12,7 @@
 .bg-black { background-color: black; }
 .color-sec-high { color: rgba(81, 203, 238, 1); }
 .width-max { width: 100%; }
+.mt-5px { margin-top: 5px; }
 
 // Navbar
 .navbar-brand {
@@ -46,14 +28,17 @@
 // Footer
 // ###############
 body {
-  padding-bottom: 30px;
+  padding-bottom: 75px;
   min-height: 100vh;
+  background-color: transparent;
+  position: relative;
 }
 #footer {
   padding: 5px;
   left: 0;
-  position: absolute;
   bottom: 0;
+  max-height: 75px;
+  position: absolute;
   background-color: #060606 !important;
   width: 100%;
   border-top: 1px solid #282828;
@@ -115,5 +100,48 @@ a {
   }
   h5 {
     margin-bottom: 0;
+  }
+}
+
+// ###############
+// Chat
+// ############### 
+.chat-card {
+  .card-body {
+    padding: 5px;
+    .nav-tabs .nav-item {
+      margin-right: 5px;
+      .nav-link {
+        border-radius: 0;
+        background-color: black;
+        border: 1px solid #282828;
+      }
+      .nav-link.active {
+        border: 1px solid #2A9FD6;
+        border-bottom: 1px solid black;
+      }
+    }
+    .tab-content table {
+      font-size: 13px;;
+      margin-bottom: 5px;
+      tbody {
+        width: 100%;
+        overflow: auto;
+        height: 14.5rem;
+        display: block;
+        tr {
+          display: block;
+          td {
+            padding: 0.3rem;
+            display: block;
+          }
+        }
+      }
+    }
+    .tab-content input, .tab-content button {
+      color: white;
+      background-color: black;
+      border: 1px solid #282828;
+    }
   }
 }
