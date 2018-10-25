@@ -1,5 +1,4 @@
 class FactionsController < ApplicationController
-  before_action :authenticate_user!
   before_action :redirect_if_faction, except: [:choose_faction]
   skip_before_action :redirect_if_no_faction
   

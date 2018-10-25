@@ -1,6 +1,12 @@
 <div class="card card-body system-card mb-3">
-  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_location') %> <%= current_user.system.name.upcase %></span></h4>
-  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_sec_level') %> <span class="color-sec-<%= current_user.system.security_status %>"><%= current_user.system.security_status.upcase %></span></span></h4>
+  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_location') %> <%= @current_user.system.name.upcase %></span></h4>
+  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_sec_level') %> <span class="color-sec-<%= @current_user.system.security_status %>"><%= @current_user.system.security_status.upcase %></span></span></h4>
+</div>
+
+<div class="card black-card mb-3 chat-card">
+  <div class="card-body">
+    <%= render 'game/chat' %>
+  </div>
 </div>
 
 <div class="row">
@@ -8,7 +14,7 @@
     <div class="card black-card">
       <h5 class="card-header"><%= I18n.t('game.jumpgates') %></h5>
       <div class="card-body">
-        <% current_user.system.jumpgates.each do |jumpgate| %>
+        <% @current_user.system.jumpgates.includes(:destination).each do |jumpgate| %>
           <div class="card border-primary card-body mb-3 jumpgate-card">
             <h5><%= image_tag('icons/galaxy.png') %> <%= jumpgate.destination.name %> <a class="float-right btn bg-black border-primary" href="#"><i class="fa fa-arrow-right"></i></a></h5>
           </div>
@@ -18,11 +24,11 @@
   </div>
   <div class="col-md-8 mb-3">
     <div class="card black-card">
-      <h5 class="card-header"><%= I18n.t('game.players') %></h5>
+      <h5 class="card-header"><%= I18n.t('game.proximity') %></h5>
       <div class="card-body">
         <div class="row">
-          <% current_user.system.users.each do |user| %>
-            <% #next if user.id == current_user.id %>
+          <% @current_user.system.users.each do |user| %>
+            <% next if user.id == @current_user.id %>
             <div class="col-md-6">
               <div class="card player-card card-body border-primary mb-3">
                 <h5><%= image_tag('icons/helmet.png') %> <%= user.name %> <%= user.family_name %></h5>
