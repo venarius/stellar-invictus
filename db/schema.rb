@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_25_082527) do
+ActiveRecord::Schema.define(version: 2018_10_25_122911) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.integer "user_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2018_10_25_082527) do
     t.integer "faction_id"
     t.integer "system_id"
     t.boolean "online"
+    t.string "avatar"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"

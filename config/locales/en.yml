@@ -1,4 +1,9 @@
 en:
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
   navbar:
     home: "Home"
     about: "About"
@@ -54,3 +59,5 @@ en:
     local: "Local Chat"
     global: "Global Chat"
     message: "Message"
+    server_time: "Server Time:"
+    log: "Log"

@@ -1,10 +1,10 @@
 class User < ApplicationRecord
   belongs_to :faction, optional: true
   belongs_to :system, optional: true
-  has_many :chat_messages
+  has_many :chat_messages, dependent: :destroy
   
   
-  validates :name, :family_name, :email, :password, :password_confirmation, 
+  validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
             presence: true
             
   validates_format_of :name, :family_name, :with => /\A[a-zA-Z]+\z/i,

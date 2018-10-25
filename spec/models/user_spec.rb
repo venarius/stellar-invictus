@@ -10,6 +10,7 @@ describe User do
       it { should respond_to :family_name }
       it { should respond_to :online }
       it { should respond_to :full_name }
+      it { should respond_to :avatar }
       it { should respond_to :appear }
       it { should respond_to :disappear }
       it { should respond_to :faction }
@@ -49,6 +50,12 @@ describe User do
         it { should validate_length_of :family_name }
         it { should allow_values('Utrigas', 'Gregory', 'Meyers', 'Al').for :family_name }
         it { should_not allow_values('', nil, 'A', 'TestMeLongerThanTenChars', 'Utrgas11', '111').for :family_name }
+      end
+      
+      describe 'avatar' do
+        it { should validate_presence_of :avatar }
+        it { should allow_values('Utrigas', 'Gregory', 'Meyers', 'Al').for :avatar }
+        it { should_not allow_values('', nil).for :avatar }
       end
     end
     
