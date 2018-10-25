@@ -134,6 +134,10 @@ a {
           td {
             padding: 0.3rem;
             display: block;
+            img {
+              height: 38px;
+              margin-right: 10px;
+            }
           }
         }
       }
@@ -145,3 +149,65 @@ a {
     }
   }
 }
+
+// ###############
+// Scrollbar
+// ############### 
+.chat-card {
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0); 
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: black; 
+    border: 1px solid grey;
+  }
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+      background: grey; 
+  } 
+}
+
+// ###############
+// Avatar Selector
+// ############### 
+.avatar-selector img {
+  max-height: 100px;
+  width: auto;
+  margin: 0 auto;
+}
+.slick-center { 
+  transform: scale(1.2);
+}
+.slick-slide {
+  &:not(.slick-current) {
+    -webkit-filter: grayscale(75%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(75%);
+  }
+}
+.slick-list {
+  padding: 0 !important;
+}
+
+@media (max-width: 990px) {
+  .avatar-selector img {
+    max-height: 75px;
+  }
+}
+.slick-prev:before, .slick-next:before {
+  font-family: 'Font Awesome\ 5 Free';
+  font-weight: 900;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}   
+.slick-prev:before { content: "\f053"; }
+.slick-next:before { content: "\f054"; }
