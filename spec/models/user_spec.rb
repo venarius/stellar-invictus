@@ -14,11 +14,13 @@ describe User do
       it { should respond_to :disappear }
       it { should respond_to :faction }
       it { should respond_to :system }
+      it { should respond_to :chat_messages }
     end
    
     describe 'Relations' do
       it { should belong_to :faction }
       it { should belong_to :system }
+      it { should have_many :chat_messages }
     end
     
     describe 'Validations' do
@@ -70,6 +72,7 @@ describe User do
       
       describe 'disappear' do
         it 'should set online to false' do
+          @user.update_columns(online: true)
           @user.disappear
           expect(@user.online).to eq(false)
         end

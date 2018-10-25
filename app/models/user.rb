@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   belongs_to :faction, optional: true
   belongs_to :system, optional: true
+  has_many :chat_messages
   
   
   validates :name, :family_name, :email, :password, :password_confirmation, 
@@ -10,7 +11,7 @@ class User < ApplicationRecord
                       message: I18n.t('validations.can_only_contain_letters')
                       
   validates :name, :family_name, length: { minimum: 2, maximum: 20,
-            too_short: I18n.t('validations.too_short'), too_long: I18n.t('validations.too_long') }
+            too_short: I18n.t('validations.too_short'), too_long: I18n.t('validations.too_long_name') }
   
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable

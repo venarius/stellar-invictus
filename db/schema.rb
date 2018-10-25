@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_24_103915) do
+ActiveRecord::Schema.define(version: 2018_10_25_082527) do
+
+  create_table "chat_messages", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "system_id"
+    t.integer "type"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["system_id"], name: "index_chat_messages_on_system_id"
+    t.index ["user_id", "system_id", "type"], name: "index_chat_messages_on_user_id_and_system_id_and_type"
+    t.index ["user_id"], name: "index_chat_messages_on_user_id"
+  end
 
   create_table "factions", force: :cascade do |t|
     t.string "name"

@@ -8,12 +8,14 @@ describe System do
       it { should respond_to :security_status }
       it { should respond_to :destinations }
       it { should respond_to :jumpgates }
+      it { should respond_to :chat_messages }
     end
    
     describe 'Relations' do
       it { should have_many :users }
       it { should have_many :jumpgates }
       it { should have_many :destinations }
+      it { should have_many :chat_messages }
     end
     
     describe 'Enums' do
