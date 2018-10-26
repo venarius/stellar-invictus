@@ -11,13 +11,9 @@
         </tr>
       </thead>
       <tbody>
-        <% @current_user.system.jumpgates.includes(:destination).each do |jumpgate| %>
-          <tr>
-            <td><%= image_tag('icons/galaxy.png') %></td>
-            <td><%= jumpgate.destination.name %></td>
-            <td><%= I18n.t('types.jumpgate') %></td>
-            <td><%= link_to "<i class='fa fa-angle-double-right'></i>".html_safe, '#', class: 'btn btn-outline-primary btn-xs' %></td>
-          </tr>
+        <% @current_user.system.locations.each do |location| %>
+          <% next if location == @current_user.location %>
+          <%= render partial: 'game/location', locals: {location: location} %>
         <% end %>
       </tbody>
     </table>

@@ -1,19 +1,32 @@
 <div class="card card-body system-card mb-3">
-  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_location') %> <%= @current_user.system.name.upcase %></span></h4>
+  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_location') %> <%= @current_user.system.name.upcase %> - <%= @current_user.location.name %></span></h4>
   <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_sec_level') %> <span class="color-sec-<%= @current_user.system.security_status %>"><%= @current_user.system.security_status.upcase %></span></span></h4>
 </div>
 
 <div class="card black-card mb-3 chat-card">
-  <div class="card-body">
-    <%= render 'game/chat' %>
+  <h5 class="card-header">
+    <%= I18n.t('game.chat') %>
+    <div class="float-right">
+      <a data-toggle="collapse" href="#collapse-chat">
+        <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-down"></i></div>
+      </a>
+    </div>
+  </h5>
+  <div class="collapse show" id="collapse-chat">
+    <div class="card-body">
+      <%= render 'game/chat' %>
+    </div>
   </div>
 </div>
 
-<div class="row">
+<div class="row game-card-row">
   <div class="col-md-4 mb-3">
     <%= render 'game/locations' %>
   </div>
-  <div class="col-md-8 mb-3">
+  <div class="col-md-4 mb-3">
     <%= render 'game/players' %>
+  </div>
+  <div class="col-md-4 mb-3">
+    <%= render 'game/location_info' %>
   </div>
 </div>

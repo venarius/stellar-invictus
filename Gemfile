@@ -40,3 +40,5 @@ end
 gem 'devise'
 # Client-Side Validations
 gem 'client_side_validations'
+# Sidekiq for Jobs
+gem 'sidekiq'

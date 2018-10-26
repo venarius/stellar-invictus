@@ -1,11 +1,7 @@
 class System < ApplicationRecord
   has_many :users
   has_many :chat_messages
+  has_many :locations
   
-  has_many :jumpgates, :foreign_key => "origin_id", 
-      :class_name => "Jumpgate"
-
-  has_many :destinations, :through => :jumpgates
-  
-  enum security_status: [:high, :mid, :low]
+  enum security_status: [:high, :medium, :low]
 end

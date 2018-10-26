@@ -8,7 +8,7 @@ FactoryBot.define do
         password_confirmation { pass }
         name { Faker::Name.first_name }
         avatar { "M_1.jpg" }
-        family_name { Faker::Name.last_name }
+        family_name { Faker::Name.first_name }
         confirmed_at { Date.today }
         
         factory :user_with_faction do
