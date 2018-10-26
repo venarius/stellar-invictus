@@ -1,6 +1,8 @@
 require 'simplecov'
 SimpleCov.start
 require 'database_cleaner'
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -79,6 +81,11 @@ RSpec.configure do |config|
   
   # Devise
   config.include Devise::Test::ControllerHelpers, type: :controller
+  
+  # Sidekiq
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
+  end
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

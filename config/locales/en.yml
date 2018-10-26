@@ -50,6 +50,7 @@ en:
     locations: "Locations"
     type: "Type"
     players: "Players"
+    chat: "Chat"
   modal:
     already_logged_in: "Already logged in"
     already_logged_in_text: "You are currently connected on another device / browser. Please close your open session first and reconnect."
@@ -61,3 +62,5 @@ en:
     log: "Log"
   types:
     jumpgate: "Jumpgate"
+    station: "Station"
+    asteroid_field: "Asteroid Field"

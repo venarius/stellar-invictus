@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
   
   get '/game', to: 'game#index'
+  post '/game/warp', to: 'game#warp'
   
   get '/user/info/:id', to: 'users#info'
   

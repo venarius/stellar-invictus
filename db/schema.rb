@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_25_122911) do
+ActiveRecord::Schema.define(version: 2018_10_26_135114) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.integer "user_id"
@@ -27,10 +27,10 @@ ActiveRecord::Schema.define(version: 2018_10_25_122911) do
   create_table "factions", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.integer "faction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["faction_id"], name: "index_factions_on_faction_id"
+    t.integer "location_id"
+    t.index ["location_id"], name: "index_factions_on_location_id"
   end
 
   create_table "jumpgates", force: :cascade do |t|
@@ -39,6 +39,17 @@ ActiveRecord::Schema.define(version: 2018_10_25_122911) do
     t.integer "traveltime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.integer "system_id"
+    t.integer "location_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "faction_id"
+    t.index ["faction_id"], name: "index_locations_on_faction_id"
+    t.index ["system_id"], name: "index_locations_on_system_id"
   end
 
   create_table "systems", force: :cascade do |t|
@@ -65,9 +76,12 @@ ActiveRecord::Schema.define(version: 2018_10_25_122911) do
     t.integer "system_id"
     t.boolean "online"
     t.string "avatar"
+    t.integer "location_id"
+    t.boolean "in_warp"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
+    t.index ["location_id"], name: "index_users_on_location_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["system_id"], name: "index_users_on_system_id"
   end

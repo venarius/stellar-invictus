@@ -14,19 +14,23 @@ describe User do
       it { should respond_to :appear }
       it { should respond_to :disappear }
       it { should respond_to :faction }
+      it { should respond_to :location }
       it { should respond_to :system }
       it { should respond_to :chat_messages }
+      it { should respond_to :in_warp }
     end
    
     describe 'Relations' do
       it { should belong_to :faction }
       it { should belong_to :system }
+      it { should belong_to :location }
       it { should have_many :chat_messages }
     end
     
     describe 'Validations' do
       describe 'email' do
         it { should validate_presence_of :email }
+        it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
         it { should allow_values('test@example.org').for :email }
         it { should_not allow_values('', nil, 'test', '123').for :email }
       end
