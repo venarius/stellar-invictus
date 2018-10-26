@@ -25,14 +25,28 @@ lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 ################################
 
 jita = System.find_or_create_by(name: 'Jita', security_status: 'high')
-talos = System.find_or_create_by(name: 'Talos', security_status: 'mid')
+talos = System.find_or_create_by(name: 'Talos', security_status: 'medium')
 urus = System.find_or_create_by(name: 'Urus', security_status: 'low')
 
-Jumpgate.find_or_create_by(origin: jita, destination: talos, traveltime: 10)
-Jumpgate.find_or_create_by(origin: jita, destination: urus, traveltime: 20)
-Jumpgate.find_or_create_by(origin: urus, destination: talos, traveltime: 15)
-
 # Factions
-Faction.find_or_create_by(name: 'Faction 1', description: lorem)
-Faction.find_or_create_by(name: 'Faction 2', description: lorem)
-Faction.find_or_create_by(name: 'Faction 3', description: lorem)
+faction1 = Faction.find_or_create_by(name: 'Faction 1', description: lorem)
+faction2 = Faction.find_or_create_by(name: 'Faction 2', description: lorem)
+faction3 = Faction.find_or_create_by(name: 'Faction 3', description: lorem)
+
+# Locations
+Location.find_or_create_by(name: 'Factory Plant I', system: jita, location_type: 0, faction: faction1)
+Location.find_or_create_by(name: 'Warfare Plant I', system: jita, location_type: 0)
+Location.find_or_create_by(name: 'Factory Plant II', system: talos, location_type: 0, faction: faction2)
+Location.find_or_create_by(name: 'Tech Plant II', system: urus, location_type: 0, faction: faction3)
+
+jita_jumpgate_talos = Location.find_or_create_by(name: talos.name, system: jita, location_type: 2)
+jita_jumpgate_urus = Location.find_or_create_by(name: urus.name, system: jita, location_type: 2)
+talos_jumpgate_urus = Location.find_or_create_by(name: urus.name, system: talos, location_type: 2)
+talos_jumpgate_jita = Location.find_or_create_by(name: jita.name, system: talos, location_type: 2)
+urus_jumpgate_talos = Location.find_or_create_by(name: talos.name, system: urus, location_type: 2)
+urus_jumpgate_jita = Location.find_or_create_by(name: jita.name, system: urus, location_type: 2)
+
+# Jumpgates
+Jumpgate.find_or_create_by(origin: jita_jumpgate_talos, destination: talos_jumpgate_jita, traveltime: 10)
+Jumpgate.find_or_create_by(origin: jita_jumpgate_urus, destination: urus_jumpgate_jita, traveltime: 20)
+Jumpgate.find_or_create_by(origin: urus_jumpgate_talos, destination: talos_jumpgate_urus, traveltime: 15)
