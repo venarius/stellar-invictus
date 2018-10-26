@@ -10,15 +10,18 @@ describe User do
       it { should respond_to :family_name }
       it { should respond_to :online }
       it { should respond_to :full_name }
+      it { should respond_to :avatar }
       it { should respond_to :appear }
       it { should respond_to :disappear }
       it { should respond_to :faction }
       it { should respond_to :system }
+      it { should respond_to :chat_messages }
     end
    
     describe 'Relations' do
       it { should belong_to :faction }
       it { should belong_to :system }
+      it { should have_many :chat_messages }
     end
     
     describe 'Validations' do
@@ -48,6 +51,12 @@ describe User do
         it { should allow_values('Utrigas', 'Gregory', 'Meyers', 'Al').for :family_name }
         it { should_not allow_values('', nil, 'A', 'TestMeLongerThanTenChars', 'Utrgas11', '111').for :family_name }
       end
+      
+      describe 'avatar' do
+        it { should validate_presence_of :avatar }
+        it { should allow_values('Utrigas', 'Gregory', 'Meyers', 'Al').for :avatar }
+        it { should_not allow_values('', nil).for :avatar }
+      end
     end
     
     describe 'Functions' do
@@ -70,6 +79,7 @@ describe User do
       
       describe 'disappear' do
         it 'should set online to false' do
+          @user.update_columns(online: true)
           @user.disappear
           expect(@user.online).to eq(false)
         end

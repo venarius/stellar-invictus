@@ -58,6 +58,15 @@ RSpec.describe FactionsController, type: :controller do
         expect(response).to redirect_to(game_path)
         expect(@user.reload.faction_id).to eq(1)
       end
+      
+      it 'should redirect_to game_path if faction doesnt exist' do
+        @user = FactoryBot.create(:user)
+        sign_in @user
+        
+        post :choose_faction, params: {id: 5221}
+        expect(response.code).to eq("302")
+        expect(response).to redirect_to(factions_path)
+      end
     end
   end
 end

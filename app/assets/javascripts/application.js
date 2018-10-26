@@ -18,5 +18,6 @@
 //= require jquery_ujs
 //= require popper.min.js
 //= require bootstrap.min.js
+//= require slick.min.js
 //= require rails.validations
 //= require_tree .
