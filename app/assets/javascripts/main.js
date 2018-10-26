@@ -35,4 +35,38 @@ $( document ).on('turbolinks:load', function() {
     if (window.location.pathname == "/nojs") {
         window.location.href = "/connect";
     }
+    
+    // Set avatar on new registration
+    $('#new_user').submit(function(e) {
+      e.preventDefault();
+      var avatar = $('.slick-current').children('img').attr('id');
+      $('#user_avatar').val(avatar);
+      $(this).unbind('submit').submit();
+    });
+    
+    // Show Server Time
+    if ($('#server_time').length > 0) {
+      var default_time = $('#server_time').html();
+      setServerTime(default_time);
+      setInterval(function() {
+        setServerTime(default_time);
+      },1000);
+    }
 });
+
+// Time Functions
+function calcTime(offset) {
+    var d = new Date();
+    var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+    var nd = new Date(utc + (3600000*offset));
+    return nd
+}
+function addZero(i) {
+  if (i < 10) { i = "0" + i; }
+  return i;
+}
+function setServerTime(default_time) {
+  var dt = calcTime('0');
+  var time = addZero(dt.getHours()) + ":" + addZero(dt.getMinutes()) + ":" + addZero(dt.getSeconds());
+  $('#server_time').html(default_time).append(time);
+}

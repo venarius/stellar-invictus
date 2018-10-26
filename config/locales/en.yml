@@ -39,13 +39,17 @@ en:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
     must_be_at_least_8_characters: "Must contains at least 8 characters"
-    too_long: "cannot be longer than 20 characters"
+    too_long_name: "cannot be longer than 20 characters"
+    too_long_chat_message: "cannot be longer than 100 characters"
     too_short: "cannot be shorter than 2 characters"
   game:
     current_location: "LOCATION:"
     current_sec_level: "SECURITY:"
     jumpgates: "Jumpgates"
     proximity: "Proximity"
+    locations: "Locations"
+    type: "Type"
+    players: "Players"
   modal:
     already_logged_in: "Already logged in"
     already_logged_in_text: "You are currently connected on another device / browser. Please close your open session first and reconnect."
@@ -53,3 +57,7 @@ en:
     local: "Local Chat"
     global: "Global Chat"
     message: "Message"
+    server_time: "Server Time:"
+    log: "Log"
+  types:
+    jumpgate: "Jumpgate"

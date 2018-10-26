@@ -1,5 +1,6 @@
 class System < ApplicationRecord
   has_many :users
+  has_many :chat_messages
   
   has_many :jumpgates, :foreign_key => "origin_id", 
       :class_name => "Jumpgate"

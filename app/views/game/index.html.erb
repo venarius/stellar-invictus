@@ -11,32 +11,9 @@
 
 <div class="row">
   <div class="col-md-4 mb-3">
-    <div class="card black-card">
-      <h5 class="card-header"><%= I18n.t('game.jumpgates') %></h5>
-      <div class="card-body">
-        <% @current_user.system.jumpgates.includes(:destination).each do |jumpgate| %>
-          <div class="card border-primary card-body mb-3 jumpgate-card">
-            <h5><%= image_tag('icons/galaxy.png') %> <%= jumpgate.destination.name %> <a class="float-right btn bg-black border-primary" href="#"><i class="fa fa-arrow-right"></i></a></h5>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <%= render 'game/locations' %>
   </div>
   <div class="col-md-8 mb-3">
-    <div class="card black-card">
-      <h5 class="card-header"><%= I18n.t('game.proximity') %></h5>
-      <div class="card-body">
-        <div class="row">
-          <% @current_user.system.users.each do |user| %>
-            <% next if user.id == @current_user.id %>
-            <div class="col-md-6">
-              <div class="card player-card card-body border-primary mb-3">
-                <h5><%= image_tag('icons/helmet.png') %> <%= user.name %> <%= user.family_name %></h5>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <%= render 'game/players' %>
   </div>
 </div>
