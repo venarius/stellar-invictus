@@ -11,8 +11,11 @@ html {
 .mb-0 { margin-bottom: 0; }
 .bg-black { background-color: black; }
 .color-sec-high { color: rgba(81, 203, 238, 1); }
+.color-sec-medium { color: orange; }
+.color-sec-low { color: #7f1a1a; }
 .width-max { width: 100%; }
 .mt-5px { margin-top: 5px; }
+.p-0-5 { padding: 0px 5px; }
 
 // Navbar
 .navbar-brand {
@@ -213,7 +216,7 @@ a {
 .slick-next:before { content: "\f054"; }
 
 // ###############
-// Overview
+// Overview, Players, Location Info
 // ###############
 .overview-card, .players-card {
   .card-header {
@@ -242,4 +245,10 @@ a {
 }
 .players-card .card-body table thead #btn-td {
   width: 105px;
+}
+.location-info-card, .chat-card {
+  .card-header {
+    padding: 0.5rem 0.5rem;
+    font-size: 18px;
+  }
 }

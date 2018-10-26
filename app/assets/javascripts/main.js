@@ -1,4 +1,14 @@
 $( document ).on('turbolinks:load', function() {
+    // HELPERS
+    // Collapsing arrows
+    $(document).on('hide.bs.collapse', '.collapse', function (event) {
+        $(event.target).prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
+    });
+    $(document).on('show.bs.collapse', '.collapse', function (event) {
+        $(event.target).prev('.card-header').find('.fa-arrow-right').removeClass('fa-arrow-right').addClass('fa-arrow-down');
+    });
+
+
     // Loading Button
     $('.btn-load').on('click', function() {
         if ($('.field_with_errors').length == 0 && $(this).is("button")) {
@@ -46,10 +56,9 @@ $( document ).on('turbolinks:load', function() {
     
     // Show Server Time
     if ($('#server_time').length > 0) {
-      var default_time = $('#server_time').html();
-      setServerTime(default_time);
+      setServerTime();
       setInterval(function() {
-        setServerTime(default_time);
+        setServerTime();
       },1000);
     }
 });
@@ -65,8 +74,8 @@ function addZero(i) {
   if (i < 10) { i = "0" + i; }
   return i;
 }
-function setServerTime(default_time) {
+function setServerTime() {
   var dt = calcTime('0');
   var time = addZero(dt.getHours()) + ":" + addZero(dt.getMinutes()) + ":" + addZero(dt.getSeconds());
-  $('#server_time').html(default_time).append(time);
+  $('#server_time').html("Server Time: " + time);
 }
