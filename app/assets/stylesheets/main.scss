@@ -211,3 +211,35 @@ a {
 }   
 .slick-prev:before { content: "\f053"; }
 .slick-next:before { content: "\f054"; }
+
+// ###############
+// Overview
+// ###############
+.overview-card, .players-card {
+  .card-header {
+    padding: 0.5rem 0.5rem;
+    font-size: 18px;
+  }
+  .card-body {
+    padding: 5px;
+    table {
+      margin-bottom: 0;
+      thead {
+        #img-td, #btn-td {
+          width: 20px;
+        }
+      }
+      tbody {
+        td img {
+          height: 20px;
+        }
+        td .btn {
+          padding: 0rem 0.5rem;
+        }
+      }
+    } 
+  }
+}
+.players-card .card-body table thead #btn-td {
+  width: 105px;
+}

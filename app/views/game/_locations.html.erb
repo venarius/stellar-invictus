@@ -1,0 +1,25 @@
+<div class="card black-card overview-card">
+  <h5 class="card-header"><%= I18n.t('game.locations') %></h5>
+  <div class="card-body">
+    <table class="table table-striped table-bordered table-sm">
+      <thead>
+        <tr>
+          <th id="img-td"></td>
+          <th>Name</td>
+          <th><%= I18n.t('game.type') %></td>
+          <th id="btn-td"></td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @current_user.system.jumpgates.includes(:destination).each do |jumpgate| %>
+          <tr>
+            <td><%= image_tag('icons/galaxy.png') %></td>
+            <td><%= jumpgate.destination.name %></td>
+            <td><%= I18n.t('types.jumpgate') %></td>
+            <td><%= link_to "<i class='fa fa-angle-double-right'></i>".html_safe, '#', class: 'btn btn-outline-primary btn-xs' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
