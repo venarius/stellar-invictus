@@ -15,7 +15,6 @@ gem 'jquery-rails'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 
-gem 'capistrano-rails', group: :development
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development do
@@ -23,6 +22,11 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'bullet'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-postgresql'
+  gem 'capistrano-rvm'
+  gem 'capistrano-sidekiq'
 end
 
 group :development, :test do
