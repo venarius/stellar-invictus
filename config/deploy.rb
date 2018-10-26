@@ -37,3 +37,6 @@ set :deploy_to, "/home/tla/app/stellar"
 
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
+
+# Master Key
+set :linked_files, %w{config/master.key}
