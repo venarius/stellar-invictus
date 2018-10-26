@@ -39,6 +39,10 @@ group :development, :test do
   gem 'simplecov'
 end
 
+group :production do
+  gem 'pg'
+end
+
 
 # Authentication through devise
 gem 'devise'
