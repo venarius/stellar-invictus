@@ -24,16 +24,10 @@ class User < ApplicationRecord
   end
          
   def appear
-    unless online
-      Rails.logger.info("#{full_name} has logged in!")
-      self.update_columns(online: true)
-    end
+    AppearWorker.perform_async(self.id)
   end
   
   def disappear
-    if online
-      Rails.logger.info("#{full_name} has logged off!")
-      self.update_columns(online: false)
-    end
+    DisappearWorker.perform_async(self.id)
   end
 end

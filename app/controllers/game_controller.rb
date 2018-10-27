@@ -17,4 +17,8 @@ class GameController < ApplicationController
       end
     end
   end
+  
+  def local_players
+    render partial: 'players', locals: {local_users: User.where(location: current_user.location, online: true)}
+  end
 end

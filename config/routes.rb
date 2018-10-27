@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   
   get '/game', to: 'game#index'
   post '/game/warp', to: 'game#warp'
+  get 'game/local_players', to: 'game#local_players'
   
   get '/user/info/:id', to: 'users#info'
   
