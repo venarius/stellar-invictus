@@ -16,6 +16,11 @@ html {
 .width-max { width: 100%; }
 .mt-5px { margin-top: 5px; }
 .p-0-5 { padding: 0px 5px; }
+.flexbox-vert-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 // Navbar
 .navbar-brand {

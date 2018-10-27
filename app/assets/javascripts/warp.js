@@ -22,8 +22,31 @@ function doWarp() {
       "<div class='col-md-12'><div class='card black-card card-body'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+warpTime+"</div></div>"
     );
     if (warpTime <= 0) {
+      App.local.reload();
       Turbolinks.visit(window.location);
       clearInterval(interval);
     }
   },1000);
+}
+
+function player_warp_out(name) {
+  if ($('.players-card')) {
+    $('.players-card-name-td').each(function() {
+      if ($(this).html() == name) {
+        $(this).closest('tr').fadeOut('fast', 
+          function(){ 
+            $(this).remove();                    
+          }
+        );
+      }
+    });
+  }
+}
+
+function reload_players_card() {
+  if ($('#players-card')) {
+    $.get("game/local_players", function(data) {
+      $('#players-card').replaceWith(data);
+    });
+  }
 }

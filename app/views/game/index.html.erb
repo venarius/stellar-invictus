@@ -24,7 +24,7 @@
     <%= render 'game/locations' %>
   </div>
   <div class="col-md-4 mb-3">
-    <%= render 'game/players' %>
+    <%= render partial: 'game/players', locals: {local_users: @local_users} %>
   </div>
   <div class="col-md-4 mb-3">
     <%= render 'game/location_info' %>
