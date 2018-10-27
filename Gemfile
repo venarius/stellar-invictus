@@ -27,6 +27,7 @@ group :development do
   gem 'capistrano-postgresql'
   gem 'capistrano-rvm'
   gem 'capistrano-sidekiq'
+  gem 'capistrano3-puma'
 end
 
 group :development, :test do
