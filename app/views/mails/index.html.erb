@@ -1,0 +1,24 @@
+<div class="card black-card mails-card mb-3">
+  <h4 class="card-header"><%= I18n.t('mails.mails') %></h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="nav flex-column nav-pills" role="tablist">
+          <%= link_to "<i class='fa fa-plus'></i> #{I18n.t('mails.new_mail')}".html_safe, new_mail_path, class: 'btn btn-primary mb-10px' %>
+          <a class="nav-link active" data-toggle="pill" href="#inbox" role="tab"><%= I18n.t('mails.inbox') %> <span class="badge badge-secondary"><%= @inbox.count %></span></a>
+          <a class="nav-link" data-toggle="pill" href="#sent" role="tab"><%= I18n.t('mails.sent') %> <span class="badge badge-secondary"><%= @sent.count %></span></a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="inbox" role="tabpanel">
+            <%= render partial: 'mails/mail_list', locals: {mails: @inbox} %>
+          </div>
+          <div class="tab-pane fade" id="sent" role="tabpanel">
+            <%= render partial: 'mails/mail_list', locals: {mails: @sent} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

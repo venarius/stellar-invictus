@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
             presence: true
             
+  validates :name, uniqueness: { scope: :family_name }
+            
   validates :email, uniqueness: true
             
   validates_format_of :name, :family_name, :with => /\A[a-zA-Z]+\z/i,

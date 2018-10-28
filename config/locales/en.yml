@@ -6,6 +6,7 @@ en:
     logout: "Logout"
     game: "Game"
     profile: "Profile"
+    mails: "Mails"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
@@ -35,12 +36,15 @@ en:
     choose: "Choose"
   errors:
     something_went_wrong: "Something went wrong. Please try again."
+    recipient_not_found: "Recipient not found"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
     must_be_at_least_8_characters: "Must contains at least 8 characters"
     too_long_name: "cannot be longer than 20 characters"
     too_long_chat_message: "cannot be longer than 100 characters"
+    too_long_mail_body: "cannot be longer than 500 characters"
+    too_long_mail_header: "cannot be longer than 100 characters"
     too_short: "cannot be shorter than 2 characters"
   game:
     current_location: "LOCATION:"
@@ -66,3 +70,15 @@ en:
     asteroid_field: "Asteroid Field"
   actions:
     jump: "Jump"
+  mails:
+    mails: "Mails"
+    inbox: "Inbox"
+    sent: "Sent"
+    sender: "From"
+    recipient: "To"
+    header: "Subject"
+    created_at: "Date"
+    new_mail: "New Mail"
+    body: "Body"
+    send: "Send"
+    successfully_sent: "Mail sent successfully"
