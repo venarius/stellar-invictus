@@ -64,3 +64,5 @@ en:
     jumpgate: "Jumpgate"
     station: "Station"
     asteroid_field: "Asteroid Field"
+  actions:
+    jump: "Jump"

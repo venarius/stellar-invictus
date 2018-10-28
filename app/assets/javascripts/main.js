@@ -3,11 +3,21 @@ $( document ).on('turbolinks:load', function() {
     // Collapsing arrows
     $(document).on('hide.bs.collapse', '.collapse', function (event) {
         $(event.target).prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
+        Cookies.set($(event.target).attr('id'), 'hidden');
     });
     $(document).on('show.bs.collapse', '.collapse', function (event) {
         $(event.target).prev('.card-header').find('.fa-arrow-right').removeClass('fa-arrow-right').addClass('fa-arrow-down');
+        Cookies.set($(event.target).attr('id'), 'shown');
     });
-
+    
+    // Cookie getter
+    if ($('#collapse-chat').length) {
+      var type = Cookies.get('collapse-chat');
+      if (type == 'hidden') {
+        $('#collapse-chat').removeClass('show');
+        $('#collapse-chat').prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
+      }
+    }
 
     // Loading Button
     $('.btn-load').on('click', function() {
