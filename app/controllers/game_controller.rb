@@ -9,12 +9,21 @@ class GameController < ApplicationController
   def warp
     if params[:id] && !current_user.in_warp
       location = Location.find(params[:id]) rescue nil
-      if location && location.system == current_user.system
+      if location && location.system_id == current_user.system_id
         WarpWorker.perform_async(current_user.id, location.id)
         render json: {}, status: 200
       else
         render json: {}, status: 400
       end
+    end
+  end
+  
+  def jump
+    if !current_user.in_warp && current_user.location.location_type == 'jumpgate'
+      JumpWorker.perform_async(current_user.id)
+      render json: {}, status: 200
+    else
+      render json: {}, status: 400
     end
   end
   
