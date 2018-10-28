@@ -12,7 +12,9 @@ FactoryBot.define do
         confirmed_at { Date.today }
         
         factory :user_with_faction do
-           faction { FactoryBot.build(:faction) } 
+          faction { Faction.first } 
+          system { System.first }
+          location { Location.first }
         end
     end
     

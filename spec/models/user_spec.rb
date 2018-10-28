@@ -77,15 +77,14 @@ describe User do
       describe 'appear' do
         it 'should set online to true' do
           @user.appear
-          expect(@user.online).to eq(true)
+          expect(AppearWorker.jobs.size).to eq(1)
         end
       end
       
       describe 'disappear' do
         it 'should set online to false' do
-          @user.update_columns(online: true)
           @user.disappear
-          expect(@user.online).to eq(false)
+          expect(DisappearWorker.jobs.size).to eq(1)
         end
       end
     end
