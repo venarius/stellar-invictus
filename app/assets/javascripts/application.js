@@ -20,4 +20,5 @@
 //= require bootstrap.min.js
 //= require slick.min.js
 //= require rails.validations
+//= require js.cookie.js
 //= require_tree .

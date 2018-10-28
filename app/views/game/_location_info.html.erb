@@ -1,6 +1,10 @@
 <div class="card black-card location-info-card">
     <h5 class="card-header"><%= @current_user.location.name %></h5>
-    <div class="card-body">
-        
+    <div class="card-body text-center">
+        <% if @current_user.location.location_type == 'jumpgate' %>
+            <button class="btn btn-outline-primary jumpgate-jump-btn" data-time="<%= @current_user.location.jumpgate.traveltime %>">
+                <%= I18n.t('actions.jump') %>
+            </button>
+        <% end %>
     </div>
 </div>
