@@ -4,22 +4,29 @@ $( document ).on('turbolinks:load', function() {
     var target = $(this).data("id");
     if (target) {
       $.post( "game/warp", { id: target }, function( data ) {
-        doWarp();
+        doWarp('WARPING', 10);
       });
     }
   });
+  
+  $('.jumpgate-jump-btn').on('click', function(e) {
+    e.preventDefault();
+    var time = parseInt($(this).data('time'))
+    $.post( "game/jump", function() {
+      doWarp('JUMPING', time);
+    })
+  });
 });
 
-function doWarp() {
+function doWarp(type, warpTime) {
   $('.game-card-row').empty();
-  var warpTime = 10;
   $('.game-card-row').append(
-    "<div class='col-md-12'><div class='card black-card card-body'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+warpTime+"</div></div>"
+    "<div class='col-md-12'><div class='card black-card card-body'><h2 class='flexbox-vert-center'>"+type+"</h2><h4 class='flexbox-vert-center'>"+warpTime+"</div></div>"
   );
   var interval = setInterval(function() {
     warpTime = warpTime - 1;
     $('.game-card-row').empty().append(
-      "<div class='col-md-12'><div class='card black-card card-body'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+warpTime+"</div></div>"
+      "<div class='col-md-12'><div class='card black-card card-body'><h2 class='flexbox-vert-center'>"+type+"</h2><h4 class='flexbox-vert-center'>"+warpTime+"</div></div>"
     );
     if (warpTime <= 0) {
       App.local.reload();
