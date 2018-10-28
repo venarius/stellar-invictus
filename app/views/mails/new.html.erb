@@ -1,0 +1,23 @@
+<div class="card black-card new-mail-card">
+  <h4 class="card-header"><%= I18n.t('mails.new_mail') %></h4>
+  <div class="card-body">
+    <%= form_for(@mail, url: mails_path, validate: true) do |f| %>
+      <div class="field mb-3">
+        <%= f.text_field :recipient_name, placeholder: I18n.t('mails.recipient'), value: params[:to], class: 'form-control' %>
+      </div>
+      <div class="field mb-3">
+        <%= f.text_field :header, placeholder: I18n.t('mails.header'), class: 'form-control' %>
+      </div>
+      <div class="field mb-3">
+        <%= f.text_area :body, placeholder: I18n.t('mails.body'), class: 'form-control' %>
+      </div>
+      <div class="field mb-3">
+        <%= f.number_field :units, placeholder: 'Units', class: 'form-control', max: current_user.units %>
+      </div>
+      
+      <div class="actions">
+        <%= f.submit I18n.t('mails.send'), class: 'btn btn-outline-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>

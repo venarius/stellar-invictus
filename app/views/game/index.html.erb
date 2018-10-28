@@ -1,6 +1,14 @@
+<% content_for :head do -%>
+  *your code here*
+<% end -%>
+
 <div class="card card-body system-card mb-3">
   <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_location') %> <%= @current_user.system.name.upcase %> - <%= @current_user.location.name %></span></h4>
   <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_sec_level') %> <span class="color-sec-<%= @current_user.system.security_status %>"><%= @current_user.system.security_status.upcase %></span></span></h4>
+</div>
+
+<div class="card black-card mb-3 player-info-card">
+  <%= render 'game/player_info' %>
 </div>
 
 <div class="card black-card mb-3 chat-card">
@@ -30,3 +38,9 @@
     <%= render 'game/location_info' %>
   </div>
 </div>
+
+<script>
+  <% if current_user and current_user.in_warp %>
+    doWarp(10);
+  <% end %>
+</script>

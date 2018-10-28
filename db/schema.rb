@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_26_135114) do
+ActiveRecord::Schema.define(version: 2018_10_28_185309) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.integer "user_id"
@@ -52,6 +52,16 @@ ActiveRecord::Schema.define(version: 2018_10_26_135114) do
     t.index ["system_id"], name: "index_locations_on_system_id"
   end
 
+  create_table "mails", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "recipient_id"
+    t.string "header"
+    t.text "body"
+    t.integer "units"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "systems", force: :cascade do |t|
     t.string "name"
     t.integer "security_status"
@@ -78,6 +88,7 @@ ActiveRecord::Schema.define(version: 2018_10_26_135114) do
     t.string "avatar"
     t.integer "location_id"
     t.boolean "in_warp"
+    t.integer "units", default: 1000
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
