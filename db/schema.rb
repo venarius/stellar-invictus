@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_28_185309) do
+ActiveRecord::Schema.define(version: 2018_10_29_200635) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.integer "user_id"
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 2018_10_28_185309) do
     t.index ["location_id"], name: "index_factions_on_location_id"
   end
 
+  create_table "game_mails", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "recipient_id"
+    t.string "header"
+    t.text "body"
+    t.integer "units"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "jumpgates", force: :cascade do |t|
     t.integer "origin_id"
     t.integer "destination_id"
@@ -50,16 +60,6 @@ ActiveRecord::Schema.define(version: 2018_10_28_185309) do
     t.integer "faction_id"
     t.index ["faction_id"], name: "index_locations_on_faction_id"
     t.index ["system_id"], name: "index_locations_on_system_id"
-  end
-
-  create_table "mails", force: :cascade do |t|
-    t.integer "sender_id"
-    t.integer "recipient_id"
-    t.string "header"
-    t.text "body"
-    t.integer "units"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "systems", force: :cascade do |t|
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2018_10_28_185309) do
     t.integer "location_id"
     t.boolean "in_warp"
     t.integer "units", default: 1000
+    t.string "full_name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"

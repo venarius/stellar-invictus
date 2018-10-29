@@ -15,7 +15,7 @@
     <label><%= I18n.t('mails.body') %>:</label><br>
     <p><%= mail.body %></p>
   </div>
-  <% if mail.units > 0 %>
+  <% if mail.units and mail.units > 0 %>
     <div class="field mb-3">
       <label>Units:</label><br>
       <p><%= mail.units.to_s %></p>

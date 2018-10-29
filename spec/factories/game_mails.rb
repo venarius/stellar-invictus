@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :mail do
+  factory :game_mail do
     sender_id { FactoryBot.create(:user) }
     recipient_id { FactoryBot.create(:user) }
     header { "MyString" }
