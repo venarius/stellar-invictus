@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get '/user/info/:id', to: 'users#info'
   
   # Mails
-  resources :game_mails, only: [:index, :new, :create, :show]
+  resources :game_mails, only: [:index, :new, :create, :show], path: 'mails'
   
   # ActionCable
   mount ActionCable.server => '/cable'

@@ -17,6 +17,7 @@ html {
 .mt-5px { margin-top: 5px; }
 .mb-10px { margin-bottom: 10px; }
 .p-0-5 { padding: 0px 5px; }
+.bg-grey { background-color: grey; }
 .flexbox-vert-center {
   display: flex;
   align-items: center;
@@ -331,6 +332,8 @@ a {
     font-size: 18px;
   }
 }
+
+#mail-show-card .card-body p:last-of-type { margin-bottom: 0; }
 
 @media (min-width: 769px) {
   .mails-card {
