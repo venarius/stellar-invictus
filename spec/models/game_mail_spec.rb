@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe Mail do
-  context 'new mail' do
+describe GameMail do
+  context 'new game_mail' do
     describe 'attributes' do
       it { should respond_to :sender }
       it { should respond_to :recipient }
@@ -28,32 +28,6 @@ describe Mail do
         it { should validate_length_of :body }
         it { should allow_values('test123').for :body }
         it { should_not allow_values('', nil).for :body }
-      end
-    end
-    
-    describe 'Functions' do
-      before(:each) do
-        @user = FactoryBot.create(:user)
-      end
-      
-      describe 'full_name' do
-        it 'should return full_name of user' do
-          expect(@user.full_name).to eq("#{@user.name} #{@user.family_name}")
-        end
-      end
-      
-      describe 'appear' do
-        it 'should set online to true' do
-          @user.appear
-          expect(AppearWorker.jobs.size).to eq(1)
-        end
-      end
-      
-      describe 'disappear' do
-        it 'should set online to false' do
-          @user.disappear
-          expect(DisappearWorker.jobs.size).to eq(1)
-        end
       end
     end
   end

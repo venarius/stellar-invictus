@@ -21,8 +21,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable
          
-  def full_name
-    "#{name} #{family_name}"
+  after_create do
+    self.update_columns(full_name: "#{name} #{family_name}")
   end
          
   def appear

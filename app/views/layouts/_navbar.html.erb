@@ -8,7 +8,7 @@
       <ul class="navbar-nav mr-auto">
         <% if current_user %>
           <%= navbar_item(game_path, 'navbar.game') %>
-          <%= navbar_item(mails_path, 'navbar.mails') %>
+          <%= navbar_item(game_mails_path, 'navbar.mails') %>
         <% else %>
           <%= navbar_item(root_path, 'navbar.home') %>
           <%= navbar_item(about_path, 'navbar.about') %>

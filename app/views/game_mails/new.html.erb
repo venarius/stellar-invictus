@@ -1,7 +1,7 @@
 <div class="card black-card new-mail-card">
   <h4 class="card-header"><%= I18n.t('mails.new_mail') %></h4>
   <div class="card-body">
-    <%= form_for(@mail, url: mails_path, validate: true) do |f| %>
+    <%= form_for(@mail, url: game_mails_path, validate: true) do |f| %>
       <div class="field mb-3">
         <%= f.text_field :recipient_name, placeholder: I18n.t('mails.recipient'), value: params[:to], class: 'form-control' %>
       </div>

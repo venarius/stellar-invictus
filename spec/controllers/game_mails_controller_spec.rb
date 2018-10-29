@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MailsController, type: :controller do
+RSpec.describe GameMailsController, type: :controller do
   context 'without login' do
     describe 'GET index' do
       it 'should redirect_to login' do
@@ -20,7 +20,7 @@ RSpec.describe MailsController, type: :controller do
     
     describe 'POST create' do
       it 'should redirect_to login' do
-        post :create, params: {mail: {recipient_name: "Test Test", header: 'Test', body: 'Test'}}
+        post :create, params: {game_mail: {recipient_name: "Test Test", header: 'Test', body: 'Test'}}
         expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -59,14 +59,14 @@ RSpec.describe MailsController, type: :controller do
     
     describe 'POST create' do
       it 'should create message' do
-        post :create, params: {mail: {recipient_name: @user.full_name, body: 'Test', header: 'Test'}}
+        post :create, params: {game_mail: {recipient_name: @user.full_name, body: 'Test', header: 'Test'}}
         expect(response.code).to eq('302')
-        expect(response).to redirect_to(mails_path)
+        expect(response).to redirect_to(game_mails_path)
         expect(flash[:notice]).to be_present
       end
       
       it 'should not create message with invalid recipient' do
-        post :create, params: {mail: {recipient_name: 'Test', body: 'Test', header: 'Test'}}
+        post :create, params: {game_mail: {recipient_name: 'Test', body: 'Test', header: 'Test'}}
         expect(response.code).to eq('200')
         expect(response).to render_template('new')
         expect(flash[:alert]).to be_present
@@ -75,10 +75,10 @@ RSpec.describe MailsController, type: :controller do
     
     describe 'GET show' do
        it 'should show message on valid id' do
-          @mail = FactoryBot.create(:mail, sender: @user, recipient: @user) 
+          @mail = FactoryBot.create(:game_mail, sender: @user, recipient: @user) 
           get :show, params: {id: @mail.id}
           expect(response.code).to eq('200')
-          expect(response).to render_template('mails/_show')
+          expect(response).to render_template('game_mails/_show')
        end
     end
   end
