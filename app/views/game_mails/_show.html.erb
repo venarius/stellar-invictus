@@ -1,24 +1,27 @@
-<div class="card black-card card-body" id="mail-show-card">
-  <div class="field mb-3">
-    <label><%= I18n.t('mails.sender') %>:</label><br>
-    <p><%= mail.sender.full_name %></p>
-  </div>
-  <div class="field mb-3">
-    <label><%= I18n.t('mails.recipient') %>:</label><br>
-    <p><%= mail.recipient.full_name %></p>
-  </div>
-  <div class="field mb-3">
-    <label><%= I18n.t('mails.header') %>:</label><br>
-    <p><%= mail.header %></p>
-  </div>
-  <div class="field mb-3">
-    <label><%= I18n.t('mails.body') %>:</label><br>
-    <p><%= mail.body %></p>
-  </div>
-  <% if mail.units and mail.units > 0 %>
-    <div class="field mb-3">
-      <label>Units:</label><br>
-      <p><%= mail.units.to_s %></p>
+<div class="card black-card" id="mail-show-card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 field">
+        <label><strong><%= I18n.t('mails.sender') %>:</strong></label>
+        <%= mail.sender.full_name %>
+      </div>
+      <div class="col-md-6 field">
+        <label><strong><%= I18n.t('mails.recipient') %>:</strong></label>
+        <%= mail.recipient.full_name %>
+      </div>
+      <div class="col-md-6 field">
+        <label><strong><%= I18n.t('mails.header') %>:</strong></label>
+        <%= mail.header %>
+      </div>
+      <% if mail.units and mail.units > 0 %>
+        <div class="col-md-6 field">
+          <label><strong>Units:</strong></label>
+          <%= mail.units.to_s %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
+  <div class="card-body">
+    <%= simple_format(mail.body) %>
+  </div>
 </div>

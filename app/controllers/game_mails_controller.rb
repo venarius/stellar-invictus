@@ -21,7 +21,7 @@ class GameMailsController < ApplicationController
   end
   
   def show
-    mail = GameMail.find(params[:id])
+    mail = GameMail.find(params[:id]) rescue nil
     if mail
       if mail.recipient == current_user || mail.sender == current_user
         render partial: 'game_mails/show', locals: {mail: mail}
