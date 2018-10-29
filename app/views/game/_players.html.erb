@@ -18,7 +18,7 @@
             <td>
               <%= link_to "<i class='fa fa-crosshairs'></i>".html_safe, '#', class: 'btn btn-outline-danger btn-xs' %>
               <%= link_to "<i class='fa fa-info'></i>".html_safe, '#', class: 'btn btn-outline-primary btn-xs player-modal', data: {id: user.id} %>
-              <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, '#', class: 'btn btn-outline-primary btn-xs' %>
+              <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_mail_path(to: user.full_name), class: 'btn btn-outline-primary btn-xs' %>
             </td>
           </tr>
         <% end %>

@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
             presence: true
             
+  validates :name, uniqueness: { scope: :family_name }
+            
   validates :email, uniqueness: true
             
   validates_format_of :name, :family_name, :with => /\A[a-zA-Z]+\z/i,
@@ -19,8 +21,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable
          
-  def full_name
-    "#{name} #{family_name}"
+  after_create do
+    self.update_columns(full_name: "#{name} #{family_name}")
   end
          
   def appear

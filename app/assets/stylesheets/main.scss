@@ -15,11 +15,22 @@ html {
 .color-sec-low { color: red; }
 .width-max { width: 100%; }
 .mt-5px { margin-top: 5px; }
+.mb-10px { margin-bottom: 10px; }
 .p-0-5 { padding: 0px 5px; }
+.bg-grey { background-color: grey; }
 .flexbox-vert-center {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.form-control {
+  color: white;
+  background-color: black;
+  border: 1px solid #282828;
+  &:focus {
+    color: white;
+    background-color: black;
+  }
 }
 
 // Navbar
@@ -257,9 +268,82 @@ a {
 .players-card .card-body table thead #btn-td {
   width: 105px;
 }
-.location-info-card, .chat-card {
+.location-info-card, .chat-card, .player-info-card {
   .card-header {
     padding: 0.5rem 0.5rem;
     font-size: 18px;
+  }
+}
+
+// ###############
+// Warp
+// ###############
+.warp-card {
+  background: image-url('warp.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+// ###############
+// Mails
+// ###############
+.mails-card {
+  .card-header {
+    padding: 0.5rem 0.5rem;
+    font-size: 18px;
+  }
+  .card-body {
+    padding: 5px;
+    .nav-pills {
+      .nav-link {
+        margin-bottom: 10px;
+        color: white;
+        background-color: black;
+        border: 1px solid #282828;
+        &.active {
+          border: 1px solid #2A9FD6;
+        }
+        .badge {
+          margin-left: 10px;
+          font-size: 100%;
+        }
+      }
+    }
+    .tab-content {
+      table {
+        margin-bottom: 0;
+        thead {
+          .btn-th { width: 20px; }
+        }
+        tbody {
+          td .btn {
+            padding: 0rem 0.5rem;
+          }
+        }
+      } 
+    }
+  }
+}
+
+.new-mail-card {
+  .card-header {
+    padding: 0.5rem 0.5rem;
+    font-size: 18px;
+  }
+}
+
+#mail-show-card .card-body p:last-of-type { margin-bottom: 0; }
+
+@media (min-width: 769px) {
+  .mails-card {
+    .card-body {
+      .col-md-3 { padding-right: 5px; }
+      .col-md-9 { padding-left: 0; }
+      .nav-pills {
+        padding: 5px 10px 5px 5px;
+        border-right: 1px solid grey;
+      }
+    }
   }
 }
