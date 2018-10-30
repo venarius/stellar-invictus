@@ -33,6 +33,10 @@ class GameMailsController < ApplicationController
     end
   end
   
+  def inbox
+    render partial: 'game_mails/mail_list', locals: {mails: GameMail.includes(:sender, :recipient).where(recipient: current_user)}
+  end
+  
   private
   
   def mail_params

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get '/user/info/:id', to: 'users#info'
   
   # Mails
+  get '/mails/inbox', to: 'game_mails#inbox'
   resources :game_mails, only: [:index, :new, :create, :show], path: 'mails'
   
   # ActionCable
