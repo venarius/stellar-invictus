@@ -14,4 +14,6 @@ class GameMail < ApplicationRecord
       recipient.update_columns(units: recipient.reload.units + units)
     end
   end
+  
+  after_create_commit {GameMailWorker.perform_async(self.recipient.id)}
 end

@@ -23,13 +23,13 @@ html {
   align-items: center;
   justify-content: center;
 }
-.form-control {
-  color: white;
-  background-color: black;
-  border: 1px solid #282828;
+.form-control, .edge-autoSuggestFieldFilled {
+  color: white !important;
+  background-color: black !important;
+  border: 1px solid #282828 !important;
   &:focus {
-    color: white;
-    background-color: black;
+    color: white !important;
+    background-color: black !important;
   }
 }
 
