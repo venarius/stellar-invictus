@@ -1,5 +1,5 @@
 $( document ).on('turbolinks:load', function() {
-  $('.warp-btn').off('click').on('click', function(e) {
+  $('#app-container').on('click', '.warp-btn', function(e) {
     e.preventDefault();
     var target = $(this).data("id");
     if (target) {
@@ -9,7 +9,7 @@ $( document ).on('turbolinks:load', function() {
     }
   });
   
-  $('.jumpgate-jump-btn').on('click', function(e) {
+  $('#app-container').on('click', '.jumpgate-jump-btn', function(e) {
     e.preventDefault();
     var time = parseInt($(this).data('time'))
     $.post( "game/jump", function() {

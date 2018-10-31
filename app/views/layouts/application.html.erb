@@ -3,6 +3,7 @@
   <head>
     <title>Stellar Invictus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="turbolinks-cache-control" content="no-preview">
     
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -16,7 +17,7 @@
   <body>
     <%= render 'layouts/navbar' %>
   
-    <div class="mt-1rem container">
+    <div class="mt-1rem container" id="app-container">
       <%= render 'layouts/alerts' %>
       
       <%= yield %>

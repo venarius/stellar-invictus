@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_29_200635) do
+ActiveRecord::Schema.define(version: 2018_10_31_135922) do
+
+  create_table "asteroids", force: :cascade do |t|
+    t.integer "location_id"
+    t.integer "asteroid_type"
+    t.integer "ressources"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_asteroids_on_location_id"
+  end
 
   create_table "chat_messages", force: :cascade do |t|
     t.integer "user_id"
@@ -62,6 +71,20 @@ ActiveRecord::Schema.define(version: 2018_10_29_200635) do
     t.index ["system_id"], name: "index_locations_on_system_id"
   end
 
+  create_table "spaceships", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name"
+    t.string "image"
+    t.integer "hp"
+    t.integer "armor"
+    t.integer "power"
+    t.integer "defense"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_spaceships_on_user_id"
+  end
+
   create_table "systems", force: :cascade do |t|
     t.string "name"
     t.integer "security_status"
@@ -90,6 +113,8 @@ ActiveRecord::Schema.define(version: 2018_10_29_200635) do
     t.boolean "in_warp"
     t.integer "units", default: 1000
     t.string "full_name"
+    t.integer "active_spaceship_id"
+    t.boolean "docked"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"

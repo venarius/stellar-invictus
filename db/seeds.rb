@@ -33,12 +33,19 @@ faction1 = Faction.find_or_create_by(name: 'Faction 1', description: lorem)
 faction2 = Faction.find_or_create_by(name: 'Faction 2', description: lorem)
 faction3 = Faction.find_or_create_by(name: 'Faction 3', description: lorem)
 
-# Locations
+# Locations - Stations
 Location.find_or_create_by(name: 'Factory Plant I', system: jita, location_type: 0, faction: faction1)
 Location.find_or_create_by(name: 'Warfare Plant I', system: jita, location_type: 0)
 Location.find_or_create_by(name: 'Factory Plant II', system: talos, location_type: 0, faction: faction2)
 Location.find_or_create_by(name: 'Tech Plant II', system: urus, location_type: 0, faction: faction3)
 
+# Locations - Asteroid Belts
+ast1 = Location.find_or_create_by(name: 'Asteroid Belt I', system: jita, location_type: 1)
+
+# Asteroid Belts - Asteroids
+Asteroid.find_or_create_by(location: ast1, asteroid_type: 2, ressources: 1000)
+
+# Locations - Jumpgates
 jita_jumpgate_talos = Location.find_or_create_by(name: talos.name, system: jita, location_type: 2)
 jita_jumpgate_urus = Location.find_or_create_by(name: urus.name, system: jita, location_type: 2)
 talos_jumpgate_urus = Location.find_or_create_by(name: urus.name, system: talos, location_type: 2)

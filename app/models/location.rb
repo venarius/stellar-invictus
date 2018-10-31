@@ -2,6 +2,7 @@ class Location < ApplicationRecord
   belongs_to :system
   has_many :users
   belongs_to :faction, optional: true
+  has_many :asteroids
   
   enum location_type: [:station, :asteroid_field, :jumpgate]
   
