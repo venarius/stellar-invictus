@@ -1,7 +1,7 @@
 class GameMailsController < ApplicationController
   def index
-    @inbox = GameMail.includes(:sender, :recipient).where(recipient: current_user).order(:created_at).page params[:page]
-    @sent = GameMail.includes(:sender, :recipient).where(sender: current_user).order(:created_at).page params[:page]
+    @inbox = GameMail.includes(:sender, :recipient).where(recipient: current_user).order('created_at DESC').page params[:page]
+    @sent = GameMail.includes(:sender, :recipient).where(sender: current_user).order('created_at DESC').page params[:page]
   end
 
   def new
@@ -31,10 +31,6 @@ class GameMailsController < ApplicationController
     else
       redirect_to game_mails_path
     end
-  end
-  
-  def inbox
-    render partial: 'game_mails/mail_list', locals: {mails: GameMail.includes(:sender, :recipient).where(recipient: current_user)}
   end
   
   private
