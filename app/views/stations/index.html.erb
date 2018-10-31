@@ -1,0 +1,74 @@
+<div class="card card-body system-card mb-3">
+  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_location') %> <%= @current_user.system.name.upcase %> - <%= @current_user.location.name %></span></h4>
+  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_sec_level') %> <span class="color-sec-<%= @current_user.system.security_status %>"><%= @current_user.system.security_status.upcase %></span></span></h4>
+</div>
+
+<div class="card black-card mb-3 player-info-card">
+  <%= render 'game/player_info' %>
+</div>
+
+<div class="card black-card mb-3 chat-card">
+  <h5 class="card-header">
+    <%= I18n.t('game.chat') %>
+    <div class="float-right">
+      <a data-toggle="collapse" href="#collapse-chat">
+        <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-down"></i></div>
+      </a>
+    </div>
+  </h5>
+  <div class="collapse show" id="collapse-chat">
+    <div class="card-body">
+      <%= render 'game/chat' %>
+    </div>
+  </div>
+</div>
+
+<div class="card black-card station-card mb-3">
+  <h4 class="card-header">
+    <%= @current_user.location.name %>
+    <div class="float-right">
+      <div class="btn btn-outline-primary station-undock-btn"><%= I18n.t('station.undock') %></div>
+    </div>
+  </h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="nav flex-column nav-pills" role="tablist">
+          <a class="nav-link active" data-toggle="pill" href="#overview" role="tab"><%= I18n.t('station.overview') %></a>
+          <a class="nav-link" data-toggle="pill" href="#ships" role="tab"><%= I18n.t('station.ships') %></a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="overview" role="tabpanel">
+            
+          </div>
+          <div class="tab-pane fade" id="ships" role="tabpanel">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col"><%= I18n.t('ships.name') %></th>
+                  <th scope="col"><%= I18n.t('ships.hp') %></th>
+                  <th scope="col"><%= I18n.t('ships.armor') %></th>
+                  <th scope="col"><%= I18n.t('ships.price') %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @ships.each do |k,v| %>
+                  <tr>
+                    <td><%= image_tag("ships/#{v['image']}", style: 'height: 50px') %></td>
+                    <td><%= k %></td>
+                    <td><%= v['hp'] %></td>
+                    <td><%= v['armor'] %></td>
+                    <td><%= v['price'] %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

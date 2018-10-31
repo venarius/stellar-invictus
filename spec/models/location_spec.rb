@@ -9,12 +9,14 @@ describe Location do
       it { should respond_to :faction }
       it { should respond_to :jumpgate }
       it { should respond_to :name }
+      it { should respond_to :asteroids }
     end
     
     describe 'Relations' do
       it { should belong_to :system }
       it { should belong_to :faction }
       it { should have_many :users }
+      it { should have_many :asteroids }
     end
     
     describe 'Enums' do

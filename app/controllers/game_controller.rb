@@ -1,5 +1,8 @@
 class GameController < ApplicationController
   def index
+    if current_user.docked 
+      redirect_to station_path and return
+    end
     @current_user = User.includes(:system).find(current_user.id)
     @local_messages = ChatMessage.includes(:user).where(system: current_user.system).last(10)
     @global_messages = ChatMessage.includes(:user).where(system: nil).last(10)

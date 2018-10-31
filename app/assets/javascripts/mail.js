@@ -8,11 +8,6 @@ $( document ).on('turbolinks:load', function() {
       $('.mails-card').after(data);
     });
   });
-  
-  // Remove badge if current location is mails
-  if (window.location == "/mails" && $('#mails-alert').length) {
-    $('#mails-alert').remove();
-  }
 });
 
 // Reload mails or display badge in navbar if actioncable received mail

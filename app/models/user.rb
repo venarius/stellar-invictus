@@ -3,6 +3,9 @@ class User < ApplicationRecord
   belongs_to :system, optional: true
   belongs_to :location, optional: true
   has_many :chat_messages, dependent: :destroy
+  has_many :spaceships, dependent: :destroy
+  
+  has_one :active_spaceship, :class_name => 'Spaceship'
   
   
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,

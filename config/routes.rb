@@ -25,6 +25,11 @@ Rails.application.routes.draw do
   # Mails
   resources :game_mails, only: [:index, :new, :create, :show], path: 'mails'
   
+  # Locations
+  get '/stations/dock', to: 'stations#dock'
+  get '/stations/undock', to: 'stations#undock'
+  get '/station', to: 'stations#index'
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   
