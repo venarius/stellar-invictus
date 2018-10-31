@@ -18,9 +18,7 @@ $( document ).on('turbolinks:load', function() {
 // Reload mails or display badge in navbar if actioncable received mail
 function received_mail() {
   if ($('.mails-card').length) {
-    $.get("/mails/inbox", function(data) {
-      $('#inbox').empty().append(data);
-    });
+    Turbolinks.visit(window.location);
   } else if ($('#navbarColor02').length && !$('#mails-alert').length) {
     $('#navbarColor02 .nav-item').each(function() {
       if ($(this).find('a').attr('href') == "/mails") {

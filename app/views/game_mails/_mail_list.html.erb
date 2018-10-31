@@ -15,7 +15,11 @@
          <td><%= mail.recipient.full_name %></td>
          <td><%= mail.header %></td>
          <td><%= mail.created_at.strftime('%F %H:%M') %></td>
-         <td><button class="btn btn-outline-primary show-mail-btn" data-id="<%= mail.id %>"><i class='fa fa-eye'></i></button></td>
+         <td>
+           <button class="btn btn-outline-primary show-mail-btn" data-id="<%= mail.id %>">
+             <i class='fa fa-eye'></i>
+           </button>
+         </td>
        </tr>
      <% end %>
   </tbody>
