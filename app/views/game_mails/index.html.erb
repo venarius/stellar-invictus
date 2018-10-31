@@ -13,9 +13,11 @@
         <div class="tab-content">
           <div class="tab-pane fade show active" id="inbox" role="tabpanel">
             <%= render partial: 'game_mails/mail_list', locals: {mails: @inbox} %>
+            <%= paginate @inbox, theme: 'twitter-bootstrap-4' %>
           </div>
           <div class="tab-pane fade" id="sent" role="tabpanel">
             <%= render partial: 'game_mails/mail_list', locals: {mails: @sent} %>
+            <%= paginate @sent, theme: 'twitter-bootstrap-4' %>
           </div>
         </div>
       </div>

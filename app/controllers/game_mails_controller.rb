@@ -1,7 +1,7 @@
 class GameMailsController < ApplicationController
   def index
-    @inbox = GameMail.includes(:sender, :recipient).where(recipient: current_user)
-    @sent = GameMail.includes(:sender, :recipient).where(sender: current_user)
+    @inbox = GameMail.includes(:sender, :recipient).where(recipient: current_user).order(:created_at).page params[:page]
+    @sent = GameMail.includes(:sender, :recipient).where(sender: current_user).order(:created_at).page params[:page]
   end
 
   def new

@@ -51,3 +51,6 @@ gem 'devise'
 gem 'client_side_validations'
 # Sidekiq for Jobs
 gem 'sidekiq'
+# Pagination
+gem 'kaminari'
+gem 'bootstrap4-kaminari-views'
