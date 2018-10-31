@@ -16,10 +16,15 @@
       </ul>
       <ul class="navbar-nav">
         <% if current_user %>
-          <%= navbar_item(edit_user_registration_path, 'navbar.profile') %>
-          <li class="nav-item">
-            <%= link_to I18n.t('navbar.logout'), destroy_user_session_path, method: :delete, class: 'nav-link' %>
-          </li>
+          <div class="dropdown">
+            <a data-toggle="dropdown"><%= image_tag("avatars/#{current_user.avatar}.jpg", class: 'navbar-avatar') %> <i class="fa fa-caret-down fa-lg"></i></a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <p class="dropdown-item mb-0"><%= current_user.full_name.truncate(20) %></p>
+              <div class="dropdown-divider"></div>
+              <%= link_to I18n.t('navbar.profile'), edit_user_registration_path, class: 'dropdown-item' %>
+              <%= link_to I18n.t('navbar.logout'), destroy_user_session_path, method: :delete, class: 'dropdown-item', style: 'color: #CC0000' %>
+            </div>
+          </div>
         <% else %>
           <%= navbar_item(nojs_path, 'navbar.connect') %>
         <% end %>
