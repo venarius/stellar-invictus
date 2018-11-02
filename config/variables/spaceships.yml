@@ -1,0 +1,7 @@
+Nano:
+  image: nano.png
+  hp: 50
+  armor: 10
+  power: 10
+  defense: 10
+  price: 0

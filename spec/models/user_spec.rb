@@ -18,6 +18,8 @@ describe User do
       it { should respond_to :system }
       it { should respond_to :chat_messages }
       it { should respond_to :in_warp }
+      it { should respond_to :spaceships }
+      it { should respond_to :active_spaceship }
     end
    
     describe 'Relations' do
@@ -25,6 +27,8 @@ describe User do
       it { should belong_to :system }
       it { should belong_to :location }
       it { should have_many :chat_messages }
+      it { should have_many :spaceships }
+      it { should have_one :active_spaceship }
     end
     
     describe 'Validations' do

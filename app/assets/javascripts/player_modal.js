@@ -1,5 +1,5 @@
 $( document ).on('turbolinks:load', function() {
-  $(document.body).on('click', '.player-modal' ,function(e){
+  $('#app-container').on('click', '.player-modal' ,function(e){
     e.preventDefault(); 
     if ($(this).data( "id" )) {
       $.get( "user/info/" + $(this).data( "id" ), function( data ) {
@@ -8,7 +8,7 @@ $( document ).on('turbolinks:load', function() {
       });
     }
   });
-  $(document.body).on('click', '#player-show-modal-close' ,function(){
+  $('#app-container').on('click', '#player-show-modal-close' ,function(){
     var modal = $(this).closest('.modal')
     modal.modal('hide');
     setTimeout(function(){

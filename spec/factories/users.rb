@@ -10,6 +10,7 @@ FactoryBot.define do
         avatar { "M_1.jpg" }
         family_name { Faker::Name.first_name }
         confirmed_at { Date.today }
+        docked { false }
         
         factory :user_with_faction do
           faction { Faction.first } 

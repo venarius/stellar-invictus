@@ -10,6 +10,8 @@ class FactionsController < ApplicationController
     if !current_user.faction
       faction = Faction.find(params[:id]) rescue nil
       if faction and current_user.update_columns(faction_id: faction.id, location_id: faction.location.id, system_id: faction.location.system.id)
+        spaceship = Spaceship.create(user_id: current_user.id, name: 'Nano', image: 'nano', hp: 100, armor: 10, power: 10, defense: 10, price: 0)
+        current_user.update_columns(active_spaceship_id: spaceship.id)
         redirect_to game_path
       else
         flash[:error] = I18n.t('errors.something_went_wrong')

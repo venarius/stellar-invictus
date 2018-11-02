@@ -1,0 +1,118 @@
+<div class="card black-card map-card">
+  <h5 class="card-header"><%= I18n.t('navbar.map') %></h5>
+  <div class="card-body">
+    
+  </div>
+</div>
+
+<style>
+  canvas {
+    display: block;
+    border: 1px solid grey;
+  }
+  .map-card .card-body {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  var app = new PIXI.Application(800, 600, { antialias: true, autoResize: true });
+  $('.map-card .card-body').append(app.view);
+  
+  // Create Graphics
+  var graphics = new PIXI.Graphics();
+  
+  // Connect Systems
+  graphics.lineStyle(1, 0x808080, 1);
+  graphics.moveTo(470, 90);
+  graphics.lineTo(130, 200);
+  graphics.lineTo(250, 250);
+  graphics.lineTo(470, 90);
+  
+  // Draw Systems
+  graphics.lineStyle(2, 0x808080, 1);
+  graphics.beginFill(0x51cbee, 1);
+  graphics.drawCircle(470, 90, 10);
+  graphics.endFill();
+  
+  graphics.beginFill(0xffa500, 1);
+  graphics.drawCircle(130, 200, 10);
+  graphics.endFill();
+  
+  graphics.beginFill(0xff0000, 1);
+  graphics.drawCircle(250, 250, 10);
+  graphics.endFill();
+  
+  // Add Graphics to App
+  app.stage.addChild(graphics);
+  
+  // Add Descriptions to Circles
+  var basicText = new PIXI.Text('Jita', new PIXI.TextStyle({fill: '#ffffff', fontSize: 18}));
+  basicText.x = 457;
+  basicText.y = 60;
+  app.stage.children[0].addChild(basicText);
+  
+  var basicText = new PIXI.Text('Talos', new PIXI.TextStyle({fill: '#ffffff', fontSize: 18}));
+  basicText.x = 110;
+  basicText.y = 170;
+  app.stage.children[0].addChild(basicText);
+  
+  var basicText = new PIXI.Text('Urus', new PIXI.TextStyle({fill: '#ffffff', fontSize: 18}));
+  basicText.x = 230;
+  basicText.y = 220;
+  app.stage.children[0].addChild(basicText);
+  
+  // Enable Drag
+  app.stage.interactive = true;
+  app.stage.hitArea = app.screen;
+  app.stage
+    .on('pointerdown', onDragStart)
+    .on('pointerup', onDragEnd)
+    .on('pointerupoutside', onDragEnd)
+    .on('pointermove', onDragMove);
+    
+  function onDragStart(event) {
+    this.data = event.data;
+    this.dragging = true;
+  }
+    
+  function onDragEnd() {
+    this.data = null;
+    this.dragging = false;
+    for (var i = app.stage.children.length - 1; i >= 0; i--) {
+      var child = app.stage.children[i]
+      child.offsetx -= child.x - this.lastx;
+      child.offsety -= child.y - this.lasty;
+    };
+  }
+    
+  function onDragMove() {
+    if (this.dragging) {
+      var newPosition = this.data.getLocalPosition(this);
+      this.lastx = newPosition.x;
+      this.lasty = newPosition.y
+      for (var i = app.stage.children.length - 1; i >= 0; i--) {
+        var child = app.stage.children[i]
+        if (!child.offsetx) { child.offsetx = child.x - newPosition.x; child.offsety = child.y - newPosition.y;}
+        child.x = newPosition.x + child.offsetx;
+        child.y = newPosition.y + child.offsety;
+      };
+    }
+  }
+  
+  // Resize
+  // Listen for window resize events
+  window.addEventListener('resize', resize);
+  
+  // Resize function window
+  function resize() {
+  
+  	// Get the p
+  	const parent = app.view.parentNode;
+     
+  	// Resize the renderer
+  	app.renderer.resize(parent.clientWidth-40, 600);
+  }
+  
+  resize();
+</script>
