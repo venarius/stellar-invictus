@@ -14,6 +14,10 @@ class StationsController < ApplicationController
   end
   
   def index
+    unless current_user.docked
+      redirect_to game_path
+      return
+    end
     @ships = SHIP_VARIABLES
     @current_user = User.includes(:system).find(current_user.id)
     @local_messages = ChatMessage.includes(:user).where(system: current_user.system).last(10)
