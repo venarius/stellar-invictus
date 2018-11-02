@@ -4,7 +4,7 @@
       <th scope="col"><%= I18n.t('mails.sender') %></th>
       <th scope="col"><%= I18n.t('mails.recipient') %></th>
       <th scope="col"><%= I18n.t('mails.header') %></th>
-      <th scope="col"><%= I18n.t('mails.created_at') %></th>
+      <th scope="col" class="mobile-display-none"><%= I18n.t('mails.created_at') %></th>
       <th class="btn-th"></th>
     </tr>
   </thead>
@@ -14,7 +14,7 @@
          <td><%= mail.sender.full_name %></td>
          <td><%= mail.recipient.full_name %></td>
          <td><%= mail.header %></td>
-         <td><%= mail.created_at.strftime('%F %H:%M') %></td>
+         <td class="mobile-display-none"><%= mail.created_at.strftime('%F %H:%M') %></td>
          <td>
            <button class="btn btn-outline-primary show-mail-btn" data-id="<%= mail.id %>">
              <i class='fa fa-eye'></i>

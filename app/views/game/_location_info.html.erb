@@ -1,10 +1,33 @@
 <div class="card black-card location-info-card">
-    <h5 class="card-header"><%= @current_user.location.name %></h5>
-    <div class="card-body text-center">
-        <% if @current_user.location.location_type == 'jumpgate' %>
-            <button class="btn btn-outline-primary jumpgate-jump-btn" data-time="<%= @current_user.location.jumpgate.traveltime %>">
-                <%= I18n.t('actions.jump') %>
-            </button>
-        <% end %>
-    </div>
+  <h5 class="card-header"><%= @current_user.location.name %></h5>
+  <div class="card-body text-center">
+    <% if @current_user.location.location_type == 'jumpgate' %>
+      <button class="btn btn-outline-primary jumpgate-jump-btn" data-time="<%= @current_user.location.jumpgate.traveltime %>">
+        <%= I18n.t('actions.jump') %>
+      </button>
+    <% elsif @current_user.location.location_type == 'asteroid_field' %>
+      <table class="table table-bordered table-hover table-sm">
+        <thead>
+          <tr>
+            <th scope="col" class="icon-th"></th>
+            <th scope="col"><%= I18n.t('asteroids.type') %></th>
+            <th scope="col" class="btn-th"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @current_user.location.asteroids.each do |asteroid| %>
+            <tr>
+              <td><%= image_tag('icons/asteroid.png') %></td>
+              <td><%= asteroid.asteroid_type.capitalize %></td>
+              <td><%= link_to "<i class='fa fa-haykal'></i>".html_safe, '#', class: 'btn btn-outline-success btn-xs' %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% elsif @current_user.location.location_type == 'station' %>
+      <button class="btn btn-outline-primary station-dock-btn">
+        <%= I18n.t('actions.dock') %>
+      </button>
+    <% end %>
+  </div>
 </div>

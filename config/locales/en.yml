@@ -7,6 +7,8 @@ en:
     game: "Game"
     profile: "Profile"
     mails: "Mails"
+    map: "Map"
+    ship: "Ship"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
@@ -67,9 +69,10 @@ en:
   types:
     jumpgate: "Jumpgate"
     station: "Station"
-    asteroid_field: "Asteroid Field"
+    asteroid_field: "Asteroid Belt"
   actions:
     jump: "Jump"
+    dock: "Dock"
   mails:
     mails: "Mails"
     inbox: "Inbox"
@@ -82,3 +85,19 @@ en:
     body: "Body"
     send: "Send"
     successfully_sent: "Mail sent successfully"
+  asteroids:
+    type: "Type"
+  station:
+    overview: "Overview"
+    ships: "Spaceships"
+    undock: "Undock"
+    missions: "Missions"
+  ships:
+    inventory: "Inventory"
+    name: "Name"
+    hp: "Healthpoints"
+    armor: "Armor"
+    price: "Price"
+  items:
+    type: "Type"
+    name: "Name"

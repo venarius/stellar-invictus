@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, except: [:map]
   
   def about
   end
@@ -11,5 +11,8 @@ class StaticPagesController < ApplicationController
   end
   
   def nojs
+  end
+  
+  def map
   end
 end
