@@ -15,8 +15,7 @@ class StationsController < ApplicationController
   
   def index
     unless current_user.docked
-      redirect_to game_path
-      return
+      redirect_to game_path and return
     end
     @ships = SHIP_VARIABLES
     @current_user = User.includes(:system).find(current_user.id)
