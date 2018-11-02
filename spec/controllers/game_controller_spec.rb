@@ -55,6 +55,15 @@ RSpec.describe GameController, type: :controller do
         get :index
         expect(response.code).to eq('200')
       end
+      
+      it 'should redirect to station when player is docked' do
+        @user = FactoryBot.create(:user_with_faction, docked: true)
+        sign_in @user
+        
+        get :index
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(station_path)
+      end
     end
     
     describe 'POST warp' do

@@ -33,6 +33,9 @@ Rails.application.routes.draw do
   # Map
   get '/map', to: 'static_pages#map'
   
+  # Ships
+  get '/ship', to: 'ships#index'
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   
