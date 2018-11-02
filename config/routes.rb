@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   get '/stations/undock', to: 'stations#undock'
   get '/station', to: 'stations#index'
   
+  # Map
+  get '/map', to: 'static_pages#map'
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   
