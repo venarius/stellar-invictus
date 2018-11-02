@@ -7,6 +7,7 @@ en:
     game: "Game"
     profile: "Profile"
     mails: "Mails"
+    map: "Map"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
@@ -89,6 +90,7 @@ en:
     overview: "Overview"
     ships: "Spaceships"
     undock: "Undock"
+    missions: "Missions"
   ships:
     name: "Name"
     hp: "Healthpoints"

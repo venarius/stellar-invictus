@@ -1,6 +1,5 @@
 class StaticPagesController < ApplicationController
-  skip_before_action :authenticate_user!
-  before_action :redirect_if_user
+  skip_before_action :authenticate_user!, except: [:map]
   
   def about
   end
@@ -14,9 +13,6 @@ class StaticPagesController < ApplicationController
   def nojs
   end
   
-  private
-  
-  def redirect_if_user
-    redirect_to game_path if current_user
+  def map
   end
 end

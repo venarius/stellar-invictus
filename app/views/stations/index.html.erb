@@ -36,6 +36,7 @@
         <div class="nav flex-column nav-pills" role="tablist">
           <a class="nav-link active" data-toggle="pill" href="#overview" role="tab"><%= I18n.t('station.overview') %></a>
           <a class="nav-link" data-toggle="pill" href="#ships" role="tab"><%= I18n.t('station.ships') %></a>
+          <a class="nav-link" data-toggle="pill" href="#missions" role="tab"><%= I18n.t('station.missions') %></a>
         </div>
       </div>
       <div class="col-md-9">
@@ -44,28 +45,10 @@
             
           </div>
           <div class="tab-pane fade" id="ships" role="tabpanel">
-            <table class="table table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col"></th>
-                  <th scope="col"><%= I18n.t('ships.name') %></th>
-                  <th scope="col"><%= I18n.t('ships.hp') %></th>
-                  <th scope="col"><%= I18n.t('ships.armor') %></th>
-                  <th scope="col"><%= I18n.t('ships.price') %></th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @ships.each do |k,v| %>
-                  <tr>
-                    <td><%= image_tag("ships/#{v['image']}", style: 'height: 50px') %></td>
-                    <td><%= k %></td>
-                    <td><%= v['hp'] %></td>
-                    <td><%= v['armor'] %></td>
-                    <td><%= v['price'] %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+            <%= render 'stations/ships' %>
+          </div>
+          <div class="tab-pane fade" id="missions" role="tabpanel">
+            <%= render 'stations/missions' %>
           </div>
         </div>
       </div>

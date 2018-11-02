@@ -417,3 +417,54 @@ a {
     }
   }
 }
+
+// ###############
+// Station
+// ###############
+.station-card {
+  .card-body {
+    padding: 5px;
+    .nav-pills {
+      .nav-link {
+        margin-bottom: 10px;
+        color: white;
+        background-color: black;
+        border: 1px solid #282828;
+        &.active {
+          border: 1px solid #2A9FD6;
+        }
+        .badge {
+          margin-left: 10px;
+          font-size: 100%;
+        }
+      }
+    }
+    .tab-content {
+      table {
+        margin-bottom: 0;
+        thead {
+          .btn-th { width: 75px; }
+        }
+        tbody {
+          td .btn {
+            padding: 0rem 0.5rem;
+          }
+        }
+      } 
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  .station-card {
+    .card-body {
+      .col-md-3 { padding-right: 5px; }
+      .col-md-9 { padding-left: 0; }
+      .nav-pills {
+        height: 100%;
+        padding: 5px 10px 5px 5px;
+        border-right: 1px solid grey;
+      }
+    }
+  }
+}
