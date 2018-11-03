@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_31_135922) do
+ActiveRecord::Schema.define(version: 2018_11_03_150419) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 2018_10_31_135922) do
     t.string "full_name"
     t.integer "active_spaceship_id"
     t.boolean "docked"
+    t.integer "target_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"

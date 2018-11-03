@@ -34,4 +34,8 @@ class GameController < ApplicationController
   def local_players
     render partial: 'players', locals: {local_users: User.where(location: current_user.location, online: true)}
   end
+  
+  def ship_info
+    render partial: 'ship_info', locals: {ship_vars: SHIP_VARIABLES[current_user.active_spaceship.name]}
+  end
 end

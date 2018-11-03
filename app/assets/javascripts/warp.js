@@ -18,15 +18,17 @@ $( document ).on('turbolinks:load', function() {
   });
 });
 
-var interval;
+var jump_interval;
 
 function doWarp(warpTime) {
-  if (interval == null || interval == false) {
+  if (jump_interval == null || jump_interval == false) {
+    $('.enemy-space-ship').empty();
+    $('.enemy-space-ship').next().empty();
     $('.game-card-row').empty();
     $('.game-card-row').append(
       "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
     );
-    interval = setInterval(function() {
+    jump_interval = setInterval(function() {
       warpTime = warpTime - 0.25;
       if ($('.warp-card').length) {
         $('.game-card-row .warp-card h4').empty().append(
@@ -41,8 +43,8 @@ function doWarp(warpTime) {
       if (warpTime <= 0) {
         App.local.reload();
         Turbolinks.visit(window.location);
-        clearInterval(interval);
-        interval = false
+        clearInterval(jump_interval);
+        jump_interval = false
       }
     },250); 
   }

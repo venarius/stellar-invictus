@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :redirect_if_no_faction
+  before_action :online_user
   
   
   protected
@@ -22,6 +23,12 @@ class ApplicationController < ActionController::Base
   def redirect_if_no_faction
     if current_user
       redirect_to factions_path unless current_user.faction
+    end
+  end
+  
+  def online_user
+    if current_user and !current_user.online
+      AppearWorker.perform_async(current_user.id)
     end
   end
 end

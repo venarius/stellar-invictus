@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post '/game/warp', to: 'game#warp'
   post '/game/jump', to: 'game#jump'
   get 'game/local_players', to: 'game#local_players'
+  get 'game/ship_info', to: 'game#ship_info'
   
   # User
   get '/user/info/:id', to: 'users#info'
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
   # Ships
   get '/ship', to: 'ships#index'
   post '/ships/activate', to: 'ships#activate'
+  post '/ships/target', to: 'ships#target'
   
   # ActionCable
   mount ActionCable.server => '/cable'

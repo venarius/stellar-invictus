@@ -11,3 +11,7 @@ $(document).on "turbolinks:load", ->
       received: (data)->
         if (data.method == 'received_mail')
           received_mail()
+        else if (data.method == 'refresh_target_info')
+          refresh_target_info()
+        else if (data.method == 'getting_targeted' && data.name)
+          getting_targeted(data.name)

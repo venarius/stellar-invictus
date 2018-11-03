@@ -71,6 +71,11 @@ $( document ).on('turbolinks:load', function() {
         setServerTime();
       },1000);
     }
+    
+    // Enable tooltips
+    $('body').tooltip({
+      selector: '[data-toggle="tooltip"]'
+    });
 });
 
 // Time Functions

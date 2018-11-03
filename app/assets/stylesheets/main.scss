@@ -383,7 +383,8 @@ a {
       padding-left: 0;
       padding-right: 0;
     }
-    .col-6.player-space-ship {
+    .col-6.player-space-ship, .col-6.enemy-space-ship {
+      height: 70px;
       border: 1px solid grey;
       background: image-url('galaxy-infinity.jpg');
       background-repeat: no-repeat;
@@ -396,6 +397,9 @@ a {
         height: 50px;
         transform: rotate(90deg);
       }
+    }
+    .col-6.enemy-space-ship img {
+      transform: rotate(270deg) !important;
     }
   }
 }

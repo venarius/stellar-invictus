@@ -10,4 +10,14 @@ class ShipsController < ApplicationController
       render partial: '/stations/my_ships'
     end
   end
+  
+  def target
+    user = User.find(params[:id]) rescue nil if params[:id]
+    if user and user.can_be_attacked and user.location == current_user.location and current_user.can_be_attacked
+      TargetingWorker.perform_async(current_user.id, user.id)
+      render json: {}, status: 200
+    else
+      render json: {}, status: 400
+    end
+  end
 end
