@@ -28,7 +28,6 @@ describe User do
       it { should belong_to :location }
       it { should have_many :chat_messages }
       it { should have_many :spaceships }
-      it { should have_one :active_spaceship }
     end
     
     describe 'Validations' do

@@ -16,6 +16,7 @@ FactoryBot.define do
           faction { Faction.first } 
           system { System.first }
           location { Location.first }
+          active_spaceship_id { FactoryBot.create(:spaceship).id }
         end
     end
     

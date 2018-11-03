@@ -16,9 +16,11 @@ html {
 .width-max { width: 100%; }
 .mt-5px { margin-top: 5px; }
 .mb-10px { margin-bottom: 10px; }
+.mt-10 { margin-top: 10rem; }
 .p-0-5 { padding: 0px 5px; }
 .bg-grey { background-color: grey; }
 .w-20px { width: 20px; }
+.outline-primary { border: 1px solid #2A9FD6; }
 .flexbox-vert-center {
   display: flex;
   align-items: center;
@@ -450,7 +452,8 @@ a {
             padding: 0rem 0.5rem;
           }
         }
-      } 
+      }
+      .my-ships-table .btn-th { width: 80px; }
     }
   }
 }

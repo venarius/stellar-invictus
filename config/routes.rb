@@ -25,9 +25,12 @@ Rails.application.routes.draw do
   # Mails
   resources :game_mails, only: [:index, :new, :create, :show], path: 'mails'
   
-  # Locations
-  get '/stations/dock', to: 'stations#dock'
-  get '/stations/undock', to: 'stations#undock'
+  # Station
+  scope :stations do
+    post 'dock', to: 'stations#dock'
+    post 'undock', to: 'stations#undock'
+    post 'buy', to: 'stations#buy'
+  end
   get '/station', to: 'stations#index'
   
   # Map
@@ -35,6 +38,7 @@ Rails.application.routes.draw do
   
   # Ships
   get '/ship', to: 'ships#index'
+  post '/ships/activate', to: 'ships#activate'
   
   # ActionCable
   mount ActionCable.server => '/cable'

@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-md-6 row mobile-mb-10">
     <div class="col-6 player-space-ship">
-      <%= image_tag("ships/#{current_user.active_spaceship.image}.png") %>
+      <%= image_tag("ships/#{@ship_vars['image']}") %>
     </div>
     <div class="col-6 text-left">
       <div class="mt-5px">
-        <span>HP: <%= current_user.active_spaceship.hp %></span><br>
-        <span>ARMOR: <%= current_user.active_spaceship.armor %></span><br>
-        <span>POWER: <%= current_user.active_spaceship.power %></span>
+        <span>HP: <%= @ship_vars['hp'] %></span><br>
+        <span>ARMOR: <%= @ship_vars['armor'] %></span><br>
+        <span>POWER: <%= @ship_vars['power'] %></span>
       </div>
     </div>
   </div>

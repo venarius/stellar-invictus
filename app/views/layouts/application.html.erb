@@ -29,7 +29,7 @@
     <%= render 'layouts/footer' %>
     
     <script>
-      var logged_in = <%= !current_user.nil? %>
+      var logged_in = <%= !current_user.nil? and !current_user.faction.nil? %>
     </script>
   </body>
 </html>

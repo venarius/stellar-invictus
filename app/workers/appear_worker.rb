@@ -5,7 +5,9 @@ class AppearWorker
   def perform(player_id)
     user = User.find(player_id)
     if user and !user.online
-      ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
+      unless user.docked
+        ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
+      end
       user.update_columns(online: true)
     end
   end

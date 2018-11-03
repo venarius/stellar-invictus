@@ -74,12 +74,6 @@ ActiveRecord::Schema.define(version: 2018_10_31_135922) do
   create_table "spaceships", force: :cascade do |t|
     t.integer "user_id"
     t.string "name"
-    t.string "image"
-    t.integer "hp"
-    t.integer "armor"
-    t.integer "power"
-    t.integer "defense"
-    t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_spaceships_on_user_id"

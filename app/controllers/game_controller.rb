@@ -6,7 +6,8 @@ class GameController < ApplicationController
     @current_user = User.includes(:system).find(current_user.id)
     @local_messages = ChatMessage.includes(:user).where(system: current_user.system).last(10)
     @global_messages = ChatMessage.includes(:user).where(system: nil).last(10)
-    @local_users = User.where(location: current_user.location, online: true)
+    @local_users = User.where(location: current_user.location, online: true, in_warp: false, docked: false)
+    @ship_vars = SHIP_VARIABLES[current_user.active_spaceship.name]
   end
   
   def warp

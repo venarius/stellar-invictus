@@ -22,4 +22,17 @@ class StationsController < ApplicationController
     @local_messages = ChatMessage.includes(:user).where(system: current_user.system).last(10)
     @global_messages = ChatMessage.includes(:user).where(system: nil).last(10)
   end
+  
+  def buy
+    if params[:type] and params[:type] == 'ship'
+      ship_vars = SHIP_VARIABLES[params[:name]]
+      if ship_vars and current_user.units >= ship_vars['price']
+        Spaceship.create(user: current_user, name: params[:name])
+        current_user.update_columns(units: current_user.units - ship_vars['price'])
+        flash[:notice] = I18n.t('station.purchase_successfull')
+      else
+        flash[:alert] = I18n.t('errors.not_enough_units')
+      end
+    end
+  end
 end
