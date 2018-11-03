@@ -5,8 +5,6 @@ class User < ApplicationRecord
   has_many :chat_messages, dependent: :destroy
   has_many :spaceships, dependent: :destroy
   
-  has_one :active_spaceship, :class_name => 'Spaceship'
-  
   
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
             presence: true
@@ -34,5 +32,9 @@ class User < ApplicationRecord
   
   def disappear
     DisappearWorker.perform_async(self.id)
+  end
+  
+  def active_spaceship
+    Spaceship.find(self.active_spaceship_id) rescue nil
   end
 end
