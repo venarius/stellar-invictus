@@ -1,8 +1,12 @@
 class StationsController < ApplicationController
   def dock
-   if current_user.location.location_type == 'station' and !current_user.docked
-     current_user.update_columns(docked: true)
-     ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_warp_out', name: current_user.full_name)
+    if current_user.location.location_type == 'station' and !current_user.docked
+      current_user.update_columns(docked: true, target_id: nil)
+      ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_warp_out', name: current_user.full_name)
+      User.where(target_id: current_user.id).each do |u|
+        u.update_columns(target_id: nil)
+        ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
+      end
    end
   end
   

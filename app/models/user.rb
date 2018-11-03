@@ -31,10 +31,19 @@ class User < ApplicationRecord
   end
   
   def disappear
+    self.update_columns(target_id: nil)
     DisappearWorker.perform_async(self.id)
   end
   
   def active_spaceship
     Spaceship.find(self.active_spaceship_id) rescue nil
+  end
+  
+  def can_be_attacked
+    !docked and !in_warp
+  end
+  
+  def target
+    User.find(target_id) if target_id
   end
 end

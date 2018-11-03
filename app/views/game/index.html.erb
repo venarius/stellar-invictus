@@ -9,7 +9,7 @@
 
 <div class="card black-card mb-3 ship-card">
   <div class="card-body">
-    <%= render 'game/ship_info' %>
+    <%= render partial: 'game/ship_info', locals: {ship_vars: @ship_vars} %>
   </div>
 </div>
 

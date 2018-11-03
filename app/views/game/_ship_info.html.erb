@@ -1,24 +1,36 @@
 <div class="row">
   <div class="col-md-6 row mobile-mb-10">
     <div class="col-6 player-space-ship">
-      <%= image_tag("ships/#{@ship_vars['image']}") %>
+      <%= image_tag("ships/#{ship_vars['image']}") %>
     </div>
     <div class="col-6 text-left">
       <div class="mt-5px">
-        <span>HP: <%= @ship_vars['hp'] %></span><br>
-        <span>ARMOR: <%= @ship_vars['armor'] %></span><br>
-        <span>POWER: <%= @ship_vars['power'] %></span>
+        <span>HP: <%= ship_vars['hp'] %></span><br>
+        <span>ARMOR: <%= ship_vars['armor'] %></span><br>
+        <span>POWER: <%= ship_vars['power'] %></span>
       </div>
     </div>
   </div>
   <div class="col-md-6 row">
-    <div class="col-6 player-space-ship">
-        
-    </div>
-    <div class="col-6 text-left">
-      <div class="mt-5px">
-        
+    <% if current_user.reload.target_id %>
+      <% enemy_vars = SHIP_VARIABLES[current_user.target.active_spaceship.name] %>
+      <div class="col-6 enemy-space-ship">
+        <%= image_tag("ships/#{enemy_vars['image']}") %>
       </div>
-    </div>
+      <div class="col-6 text-left">
+        <div class="mt-5px">
+          <span>HP: <%= enemy_vars['hp'] %></span><br>
+          <span>ARMOR: <%= enemy_vars['armor'] %></span><br>
+          <span>POWER: <%= enemy_vars['power'] %></span>
+        </div>
+      </div>
+    <% else %>
+      <div class="col-6 enemy-space-ship">
+      </div>
+      <div class="col-6 text-left">
+        <div class="mt-5px">
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

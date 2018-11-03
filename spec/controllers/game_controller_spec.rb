@@ -117,5 +117,13 @@ RSpec.describe GameController, type: :controller do
         expect(response).to render_template('game/_players')
       end
     end
+    
+    describe 'GET ship_info' do
+      it 'should render ship info' do
+        get :ship_info
+        expect(response.code).to eq('200')
+        expect(response).to render_template('game/_ship_info')
+      end
+    end
   end
 end
