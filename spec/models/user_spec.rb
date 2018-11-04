@@ -117,6 +117,11 @@ describe User do
         it 'should return true if player in space and not in warp' do
           expect(@user.can_be_attacked).to eq(true)
         end
+        
+        it 'should return false if player in space and not in warp but not online' do
+          @user.update_columns(online: 0)
+          expect(@user.can_be_attacked).to eq(false)
+        end
       end
       
       describe 'target' do
@@ -124,6 +129,13 @@ describe User do
           enemy = FactoryBot.create(:user_with_faction)
           @user.update_columns(target_id: enemy.id)
           expect(@user.reload.target).to eq(enemy)
+        end
+      end
+      
+      describe 'die' do
+        it 'increase job size' do
+          @user.die
+          expect(PlayerDiedWorker.jobs.size).to eq(1)
         end
       end
     end

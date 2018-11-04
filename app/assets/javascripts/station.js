@@ -1,4 +1,5 @@
 $( document ).on('turbolinks:load', function() {
+  // Send dockrequest AJAX
   $('#app-container').on('click', '.station-dock-btn', function(e) {
     e.preventDefault();
     $.post("/stations/dock", function(data) {
@@ -6,6 +7,7 @@ $( document ).on('turbolinks:load', function() {
     });
   });
   
+  // Send undockrequest AJAX
   $('#app-container').on('click', '.station-undock-btn', function(e) {
     e.preventDefault();
     $.post("/stations/undock", function(data) {
@@ -13,6 +15,7 @@ $( document ).on('turbolinks:load', function() {
     });
   });
   
+  // Send buy ship request AJAX
   $('#app-container').on('click', '.buy-ship-btn', function(e) {
     e.preventDefault();
     var name = $(this).data("name");
@@ -23,11 +26,12 @@ $( document ).on('turbolinks:load', function() {
     }
   });
   
+  // Activate other ship AJAX
   $('#app-container').on('click', '.activate-ship-btn', function(e) {
     e.preventDefault();
     var id = $(this).data("id");
     if (id) {
-      $.post("/ships/activate", {id: id}, function(data) {
+      $.post("/ship/activate", {id: id}, function(data) {
         if (data && $('#myships').length) {
           $('#myships').empty().append(data);
         }

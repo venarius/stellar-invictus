@@ -39,8 +39,11 @@ Rails.application.routes.draw do
   
   # Ships
   get '/ship', to: 'ships#index'
-  post '/ships/activate', to: 'ships#activate'
-  post '/ships/target', to: 'ships#target'
+  scope :ship do
+    post 'activate', to: 'ships#activate'
+    post 'target', to: 'ships#target'
+    post 'attack', to: 'ships#attack'
+  end
   
   # ActionCable
   mount ActionCable.server => '/cable'

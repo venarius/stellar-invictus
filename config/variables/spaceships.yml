@@ -2,43 +2,38 @@ Nano:
   image: nano.png
   storage: 10
   hp: 50
-  armor: 10
-  power: 10
-  defense: 10
+  power: 10.0
+  defense: 10.0
   price: 0
   
 Cerux:
   image: cerux.png
   storage: 40
   hp: 250
-  armor: 50
-  power: 50
-  defense: 60
+  power: 50.0
+  defense: 60.0
   price: 12000
 
 Valadria:
   image: valadria.png
   storage: 35
   hp: 200
-  armor: 40
-  power: 60
-  defense: 30
+  power: 60.0
+  defense: 30.0
   price: 10000
   
 Crasher:
   image: crasher.png
   storage: 15
   hp: 100
-  armor: 60
-  power: 60
-  defense: 10
+  power: 60.0
+  defense: 10.0
   price: 8000
   
 Chronos:
   image: chronos.png
   storage: 80
   hp: 75
-  armor: 50
-  power: 10
-  defense: 60
+  power: 10.0
+  defense: 60.0
   price: 5000

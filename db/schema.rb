@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2018_11_03_150419) do
   create_table "spaceships", force: :cascade do |t|
     t.integer "user_id"
     t.string "name"
+    t.integer "hp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_spaceships_on_user_id"
@@ -101,14 +102,14 @@ ActiveRecord::Schema.define(version: 2018_11_03_150419) do
     t.datetime "confirmation_sent_at"
     t.integer "faction_id"
     t.integer "system_id"
-    t.boolean "online"
+    t.integer "online", default: 0
     t.string "avatar"
     t.integer "location_id"
-    t.boolean "in_warp"
+    t.boolean "in_warp", default: false
     t.integer "units", default: 1000
     t.string "full_name"
     t.integer "active_spaceship_id"
-    t.boolean "docked"
+    t.boolean "docked", default: false
     t.integer "target_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

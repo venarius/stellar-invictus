@@ -1,5 +1,9 @@
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  add_filter "/app/workers"
+  add_filter "/config/initializers"
+  add_filter "/app/helpers/devise_helper.rb"
+end
 require 'database_cleaner'
 require 'sidekiq/testing'
 Sidekiq::Testing.fake!

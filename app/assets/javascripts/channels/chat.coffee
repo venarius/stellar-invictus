@@ -1,5 +1,5 @@
 $(document).on "turbolinks:load", ->
-  if (logged_in && App.appearance && !App.chat)
+  if (logged_in && !App['local-chat'])
     App['local-chat'] = App.cable.subscriptions.create({channel: 'ChatChannel', room: 'local_chat'},
       received: (data) ->
         if ($('#local-chat').length > 0)
@@ -10,6 +10,7 @@ $(document).on "turbolinks:load", ->
         @perform 'send_message', message: message
     )
         
+  if (logged_in && !App['global-chat'])
     App['global-chat'] = App.cable.subscriptions.create({channel: 'ChatChannel', room: 'global_chat'},
       received: (data) ->
         if ($('#global-chat').length > 0)
