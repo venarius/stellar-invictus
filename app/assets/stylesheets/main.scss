@@ -46,6 +46,7 @@ html {
 @media (max-width: 767px) {
   .mobile-display-none { display: none; }
   .mobile-mb-10 { margin-bottom: 10px !important; }
+  .mobile-mt-0 { margin-top: 0; }
 }
 
 // ###############
@@ -384,7 +385,7 @@ a {
       padding-right: 0;
     }
     .col-6.player-space-ship, .col-6.enemy-space-ship {
-      height: 70px;
+      height: 90px;
       border: 1px solid grey;
       background: image-url('galaxy-infinity.jpg');
       background-repeat: no-repeat;
@@ -392,8 +393,8 @@ a {
       background-position: center;
       text-align: center;
       img {
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
         height: 50px;
         transform: rotate(90deg);
       }
