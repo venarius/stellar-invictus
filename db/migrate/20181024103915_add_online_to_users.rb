@@ -1,5 +1,5 @@
 class AddOnlineToUsers < ActiveRecord::Migration[5.2]
   def change
-    add_column :users, :online, :boolean
+    add_column :users, :online, :integer, default: 0
   end
 end

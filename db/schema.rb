@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_31_135922) do
+ActiveRecord::Schema.define(version: 2018_11_03_150419) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -74,12 +74,7 @@ ActiveRecord::Schema.define(version: 2018_10_31_135922) do
   create_table "spaceships", force: :cascade do |t|
     t.integer "user_id"
     t.string "name"
-    t.string "image"
     t.integer "hp"
-    t.integer "armor"
-    t.integer "power"
-    t.integer "defense"
-    t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_spaceships_on_user_id"
@@ -107,14 +102,15 @@ ActiveRecord::Schema.define(version: 2018_10_31_135922) do
     t.datetime "confirmation_sent_at"
     t.integer "faction_id"
     t.integer "system_id"
-    t.boolean "online"
+    t.integer "online", default: 0
     t.string "avatar"
     t.integer "location_id"
-    t.boolean "in_warp"
+    t.boolean "in_warp", default: false
     t.integer "units", default: 1000
     t.string "full_name"
     t.integer "active_spaceship_id"
-    t.boolean "docked"
+    t.boolean "docked", default: false
+    t.integer "target_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"

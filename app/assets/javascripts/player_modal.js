@@ -1,4 +1,5 @@
 $( document ).on('turbolinks:load', function() {
+  // Show info on player AJAX
   $('#app-container').on('click', '.player-modal' ,function(e){
     e.preventDefault(); 
     if ($(this).data( "id" )) {
@@ -8,6 +9,8 @@ $( document ).on('turbolinks:load', function() {
       });
     }
   });
+  
+  // Remove modal if close button is clicked
   $('#app-container').on('click', '#player-show-modal-close' ,function(){
     var modal = $(this).closest('.modal')
     modal.modal('hide');

@@ -1,5 +1,5 @@
 $(document).on "turbolinks:load", ->
-  if (logged_in)
+  if (logged_in && !App.player)
     App.player = App.cable.subscriptions.create "PlayerChannel",
       # Called when the subscription is ready for use on the server.
       connected:->
@@ -11,3 +11,11 @@ $(document).on "turbolinks:load", ->
       received: (data)->
         if (data.method == 'received_mail')
           received_mail()
+        else if (data.method == 'refresh_target_info')
+          refresh_target_info()
+        else if (data.method == 'getting_targeted' && data.name)
+          getting_targeted(data.name)
+        else if (data.method == 'getting_attacked' && data.name)
+          getting_attacked(data.name)
+        else if (data.method == 'reload_page')
+          Turbolinks.visit(window.location);

@@ -3,7 +3,7 @@
   <head>
     <title>Stellar Invictus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="turbolinks-cache-control" content="no-preview">
+    <meta name="turbolinks-cache-control" content="no-cache">
     
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -29,7 +29,7 @@
     <%= render 'layouts/footer' %>
     
     <script>
-      var logged_in = <%= !current_user.nil? %>
+      var logged_in = <%= !current_user.nil? and !current_user.faction.nil? %>
     </script>
   </body>
 </html>

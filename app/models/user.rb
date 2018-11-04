@@ -5,8 +5,6 @@ class User < ApplicationRecord
   has_many :chat_messages, dependent: :destroy
   has_many :spaceships, dependent: :destroy
   
-  has_one :active_spaceship, :class_name => 'Spaceship'
-  
   
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
             presence: true
@@ -33,6 +31,23 @@ class User < ApplicationRecord
   end
   
   def disappear
+    self.update_columns(target_id: nil)
     DisappearWorker.perform_async(self.id)
+  end
+  
+  def active_spaceship
+    Spaceship.find(self.active_spaceship_id) rescue nil
+  end
+  
+  def can_be_attacked
+    !docked and !in_warp and online > 0 and active_spaceship.hp > 0
+  end
+  
+  def target
+    User.find(target_id) if target_id
+  end
+  
+  def die
+    PlayerDiedWorker.perform_async(self.id)
   end
 end

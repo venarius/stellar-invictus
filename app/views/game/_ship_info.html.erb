@@ -1,24 +1,43 @@
 <div class="row">
   <div class="col-md-6 row mobile-mb-10">
     <div class="col-6 player-space-ship">
-      <%= image_tag("ships/#{current_user.active_spaceship.image}.png") %>
+      <%= image_tag("ships/#{ship_vars['image']}") %>
     </div>
     <div class="col-6 text-left">
       <div class="mt-5px">
-        <span>HP: <%= current_user.active_spaceship.hp %></span><br>
-        <span>ARMOR: <%= current_user.active_spaceship.armor %></span><br>
-        <span>POWER: <%= current_user.active_spaceship.power %></span>
+        <span><%= I18n.t('ships.hp').upcase %>: <%= current_user.active_spaceship.hp %></span><br>
+        <span><%= I18n.t('ships.defense').upcase %>: <%= ship_vars['defense'] %></span><br>
+        <span><%= I18n.t('ships.power').upcase %>: <%= ship_vars['power'] %></span>
       </div>
+    </div>
+    <div class="col-12 mt-3 pl-0">
+      <%= link_to I18n.t('ships.info'), ship_path, class: 'btn btn-outline-primary' %>
     </div>
   </div>
   <div class="col-md-6 row">
-    <div class="col-6 player-space-ship">
-        
-    </div>
-    <div class="col-6 text-left">
-      <div class="mt-5px">
-        
+    <% if current_user.target_id %>
+      <% enemy_vars = SHIP_VARIABLES[current_user.target.active_spaceship.name] %>
+      <div class="col-6 enemy-space-ship">
+        <%= image_tag("ships/#{enemy_vars['image']}") %>
       </div>
-    </div>
+      <div class="col-6 text-left">
+        <div class="mt-5px">
+          <span><%= I18n.t('ships.hp').upcase %>: <%= current_user.target.active_spaceship.hp %></span><br>
+          <span><%= I18n.t('ships.defense').upcase %>: <%= enemy_vars['defense'] %></span><br>
+          <span><%= I18n.t('ships.power').upcase %>: <%= enemy_vars['power'] %></span>
+        </div>
+      </div>
+      <div class="col-12 mt-3 pl-0">
+        <button class="btn btn-outline-danger attack-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.attack') %></button>
+        <button class="btn btn-outline-warning untarget-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.untarget') %></button>
+      </div>
+    <% else %>
+      <div class="col-6 enemy-space-ship">
+      </div>
+      <div class="col-6 text-left">
+        <div class="mt-5px">
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -37,6 +37,7 @@
           <a class="nav-link active" data-toggle="pill" href="#overview" role="tab"><%= I18n.t('station.overview') %></a>
           <a class="nav-link" data-toggle="pill" href="#ships" role="tab"><%= I18n.t('station.ships') %></a>
           <a class="nav-link" data-toggle="pill" href="#missions" role="tab"><%= I18n.t('station.missions') %></a>
+          <a class="nav-link mt-10" data-toggle="pill" href="#myships" role="tab"><%= I18n.t('station.my_ships') %></a>
         </div>
       </div>
       <div class="col-md-9">
@@ -49,6 +50,9 @@
           </div>
           <div class="tab-pane fade" id="missions" role="tabpanel">
             <%= render 'stations/missions' %>
+          </div>
+          <div class="tab-pane fade" id="myships" role="tabpanel">
+            <%= render 'stations/my_ships' %>
           </div>
         </div>
       </div>

@@ -39,6 +39,7 @@ en:
   errors:
     something_went_wrong: "Something went wrong. Please try again."
     recipient_not_found: "Recipient not found"
+    not_enough_units: "Not enough Units"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -58,8 +59,11 @@ en:
     players: "Players"
     chat: "Chat"
   modal:
-    already_logged_in: "Already logged in"
-    already_logged_in_text: "You are currently connected on another device / browser. Please close your open session first and reconnect."
+    got_disconnected: "Lost connection to server"
+    got_disconnected_text: "It seems you have lost connection to the server. Please refresh the page."
+    close: "Close"
+    sure_buy: "Please confirm this purchase"
+    buy: "Buy"
   chat:
     local: "Local Chat"
     global: "Global Chat"
@@ -92,12 +96,25 @@ en:
     ships: "Spaceships"
     undock: "Undock"
     missions: "Missions"
+    my_ships: "My Ships"
+    purchase_successfull: "Purchase successfull"
   ships:
+    ship: "Ship"
     inventory: "Inventory"
     name: "Name"
-    hp: "Healthpoints"
+    hp: "Hp"
     armor: "Armor"
     price: "Price"
+    storage: "Storage"
+    attack: "Attack"
+    info: "Info"
+    defense: "Defense"
+    power: "Power"
+    untarget: "Untarget"
   items:
     type: "Type"
     name: "Name"
+  tooltips:
+    target: "Target"
+    info: "Info"
+    message: "Message"
