@@ -20,6 +20,7 @@ $( document ).on('turbolinks:load', function() {
     });
 });
 
+// Scroll to bottom of each chat
 function scrollChats() {
   if ($('.chat-card').length) {
     $('.chat-card .tab-content').children('.tab-pane').each(function() {

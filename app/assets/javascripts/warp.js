@@ -1,4 +1,5 @@
 $( document ).on('turbolinks:load', function() {
+  // Go into warp and show warpcard AJAX
   $('#app-container').on('click', '.warp-btn', function(e) {
     e.preventDefault();
     var target = $(this).data("id");
@@ -9,6 +10,7 @@ $( document ).on('turbolinks:load', function() {
     }
   });
   
+  // Go into warp and show warpcard AJAX
   $('#app-container').on('click', '.jumpgate-jump-btn', function(e) {
     e.preventDefault();
     var time = parseInt($(this).data('time'))
@@ -18,8 +20,8 @@ $( document ).on('turbolinks:load', function() {
   });
 });
 
+// Show warpcard
 var jump_interval;
-
 function doWarp(warpTime) {
   if (jump_interval == null || jump_interval == false) {
     $('.enemy-space-ship').empty();
@@ -50,6 +52,7 @@ function doWarp(warpTime) {
   }
 }
 
+// Remove player from list if warped out
 function player_warp_out(name) {
   if ($('.players-card')) {
     $('.players-card-name-td').each(function() {
@@ -64,6 +67,7 @@ function player_warp_out(name) {
   }
 }
 
+// Reload player card AJAX
 function reload_players_card() {
   if ($('#players-card').length) {
     $.get("game/local_players", function(data) {

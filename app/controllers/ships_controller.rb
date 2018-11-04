@@ -20,4 +20,14 @@ class ShipsController < ApplicationController
       render json: {}, status: 400
     end
   end
+  
+  def attack
+    target = User.find(params[:id]) rescue nil if params[:id]
+    if target and target.can_be_attacked and current_user.can_be_attacked and target.location == current_user.location and current_user.target == target
+      AttackWorker.perform_async(current_user.id, target.id)
+      render json: {}, status: 200
+    else
+      render json: {}, status: 400
+    end
+  end
 end

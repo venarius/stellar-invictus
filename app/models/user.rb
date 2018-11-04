@@ -40,10 +40,14 @@ class User < ApplicationRecord
   end
   
   def can_be_attacked
-    !docked and !in_warp
+    !docked and !in_warp and online > 0
   end
   
   def target
     User.find(target_id) if target_id
+  end
+  
+  def die
+    PlayerDiedWorker.perform_async(self.id)
   end
 end

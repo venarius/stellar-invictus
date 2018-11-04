@@ -3,7 +3,7 @@
     <tr>
       <th scope="col"><%= I18n.t('ships.name') %></th>
       <th scope="col"><%= I18n.t('ships.hp') %></th>
-      <th scope="col"><%= I18n.t('ships.armor') %></th>
+      <th scope="col"><%= I18n.t('ships.defense') %></th>
       <th scope="col"><%= I18n.t('ships.storage') %></th>
       <th scope="col" class="btn-th"></th>
     </tr>
@@ -14,7 +14,7 @@
       <tr class="<%= 'table-light' if current_user.active_spaceship == ship %>">
         <td><%= ship.name %></td>
         <td><%= ship_vars['hp'] %></td>
-        <td><%= ship_vars['armor'] %></td>
+        <td><%= ship_vars['defense'] %></td>
         <td><%= ship_vars['storage'] %></td>
         <td>
           <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#my-ship-<%= ship.id %>"><i class="fa fa-eye"></i></a>

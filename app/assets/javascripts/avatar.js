@@ -1,4 +1,5 @@
 $( document ).on('turbolinks:load', function() {
+    // Avatar selector on new registration
     $('.avatar-selector').slick({
       centerMode: true,
       centerPadding: '0px',

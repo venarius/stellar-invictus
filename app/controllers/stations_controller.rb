@@ -31,7 +31,7 @@ class StationsController < ApplicationController
     if params[:type] and params[:type] == 'ship'
       ship_vars = SHIP_VARIABLES[params[:name]]
       if ship_vars and current_user.units >= ship_vars['price']
-        Spaceship.create(user: current_user, name: params[:name])
+        Spaceship.create(user: current_user, name: params[:name], hp: ship_vars['hp'])
         current_user.update_columns(units: current_user.units - ship_vars['price'])
         flash[:notice] = I18n.t('station.purchase_successfull')
       else

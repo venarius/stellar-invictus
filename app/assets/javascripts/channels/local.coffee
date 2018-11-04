@@ -1,5 +1,5 @@
 $(document).on "turbolinks:load", ->
-  if (logged_in)
+  if (logged_in && !App.local)
     App.local = App.cable.subscriptions.create "LocalChannel",
       # Called when the subscription is ready for use on the server.
       connected:->

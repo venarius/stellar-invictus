@@ -5,24 +5,31 @@
     </div>
     <div class="col-6 text-left">
       <div class="mt-5px">
-        <span>HP: <%= ship_vars['hp'] %></span><br>
-        <span>ARMOR: <%= ship_vars['armor'] %></span><br>
-        <span>POWER: <%= ship_vars['power'] %></span>
+        <span><%= I18n.t('ships.hp').upcase %>: <%= current_user.active_spaceship.hp %></span><br>
+        <span><%= I18n.t('ships.defense').upcase %>: <%= ship_vars['defense'] %></span><br>
+        <span><%= I18n.t('ships.power').upcase %>: <%= ship_vars['power'] %></span>
       </div>
+    </div>
+    <div class="col-12 mt-3 pl-0">
+      <%= link_to I18n.t('ships.info'), ship_path, class: 'btn btn-outline-primary' %>
     </div>
   </div>
   <div class="col-md-6 row">
-    <% if current_user.reload.target_id %>
+    <% if current_user.target_id %>
       <% enemy_vars = SHIP_VARIABLES[current_user.target.active_spaceship.name] %>
       <div class="col-6 enemy-space-ship">
         <%= image_tag("ships/#{enemy_vars['image']}") %>
       </div>
       <div class="col-6 text-left">
         <div class="mt-5px">
-          <span>HP: <%= enemy_vars['hp'] %></span><br>
-          <span>ARMOR: <%= enemy_vars['armor'] %></span><br>
-          <span>POWER: <%= enemy_vars['power'] %></span>
+          <span><%= I18n.t('ships.hp').upcase %>: <%= current_user.target.active_spaceship.hp %></span><br>
+          <span><%= I18n.t('ships.defense').upcase %>: <%= enemy_vars['defense'] %></span><br>
+          <span><%= I18n.t('ships.power').upcase %>: <%= enemy_vars['power'] %></span>
         </div>
+      </div>
+      <div class="col-12 mt-3 pl-0">
+        <button class="btn btn-outline-danger attack-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.attack') %></button>
+        <button class="btn btn-outline-warning untarget-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.untarget') %></button>
       </div>
     <% else %>
       <div class="col-6 enemy-space-ship">
