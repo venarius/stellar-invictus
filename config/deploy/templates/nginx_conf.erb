@@ -35,7 +35,7 @@ server {
 <% else -%>
   listen 80;
 <% end -%>
-  server_name localhost stellar-invictus.com main.stellar-invictus.com;
+  server_name localhost www.stellar-invictus.com stellar-invictus.com;
   root <%= current_path %>/public;
   try_files $uri/index.html $uri @puma_<%= fetch(:nginx_config_name) %>;
 
