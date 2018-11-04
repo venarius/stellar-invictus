@@ -5,6 +5,7 @@ class AppearWorker
   def perform(player_id)
     user = User.find(player_id) rescue nil
     if user
+      
       # Add 1 to user online status
       user.update_columns(online: user.online + 1)
       

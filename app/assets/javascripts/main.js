@@ -1,3 +1,7 @@
+document.addEventListener("turbolinks:before-render", function() {
+  Turbolinks.clearCache()
+})
+
 $( document ).on('turbolinks:load', function() {
     // HELPERS
     // Collapsing arrows
