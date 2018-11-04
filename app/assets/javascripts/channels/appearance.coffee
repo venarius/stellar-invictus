@@ -6,4 +6,4 @@ $(document).on "turbolinks:load", ->
      
       # Called when the WebSocket connection is closed.
       disconnected:->
-        $('#already-logged-in-modal').modal('show')
+        $('#got-disconnected-modal').modal('show')

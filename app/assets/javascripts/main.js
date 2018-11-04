@@ -1,3 +1,7 @@
+document.addEventListener("turbolinks:before-render", function() {
+  Turbolinks.clearCache()
+})
+
 $( document ).on('turbolinks:load', function() {
     // HELPERS
     // Collapsing arrows
@@ -71,6 +75,11 @@ $( document ).on('turbolinks:load', function() {
         setServerTime();
       },1000);
     }
+    
+    // Enable tooltips
+    $('body').tooltip({
+      selector: '[data-toggle="tooltip"]'
+    });
 });
 
 // Time Functions

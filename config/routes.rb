@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post '/game/warp', to: 'game#warp'
   post '/game/jump', to: 'game#jump'
   get 'game/local_players', to: 'game#local_players'
+  get 'game/ship_info', to: 'game#ship_info'
   
   # User
   get '/user/info/:id', to: 'users#info'
@@ -25,9 +26,12 @@ Rails.application.routes.draw do
   # Mails
   resources :game_mails, only: [:index, :new, :create, :show], path: 'mails'
   
-  # Locations
-  get '/stations/dock', to: 'stations#dock'
-  get '/stations/undock', to: 'stations#undock'
+  # Station
+  scope :stations do
+    post 'dock', to: 'stations#dock'
+    post 'undock', to: 'stations#undock'
+    post 'buy', to: 'stations#buy'
+  end
   get '/station', to: 'stations#index'
   
   # Map
@@ -35,6 +39,11 @@ Rails.application.routes.draw do
   
   # Ships
   get '/ship', to: 'ships#index'
+  scope :ship do
+    post 'activate', to: 'ships#activate'
+    post 'target', to: 'ships#target'
+    post 'attack', to: 'ships#attack'
+  end
   
   # ActionCable
   mount ActionCable.server => '/cable'

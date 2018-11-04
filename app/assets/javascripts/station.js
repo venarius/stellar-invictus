@@ -1,15 +1,41 @@
 $( document ).on('turbolinks:load', function() {
+  // Send dockrequest AJAX
   $('#app-container').on('click', '.station-dock-btn', function(e) {
     e.preventDefault();
-    $.get("/stations/dock", function(data) {
+    $.post("/stations/dock", function(data) {
       Turbolinks.visit("/station");  
     });
   });
   
+  // Send undockrequest AJAX
   $('#app-container').on('click', '.station-undock-btn', function(e) {
     e.preventDefault();
-    $.get("/stations/undock", function(data) {
+    $.post("/stations/undock", function(data) {
       Turbolinks.visit("/game");  
     });
+  });
+  
+  // Send buy ship request AJAX
+  $('#app-container').on('click', '.buy-ship-btn', function(e) {
+    e.preventDefault();
+    var name = $(this).data("name");
+    if (name && name != "") {
+      $.post("/stations/buy", {type: 'ship', name: name}, function(data) {
+        Turbolinks.visit("/station");  
+      }); 
+    }
+  });
+  
+  // Activate other ship AJAX
+  $('#app-container').on('click', '.activate-ship-btn', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    if (id) {
+      $.post("/ship/activate", {id: id}, function(data) {
+        if (data && $('#myships').length) {
+          $('#myships').empty().append(data);
+        }
+      }); 
+    }
   });
 });

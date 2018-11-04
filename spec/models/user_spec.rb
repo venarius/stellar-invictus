@@ -28,7 +28,6 @@ describe User do
       it { should belong_to :location }
       it { should have_many :chat_messages }
       it { should have_many :spaceships }
-      it { should have_one :active_spaceship }
     end
     
     describe 'Validations' do
@@ -89,6 +88,54 @@ describe User do
         it 'should set online to false' do
           @user.disappear
           expect(DisappearWorker.jobs.size).to eq(1)
+        end
+      end
+      
+      describe 'active_spaceship' do
+        it 'should return current active spaceship' do
+          ship = FactoryBot.create(:spaceship)
+          @user.update_columns(active_spaceship_id: ship.id)
+          expect(@user.reload.active_spaceship).to eq(ship)
+        end
+        
+        it 'should return nil if no active spaceship' do
+          expect(@user.reload.active_spaceship).to eq(nil)
+        end
+      end
+      
+      describe 'can be attacked' do
+        it 'should return false if player in warp' do
+          @user.in_warp = true
+          expect(@user.can_be_attacked).to eq(false)
+        end
+        
+        it 'should return false if player docked' do
+          @user.docked = true
+          expect(@user.can_be_attacked).to eq(false)
+        end
+        
+        it 'should return true if player in space and not in warp' do
+          expect(@user.can_be_attacked).to eq(true)
+        end
+        
+        it 'should return false if player in space and not in warp but not online' do
+          @user.update_columns(online: 0)
+          expect(@user.can_be_attacked).to eq(false)
+        end
+      end
+      
+      describe 'target' do
+        it 'should return current target of user' do
+          enemy = FactoryBot.create(:user_with_faction)
+          @user.update_columns(target_id: enemy.id)
+          expect(@user.reload.target).to eq(enemy)
+        end
+      end
+      
+      describe 'die' do
+        it 'increase job size' do
+          @user.die
+          expect(PlayerDiedWorker.jobs.size).to eq(1)
         end
       end
     end

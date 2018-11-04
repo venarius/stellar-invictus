@@ -11,11 +11,13 @@ FactoryBot.define do
         family_name { Faker::Name.first_name }
         confirmed_at { Date.today }
         docked { false }
+        online { 1 }
         
         factory :user_with_faction do
           faction { Faction.first } 
           system { System.first }
           location { Location.first }
+          active_spaceship_id { FactoryBot.create(:spaceship).id }
         end
     end
     

@@ -1,0 +1,74 @@
+// Target
+
+.target-flash {
+  -moz-animation: target-flash 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+
+  -webkit-animation: target-flash 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -ms-animation: target-flash 1s ease-out;
+  -ms-animation-iteration-count: infinite;
+}
+
+@keyframes target-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(255,136,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-webkit-keyframes target-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(255,136,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-moz-keyframes target-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(255,136,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-ms-keyframes target-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(255,136,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+
+// ATTACK
+
+.attack-flash {
+  -moz-animation: attack-flash 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+
+  -webkit-animation: attack-flash 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -ms-animation: attack-flash 1s ease-out;
+  -ms-animation-iteration-count: infinite;
+}
+
+@keyframes attack-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(255,0,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-webkit-keyframes attack-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(255,0,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-moz-keyframes attack-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(255,0,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-ms-keyframes attack-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(255,0,0,0.5); }
+    100% { background-color: transparent; }
+}
