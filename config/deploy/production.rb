@@ -72,4 +72,5 @@ set :pg_pool, '100'
 
 # Nginx
 set :nginx_use_ssl, true
-set :nginx_ssl_certificate, '/home/tla/app/stellar/shared/certificates/stellar-invictus_com.ca-bundle'
+set :nginx_ssl_certificate, '/home/tla/app/stellar/shared/certificates/stellar-invictus_com.crt'
+set :nginx_ssl_certificate_key, '/home/tla/app/stellar/shared/certificates/stellar-invictus_com.key'
