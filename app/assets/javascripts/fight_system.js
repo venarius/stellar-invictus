@@ -1,8 +1,16 @@
-var target_interval
+// Remove target if cached
+$( document ).ready(function() {
+  if ($('.enemy-space-ship').length) {
+    $('.enemy-space-ship').next().empty();
+    $('.enemy-space-ship').next().next().empty();
+    $('.enemy-space-ship').empty();
+  }
+});
 
+var target_interval;
 $( document ).on('turbolinks:load', function() {
   // Target player if clicked AJAX
-  $('.players-card').on('click', '.target-player-btn', function(e) {
+  $('#players-card').on('click', '.target-player-btn', function(e) {
     e.preventDefault();
     id = $(this).data("id");
     if (target_interval == null || target_interval == false)
@@ -41,7 +49,7 @@ $( document ).on('turbolinks:load', function() {
     e.preventDefault();
     id = $(this).data("id");
     $.post( "ship/attack", {id: id}, function() {
-    })
+    });
   });
 });
 
