@@ -35,7 +35,8 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -> GitHub
 After that:
 1. Copy master.key from rails project to deployment_machine:/home/app/stellar/shared/config/master.key
 2. Change IP of Server in Deploy Config to deployment_machine
-3. Run cap production setup
-4. Run cap production puma:nginx_config
-5. Run cap production deploy
+3. Copy certificates to /home/app/stellar/shared/certificates
+4. Run cap production setup
+5. Run cap production puma:nginx_config
+6. Run cap production deploy
 . 
