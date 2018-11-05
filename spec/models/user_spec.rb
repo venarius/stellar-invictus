@@ -68,7 +68,7 @@ describe User do
     
     describe 'Functions' do
       before(:each) do
-        @user = FactoryBot.create(:user)
+        @user = FactoryBot.create(:user_with_faction)
       end
       
       describe 'full_name' do
@@ -93,12 +93,11 @@ describe User do
       
       describe 'active_spaceship' do
         it 'should return current active spaceship' do
-          ship = FactoryBot.create(:spaceship)
-          @user.update_columns(active_spaceship_id: ship.id)
-          expect(@user.reload.active_spaceship).to eq(ship)
+          expect(@user.reload.active_spaceship).to eq(Spaceship.find(@user.active_spaceship_id))
         end
         
         it 'should return nil if no active spaceship' do
+          @user.update_columns(active_spaceship_id: nil)
           expect(@user.reload.active_spaceship).to eq(nil)
         end
       end
