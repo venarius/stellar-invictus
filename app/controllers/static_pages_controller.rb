@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  skip_before_action :authenticate_user!, except: [:map]
+  skip_before_action :authenticate_user!, only: [:about, :home, :credits, :nojs]
   
   def about
   end
