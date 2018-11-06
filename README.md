@@ -39,4 +39,3 @@ After that:
 4. Run cap production setup
 5. Run cap production puma:nginx_config
 6. Run cap production deploy
-. 
