@@ -43,6 +43,6 @@ class GameController < ApplicationController
   private
   
   def get_local_users
-    @local_users = User.where(location: current_user.location, in_warp: false, docked: false).where("online > 0")
+    @local_users = User.includes(:faction).where(location: current_user.location, in_warp: false, docked: false).where("online > 0")
   end
 end

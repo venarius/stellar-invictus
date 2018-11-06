@@ -10,7 +10,7 @@ $( document ).ready(function() {
 var target_interval;
 $( document ).on('turbolinks:load', function() {
   // Target player if clicked AJAX
-  $('#players-card').on('click', '.target-player-btn', function(e) {
+  $('#app-container').on('click', '.target-player-btn', function(e) {
     e.preventDefault();
     id = $(this).data("id");
     if (target_interval == null || target_interval == false)
@@ -18,11 +18,11 @@ $( document ).on('turbolinks:load', function() {
       if ($('.enemy-space-ship').length) {
         $('.enemy-space-ship').next().empty();
         $('.enemy-space-ship').next().next().empty();
-        $('.enemy-space-ship').empty().append("<div class='text-center counter'><h5 style='margin-top:10px'>5</h5></div>");
+        $('.enemy-space-ship').empty().append("<div class='text-center counter'><h5 style='margin-top:25px'>5</h5></div>");
         var time = 5
         target_interval = setInterval(function() {
           time = time-1;
-          $('.enemy-space-ship .counter').empty().append("<h5 style='margin-top:10px'>"+time+"</h5>"); 
+          $('.enemy-space-ship .counter').empty().append("<h5 style='margin-top:25px'>"+time+"</h5>"); 
           if (time <= 0) {
             $('.enemy-space-ship .counter').remove();
             clearInterval(target_interval);
@@ -49,6 +49,7 @@ $( document ).on('turbolinks:load', function() {
     e.preventDefault();
     id = $(this).data("id");
     $.post( "ship/attack", {id: id}, function() {
+      $('.enemy-space-ship').css("border", "1px solid red");
     });
   });
 });
@@ -89,5 +90,19 @@ function getting_attacked(name) {
         $(this).parent().removeClass('target-flash').addClass('attack-flash');
       }
     });
+  }
+}
+
+// Update own health
+function update_health(hp) {
+  if ($('#own-ship-health').length) {
+    $('#own-ship-health').empty().append("HP: " + hp);
+  }
+}
+
+// Update target health
+function update_target_health(hp) {
+  if ($('#target-ship-health').length) {
+    $('#target-ship-health').empty().append("HP: " + hp);
   }
 }

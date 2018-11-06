@@ -26,9 +26,9 @@ class AttackWorker
         target.die and return
       end
       
-      # Tell both parties to update their target info
-      ActionCable.server.broadcast("player_#{target.id}", method: 'refresh_target_info')
-      ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_target_info')
+      # Tell both parties to update their hp
+      ActionCable.server.broadcast("player_#{target.id}", method: 'update_health', hp: target_ship.hp)
+      ActionCable.server.broadcast("player_#{player.id}", method: 'update_target_health', hp: target_ship.hp)
       
       # Global Cooldown
       sleep(2)

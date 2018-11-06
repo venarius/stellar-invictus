@@ -1,5 +1,5 @@
 <div class="card card-body system-card mb-3">
-  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_location') %> <%= @current_user.system.name.upcase %> - <%= @current_user.location.name %></span></h4>
+  <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_system') %> <%= @current_user.system.name.upcase %></span></h4>
   <h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_sec_level') %> <span class="color-sec-<%= @current_user.system.security_status %>"><%= @current_user.system.security_status.upcase %></span></span></h4>
 </div>
 
@@ -33,11 +33,8 @@
   <div class="col-lg-4 mb-3">
     <%= render 'game/locations' %>
   </div>
-  <div class="col-lg-4 mb-3">
+  <div class="col-lg-8 mb-3">
     <%= render partial: 'game/players', locals: {local_users: @local_users} %>
-  </div>
-  <div class="col-lg-4 mb-3">
-    <%= render 'game/location_info' %>
   </div>
 </div>
 
