@@ -45,6 +45,11 @@ Rails.application.routes.draw do
     post 'attack', to: 'ships#attack'
   end
   
+  # Asteroids
+  scope :asteroid do
+    post 'mine', to: 'asteroids#mine'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

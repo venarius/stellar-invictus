@@ -19,6 +19,9 @@ class DisappearWorker
           ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
         end
       end
+      
+      # Remove user target and mining target if logging off
+      user.update_columns(target_id: nil, mining_target_id: nil) if user.online == 0
     end
   end
 end

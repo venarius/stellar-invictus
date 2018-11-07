@@ -1,0 +1,9 @@
+asteroid_copper:
+    display: "Copper Ore"
+    weight: 1
+asteroid_bronze:
+    display: "Bronze Ore"
+    weight: 1
+asteroid_gold:
+    display: "Gold Ore"
+    weight: 1
