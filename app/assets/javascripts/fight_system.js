@@ -1,10 +1,6 @@
 // Remove target if cached
 $( document ).ready(function() {
-  if ($('.enemy-space-ship').length) {
-    $('.enemy-space-ship').next().empty();
-    $('.enemy-space-ship').next().next().empty();
-    $('.enemy-space-ship').empty();
-  }
+  remove_target();
 });
 
 var target_interval;
@@ -37,10 +33,7 @@ $( document ).on('turbolinks:load', function() {
   $('.ship-card').on('click', '.untarget-player-btn', function(e) {
     id = $(this).data("id");
     $.post( "ship/target", {id: id}, function() {
-      if ($('.enemy-space-ship').length) {
-        $('.enemy-space-ship').next().empty();
-        $('.enemy-space-ship').next().next().empty();
-      }
+      remove_target();
     });
   });
   
@@ -104,5 +97,14 @@ function update_health(hp) {
 function update_target_health(hp) {
   if ($('#target-ship-health').length) {
     $('#target-ship-health').empty().append("HP: " + hp);
+  }
+}
+
+// Remove target
+function remove_target() {
+  if ($('.enemy-space-ship').length) {
+    $('.enemy-space-ship').empty();
+    $('.enemy-space-ship').next().empty();
+    $('.enemy-space-ship').next().next().empty();
   }
 }
