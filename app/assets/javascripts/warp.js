@@ -44,7 +44,6 @@ function doWarp(warpTime) {
       }
       if (warpTime <= 0) {
         App.local.reload();
-        Turbolinks.visit(window.location);
         clearInterval(jump_interval);
         jump_interval = false
       }

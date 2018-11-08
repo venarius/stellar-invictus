@@ -18,12 +18,15 @@ class WarpWorker
     end
     
     # Sleep for global warp time, which is 10-1
-    sleep(9)
+    sleep(10)
     
     # Set users location to new location
     user.update_columns(location_id: location_id, in_warp: false)
     
     # Tell everyone in new system that player has appeared
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
+    
+    # Tell user to reload page
+    ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
   end
 end

@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   # Asteroids
   scope :asteroid do
     post 'mine', to: 'asteroids#mine'
+    post 'stop_mine', to: 'asteroids#stop_mine'
   end
   
   # ActionCable
