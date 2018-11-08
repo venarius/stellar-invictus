@@ -44,7 +44,11 @@ class User < ApplicationRecord
   end
   
   def target
-    User.find(target_id) if target_id
+    User.find(target_id) unless target_id.nil?
+  end
+  
+  def mining_target
+    Asteroid.find(mining_target_id) unless mining_target_id.nil?
   end
   
   def die

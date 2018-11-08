@@ -5,7 +5,7 @@ describe Asteroid do
     describe 'attributes' do
       it { should respond_to :location }
       it { should respond_to :asteroid_type }
-      it { should respond_to :ressources }
+      it { should respond_to :resources }
     end
     
     describe 'Relations' do

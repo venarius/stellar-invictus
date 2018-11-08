@@ -137,6 +137,17 @@ describe User do
           expect(PlayerDiedWorker.jobs.size).to eq(1)
         end
       end
+      
+      describe 'mining_target' do
+        it 'should return asteroid if mining_target_id' do
+          @user.update_columns(mining_target_id: Asteroid.first.id)
+          expect(@user.mining_target).to eq(Asteroid.first)
+        end
+        
+        it 'should return nothing if mining_target_id not set' do
+          expect(@user.mining_target).to eq(nil)
+        end
+      end
     end
   end
 end

@@ -23,3 +23,8 @@ $(document).on "turbolinks:load", ->
           update_health(data.hp)
         else if (data.method == 'update_target_health' && data.hp)
           update_target_health(data.hp)
+        else if (data.method == 'update_asteroid_resources' && data.resources)
+          update_asteroid_resources(data.resources)
+        else if (data.method == 'asteroid_depleted')
+          remove_target()
+          reload_players_card()
