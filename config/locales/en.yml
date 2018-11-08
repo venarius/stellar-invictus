@@ -64,6 +64,7 @@ en:
     close: "Close"
     sure_buy: "Please confirm this purchase"
     buy: "Buy"
+    how_much_store: "How much should be stored?"
   chat:
     local: "Local Chat"
     global: "Global Chat"
@@ -99,6 +100,8 @@ en:
     missions: "Missions"
     my_ships: "My Ships"
     purchase_successfull: "Purchase successfull"
+    active_ship: "Current Ship"
+    storage: "Storage"
   ships:
     ship: "Ship"
     inventory: "Inventory"
@@ -119,6 +122,9 @@ en:
     target: "Target"
     info: "Info"
     message: "Message"
+    store: "Store"
+    sell: "Sell"
+    load: "Load"
   overview:
     name: "Name"
     type: "Type"

@@ -4,6 +4,7 @@ class User < ApplicationRecord
   belongs_to :location, optional: true
   has_many :chat_messages, dependent: :destroy
   has_many :spaceships, dependent: :destroy
+  has_many :items, dependent: :destroy
   
   
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,

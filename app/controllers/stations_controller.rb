@@ -39,4 +39,18 @@ class StationsController < ApplicationController
       end
     end
   end
+  
+  def store
+    if params[:loader] and params[:amount]
+      amount = params[:amount].to_i
+      items = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader])
+      if items and amount <= items.count and amount > 0
+        items.first(amount).each do |item|
+          item.update_columns(spaceship_id: nil, location_id: current_user.location.id, user_id: current_user.id)
+        end
+        render json: {}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
 end

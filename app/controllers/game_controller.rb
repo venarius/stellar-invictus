@@ -40,6 +40,10 @@ class GameController < ApplicationController
     render partial: 'ship_info', locals: {ship_vars: SHIP_VARIABLES[current_user.active_spaceship.name]}
   end
   
+  def player_info
+    render partial: 'player_info'
+  end
+  
   private
   
   def get_local_users

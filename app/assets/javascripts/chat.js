@@ -18,6 +18,15 @@ $( document ).on('turbolinks:load', function() {
         $('#chat_send').click();
       }
     });
+    
+     // Cookie getter
+    if ($('#collapse-chat').length) {
+      var type = Cookies.get('collapse-chat');
+      if (type == 'hidden') {
+        $('#collapse-chat').removeClass('show');
+        $('#collapse-chat').prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
+      }
+    }
 });
 
 // Scroll to bottom of each chat
