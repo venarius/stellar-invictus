@@ -4,7 +4,7 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data('id');
     $.post("/asteroid/mine", {id: id}, function(data) {
       remove_target();
-      $('.enemy-space-ship').empty().append("<img src='/assets/objects/asteroid.png'></img>");
+      $('.enemy-space-ship').empty().append("<img src='https://static.stellar-invictus.com/assets/objects/asteroid.png'></img>");
       $('.enemy-space-ship').next().first().append("<span>NAME: "+data.name+"</span><br><span class='asteroid-resources'>AMOUNT: "+data.resources+"</span>");
       $('.enemy-space-ship').next().next().append("<button class='btn btn-outline-primary stop-mining-btn'>Stop</button>")
     });
@@ -21,5 +21,10 @@ $( document ).on('turbolinks:load', function() {
 function update_asteroid_resources(resources) {
   if ($('.asteroid-resources').length) {
     $('.asteroid-resources').empty().append("AMOUNT: " + resources);
+  } else if ($('.enemy-space-ship').length) {
+    remove_target();
+    $('.enemy-space-ship').empty().append("<img src='https://static.stellar-invictus.com/assets/objects/asteroid.png'></img>");
+    $('.enemy-space-ship').next().first().append("<span>NAME: "+data.name+"</span><br><span class='asteroid-resources'>AMOUNT: "+data.resources+"</span>");
+    $('.enemy-space-ship').next().next().append("<button class='btn btn-outline-primary stop-mining-btn'>Stop</button>")
   }
 }
