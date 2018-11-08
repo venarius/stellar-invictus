@@ -11,4 +11,12 @@ class AsteroidsController < ApplicationController
     render json: {}, status: 400
   end
   
+  def stop_mine
+    unless current_user.mining_target_id.nil?
+      current_user.update_columns(mining_target_id: nil)
+      render json: {}, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
+  
 end

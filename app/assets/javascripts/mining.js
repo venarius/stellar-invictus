@@ -6,6 +6,14 @@ $( document ).on('turbolinks:load', function() {
       remove_target();
       $('.enemy-space-ship').empty().append("<img src='/assets/objects/asteroid.png'></img>");
       $('.enemy-space-ship').next().first().append("<span>NAME: "+data.name+"</span><br><span class='asteroid-resources'>AMOUNT: "+data.resources+"</span>");
+      $('.enemy-space-ship').next().next().append("<button class='btn btn-outline-primary stop-mining-btn'>Stop</button>")
+    });
+  });
+  
+  $('#app-container').on('click', '.stop-mining-btn', function(e) {
+    e.preventDefault();
+    $.post("/asteroid/stop_mine", function(data) {
+      remove_target();
     });
   });
 });

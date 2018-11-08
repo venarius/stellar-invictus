@@ -6,6 +6,9 @@ class MiningWorker
     player = User.find(player_id)
     asteroid = Asteroid.find(asteroid_id)
     
+    # Cancel if Player already mining this
+    return if player.mining_target_id == asteroid.id
+    
     # Untarget combat target if player is targeting mining target
     unless player.target_id == nil
       ActionCable.server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)
@@ -14,10 +17,13 @@ class MiningWorker
     
     # Mine every 30 seconds
     player.update_columns(mining_target_id: asteroid.id)
-    while can_mine(player, asteroid) do
+    while true do
+      10.times do
+        return unless can_mine(player, asteroid)
+        sleep(1)
+      end
       asteroid.update_columns(resources: asteroid.resources - 100)
       ActionCable.server.broadcast("player_#{player.id}", method: 'update_asteroid_resources', resources: asteroid.resources)
-      sleep(5)
     end
     
   end
@@ -34,7 +40,7 @@ class MiningWorker
     end
     
     # Stop mining if user has other or no mining target
-    unless player.mining_target_id == asteroid.id
+    if player.mining_target_id != asteroid.id || player.target_id != nil
       return false
     end
     
