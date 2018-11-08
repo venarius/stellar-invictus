@@ -21,8 +21,8 @@ class JumpWorker
     sleep(user.location.jumpgate.traveltime)
     
     # Set user system to new system
-    to_system = System.where(name: user.location.name).first
-    user.update_columns(system_id: to_system.id, location_id: Location.where(location_type: 'jumpgate', name: user.system.name, system: to_system.id).first.id, in_warp: false)
+    to_system = System.find_by(name: user.location.name)
+    user.update_columns(system_id: to_system.id, location_id: Location.find_by(location_type: 'jumpgate', name: user.system.name, system: to_system.id).id, in_warp: false)
     
     # Tell everyone in new location that user has appeared
     ActionCable.server.broadcast("location_#{user.reload.location_id}", method: 'player_appeared')
