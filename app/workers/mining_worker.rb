@@ -24,6 +24,8 @@ class MiningWorker
       end
       asteroid.update_columns(resources: asteroid.resources - 100)
       ActionCable.server.broadcast("player_#{player.id}", method: 'update_asteroid_resources', resources: asteroid.resources)
+      Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+      ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
     end
     
   end
@@ -41,6 +43,13 @@ class MiningWorker
     
     # Stop mining if user has other or no mining target
     if player.mining_target_id != asteroid.id || player.target_id != nil
+      return false
+    end
+    
+    # Stop mining if player's ship is full
+    if player.active_spaceship.get_weight >= player.active_spaceship.get_attribute('storage')
+      ActionCable.server.broadcast("player_#{player.id}", method: 'asteroid_depleted')
+      player.update_columns(mining_target_id: nil)
       return false
     end
     

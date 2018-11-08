@@ -13,15 +13,6 @@ $( document ).on('turbolinks:load', function() {
         $(event.target).prev('.card-header').find('.fa-arrow-right').removeClass('fa-arrow-right').addClass('fa-arrow-down');
         Cookies.set($(event.target).attr('id'), 'shown');
     });
-    
-    // Cookie getter
-    if ($('#collapse-chat').length) {
-      var type = Cookies.get('collapse-chat');
-      if (type == 'hidden') {
-        $('#collapse-chat').removeClass('show');
-        $('#collapse-chat').prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
-      }
-    }
 
     // Loading Button
     $('.btn-load').on('click', function() {
@@ -97,4 +88,13 @@ function setServerTime() {
   var dt = calcTime('0');
   var time = addZero(dt.getHours()) + ":" + addZero(dt.getMinutes()) + ":" + addZero(dt.getSeconds());
   $('#server_time').html("Server Time: " + time);
+}
+
+// Refresh player info
+function refresh_player_info() {
+  if ($('.player-info-card').length) {
+    $.get("/game/player_info", function(data) {
+      $('.player-info-card').empty().append(data);
+    })
+  }
 }
