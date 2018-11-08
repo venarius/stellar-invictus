@@ -18,7 +18,7 @@ class JumpWorker
     end
     
     # Sleep for the given traveltime by the jumpgate
-    sleep(user.location.jumpgate.traveltime-1)
+    sleep(user.location.jumpgate.traveltime)
     
     # Set user system to new system
     to_system = System.where(name: user.location.name).first
@@ -26,5 +26,8 @@ class JumpWorker
     
     # Tell everyone in new location that user has appeared
     ActionCable.server.broadcast("location_#{user.reload.location_id}", method: 'player_appeared')
+    
+    # Tell user to reload page
+    ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
   end
 end

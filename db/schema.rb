@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_03_150419) do
+ActiveRecord::Schema.define(version: 2018_11_07_201650) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
     t.integer "asteroid_type"
-    t.integer "ressources"
+    t.integer "resources"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_asteroids_on_location_id"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 2018_11_03_150419) do
     t.integer "active_spaceship_id"
     t.boolean "docked", default: false
     t.integer "target_id"
+    t.integer "mining_target_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"

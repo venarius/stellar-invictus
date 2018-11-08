@@ -12,13 +12,14 @@
   </tr>
 <% elsif current_user.location.location_type == 'asteroid_field' %>
   <% current_user.location.asteroids.each do |asteroid| %>
+    <% next if asteroid.resources <= 0 %>
     <tr>
       <td><%= image_tag('icons/asteroid.png') %></td>
       <td><%= I18n.t('overview.asteroid') %> (<%= asteroid.asteroid_type.capitalize %>)</td>
       <td><%= asteroid.asteroid_type.capitalize %></td>
       <td></td>
       <td>
-        <button class="btn btn-outline-primary btn-xs w-100">
+        <button class="btn btn-outline-primary btn-xs w-100 mine-asteroid-btn" data-id="<%= asteroid.id %>">
           <%= I18n.t('actions.mine') %>
         </button>
       </td>

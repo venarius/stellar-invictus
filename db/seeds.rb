@@ -43,7 +43,8 @@ Location.find_or_create_by(name: 'Tech Plant II', system: urus, location_type: 0
 ast1 = Location.find_or_create_by(name: 'Asteroid Belt I', system: jita, location_type: 1)
 
 # Asteroid Belts - Asteroids
-Asteroid.find_or_create_by(location: ast1, asteroid_type: 2, ressources: 1000)
+Asteroid.find_or_create_by(location: ast1, asteroid_type: 2, resources: 35000)
+Asteroid.find_or_create_by(location: ast1, asteroid_type: 1, resources: 35000)
 
 # Locations - Jumpgates
 jita_jumpgate_talos = Location.find_or_create_by(name: talos.name, system: jita, location_type: 2)
