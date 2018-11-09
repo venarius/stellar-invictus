@@ -33,6 +33,22 @@ RSpec.describe StationsController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'POST store' do
+      it 'should redirect when user is not logged in' do
+        post :store
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    
+    describe 'POST load' do
+      it 'should redirect when user is not logged in' do
+        post :load
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do
@@ -121,6 +137,84 @@ RSpec.describe StationsController, type: :controller do
         expect(flash[:notice]).to be_present
         expect(@user.reload.units).to eq(45000)
         expect(Spaceship.count).to eq(2)
+        expect(Spaceship.last.get_attribute('storage')).to eq(80)
+      end
+    end
+    
+    describe 'POST store' do
+      before(:each) do
+        @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
+        3.times do
+          Item.create(loader: 'test', spaceship: @user.active_spaceship)
+        end
+      end
+      
+      it 'should store items in station' do
+        expect(@user.active_spaceship.get_weight).to eq(3)
+        post :store, params: {loader: 'test', amount: 3}
+        expect(response.code).to eq('200')
+        expect(@user.active_spaceship.get_weight).to eq(0)
+        expect(@user.location.items.count).to eq(3)
+      end
+      
+      it 'should not store more items in station than player has' do
+        expect(@user.active_spaceship.get_weight).to eq(3)
+        post :store, params: {loader: 'test', amount: 4}
+        expect(response.code).to eq('400')
+        expect(@user.active_spaceship.get_weight).to eq(3)
+        expect(@user.location.items.count).to eq(0)
+      end
+      
+      it 'should not store less items in station than 0' do
+        expect(@user.active_spaceship.get_weight).to eq(3)
+        post :store, params: {loader: 'test', amount: -1}
+        expect(response.code).to eq('400')
+        expect(@user.active_spaceship.get_weight).to eq(3)
+        expect(@user.location.items.count).to eq(0)
+      end
+    end
+    
+    describe 'POST load' do
+      before(:each) do
+        @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
+        3.times do
+          Item.create(loader: 'test', user: @user, location: @user.location)
+        end
+      end
+      
+      it 'should store items in ship' do
+        expect(@user.location.items.count).to eq(3)
+        post :load, params: {loader: 'test', amount: 3}
+        expect(response.code).to eq('200')
+        expect(@user.active_spaceship.get_weight).to eq(3)
+        expect(@user.location.items.count).to eq(0)
+      end
+      
+      it 'should not store more items in ship than player has' do
+        expect(@user.location.items.count).to eq(3)
+        post :load, params: {loader: 'test', amount: 4}
+        expect(response.code).to eq('400')
+        expect(@user.active_spaceship.get_weight).to eq(0)
+        expect(@user.location.items.count).to eq(3)
+      end
+      
+      it 'should not store less items in ship than 0' do
+        expect(@user.location.items.count).to eq(3)
+        post :load, params: {loader: 'test', amount: -1}
+        expect(response.code).to eq('400')
+        expect(@user.active_spaceship.get_weight).to eq(0)
+        expect(@user.location.items.count).to eq(3)
+      end
+      
+      it 'should not store more items in ship than ship can carry' do
+        10.times do
+          Item.create(loader: 'test', user: @user, location: @user.location)
+        end
+        expect(@user.location.items.count).to eq(13)
+        post :load, params: {loader: 'test', amount: 13}
+        expect(response.code).to eq('400')
+        expect(@user.active_spaceship.get_weight).to eq(0)
+        expect(@user.location.items.count).to eq(13)
       end
     end
   end

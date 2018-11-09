@@ -58,6 +58,7 @@ en:
     type: "Type"
     players: "Players"
     chat: "Chat"
+    stop: "Stop"
   modal:
     got_disconnected: "Lost connection to server"
     got_disconnected_text: "It seems you have lost connection to the server. Please refresh the page."
@@ -65,6 +66,7 @@ en:
     sure_buy: "Please confirm this purchase"
     buy: "Buy"
     how_much_store: "How much should be stored?"
+    how_much_load: "How much should be loaded?"
   chat:
     local: "Local Chat"
     global: "Global Chat"
@@ -132,3 +134,6 @@ en:
     station: "Station"
     asteroid: "Asteroid"
     jumpgate: "Jumpgate"
+  asteroids:
+    name: "Name"
+    resources: "Amount"

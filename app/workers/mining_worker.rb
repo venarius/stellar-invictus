@@ -18,7 +18,7 @@ class MiningWorker
     # Mine every 30 seconds
     player.update_columns(mining_target_id: asteroid.id)
     while true do
-      10.times do
+      30.times do
         return unless can_mine(player, asteroid)
         sleep(1)
       end

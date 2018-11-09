@@ -10,6 +10,10 @@ class Spaceship < ApplicationRecord
     weight
   end
   
+  def get_free_weight
+    self.get_attribute('storage') - self.get_weight
+  end
+  
   def get_attribute(attribute)
     SHIP_VARIABLES[self.name][attribute] rescue nil
   end

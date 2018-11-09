@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     post 'undock', to: 'stations#undock'
     post 'buy', to: 'stations#buy'
     post 'store', to: 'stations#store'
+    post 'load', to: 'stations#load'
   end
   get '/station', to: 'stations#index'
   
