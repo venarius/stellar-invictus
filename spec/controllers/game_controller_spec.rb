@@ -33,6 +33,14 @@ RSpec.describe GameController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'GET player_info' do
+      it 'should redirect_to login' do
+        get :player_info
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do 
@@ -123,6 +131,14 @@ RSpec.describe GameController, type: :controller do
         get :ship_info
         expect(response.code).to eq('200')
         expect(response).to render_template('game/_ship_info')
+      end
+    end
+    
+    describe 'GET player_info' do
+      it 'should render ship info' do
+        get :player_info
+        expect(response.code).to eq('200')
+        expect(response).to render_template('game/_player_info')
       end
     end
   end

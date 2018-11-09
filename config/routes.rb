@@ -15,10 +15,13 @@ Rails.application.routes.draw do
   
   # Game
   get '/game', to: 'game#index'
-  post '/game/warp', to: 'game#warp'
-  post '/game/jump', to: 'game#jump'
-  get 'game/local_players', to: 'game#local_players'
-  get 'game/ship_info', to: 'game#ship_info'
+  scope :game do
+    post 'warp', to: 'game#warp'
+    post 'jump', to: 'game#jump'
+    get 'local_players', to: 'game#local_players'
+    get 'ship_info', to: 'game#ship_info'
+    get 'player_info', to: 'game#player_info'
+  end
   
   # User
   get '/user/info/:id', to: 'users#info'
@@ -31,6 +34,8 @@ Rails.application.routes.draw do
     post 'dock', to: 'stations#dock'
     post 'undock', to: 'stations#undock'
     post 'buy', to: 'stations#buy'
+    post 'store', to: 'stations#store'
+    post 'load', to: 'stations#load'
   end
   get '/station', to: 'stations#index'
   

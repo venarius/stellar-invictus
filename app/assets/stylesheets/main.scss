@@ -15,24 +15,26 @@ html {
 .color-sec-low { color: red; }
 .width-max { width: 100%; }
 .mt-5px { margin-top: 5px; }
+.mt-10px { margin-top: 10px; }
 .mb-10px { margin-bottom: 10px; }
 .mt-10 { margin-top: 10rem; }
 .p-0-5 { padding: 0px 5px; }
 .bg-grey { background-color: grey; }
 .w-20px { width: 20px; }
 .outline-primary { border: 1px solid #2A9FD6; }
+.outline-danger { border: 1px solid #CC0000 !important; }
 .flexbox-vert-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .form-control, .edge-autoSuggestFieldFilled {
-  color: white !important;
-  background-color: black !important;
-  border: 1px solid #282828 !important;
+  color: white;
+  background-color: black;
+  border: 1px solid #282828;
   &:focus {
     color: white !important;
-    background-color: black !important;
+    background-color: black;
   }
 }
 .pagination {
@@ -473,6 +475,18 @@ a {
         padding: 5px 10px 5px 5px;
         border-right: 1px solid grey;
       }
+    }
+  }
+}
+
+.station-ship-inventory-table, .station-storage-table {
+  margin-bottom: 0;
+  thead {
+    .btn-th { width: 68px !important; }
+  }
+  tbody {
+    td .btn {
+      padding: 0rem 0.5rem;
     }
   }
 }

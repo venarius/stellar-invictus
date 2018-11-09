@@ -3,10 +3,20 @@ class Location < ApplicationRecord
   has_many :users
   belongs_to :faction, optional: true
   has_many :asteroids
+  has_many :items
   
   enum location_type: [:station, :asteroid_field, :jumpgate]
   
   def jumpgate
     Jumpgate.where("origin_id = ? OR destination_id = ?", self.id, self.id).first
+  end
+  
+  def get_items(id)
+    items = Item.where(user: User.find(id), location: self)
+    storage = Hash.new(0)
+    items.each do |value|
+      storage[value.loader] += 1
+    end
+    storage
   end
 end

@@ -107,4 +107,11 @@ function remove_target() {
     $('.enemy-space-ship').next().empty();
     $('.enemy-space-ship').next().next().empty();
   }
+  // Remove mining interval
+  clearInterval(mining_interval);
+  mining_progress = 0;
+  mining_interval = false;
+  // Remove target interval
+  clearInterval(target_interval);
+  target_interval = false
 }

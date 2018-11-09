@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_07_201650) do
+ActiveRecord::Schema.define(version: 2018_11_08_140215) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -50,6 +50,18 @@ ActiveRecord::Schema.define(version: 2018_11_07_201650) do
     t.integer "units"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "location_id"
+    t.integer "spaceship_id"
+    t.string "loader"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_items_on_location_id"
+    t.index ["spaceship_id"], name: "index_items_on_spaceship_id"
+    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
   create_table "jumpgates", force: :cascade do |t|

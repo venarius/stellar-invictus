@@ -13,6 +13,8 @@ $(document).on "turbolinks:load", ->
           received_mail()
         else if (data.method == 'refresh_target_info')
           refresh_target_info()
+        else if (data.method == 'refresh_player_info')
+          refresh_player_info()
         else if (data.method == 'getting_targeted' && data.name)
           getting_targeted(data.name)
         else if (data.method == 'getting_attacked' && data.name)
