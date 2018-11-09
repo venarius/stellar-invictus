@@ -45,7 +45,7 @@ class User < ApplicationRecord
   end
   
   def target
-    User.find(target_id) unless target_id.nil?
+    User.find(target_id) rescue nil unless target_id.nil?
   end
   
   def mining_target

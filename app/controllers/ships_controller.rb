@@ -5,11 +5,11 @@ class ShipsController < ApplicationController
   
   def activate
     spaceship = Spaceship.find(params[:id]) rescue nil
-    if spaceship and spaceship.user == current_user
-      current_user.active_spaceship_id = spaceship.id
-      current_user.save(validate: false)
-      render partial: '/stations/my_ships'
+    if spaceship and spaceship.user == current_user and current_user.docked
+      current_user.update_columns(active_spaceship_id: spaceship.id)
+      render json: {}, status: 200 and return
     end
+    render json: {}, status: 400
   end
   
   def target

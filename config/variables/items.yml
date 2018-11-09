@@ -1,3 +1,5 @@
+test:
+  weight: 1
 asteroid:
   copper:
     name: "Copper Ore"
