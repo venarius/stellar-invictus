@@ -7,7 +7,7 @@ class StationsController < ApplicationController
         u.update_columns(target_id: nil)
         ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
       end
-   end
+    end
   end
   
   def undock
@@ -38,5 +38,33 @@ class StationsController < ApplicationController
         flash[:alert] = I18n.t('errors.not_enough_units')
       end
     end
+  end
+  
+  def store
+    if params[:loader] and params[:amount] and current_user.docked
+      amount = params[:amount].to_i
+      items = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader])
+      if items and amount <= items.count and amount > 0
+        items.first(amount).each do |item|
+          item.update_columns(spaceship_id: nil, location_id: current_user.location.id, user_id: current_user.id)
+        end
+        render json: {}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
+  def load
+    if params[:loader] and params[:amount] and current_user.docked
+      amount = params[:amount].to_i
+      items = Item.where(user: current_user, location: current_user.location, loader: params[:loader])
+      if items and amount <= current_user.active_spaceship.get_free_weight and amount <= items.count and amount > 0
+        items.first(amount).each do |item|
+          item.update_columns(spaceship_id: current_user.active_spaceship.id, location_id: nil, user_id: nil)
+        end
+        render json: {}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
   end
 end

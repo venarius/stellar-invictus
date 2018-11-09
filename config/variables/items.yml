@@ -1,9 +1,15 @@
-asteroid_copper:
-    display: "Copper Ore"
+test:
+  weight: 1
+asteroid:
+  copper:
+    name: "Copper Ore"
+    type: "Ore"
     weight: 1
-asteroid_bronze:
-    display: "Bronze Ore"
+  bronze:
+    name: "Bronze Ore"
+    type: "Ore"
     weight: 1
-asteroid_gold:
-    display: "Gold Ore"
+  gold:
+    name: "Gold Ore"
+    type: "Ore"
     weight: 1

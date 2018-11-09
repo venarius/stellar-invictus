@@ -4,6 +4,7 @@ class User < ApplicationRecord
   belongs_to :location, optional: true
   has_many :chat_messages, dependent: :destroy
   has_many :spaceships, dependent: :destroy
+  has_many :items, dependent: :destroy
   
   
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
@@ -44,7 +45,7 @@ class User < ApplicationRecord
   end
   
   def target
-    User.find(target_id) unless target_id.nil?
+    User.find(target_id) rescue nil unless target_id.nil?
   end
   
   def mining_target

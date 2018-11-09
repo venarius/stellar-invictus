@@ -33,6 +33,22 @@
         <button class="btn btn-outline-danger attack-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.attack') %></button>
         <button class="btn btn-outline-warning untarget-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.untarget') %></button>
       </div>
+    <% elsif current_user.mining_target_id %>
+      <div class="col-6 enemy-space-ship">
+        <%= image_tag("objects/asteroid.png") %>
+      </div>
+      <div class="col-6 text-left">
+        <div class="mt-5px">
+          <span><%= I18n.t('asteroids.name').upcase %>: <%= "#{I18n.t('overview.asteroid')} #{current_user.mining_target.asteroid_type.capitalize}" %></span><br>
+          <span><%= I18n.t('asteroids.resources').upcase %>: <span class='asteroid-resources'><%= current_user.mining_target.resources %></span></span>
+          <div class="progress mt-10px">
+            <div class="progress-bar mining-progress" role="progressbar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-3 pl-0">
+        <button class='btn btn-outline-primary stop-mining-btn'><%= I18n.t('game.stop') %></button>
+      </div>
     <% else %>
       <div class="col-6 enemy-space-ship">
       </div>

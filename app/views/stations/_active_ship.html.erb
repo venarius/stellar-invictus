@@ -1,0 +1,44 @@
+<table class="table table-bordered table-hover table-sm station-ship-inventory-table">
+  <thead>
+    <tr>
+      <th scope="col">Qty.</th>
+      <th scope="col"><%= I18n.t('items.name') %></th>
+      <th scope="col"><%= I18n.t('items.type') %></th>
+      <th class="btn-th"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% current_user.active_spaceship.get_items.each do |loader, times| %>
+      <tr>
+        <td><%= times %>x</td>
+        <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
+        <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
+        <td>
+          <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= loader %>"><i class="fa fa-arrow-up"></i></a>
+          <a class="btn btn-outline-success btn-sm" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.sell') %>"><i class="fa fa-dollar-sign"></i></a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="modal fade" id="store-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('tooltips.store') %> <span class="item-name"></span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%= I18n.t('modal.how_much_store') %></p>
+        <input type="number" class="form-control" value="1">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary store-confirm-btn"><%= I18n.t('tooltips.store') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

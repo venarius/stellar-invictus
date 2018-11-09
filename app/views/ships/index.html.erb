@@ -9,6 +9,15 @@
           <th scope="col"><%= I18n.t('items.type') %></th>
         </tr>
       </thead>
+      <tbody>
+        <% @items.each do |loader, times| %>
+          <tr>
+            <td><%= times %>x</td>
+            <td><%= Item.find_by(loader: loader).get_attribute('name') %></td>
+            <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
+          </tr>
+        <% end %>
+      </tbody>
     </table>
   </div>
 </div>
