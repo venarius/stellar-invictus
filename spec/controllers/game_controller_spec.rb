@@ -88,6 +88,14 @@ RSpec.describe GameController, type: :controller do
         expect(response.code).to eq('400')
       end
       
+      it 'should do nothing when police is engaged' do
+        @user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
+        FactoryBot.create(:npc_police, target: @user.id)
+        post :warp, params: {id: System.first.locations.second.id}
+        expect(WarpWorker.jobs.size).to eq(0)
+        expect(response.code).to eq('400')
+      end
+      
       it 'should start job with valid id given' do
         @user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
         post :warp, params: {id: System.first.locations.second.id}
@@ -115,6 +123,14 @@ RSpec.describe GameController, type: :controller do
         post :jump
         expect(JumpWorker.jobs.size).to eq(0)
         expect(response.code).to eq('400')
+      end
+      
+      it 'should not jump when user at jumpgate but police is engaged' do
+        @user.update_columns(location_id: Location.where(system_id: @user.system.id, location_type: 'jumpgate').first.id)
+        FactoryBot.create(:npc_police, target: @user.id)
+        post :jump
+        expect(response.code).to eq('400')
+        expect(JumpWorker.jobs.size).to eq(0)
       end
     end
     

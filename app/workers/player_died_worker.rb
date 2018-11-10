@@ -15,13 +15,13 @@ class PlayerDiedWorker
     # Make User docked at his factions station
     user.update_columns(docked: true, location_id: user.faction.location.id, system_id: user.faction.location.system.id, active_spaceship_id: ship.id, target_id: nil)
     
-    # Remove user from being targeted by others
-    User.where(target_id: user.id).each do |user|
-      user.update_columns(target_id: nil)
-      ActionCable.server.broadcast("player_#{user.id}", method: 'refresh_target_info')
-    end
-    
     # Tell user to reload page
     ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
+    
+    # Remove user from being targeted by others
+    User.where(target_id: user.id).each do |u|
+      u.update_columns(target_id: nil)
+      ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
+    end
   end
 end
