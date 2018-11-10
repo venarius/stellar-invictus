@@ -14,7 +14,7 @@
         <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
         <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
         <td>
-          <a class="btn btn-outline-primary btn-sm load-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load') %>" data-loader="<%= loader %>"><i class="fa fa-arrow-down"></i></a>
+          <a class="btn btn-outline-primary btn-sm load-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-down"></i></a>
           <a class="btn btn-outline-success btn-sm" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.sell') %>"><i class="fa fa-dollar-sign"></i></a>
         </td>
       </tr>
@@ -33,7 +33,12 @@
       </div>
       <div class="modal-body">
         <p><%= I18n.t('modal.how_much_load') %></p>
-        <input type="number" class="form-control" value="1">
+        <div class="input-group">
+          <input type="number" class="form-control" value="1">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary max-btn"><%= I18n.t('modal.max') %></button>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary load-confirm-btn"><%= I18n.t('tooltips.load') %></button>

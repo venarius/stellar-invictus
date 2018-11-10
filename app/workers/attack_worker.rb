@@ -13,6 +13,9 @@ class AttackWorker
     # Tell target its getting attacked by player
     ActionCable.server.broadcast("player_#{target.id}", method: 'getting_attacked', name: player.full_name)
     
+    # Call Police on systems with sec higher than low
+    call_police(player)
+    
     # While player and target can attack
     while can_attack(player, target) do
       
@@ -41,5 +44,15 @@ class AttackWorker
     
     # Return true if both can be attacked, are in the same location and player has target locked on
     target.can_be_attacked and player.can_be_attacked and target.location == player.location and player.target == target 
+  end
+  
+  def call_police(player)
+    if player.system.security_status != 'low'
+      if player.system.security_status == 'high'
+        PoliceWorker.perform_async(player.id, 2)
+      else
+        PoliceWorker.perform_async(player.id, 10)
+      end
+    end
   end
 end
