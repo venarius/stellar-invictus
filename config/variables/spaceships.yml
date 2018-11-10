@@ -2,7 +2,7 @@ Nano:
   image: nano.png
   storage: 10
   hp: 50
-  power: 10
+  power: 5
   defense: 10
   price: 0
   
@@ -10,7 +10,7 @@ Cerux:
   image: cerux.png
   storage: 40
   hp: 250
-  power: 50
+  power: 25
   defense: 60
   price: 12000
 
@@ -18,7 +18,7 @@ Valadria:
   image: valadria.png
   storage: 35
   hp: 200
-  power: 60
+  power: 30
   defense: 30
   price: 10000
   
@@ -26,7 +26,7 @@ Crasher:
   image: crasher.png
   storage: 15
   hp: 100
-  power: 60
+  power: 30
   defense: 10
   price: 8000
   
@@ -34,6 +34,6 @@ Chronos:
   image: chronos.png
   storage: 80
   hp: 75
-  power: 10
+  power: 5
   defense: 60
   price: 5000

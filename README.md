@@ -11,6 +11,7 @@ sudo apt install postgresql postgresql-contrib
 
 sudo su
 vi /etc/postgresql/10/main/pg_hba.conf -> local all all trust
+vi /etc/postgresql/10/main/postgresql.conf -> max_connection = 1000, shared_buffers = 400mb
 service postgresql restart
 systemctl enable postgresql
 exit

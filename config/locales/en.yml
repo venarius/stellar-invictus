@@ -40,6 +40,8 @@ en:
     something_went_wrong: "Something went wrong. Please try again."
     recipient_not_found: "Recipient not found"
     not_enough_units: "Not enough Units"
+    police_inbound: "You can't do that while police is inbound."
+    your_ship_cant_carry_that_much: "Your ship can't carry that much."
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -61,12 +63,13 @@ en:
     stop: "Stop"
   modal:
     got_disconnected: "Lost connection to server"
-    got_disconnected_text: "It seems you have lost connection to the server. Please refresh the page."
+    got_disconnected_text: "It seems you have lost connection to the server. Reconnecting..."
     close: "Close"
     sure_buy: "Please confirm this purchase"
     buy: "Buy"
     how_much_store: "How much should be stored?"
     how_much_load: "How much should be loaded?"
+    max: "Max"
   chat:
     local: "Local Chat"
     global: "Global Chat"

@@ -4,9 +4,9 @@ $( document ).on('turbolinks:load', function() {
     e.preventDefault();
     var target = $(this).data("id");
     if (target) {
-      $.post( "game/warp", { id: target }, function( data ) {
+      var xhr = $.post( "game/warp", { id: target }, function( data ) {
         doWarp(10);
-      });
+      }).error(function(data) { show_error(data.responseJSON.error_message); });
     }
   });
   
@@ -14,9 +14,9 @@ $( document ).on('turbolinks:load', function() {
   $('#app-container').on('click', '.jumpgate-jump-btn', function(e) {
     e.preventDefault();
     var time = parseInt($(this).data('time'))
-    $.post( "game/jump", function() {
+    var xhr = $.post("game/jump", function() {
       doWarp(time);
-    })
+    }).error(function(data) { show_error(data.responseJSON.error_message); });
   });
 });
 

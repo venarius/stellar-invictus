@@ -1,0 +1,12 @@
+<% current_user.location.npcs.each do |npc| %>
+  <% if npc.npc_type == 'police' %>
+    <tr>
+      <td><%= image_tag('icons/helmet.png') %></td>
+      <td class="players-card-name-td">Police</td>
+      <td>NPC</td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+  <% end %>
+<% end %>

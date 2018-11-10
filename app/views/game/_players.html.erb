@@ -13,6 +13,7 @@
       </thead>
       <tbody>
         <%= render 'game/location_info' %>
+        <%= render 'game/npc_info' %>
         <% local_users.each do |user| %>
           <% next if user.id == @current_user.id %>
           <tr>
