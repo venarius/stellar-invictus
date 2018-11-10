@@ -85,6 +85,14 @@ RSpec.describe StationsController, type: :controller do
         expect(@user.docked).to be_falsey
       end
       
+      it 'should do nothing when police is engaged' do
+        @user.update_columns(location_id: Location.where(location_type: 'station').first.id)
+        FactoryBot.create(:npc_police, target: @user.id)
+        post :dock
+        expect(response.code).to eq('400')
+        expect(@user.docked).to be_falsey
+      end
+      
       it 'should remove user as target of other users' do
         user2 = FactoryBot.create(:user_with_faction)
         user2.update_columns(target_id: @user.id)

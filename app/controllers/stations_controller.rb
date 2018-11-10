@@ -1,4 +1,6 @@
 class StationsController < ApplicationController
+  before_action :check_police, only: [:dock]
+  
   def dock
     if current_user.location.location_type == 'station' and !current_user.docked
       current_user.update_columns(docked: true, target_id: nil)
@@ -58,7 +60,10 @@ class StationsController < ApplicationController
     if params[:loader] and params[:amount] and current_user.docked
       amount = params[:amount].to_i
       items = Item.where(user: current_user, location: current_user.location, loader: params[:loader])
-      if items and amount <= current_user.active_spaceship.get_free_weight and amount <= items.count and amount > 0
+      if amount > current_user.active_spaceship.get_free_weight
+        render json: {'error_message': I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
+      end
+      if items and amount <= items.count and amount > 0
         items.first(amount).each do |item|
           item.update_columns(spaceship_id: current_user.active_spaceship.id, location_id: nil, user_id: nil)
         end
@@ -66,5 +71,14 @@ class StationsController < ApplicationController
       end
     end
     render json: {}, status: 400
+  end
+  
+  private
+  
+  def check_police
+    police = Npc.where(target: current_user.id, npc_type: 'police') rescue nil
+    if police.count > 0
+      render json: {'error_message' => I18n.t('errors.police_inbound')}, status: 400 and return
+    end
   end
 end

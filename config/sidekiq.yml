@@ -1,4 +1,4 @@
-:concurrency: 50
+:concurrency: 1000
 staging:
   :concurrency: 100
 production:

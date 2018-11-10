@@ -1,5 +1,6 @@
 class GameController < ApplicationController
   before_action :get_local_users, only: [:index, :local_players]
+  before_action :check_police, only: [:warp, :jump]
   
   def index
     if current_user.docked 
@@ -48,5 +49,12 @@ class GameController < ApplicationController
   
   def get_local_users
     @local_users = User.includes(:faction).where(location: current_user.location, in_warp: false, docked: false).where("online > 0")
+  end
+  
+  def check_police
+    police = Npc.where(target: current_user.id, npc_type: 'police') rescue nil
+    if police and police.count > 0
+      render json: {'error_message' => I18n.t('errors.police_inbound')}, status: 400 and return
+    end
   end
 end

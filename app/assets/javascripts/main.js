@@ -98,3 +98,11 @@ function refresh_player_info() {
     })
   }
 }
+
+// Show custom error
+function show_error(error_message) {
+  $('#app-container').prepend("<p class='alert alert-warning'>"+error_message+"</p>");
+  setTimeout(function() {
+    $('.alert').fadeOut();
+  }, 3000)
+}

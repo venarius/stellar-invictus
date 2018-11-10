@@ -11,6 +11,8 @@ begin
        asteroid.update_columns(resources: 35000)
     end
   end
+  
+  Npc.destroy_all
 rescue StandardError
   true
 end

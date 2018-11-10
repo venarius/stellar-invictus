@@ -68,7 +68,7 @@ set :pg_username, 'stellar'
 set :pg_generate_random_password, true
 set :pg_extensions, ['citext','hstore']
 set :pg_encoding, 'UTF-8'
-set :pg_pool, '100'
+set :pg_pool, '1000'
 
 # Nginx
 set :nginx_use_ssl, true

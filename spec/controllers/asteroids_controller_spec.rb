@@ -51,12 +51,6 @@ RSpec.describe AsteroidsController, type: :controller do
         expect(response.code).to eq('200')
         expect(@user.reload.mining_target).to eq(nil)
       end
-      
-      it 'should do nothing if has no mining target' do
-        post :stop_mine
-        expect(response.code).to eq('400')
-        expect(@user.reload.mining_target).to eq(nil)
-      end
     end
   end
 end
