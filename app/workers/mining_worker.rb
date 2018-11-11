@@ -26,6 +26,7 @@ class MiningWorker
       ActionCable.server.broadcast("player_#{player.id}", method: 'update_asteroid_resources', resources: asteroid.resources)
       Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
       ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
+      EnemyWorker.perform_async(player.location.id)
     end
     
   end
