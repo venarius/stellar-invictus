@@ -140,3 +140,6 @@ en:
   asteroids:
     name: "Name"
     resources: "Amount"
+  npcs:
+    name: "Name"
+    hp: "HP"

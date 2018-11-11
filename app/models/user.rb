@@ -52,6 +52,10 @@ class User < ApplicationRecord
     Asteroid.find(mining_target_id) unless mining_target_id.nil?
   end
   
+  def npc_target
+    Npc.find(npc_target_id) unless npc_target_id.nil?
+  end
+  
   def die
     PlayerDiedWorker.perform_async(self.id)
   end

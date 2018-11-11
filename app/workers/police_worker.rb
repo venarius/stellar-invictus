@@ -6,7 +6,7 @@ class PoliceWorker
     player = User.find(player_id)
     location = player.location
     
-    police = Npc.create(npc_type: 'police', target: player.id)
+    police = Npc.create(npc_type: 'police', target: player.id, name: generate_name)
     
     sleep(seconds)
     
@@ -18,12 +18,12 @@ class PoliceWorker
     sleep(2)
     
     # Tell user he is getting targeted by police
-    ActionCable.server.broadcast("player_#{player.id}", method: 'getting_targeted', name: 'Police')
+    ActionCable.server.broadcast("player_#{player.id}", method: 'getting_targeted', name: police.name)
     
     sleep(3)
     
     # Tell user he is getting attacked by police
-    ActionCable.server.broadcast("player_#{player.id}", method: 'getting_attacked', name: 'Police')
+    ActionCable.server.broadcast("player_#{player.id}", method: 'getting_attacked', name: police.name)
     
     sleep(1)
     
@@ -34,12 +34,17 @@ class PoliceWorker
     
     # Let police warp out
     police.update_columns(location_id: nil)
-    ActionCable.server.broadcast("location_#{location.id}", method: 'player_warp_out', name: 'Police')
+    ActionCable.server.broadcast("location_#{location.id}", method: 'player_warp_out', name: police.name)
     
     sleep(1)
     
     # Destroy police
     police.destroy
+  end
+  
+  def generate_name
+    title = ["Sergeant", "Marshall", "Officer"].sample
+    "#{title} #{Faker::Name.last_name}"
   end
   
 end

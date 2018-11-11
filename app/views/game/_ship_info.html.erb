@@ -17,38 +17,11 @@
   </div>
   <div class="col-md-6 row">
     <% if current_user.target_id %>
-      <% enemy_vars = SHIP_VARIABLES[current_user.target.active_spaceship.name] %>
-      <div class="col-6 enemy-space-ship">
-        <%= image_tag("ships/#{enemy_vars['image']}") %>
-      </div>
-      <div class="col-6 text-left">
-        <div class="mt-5px">
-          <span><%= I18n.t('ships.name').upcase %>: <%= current_user.target.full_name %></span><br>
-          <span id="target-ship-health"><%= I18n.t('ships.hp').upcase %>: <%= current_user.target.active_spaceship.hp %></span><br>
-          <span><%= I18n.t('ships.defense').upcase %>: <%= enemy_vars['defense'] %></span><br>
-          <span><%= I18n.t('ships.power').upcase %>: <%= enemy_vars['power'] %></span>
-        </div>
-      </div>
-      <div class="col-12 mt-3 pl-0">
-        <button class="btn btn-outline-danger attack-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.attack') %></button>
-        <button class="btn btn-outline-warning untarget-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.untarget') %></button>
-      </div>
+      <%= render 'game/targets/player' %>
     <% elsif current_user.mining_target_id %>
-      <div class="col-6 enemy-space-ship">
-        <%= image_tag("objects/asteroid.png") %>
-      </div>
-      <div class="col-6 text-left">
-        <div class="mt-5px">
-          <span><%= I18n.t('asteroids.name').upcase %>: <%= "#{I18n.t('overview.asteroid')} #{current_user.mining_target.asteroid_type.capitalize}" %></span><br>
-          <span><%= I18n.t('asteroids.resources').upcase %>: <span class='asteroid-resources'><%= current_user.mining_target.resources %></span></span>
-          <div class="progress mt-10px">
-            <div class="progress-bar mining-progress" role="progressbar"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 mt-3 pl-0">
-        <button class='btn btn-outline-primary stop-mining-btn'><%= I18n.t('game.stop') %></button>
-      </div>
+      <%= render 'game/targets/mining' %>
+    <% elsif current_user.npc_target_id %>
+      <%= render 'game/targets/npc' %>
     <% else %>
       <div class="col-6 enemy-space-ship">
       </div>

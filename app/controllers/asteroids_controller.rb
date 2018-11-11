@@ -13,7 +13,7 @@ class AsteroidsController < ApplicationController
   
   def stop_mine
     current_user.update_columns(mining_target_id: nil)
-    render json: {}, status: 200 and return
+    render json: {}, status: 200
   end
   
 end

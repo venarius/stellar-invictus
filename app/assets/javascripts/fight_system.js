@@ -3,26 +3,23 @@ $( document ).ready(function() {
   remove_target();
 });
 
-var target_interval;
 $( document ).on('turbolinks:load', function() {
   // Target player if clicked AJAX
   $('#app-container').on('click', '.target-player-btn', function(e) {
     e.preventDefault();
     id = $(this).data("id");
-    if (target_interval == null || target_interval == false)
     $.post( "ship/target", {id: id}, function() {
       if ($('.enemy-space-ship').length) {
         $('.enemy-space-ship').next().empty();
         $('.enemy-space-ship').next().next().empty();
         $('.enemy-space-ship').empty().append("<div class='text-center counter'><h5 style='margin-top:25px'>5</h5></div>");
         var time = 5
-        target_interval = setInterval(function() {
+        var target_interval = setInterval(function() {
           time = time-1;
           $('.enemy-space-ship .counter').empty().append("<h5 style='margin-top:25px'>"+time+"</h5>"); 
           if (time <= 0) {
             $('.enemy-space-ship .counter').remove();
             clearInterval(target_interval);
-            target_interval = false
           }
         }, 1000);
       }
@@ -108,10 +105,18 @@ function remove_target() {
     $('.enemy-space-ship').next().next().empty();
   }
   // Remove mining interval
-  clearInterval(mining_interval);
+  if (typeof mining_interval !== 'undefined') {
+    clearInterval(mining_interval);
+    mining_interval = false; 
+  }
   mining_progress = 0;
-  mining_interval = false;
   // Remove target interval
-  clearInterval(target_interval);
-  target_interval = false
+  if (typeof target_interval !== 'undefined') {
+    clearInterval(target_interval);
+    target_interval = false 
+  }
+  // Remove npc target interval
+  if (typeof npc_target_interval !== 'undefined') {
+    clearInterval(npc_target_interval);
+  }
 }
