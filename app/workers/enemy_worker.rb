@@ -36,7 +36,7 @@ class EnemyWorker
     if enemy and target
       target.can_be_attacked and target.location == enemy.location
     else
-      return false
+      false
     end
   end
   
@@ -47,7 +47,7 @@ class EnemyWorker
     sleep(10)
     
     # Find first User in system and target
-    target = User.where(location: location, docked: false).where('online > 0').sample rescue nil
+    target = User.where(location: enemy.location, docked: false).where('online > 0').sample rescue nil
     
     if target
       attack(enemy, target)
@@ -67,7 +67,7 @@ class EnemyWorker
     
     sleep(3)
     
-    # Tell user he is getting attacked by police
+    # Tell user he is getting attacked by outlaw
     ActionCable.server.broadcast("player_#{target.id}", method: 'getting_attacked', name: enemy.name)
     
     # While npc can attack player
