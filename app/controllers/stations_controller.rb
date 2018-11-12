@@ -9,6 +9,9 @@ class StationsController < ApplicationController
         u.update_columns(target_id: nil)
         ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
       end
+      
+      # Repair ship
+      current_user.active_spaceship.update_columns(hp: current_user.active_spaceship.get_attribute('hp'))
     end
   end
   
