@@ -26,10 +26,8 @@ $( document ).on('turbolinks:load', function() {
 var jump_interval;
 function doWarp(warpTime) {
   if (jump_interval == null || jump_interval == false) {
-    $('.enemy-space-ship').empty();
-    $('.enemy-space-ship').next().empty();
-    $('.game-card-row').empty();
-    $('.game-card-row').append(
+    remove_target();
+    $('.game-card-row').empty().append(
       "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
     );
     jump_interval = setInterval(function() {
@@ -39,8 +37,7 @@ function doWarp(warpTime) {
           Math.round(warpTime)
         ); 
       } else {
-        $('.game-card-row').empty();
-        $('.game-card-row').append(
+        $('.game-card-row').empty().append(
           "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+Math.round(warpTime)+"</h4></div></div>"
         );
       }
