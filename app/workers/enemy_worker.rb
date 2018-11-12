@@ -2,7 +2,10 @@ class EnemyWorker
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
-  def perform(location_id)
+  def perform(location_id, sleep_duration)
+    
+    sleep(sleep_duration)
+    
     location = Location.find(location_id)
     
     enemy = Npc.create(npc_type: 'enemy', location: location, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}", hp: 30)
@@ -71,7 +74,7 @@ class EnemyWorker
     while can_attack(enemy, target) do
       
       # The attack
-      attack = 0
+      attack = 2
       target.active_spaceship.update_columns(hp: target.active_spaceship.hp - attack.round)
       
       # If target hp is below 0 -> die
