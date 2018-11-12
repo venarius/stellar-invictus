@@ -1,0 +1,16 @@
+<% enemy_vars = SHIP_VARIABLES[current_user.target.active_spaceship.name] %>
+<div class="col-6 enemy-space-ship">
+  <%= image_tag("ships/#{enemy_vars['image']}") %>
+</div>
+<div class="col-6 text-left">
+  <div class="mt-5px">
+    <span><%= I18n.t('ships.name').upcase %>: <%= current_user.target.full_name %></span><br>
+    <span id="target-ship-health"><%= I18n.t('ships.hp').upcase %>: <%= current_user.target.active_spaceship.hp %></span><br>
+    <span><%= I18n.t('ships.defense').upcase %>: <%= enemy_vars['defense'] %></span><br>
+    <span><%= I18n.t('ships.power').upcase %>: <%= enemy_vars['power'] %></span>
+  </div>
+</div>
+<div class="col-12 mt-3 pl-0">
+  <button class="btn btn-outline-danger attack-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.attack') %></button>
+  <button class="btn btn-outline-warning untarget-player-btn" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.untarget') %></button>
+</div>

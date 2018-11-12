@@ -6,8 +6,8 @@ class TargetingWorker
     player = User.find(player_id)
     target = User.find(target_id)
     
-    # Remove mining target
-    player.update_columns(mining_target_id: nil)
+    # Remove mining and npc target
+    player.update_columns(mining_target_id: nil, npc_target_id: nil)
     
     # If target is already target -> untarget
     if player.target_id == target.id 
@@ -38,9 +38,7 @@ class TargetingWorker
     end
     
     # Target player
-    if target.reload.can_be_attacked and target.location == player.location and player.reload.can_be_attacked and player.mining_target_id == nil
-        player.update_columns(target_id: target.id)
-        ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_target_info')
-    end
+    player.update_columns(target_id: target.id)
+    ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_target_info')
   end
 end

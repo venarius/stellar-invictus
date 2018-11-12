@@ -15,6 +15,9 @@ class MiningWorker
       player.update_columns(target_id: nil)
     end
     
+    # Untarget npc target
+    player.update_columns(npc_target_id: nil)
+    
     # Mine every 30 seconds
     player.update_columns(mining_target_id: asteroid.id)
     while true do
@@ -26,6 +29,9 @@ class MiningWorker
       ActionCable.server.broadcast("player_#{player.id}", method: 'update_asteroid_resources', resources: asteroid.resources)
       Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
       ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
+      
+      # Get enemy
+      EnemyWorker.perform_async(player.location.id, 5) if 1 + rand(10) == 10
     end
     
   end
