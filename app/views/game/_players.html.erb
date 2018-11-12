@@ -16,7 +16,7 @@
         <%= render 'game/npc_info' %>
         <% local_users.each do |user| %>
           <% next if user.id == @current_user.id %>
-          <tr>
+          <tr class="<%= '.target-flash' if user.target == current_user %>">
             <td><%= image_tag('icons/helmet.png') %></td>
             <td class="players-card-name-td"><%= user.full_name %></td>
             <td><%= user.active_spaceship.name %></td>

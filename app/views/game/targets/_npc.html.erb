@@ -1,0 +1,13 @@
+<div class="col-6 enemy-space-ship">
+  <%= image_tag("ships/enemy.png") %>
+</div>
+<div class="col-6 text-left">
+  <div class="mt-5px">
+    <span><%= I18n.t('npcs.name').upcase %>: <%= current_user.npc_target.name %></span><br>
+    <span id="target-ship-health"><%= I18n.t('npcs.hp') %>: <%= current_user.npc_target.hp %></span></span>
+  </div>
+</div>
+<div class="col-12 mt-3 pl-0">
+  <button class="btn btn-outline-danger attack-npc-btn" data-id="<%= current_user.npc_target.id %>"><%= I18n.t('ships.attack') %></button>
+  <button class="btn btn-outline-warning untarget-npc-btn" data-id="<%= current_user.npc_target.id %>"><%= I18n.t('ships.untarget') %></button>
+</div>

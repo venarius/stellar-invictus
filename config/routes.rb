@@ -56,6 +56,12 @@ Rails.application.routes.draw do
     post 'stop_mine', to: 'asteroids#stop_mine'
   end
   
+  # NPCs
+  scope :npc do
+    post 'target', to: 'npcs#target'
+    post 'attack', to: 'npcs#attack'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

@@ -2,10 +2,23 @@
   <% if npc.npc_type == 'police' %>
     <tr>
       <td><%= image_tag('icons/helmet.png') %></td>
-      <td class="players-card-name-td">Police</td>
-      <td>NPC</td>
+      <td class="players-card-name-td"><%= npc.name %></td>
+      <td>NPC / Police</td>
       <td></td>
       <td>
+      </td>
+    </tr>
+  <% end %>
+  <% if npc.npc_type == 'enemy' %>
+    <tr class="<%= 'attack-flash' if npc.target == current_user.id %>">
+      <td><%= image_tag('icons/helmet.png') %></td>
+      <td class="players-card-name-td"><%= npc.name %></td>
+      <td>NPC / Outlaw</td>
+      <td></td>
+      <td>
+        <button class="btn btn-outline-warning w-100 target-npc-btn" data-id="<%= npc.id %>">
+          <i class="fa fa-crosshairs"></i>
+        </button>
       </td>
     </tr>
   <% end %>
