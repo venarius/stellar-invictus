@@ -36,9 +36,11 @@ $( document ).on('turbolinks:load', function() {
   // Attack Player AJAX
   $('.ship-card').on('click', '.attack-player-btn', function(e) {
     e.preventDefault();
+    var button = $(this)
     id = $(this).data("id");
     $.post( "ship/attack", {id: id}, function() {
       $('.enemy-space-ship').css("border", "1px solid red");
+      button.text("Stop");
     });
   });
 });
@@ -76,7 +78,13 @@ function getting_attacked(name) {
   if ($('.players-card').length) {
     $('.players-card .players-card-name-td').each(function() {
       if ($(this).html() == name) {
-        $(this).parent().removeClass('target-flash').addClass('attack-flash');
+        if ($(this).parent().hasClass('target-flash')) {
+          $(this).parent().removeClass('target-flash').addClass('attack-flash');
+          return
+        }
+        if ($(this).parent().hasClass('attack-flash')) {
+          $(this).parent().removeClass('attack-flash').addClass('target-flash');  
+        }
       }
     });
   }

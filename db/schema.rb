@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_184339) do
+ActiveRecord::Schema.define(version: 2018_11_12_182053) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 2018_11_11_184339) do
     t.integer "target_id"
     t.integer "mining_target_id"
     t.integer "npc_target_id"
+    t.boolean "is_attacking"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
