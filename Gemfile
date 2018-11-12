@@ -33,7 +33,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'database_cleaner'
   gem 'rails-controller-testing'
   gem 'simplecov'
@@ -53,3 +52,5 @@ gem 'sidekiq'
 # Pagination
 gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
+# Faker for Names
+gem 'faker'
