@@ -46,7 +46,7 @@ html {
 }
 .btn, .card, .nav-pills .nav-link,
 .modal-content, .dropdown-menu,
-.form-control, .alert { border-radius: 0; }
+.form-control, .alert, .progress { border-radius: 0; }
 
 @media (max-width: 767px) {
   .mobile-display-none { display: none; }
