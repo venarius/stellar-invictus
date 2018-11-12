@@ -2,6 +2,7 @@ $( document ).on('turbolinks:load', function() {
   // Go into warp and show warpcard AJAX
   $('#app-container').on('click', '.warp-btn', function(e) {
     e.preventDefault();
+    loading_animation($(this))
     var target = $(this).data("id");
     if (target) {
       var xhr = $.post( "game/warp", { id: target }, function( data ) {
@@ -13,6 +14,7 @@ $( document ).on('turbolinks:load', function() {
   // Go into warp and show warpcard AJAX
   $('#app-container').on('click', '.jumpgate-jump-btn', function(e) {
     e.preventDefault();
+    loading_animation($(this))
     var time = parseInt($(this).data('time'))
     var xhr = $.post("game/jump", function() {
       doWarp(time);

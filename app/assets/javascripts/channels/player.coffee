@@ -21,6 +21,7 @@ $(document).on "turbolinks:load", ->
           getting_attacked(data.name)
         else if (data.method == 'reload_page')
           Turbolinks.visit(window.location);
+          remove_target()
         else if (data.method == 'update_health' && data.hp)
           update_health(data.hp)
         else if (data.method == 'update_target_health' && data.hp)

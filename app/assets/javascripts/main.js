@@ -106,3 +106,10 @@ function show_error(error_message) {
     $('.alert').fadeOut();
   }, 3000)
 }
+
+// Loading animation
+function loading_animation(element) {
+  var width = element.width();
+  element.empty().append("<i class='fa fa-spinner fa-spin'></i>");
+  element.width(width);
+}
