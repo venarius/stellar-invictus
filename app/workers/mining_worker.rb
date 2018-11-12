@@ -32,7 +32,7 @@ class MiningWorker
       
       # Tell other users who miner this rock to also update their resources
       User.where(mining_target_id: asteroid.id).where("online > 0").each do |u|
-        ActionCable.server.broadcast("player_#{u.id}", method: 'update_asteroid_resources', resources: asteroid.resources)
+        ActionCable.server.broadcast("player_#{u.id}", method: 'update_asteroid_resources_only', resources: asteroid.resources)
       end
       
       # Get enemy
