@@ -3,7 +3,7 @@
     <tr>
       <th scope="col"><%= I18n.t('ships.name') %></th>
       <th scope="col"><%= I18n.t('ships.hp') %></th>
-      <th scope="col"><%= I18n.t('ships.defense') %></th>
+      <th scope="col" class="mobile-display-none"><%= I18n.t('ships.defense') %></th>
       <th scope="col"><%= I18n.t('ships.storage') %></th>
       <th scope="col"><%= I18n.t('ships.price') %></th>
       <th scope="col" class="btn-th"></th>
@@ -14,7 +14,7 @@
       <tr>
         <td><%= k %></td>
         <td><%= v['hp'] %></td>
-        <td><%= v['defense'] %></td>
+        <td class="mobile-display-none"><%= v['defense'] %></td>
         <td><%= v['storage'] %></td>
         <td><%= v['price'] %></td>
         <td>

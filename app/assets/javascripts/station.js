@@ -2,6 +2,7 @@ $( document ).on('turbolinks:load', function() {
   // Send dockrequest AJAX
   $('#app-container').on('click', '.station-dock-btn', function(e) {
     e.preventDefault();
+    loading_animation($(this))
     $.post("/stations/dock", function(data) {
       Turbolinks.visit("/station");  
     }).error(function(data) { show_error(data.responseJSON.error_message); });
@@ -10,6 +11,7 @@ $( document ).on('turbolinks:load', function() {
   // Send undockrequest AJAX
   $('#app-container').on('click', '.station-undock-btn', function(e) {
     e.preventDefault();
+    loading_animation($(this))
     $.post("/stations/undock", function(data) {
       Turbolinks.visit("/game");  
     }).error(function(data) { show_error(data.responseJSON.error_message); });

@@ -15,7 +15,7 @@
     <% next if asteroid.resources <= 0 %>
     <tr>
       <td><%= image_tag('icons/asteroid.png') %></td>
-      <td><%= I18n.t('overview.asteroid') %> (<%= asteroid.asteroid_type.capitalize %>)</td>
+      <td><%= I18n.t('overview.asteroid') %> <span class="mobile-display-none">(<%= asteroid.asteroid_type.capitalize %>)</span></td>
       <td><%= asteroid.asteroid_type.capitalize %></td>
       <td></td>
       <td>
