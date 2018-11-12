@@ -24,9 +24,11 @@ $( document ).on('turbolinks:load', function() {
   });
 });
 
-function update_asteroid_resources(resources) {
+function update_asteroid_resources(resources, reset) {
   if ($('.asteroid-resources').length) {
     $('.asteroid-resources').empty().append(resources);
   }
-  mining_progress = 0;
+  if (reset == true) {
+    mining_progress = 0;
+  }
 }
