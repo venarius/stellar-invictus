@@ -30,6 +30,11 @@ class MiningWorker
       Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
       ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
       
+      # Tell other users who miner this rock to also update their resources
+      User.where(mining_target_id: asteroid.id).where("online > 0").each do |u|
+        ActionCable.server.broadcast("player_#{u.id}", method: 'update_asteroid_resources', resources: asteroid.resources)
+      end
+      
       # Get enemy
       EnemyWorker.perform_async(player.location.id, 5) if 1 + rand(10) == 10
     end

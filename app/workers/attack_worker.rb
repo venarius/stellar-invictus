@@ -46,6 +46,11 @@ class AttackWorker
         # Tell both parties to update their hp
         ActionCable.server.broadcast("player_#{target.id}", method: 'update_health', hp: target_ship.hp)
         ActionCable.server.broadcast("player_#{player.id}", method: 'update_target_health', hp: target_ship.hp)
+        
+        # Tell other users who targeted target to also update hp
+        User.where(target_id: target.id).where("online > 0").each do |u|
+          ActionCable.server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_ship.hp)
+        end
       else
         return
       end

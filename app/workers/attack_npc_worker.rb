@@ -25,6 +25,11 @@ class AttackNpcWorker
       # Tell player to update their hp
       ActionCable.server.broadcast("player_#{player.id}", method: 'update_target_health', hp: target.hp)
       
+      # Tell other users who targeted npc to also update hp
+      User.where(npc_target_id: target.id).where("online > 0").each do |u|
+        ActionCable.server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target.hp)
+      end
+      
       # Global Cooldown
       sleep(2)
     end
