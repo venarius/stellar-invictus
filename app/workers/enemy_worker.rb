@@ -16,7 +16,7 @@ class EnemyWorker
     sleep(3)
     
     # Find first User in system and target
-    target = User.where(location: location, docked: false).where('online > 0').first rescue nil
+    target = User.where(location: location, docked: false).where('online > 0').sample rescue nil
     
     if target
       attack(enemy, target)
@@ -47,7 +47,7 @@ class EnemyWorker
     sleep(10)
     
     # Find first User in system and target
-    target = User.where(location: location, docked: false).where('online > 0').first rescue nil
+    target = User.where(location: location, docked: false).where('online > 0').sample rescue nil
     
     if target
       attack(enemy, target)
