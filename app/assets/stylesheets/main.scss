@@ -44,6 +44,9 @@ html {
 .dropdown-divider {
   border-top: 1px solid dimgrey;
 }
+.btn, .card, .nav-pills .nav-link,
+.modal-content, .dropdown-menu,
+.form-control, .alert { border-radius: 0; }
 
 @media (max-width: 767px) {
   .mobile-display-none { display: none; }
@@ -65,7 +68,6 @@ html {
 .navbar-avatar {
   margin-bottom: 2px;
   max-height: 25px;
-  border-radius: 5px;
   border: 1px solid grey;
 }
 
@@ -490,3 +492,8 @@ a {
     }
   }
 }
+
+// ###############
+// Player-Info
+// ###############
+.player-info-card .card-header { border-bottom: 0; }
