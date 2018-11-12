@@ -6,9 +6,8 @@ $( document ).on('turbolinks:load', function() {
     id = $(this).data("id");
     $.post( "npc/target", {id: id}, function() {
       if ($('.enemy-space-ship').length) {
-        $('.enemy-space-ship').next().empty();
-        $('.enemy-space-ship').next().next().empty();
-        $('.enemy-space-ship').empty().append("<div class='text-center counter'><h5 style='margin-top:25px'>5</h5></div>");
+        remove_target();
+        $('.enemy-space-ship').append("<div class='text-center counter'><h5 style='margin-top:25px'>5</h5></div>");
         var time = 5
         npc_target_interval = setInterval(function() {
           time = time-1;

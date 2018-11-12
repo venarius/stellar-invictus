@@ -131,6 +131,14 @@ describe User do
         end
       end
       
+      describe 'npc_target' do
+        it 'should return current npc_target of user' do
+          enemy = FactoryBot.create(:npc)
+          @user.update_columns(npc_target_id: enemy.id)
+          expect(@user.reload.npc_target).to eq(enemy)
+        end
+      end
+      
       describe 'die' do
         it 'increase job size' do
           @user.die
