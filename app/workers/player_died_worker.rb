@@ -13,7 +13,7 @@ class PlayerDiedWorker
     ship = Spaceship.create(user_id: user.id, name: 'Nano', hp: 50)
     
     # Make User docked at his factions station
-    user.update_columns(docked: true, location_id: user.faction.location.id, system_id: user.faction.location.system.id, active_spaceship_id: ship.id, target_id: nil)
+    user.update_columns(docked: true, location_id: user.faction.location.id, system_id: user.faction.location.system.id, active_spaceship_id: ship.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
     
     # Tell user to reload page
     ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
