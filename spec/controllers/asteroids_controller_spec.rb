@@ -41,6 +41,16 @@ RSpec.describe AsteroidsController, type: :controller do
         expect(response.code).to eq('400')
         expect(MiningWorker.jobs.size).to eq(0)
       end
+      
+      it 'should not start when player is full' do
+        10.times do
+          FactoryBot.create(:item, spaceship: @user.active_spaceship)
+        end
+        @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
+        post :mine, params: {id: @user.location.asteroids.first.id}
+        expect(response.code).to eq('400')
+        expect(MiningWorker.jobs.size).to eq(0)
+      end
     end
     
     describe 'POST stop_mine' do

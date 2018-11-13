@@ -23,5 +23,10 @@ class PlayerDiedWorker
       u.update_columns(target_id: nil)
       ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
     end
+    
+    sleep(0.5)
+    
+    # Tell user to show died modal
+    ActionCable.server.broadcast("player_#{user.id}", method: 'died_modal', text: I18n.t('modal.died_text', location: "#{user.location.name} - #{user.system.name}") )
   end
 end

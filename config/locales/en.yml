@@ -70,6 +70,8 @@ en:
     how_much_store: "How much should be stored?"
     how_much_load: "How much should be loaded?"
     max: "Max"
+    died: "Killed in action"
+    died_text: "Your ship and your cargo got destroyed. Your corpse has been transfered to: %{location}. A doctor was able to revive you. Be careful next time."
   chat:
     local: "Local Chat"
     global: "Global Chat"

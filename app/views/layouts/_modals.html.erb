@@ -1,4 +1,4 @@
-<!-- Already Logged In Modal -->
+<!-- Disconnected Modal -->
 <div class="modal fade" id="got-disconnected-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -7,6 +7,22 @@
       </div>
       <div class="modal-body">
         <%= I18n.t('modal.got_disconnected_text') %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Died Modal -->
+<div class="modal fade" id="died-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('modal.died') %></h5>
+      </div>
+      <div class="modal-body" id="died-modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
       </div>
     </div>
   </div>

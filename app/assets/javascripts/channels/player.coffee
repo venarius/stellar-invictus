@@ -20,9 +20,8 @@ $(document).on "turbolinks:load", ->
         else if (data.method == 'getting_attacked' && data.name)
           getting_attacked(data.name)
         else if (data.method == 'reload_page')
-          clearInterval(jump_interval)
-          jump_interval = false
-          Turbolinks.visit(window.location);
+          clear_jump()
+          Turbolinks.visit(window.location)
         else if (data.method == 'update_health' && data.hp)
           update_health(data.hp)
         else if (data.method == 'update_target_health' && data.hp)
@@ -34,3 +33,5 @@ $(document).on "turbolinks:load", ->
         else if (data.method == 'asteroid_depleted')
           remove_target()
           reload_players_card()
+        else if (data.method == 'died_modal' && data.text)
+          show_died_modal(data.text)

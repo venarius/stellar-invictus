@@ -3,6 +3,6 @@ FactoryBot.define do
     user { nil }
     location { nil }
     spaceship { nil }
-    load { "MyString" }
+    loader { "test" }
   end
 end
