@@ -42,9 +42,7 @@ function doWarp(warpTime) {
         );
       }
       if (warpTime <= 0) {
-        App.local.reload();
-        clearInterval(jump_interval);
-        jump_interval = false
+        clear_jump();
       }
     },250); 
   }
@@ -72,4 +70,11 @@ function reload_players_card() {
       $('#players-card').replaceWith(data);
     });
   }
+}
+
+// Clear Jump
+function clear_jump() {
+  App.local.reload();
+  clearInterval(jump_interval);
+  jump_interval = false
 }

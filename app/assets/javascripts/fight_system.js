@@ -94,6 +94,10 @@ function getting_attacked(name) {
 function update_health(hp) {
   if ($('#own-ship-health').length) {
     $('#own-ship-health').empty().append("HP: " + hp);
+    if (!$('#own-ship-health').hasClass('attack-flash')) {
+      $('#own-ship-health').addClass('attack-flash');
+      setTimeout(function() {$('#own-ship-health').removeClass('attack-flash');}, 1000)
+    }
   }
 }
 
@@ -101,12 +105,17 @@ function update_health(hp) {
 function update_target_health(hp) {
   if ($('#target-ship-health').length) {
     $('#target-ship-health').empty().append("HP: " + hp);
+    if (!$('#target-ship-health').hasClass('attack-flash')) {
+      $('#target-ship-health').addClass('attack-flash');
+      setTimeout(function() {$('#target-ship-health').removeClass('attack-flash');}, 1000) 
+    }
   }
 }
 
 // Remove target
 function remove_target() {
   if ($('.enemy-space-ship').length) {
+    $('.enemy-space-ship').css("border", "1px solid grey");
     $('.enemy-space-ship').empty();
     $('.enemy-space-ship').next().empty();
     $('.enemy-space-ship').next().next().empty();
@@ -126,4 +135,10 @@ function remove_target() {
   if (typeof npc_target_interval !== 'undefined') {
     clearInterval(npc_target_interval);
   }
+}
+
+// Show died modal with text
+function show_died_modal(text_message) {
+  $('#died-modal-body').empty().append(text_message);
+  $('#died-modal').modal('show');
 }
