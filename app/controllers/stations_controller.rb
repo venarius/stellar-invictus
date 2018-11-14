@@ -26,7 +26,7 @@ class StationsController < ApplicationController
     unless current_user.docked
       redirect_to game_path and return
     end
-    @ships = SHIP_VARIABLES
+    @ships = current_user.location.get_ships_for_sale
     @current_user = User.includes(:system).find(current_user.id)
     @local_messages = ChatMessage.includes(:user).where(system: current_user.system).last(10)
     @global_messages = ChatMessage.includes(:user).where(system: nil).last(10)
@@ -35,7 +35,7 @@ class StationsController < ApplicationController
   def buy
     if params[:type] and params[:type] == 'ship'
       ship_vars = SHIP_VARIABLES[params[:name]]
-      if ship_vars and current_user.units >= ship_vars['price']
+      if ship_vars and current_user.units >= ship_vars['price'] and current_user.location.get_ships_for_sale.has_key?(params[:name])
         Spaceship.create(user: current_user, name: params[:name], hp: ship_vars['hp'])
         current_user.update_columns(units: current_user.units - ship_vars['price'])
         flash[:notice] = I18n.t('station.purchase_successfull')

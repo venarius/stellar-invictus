@@ -20,4 +20,15 @@ class Location < ApplicationRecord
     end
     storage
   end
+  
+  def get_ships_for_sale
+    val = {}
+    ship_names = STATION_VARIABLES[self.id]['spaceships']
+    ship_names.each do |name|
+      val[name] = (SHIP_VARIABLES[name])
+    end
+    Rails.logger.info("############### #{val}")
+    val
+  end
+  
 end

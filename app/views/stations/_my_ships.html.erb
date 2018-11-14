@@ -4,7 +4,7 @@
       <th scope="col"><%= I18n.t('ships.name') %></th>
       <th scope="col"><%= I18n.t('ships.hp') %></th>
       <th scope="col"><%= I18n.t('ships.power') %></th>
-      <th scope="col"><%= I18n.t('ships.defense') %></th>
+      <th scope="col" class="mobile-display-none"><%= I18n.t('ships.defense') %></th>
       <th scope="col"><%= I18n.t('ships.storage') %></th>
       <th scope="col" class="btn-th"></th>
     </tr>
@@ -16,7 +16,7 @@
         <td><%= ship.name %></td>
         <td><%= ship_vars['hp'] %></td>
         <td><%= ship_vars['power'] %></td>
-        <td><%= ship_vars['defense'] %></td>
+        <td class="mobile-display-none"><%= ship_vars['defense'] %></td>
         <td><%= ship.get_weight %> / <%= ship_vars['storage'] %></td>
         <td>
           <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#my-ship-<%= ship.id %>"><i class="fa fa-eye"></i></a>

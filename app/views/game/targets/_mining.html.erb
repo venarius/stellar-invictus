@@ -3,7 +3,7 @@
 </div>
 <div class="col-6 text-left">
   <div class="mt-5px">
-    <span><%= I18n.t('asteroids.name').upcase %>: <%= "#{I18n.t('overview.asteroid')} #{current_user.mining_target.asteroid_type.capitalize}" %></span><br>
+    <span><%= "#{I18n.t('overview.asteroid')} (#{current_user.mining_target.asteroid_type.capitalize})" %></span><br>
     <span><%= I18n.t('asteroids.resources').upcase %>: <span class='asteroid-resources'><%= current_user.mining_target.resources %></span></span>
     <div class="progress mt-10px">
       <div class="progress-bar mining-progress" role="progressbar"></div>
