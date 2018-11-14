@@ -7,7 +7,7 @@ class GameController < ApplicationController
       redirect_to station_path and return
     end
     @current_user = User.includes(:system).find(current_user.id)
-    @local_users = User.where("online > 0").where(system: current_user.system)
+    @system_users = User.where("online > 0").where(system: current_user.system)
     @local_messages = ChatMessage.includes(:user).where(system: current_user.system).last(10)
     @global_messages = ChatMessage.includes(:user).where(system: nil).last(10)
     @ship_vars = SHIP_VARIABLES[current_user.active_spaceship.name]
