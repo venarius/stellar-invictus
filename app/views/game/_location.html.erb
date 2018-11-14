@@ -1,6 +1,6 @@
 <tr>
   <td><%= image_tag("icons/#{location.location_type}.png") %></td>
-  <td><%= location.name %></td>
+  <td class="name"><%= location.name %></td>
   <td><%= I18n.t("types.#{location.location_type}") %></td>
   <td><%= link_to "<i class='fa fa-angle-double-right'></i>".html_safe, '#', class: 'btn btn-outline-primary btn-xs warp-btn', data: {id: location.id} %></td>
 </tr>
