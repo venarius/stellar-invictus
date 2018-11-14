@@ -4,7 +4,7 @@
 </div>
 <div class="col-6 text-left">
   <div class="mt-5px">
-    <span><%= I18n.t('ships.name').upcase %>: <%= current_user.target.full_name %></span><br>
+    <span><%= current_user.target.full_name %></span><br>
     <span id="target-ship-health"><%= I18n.t('ships.hp').upcase %>: <%= current_user.target.active_spaceship.hp %></span><br>
     <span><%= I18n.t('ships.defense').upcase %>: <%= enemy_vars['defense'] %></span><br>
     <span><%= I18n.t('ships.power').upcase %>: <%= enemy_vars['power'] %></span>

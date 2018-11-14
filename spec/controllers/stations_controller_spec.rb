@@ -138,7 +138,7 @@ RSpec.describe StationsController, type: :controller do
       end
       
       it 'should create new ship and remove from units if ok' do
-        @user.update_columns(units: 50000)
+        @user.update_columns(units: 50000, location_id: 4)
         
         post :buy, params: {type: 'ship', name: 'Chronos'}
         expect(response.code).to eq('204')
@@ -146,6 +146,14 @@ RSpec.describe StationsController, type: :controller do
         expect(@user.reload.units).to eq(45000)
         expect(Spaceship.count).to eq(2)
         expect(Spaceship.last.get_attribute('storage')).to eq(80)
+      end
+      
+      it 'should respond with flash if ship not sold here' do
+        @user.update_columns(units: 50000, location_id: 1)
+        
+        post :buy, params: {type: 'ship', name: 'Chronos'}
+        expect(response.code).to eq('204')
+        expect(flash[:alert]).to be_present
       end
     end
     
