@@ -1,7 +1,7 @@
 <% if current_user.location.location_type == 'jumpgate' %>
   <tr>
     <td><%= image_tag('icons/jumpgate.png') %></td>
-    <td><%= current_user.location.name %></td>
+    <td class="name"><%= current_user.location.name %></td>
     <td><%= I18n.t('overview.jumpgate') %></td>
     <td></td>
     <td>
@@ -15,7 +15,7 @@
     <% next if asteroid.resources <= 0 %>
     <tr>
       <td><%= image_tag('icons/asteroid.png') %></td>
-      <td><%= I18n.t('overview.asteroid') %> <span class="mobile-display-none">(<%= asteroid.asteroid_type.capitalize %>)</span></td>
+      <td class="name"><%= I18n.t('overview.asteroid') %> <span class="mobile-display-none">(<%= asteroid.asteroid_type.capitalize %>)</span></td>
       <td><%= asteroid.asteroid_type.capitalize %></td>
       <td></td>
       <td>
@@ -28,7 +28,7 @@
 <% elsif current_user.location.location_type == 'station' %>
   <tr>
     <td><%= image_tag('icons/station.png') %></td>
-    <td><%= current_user.location.name %></td>
+    <td class="name"><%= current_user.location.name %></td>
     <td><%= I18n.t('overview.station') %></td>
     <td></td>
     <td>

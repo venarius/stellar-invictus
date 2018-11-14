@@ -20,7 +20,7 @@
             <td><%= image_tag('icons/helmet.png') %></td>
             <td class="players-card-name-td"><%= user.full_name %></td>
             <td><%= user.active_spaceship.name %></td>
-            <td><%= user.faction.name %></td>
+            <td class="name"><%= user.faction.name %></td>
             <td>
               <button class="btn btn-outline-warning btn-xs target-player-btn" data-toggle="tooltip" data-placement="top" data-id="<%= user.id %>" data-title="<%= I18n.t('tooltips.target') %>">
                 <i class='fa fa-crosshairs'></i>
