@@ -283,11 +283,16 @@ a {
         }
       }
       tbody {
-        td img {
-          height: 20px;
-        }
-        td .btn {
-          padding: 0rem 0.5rem;
+        td {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          img {
+            height: 20px;
+          }
+          .btn {
+            padding: 0rem 0.5rem;
+          }
         }
       }
     } 
