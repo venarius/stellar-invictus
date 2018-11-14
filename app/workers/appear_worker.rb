@@ -14,6 +14,14 @@ class AppearWorker
         # Tell everyone in the location that user has logged in
         ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
       end
+      
+      # Tell everyone in system to update their local players
+      user.system.locations.each do |location|
+        ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
+          count: User.where("online > 0").where(system: user.system).count, 
+          names: User.where("online > 0").where(system: user.system).map(&:full_name))
+      end
+      
     end
   end
 end

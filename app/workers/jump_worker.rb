@@ -4,6 +4,7 @@ class JumpWorker
 
   def perform(player_id)
     user = User.find(player_id)
+    old_system = user.system
     
     # Make user in warp and loose its target
     user.update_columns(in_warp: true, target_id: nil)
@@ -26,6 +27,20 @@ class JumpWorker
     
     # Tell everyone in new location that user has appeared
     ActionCable.server.broadcast("location_#{user.reload.location_id}", method: 'player_appeared')
+    
+    # Tell everyone in old system to update their local players
+    old_system.locations.each do |location|
+      ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
+        count: User.where("online > 0").where(system: old_system).count, 
+        names: User.where("online > 0").where(system: old_system).map(&:full_name))
+    end
+    
+    # Tell everyone in new system to update their local players
+    user.system.locations.each do |location|
+      ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
+        count: User.where("online > 0").where(system: user.system).count, 
+        names: User.where("online > 0").where(system: user.system).map(&:full_name))
+    end
     
     # Tell user to reload page
     ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')

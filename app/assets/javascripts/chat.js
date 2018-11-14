@@ -37,3 +37,14 @@ function scrollChats() {
     })
   }
 }
+
+// Update players in system
+function update_players_in_system(count, names) {
+  if ($('#system-player-count').length) {
+    $('#system-player-count').text(count);
+    $('#system-players').empty();
+    $.each(names, function(index, tag) {  
+      $('#system-players').append("<div>"+tag+"</div>")
+    });
+  }
+}

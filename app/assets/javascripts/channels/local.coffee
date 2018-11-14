@@ -11,8 +11,10 @@ $(document).on "turbolinks:load", ->
       received: (data)->
         if (data.method == 'player_warp_out' && data.name)
           player_warp_out(data.name)
-        if (data.method == 'player_appeared' && ('.players-card').length)
+        else if (data.method == 'player_appeared' && ('.players-card').length)
           reload_players_card()
+        else if (data.method == 'update_players_in_system' && data.count && data.names)
+          update_players_in_system(data.count, data.names)
           
       reload:->
         @perform("reload")
