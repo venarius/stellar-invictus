@@ -21,7 +21,17 @@ class DisappearWorker
       end
       
       # Remove user target and mining target if logging off
-      user.update_columns(target_id: nil, mining_target_id: nil) if user.online == 0
+      if user.online == 0
+        user.update_columns(target_id: nil, mining_target_id: nil)
+        
+        # Tell everyone in system to update their local players
+        user.system.locations.each do |location|
+          ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
+            count: User.where("online > 0").where(system: user.system).count, 
+            names: User.where("online > 0").where(system: user.system).map(&:full_name))
+        end
+      end
+      
     end
   end
 end

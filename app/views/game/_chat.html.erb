@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs" role="tablist" data-turbolinks-permanent>
   <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#local-chat" role="tab"><%= I18n.t('chat.local') %></a>
+    <a class="nav-link active" data-toggle="tab" href="#local-chat" role="tab"><%= I18n.t('chat.local') %> (<span id="system-player-count"><%= @system_users.count %></span>)</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#global-chat" role="tab"><%= I18n.t('chat.global') %></a>
@@ -9,18 +9,31 @@
     <a class="nav-link" data-toggle="tab" href="#log" role="tab"><%= I18n.t('chat.log') %></a>
   </li>
 </ul>
-<div class="tab-content mt-5px">
+<div class="tab-content">
   <div class="tab-pane fade show active" id="local-chat" role="tabpanel">
-    <table class="table table-striped table-bordered">
-      <tbody>
-        <% @local_messages.each do |msg| %>
-          <%= render partial: 'chat_messages/message', locals: { message: msg } %>
-        <% end %>
-      </tbody>
-    </table>
+    <div class="row">
+      <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+          <tbody>
+            <% @local_messages.each do |msg| %>
+              <%= render partial: 'chat_messages/message', locals: { message: msg } %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-2">
+        <div class="outer" id="system-players">
+          <% @system_users.each do |u| %>
+            <div>
+              <%= u.full_name %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="tab-pane fade" id="global-chat" role="tabpanel">
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered mt-5px">
       <tbody>
         <% @global_messages.each do |msg| %>
           <%= render partial: 'chat_messages/message', locals: { message: msg } %>
@@ -29,7 +42,7 @@
     </table>
   </div>
   <div class="tab-pane fade" id="log" role="tabpanel">
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered mt-5px">
       <tbody>
       </tbody>
     </table>
