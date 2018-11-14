@@ -27,7 +27,6 @@ class Location < ApplicationRecord
     ship_names.each do |name|
       val[name] = (SHIP_VARIABLES[name])
     end
-    Rails.logger.info("############### #{val}")
     val
   end
   

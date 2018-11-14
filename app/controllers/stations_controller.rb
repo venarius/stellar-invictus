@@ -26,6 +26,7 @@ class StationsController < ApplicationController
     unless current_user.docked
       redirect_to game_path and return
     end
+    @system_users = User.where("online > 0").where(system: current_user.system)
     @ships = current_user.location.get_ships_for_sale
     @current_user = User.includes(:system).find(current_user.id)
     @local_messages = ChatMessage.includes(:user).where(system: current_user.system).last(10)
