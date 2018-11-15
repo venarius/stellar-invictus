@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   scope :npc do
     post 'target', to: 'npcs#target'
     post 'attack', to: 'npcs#attack'
+    post 'untarget', to: 'npcs#untarget'
   end
   
   # ActionCable

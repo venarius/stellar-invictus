@@ -54,6 +54,17 @@ RSpec.describe NpcsController, type: :controller do
       end
     end
     
+    describe 'POST untarget' do
+      it 'should remove npc_target_id and is_attacking' do
+        @enemy.update_columns(location_id: Location.last.id)
+        @user.update_columns(npc_target_id: @enemy.id, is_attacking: true)
+        post :untarget
+        expect(response.status).to eq(200)
+        expect(@user.reload.npc_target_id).to eq(nil)
+        expect(@user.is_attacking).to eq(false)
+      end
+    end
+    
     describe 'POST attack' do
       before(:each) do
         @user.update_columns(npc_target_id: @enemy.id)

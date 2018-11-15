@@ -1,5 +1,6 @@
 Nano:
   image: nano.png
+  thruster-image: nano-thrusters.png
   storage: 10
   hp: 50
   power: 5
@@ -8,6 +9,7 @@ Nano:
   
 Cerux:
   image: cerux.png
+  thruster-image: cerux-thrusters.png
   storage: 40
   hp: 250
   power: 25
@@ -16,6 +18,7 @@ Cerux:
 
 Valadria:
   image: valadria.png
+  thruster-image: valadria-thrusters.png
   storage: 35
   hp: 200
   power: 30
@@ -24,6 +27,7 @@ Valadria:
   
 Crasher:
   image: crasher.png
+  thruster-image: crasher-thrusters.png
   storage: 15
   hp: 100
   power: 30
@@ -32,6 +36,7 @@ Crasher:
   
 Chronos:
   image: chronos.png
+  thruster-image: chronos-thrusters.png
   storage: 80
   hp: 75
   power: 5

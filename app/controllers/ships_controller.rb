@@ -25,7 +25,7 @@ class ShipsController < ApplicationController
   def untarget
     if current_user.target_id
       ActionCable.server.broadcast("player_#{current_user.target_id}", method: 'getting_targeted', name: current_user.full_name)
-      current_user.update_columns(target_id: nil)
+      current_user.update_columns(target_id: nil, is_attacking: false)
     end
     render json: {}, status: 200
   end

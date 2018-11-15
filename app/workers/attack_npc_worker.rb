@@ -9,7 +9,7 @@ class AttackNpcWorker
     # Get current active spaceships of player
     player_ship = player.active_spaceship
     
-    # If already target -> untarget
+    # If already attacking -> stop
     if player.is_attacking
       player.update_columns(is_attacking: false)
       ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_target_info')

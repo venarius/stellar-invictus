@@ -15,11 +15,12 @@ class MiningWorker
       player.update_columns(target_id: nil)
     end
     
-    # Untarget npc target
-    player.update_columns(npc_target_id: nil)
+    # Untarget npc target and is_attacking to false
+    player.update_columns(npc_target_id: nil, is_attacking: false)
     
     # Mine every 30 seconds
     player.update_columns(mining_target_id: asteroid.id)
+    ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_target_info')
     while true do
       30.times do
         return unless can_mine(player, asteroid)
@@ -39,7 +40,7 @@ class MiningWorker
       end
       
       # Get enemy
-      EnemyWorker.perform_async(player.location.id, 5) #if 1 + rand(10) == 10
+      EnemyWorker.perform_async(player.location.id, 5) if 1 + rand(10) == 10
     end
     
   end

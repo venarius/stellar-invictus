@@ -73,7 +73,7 @@ class EnemyWorker
     while can_attack(enemy, target) do
       
       # The attack
-      attack = 2
+      attack = 0
       target.active_spaceship.update_columns(hp: target.active_spaceship.hp - attack.round)
       
       # If target hp is below 0 -> die
