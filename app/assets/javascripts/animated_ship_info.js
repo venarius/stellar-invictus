@@ -165,10 +165,16 @@ function enemy_player_ship() {
   	// Resize the renderer
   	app.renderer.resize(parent.clientWidth, 88);
   	
-  	// Resize ship
+  	// Resize objects
   	if (ship) {
   	  ship.x = app.screen.width / 2; 
   	}
+  	if (countdown) {
+      countdown.x = app.screen.width / 2; 
+    }
+    if (asteroid) {
+      asteroid.x = app.screen.width / 2; 
+    }
   }
   
   resize();
