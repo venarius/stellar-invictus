@@ -7,7 +7,6 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data('id');
     $.post("/asteroid/mine", {id: id}, function(data) {
       remove_target();
-      refresh_target_info();
       if (mining_interval == null || mining_interval == false) {
         mining_interval = setInterval(function() {
           mining_progress = mining_progress + 1;
