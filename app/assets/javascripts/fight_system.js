@@ -11,16 +11,7 @@ $( document ).on('turbolinks:load', function() {
     $.post( "ship/target", {id: id}, function() {
       if ($('.enemy-space-ship').length) {
         remove_target();
-        $('.enemy-space-ship').append("<div class='text-center counter'><h5 style='margin-top:25px'>5</h5></div>");
-        var time = 5
-        var target_interval = setInterval(function() {
-          time = time-1;
-          $('.enemy-space-ship .counter').empty().append("<h5 style='margin-top:25px'>"+time+"</h5>"); 
-          if (time <= 0) {
-            $('.enemy-space-ship .counter').remove();
-            clearInterval(target_interval);
-          }
-        }, 1000);
+        animation_target_counter();
       }
     });
   });
@@ -28,7 +19,7 @@ $( document ).on('turbolinks:load', function() {
   // Untarget player if clicked AJAX
   $('.ship-card').on('click', '.untarget-player-btn', function(e) {
     id = $(this).data("id");
-    $.post( "ship/target", {id: id}, function() {
+    $.post( "ship/untarget", {id: id}, function() {
       remove_target();
     });
   });
@@ -50,6 +41,7 @@ function refresh_target_info() {
   if ($('.ship-card').length) {
     $.get("/game/ship_info", function(data) {
       $('.ship-card .card-body').empty().append(data);
+      load_ship_info_animations();
     });
   }
 }
@@ -116,7 +108,6 @@ function update_target_health(hp) {
 function remove_target() {
   if ($('.enemy-space-ship').length) {
     $('.enemy-space-ship').css("border", "1px solid grey");
-    $('.enemy-space-ship').empty();
     $('.enemy-space-ship').next().empty();
     $('.enemy-space-ship').next().next().empty();
   }
@@ -129,11 +120,13 @@ function remove_target() {
   // Remove target interval
   if (typeof target_interval !== 'undefined') {
     clearInterval(target_interval);
-    target_interval = false 
   }
   // Remove npc target interval
   if (typeof npc_target_interval !== 'undefined') {
     clearInterval(npc_target_interval);
+  }
+  if (typeof animation_remove_target !== "undefined") {
+    animation_remove_target(); 
   }
 }
 
