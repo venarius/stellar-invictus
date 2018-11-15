@@ -23,9 +23,9 @@
       </div>
       <div class="col-md-2">
         <div class="outer" id="system-players">
-          <% @system_users.each do |u| %>
+          <% @system_users.map(&:full_name).sort.each do |u| %>
             <div>
-              <%= u.full_name %>
+              <%= u %>
             </div>
           <% end %>
         </div>

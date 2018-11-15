@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   scope :ship do
     post 'activate', to: 'ships#activate'
     post 'target', to: 'ships#target'
+    post 'untarget', to: 'ships#untarget'
     post 'attack', to: 'ships#attack'
   end
   
@@ -60,6 +61,7 @@ Rails.application.routes.draw do
   scope :npc do
     post 'target', to: 'npcs#target'
     post 'attack', to: 'npcs#attack'
+    post 'untarget', to: 'npcs#untarget'
   end
   
   # ActionCable

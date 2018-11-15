@@ -7,7 +7,7 @@ $( document ).on('turbolinks:load', function() {
     if (target) {
       var xhr = $.post( "game/warp", { id: target }, function( data ) {
         doWarp(10);
-      }).error(function(data) { show_error(data.responseJSON.error_message); });
+      }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
     }
   });
   
@@ -18,7 +18,7 @@ $( document ).on('turbolinks:load', function() {
     var time = parseInt($(this).data('time'))
     var xhr = $.post("game/jump", function() {
       doWarp(time);
-    }).error(function(data) { show_error(data.responseJSON.error_message); });
+    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
   });
 });
 
@@ -30,6 +30,7 @@ function doWarp(warpTime) {
     $('.game-card-row').empty().append(
       "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
     );
+    pixi_background_speed = 10;
     jump_interval = setInterval(function() {
       warpTime = warpTime - 0.25;
       if ($('.warp-card').length) {
@@ -77,4 +78,5 @@ function clear_jump() {
   App.local.reload();
   clearInterval(jump_interval);
   jump_interval = false
+  pixi_background_speed = 1;
 }
