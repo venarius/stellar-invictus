@@ -13,7 +13,7 @@ describe Asteroid do
     end
     
     describe 'Enums' do
-       it { should define_enum_for(:asteroid_type).with([:gold, :bronze, :copper]) } 
+       it { should define_enum_for(:asteroid_type).with([:nickel, :iron, :cobalt]) } 
     end
   end
 end

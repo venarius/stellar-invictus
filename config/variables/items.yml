@@ -1,15 +1,15 @@
 test:
   weight: 1
 asteroid:
-  copper:
-    name: "Copper Ore"
+  nickel:
+    name: "Nickel Ore"
     type: "Ore"
     weight: 1
-  bronze:
-    name: "Bronze Ore"
+  iron:
+    name: "Iron Ore"
     type: "Ore"
     weight: 1
-  gold:
-    name: "Gold Ore"
+  cobalt:
+    name: "Cobalt Ore"
     type: "Ore"
     weight: 1
