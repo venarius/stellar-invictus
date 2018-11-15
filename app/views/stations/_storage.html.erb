@@ -10,7 +10,7 @@
   <tbody>
     <% current_user.location.get_items(current_user.id).each do |loader, times| %>
       <tr>
-        <td><%= times %>x</td>
+        <td><%= times %>&times;</td>
         <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
         <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
         <td>

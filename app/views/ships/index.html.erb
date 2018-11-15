@@ -12,7 +12,7 @@
       <tbody>
         <% @items.each do |loader, times| %>
           <tr>
-            <td><%= times %>x</td>
+            <td><%= times %>&times;</td>
             <td><%= Item.find_by(loader: loader).get_attribute('name') %></td>
             <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
           </tr>
