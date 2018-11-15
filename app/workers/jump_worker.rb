@@ -11,6 +11,7 @@ class JumpWorker
     
     # Tell everyone in location that user warped out
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)
+    ActionCable.server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.user_jumped_out', user: user.full_name, location: user.location.name))
     
     # Remove user from being targeted by others
     User.where(target_id: user.id).each do |u|

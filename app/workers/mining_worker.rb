@@ -27,8 +27,11 @@ class MiningWorker
       end
       asteroid.update_columns(resources: asteroid.resources - 100)
       ActionCable.server.broadcast("player_#{player.id}", method: 'update_asteroid_resources', resources: asteroid.resources)
-      Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+      item = Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
       ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
+      
+      # Log
+      ActionCable.server.broadcast("player_#{player.id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', ore: item.get_attribute('name').downcase) )
       
       # Tell other users who miner this rock to also update their resources
       User.where(mining_target_id: asteroid.id).where("online > 0").each do |u|

@@ -19,12 +19,27 @@ $( document ).on('turbolinks:load', function() {
       }
     });
     
-     // Cookie getter
+    // Cookie setter
+    $('.chat-card a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      Cookies.set('chat_tab', $(this).attr("href"));
+    });
+    
+     // Cookie getter Chat collapse
     if ($('#collapse-chat').length) {
       var type = Cookies.get('collapse-chat');
       if (type == 'hidden') {
         $('#collapse-chat').removeClass('show');
         $('#collapse-chat').prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
+      }
+    }
+    
+    // Cookie getter Chat active tab
+    if ($('.chat-card').length) {
+      var type = Cookies.get('chat_tab');
+      if (type) {
+        $('.chat-card .nav .nav-item a').each(function() {
+          if ($(this).attr('href') == type) { $(this).tab('show'); }
+        });
       }
     }
 });
@@ -46,5 +61,13 @@ function update_players_in_system(count, names) {
     $.each(names, function(index, tag) {  
       $('#system-players').append("<div>"+tag+"</div>")
     });
+  }
+}
+
+// Logging
+function log(text) {
+  if ($('#log').length) {
+    $('#log').find('tbody').append("<tr><td>"+text+"</td></tr>")
+    scrollChats();
   }
 }

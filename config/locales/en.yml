@@ -145,3 +145,10 @@ en:
   npcs:
     name: "Name"
     hp: "HP"
+  log:
+    user_warped_out: "%{user} is warping to %{location}"
+    user_jumped_out: "%{user} is jumping to %{location}"
+    you_hit_for_hp: "You hit %{target} for %{hp} damage"
+    you_got_hit_hp: "You got hit by %{attacker} for %{hp} damage"
+    got_killed: "%{name} got destroyed"
+    you_mined_from_asteroid: "You extracted 1x %{ore} from the asteroid"

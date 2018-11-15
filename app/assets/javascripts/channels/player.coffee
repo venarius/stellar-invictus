@@ -35,3 +35,5 @@ $(document).on "turbolinks:load", ->
           reload_players_card()
         else if (data.method == 'died_modal' && data.text)
           show_died_modal(data.text)
+        else if (data.method == 'log' && data.text)
+          log(data.text)

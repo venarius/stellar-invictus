@@ -7,6 +7,7 @@ class NpcDiedWorker
     
     # Tell others in system that player "warped out"
     ActionCable.server.broadcast("location_#{npc.location.id}", method: 'player_warp_out', name: npc.name)
+    ActionCable.server.broadcast("location_#{npc.location.id}", method: 'log', text: I18n.t('log.got_killed', name: npc.name) )
     
     # Destroy current spaceship of user and give him a nano
     npc.destroy
