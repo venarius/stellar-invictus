@@ -39,7 +39,7 @@ class MiningWorker
       end
       
       # Get enemy
-      EnemyWorker.perform_async(player.location.id, 5) #if 1 + rand(10) == 10
+      EnemyWorker.perform_async(player.location.id, 5) if 1 + rand(10) == 10
     end
     
   end
