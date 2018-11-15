@@ -21,7 +21,7 @@ class TargetNpcWorker
     # Look every second if player docked or warped to stop targeting counter
     5.times do
       sleep(1)
-      return unless player.can_be_attacked and player.location == target.location and target.hp > 0
+      return unless player.can_be_attacked and player.location == target.location and target.hp > 0 and player.mining_target_id == nil and player.target_id == nil and player.npc_target_id == nil
     end
     
     # Target npc

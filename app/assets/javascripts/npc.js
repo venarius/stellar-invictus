@@ -1,4 +1,3 @@
-var npc_target_interval;
 $( document ).on('turbolinks:load', function() {
   // Target npc if clicked AJAX
   $('#app-container').on('click', '.target-npc-btn', function(e) {
@@ -7,16 +6,7 @@ $( document ).on('turbolinks:load', function() {
     $.post( "npc/target", {id: id}, function() {
       if ($('.enemy-space-ship').length) {
         remove_target();
-        $('.enemy-space-ship').append("<div class='text-center counter'><h5 style='margin-top:25px'>5</h5></div>");
-        var time = 5
-        npc_target_interval = setInterval(function() {
-          time = time-1;
-          $('.enemy-space-ship .counter').empty().append("<h5 style='margin-top:25px'>"+time+"</h5>"); 
-          if (time <= 0) {
-            $('.enemy-space-ship .counter').remove();
-            clearInterval(npc_target_interval);
-          }
-        }, 1000);
+        animation_target_counter();
       }
     });
   });
@@ -32,9 +22,11 @@ $( document ).on('turbolinks:load', function() {
   // Attack Player AJAX
   $('.ship-card').on('click', '.attack-npc-btn', function(e) {
     e.preventDefault();
+    var button = $(this);
     id = $(this).data("id");
     $.post( "npc/attack", {id: id}, function() {
       $('.enemy-space-ship').css("border", "1px solid red");
+      button.text("Stop");
     });
   });
 });
