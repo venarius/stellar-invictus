@@ -18,12 +18,11 @@ class EnemyWorker
     # Find first User in system and target
     target = User.where(location: location, docked: false).where('online > 0').sample rescue nil
     
-    if target
+    if target.present? and can_attack(enemy, target)
       attack(enemy, target)
     else
-      wait_for_new_target(enemy)
+      wait_for_new_target(enemy) if enemy.hp > 0
     end
-    
   end
   
   # ################
@@ -34,7 +33,7 @@ class EnemyWorker
     target = target.reload rescue nil
     
     if enemy and target
-      target.can_be_attacked and target.location == enemy.location
+      target.can_be_attacked and target.location == enemy.location and enemy.hp > 0
     else
       false
     end
@@ -49,7 +48,7 @@ class EnemyWorker
     # Find first User in system and target
     target = User.where(location: enemy.location, docked: false).where('online > 0').sample rescue nil
     
-    if target
+    if target.present?
       attack(enemy, target)
     else
       enemy.destroy and return
@@ -83,13 +82,14 @@ class EnemyWorker
         target.die and return
       end
       
-      # Tell player to update their hp
+      # Tell player to update their hp and log
       ActionCable.server.broadcast("player_#{target.id}", method: 'update_health', hp: target.active_spaceship.hp)
+      ActionCable.server.broadcast("player_#{target.id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: enemy.name, hp: attack) )
       
       # Global Cooldown
       sleep(2)
     end
     # If target is gone wait for new to pop up
-    wait_for_new_target(enemy)
+    wait_for_new_target(enemy) if enemy.hp > 0
   end
 end

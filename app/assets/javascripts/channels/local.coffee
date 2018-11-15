@@ -15,6 +15,8 @@ $(document).on "turbolinks:load", ->
           reload_players_card()
         else if (data.method == 'update_players_in_system' && data.count && data.names)
           update_players_in_system(data.count, data.names)
+        else if (data.method == 'log' && data.text)
+          log(data.text)
           
       reload:->
         @perform("reload")

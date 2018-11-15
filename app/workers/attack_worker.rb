@@ -43,9 +43,12 @@ class AttackWorker
           target.die and return
         end
         
-        # Tell both parties to update their hp
+        # Tell both parties to update their hp and log
         ActionCable.server.broadcast("player_#{target.id}", method: 'update_health', hp: target_ship.hp)
+        ActionCable.server.broadcast("player_#{target.id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player.full_name, hp: attack))
+        
         ActionCable.server.broadcast("player_#{player.id}", method: 'update_target_health', hp: target_ship.hp)
+        ActionCable.server.broadcast("player_#{player.id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: target.full_name, hp: attack))
         
         # Tell other users who targeted target to also update hp
         User.where(target_id: target.id).where("online > 0").each do |u|
@@ -66,7 +69,7 @@ class AttackWorker
   end
   
   def call_police(player)
-    if player.system.security_status != 'low'
+    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player.id).empty?
       if player.system.security_status == 'high'
         PoliceWorker.perform_async(player.id, 2)
       else

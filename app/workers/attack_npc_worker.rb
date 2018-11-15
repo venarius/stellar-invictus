@@ -22,8 +22,9 @@ class AttackNpcWorker
         target.die and return
       end
       
-      # Tell player to update their hp
+      # Tell player to update their hp and log
       ActionCable.server.broadcast("player_#{player.id}", method: 'update_target_health', hp: target.hp)
+      ActionCable.server.broadcast("player_#{player.id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: target.name, hp: attack))
       
       # Tell other users who targeted npc to also update hp
       User.where(npc_target_id: target.id).where("online > 0").each do |u|
