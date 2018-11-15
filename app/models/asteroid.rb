@@ -1,5 +1,5 @@
 class Asteroid < ApplicationRecord
   belongs_to :location
   
-  enum asteroid_type: [:gold, :bronze, :copper]
+  enum asteroid_type: [:nickel, :iron, :cobalt]
 end
