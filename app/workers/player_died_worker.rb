@@ -4,9 +4,11 @@ class PlayerDiedWorker
 
   def perform(player_id)
     user = User.find(player_id)
+    old_system = user.system
     
     # Tell others in system that player "warped out"
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)
+    ActionCable.server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.got_killed', name: user.full_name) )
     
     # Destroy current spaceship of user and give him a nano
     Spaceship.find(user.active_spaceship_id).destroy
@@ -22,6 +24,13 @@ class PlayerDiedWorker
     User.where(target_id: user.id).each do |u|
       u.update_columns(target_id: nil)
       ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
+    end
+    
+    # Tell everyone in new system to update their local players
+    old_system.locations.each do |location|
+      ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
+        count: User.where("online > 0").where(system: user.system).count, 
+        names: User.where("online > 0").where(system: user.system).map(&:full_name))
     end
     
     sleep(0.5)

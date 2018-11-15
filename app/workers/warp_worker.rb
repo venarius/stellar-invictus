@@ -10,6 +10,7 @@ class WarpWorker
     
     # Tell everyone in location that user warped out
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)
+    ActionCable.server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.user_warped_out', user: user.full_name, location: Location.find(location_id).name))
     
     # Remove user from being targeted
     User.where(target_id: user.id).each do |u|
