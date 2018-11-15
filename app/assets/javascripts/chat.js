@@ -58,6 +58,7 @@ function update_players_in_system(count, names) {
   if ($('#system-player-count').length) {
     $('#system-player-count').text(count);
     $('#system-players').empty();
+    names = names.sort();
     $.each(names, function(index, tag) {  
       $('#system-players').append("<div>"+tag+"</div>")
     });

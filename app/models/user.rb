@@ -41,7 +41,8 @@ class User < ApplicationRecord
   end
   
   def can_be_attacked
-    !docked and !in_warp and online > 0 and active_spaceship.hp > 0
+    ship_hp = active_spaceship.hp rescue 0
+    !docked and !in_warp and online > 0 and ship_hp > 0
   end
   
   def target

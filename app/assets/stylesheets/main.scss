@@ -455,12 +455,9 @@ body {
       padding-right: 0;
     }
     .col-6.player-space-ship, .col-6.enemy-space-ship {
+      padding-left: 0;
       height: 90px;
       border: 1px solid grey;
-      background: image-url('galaxy-infinity.jpg');
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
       text-align: center;
       img {
         margin-top: 20px;

@@ -107,6 +107,17 @@ RSpec.describe ShipsController, type: :controller do
       end
     end
     
+    describe 'POST untarget' do
+      it 'should remove npc_target_id and is_attacking' do
+        user2 = FactoryBot.create(:user_with_faction)
+        @user.update_columns(target_id: user2.id, is_attacking: true)
+        post :untarget
+        expect(response.status).to eq(200)
+        expect(@user.reload.target_id).to eq(nil)
+        expect(@user.is_attacking).to eq(false)
+      end
+    end
+    
     describe 'POST attack' do
       it 'should attack other player if in same location and has target as target' do
         user2 = FactoryBot.create(:user_with_faction)
