@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_12_182053) do
+ActiveRecord::Schema.define(version: 2018_11_16_141334) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
     t.string "loader"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "structure_id"
     t.index ["location_id"], name: "index_items_on_location_id"
     t.index ["spaceship_id"], name: "index_items_on_spaceship_id"
     t.index ["user_id"], name: "index_items_on_user_id"
@@ -101,6 +102,16 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_spaceships_on_user_id"
+  end
+
+  create_table "structures", force: :cascade do |t|
+    t.integer "structure_type"
+    t.integer "location_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_structures_on_location_id"
+    t.index ["user_id"], name: "index_structures_on_user_id"
   end
 
   create_table "systems", force: :cascade do |t|

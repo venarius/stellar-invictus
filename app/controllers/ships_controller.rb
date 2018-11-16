@@ -39,4 +39,16 @@ class ShipsController < ApplicationController
       render json: {}, status: 400
     end
   end
+  
+  def cargohold
+    render partial: 'ships/cargohold', locals: {items: current_user.active_spaceship.get_items}
+  end
+  
+  def eject_cargo
+    if params[:loader] and current_user.can_be_attacked
+      EjectCargoWorker.perform_async(current_user.id, params[:loader])
+      render json: {}, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
 end

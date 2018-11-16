@@ -14,6 +14,7 @@
       <tbody>
         <%= render 'game/location_info' %>
         <%= render 'game/npc_info' %>
+        <%= render 'game/structure_info' %>
         <% local_users.each do |user| %>
           <% next if user.id == @current_user.id %>
           <tr class="<%= 'target-flash' if user.target == current_user and !user.is_attacking %> <%= 'attack-flash' if user.target == current_user and user.is_attacking %>">

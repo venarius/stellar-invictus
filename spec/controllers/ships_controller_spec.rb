@@ -33,6 +33,22 @@ RSpec.describe ShipsController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'GET cargohold' do
+      it 'should redirect to login page' do
+        get :cargohold
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+    
+    describe 'POST eject_cargo' do
+      it 'should redirect to login page' do
+        post :eject_cargo
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do
@@ -161,6 +177,41 @@ RSpec.describe ShipsController, type: :controller do
         post :attack, params: {id: user2.id}
         expect(response.code).to eq('400')
         expect(AttackWorker.jobs.size).to eq(0)
+      end
+    end
+    
+    describe 'GET cargohold' do
+      it 'should render cargohold' do
+        get :cargohold
+        expect(response).to render_template('ships/_cargohold')
+      end
+    end
+    
+    describe 'POST eject_cargo' do
+      before(:each) do
+        2.times do
+          Item.create(spaceship: @user.active_spaceship, loader: 'test')
+        end
+      end
+      
+      it 'should start worker' do
+        post :eject_cargo, params: {loader: 'test'}
+        expect(response.status).to eq(200)
+        expect(EjectCargoWorker.jobs.size).to eq(1)
+      end
+      
+      it 'should not start worker if docked' do
+        @user.update_columns(docked: true)
+        post :eject_cargo, params: {loader: 'test'}
+        expect(response.status).to eq(400)
+        expect(EjectCargoWorker.jobs.size).to eq(0)
+      end
+      
+      it 'should not start worker if in warp' do
+        @user.update_columns(in_warp: true)
+        post :eject_cargo, params: {loader: 'test'}
+        expect(response.status).to eq(400)
+        expect(EjectCargoWorker.jobs.size).to eq(0)
       end
     end
   end

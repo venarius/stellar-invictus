@@ -1,0 +1,43 @@
+<div class="modal fade" id="cargocontainer-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('structures.container') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-hover table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Qty.</th>
+              <th scope="col"><%= I18n.t('items.name') %></th>
+              <th scope="col"><%= I18n.t('items.type') %></th>
+              <th scope="col" id="btn-th"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% items.each do |loader, times| %>
+              <% item = Item.find_by(loader: loader) %>
+              <tr>
+                <td class="amount"><%= times %>&times;</td>
+                <td><%= item.get_attribute('name') %></td>
+                <td><%= item.get_attribute('type') %></td>
+                <td>
+                  <button class="btn btn-outline-primary cargocontainer-pickup-cargo-btn" data-loader="<%= loader %>" data-id="<%= container_id %>" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.take') %>">
+                    <i class="fa fa-angle-double-up"></i>
+                  </button>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary cargocontainer-pickup-all-btn" data-id="<%= container_id %>"><%= I18n.t('modal.take_all') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
