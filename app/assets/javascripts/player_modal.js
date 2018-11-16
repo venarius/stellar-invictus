@@ -11,7 +11,7 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Remove modal if close button is clicked
-  $('#app-container').on('click', '#player-show-modal-close' ,function(){
+  $('#player-show-modal').on('hidden.bs.modal', function () {
     var modal = $(this).closest('.modal')
     modal.modal('hide');
     setTimeout(function(){
