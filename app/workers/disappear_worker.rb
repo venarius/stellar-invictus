@@ -22,7 +22,7 @@ class DisappearWorker
       
       # Remove user target and mining target if logging off
       if user.online == 0
-        user.update_columns(target_id: nil, mining_target_id: nil)
+        user.update_columns(target_id: nil, mining_target_id: nil, npc_target_id: nil)
         
         # Tell everyone in system to update their local players
         user.system.locations.each do |location|

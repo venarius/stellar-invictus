@@ -5,6 +5,7 @@ class Location < ApplicationRecord
   has_many :asteroids
   has_many :items
   has_many :npcs
+  has_many :structures
   
   enum location_type: [:station, :asteroid_field, :jumpgate]
   

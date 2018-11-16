@@ -1,0 +1,25 @@
+<table class="table table-bordered table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Qty.</th>
+      <th scope="col"><%= I18n.t('items.name') %></th>
+      <th scope="col"><%= I18n.t('items.type') %></th>
+      <th scope="col" id="btn-th"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% items.each do |loader, times| %>
+      <% item = Item.find_by(loader: loader) %>
+      <tr>
+        <td><%= times %>&times;</td>
+        <td><%= item.get_attribute('name') %></td>
+        <td><%= item.get_attribute('type') %></td>
+        <td>
+          <button class="btn btn-outline-warning eject-cargo-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.eject_cargo') %>" data-loader="<%= loader %>">
+            <i class="fa fa-angle-double-up"></i>
+          </button>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

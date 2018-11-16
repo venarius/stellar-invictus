@@ -122,6 +122,7 @@ en:
     defense: "Defense"
     power: "Power"
     untarget: "Untarget"
+    cargohold: "Cargohold"
   items:
     type: "Type"
     name: "Name"
@@ -132,6 +133,8 @@ en:
     store: "Store"
     sell: "Sell"
     load: "Load"
+    eject_cargo: "Eject"
+    open: "Open"
   overview:
     name: "Name"
     type: "Type"
@@ -152,3 +155,6 @@ en:
     you_got_hit_hp: "You got hit by %{attacker} for %{hp} damage"
     got_killed: "%{name} got destroyed"
     you_mined_from_asteroid: "You extracted 1x %{ore} from the asteroid"
+  structures:
+    cargo: "Cargo"
+    container: "Container"

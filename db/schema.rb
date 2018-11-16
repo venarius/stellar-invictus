@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_12_182053) do
+ActiveRecord::Schema.define(version: 2018_11_16_141334) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "asteroids", force: :cascade do |t|
-    t.integer "location_id"
+    t.bigint "location_id"
     t.integer "asteroid_type"
     t.integer "resources"
     t.datetime "created_at", null: false
@@ -22,8 +25,8 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
   end
 
   create_table "chat_messages", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "system_id"
+    t.bigint "user_id"
+    t.bigint "system_id"
     t.integer "type"
     t.text "body"
     t.datetime "created_at", null: false
@@ -38,7 +41,7 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "location_id"
+    t.bigint "location_id"
     t.index ["location_id"], name: "index_factions_on_location_id"
   end
 
@@ -53,12 +56,13 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
   end
 
   create_table "items", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "location_id"
-    t.integer "spaceship_id"
+    t.bigint "user_id"
+    t.bigint "location_id"
+    t.bigint "spaceship_id"
     t.string "loader"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "structure_id"
     t.index ["location_id"], name: "index_items_on_location_id"
     t.index ["spaceship_id"], name: "index_items_on_spaceship_id"
     t.index ["user_id"], name: "index_items_on_user_id"
@@ -74,18 +78,18 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
-    t.integer "system_id"
+    t.bigint "system_id"
     t.integer "location_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "faction_id"
+    t.bigint "faction_id"
     t.index ["faction_id"], name: "index_locations_on_faction_id"
     t.index ["system_id"], name: "index_locations_on_system_id"
   end
 
   create_table "npcs", force: :cascade do |t|
     t.integer "npc_type"
-    t.integer "location_id"
+    t.bigint "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "target"
@@ -95,12 +99,22 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
   end
 
   create_table "spaceships", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "name"
     t.integer "hp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_spaceships_on_user_id"
+  end
+
+  create_table "structures", force: :cascade do |t|
+    t.integer "structure_type"
+    t.bigint "location_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_structures_on_location_id"
+    t.index ["user_id"], name: "index_structures_on_user_id"
   end
 
   create_table "systems", force: :cascade do |t|
@@ -123,11 +137,11 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.integer "faction_id"
-    t.integer "system_id"
+    t.bigint "faction_id"
+    t.bigint "system_id"
     t.integer "online", default: 0
     t.string "avatar"
-    t.integer "location_id"
+    t.bigint "location_id"
     t.boolean "in_warp", default: false
     t.integer "units", default: 1000
     t.string "full_name"
@@ -145,4 +159,20 @@ ActiveRecord::Schema.define(version: 2018_11_12_182053) do
     t.index ["system_id"], name: "index_users_on_system_id"
   end
 
+  add_foreign_key "asteroids", "locations"
+  add_foreign_key "chat_messages", "systems"
+  add_foreign_key "chat_messages", "users"
+  add_foreign_key "factions", "locations"
+  add_foreign_key "items", "locations"
+  add_foreign_key "items", "spaceships"
+  add_foreign_key "items", "users"
+  add_foreign_key "locations", "factions"
+  add_foreign_key "locations", "systems"
+  add_foreign_key "npcs", "locations"
+  add_foreign_key "spaceships", "users"
+  add_foreign_key "structures", "locations"
+  add_foreign_key "structures", "users"
+  add_foreign_key "users", "factions"
+  add_foreign_key "users", "locations"
+  add_foreign_key "users", "systems"
 end

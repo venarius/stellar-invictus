@@ -544,6 +544,13 @@ body {
   }
 }
 
+@media (max-width: 767px) {
+  .station-card .card-header {
+    font-size: 25px;
+    line-height: 1.3;
+  }
+}
+
 .station-ship-inventory-table, .station-storage-table {
   margin-bottom: 0;
   thead {
@@ -560,3 +567,18 @@ body {
 // Player-Info
 // ###############
 .player-info-card .card-header { border-bottom: 0; }
+
+// ###############
+// Inventory-Modal
+// ###############
+#inventory-modal {
+  thead tr th, tbody tr td { border: 1px solid grey; }
+  thead tr #btn-th {
+    width: 40px;
+  }
+  tbody {
+    td .btn {
+      padding: 0rem 0.5rem;
+    }
+  }
+}

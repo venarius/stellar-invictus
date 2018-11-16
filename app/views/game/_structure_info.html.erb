@@ -1,0 +1,15 @@
+<% current_user.location.structures.includes(:user).each do |structure| %>
+  <% if structure.structure_type == 'container' %>
+    <tr>
+      <td><%= image_tag('icons/cargo.png') %></td>
+      <td class="players-card-name-td name"><%= I18n.t('structures.container') %></td>
+      <td><%= I18n.t('structures.cargo') %> (<%= structure.user.full_name %>)</td>
+      <td></td>
+      <td>
+        <button class="btn btn-outline-warning w-100 open-container-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.open') %>" data-id="<%= structure.id %>">
+          <i class="fa fa-angle-double-up"></i>
+        </button>
+      </td>
+    </tr>
+  <% end %>
+<% end %>
