@@ -7,7 +7,7 @@
 - ActionCable gets killed on redirect_to
 - Fleets
 - Allianzes
-- Drop Items -> Container
+- ~~Drop Items -> Container~~
 - Loot on destroyed enemies
 - ~~Animated Spaceships~~
 - Trading
