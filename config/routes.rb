@@ -69,6 +69,8 @@ Rails.application.routes.draw do
   # Structures
   scope :structure do
     post 'open_container', to: 'structures#open_container'
+    post 'pickup_cargo', to: 'structures#pickup_cargo'
+    post 'attack', to: 'structures#attack'
   end
   
   # ActionCable

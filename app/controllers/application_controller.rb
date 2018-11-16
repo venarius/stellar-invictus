@@ -24,4 +24,14 @@ class ApplicationController < ActionController::Base
       redirect_to factions_path unless current_user.faction
     end
   end
+  
+  def call_police(player)
+    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player.id).empty?
+      if player.system.security_status == 'high'
+        PoliceWorker.perform_async(player.id, 2)
+      else
+        PoliceWorker.perform_async(player.id, 10)
+      end
+    end
+  end
 end

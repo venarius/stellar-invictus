@@ -9,8 +9,47 @@ $( document ).on('turbolinks:load', function() {
     });
   });
   
-  // Remove modal if close button is clicked
-  $('#cargocontainer-modal').on('hidden.bs.modal', function () {
+  // Ajax for cargo attack
+  $('#app-container').on('click', '.attack-container-btn', function(e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    $.post('structure/attack', {id: id}, function(data) {});
+  });
+  
+  // Remove cargocontainer modal if close button is clicked
+  $('#app-container').on('hidden.bs.modal', '#cargocontainer-modal', function () {
     $(this).remove();
+  });
+  
+  // Load item from cargo container AJAX
+  $('#app-container').on('click', '.cargocontainer-pickup-cargo-btn', function(e) {
+    e.preventDefault();
+    var button = $(this)
+    var loader = $(this).data('loader');
+    var id = $(this).data('id');
+    $.post('structure/pickup_cargo', {id: id, loader: loader}, function(data) {
+      if (data.amount) {
+        button.parent().parent().find('.amount').empty().append(data.amount + "&times;")
+      } else {
+        button.parent().parent().remove(); 
+      }
+      refresh_player_info();
+    }).error(function(data) {
+      $('#cargocontainer-modal').find('.error').remove();
+      $('#cargocontainer-modal').find('table').after("<span class='error'><small>"+data.responseJSON.error_message+"</small></span>");
+    });
+  });
+  
+  // Load all items from cargo container AJAX
+  $('#app-container').on('click', '.cargocontainer-pickup-all-btn', function(e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    $.post('structure/pickup_cargo', {id: id}, function(data) {
+      $('#cargocontainer-modal').modal('hide');
+      refresh_player_info();
+    }).error(function(data) {
+      $('#cargocontainer-modal').find('.error').remove();
+      $('#cargocontainer-modal').find('table').after("<span class='error'><small>"+data.responseJSON.error_message+"</small></span>");
+    });
   });
 });

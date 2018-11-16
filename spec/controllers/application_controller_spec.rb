@@ -5,6 +5,9 @@ RSpec.describe ApplicationController, type: :controller do
     def after_sign_in_path_for(resource)
         super resource
     end
+    def call_police(user)
+        super user
+    end
   end
 
   before (:each) do
@@ -20,6 +23,27 @@ RSpec.describe ApplicationController, type: :controller do
       @user.faction = Faction.first
       @user.save(validate: false)
       expect(controller.after_sign_in_path_for(@user)).to eq(game_path)
+    end
+  end
+  
+  describe 'Call Police' do
+    it 'should call police on user in highsec' do
+      system = System.where(security_status: 'high').first
+      @user = FactoryBot.create(:user_with_faction, system: system, location: system.locations.first)
+      controller.call_police(@user)
+      expect(PoliceWorker.jobs.size).to eq(1)
+    end
+    it 'should call police on user in midsec' do
+      system = System.where(security_status: 'medium').first
+      @user = FactoryBot.create(:user_with_faction, system: system, location: system.locations.first)
+      controller.call_police(@user)
+      expect(PoliceWorker.jobs.size).to eq(1)
+    end
+    it 'shouldnt call police on user in lowsec' do
+      system = System.where(security_status: 'low').first
+      @user = FactoryBot.create(:user_with_faction, system: system, location: system.locations.first)
+      controller.call_police(@user)
+      expect(PoliceWorker.jobs.size).to eq(0)
     end
   end
 end

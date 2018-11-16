@@ -21,15 +21,22 @@
             <% items.each do |loader, times| %>
               <% item = Item.find_by(loader: loader) %>
               <tr>
-                <td><%= times %>&times;</td>
+                <td class="amount"><%= times %>&times;</td>
                 <td><%= item.get_attribute('name') %></td>
                 <td><%= item.get_attribute('type') %></td>
                 <td>
+                  <button class="btn btn-outline-primary cargocontainer-pickup-cargo-btn" data-loader="<%= loader %>" data-id="<%= container_id %>" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.take') %>">
+                    <i class="fa fa-angle-double-up"></i>
+                  </button>
                 </td>
               </tr>
             <% end %>
           </tbody>
         </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary cargocontainer-pickup-all-btn" data-id="<%= container_id %>"><%= I18n.t('modal.take_all') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

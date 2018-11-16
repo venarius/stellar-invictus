@@ -19,6 +19,7 @@ html {
 .mb-10px { margin-bottom: 10px; }
 .mt-10 { margin-top: 10rem; }
 .p-0-5 { padding: 0px 5px; }
+.w-46 { width: 46% !important; }
 .bg-grey { background-color: grey; }
 .w-20px { width: 20px; }
 .outline-primary { border: 1px solid #2A9FD6; }
@@ -569,9 +570,9 @@ body {
 .player-info-card .card-header { border-bottom: 0; }
 
 // ###############
-// Inventory-Modal
+// Inventory-Modal, Cargocontainer Modal
 // ###############
-#inventory-modal {
+#inventory-modal, #cargocontainer-modal {
   thead tr th, tbody tr td { border: 1px solid grey; }
   thead tr #btn-th {
     width: 40px;
