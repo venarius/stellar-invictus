@@ -21,6 +21,9 @@ begin
   # NPC
   Npc.destroy_all
   
+  # Cargocontainer
+  Structure.where(structure_type: 'container').destroy_all
+  
 rescue StandardError
   true
 end

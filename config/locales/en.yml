@@ -72,6 +72,7 @@ en:
     max: "Max"
     died: "Killed in action"
     died_text: "Your ship and your cargo got destroyed. Your corpse has been transfered to: %{location}. A doctor was able to revive you. Be careful next time."
+    take_all: "Take all"
   chat:
     local: "Local Chat"
     global: "Global Chat"
@@ -135,6 +136,8 @@ en:
     load: "Load"
     eject_cargo: "Eject"
     open: "Open"
+    take: "Take"
+    attack: "Attack"
   overview:
     name: "Name"
     type: "Type"

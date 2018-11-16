@@ -45,7 +45,7 @@ class ShipsController < ApplicationController
   end
   
   def eject_cargo
-    if params[:loader] and !current_user.docked
+    if params[:loader] and current_user.can_be_attacked
       EjectCargoWorker.perform_async(current_user.id, params[:loader])
       render json: {}, status: 200 and return
     end

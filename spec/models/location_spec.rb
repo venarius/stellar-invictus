@@ -10,6 +10,7 @@ describe Location do
       it { should respond_to :jumpgate }
       it { should respond_to :name }
       it { should respond_to :asteroids }
+      it { should respond_to :structures }
     end
     
     describe 'Relations' do
@@ -17,6 +18,7 @@ describe Location do
       it { should belong_to :faction }
       it { should have_many :users }
       it { should have_many :asteroids }
+      it { should have_many :structures }
     end
     
     describe 'Enums' do
