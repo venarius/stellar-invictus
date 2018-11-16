@@ -2,6 +2,7 @@ class Item < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :location, optional: true
   belongs_to :spaceship, optional: true
+  belongs_to :structure, optional: true
   
   def get_attribute(attribute)
     atty = self.loader.split(".")

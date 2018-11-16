@@ -49,6 +49,8 @@ Rails.application.routes.draw do
     post 'target', to: 'ships#target'
     post 'untarget', to: 'ships#untarget'
     post 'attack', to: 'ships#attack'
+    get 'cargohold', to: 'ships#cargohold'
+    post 'eject_cargo', to: 'ships#eject_cargo'
   end
   
   # Asteroids
@@ -62,6 +64,13 @@ Rails.application.routes.draw do
     post 'target', to: 'npcs#target'
     post 'attack', to: 'npcs#attack'
     post 'untarget', to: 'npcs#untarget'
+  end
+  
+  # Structures
+  scope :structure do
+    post 'open_container', to: 'structures#open_container'
+    post 'pickup_cargo', to: 'structures#pickup_cargo'
+    post 'attack', to: 'structures#attack'
   end
   
   # ActionCable
