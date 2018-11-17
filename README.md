@@ -6,7 +6,7 @@
 - Enhance map
 - Fleets
 - Allianzes
-- Drop Items -> Container
+- ~~Drop Items -> Container~~
 - ~~Loot on destroyed enemies / players~~
 - ~~Animated Spaceships~~
 - Trading
