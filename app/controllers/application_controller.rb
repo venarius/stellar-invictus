@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :redirect_if_no_faction
+  before_action :update_last_action
   
   
   protected
@@ -32,6 +33,12 @@ class ApplicationController < ActionController::Base
       else
         PoliceWorker.perform_async(player.id, 10)
       end
+    end
+  end
+  
+  def update_last_action
+    if current_user
+      current_user.update_columns(last_action: DateTime.now)
     end
   end
 end

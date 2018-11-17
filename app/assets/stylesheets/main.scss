@@ -13,6 +13,7 @@ html {
 .color-sec-high { color: rgba(81, 203, 238, 1); }
 .color-sec-medium { color: orange; }
 .color-sec-low { color: red; }
+.color-green { color: green; }
 .width-max { width: 100%; }
 .mt-5px { margin-top: 5px; }
 .mt-10px { margin-top: 10px; }
@@ -580,6 +581,72 @@ body {
   tbody {
     td .btn {
       padding: 0rem 0.5rem;
+    }
+  }
+}
+
+// ###############
+// Friends
+// ###############
+.friends-card {
+  .card-header {
+    padding: 0.5rem 0.5rem;
+    font-size: 18px;
+  }
+  .card-body {
+    padding: 5px;
+    .nav-pills {
+      .nav-link {
+        margin-bottom: 10px;
+        color: white;
+        background-color: black;
+        border: 1px solid #282828;
+        &.active {
+          border: 1px solid #2A9FD6;
+        }
+        .badge {
+          margin-left: 10px;
+          font-size: 100%;
+        }
+      }
+    }
+    .tab-content table {
+      font-size: 13px;;
+      margin-bottom: 5px;
+      tbody {
+        width: 100%;
+        overflow: auto;
+        height: 14.5rem;
+        display: block;
+        tr {
+          display: block;
+          td {
+            padding: 0.3rem;
+            display: block;
+            img {
+              height: 38px;
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+#pending table tbody tr td div, #friends table tbody tr td div, {
+  margin-top: 5px;
+}
+
+@media (min-width: 769px) {
+  .friends-card {
+    .card-body {
+      .col-md-3 { padding-right: 5px; }
+      .col-md-9 { padding-left: 0; }
+      .nav-pills {
+        height: 100%;
+        padding: 5px 10px 5px 5px;
+        border-right: 1px solid grey;
+      }
     }
   }
 }

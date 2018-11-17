@@ -9,6 +9,7 @@ en:
     mails: "Mails"
     map: "Map"
     ship: "Ship"
+    friends: "Friends"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
@@ -138,6 +139,8 @@ en:
     open: "Open"
     take: "Take"
     attack: "Attack"
+    add_friend: "Add friend"
+    remove_friend: "Remove friend"
   overview:
     name: "Name"
     type: "Type"
@@ -164,3 +167,9 @@ en:
     cargo: "Cargo"
     container: "Container"
     wreck: "Wreck"
+  friends:
+    friends: "Friends"
+    pending: "Pending"
+  helpers:
+    online_ago: "Online %{time} ago"
+    online_now: "Online Now"

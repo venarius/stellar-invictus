@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :structures, dependent: :destroy
   
+  has_many :friendships, dependent: :destroy
+  
   
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
             presence: true

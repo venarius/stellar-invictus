@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_16_141334) do
+ActiveRecord::Schema.define(version: 2018_11_17_212041) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -40,6 +40,14 @@ ActiveRecord::Schema.define(version: 2018_11_16_141334) do
     t.datetime "updated_at", null: false
     t.integer "location_id"
     t.index ["location_id"], name: "index_factions_on_location_id"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
+    t.boolean "accepted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "game_mails", force: :cascade do |t|
@@ -148,6 +156,7 @@ ActiveRecord::Schema.define(version: 2018_11_16_141334) do
     t.integer "mining_target_id"
     t.integer "npc_target_id"
     t.boolean "is_attacking"
+    t.datetime "last_action"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"

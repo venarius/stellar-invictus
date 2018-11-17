@@ -7,4 +7,15 @@ describe ApplicationHelper do
       expect(navbar_item(root_path, 'navbar.home')).to include("Home")
     end
   end
+  
+  describe 'online_status' do
+    it 'should return online now if user is online' do
+      user = FactoryBot.create(:user_with_faction, online: 1)
+      expect(online_status(user)).to eq("<i class='fa fa-circle fa-xs color-green'></i>&nbsp;&nbsp;Online Now")
+    end
+    it 'should return online ago if user is not online' do
+      user = FactoryBot.create(:user_with_faction, last_action: DateTime.now, online: 0)
+      expect(online_status(user)).to include("ago")
+    end
+  end
 end

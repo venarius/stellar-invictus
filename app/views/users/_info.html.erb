@@ -7,10 +7,18 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body m-auto">
-          <%= image_tag("avatars/#{user.avatar}.jpg", height: 150) %>
-          <br><br>
-          <p class="text-center"><strong>Faction: <%= user.faction.name %></strong></p>
+      <div class="modal-body m-auto text-center">
+          <%= image_tag("avatars/#{user.avatar}.jpg", height: 150) %><br><br>
+          <% if Friendship.where("(user_id = ? OR friend_id = ?) OR (user_id = ? OR friend_id = ?)", params[:id], current_user.id, current_user.id, params[:id]).empty? and current_user != user %>
+            <button class="btn btn-outline-primary add-as-friend-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.add_friend') %>" data-id="<%= user.id %>">
+              <i class="fa fa-user-plus"></i>
+            </button>
+          <% elsif current_user != user %>
+            <button class="btn btn-outline-danger remove-as-friend-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_friend') %>" data-id="<%= user.id %>">
+              <i class="fa fa-user-minus"></i>
+            </button>
+          <% end %>
+          <p class="text-center mt-10px"><strong>Faction: <%= user.faction.name %></strong></p>
       </div>
     </div>
   </div>
