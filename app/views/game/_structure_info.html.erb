@@ -15,4 +15,20 @@
       </td>
     </tr>
   <% end %>
+  <% if structure.structure_type == 'wreck' %>
+    <tr>
+      <td><%= image_tag('icons/cargo.png') %></td>
+      <td class="players-card-name-td name"><%= I18n.t('structures.wreck') %></td>
+      <td><%= I18n.t('structures.cargo') %></td>
+      <td></td>
+      <td>
+        <button class="btn btn-outline-danger w-46 attack-container-btn" data-id="<%= structure.id %>">
+          <i class="fa fa-crosshairs"></i>
+        </button>
+        <button class="btn btn-outline-warning w-50 open-container-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.open') %>" data-id="<%= structure.id %>">
+          <i class="fa fa-angle-double-up"></i>
+        </button>
+      </td>
+    </tr>
+  <% end %>
 <% end %>

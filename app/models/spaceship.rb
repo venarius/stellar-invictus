@@ -26,4 +26,16 @@ class Spaceship < ApplicationRecord
     end
     storage
   end
+  
+  def drop_loot
+    items = self.get_items
+    if items.present?
+      structure = Structure.create(location: self.user.location, structure_type: 'wreck')
+      items.each do |key, value|
+        rand(0..value).times do
+          Item.create(loader: key, structure: structure)
+        end
+      end
+    end
+  end
 end
