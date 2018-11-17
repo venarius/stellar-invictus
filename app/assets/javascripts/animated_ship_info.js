@@ -209,4 +209,11 @@ function enemy_player_ship() {
       }
     }, 1000);
   }
+  
+  // Clear Target
+  setTimeout(function() {
+    if ($('.enemy-space-ship').length && $('.enemy-space-ship').next().is(':empty')) {
+      animation_remove_target();
+    }
+  }, 500)
 }

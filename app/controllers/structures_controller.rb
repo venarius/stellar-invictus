@@ -3,7 +3,7 @@ class StructuresController < ApplicationController
     if params[:id]
       container = Structure.find_by(id: params[:id])
       if container and container.location == current_user.location and current_user.can_be_attacked
-        render partial: 'structures/cargocontainer', locals: {items: container.get_items, container_id: container.id}
+        render partial: 'structures/cargocontainer', locals: {items: container.get_items, container_id: container.id, owner_name: container.user.full_name}
         return
       end
     end

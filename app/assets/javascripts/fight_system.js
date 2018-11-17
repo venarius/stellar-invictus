@@ -125,9 +125,9 @@ function remove_target() {
   if (typeof npc_target_interval !== 'undefined') {
     clearInterval(npc_target_interval);
   }
-  if (typeof animation_remove_target !== "undefined") {
+  if (typeof animation_remove_target !== 'undefined') {
     animation_remove_target(); 
-  }
+  };
 }
 
 // Show died modal with text
