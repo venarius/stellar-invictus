@@ -10,12 +10,17 @@ $( document ).on('turbolinks:load', function() {
     }
   });
   
+  // Add as friend AJAX
+  $('body').on('click', '.add-as-friend-btn', function(e){
+    e.preventDefault(); 
+    var id = $(this).data('id');
+    $.post('friends/add_friend', {id: id}, function() {
+      $('#player-show-modal').modal('hide');
+    });
+  });
+  
   // Remove modal if close button is clicked
-  $('#player-show-modal').on('hidden.bs.modal', function () {
-    var modal = $(this).closest('.modal')
-    modal.modal('hide');
-    setTimeout(function(){
-      modal.remove();
-    }, 1000);
+  $('body').on('hidden.bs.modal', '#player-show-modal', function () {
+    $(this).remove();
   });
 });
