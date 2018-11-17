@@ -8,6 +8,9 @@ RSpec.describe ApplicationController, type: :controller do
     def call_police(user)
         super user
     end
+    def update_last_action
+        super
+    end
   end
 
   before (:each) do
@@ -44,6 +47,15 @@ RSpec.describe ApplicationController, type: :controller do
       @user = FactoryBot.create(:user_with_faction, system: system, location: system.locations.first)
       controller.call_police(@user)
       expect(PoliceWorker.jobs.size).to eq(0)
+    end
+  end
+  
+  describe 'update_last_action' do
+    it 'should update last_action of user' do
+      @user = FactoryBot.create(:user_with_faction)
+      sign_in @user
+      controller.update_last_action
+      expect(@user.reload.last_action).to be_present
     end
   end
 end
