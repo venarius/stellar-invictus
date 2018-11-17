@@ -73,6 +73,14 @@ Rails.application.routes.draw do
     post 'attack', to: 'structures#attack'
   end
   
+  # Friends
+  get 'friends', to: 'friends#index'
+  scope :friends do
+    post 'add_friend', to: 'friends#add_friend'
+    post 'accept_request', to: 'friends#accept_request'
+    post 'remove_friend', to: 'friends#remove_friend'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

@@ -37,3 +37,5 @@ $(document).on "turbolinks:load", ->
           show_died_modal(data.text)
         else if (data.method == 'log' && data.text)
           log(data.text)
+        else if (data.method == 'new_friendrequest')
+          new_friendrequest()
