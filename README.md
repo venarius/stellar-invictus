@@ -5,7 +5,8 @@
 - ~~Asteroids - Rename Ore~~
 - Enhance map
 - Fleets
-- Allianzes
+- Alliances
+- Friends
 - ~~Drop Items -> Container~~
 - ~~Loot on destroyed enemies / players~~
 - ~~Animated Spaceships~~
