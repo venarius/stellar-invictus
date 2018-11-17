@@ -6,7 +6,7 @@
 - Enhance map
 - Fleets
 - Alliances
-- Friends
+- ~~Friends~~
 - ~~Drop Items -> Container~~
 - ~~Loot on destroyed enemies / players~~
 - ~~Animated Spaceships~~
