@@ -4,11 +4,10 @@
 
 - ~~Asteroids - Rename Ore~~
 - Enhance map
-- ActionCable gets killed on redirect_to
 - Fleets
 - Allianzes
 - Drop Items -> Container
-- Loot on destroyed enemies
+- ~~Loot on destroyed enemies / players~~
 - ~~Animated Spaceships~~
 - Trading
 - Equipment System

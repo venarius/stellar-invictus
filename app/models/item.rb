@@ -12,5 +12,4 @@ class Item < ApplicationRecord
     end
     out[attribute]
   end
-  
 end

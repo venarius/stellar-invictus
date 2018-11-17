@@ -7,7 +7,7 @@ class JumpWorker
     old_system = user.system
     
     # Make user in warp and loose its target
-    user.update_columns(in_warp: true, target_id: nil)
+    user.update_columns(in_warp: true, target_id: nil, is_attacking: false, npc_target_id: nil, mining_target_id: nil)
     
     # Tell everyone in location that user warped out
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)

@@ -23,6 +23,8 @@ begin
   
   # Cargocontainer
   Structure.where(structure_type: 'container').destroy_all
+  # Wrecks
+  Structure.where(structure_type: 'wreck').destroy_all
   
 rescue StandardError
   true

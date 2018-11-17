@@ -90,6 +90,6 @@ class EnemyWorker
       sleep(2)
     end
     # If target is gone wait for new to pop up
-    wait_for_new_target(enemy) if enemy.hp > 0
+    wait_for_new_target(enemy) if enemy.reload.hp > 0
   end
 end

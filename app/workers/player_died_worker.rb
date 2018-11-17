@@ -10,6 +10,10 @@ class PlayerDiedWorker
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.got_killed', name: user.full_name) )
     
+    # Create Wreck and fill with random loot
+    user.active_spaceship.drop_loot
+    ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
+    
     # Destroy current spaceship of user and give him a nano
     Spaceship.find(user.active_spaceship_id).destroy
     ship = Spaceship.create(user_id: user.id, name: 'Nano', hp: 50)
@@ -22,7 +26,7 @@ class PlayerDiedWorker
     
     # Remove user from being targeted by others
     User.where(target_id: user.id).each do |u|
-      u.update_columns(target_id: nil)
+      u.update_columns(target_id: nil, is_attacking: false)
       ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
     end
     

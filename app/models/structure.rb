@@ -1,9 +1,9 @@
 class Structure < ApplicationRecord
   belongs_to :location
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :items, dependent: :destroy
   
-  enum structure_type: [:container]
+  enum structure_type: [:container, :wreck]
   
   def get_items
     items = Item.where(structure_id: self.id)

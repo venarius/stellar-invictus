@@ -13,7 +13,8 @@ describe Spaceship do
     
     describe 'Functions' do
       before(:each) do
-        @ship = FactoryBot.create(:spaceship)
+        user = FactoryBot.create(:user_with_faction)
+        @ship = FactoryBot.create(:spaceship, user: user)
       end
       
       describe 'get_attribute' do
@@ -35,6 +36,22 @@ describe Spaceship do
         
         it 'should return items in storage of ship' do
           expect(@ship.get_items['test']).to eq(2)
+        end
+      end
+      
+      describe 'drop_loot' do
+        it 'should not create structure when no items' do
+          @ship.drop_loot
+          expect(Structure.count).to eq(0)
+        end
+        
+        it 'should create strcture with items when ship has items in it' do
+          2.times do
+            Item.create(loader: 'test', spaceship: @ship)
+          end
+          @ship.drop_loot
+          expect(Structure.count).to eq(1)
+          expect(Structure.first.get_items.count).to be >= 0
         end
       end
     end
