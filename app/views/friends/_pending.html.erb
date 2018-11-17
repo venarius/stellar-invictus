@@ -6,10 +6,10 @@
           <td>
             <%= image_tag("avatars/#{friendship.user.avatar}.jpg", class: 'float-left') %>
             <div class="float-right">
-              <button class="btn btn-outline-success accept-friend-request-btn" data-id="<%= friendship.id %>">
+              <button class="btn btn-outline-success accept-friend-request-btn btn-sm" data-id="<%= friendship.id %>">
                 <i class="fa fa-plus"></i>
               </button>
-              <button class="btn btn-outline-danger remove-as-friend-btn" data-id="<%= friendship.user.id %>">
+              <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.user.id %>">
                 <i class="fa fa-times"></i>
               </button>
             </div>
@@ -22,7 +22,7 @@
           <td>
             <%= image_tag("avatars/#{friendship.friend.avatar}.jpg", class: 'float-left') %>
             <div class="float-right">
-              <button class="btn btn-outline-danger remove-as-friend-btn" data-id="<%= friendship.user.id %>">
+              <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.user.id %>">
                 <i class="fa fa-times"></i>
               </button>
             </div>

@@ -5,7 +5,7 @@ class FriendsController < ApplicationController
   end
   
   def add_friend
-    if params[:id] and (Friendship.where("(user_id = ? OR friend_id = ?) OR (user_id = ? OR friend_id = ?)", params[:id], current_user.id, current_user.id, params[:id]))
+    if params[:id] and (Friendship.where("(user_id = ? OR friend_id = ?) OR (user_id = ? OR friend_id = ?)", params[:id], current_user.id, current_user.id, params[:id]).empty?)
       user = User.find(params[:id])
       unless user == current_user
         Friendship.create(user: current_user, friend: user, accepted: false)
