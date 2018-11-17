@@ -65,6 +65,7 @@ class StructuresController < ApplicationController
         structure.destroy
         # Tell Players in location
         ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_appeared')
+        ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'log', text: I18n.t('log.user_destroyed_cargo', user: current_user.full_name))
         
         render json: {}, status: 200 and return
       end
