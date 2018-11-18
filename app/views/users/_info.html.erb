@@ -9,7 +9,7 @@
       </div>
       <div class="modal-body m-auto text-center">
           <%= image_tag("avatars/#{user.avatar}.jpg", height: 150) %><br><br>
-          <% if Friendship.where("(user_id = ? OR friend_id = ?) OR (user_id = ? OR friend_id = ?)", params[:id], current_user.id, current_user.id, params[:id]).empty? and current_user != user %>
+          <% if current_user.friends.where(id: user.id).empty? and current_user != user %>
             <button class="btn btn-outline-primary add-as-friend-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.add_friend') %>" data-id="<%= user.id %>">
               <i class="fa fa-user-plus"></i>
             </button>

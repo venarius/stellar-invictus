@@ -22,7 +22,7 @@
           <td>
             <%= image_tag("avatars/#{friendship.friend.avatar}.jpg", class: 'float-left') %>
             <div class="float-right">
-              <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.user.id %>">
+              <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.friend.id %>">
                 <i class="fa fa-times"></i>
               </button>
             </div>
