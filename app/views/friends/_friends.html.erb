@@ -1,35 +1,41 @@
 <table class="table table-striped table-bordered">
   <tbody>
-    <% @friends.each do |friendship| %>
-      <% if friendship.user == current_user %>
-        <tr>
-          <td>
-            <%= image_tag("avatars/#{friendship.friend.avatar}.jpg", class: 'float-left') %>
-            <div class="float-right">
-              <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.friend.id %>">
-                <i class="fa fa-times"></i>
-              </button>
-              <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: friendship.friend.full_name), class: 'btn btn-outline-primary btn-sm', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
-            </div>
-            <a href="#" class="player-modal" data-id=<%= friendship.friend.id %>><strong><%= friendship.friend.full_name %></strong></a><br>
-            <%= online_status(friendship.friend) %> - <strong><%= friendship.friend.system.name %></strong> <%= friendship.friend.location.name %>
-          </td>
-        </tr>
-      <% else %>
-        <tr>
-          <td>
-            <%= image_tag("avatars/#{friendship.user.avatar}.jpg", class: 'float-left') %>
-            <div class="float-right">
-              <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.user.id %>">
-                <i class="fa fa-times"></i>
-              </button>
-              <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: friendship.user.full_name), class: 'btn btn-outline-primary btn-sm', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
-            </div>
-            <a href="#" class="player-modal" data-id=<%= friendship.user.id %>><strong><%= friendship.user.full_name %></strong></a><br>
-            <%= online_status(friendship.user) %> - <strong><%= friendship.user.system.name %></strong> <%= friendship.user.location.name %>
-          </td>
-        </tr>
+    <% if @friends.present? %>
+      <% @friends.each do |friendship| %>
+        <% if friendship.user == current_user %>
+          <tr>
+            <td>
+              <%= image_tag("avatars/#{friendship.friend.avatar}.jpg", class: 'float-left') %>
+              <div class="float-right">
+                <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.friend.id %>">
+                  <i class="fa fa-times"></i>
+                </button>
+                <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: friendship.friend.full_name), class: 'btn btn-outline-primary btn-sm', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
+              </div>
+              <a href="#" class="player-modal" data-id=<%= friendship.friend.id %>><strong><%= friendship.friend.full_name %></strong></a><br>
+              <%= online_status(friendship.friend) %> - <strong><%= friendship.friend.system.name %></strong> <%= friendship.friend.location.name %>
+            </td>
+          </tr>
+        <% else %>
+          <tr>
+            <td>
+              <%= image_tag("avatars/#{friendship.user.avatar}.jpg", class: 'float-left') %>
+              <div class="float-right">
+                <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.user.id %>">
+                  <i class="fa fa-times"></i>
+                </button>
+                <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: friendship.user.full_name), class: 'btn btn-outline-primary btn-sm', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
+              </div>
+              <a href="#" class="player-modal" data-id=<%= friendship.user.id %>><strong><%= friendship.user.full_name %></strong></a><br>
+              <%= online_status(friendship.user) %> - <strong><%= friendship.user.system.name %></strong> <%= friendship.user.location.name %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
+    <% else %>
+      <tr>
+        <td class="text-center"><span><strong><%= I18n.t('friends.dont_be_lonely') %></strong></span></td>
+      </tr>
     <% end %>
   </tbody>
 </table>

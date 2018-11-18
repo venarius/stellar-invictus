@@ -4,6 +4,7 @@
     <div class="row">
       <div class="col-md-3">
         <div class="nav flex-column nav-pills" role="tablist">
+          <button class="btn btn-primary mb-10px" data-toggle="modal" data-target="#add-friend-modal"><i class="fa fa-plus"></i> <%= I18n.t('friends.add_friend') %></button>
           <a class="nav-link active" data-toggle="pill" href="#friends" role="tab"><%= I18n.t('friends.friends') %> <span class="badge badge-secondary"><%= @friends.count %></span></a>
           <a class="nav-link" data-toggle="pill" href="#pending" role="tab"><%= I18n.t('friends.pending') %> <span class="badge badge-secondary"><%= @pending.count %></span></a>
         </div>
@@ -17,6 +18,34 @@
             <%= render partial: 'friends/pending', locals: {pending: @pending} %>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search Users Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="add-friend-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('friends.add_friend') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="add-friend-modal-body">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="<%= I18n.t('search.user_name') %>" id="add-friend-modal-input">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="button" id="add-friend-modal-search-btn"><%= I18n.t('search.search') %></button>
+          </div>
+        </div>
+        <div id="add-friend-modal-result">
+          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
       </div>
     </div>
   </div>

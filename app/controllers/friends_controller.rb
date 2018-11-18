@@ -50,6 +50,14 @@ class FriendsController < ApplicationController
     render json: {}, status: 400
   end
   
+  def search
+    if params[:name]
+      result = User.where("full_name LIKE ?", "%#{params[:name]}%").first(20)
+      render partial: 'friends/search', locals: {users: result} and return
+    end
+    render json: {}, status: 400
+  end
+  
   private
   
   def accept_friendship(id)

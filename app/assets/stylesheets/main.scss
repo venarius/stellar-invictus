@@ -637,6 +637,28 @@ body {
   margin-top: 5px;
 }
 
+.friends-search-table {
+  font-size: 13px;;
+  margin-bottom: 5px;
+  tbody {
+    width: 100%;
+    overflow: auto;
+    max-height: 14.5rem;
+    display: block;
+    tr {
+      display: block;
+      td {
+        padding: 0.3rem;
+        display: block;
+        img {
+          height: 38px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
+
 @media (min-width: 769px) {
   .friends-card {
     .card-body {
