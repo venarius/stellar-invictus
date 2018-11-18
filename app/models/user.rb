@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :structures, dependent: :destroy
   
   has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships
   
   
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
