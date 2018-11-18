@@ -170,6 +170,11 @@ en:
   friends:
     friends: "Friends"
     pending: "Pending"
+    dont_be_lonely: "Error 404 - No friends found"
+    add_friend: "Add friend"
   helpers:
     online_ago: "Online %{time} ago"
     online_now: "Online Now"
+  search:
+    search: "Search"
+    user_name: "Pilot Name"

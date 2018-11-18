@@ -79,6 +79,7 @@ Rails.application.routes.draw do
     post 'add_friend', to: 'friends#add_friend'
     post 'accept_request', to: 'friends#accept_request'
     post 'remove_friend', to: 'friends#remove_friend'
+    post 'search', to: 'friends#search'
   end
   
   # ActionCable

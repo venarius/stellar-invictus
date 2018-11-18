@@ -33,6 +33,14 @@ RSpec.describe FriendsController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'POST search' do
+      it 'should redirect_to new_user_session_path' do
+        post :search
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do
@@ -138,6 +146,19 @@ RSpec.describe FriendsController, type: :controller do
         post :remove_friend, params: {id: @user.id}
         expect(response.status).to eq(200)
         expect(Friendship.count).to eq(2)
+      end
+    end
+    
+    describe 'POST search' do
+      it 'should render template if name given' do
+        post :search, params: {name: @user.name}
+        expect(response.status).to eq(200)
+        expect(response).to render_template('friends/_search')
+      end
+      
+      it 'should render nothing if no name given' do
+        post :search
+        expect(response.status).to eq(400)
       end
     end
   end

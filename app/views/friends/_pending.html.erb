@@ -14,7 +14,7 @@
               </button>
             </div>
             <a href="#" class="player-modal" data-id=<%= friendship.user.id %>><strong><%= friendship.user.full_name %></strong></a><br>
-            <%= online_status(friendship.user) %> - <strong><%= friendship.user.system.name %></strong> <%= friendship.user.location.name %>
+            <%= online_status(friendship.user) %>
           </td>
         </tr>
       <% else %>
@@ -27,7 +27,7 @@
               </button>
             </div>
             <a href="#" class="player-modal" data-id=<%= friendship.friend.id %>><strong><%= friendship.friend.full_name %></strong></a><br>
-            <%= online_status(friendship.friend) %> - <strong><%= friendship.friend.system.name %></strong> <%= friendship.friend.location.name %>
+            <%= online_status(friendship.friend) %>
           </td>
         </tr>
       <% end %>
