@@ -3,7 +3,7 @@
     <td><%= image_tag('icons/jumpgate.png') %></td>
     <td class="name"><%= current_user.location.name %></td>
     <td><%= I18n.t('overview.jumpgate') %></td>
-    <td></td>
+    <td class="mobile-display-none"></td>
     <td>
       <button class="btn btn-outline-primary btn-xs jumpgate-jump-btn w-100" data-time="<%= current_user.location.jumpgate.traveltime %>">
         <%= I18n.t('actions.jump') %>
@@ -17,7 +17,7 @@
       <td><%= image_tag('icons/asteroid.png') %></td>
       <td class="name"><%= I18n.t('overview.asteroid') %> <span class="mobile-display-none">(<%= asteroid.asteroid_type.capitalize %>)</span></td>
       <td><%= asteroid.asteroid_type.capitalize %></td>
-      <td></td>
+      <td class="mobile-display-none"></td>
       <td>
         <button class="btn btn-outline-primary btn-xs w-100 mine-asteroid-btn" data-id="<%= asteroid.id %>">
           <%= I18n.t('actions.mine') %>
@@ -30,7 +30,7 @@
     <td><%= image_tag('icons/station.png') %></td>
     <td class="name"><%= current_user.location.name %></td>
     <td><%= I18n.t('overview.station') %></td>
-    <td></td>
+    <td class="mobile-display-none"></td>
     <td>
       <button class="btn btn-outline-primary btn-xs station-dock-btn w-100">
         <%= I18n.t('actions.dock') %>
