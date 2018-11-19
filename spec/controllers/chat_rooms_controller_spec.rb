@@ -25,6 +25,14 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'POST start_conversation' do
+      it 'should redirect to new_user_session_path' do
+        post :start_conversation
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do
@@ -116,6 +124,27 @@ RSpec.describe ChatRoomsController, type: :controller do
         post :leave, params: {id: @room.id }
         expect(response.status).to eq(400)
         expect(@room.users.count).to eq(0)
+      end
+    end
+    
+    describe 'POST start_conversation' do
+      it 'should fail if no id given' do
+        post :start_conversation
+        expect(response.status).to eq(400)
+        expect(ChatRoom.count).to eq(12)
+      end
+      
+      it 'should create channel if id given' do
+        user2 = FactoryBot.create(:user_with_faction)
+        post :start_conversation, params: {id: user2.id}
+        expect(response.status).to eq(200)
+        expect(ChatRoom.count).to eq(13)
+      end
+      
+      it 'should fail if inviting self' do
+        post :start_conversation, params: {id: @user.id}
+        expect(response.status).to eq(400)
+        expect(ChatRoom.count).to eq(12)
       end
     end
   end

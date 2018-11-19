@@ -14,7 +14,7 @@ class Spaceship < ApplicationRecord
     self.get_attribute('storage') - self.get_weight
   end
   
-  def get_attribute(attribute)
+  def get_attribute(attribute=nil)
     SHIP_VARIABLES[self.name][attribute] rescue nil
   end
   

@@ -49,6 +49,7 @@ $( document ).on('turbolinks:load', function() {
       var id = $('#join-chatroom-modal-join-input').val()
       if (id) {
         $.post('chat/join', {id: id}, function(data) {
+          Cookies.set('chat_tab', '#chatroom-' + data.id)
           Turbolinks.visit(window.location);
         }).error(function(data) {
           $('#join-chatroom-modal-join-input').removeClass("outline-danger").addClass("outline-danger");
@@ -77,6 +78,7 @@ $( document ).on('turbolinks:load', function() {
       var title = $('#join-chatroom-modal-create-input').val()
       if (title) {
         $.post('chat/create', {title: title}, function(data) {
+          Cookies.set('chat_tab', '#chatroom-' + data.id)
           Turbolinks.visit(window.location);
         });
       } else {
@@ -88,6 +90,32 @@ $( document ).on('turbolinks:load', function() {
     $('#join-chatroom-modal').on('hidden.bs.modal', function(e) {
       $('#join-chatroom-modal-create-input').val("").removeClass("outline-danger");
       $('#join-chatroom-modal-join-input').val("").removeClass("outline-danger");
+    });
+    
+    // Chat Player Button AJAX
+    $('body').on('click', '.chat-player-btn', function(e) {
+      e.preventDefault();
+      var id = $(this).data('id');
+      $.post('chat/start_conversation', {id: id}, function(data) {
+        Cookies.set('chat_tab', '#chatroom-' + data.id)
+        Cookies.set('collapse-chat', 'shown')
+        Turbolinks.visit(window.location);
+      });
+    });
+    
+    // Chat Invite Accept Button AJAX
+    $('#app-container').on('click', '.accept-chat-invite-btn', function(e) {
+      var id = $(this).data('id');
+      $.post('chat/join', {id: id}, function(data) {
+        Cookies.set('chat_tab', '#chatroom-' + id)
+        Cookies.set('collapse-chat', 'shown')
+        Turbolinks.visit(window.location);
+      })
+    });
+    
+    // On Invite Modal Close
+    $('#app-container').on('hidden.bs.modal', '.invited-to-conversation-modal', function(e) {
+      $(this).remove();
     });
 });
 
@@ -129,4 +157,10 @@ function log(text) {
     $('#log').find('tbody').append("<tr><td>"+text+"</td></tr>")
     scrollChats();
   }
+}
+
+// Invited to Conversation Modal
+function invited_to_conversation(data) {
+  var modal = data
+  $(modal).appendTo('#app-container').modal('show');
 }
