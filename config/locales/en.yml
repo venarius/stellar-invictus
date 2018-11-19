@@ -50,7 +50,7 @@ en:
     must_be_at_least_8_characters: "Must contains at least 8 characters"
     too_long_name: "cannot be longer than 20 characters"
     too_long_chat_room: "cannot be longer than 20 characters"
-    too_long_chat_message: "cannot be longer than 100 characters"
+    too_long_chat_message: "cannot be longer than 300 characters"
     too_long_mail_body: "cannot be longer than 500 characters"
     too_long_mail_header: "cannot be longer than 100 characters"
     too_short: "cannot be shorter than 2 characters"
@@ -76,6 +76,9 @@ en:
     died: "Killed in action"
     died_text: "Your ship and your cargo got destroyed. Your corpse has been transfered to: %{location}. A doctor was able to revive you. Be careful next time."
     take_all: "Take all"
+    invited_to_conversation_text: "%{user} invited you to a conversation. Accept?"
+    accept: "Accept"
+    invited_to_conversation: "Invited to Conversation"
   chat:
     local: "Local Chat"
     global: "Global Chat"
@@ -91,6 +94,7 @@ en:
     create: "Create"
     user_joined_channel: "%{user} joined the channel"
     user_left_channel: "%{user} left the channel"
+    conversation: "Conversation"
   types:
     jumpgate: "Jumpgate"
     station: "Station"

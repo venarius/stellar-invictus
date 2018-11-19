@@ -197,9 +197,14 @@ a {
           td {
             padding: 0.3rem;
             display: block;
+            word-break: break-all;
             img {
               height: 38px;
               margin-right: 10px;
+            }
+            p {
+              margin-left: 48px;
+              margin-bottom: 0;
             }
           }
         }

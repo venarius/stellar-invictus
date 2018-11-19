@@ -29,7 +29,9 @@
               <button class="btn btn-outline-primary btn-xs player-modal" data-toggle="tooltip" data-placement="top" data-id="<%= user.id %>" data-title="<%= I18n.t('tooltips.info') %>">
                 <i class='fa fa-info'></i>
               </button>
-              <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: user.full_name), class: 'btn btn-outline-primary btn-xs', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
+              <button class="btn btn-outline-primary chat-player-btn" data-toggle="tootlip" data-placement="top" title="<%= I18n.t('tooltips.message') %>" data-id="<%= user.id %>">
+                <i class='fa fa-comment-alt'></i>
+              </button>
             </td>
           </tr>
         <% end %>

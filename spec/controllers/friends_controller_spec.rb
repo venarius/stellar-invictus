@@ -147,6 +147,11 @@ RSpec.describe FriendsController, type: :controller do
         expect(response.status).to eq(200)
         expect(Friendship.count).to eq(2)
       end
+      
+      it 'should not be able to remove friendship if no id given' do
+        post :remove_friend, params: {id: 2000}
+        expect(response.status).to eq(400)
+      end
     end
     
     describe 'POST search' do
