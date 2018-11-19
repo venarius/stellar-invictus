@@ -19,11 +19,15 @@ describe Spaceship do
       
       describe 'get_attribute' do
         it 'should return attribute of spaceship from yml' do
-          expect(@ship.get_attribute('price')).to eq(0)
+          expect(@ship.get_attribute('storage')).to eq(10)
         end
         
         it 'should return attribute of spaceship from yml when nil' do
           expect(@ship.get_attribute('noot')).to eq(nil)
+        end
+        
+        it 'should return nil if nil given' do
+          expect(@ship.get_attribute()).to eq(nil)
         end
       end
       

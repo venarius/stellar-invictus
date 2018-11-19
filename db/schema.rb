@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_17_212041) do
+ActiveRecord::Schema.define(version: 2018_11_19_075551) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -23,14 +23,29 @@ ActiveRecord::Schema.define(version: 2018_11_17_212041) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "system_id"
-    t.integer "type"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["system_id"], name: "index_chat_messages_on_system_id"
-    t.index ["user_id", "system_id", "type"], name: "index_chat_messages_on_user_id_and_system_id_and_type"
+    t.integer "chat_room_id"
+    t.index ["chat_room_id"], name: "index_chat_messages_on_chat_room_id"
     t.index ["user_id"], name: "index_chat_messages_on_user_id"
+    t.index ["user_id"], name: "index_chat_messages_on_user_id_and_system_id_and_type"
+  end
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string "title"
+    t.integer "location_id"
+    t.integer "chatroom_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_chat_rooms_on_location_id"
+  end
+
+  create_table "chat_rooms_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "chat_room_id"
+    t.index ["chat_room_id"], name: "index_chat_rooms_users_on_chat_room_id"
+    t.index ["user_id"], name: "index_chat_rooms_users_on_user_id"
   end
 
   create_table "factions", force: :cascade do |t|

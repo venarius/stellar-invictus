@@ -82,6 +82,14 @@ Rails.application.routes.draw do
     post 'search', to: 'friends#search'
   end
   
+  # Chat
+  scope :chat do
+    post 'join', to: 'chat_rooms#join'
+    post 'create', to: 'chat_rooms#create'
+    post 'leave', to: 'chat_rooms#leave'
+    post 'start_conversation', to: 'chat_rooms#start_conversation'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

@@ -39,3 +39,5 @@ $(document).on "turbolinks:load", ->
           log(data.text)
         else if (data.method == 'new_friendrequest')
           new_friendrequest()
+        else if (data.method == 'invited_to_conversation' && data.data)
+          invited_to_conversation(data.data)
