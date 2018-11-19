@@ -54,3 +54,9 @@ urus_jumpgate_jita = Location.find_or_create_by(name: jita.name, system: urus, l
 Jumpgate.find_or_create_by(origin: jita_jumpgate_talos, destination: talos_jumpgate_jita, traveltime: 10)
 Jumpgate.find_or_create_by(origin: jita_jumpgate_urus, destination: urus_jumpgate_jita, traveltime: 20)
 Jumpgate.find_or_create_by(origin: urus_jumpgate_talos, destination: talos_jumpgate_urus, traveltime: 15)
+
+# Chat Rooms for Global and Locations
+ChatRoom.create(chatroom_type: 'global', title: 'Global')
+Location.all.each do |location|
+   ChatRoom.create(chatroom_type: 'local', title: location.name, location: location) 
+end

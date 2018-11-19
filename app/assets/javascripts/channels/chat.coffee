@@ -7,7 +7,7 @@ $(document).on "turbolinks:load", ->
           scrollChats()
           
       send_message: (message) ->
-        @perform 'send_message', message: message
+        @perform 'send_message', message: message, room: 'local'
     )
         
   if (logged_in && !App['global-chat'])
@@ -18,5 +18,5 @@ $(document).on "turbolinks:load", ->
           scrollChats()
           
       send_message: (message) ->
-        @perform 'send_message', message: message
+        @perform 'send_message', message: message, room: 'global'
     )

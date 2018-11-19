@@ -2,11 +2,7 @@ class ChatMessageBroadcastJob < ApplicationJob
   queue_as :default
 
   def perform(chat_message) 
-    if chat_message.system
-      ActionCable.server.broadcast "local_chat_#{chat_message.system.name}", message: render_message(chat_message)
-    else
-      ActionCable.server.broadcast "global_chat", message: render_message(chat_message)
-    end
+    ChatChannel.broadcast_to(chat_message.chat_room, message: render_message(chat_message))
   end 
 
   private 

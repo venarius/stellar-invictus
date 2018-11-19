@@ -15,7 +15,7 @@
 - Trading
 - Equipment System
 - Enhanced Fighting -> Warp Scramble, Evasion Try
-- Custom Chatchannels
+- ~~Custom Chatchannels~~
 - Missions
 - Planetary Interaction
 - Expeditions -> Quiz for loot

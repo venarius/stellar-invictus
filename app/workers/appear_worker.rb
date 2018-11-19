@@ -22,6 +22,11 @@ class AppearWorker
           names: User.where("online > 0").where(system: user.system).map(&:full_name))
       end
       
+      # Tell all users in custom chat channels to update
+      user.chat_rooms.where(chatroom_type: 'custom').each do |room|
+        ChatChannel.broadcast_to(room, method: 'update_players', names: room.users.where("online > 0").map(&:full_name))
+      end
+      
     end
   end
 end
