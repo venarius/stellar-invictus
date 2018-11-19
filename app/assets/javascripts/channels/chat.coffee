@@ -8,6 +8,9 @@ $(document).on "turbolinks:load", ->
           
       send_message: (message) ->
         @perform 'send_message', message: message, room: 'local'
+        
+      reload:->
+        @perform("reload")
     )
         
   if (logged_in && !App['global-chat'])

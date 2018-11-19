@@ -20,4 +20,9 @@ class ChatChannel < ApplicationCable::Channel
       ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.find(room_id.to_i))
     end
   end
+  
+  def reload
+    stop_all_streams
+    stream_for ChatRoom.find_by(location: current_user.location)
+  end
 end
