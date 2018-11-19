@@ -73,6 +73,7 @@ function reload_players_card() {
 // Clear Jump
 function clear_jump() {
   App.local.reload();
+  App['local-chat'].unsubscribe();
   App['local-chat'].reload();
   clearInterval(jump_interval);
   jump_interval = false
