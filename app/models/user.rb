@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   
+  has_and_belongs_to_many :chat_rooms
+  
   
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar,
             presence: true

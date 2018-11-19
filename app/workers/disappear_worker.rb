@@ -22,6 +22,7 @@ class DisappearWorker
       
       # Remove user target and mining target if logging off
       if user.online == 0
+        
         user.update_columns(target_id: nil, mining_target_id: nil, npc_target_id: nil, is_attacking: false)
         
         # Tell everyone in system to update their local players
@@ -30,8 +31,13 @@ class DisappearWorker
             count: User.where("online > 0").where(system: user.system).count, 
             names: User.where("online > 0").where(system: user.system).map(&:full_name))
         end
+        
+        # Tell all users in custom chat channels to update
+        user.chat_rooms.where(chatroom_type: 'custom').each do |room|
+          ChatChannel.broadcast_to(room, method: 'update_players', names: room.users.where("online > 0").map(&:full_name))
+        end
+        
       end
-      
     end
   end
 end
