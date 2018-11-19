@@ -22,7 +22,6 @@ class ChatChannel < ApplicationCable::Channel
   end
   
   def reload
-    stop_all_streams
-    stream_for ChatRoom.find_by(location: current_user.location)
+    stream_for ChatRoom.find_by(location: current_user.reload.location)
   end
 end
