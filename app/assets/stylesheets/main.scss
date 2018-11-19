@@ -375,6 +375,12 @@ body {
           .btn {
             padding: 0rem 0.5rem;
           }
+          &.players-card-name-td {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 20px;
+          }
         }
       }
     } 
