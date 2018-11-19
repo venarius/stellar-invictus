@@ -2,7 +2,11 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><%= I18n.t('structures.container') %> (<%= owner_name %>)</h5>
+        <% if owner_name != "" %>
+          <h5 class="modal-title"><%= I18n.t('structures.container') %> (<%= owner_name %>)</h5>
+        <% else %>
+          <h5 class="modal-title"><%= I18n.t('structures.container') %></h5>
+        <% end %>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

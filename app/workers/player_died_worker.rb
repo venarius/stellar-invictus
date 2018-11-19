@@ -37,7 +37,7 @@ class PlayerDiedWorker
         names: User.where("online > 0").where(system: user.system).map(&:full_name))
     end
     
-    sleep(0.5)
+    sleep(1)
     
     # Tell user to show died modal
     ActionCable.server.broadcast("player_#{user.id}", method: 'died_modal', text: I18n.t('modal.died_text', location: "#{user.location.name} - #{user.system.name}") )
