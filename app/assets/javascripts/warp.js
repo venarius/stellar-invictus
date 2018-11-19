@@ -74,7 +74,7 @@ function reload_players_card() {
 function clear_jump() {
   App.local.reload();
   App['local-chat'].unsubscribe();
-  App['local-chat'].reload();
+  App['local-chat'] = null;
   clearInterval(jump_interval);
   jump_interval = false
   pixi_background_speed = 1;

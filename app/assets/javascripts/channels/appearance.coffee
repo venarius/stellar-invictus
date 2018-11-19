@@ -4,7 +4,7 @@ $(document).on "turbolinks:load", ->
       # Called when the subscription is ready for use on the server.
       connected:->
         if ($('#got-disconnected-modal').hasClass('show'))
-          Turbolinks.visit(window.location)
+          location.reload();
       # Called when the WebSocket connection is closed.
       disconnected:->
         $('#got-disconnected-modal').modal('show')
