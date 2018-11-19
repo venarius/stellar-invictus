@@ -42,6 +42,53 @@ $( document ).on('turbolinks:load', function() {
         });
       }
     }
+    
+    // Join chatroom AJAX
+    $('#join-chatroom-modal').on('click', '#join-chatroom-modal-join-btn', function(e) {
+      e.preventDefault();
+      var id = $('#join-chatroom-modal-join-input').val()
+      if (id) {
+        $.post('chat/join', {id: id}, function(data) {
+          Turbolinks.visit(window.location);
+        }).error(function(data) {
+          $('#join-chatroom-modal-join-input').removeClass("outline-danger").addClass("outline-danger");
+        });
+      } else {
+        $('#join-chatroom-modal-join-input').removeClass("outline-danger").addClass("outline-danger");
+      }
+    });
+    
+    // Close Chat AJAX
+    $('.chat-card').on('click', '.close-chat-btn', function(e) {
+      e.preventDefault();
+      var button = $(this)
+      var id = $(this).data('id')
+      $.post('chat/leave', {id: id}, function(data) {
+        App['chatroom-' + id].unsubscribe();
+        $(button.parent().attr('href')).remove();
+        button.parent().parent().remove();
+        $('.chat-card .nav-tabs a[href="#local-chat"]').tab('show')
+      });
+    });
+    
+    // Create chatroom AJAX
+    $('#join-chatroom-modal').on('click', '#join-chatroom-modal-create-btn', function(e) {
+      e.preventDefault();
+      var title = $('#join-chatroom-modal-create-input').val()
+      if (title) {
+        $.post('chat/create', {title: title}, function(data) {
+          Turbolinks.visit(window.location);
+        });
+      } else {
+        $('#join-chatroom-modal-create-input').removeClass("outline-danger").addClass("outline-danger");
+      }
+    });
+    
+    // Clear on hidden modal
+    $('#join-chatroom-modal').on('hidden.bs.modal', function(e) {
+      $('#join-chatroom-modal-create-input').val("").removeClass("outline-danger");
+      $('#join-chatroom-modal-join-input').val("").removeClass("outline-danger");
+    });
 });
 
 // Scroll to bottom of each chat
@@ -61,6 +108,17 @@ function update_players_in_system(count, names) {
     names = names.sort();
     $.each(names, function(index, tag) {  
       $('#system-players').append("<div>"+tag+"</div>")
+    });
+  }
+}
+
+// Update players in system
+function update_players_in_custom_chat(id, names) {
+  if ($('#' + id).length) {
+    $('#' + id + '-players').empty();
+    names = names.sort();
+    $.each(names, function(index, tag) {  
+      $('#' + id + '-players').append("<div>"+tag+"</div>")
     });
   }
 }

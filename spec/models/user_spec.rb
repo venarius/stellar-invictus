@@ -22,6 +22,7 @@ describe User do
       it { should respond_to :active_spaceship }
       it { should respond_to :structures }
       it { should respond_to :friendships }
+      it { should respond_to :chat_rooms }
     end
    
     describe 'Relations' do
@@ -32,6 +33,7 @@ describe User do
       it { should have_many :spaceships }
       it { should have_many :structures }
       it { should have_many :friendships }
+      it { should have_and_belong_to_many :chat_rooms }
     end
     
     describe 'Validations' do

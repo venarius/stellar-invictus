@@ -213,7 +213,7 @@ a {
   }
 }
 
-#local-chat {
+#local-chat, .custom-chat {
   .row { 
     padding: 0; 
     .col-md-2 { 
@@ -248,11 +248,25 @@ a {
         }
       }
     }
+  }
+  .custom-chat {
+    .row { 
+      padding: 0; 
+      .col-md-10 { padding-right: 5px; margin-top: 5px; }
+      .col-md-2 { 
+        border-left: 1px solid grey;
+        padding-left: 5px; 
+        .outer { 
+          margin-top: 0;
+          height: 13.6rem;
+        }
+      }
+    }
   } 
 }
 
 @media (max-width: 767px) {
-  #local-chat {
+  #local-chat, .custom-chat {
     .row { 
       .col-md-10 { margin-top: 5px; }
       .col-md-2 { 
