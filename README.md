@@ -6,6 +6,8 @@
 - Enhance map
 - Fleets
 - Alliances
+- Skills
+- Bio for Users
 - ~~Friends~~
 - ~~Drop Items -> Container~~
 - ~~Loot on destroyed enemies / players~~
@@ -13,7 +15,7 @@
 - Trading
 - Equipment System
 - Enhanced Fighting -> Warp Scramble, Evasion Try
-- Custom Chatchannels?
+- Custom Chatchannels
 - Missions
 - Planetary Interaction
 - Expeditions -> Quiz for loot
