@@ -5,6 +5,7 @@ class AttackWorker
   def perform(player_id, target_id)
     player = User.find(player_id)
     target = User.find(target_id)
+    player_name = player.full_name
     
     # Get current active spaceships of each
     player_ship = player.active_spaceship
@@ -13,13 +14,13 @@ class AttackWorker
     # If target is already attacking -> stop
     if player.is_attacking
       player.update_columns(is_attacking: false)
-      ActionCable.server.broadcast("player_#{target.id}", method: 'getting_attacked', name: player.full_name)
-      ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_target_info')
+      ActionCable.server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
+      ActionCable.server.broadcast("player_#{player_id}", method: 'refresh_target_info')
       return
     end
     
     # Tell target its getting attacked by player
-    ActionCable.server.broadcast("player_#{target.id}", method: 'getting_attacked', name: player.full_name)
+    ActionCable.server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
     
     # Call Police on systems with sec higher than low
     call_police(player)
@@ -37,22 +38,24 @@ class AttackWorker
         attack = SHIP_VARIABLES[player_ship.name]['power'] * (1.0 - SHIP_VARIABLES[target_ship.name]['defense']/100.0)
         target_ship.update_columns(hp: target_ship.hp - attack.round)
         
+        target_hp = target_ship.hd
+        
         # If target hp is below 0 -> die
-        if target_ship.hp <= 0
+        if target_hp <= 0
           target_ship.update_columns(hp: 0)
           target.die and return
         end
         
         # Tell both parties to update their hp and log
-        ActionCable.server.broadcast("player_#{target.id}", method: 'update_health', hp: target_ship.hp)
-        ActionCable.server.broadcast("player_#{target.id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player.full_name, hp: attack))
+        ActionCable.server.broadcast("player_#{target_id}", method: 'update_health', hp: target_hp)
+        ActionCable.server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player_name, hp: attack))
         
-        ActionCable.server.broadcast("player_#{player.id}", method: 'update_target_health', hp: target_ship.hp)
-        ActionCable.server.broadcast("player_#{player.id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: target.full_name, hp: attack))
+        ActionCable.server.broadcast("player_#{player_id}", method: 'update_target_health', hp: target_hp)
+        ActionCable.server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: target.full_name, hp: attack))
         
         # Tell other users who targeted target to also update hp
-        User.where(target_id: target.id).where("online > 0").each do |u|
-          ActionCable.server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_ship.hp)
+        User.where(target_id: target_id).where("online > 0").each do |u|
+          ActionCable.server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
         end
       else
         return
@@ -69,11 +72,11 @@ class AttackWorker
   end
   
   def call_police(player)
-    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player.id).empty?
+    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player_id).empty?
       if player.system.security_status == 'high'
-        PoliceWorker.perform_async(player.id, 2)
+        PoliceWorker.perform_async(player_id, 2)
       else
-        PoliceWorker.perform_async(player.id, 10)
+        PoliceWorker.perform_async(player_id, 10)
       end
     end
   end

@@ -5,6 +5,7 @@ class AppearWorker
   def perform(player_id)
     user = User.find(player_id) rescue nil
     if user
+      system = user.system
       
       # Add 1 to user online status
       user.update_columns(online: user.online + 1)
@@ -16,10 +17,10 @@ class AppearWorker
       end
       
       # Tell everyone in system to update their local players
-      user.system.locations.each do |location|
+      users = User.where("online > 0").where(system: system)
+      systen.locations.each do |location|
         ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
-          count: User.where("online > 0").where(system: user.system).count, 
-          names: User.where("online > 0").where(system: user.system).map(&:full_name))
+          count: users.count, names: users.map(&:full_name))
       end
       
       # Tell all users in custom chat channels to update

@@ -14,7 +14,7 @@ class JumpWorker
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.user_jumped_out', user: user.full_name, location: user.location.name))
     
     # Remove user from being targeted by others
-    User.where(target_id: user.id).each do |u|
+    User.where(target_id: player_id).each do |u|
       u.update_columns(target_id: nil)
       ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
     end
@@ -24,23 +24,26 @@ class JumpWorker
     
     # Set user system to new system
     to_system = System.find_by(name: user.location.name)
-    user.update_columns(system_id: to_system.id, location_id: Location.find_by(location_type: 'jumpgate', name: user.system.name, system: to_system.id).id, in_warp: false)
+    user.update_columns(system_id: to_system.id, location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system: to_system.id).id, in_warp: false)
+    
+    # Set Variable
+    user_system = user.system
     
     # Tell everyone in new location that user has appeared
     ActionCable.server.broadcast("location_#{user.reload.location_id}", method: 'player_appeared')
     
     # Tell everyone in old system to update their local players
+    old_users = User.where("online > 0").where(system: old_system)
     old_system.locations.each do |location|
       ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
-        count: User.where("online > 0").where(system: old_system).count, 
-        names: User.where("online > 0").where(system: old_system).map(&:full_name))
+        count: old_users.count, names: old_users.map(&:full_name))
     end
     
     # Tell everyone in new system to update their local players
-    user.system.locations.each do |location|
+    users = User.where("online > 0").where(system: user_system)
+    user_system.locations.each do |location|
       ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
-        count: User.where("online > 0").where(system: user.system).count, 
-        names: User.where("online > 0").where(system: user.system).map(&:full_name))
+        count: users.count, names: users.map(&:full_name))
     end
     
     # Tell user to reload page
