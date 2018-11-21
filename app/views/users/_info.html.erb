@@ -21,6 +21,9 @@
             <button class="btn btn-outline-primary chat-player-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.message') %>" data-id="<%= user.id %>" <%= 'disabled' if user.online == 0 %>>
               <i class="fa fa-comment-alt"></i>
             </button>
+            <button class="btn btn-outline-primary invite-to-fleet-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.invite_to_fleet') %>" data-id="<%= user.id %>" <%= 'disabled' if user.fleet || user.online == 0 %>>
+              <i class="fa fa-space-shuttle"></i>
+            </button>
           <% end %>
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">

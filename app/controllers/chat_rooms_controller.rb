@@ -16,6 +16,10 @@ class ChatRoomsController < ApplicationController
     if params[:id]
       room = ChatRoom.find(params[:id]) rescue nil
       if room and room.custom? and room.users.where(id: current_user.id).empty?
+        unless room.fleet.nil?
+          ChatChannel.broadcast_to(room, method: 'player_appeared')
+          current_user.update_columns(fleet_id: room.fleet.id)
+        end
         room.users << current_user
         ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_joined_channel', user: current_user.full_name)}</td></tr>")
         ChatChannel.broadcast_to(room, method: 'update_players', names: room.users.where("online > 0").map(&:full_name))
@@ -34,6 +38,10 @@ class ChatRoomsController < ApplicationController
         room.users.destroy(current_user)
         ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_left_channel', user: current_user.full_name)}</td></tr>")
         ChatChannel.broadcast_to(room, method: 'update_players', names: room.users.where("online > 0").map(&:full_name))
+        if room.fleet
+          ChatChannel.broadcast_to(room, method: 'player_appeared')
+          current_user.update_columns(fleet_id: nil)
+        end
         if room.users.count <= 0
           room.destroy
         end

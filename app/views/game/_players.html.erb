@@ -17,7 +17,7 @@
         <%= render 'game/structure_info' %>
         <% local_users.each do |user| %>
           <% next if user.id == @current_user.id %>
-          <tr class="<%= 'target-flash' if user.target == current_user and !user.is_attacking %> <%= 'attack-flash' if user.target == current_user and user.is_attacking %>">
+          <tr class="<%= 'target-flash' if user.target == current_user and !user.is_attacking %> <%= 'attack-flash' if user.target == current_user and user.is_attacking %> <%= 'table-fleet' if user.in_same_fleet_as(current_user.id) %>">
             <td><%= image_tag('icons/helmet.png') %></td>
             <td class="players-card-name-td"><%= user.full_name %></td>
             <td><%= user.active_spaceship.name %></td>

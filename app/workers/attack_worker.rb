@@ -23,7 +23,7 @@ class AttackWorker
     ActionCable.server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
     
     # Call Police on systems with sec higher than low
-    call_police(player)
+    call_police(player, target)
     
     # Set is attacking to true
     player.update_columns(is_attacking: true)
@@ -38,7 +38,7 @@ class AttackWorker
         attack = SHIP_VARIABLES[player_ship.name]['power'] * (1.0 - SHIP_VARIABLES[target_ship.name]['defense']/100.0)
         target_ship.update_columns(hp: target_ship.hp - attack.round)
         
-        target_hp = target_ship.hd
+        target_hp = target_ship.hp
         
         # If target hp is below 0 -> die
         if target_hp <= 0
@@ -71,12 +71,12 @@ class AttackWorker
     target.can_be_attacked and player.can_be_attacked and target.location == player.location and player.target == target and player.is_attacking
   end
   
-  def call_police(player)
-    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player_id).empty?
+  def call_police(player, target)
+    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player.id).empty? and !target.in_same_fleet_as(player.id)
       if player.system.security_status == 'high'
-        PoliceWorker.perform_async(player_id, 2)
+        PoliceWorker.perform_async(player.id, 2)
       else
-        PoliceWorker.perform_async(player_id, 10)
+        PoliceWorker.perform_async(player.id, 10)
       end
     end
   end

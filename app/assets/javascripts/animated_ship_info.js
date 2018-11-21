@@ -203,8 +203,8 @@ function enemy_player_ship() {
       time = time-1;
       countdown.text = time
       if (time <= 0) {
-        countdown = null;
         app.stage.removeChild(countdown);
+        countdown = null;
         clearInterval(target_interval);
       }
     }, 1000);
