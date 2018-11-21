@@ -11,7 +11,7 @@
         <%= I18n.t('modal.invited_to_conversation_text', user: user.full_name) %>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary accept-chat-invite-btn" data-id="<%= room.id %>">
+        <button class="btn btn-primary accept-chat-invite-btn" data-id="<%= room.identifier %>">
           <%= I18n.t('modal.accept') %>
         </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>

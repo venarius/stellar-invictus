@@ -10,7 +10,7 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data('id');
     if (id) {
       $.post('fleet/invite', {id: id}, function(data){
-        Cookies.set('chat_tab', '#chatroom-' + id)
+        Cookies.set('chat_tab', '#chatroom-' + data.id)
         Cookies.set('collapse-chat', 'shown')
         Turbolinks.visit(window.location);  
       });
@@ -23,7 +23,7 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data('id');
     if (id) {
       $.post('fleet/accept_invite', {id: id}, function(data){
-        Cookies.set('chat_tab', '#chatroom-' + id)
+        Cookies.set('chat_tab', '#chatroom-' + data.id)
         Cookies.set('collapse-chat', 'shown')
         Turbolinks.visit(window.location);  
       });

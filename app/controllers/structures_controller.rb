@@ -25,7 +25,7 @@ class StructuresController < ApplicationController
       end
       if items.present? and structure.location == current_user.location
         # Call police
-        call_police(current_user) if structure.user != current_user and structure.structure_type != 'wreck'
+        call_police(current_user) if structure.user != current_user and structure.structure_type != 'wreck' and !structure.user.in_same_fleet_as(current_user.id)
         
         # Check if player has enough space
         weight = 0
