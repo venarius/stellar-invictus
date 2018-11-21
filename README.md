@@ -4,7 +4,7 @@
 
 - ~~Asteroids - Rename Ore~~
 - Enhance map
-- Fleets
+- ~~Fleets~~
 - Alliances
 - Skills
 - ~~Bio for Users~~
