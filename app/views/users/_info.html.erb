@@ -2,28 +2,48 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><%= user.full_name %></h5>
+        <h5 class="modal-title"><%= image_tag("avatars/#{user.avatar}.jpg", height: 50) %>  <%= user.full_name %></h5>
         <button type="button" class="close" data-dismiss="modal" id="player-show-modal-close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body m-auto text-center">
-          <%= image_tag("avatars/#{user.avatar}.jpg", height: 150) %><br><br>
+      <div class="modal-body">
           <% if current_user.friends.where(id: user.id).empty? and current_user != user %>
-            <button class="btn btn-outline-primary add-as-friend-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.add_friend') %>" data-id="<%= user.id %>">
+            <button class="btn btn-outline-primary add-as-friend-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.add_friend') %>" data-id="<%= user.id %>">
               <i class="fa fa-user-plus"></i>
             </button>
           <% elsif current_user != user %>
-            <button class="btn btn-outline-danger remove-as-friend-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_friend') %>" data-id="<%= user.id %>">
+            <button class="btn btn-outline-danger remove-as-friend-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_friend') %>" data-id="<%= user.id %>">
               <i class="fa fa-user-minus"></i>
             </button>
           <% end %>
           <% if current_user != user %>
-            <button class="btn btn-outline-primary chat-player-btn" data-toggle="tootlip" data-placement="top" title="<%= I18n.t('tooltips.message') %>" data-id="<%= user.id %>">
+            <button class="btn btn-outline-primary chat-player-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.message') %>" data-id="<%= user.id %>" <%= 'disabled' if user.online == 0 %>>
               <i class="fa fa-comment-alt"></i>
             </button>
           <% end %>
-          <p class="text-center mt-10px"><strong>Faction: <%= user.faction.name %></strong></p>
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#bio-user-info" role="tab"><%= I18n.t('users.bio') %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#about-user-info" role="tab"><%= I18n.t('users.about') %></a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="bio-user-info" role="tabpanel">
+              <div class="bio">
+                <% if user.bio %>
+                  <%= MARKDOWN.render(user.bio).html_safe %>
+                <% else %>
+                  <p><%= I18n.t('users.bio_not_much_known') %></p>
+                <% end %>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="about-user-info" role="tabpanel">
+              <p><strong>Faction: <%= user.faction.name %></strong></p>
+            </div>
+          </div>
       </div>
     </div>
   </div>
