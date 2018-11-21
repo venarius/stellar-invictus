@@ -1,4 +1,6 @@
 class TargetNpcWorker
+  # This worker will be run whenever a player targets an npc
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 

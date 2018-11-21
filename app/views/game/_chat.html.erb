@@ -11,9 +11,9 @@
   <% if current_user.chat_rooms.present? %>
     <% current_user.chat_rooms.each do |room| %>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#chatroom-<%= room.id %>" role="tab">
+        <a class="nav-link" data-toggle="tab" href="#chatroom-<%= room.identifier %>" role="tab">
           <%= room.title %>&nbsp;&nbsp;
-          <button class="btn btn-outline-danger close-chat-btn" style="padding: 0rem 0.3rem;line-height: 1.3;" data-id="<%= room.id %>">
+          <button class="btn btn-outline-danger close-chat-btn" style="padding: 0rem 0.3rem;line-height: 1.3;" data-id="<%= room.identifier %>">
             <i class="fa fa-times fa-sm">
           </i></button>
         </a>
@@ -38,9 +38,9 @@
       </div>
       <div class="col-md-2">
         <div class="outer" id="system-players">
-          <% @system_users.map(&:full_name).sort.each do |u| %>
+          <% map_and_sort(@system_users).each do |key, value| %>
             <div>
-              <%= u %>
+              <a class='player-modal' href="#" data-id="<%= value %>"><%= key %></a>
             </div>
           <% end %>
         </div>
@@ -64,7 +64,7 @@
   </div>
   <% if current_user.chat_rooms.present? %>
     <% current_user.chat_rooms.last(10).each do |room| %>
-      <div class="tab-pane fade custom-chat" id="chatroom-<%= room.id %>" role="tabpanel">
+      <div class="tab-pane fade custom-chat" id="chatroom-<%= room.identifier %>" role="tabpanel">
         <div class="row">
           <div class="col-md-10">
             <table class="table table-striped table-bordered">
@@ -77,12 +77,12 @@
           </div>
           <div class="col-md-2">
             <div class="w-100">
-              <span>ID: <%= room.id %></span>
+              <span>ID: <%= room.identifier %></span>
             </div>
-            <div class="outer" id="chatroom-<%= room.id %>-players">
-              <% room.users.where("online > 0").map(&:full_name).sort.each do |u| %>
+            <div class="outer" id="chatroom-<%= room.identifier %>-players">
+              <% map_and_sort(room.users.where("online > 0")).each do |key, value| %>
                 <div>
-                  <%= u %>
+                  <a class='player-modal' href="#" data-id="<%= value %>"><%= key %></a>
                 </div>
               <% end %>
             </div>
@@ -137,26 +137,29 @@
 <script>
   <% if current_user and current_user.chat_rooms.present? %>
     <% current_user.chat_rooms.each do |room| %>
-      if (!App['chatroom-<%= room.id %>']) {
-        App['chatroom-<%= room.id %>'] = App.cable.subscriptions.create({
+      if (!App['chatroom-<%= room.identifier %>']) {
+        App['chatroom-<%= room.identifier %>'] = App.cable.subscriptions.create({
           channel: 'ChatChannel',
-          room: 'chatroom-<%= room.id %>'
+          room: 'chatroom-<%= room.identifier %>'
         }, {
           received: function(data) {
             if (data.message) {
-              if ($('#chatroom-<%= room.id %>').length > 0) {
-                $('#chatroom-<%= room.id %> table tbody').append(data.message);
+              if ($('#chatroom-<%= room.identifier %>').length > 0) {
+                $('#chatroom-<%= room.identifier %> table tbody').append(data.message);
                 return scrollChats();
               }
             }
             else if (data.method == 'update_players' && data.names) {
-              update_players_in_custom_chat("chatroom-<%= room.id %>",data.names);
+              update_players_in_custom_chat("chatroom-<%= room.identifier %>",data.names);
+            }
+            else if (data.method == 'player_appeared' && ('.players-card').length) {
+              reload_players_card();
             }
           },
           send_message: function(message) {
             return this.perform('send_message', {
               message: message,
-              room: 'chatroom-<%= room.id %>'
+              room: 'chatroom-<%= room.identifier %>'
             });
           }
         });

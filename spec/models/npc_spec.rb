@@ -37,6 +37,14 @@ describe Npc do
           expect(Structure.first.get_items.count).to be > 0
         end
       end
+      
+      describe 'remove_being_targeted' do
+        it 'should remove npc as target from others' do
+          user = FactoryBot.create(:user_with_faction, npc_target_id: @npc.id)
+          @npc.remove_being_targeted
+          expect(user.reload.npc_target).to eq(nil)
+        end
+      end
     end
   end
 end

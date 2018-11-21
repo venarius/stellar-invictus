@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_20_170825) do
+ActiveRecord::Schema.define(version: 2018_11_21_131515) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2018_11_20_170825) do
     t.integer "chatroom_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "identifier"
     t.index ["location_id"], name: "index_chat_rooms_on_location_id"
   end
 
@@ -55,6 +56,15 @@ ActiveRecord::Schema.define(version: 2018_11_20_170825) do
     t.datetime "updated_at", null: false
     t.integer "location_id"
     t.index ["location_id"], name: "index_factions_on_location_id"
+  end
+
+  create_table "fleets", force: :cascade do |t|
+    t.integer "chat_room_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id"], name: "index_fleets_on_chat_room_id"
+    t.index ["user_id"], name: "index_fleets_on_user_id"
   end
 
   create_table "friendships", force: :cascade do |t|
@@ -173,9 +183,11 @@ ActiveRecord::Schema.define(version: 2018_11_20_170825) do
     t.boolean "is_attacking"
     t.datetime "last_action"
     t.text "bio"
+    t.integer "fleet_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
+    t.index ["fleet_id"], name: "index_users_on_fleet_id"
     t.index ["location_id"], name: "index_users_on_location_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["system_id"], name: "index_users_on_system_id"
