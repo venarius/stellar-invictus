@@ -54,3 +54,5 @@ gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
 # Faker for Names
 gem 'faker'
+# Redcarpet for Markdown Player Bios
+gem 'redcarpet'

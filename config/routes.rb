@@ -24,7 +24,10 @@ Rails.application.routes.draw do
   end
   
   # User
-  get '/user/info/:id', to: 'users#info'
+  scope :user do
+    get 'info/:id', to: 'users#info'
+    post 'update_bio', to: 'users#update_bio'
+  end
   
   # Mails
   resources :game_mails, only: [:index, :new, :create, :show], path: 'mails'

@@ -44,6 +44,13 @@ RSpec.describe StructuresController, type: :controller do
         expect(response).to render_template('structures/_cargocontainer')
       end
       
+      it 'should render partial for wreck on success' do
+        container = FactoryBot.create(:structure, location: @user.location, structure_type: 'wreck')
+        post :open_container, params: {id: container.id}
+        expect(response.status).to eq(200)
+        expect(response).to render_template('structures/_cargocontainer')
+      end
+      
       it 'should fail if container not found' do
         post :open_container, params: {id: 2000}
         expect(response.status).to eq(400)
