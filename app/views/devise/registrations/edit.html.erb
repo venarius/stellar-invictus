@@ -3,9 +3,9 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6 offset-md-3 mb-3">
-    <div class="card black-card">
-      <h5 class="card-header"><%= current_user.name %> <%= current_user.family_name %></h5>
+  <div class="col-md-6 mb-3">
+    <div class="card black-card mb-3">
+      <h5 class="card-header"><%= I18n.t('devise.account') %></h5>
       <div class="card-body">
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
         
@@ -34,15 +34,45 @@
         <% end %>
       </div>
     </div>
-  </div>
-  
-  <div class="col-md-6 offset-md-3">
     <div class="card black-card border-danger">
       <h5 class="card-header"><%= I18n.t('devise.retire') %></h5>
       <div class="card-body">
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#retireModal">
           <%= I18n.t('devise.delete_account') %>
         </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6">
+    <div class="card black-card edit-bio-card">
+      <h5 class="card-header"><%= I18n.t('devise.bio', user: current_user.full_name) %></h5>
+      <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#edit" role="tab"><%= I18n.t('devise.edit') %></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#preview" role="tab"><%= I18n.t('devise.preview') %></a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="edit" role="tabpanel">
+            <textarea placeholder="<%= I18n.t('devise.bio_placeholder') %>", class="form-control user-bio-text", style="height: 275px"><%= current_user.bio %></textarea>
+              <p><small><%= I18n.t('devise.markdown_support').html_safe %></small></p>
+              <div class="float-right">
+                <%= button_tag( class: 'btn btn-primary btn-sm user-bio-save-btn') do %>
+                  <span><%= I18n.t('devise.save') %></span>
+                  &nbsp;<i class="fas fa-arrow-right"></i>
+                <% end %>
+              </div>
+          </div>
+          <div class="tab-pane fade" id="preview" role="tabpanel">
+            <div class="preview">
+              <%= MARKDOWN.render(current_user.bio).html_safe %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

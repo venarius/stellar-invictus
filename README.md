@@ -7,7 +7,7 @@
 - Fleets
 - Alliances
 - Skills
-- Bio for Users
+- ~~Bio for Users~~
 - ~~Friends~~
 - ~~Drop Items -> Container~~
 - ~~Loot on destroyed enemies / players~~

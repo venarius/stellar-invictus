@@ -9,6 +9,14 @@ RSpec.describe UsersController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'POST update_bio' do
+      it 'should redirect_to login' do
+        post :update_bio
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do 
@@ -28,6 +36,19 @@ RSpec.describe UsersController, type: :controller do
         get :info, params: {id: 2020}
         expect(response.code).to eq('200')
         expect(response.body).to eq('')
+      end
+    end
+    
+    describe 'POST update_bio' do
+      it 'should update bio of user' do
+        post :update_bio, params: {text: "Bla"}
+        expect(response.status).to eq(200)
+        expect(@user.reload.bio).to eq("Bla")
+      end
+      
+      it 'should not update bio of user if no params' do
+        post :update_bio
+        expect(response.status).to eq(400)
       end
     end
   end

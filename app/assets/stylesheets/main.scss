@@ -596,6 +596,41 @@ body {
 .player-info-card .card-header { border-bottom: 0; }
 
 // ###############
+// Player-Show
+// ###############
+#player-show-modal {
+  .modal-header {
+    img {
+      margin-right: 5px;
+    }
+  }
+  .nav-tabs {
+    .nav-item {
+      margin-right: 5px;
+      .nav-link {
+        border-radius: 0;
+        background-color: black;
+        border: 1px solid #282828;
+      }
+      .nav-link.active {
+        border: 1px solid #2A9FD6;
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+  .tab-pane {
+    padding: 0.375rem 0.6rem;
+    min-height: 150px;
+    max-height: 340px;
+    overflow: auto;
+    color: white;
+    background: rgba(0,0,0,0.75);
+    border: 1px solid grey;
+  }
+  .bio p { color: dimgrey; }
+}
+
+// ###############
 // Inventory-Modal, Cargocontainer Modal
 // ###############
 #inventory-modal, #cargocontainer-modal {
@@ -694,6 +729,34 @@ body {
         padding: 5px 10px 5px 5px;
         border-right: 1px solid grey;
       }
+    }
+  }
+}
+
+// ###############
+// Edit Bio
+// ###############
+.edit-bio-card {
+  .card-body {
+    .nav-tabs {
+      .nav-item {
+        margin-right: 5px;
+        .nav-link {
+          border-radius: 0;
+          background-color: black;
+          border: 1px solid #282828;
+        }
+        .nav-link.active {
+          border: 1px solid #2A9FD6;
+          border-bottom: 1px solid black;
+        }
+      }
+    }
+    .preview {
+      border: 1px solid #282828;
+      padding: 0.375rem 1rem;
+      height: 340px;
+      overflow: auto;
     }
   }
 }
