@@ -1,4 +1,6 @@
 class TargetingWorker
+  # This worker will be run whenever a player targets another
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 

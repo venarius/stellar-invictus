@@ -165,6 +165,7 @@ en:
     add_friend: "Add friend"
     remove_friend: "Remove friend"
     invite_to_fleet: "Invite to fleet"
+    remove_from_fleet: "Remove from fleet"
   overview:
     name: "Name"
     type: "Type"

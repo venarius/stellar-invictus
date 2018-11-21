@@ -1,4 +1,6 @@
 class AttackNpcWorker
+  # This worker will be run when a player is attacking an npc
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 

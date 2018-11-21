@@ -21,9 +21,15 @@
             <button class="btn btn-outline-primary chat-player-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.message') %>" data-id="<%= user.id %>" <%= 'disabled' if user.online == 0 %>>
               <i class="fa fa-comment-alt"></i>
             </button>
-            <button class="btn btn-outline-primary invite-to-fleet-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.invite_to_fleet') %>" data-id="<%= user.id %>" <%= 'disabled' if user.fleet || user.online == 0 %>>
-              <i class="fa fa-space-shuttle"></i>
-            </button>
+            <% if user.in_same_fleet_as(current_user.id) and current_user.fleet.creator == current_user %>
+              <button class="btn btn-outline-danger remove-from-fleet-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_from_fleet') %>" data-id="<%= user.id %>">
+                <i class="fa fa-space-shuttle"></i>
+              </button>
+            <% else %>
+              <button class="btn btn-outline-primary invite-to-fleet-btn mb-3" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.invite_to_fleet') %>" data-id="<%= user.id %>" <%= 'disabled' if user.fleet || user.online == 0 %>>
+                <i class="fa fa-space-shuttle"></i>
+              </button>
+            <% end %>
           <% end %>
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">

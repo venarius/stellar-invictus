@@ -38,9 +38,9 @@
       </div>
       <div class="col-md-2">
         <div class="outer" id="system-players">
-          <% @system_users.map(&:full_name).sort.each do |u| %>
+          <% map_and_sort(@system_users).each do |key, value| %>
             <div>
-              <%= u %>
+              <a class='player-modal' href="#" data-id="<%= value %>"><%= key %></a>
             </div>
           <% end %>
         </div>
@@ -80,9 +80,9 @@
               <span>ID: <%= room.identifier %></span>
             </div>
             <div class="outer" id="chatroom-<%= room.identifier %>-players">
-              <% room.users.where("online > 0").map(&:full_name).sort.each do |u| %>
+              <% map_and_sort(room.users.where("online > 0")).each do |key, value| %>
                 <div>
-                  <%= u %>
+                  <a class='player-modal' href="#" data-id="<%= value %>"><%= key %></a>
                 </div>
               <% end %>
             </div>

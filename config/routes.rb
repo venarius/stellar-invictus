@@ -97,6 +97,7 @@ Rails.application.routes.draw do
   scope :fleet do
     post 'invite', to: 'fleets#invite'
     post 'accept_invite', to: 'fleets#accept_invite'
+    post 'remove', to: 'fleets#remove'
   end
   
   # ActionCable

@@ -133,9 +133,8 @@ function update_players_in_system(count, names) {
   if ($('#system-player-count').length) {
     $('#system-player-count').text(count);
     $('#system-players').empty();
-    names = names.sort();
-    $.each(names, function(index, tag) {  
-      $('#system-players').append("<div>"+tag+"</div>")
+    $.each(names, function(key, value) {  
+      $('#system-players').append("<div><a class='player-modal' href='#' data-id='"+value+"'>"+key+"</a></div>")
     });
   }
 }
@@ -144,9 +143,8 @@ function update_players_in_system(count, names) {
 function update_players_in_custom_chat(id, names) {
   if ($('#' + id).length) {
     $('#' + id + '-players').empty();
-    names = names.sort();
-    $.each(names, function(index, tag) {  
-      $('#' + id + '-players').append("<div>"+tag+"</div>")
+    $.each(names, function(key, value) {  
+      $('#' + id + '-players').append("<div><a class='player-modal' href='#' data-id='"+value+"'>"+key+"</a></div>")
     });
   }
 }
