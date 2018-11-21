@@ -63,7 +63,7 @@ RSpec.describe ChatRoomsController, type: :controller do
     
     describe 'POST join' do
       it 'should fail if chatroom is not custom type' do
-        post :join, params: {id: ChatRoom.first.id}
+        post :join, params: {id: ChatRoom.first.identifier}
         expect(response.status).to eq(400)
         expect(ChatRoom.first.users.count).to eq(0)
       end
@@ -76,14 +76,24 @@ RSpec.describe ChatRoomsController, type: :controller do
       
       it 'should success if chatroom is custom type' do
         chatroom = FactoryBot.create(:chat_room, chatroom_type: 2)
-        post :join, params: {id: chatroom.id}
+        post :join, params: {id: chatroom.identifier}
         expect(response.status).to eq(200)
         expect(chatroom.reload.users.count).to eq(1)
       end
       
+      it 'should success if chatroom has fleet' do
+        chatroom = FactoryBot.create(:chat_room, chatroom_type: 2)
+        fleet = FactoryBot.create(:fleet, chat_room: chatroom, creator: @user)
+        post :join, params: {id: chatroom.identifier}
+        expect(response.status).to eq(200)
+        expect(chatroom.reload.users.count).to eq(1)
+        expect(chatroom.fleet.users.count).to eq(1)
+        expect(@user.reload.fleet).to eq(fleet)
+      end
+      
       it 'should not succeed if user has already joined' do
         chatroom = FactoryBot.create(:chat_room, chatroom_type: 2)
-        post :join, params: {id: chatroom.id}
+        post :join, params: {id: chatroom.identifier}
         expect(response.status).to eq(200)
         expect(chatroom.reload.users.count).to eq(1)
         post :join, params: {id: chatroom.id}
@@ -112,16 +122,25 @@ RSpec.describe ChatRoomsController, type: :controller do
       end
       
       it 'should leave room when id given' do
-        post :leave, params: {id: @room.id }
+        post :leave, params: {id: @room.identifier }
         expect(response.status).to eq(200)
         expect(@room.users.count).to eq(0)
       end
       
-      it 'should not leave room when not in there' do
-        post :leave, params: {id: @room.id }
+      it 'should leave room and reset fleet id if room has fleet' do
+        fleet = FactoryBot.create(:fleet, chat_room: @room, creator: @user)
+        post :leave, params: {id: @room.identifier }
         expect(response.status).to eq(200)
         expect(@room.users.count).to eq(0)
-        post :leave, params: {id: @room.id }
+        expect(@room.fleet.users.count).to eq(0)
+        expect(@user.reload.fleet_id).to eq(nil)
+      end
+      
+      it 'should not leave room when not in there' do
+        post :leave, params: {id: @room.identifier }
+        expect(response.status).to eq(200)
+        expect(@room.users.count).to eq(0)
+        post :leave, params: {id: @room.identifier }
         expect(response.status).to eq(400)
         expect(@room.users.count).to eq(0)
       end

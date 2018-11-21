@@ -2,13 +2,10 @@ class StationsController < ApplicationController
   before_action :check_police, only: [:dock]
   
   def dock
+    # If user is at station and not docked
     if current_user.location.location_type == 'station' and !current_user.docked
-      current_user.update_columns(docked: true, target_id: nil)
-      ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_warp_out', name: current_user.full_name)
-      User.where(target_id: current_user.id).each do |u|
-        u.update_columns(target_id: nil)
-        ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
-      end
+      # Dock the user
+      current_user.dock
       
       # Repair ship
       current_user.active_spaceship.update_columns(hp: current_user.active_spaceship.get_attribute('hp'))
@@ -16,16 +13,16 @@ class StationsController < ApplicationController
   end
   
   def undock
-    if current_user.docked
-      current_user.update_columns(docked: false)
-      ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_appeared')
-    end
+    # Undock the user
+    current_user.undock
   end
   
   def index
     unless current_user.docked
       redirect_to game_path and return
     end
+    
+    # Set some variables for the view
     @system_users = User.where("online > 0").where(system: current_user.system)
     @ships = current_user.location.get_ships_for_sale
     @current_user = User.includes(:system).find(current_user.id)
@@ -34,11 +31,10 @@ class StationsController < ApplicationController
   end
   
   def buy
-    if params[:type] and params[:type] == 'ship'
-      ship_vars = SHIP_VARIABLES[params[:name]]
-      if ship_vars and current_user.units >= ship_vars['price'] and current_user.location.get_ships_for_sale.has_key?(params[:name])
-        Spaceship.create(user: current_user, name: params[:name], hp: ship_vars['hp'])
-        current_user.update_columns(units: current_user.units - ship_vars['price'])
+    if params[:type] and params[:type] == 'ship' and params[:name]
+      if current_user.can_buy_ship(params[:name])
+        Spaceship.create(user: current_user, name: params[:name], hp: SHIP_VARIABLES[params[:name]]['hp'])
+        current_user.reduce_units(SHIP_VARIABLES[params[:name]]['price'])
         flash[:notice] = I18n.t('station.purchase_successfull')
       else
         flash[:alert] = I18n.t('errors.not_enough_units')

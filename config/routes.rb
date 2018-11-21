@@ -93,6 +93,13 @@ Rails.application.routes.draw do
     post 'start_conversation', to: 'chat_rooms#start_conversation'
   end
   
+  # Fleets
+  scope :fleet do
+    post 'invite', to: 'fleets#invite'
+    post 'accept_invite', to: 'fleets#accept_invite'
+    post 'remove', to: 'fleets#remove'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

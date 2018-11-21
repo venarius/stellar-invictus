@@ -1,13 +1,18 @@
 class EnemyWorker
+  # This worker simulates an enemy
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
   def perform(location_id, sleep_duration)
     
+    # Wait before arrival
     sleep(sleep_duration)
     
+    # Get the location
     location = Location.find(location_id)
     
+    # Create an enemy
     enemy = Npc.create(npc_type: 'enemy', location: location, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}", hp: 30)
     
     # Tell everyone in the location that an enemy has spawned
@@ -59,32 +64,40 @@ class EnemyWorker
   # Attack
   # ################
   def attack(enemy, target)
-    enemy.update_columns(target: target.id)
+    # Gets target id and spaceship
+    target_id = target.id
+    target_spaceship = target.active_spaceship
+    
+    # Sets user as target of npc
+    enemy.update_columns(target: target_id)
+    
+    # Get ActionCable Server
+    ac_server = ActionCable.server
       
     # Tell user he is getting targeted by outlaw
-    ActionCable.server.broadcast("player_#{target.id}", method: 'getting_targeted', name: enemy.name)
+    ac_server.broadcast("player_#{target_id}", method: 'getting_targeted', name: enemy.name)
     
     sleep(3)
     
     # Tell user he is getting attacked by outlaw
-    ActionCable.server.broadcast("player_#{target.id}", method: 'getting_attacked', name: enemy.name)
+    ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: enemy.name)
     
     # While npc can attack player
     while can_attack(enemy, target) do
       
       # The attack
       attack = 2
-      target.active_spaceship.update_columns(hp: target.active_spaceship.hp - attack.round)
+      target_spaceship.update_columns(hp: target_spaceship.hp - attack.round)
       
       # If target hp is below 0 -> die
-      if target.active_spaceship.hp <= 0
-        target.active_spaceship.update_columns(hp: 0)
+      if target_spaceship.hp <= 0
+        target_spaceship.update_columns(hp: 0)
         target.die and return
       end
       
       # Tell player to update their hp and log
-      ActionCable.server.broadcast("player_#{target.id}", method: 'update_health', hp: target.active_spaceship.hp)
-      ActionCable.server.broadcast("player_#{target.id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: enemy.name, hp: attack) )
+      ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_spaceship.hp)
+      ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: enemy.name, hp: attack) )
       
       # Global Cooldown
       sleep(2)

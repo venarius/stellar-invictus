@@ -1,17 +1,17 @@
-<div class="modal fade invited-to-conversation-modal" tabindex="-1" role="dialog">
+<div class="modal fade invited-to-fleet-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><%= I18n.t('modal.invited_to_conversation') %></h5>
+        <h5 class="modal-title"><%= I18n.t('modal.invited_to_fleet') %></h5>
         <button type="button" class="close" data-dismiss="modal">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <%= I18n.t('modal.invited_to_conversation_text', user: user.full_name) %>
+        <%= I18n.t('modal.invited_to_fleet_text', user: user.full_name) %>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary accept-chat-invite-btn" data-id="<%= room.identifier %>">
+        <button class="btn btn-primary accept-fleet-invite-btn" data-id="<%= fleet.id %>">
           <%= I18n.t('modal.accept') %>
         </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>

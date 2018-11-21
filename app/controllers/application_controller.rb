@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :redirect_if_no_faction
   before_action :update_last_action
   
+  include ApplicationHelper
+  
   
   protected
   
