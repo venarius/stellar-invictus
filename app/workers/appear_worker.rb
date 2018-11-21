@@ -18,7 +18,7 @@ class AppearWorker
       
       # Tell everyone in system to update their local players
       users = User.where("online > 0").where(system: system)
-      systen.locations.each do |location|
+      system.locations.each do |location|
         ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
           count: users.count, names: users.map(&:full_name))
       end

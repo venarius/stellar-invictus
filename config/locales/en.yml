@@ -84,7 +84,9 @@ en:
     take_all: "Take all"
     invited_to_conversation_text: "%{user} invited you to a conversation. Accept?"
     accept: "Accept"
-    invited_to_conversation: "Invited to Conversation"
+    invited_to_conversation: "Invite to join conversation"
+    invited_to_fleet_text: "%{user} invited you to join their fleet. Accept?"
+    invited_to_fleet: "Invite to join fleet"
   chat:
     local: "Local Chat"
     global: "Global Chat"
@@ -162,6 +164,7 @@ en:
     attack: "Attack"
     add_friend: "Add friend"
     remove_friend: "Remove friend"
+    invite_to_fleet: "Invite to fleet"
   overview:
     name: "Name"
     type: "Type"

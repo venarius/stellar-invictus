@@ -2,11 +2,12 @@ class User < ApplicationRecord
   belongs_to :faction, optional: true
   belongs_to :system, optional: true
   belongs_to :location, optional: true
+  belongs_to :fleet, optional: true
+  
   has_many :chat_messages, dependent: :destroy
   has_many :spaceships, dependent: :destroy
   has_many :items, dependent: :destroy
   has_many :structures, dependent: :destroy
-  
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   
@@ -65,5 +66,9 @@ class User < ApplicationRecord
   
   def die
     PlayerDiedWorker.perform_async(self.id)
+  end
+  
+  def in_same_fleet_as(id)
+    self.fleet_id != nil and self.fleet_id == User.find(id).fleet_id
   end
 end

@@ -152,6 +152,9 @@
             else if (data.method == 'update_players' && data.names) {
               update_players_in_custom_chat("chatroom-<%= room.id %>",data.names);
             }
+            else if (data.method == 'player_appeared' && ('.players-card').length) {
+              reload_players_card();
+            }
           },
           send_message: function(message) {
             return this.perform('send_message', {
