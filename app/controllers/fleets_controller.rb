@@ -2,12 +2,15 @@ class FleetsController < ApplicationController
   def invite
     if params[:id]
       user = User.find(params[:id]) rescue nil
-      if user
+      if user and user.fleet.nil?
         if current_user.fleet.nil?
           room = ChatRoom.create(title: 'Fleet', chatroom_type: 'custom')
           room.users << current_user
           fleet = Fleet.create(creator: current_user, chat_room: room)
           current_user.update_columns(fleet_id: fleet.id)
+        else
+          fleet = current_user.fleet
+          room = current_user.fleet.chat_room
         end
         InviteToFleetJob.perform_now(current_user.id, user.id, fleet.id)
         render json: {'id': room.identifier}, status: 200 and return
@@ -17,7 +20,7 @@ class FleetsController < ApplicationController
   end
   
   def accept_invite
-    if params[:id]
+    if params[:id] and current_user.fleet.nil?
       fleet = Fleet.find(params[:id]) rescue nil
       if fleet
         room = fleet.chat_room
