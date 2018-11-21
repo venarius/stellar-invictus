@@ -1,4 +1,6 @@
 class GameMailWorker
+  # This Worker will be run to tell another user that they got mail
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 

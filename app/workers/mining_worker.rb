@@ -1,4 +1,6 @@
 class MiningWorker
+  # This Worker will be run when a player is mining something
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 

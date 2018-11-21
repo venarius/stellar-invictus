@@ -15,7 +15,7 @@ function load_ship_info_animations() {
 }
 
 function app_player_ship() {
-  var app = new PIXI.Application(270, 88, { antialias: true, autoResize: true }); 
+  var app = new PIXI.Application(270, 87, { antialias: true, autoResize: true }); 
   $('.player-space-ship').empty().append(app.view);
   
   // create a texture from an image path
@@ -76,7 +76,7 @@ function app_player_ship() {
   	const parent = app.view.parentNode;
      
   	// Resize the renderer
-  	app.renderer.resize(parent.clientWidth, 88);
+  	app.renderer.resize(parent.clientWidth, 87);
   	
   	// Resize ship
   	ship.x = app.screen.width / 2;
@@ -89,7 +89,7 @@ function enemy_player_ship() {
   // Vars
   var countdown;
   
-  var app = new PIXI.Application(270, 88, { antialias: true, autoResize: true }); 
+  var app = new PIXI.Application(270, 87, { antialias: true, autoResize: true }); 
   $('.enemy-space-ship').empty().append(app.view);
   
   // create a texture from an image path
@@ -163,7 +163,7 @@ function enemy_player_ship() {
   	const parent = app.view.parentNode;
      
   	// Resize the renderer
-  	app.renderer.resize(parent.clientWidth, 88);
+  	app.renderer.resize(parent.clientWidth, 87);
   	
   	// Resize objects
   	if (ship) {

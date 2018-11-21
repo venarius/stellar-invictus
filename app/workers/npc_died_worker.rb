@@ -1,4 +1,6 @@
 class NpcDiedWorker
+  # This worker will be run whenever a npc died
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
@@ -6,7 +8,7 @@ class NpcDiedWorker
     npc = Npc.find(npc_id) rescue nil
     
     if npc
-      # Tell others in system that player "warped out"
+      # Tell others in system that player "warped out" and log
       ActionCable.server.broadcast("location_#{npc.location.id}", method: 'player_warp_out', name: npc.name)
       ActionCable.server.broadcast("location_#{npc.location.id}", method: 'log', text: I18n.t('log.got_killed', name: npc.name) )
       
@@ -18,10 +20,7 @@ class NpcDiedWorker
       npc.destroy
       
       # Remove npc from being targeted by others
-      User.where(npc_target_id: npc.id).each do |u|
-        u.update_columns(npc_target_id: nil, is_attacking: false)
-        ActionCable.server.broadcast("player_#{u.id}", method: 'refresh_target_info')
-      end
+      npc.remove_being_targeted
     end
   end
 end

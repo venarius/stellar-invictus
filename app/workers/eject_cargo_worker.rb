@@ -1,4 +1,6 @@
 class EjectCargoWorker
+  # This worker will be run when the user ejects cargo
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
    

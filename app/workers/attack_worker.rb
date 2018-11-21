@@ -1,4 +1,6 @@
 class AttackWorker
+  # This Worker will be run when a player is attacking another
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
@@ -7,6 +9,9 @@ class AttackWorker
     target = User.find(target_id)
     player_name = player.full_name
     
+    # Sets ActionCable Server
+    ac_server = ActionCable.server
+    
     # Get current active spaceships of each
     player_ship = player.active_spaceship
     target_ship = target.active_spaceship
@@ -14,13 +19,13 @@ class AttackWorker
     # If target is already attacking -> stop
     if player.is_attacking
       player.update_columns(is_attacking: false)
-      ActionCable.server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
-      ActionCable.server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+      ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
+      ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
       return
     end
     
     # Tell target its getting attacked by player
-    ActionCable.server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
+    ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
     
     # Call Police on systems with sec higher than low
     call_police(player, target)
@@ -47,15 +52,15 @@ class AttackWorker
         end
         
         # Tell both parties to update their hp and log
-        ActionCable.server.broadcast("player_#{target_id}", method: 'update_health', hp: target_hp)
-        ActionCable.server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player_name, hp: attack))
+        ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_hp)
+        ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player_name, hp: attack))
         
-        ActionCable.server.broadcast("player_#{player_id}", method: 'update_target_health', hp: target_hp)
-        ActionCable.server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: target.full_name, hp: attack))
+        ac_server.broadcast("player_#{player_id}", method: 'update_target_health', hp: target_hp)
+        ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: target.full_name, hp: attack))
         
         # Tell other users who targeted target to also update hp
         User.where(target_id: target_id).where("online > 0").each do |u|
-          ActionCable.server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
+          ac_server.server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
         end
       else
         return
@@ -72,11 +77,13 @@ class AttackWorker
   end
   
   def call_police(player, target)
-    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player.id).empty? and !target.in_same_fleet_as(player.id)
+    player_id = player.id
+    
+    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player_id).empty? and !target.in_same_fleet_as(player_id)
       if player.system.security_status == 'high'
-        PoliceWorker.perform_async(player.id, 2)
+        PoliceWorker.perform_async(player_id, 2)
       else
-        PoliceWorker.perform_async(player.id, 10)
+        PoliceWorker.perform_async(player_id, 10)
       end
     end
   end

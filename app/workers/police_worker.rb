@@ -1,4 +1,6 @@
 class PoliceWorker
+  # This worker simulates the police
+  
   include Sidekiq::Worker
   sidekiq_options :retry => false
 

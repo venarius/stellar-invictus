@@ -2,6 +2,10 @@ document.addEventListener("turbolinks:before-render", function() {
   Turbolinks.clearCache()
 })
 
+document.addEventListener("turbolinks:before-cache", function() {
+  $('.modal').modal('hidden');
+})
+
 $( document ).on('turbolinks:load', function() {
     // HELPERS
     // Collapsing arrows

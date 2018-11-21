@@ -17,4 +17,13 @@ module ApplicationHelper
       "<i class='fa fa-circle fa-xs color-sec-low'></i>&nbsp;&nbsp;#{I18n.t('helpers.online_ago', time: time_ago_in_words(user.last_action))}".html_safe
     end
   end
+  
+  def map_and_sort(users)
+    users = users.map{|u| {u.full_name => u.id}}.reduce(:merge)
+    if users
+      users.sort.to_h
+    else
+      {}
+    end
+  end
 end
