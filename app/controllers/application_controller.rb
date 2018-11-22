@@ -40,7 +40,6 @@ class ApplicationController < ActionController::Base
   
   def update_last_action
     if current_user
-      sign_out current_user if current_user.online == 0
       current_user.update_columns(last_action: DateTime.now)
     end
   end

@@ -11,7 +11,7 @@ class EjectCargoWorker
     items = Item.where(loader: loader, spaceship: user.active_spaceship)
     if items.present?
       structure = Structure.create(structure_type: 'container', location: user.location, user: user)
-      items.update_all(structure_id: structure.id, user_id: nil, spaceship_id: nil)
+      items.update_all(structure_id: structure.id, user_id: nil, spaceship_id: nil, equipped: false)
       
       # Tell everyone at location to refresh players and log the eject
       ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
