@@ -82,11 +82,13 @@ class EnemyWorker
     # Tell user he is getting attacked by outlaw
     ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: enemy.name)
     
+    # Create attack value
+    attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
+    
     # While npc can attack player
     while can_attack(enemy, target) do
       
       # The attack
-      attack = 2
       target_spaceship.update_columns(hp: target_spaceship.hp - attack.round)
       
       # If target hp is below 0 -> die

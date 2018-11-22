@@ -22,6 +22,7 @@ class PlayerDiedWorker
     # Destroy current spaceship of user and give him a nano
     Spaceship.find(user.active_spaceship_id).destroy
     ship = Spaceship.create(user_id: user.id, name: 'Nano', hp: 50)
+    Item.create(loader: 'equipment.miner.basic_miner', spaceship: ship, equipped: true)
     
     # Make User docked at his factions station
     user.update_columns(docked: true, location_id: user.faction.location.id, system_id: user.faction.location.system.id, active_spaceship_id: ship.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)

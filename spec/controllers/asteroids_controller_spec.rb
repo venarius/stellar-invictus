@@ -8,11 +8,19 @@ RSpec.describe AsteroidsController, type: :controller do
     end
     
     describe 'POST mine' do
-      it 'should start mine worker when player is attackable and at location' do
+      it 'should start mine worker when player is attackable and at location and has mining laser equipped' do
+        Item.create(loader: "equipment.miner.basic_miner", spaceship: @user.active_spaceship, equipped: true)
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
         post :mine, params: {id: @user.location.asteroids.first.id}
         expect(response.code).to eq('200')
         expect(MiningWorker.jobs.size).to eq(1)
+      end
+      
+      it 'should not start mine worker when player is attackable and at location but has no mining laser' do
+        @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
+        post :mine, params: {id: @user.location.asteroids.first.id}
+        expect(response.code).to eq('400')
+        expect(MiningWorker.jobs.size).to eq(0)
       end
       
       it 'should not start when player is docked' do

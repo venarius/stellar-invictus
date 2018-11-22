@@ -56,3 +56,5 @@ gem 'bootstrap4-kaminari-views'
 gem 'faker'
 # Redcarpet for Markdown Player Bios
 gem 'redcarpet'
+# Jquery-UI for drag and drop
+gem 'jquery-ui-rails'

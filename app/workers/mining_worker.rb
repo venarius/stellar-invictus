@@ -11,34 +11,47 @@ class MiningWorker
     # Cancel if Player already mining this
     return if player.mining_target_id == asteroid_id
     
+    # Get ActionCable Server
+    ac_server = ActionCable.server
+    
     # Untarget combat target if player is targeting mining target
     unless player.target_id == nil
-      ActionCable.server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)
+      ac_server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)
       player.update_columns(target_id: nil)
     end
+    
+    # Get mining amount
+    mining_amount = player.active_spaceship.get_mining_amount
     
     # Untarget npc target and is_attacking to false
     player.update_columns(npc_target_id: nil, is_attacking: false)
     
     # Mine every 30 seconds
     player.update_columns(mining_target_id: asteroid_id)
-    ActionCable.server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+    ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
     while true do
-      30.times do
-        return unless can_mine(player, asteroid)
-        sleep(1)
+      15.times do
+        return unless can_mine(player, asteroid, mining_amount)
+        sleep(2)
       end
-      asteroid.update_columns(resources: asteroid.resources - 100)
-      ActionCable.server.broadcast("player_#{player_id}", method: 'update_asteroid_resources', resources: asteroid.resources)
+      
+      # Remove amount from asteroids ressources
+      asteroid.update_columns(resources: asteroid.resources - (100 * mining_amount))
+      
+      # Add Items to player
       item = Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
-      ActionCable.server.broadcast("player_#{player_id}", method: 'refresh_player_info')
+      (mining_amount-1).times do
+        Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+      end
       
       # Log
-      ActionCable.server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', ore: item.get_attribute('name').downcase) )
+      ac_server.broadcast("player_#{player_id}", method: 'update_asteroid_resources', resources: asteroid.resources)
+      ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info')
+      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', ore: item.get_attribute('name').downcase) )
       
       # Tell other users who miner this rock to also update their resources
       User.where(mining_target_id: asteroid_id).where("online > 0").each do |u|
-        ActionCable.server.broadcast("player_#{u.id}", method: 'update_asteroid_resources_only', resources: asteroid.resources)
+        ac_server.broadcast("player_#{u.id}", method: 'update_asteroid_resources_only', resources: asteroid.resources)
       end
       
       # Get enemy
@@ -47,7 +60,7 @@ class MiningWorker
     
   end
   
-  def can_mine(player, asteroid)
+  def can_mine(player, asteroid, mining_amount)
     player = player.reload
     asteroid = asteroid.reload
     
@@ -56,7 +69,7 @@ class MiningWorker
     asteroid_id = asteroid.id
     
     # Remove asteroid as target if depleted
-    if asteroid.resources < 100
+    if asteroid.resources < (100 * mining_amount)
       ActionCable.server.broadcast("player_#{player_id}", method: 'asteroid_depleted')
       player.update_columns(mining_target_id: nil)
       return false
@@ -68,12 +81,12 @@ class MiningWorker
     end
     
     # Stop mining if player's ship is full
-    if player.active_spaceship.get_weight >= player.active_spaceship.get_attribute('storage')
+    if player.active_spaceship.get_free_weight < mining_amount
       ActionCable.server.broadcast("player_#{player_id}", method: 'asteroid_depleted')
       player.update_columns(mining_target_id: nil)
       return false
     end
     
-    player.can_be_attacked and asteroid.resources >= 100
+    player.can_be_attacked
   end
 end

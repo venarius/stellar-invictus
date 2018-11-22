@@ -8,6 +8,7 @@ describe Item do
       it { should respond_to :spaceship }
       it { should respond_to :location }
       it { should respond_to :structure }
+      it { should respond_to :equipped }
     end
    
     describe 'Relations' do

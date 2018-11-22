@@ -1,26 +1,94 @@
-<table class="table table-bordered table-hover table-sm station-ship-inventory-table">
-  <thead>
-    <tr>
-      <th scope="col">Qty.</th>
-      <th scope="col"><%= I18n.t('items.name') %></th>
-      <th scope="col"><%= I18n.t('items.type') %></th>
-      <th class="btn-th"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% current_user.active_spaceship.get_items.each do |loader, times| %>
-      <tr>
-        <td><%= times %>&times;</td>
-        <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
-        <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
-        <td>
-          <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-up"></i></a>
-          <a class="btn btn-outline-success btn-sm" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.sell') %>"><i class="fa fa-dollar-sign"></i></a>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<ul class="nav nav-tabs mt-5px" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#ship-inventory" role="tab"><%= I18n.t('ships.inventory') %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#ship-equipment" role="tab"><%= I18n.t('ships.equipment') %></a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="ship-inventory" role="tabpanel">
+    <table class="table table-bordered table-hover table-sm station-ship-inventory-table mt-5px">
+      <thead>
+        <tr>
+          <th scope="col">Qty.</th>
+          <th scope="col"><%= I18n.t('items.name') %></th>
+          <th scope="col"><%= I18n.t('items.type') %></th>
+          <th class="btn-th"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @active_spaceship.get_items.each do |loader, times| %>
+          <tr>
+            <td><%= times %>&times;</td>
+            <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
+            <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
+            <td>
+              <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-up"></i></a>
+              <a class="btn btn-outline-success btn-sm" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.sell') %>"><i class="fa fa-dollar-sign"></i></a>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane fade" id="ship-equipment" role="tabpanel">
+    <div class="row mt-5px">
+      <div class="col-lg-4 mb-3">
+        <div class="card black-card main-equipment-card">
+          <h5 class="card-header">Main Equipment (<%= @active_spaceship.get_attribute('main_equipment_slots') %>)</h5>
+          <div class="card-body">
+            <div class="row" id="main-equipment-sortable">
+              <% @active_spaceship.get_main_equipment.each do |item| %>
+                <%= render partial: 'equipment/equipment', locals: {item: item} %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-3">
+        <div class="display text-center">
+          <%= image_tag("ships/#{@active_spaceship.get_attribute('image')}") %>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-3">
+        <div class="card black-card utility-equipment-card">
+          <h5 class="card-header">Utility Equipment (<%= @active_spaceship.get_attribute('utility_equipment_slots') %>)</h5>
+          <div class="card-body">
+            <div class="row" id="utility-equipment-sortable">
+              <% @active_spaceship.get_utility_equipment.each do |item| %>
+                <%= render partial: 'equipment/equipment', locals: {item: item} %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mb-3 text-center">
+      <div class="col-md-4">
+        <%= I18n.t('ships.power').upcase %>: <span id="power-display"><%= @active_spaceship.get_power %></span>
+      </div>
+      <div class="col-md-4">
+        <%= I18n.t('ships.defense').upcase %>: <span id="defense-display"><%= @active_spaceship.get_defense %></span>
+      </div>
+      <div class="col-md-4">
+        <%= I18n.t('ships.storage').upcase %>: <span id="storage-display"><%= @active_spaceship.get_storage_capacity %></span>
+      </div>
+    </div>
+    
+    <div class="card black-card list-equipment-card">
+      <h5 class="card-header"><%= I18n.t('ships.available_equipment') %></h5>
+      <div class="card-body">
+        <div class="row" id="list-equipment-sortable">
+          <% @active_spaceship.get_unequipped_equipment.each do |item| %>
+            <%= render partial: 'equipment/equipment', locals: {item: item} %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="store-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
