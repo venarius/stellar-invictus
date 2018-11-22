@@ -6,6 +6,8 @@ Nano:
   power: 5
   defense: 10
   price: 0
+  main_equipment_slots: 1
+  utility_equipment_slots: 0
   
 Cerux:
   image: cerux.png
@@ -15,6 +17,8 @@ Cerux:
   power: 25
   defense: 60
   price: 12000
+  main_equipment_slots: 3
+  utility_equipment_slots: 3
 
 Valadria:
   image: valadria.png
@@ -24,6 +28,8 @@ Valadria:
   power: 30
   defense: 30
   price: 10000
+  main_equipment_slots: 3
+  utility_equipment_slots: 2
   
 Crasher:
   image: crasher.png
@@ -33,6 +39,8 @@ Crasher:
   power: 30
   defense: 10
   price: 8000
+  main_equipment_slots: 2
+  utility_equipment_slots: 1
   
 Chronos:
   image: chronos.png
@@ -42,3 +50,5 @@ Chronos:
   power: 5
   defense: 60
   price: 5000
+  main_equipment_slots: 1
+  utility_equipment_slots: 4

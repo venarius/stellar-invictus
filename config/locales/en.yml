@@ -50,6 +50,7 @@ en:
     police_inbound: "You can't do that while police is inbound."
     your_ship_cant_carry_that_much: "Your ship can't carry that much."
     couldnt_find_chat_room: "Couldn't find a channel with this ID"
+    no_mining_laser: "No mining laser equipped"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -148,6 +149,8 @@ en:
     power: "Power"
     untarget: "Untarget"
     cargohold: "Cargohold"
+    equipment: "Equipment"
+    available_equipment: "Available Equipment in Cargohold"
   items:
     type: "Type"
     name: "Name"
