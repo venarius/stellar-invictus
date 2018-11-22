@@ -1,9 +1,5 @@
-document.addEventListener("turbolinks:before-render", function() {
-  Turbolinks.clearCache()
-})
-
 document.addEventListener("turbolinks:before-cache", function() {
-  $('.modal').modal('hidden');
+  $('.modal').modal('hide');
 })
 
 $( document ).on('turbolinks:load', function() {

@@ -60,7 +60,7 @@ class AttackWorker
         
         # Tell other users who targeted target to also update hp
         User.where(target_id: target_id).where("online > 0").each do |u|
-          ac_server.server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
+          ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
         end
       else
         return
