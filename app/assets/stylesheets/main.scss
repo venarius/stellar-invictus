@@ -17,6 +17,7 @@ html {
 .width-max { width: 100%; }
 .mt-5px { margin-top: 5px; }
 .mt-10px { margin-top: 10px; }
+.mb-5px { margin-bottom: 5px; }
 .mb-10px { margin-bottom: 10px; }
 .mt-10 { margin-top: 10rem; }
 .p-0-5 { padding: 0px 5px; }
@@ -25,7 +26,7 @@ html {
 .w-20px { width: 20px; }
 .outline-primary { border: 1px solid #2A9FD6; }
 .outline-danger { border: 1px solid #CC0000 !important; }
-.table-fleet { background-color: #3b1d4c; }
+.table-fleet { background-color: #3b1d4c !important; }
 .flexbox-vert-center {
   display: flex;
   align-items: center;
@@ -542,6 +543,26 @@ body {
       }
     }
     .tab-content {
+      .nav-tabs {
+        overflow-x: auto;
+        overflow-y: hidden;
+        display: -webkit-box;  
+        display: -moz-box;
+        flex-wrap: nowrap;
+        .nav-item {
+          float:none;
+          margin-right: 5px;
+          .nav-link {
+            border-radius: 0;
+            background-color: black;
+            border: 1px solid #282828;
+          }
+          .nav-link.active {
+            border: 1px solid #2A9FD6;
+            border-bottom: 1px solid black;
+          }
+        }
+      }
       table {
         margin-bottom: 0;
         thead {
@@ -587,6 +608,73 @@ body {
   tbody {
     td .btn {
       padding: 0rem 0.5rem;
+    }
+  }
+}
+
+// Ship Equipment
+
+.station-card #ship-equipment {
+  div.display {
+    height: 100%;
+    padding: 0.5rem;
+    border: 1px solid grey;
+    background-color: #101010;
+    img { 
+      height: 75%; 
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .main-equipment-card, .utility-equipment-card {
+    .card-header { font-size: 15px; }
+    .card-body {
+      .row {
+        min-height: 4rem;
+        .card { 
+          height: 40px; 
+          .card-body { padding-top: 8px; }
+        }
+      }
+      .equipment-placeholder {
+        max-width: 85%;
+        margin-left: 20px;
+        border: 1px solid #2f2f2f;
+        height: 40px;
+        margin-bottom: 5px;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  .list-equipment-card {
+    height: 13.4rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    .card-header { font-size: 15px; }
+    .card-body {
+      padding: 0;
+      .row {
+        min-height: 4rem;
+        margin: 0;
+        .col-md-4 { padding: 5px; }
+        .card { 
+          height: 40px; 
+          .card-body { padding: 5px; padding-top: 8px; }
+        }
+      }
+    }
+    .equipment-placeholder {
+      width: 90%;
+      margin-left: 5px;
+      border: 1px solid #2f2f2f;
+      height: 40px;
+      margin-bottom: 5px;
+      &:last-of-type {
+        margin-bottom: 0;
+      }
     }
   }
 }

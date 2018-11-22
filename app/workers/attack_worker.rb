@@ -33,6 +33,9 @@ class AttackWorker
     # Set is attacking to true
     player.update_columns(is_attacking: true)
     
+    # Math the attack
+    attack = player_ship.get_power * (1.0 - target_ship.get_defense/100.0)
+    
     # While player and target can attack
     while true do
       # Global Cooldown
@@ -40,7 +43,6 @@ class AttackWorker
       
       if can_attack(player, target)
         # The attack
-        attack = SHIP_VARIABLES[player_ship.name]['power'] * (1.0 - SHIP_VARIABLES[target_ship.name]['defense']/100.0)
         target_ship.update_columns(hp: target_ship.hp - attack.round)
         
         target_hp = target_ship.hp

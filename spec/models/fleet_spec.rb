@@ -13,5 +13,17 @@ describe Fleet do
       it { should belong_to :creator }
       it { should have_many :users }
     end
+    
+    describe 'Functions' do
+      describe 'before_destroy' do
+        it 'should remove all active users from fleet' do
+          user = FactoryBot.create(:user_with_faction)
+          fleet = FactoryBot.create(:fleet, creator: user)
+          fleet.users << user
+          fleet.destroy
+          expect(user.reload.fleet).to eq(nil)
+        end
+      end
+    end
   end
 end

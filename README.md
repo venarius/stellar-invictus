@@ -5,6 +5,7 @@
 - ~~Asteroids - Rename Ore~~
 - Enhance map
 - ~~Fleets~~
+- Crafting
 - Alliances
 - Skills
 - ~~Bio for Users~~
@@ -13,7 +14,7 @@
 - ~~Loot on destroyed enemies / players~~
 - ~~Animated Spaceships~~
 - Trading
-- Equipment System
+- ~~Equipment System~~
 - Enhanced Fighting -> Warp Scramble, Evasion Try
 - ~~Custom Chatchannels~~
 - Missions

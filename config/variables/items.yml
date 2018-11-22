@@ -1,5 +1,7 @@
 test:
   weight: 1
+  
+# Asteroids
 asteroid:
   nickel:
     name: "Nickel Ore"
@@ -13,3 +15,60 @@ asteroid:
     name: "Cobalt Ore"
     type: "Ore"
     weight: 1
+
+# Equipment
+equipment:
+
+  # Weapons
+  weapons:
+    laser_gatling:
+      name: "Laser Gatling"
+      type: "Weapon"
+      weight: 4
+      damage_amplifier: 1.3
+      slot_type: "main"
+    try_pyon_laser:
+      name: "Try Pyon Laser"
+      type: "Weapon"
+      weight: 5
+      damage_amplifier: 1.6
+      slot_type: "main"
+      
+  # Miner
+  miner:
+    basic_miner:
+      name: "Basic Mining Laser"
+      type: "Mining Laser"
+      weight: 2
+      mining_amount: 1
+      slot_type: "main"
+    advanced_miner:
+      name: "Adv. Mining Laser"
+      type: "Mining Laser"
+      weight: 2
+      mining_amount: 2
+      slot_type: "main"
+      
+  # Defense
+  defense:
+    ion_shield:
+      name: "Ion Shield"
+      type: "Defense"
+      weight: 4
+      defense_amplifier: 1.1
+      slot_type: "main"
+    try_pyon_shield:
+      name: "Try Pyon Shield"
+      type: "Defense"
+      weight: 5
+      defense_amplifier: 1.2
+      slot_type: "main"
+      
+  storage:
+    small_black_hole:
+      name: "Small Black Hole"
+      type: "Storage"
+      weight: 5
+      storage_amplifier: 1.2
+      slot_type: "utility"
+  

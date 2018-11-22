@@ -27,5 +27,14 @@ describe ChatRoom do
     describe 'Enums' do
        it { should define_enum_for(:chatroom_type).with([:global, :local, :custom]) } 
     end
+    
+    describe 'Functions' do
+      describe 'update_local_players' do
+        it 'should send actioncable' do
+          room = FactoryBot.create(:chat_room)
+          room.update_local_players
+        end
+      end
+    end
   end
 end
