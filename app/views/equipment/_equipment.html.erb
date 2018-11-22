@@ -1,0 +1,22 @@
+<div class="col-md-12 mb-5px" data-id="<%= item.id %>">
+  <div class="card">
+    <div class="card-body">
+      <span><%= item.get_attribute('name') %></span>
+      <div class="float-right">
+          <span><i class="fa fa-cube"></i> <%= item.get_attribute('slot_type').capitalize %></span>
+        <% if item.get_attribute('type') == "Weapon" %>
+          <span><i class="fa fa-crosshairs"></i> <%= item.get_attribute('damage_amplifier').to_f %></span>
+        <% end %>
+        <% if item.get_attribute('type') == "Defense" %>
+          <span><i class="fa fa-shield-alt"></i> <%= item.get_attribute('defense_amplifier').to_f %></span>
+        <% end %>
+        <% if item.get_attribute('type') == "Storage" %>
+          <span><i class="fa fa-boxes"></i> <%= item.get_attribute('storage_amplifier').to_f %></span>
+        <% end %>
+        <% if item.get_attribute('type') == "Mining Laser" %>
+          <span><i class="fab fa-galactic-senate"></i> <%= item.get_attribute('mining_amount').to_f %></span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

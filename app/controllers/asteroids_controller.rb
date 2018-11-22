@@ -10,6 +10,11 @@ class AsteroidsController < ApplicationController
         render json: {error_message: I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
       end
       
+      # If user has no mining laser equipped -> error
+      if current_user.active_spaceship.get_mining_amount == 0
+        render json: {error_message: I18n.t('errors.no_mining_laser')}, status: 400 and return
+      end
+      
       # If asteroid found and has ressources
       if asteroid and asteroid.resources > 0 and asteroid.location == current_user.location and current_user.mining_target != asteroid
         # Perform Mining Worker

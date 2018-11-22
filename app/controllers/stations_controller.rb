@@ -28,6 +28,7 @@ class StationsController < ApplicationController
     @current_user = User.includes(:system).find(current_user.id)
     @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(location: current_user.location)).last(10)
     @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.first).last(10)
+    @active_spaceship = current_user.active_spaceship
   end
   
   def buy
@@ -48,7 +49,7 @@ class StationsController < ApplicationController
       items = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader])
       if items and amount <= items.count and amount > 0
         items.first(amount).each do |item|
-          item.update_columns(spaceship_id: nil, location_id: current_user.location.id, user_id: current_user.id)
+          item.update_columns(spaceship_id: nil, location_id: current_user.location.id, user_id: current_user.id, equipped: false)
         end
         render json: {}, status: 200 and return
       end

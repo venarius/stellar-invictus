@@ -16,6 +16,7 @@
 //= require stimulus/init
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui/widgets/sortable
 //= require popper.min.js
 //= require bootstrap.min.js
 //= require slick.min.js

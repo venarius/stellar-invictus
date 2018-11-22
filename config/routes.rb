@@ -100,6 +100,11 @@ Rails.application.routes.draw do
     post 'remove', to: 'fleets#remove'
   end
   
+  # Equipment
+  scope :equipment do
+    post 'update', to: 'equipment#update'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

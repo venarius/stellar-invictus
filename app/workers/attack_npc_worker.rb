@@ -21,6 +21,9 @@ class AttackNpcWorker
     # Set is attacking to true
     player.update_columns(is_attacking: true)
     
+    # Math the attack
+    attack = player_ship.get_power
+    
     # While player can attack
     while true do
       # Global Cooldown
@@ -28,7 +31,6 @@ class AttackNpcWorker
       
       if can_attack(player, target)
         # The attack
-        attack = SHIP_VARIABLES[player_ship.name]['power']
         target.update_columns(hp: target.hp - attack.round)
         
         # If target hp is below 0 -> die
