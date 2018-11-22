@@ -51,6 +51,10 @@ class MiningWorker
     player = player.reload
     asteroid = asteroid.reload
     
+    # Set Variables
+    player_id = player.id
+    asteroid_id = asteroid.id
+    
     # Remove asteroid as target if depleted
     if asteroid.resources < 100
       ActionCable.server.broadcast("player_#{player_id}", method: 'asteroid_depleted')
