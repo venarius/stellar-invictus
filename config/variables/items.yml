@@ -34,6 +34,15 @@ equipment:
       damage_amplifier: 1.6
       slot_type: "main"
       
+  # Hulls
+  hulls:
+    light_hull:
+      name: "Light Hull"
+      type: "Hull"
+      weight: 2
+      align_amplifier: 0.8
+      slot_type: "utility"
+      
   # Miner
   miner:
     basic_miner:

@@ -1,6 +1,7 @@
 class ShipsController < ApplicationController
   def index
     @items = current_user.active_spaceship.get_items
+    @active_spaceship = current_user.active_spaceship
   end
   
   def activate

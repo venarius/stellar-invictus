@@ -4,7 +4,6 @@
       <th scope="col"><%= I18n.t('ships.name') %></th>
       <th scope="col"><%= I18n.t('ships.hp') %></th>
       <th scope="col"><%= I18n.t('ships.power') %></th>
-      <th scope="col" class="mobile-display-none"><%= I18n.t('ships.defense') %></th>
       <th scope="col"><%= I18n.t('ships.storage') %></th>
       <th scope="col"><%= I18n.t('ships.price') %></th>
       <th scope="col" class="btn-th"></th>
@@ -16,7 +15,6 @@
         <td><%= k %></td>
         <td><%= v['hp'] %></td>
         <td><%= v['power'] %></td>
-        <td class="mobile-display-none"><%= v['defense'] %></td>
         <td><%= v['storage'] %></td>
         <td><%= v['price'] %></td>
         <td>
@@ -40,6 +38,26 @@
       </div>
       <div class="modal-body text-center">
         <%= image_tag("ships/#{v['image']}", style: 'max-height: 150px') %>
+        <table class="table table-bordered table-sm table-striped">
+          <tbody>
+            <tr>
+              <th><%= I18n.t('ships.main_equipment_slots') %></th>
+              <td><%= v['main_equipment_slots'] %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.utility_equipment_slots') %></th>
+              <td><%= v['utility_equipment_slots'] %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.align_time') %></th>
+              <td><%= v['align_time'] %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.defense') %></th>
+              <td><%= v['defense'] %></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
