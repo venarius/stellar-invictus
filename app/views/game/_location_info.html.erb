@@ -30,7 +30,7 @@
     <td><%= image_tag('icons/station.png') %></td>
     <td class="name"><%= current_user.location.name %></td>
     <td><%= I18n.t('overview.station') %></td>
-    <td class="mobile-display-none"></td>
+    <td class="mobile-display-none"><%= current_user.location.faction.get_ticker if current_user.location.faction %></td>
     <td>
       <button class="btn btn-outline-primary btn-xs station-dock-btn w-100">
         <%= I18n.t('actions.dock') %>

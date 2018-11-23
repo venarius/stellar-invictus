@@ -1,0 +1,18 @@
+1:
+  placeholder: rison.png
+  ticker: HEL
+  damage_amplifier: 1.1
+  defense_amplifier: 1
+  storage_amplifier: 1
+2:
+  placeholder: kraken.png
+  ticker: CAL
+  damage_amplifier: 1
+  defense_amplifier: 1.1
+  storage_amplifier: 1
+3:
+  placeholder: lupa.png
+  ticker: COR
+  damage_amplifier: 1
+  defense_amplifier: 1
+  storage_amplifier: 1.2

@@ -5,6 +5,8 @@ describe Spaceship do
     describe 'attributes' do
       it { should respond_to :user }
       it { should respond_to :name }
+      it { should respond_to :warp_target_id }
+      it { should respond_to :warp_scrambled }
     end
    
     describe 'Relations' do

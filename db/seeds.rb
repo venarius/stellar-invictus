@@ -29,9 +29,9 @@ talos = System.find_or_create_by(name: 'Talos', security_status: 'medium')
 urus = System.find_or_create_by(name: 'Urus', security_status: 'low')
 
 # Factions
-faction1 = Faction.find_or_create_by(name: 'Faction 1', description: lorem)
-faction2 = Faction.find_or_create_by(name: 'Faction 2', description: lorem)
-faction3 = Faction.find_or_create_by(name: 'Faction 3', description: lorem)
+faction1 = Faction.find_or_create_by(name: 'Helix Collective', description: lorem)
+faction2 = Faction.find_or_create_by(name: 'Caladrius Alliance', description: lorem)
+faction3 = Faction.find_or_create_by(name: 'Core Republic', description: lorem)
 
 # Locations - Stations
 Location.find_or_create_by(name: 'Factory Plant I', system: jita, location_type: 0, faction: faction1)
