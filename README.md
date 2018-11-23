@@ -7,7 +7,7 @@
 - ~~Fleets~~
 - Crafting
 - Alliances
-- Skills
+- Skills -> Kills with specific ship -> Bonuses
 - ~~Bio for Users~~
 - ~~Friends~~
 - ~~Drop Items -> Container~~
@@ -18,7 +18,7 @@
 - ~~Equipment System~~
 - Enhanced Fighting -> Warp Scramble, Evasion Try
 - ~~Custom Chatchannels~~
-- Time to target
+- ~~Time to target~~
 - Missions
 - Planetary Interaction
 - Expeditions -> Quiz for loot

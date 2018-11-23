@@ -43,6 +43,15 @@ equipment:
       align_amplifier: 0.8
       slot_type: "utility"
       
+  # Scanner
+  scanner:
+    small_scanner:
+      name: "Small Scanner"
+      type: "Scanner"
+      weight: 2
+      target_amplifier: 0.8
+      slot_type: "utility"
+      
   # Miner
   miner:
     basic_miner:

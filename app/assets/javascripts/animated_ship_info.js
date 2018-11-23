@@ -192,13 +192,12 @@ function enemy_player_ship() {
     }
   }
   
-  this.animation_target_counter = function() {
-    countdown = new PIXI.Text('5', new PIXI.TextStyle({fill: '#ffffff'}));
+  this.animation_target_counter = function(time) {
+    countdown = new PIXI.Text(time, new PIXI.TextStyle({fill: '#ffffff'}));
     countdown.anchor.set(0.5);
     countdown.x = app.screen.width / 2;
     countdown.y = app.screen.height / 2;
     app.stage.addChild(countdown);
-    var time = 5
     target_interval = setInterval(function() {
       time = time-1;
       countdown.text = time
