@@ -290,7 +290,7 @@ a {
 body {
   /* width */
   ::-webkit-scrollbar {
-    display: none;
+    width: 0px;
   }
   /* Track */
   ::-webkit-scrollbar-track {
@@ -543,6 +543,7 @@ body {
       }
     }
     .tab-content {
+      min-height: 10rem;
       .nav-tabs {
         overflow-x: auto;
         overflow-y: hidden;
@@ -650,11 +651,13 @@ body {
     }
   }
   .list-equipment-card {
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
     height: 13.4rem;
-    overflow-x: auto;
-    overflow-y: hidden;
     .card-header { font-size: 15px; }
     .card-body {
+      overflow-x: auto;
       padding: 0;
       .row {
         min-height: 4rem;
