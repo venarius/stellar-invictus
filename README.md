@@ -18,6 +18,7 @@
 - ~~Equipment System~~
 - Enhanced Fighting -> Warp Scramble, Evasion Try
 - ~~Custom Chatchannels~~
+- Time to target
 - Missions
 - Planetary Interaction
 - Expeditions -> Quiz for loot
