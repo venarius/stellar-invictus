@@ -26,6 +26,11 @@ begin
   # Wrecks
   Structure.where(structure_type: 'wreck').destroy_all
   
+  # Ships
+  Spaceship.all.each do |ship|
+    ship.update_columns(warp_scrambled: false, warp_target_id: nil)
+  end
+  
 rescue StandardError
   true
 end

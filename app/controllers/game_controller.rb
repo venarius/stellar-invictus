@@ -18,7 +18,11 @@ class GameController < ApplicationController
       location = Location.find(params[:id]) rescue nil
       if location && location.system_id == current_user.system_id
         WarpWorker.perform_async(current_user.id, location.id)
-        render json: {}, status: 200
+        if current_user.active_spaceship.warp_target_id == location.id
+          render json: {align_time: 0}, status: 200
+        else
+          render json: {align_time: current_user.active_spaceship.get_align_time}, status: 200
+        end
       else
         render json: {}, status: 400
       end

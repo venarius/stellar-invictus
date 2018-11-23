@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_22_134636) do
+ActiveRecord::Schema.define(version: 2018_11_23_104753) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -135,6 +135,9 @@ ActiveRecord::Schema.define(version: 2018_11_22_134636) do
     t.integer "hp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "warp_target"
+    t.boolean "warp_scrambled", default: false
+    t.integer "warp_target_id"
     t.index ["user_id"], name: "index_spaceships_on_user_id"
   end
 

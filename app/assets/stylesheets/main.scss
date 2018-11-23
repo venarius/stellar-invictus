@@ -852,3 +852,27 @@ body {
     }
   }
 }
+
+// ###############
+// Ship Info
+// ###############
+.about-ship-card {
+  .card-body {
+    .display {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      img {
+        height: 125px;
+        border: 1px solid grey;
+        padding: 0.5rem;
+        border: 1px solid grey;
+        background-color: #101010;
+      }
+    }
+    table {
+      height: 100%;
+      margin-bottom: 0;
+    }
+  }
+}

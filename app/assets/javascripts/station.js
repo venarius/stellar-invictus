@@ -1,4 +1,10 @@
 $( document ).on('turbolinks:load', function() {
+  
+  // Cookie Setter
+  $('.station-card a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+    Cookies.set('station_tab', $(this).attr("href"));
+  });
+  
   // Send dockrequest AJAX
   $('#app-container').on('click', '.station-dock-btn', function(e) {
     e.preventDefault();
@@ -23,7 +29,6 @@ $( document ).on('turbolinks:load', function() {
     var name = $(this).data("name");
     if (name && name != "") {
       $.post("/stations/buy", {type: 'ship', name: name}, function(data) {
-        Cookies.set("station_tab", '#ships');
         Turbolinks.visit("/station");  
       }); 
     }
@@ -35,7 +40,6 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data("id");
     if (id) {
       $.post("/ship/activate", {id: id}, function() {
-        Cookies.set("station_tab", '#myships');
         Turbolinks.visit("/station");
       }); 
     }
@@ -58,7 +62,6 @@ $( document ).on('turbolinks:load', function() {
   // Store items from ship on station CONFIRM
   $('#store-modal').on('click', '.store-confirm-btn', function(e) {
     var jqxhr = $.post("/stations/store", {loader: $(this).data('loader'), amount: $('#store-modal').find('input').val()}, function() {
-      Cookies.set("station_tab", '#activeship');
       Turbolinks.visit("/station");
     });
     jqxhr.error(function(data) {
@@ -88,7 +91,6 @@ $( document ).on('turbolinks:load', function() {
   // Load items from station to ship CONFIRM
   $('#load-modal').on('click', '.load-confirm-btn', function(e) {
     var jqxhr = $.post("/stations/load", {loader: $(this).data('loader'), amount: $('#load-modal').find('input').val()}, function() {
-      Cookies.set("station_tab", '#storage');
       Turbolinks.visit("/station");
     });
     jqxhr.error(function(data) {

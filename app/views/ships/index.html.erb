@@ -1,5 +1,40 @@
-<div class="card black-card ship-inventory-card">
-  <h4 class="card-header"><%= I18n.t('ships.inventory') %></h4>
+<div class="card black-card about-ship-card mb-3">
+  <h5 class="card-header"><%= I18n.t('ships.about') %> (<%= @active_spaceship.name %>)</h5>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="display text-center mb-3">
+          <%= image_tag("ships/#{@active_spaceship.get_attribute('image')}") %>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <table class="table table-bordered table-sm table-striped">
+          <tbody>
+            <tr>
+              <th><%= I18n.t('ships.power') %></th>
+              <td><%= @active_spaceship.get_power %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.defense') %></th>
+              <td><%= @active_spaceship.get_defense %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.storage') %></th>
+              <td><%= @active_spaceship.get_storage_capacity %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.align_time') %></th>
+              <td><%= @active_spaceship.get_align_time %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card black-card ship-inventory-card mb-3">
+  <h5 class="card-header"><%= I18n.t('ships.inventory') %></h5>
   <div class="card-body">
     <table class="table table-bordered table-hover table-sm">
       <thead>
@@ -19,5 +54,37 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div class="card black-card ship-equipment-card mb-3">
+  <h5 class="card-header"><%= I18n.t('ships.equipment') %></h5>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card black-card main-equipment-card mb-3">
+          <h5 class="card-header">Main Equipment (<%= @active_spaceship.get_attribute('main_equipment_slots') %>)</h5>
+          <div class="card-body">
+            <div class="row">
+              <% @active_spaceship.get_main_equipment.each do |item| %>
+                <%= render partial: 'equipment/equipment', locals: {item: item} %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card black-card utility-equipment-card">
+          <h5 class="card-header">Utility Equipment (<%= @active_spaceship.get_attribute('utility_equipment_slots') %>)</h5>
+          <div class="card-body">
+            <div class="row">
+              <% @active_spaceship.get_utility_equipment.each do |item| %>
+                <%= render partial: 'equipment/equipment', locals: {item: item} %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

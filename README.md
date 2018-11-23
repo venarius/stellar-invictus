@@ -13,7 +13,8 @@
 - ~~Drop Items -> Container~~
 - ~~Loot on destroyed enemies / players~~
 - ~~Animated Spaceships~~
-- Trading
+- Trading between Players
+- ~~Time to get into warp~~
 - ~~Equipment System~~
 - Enhanced Fighting -> Warp Scramble, Evasion Try
 - ~~Custom Chatchannels~~

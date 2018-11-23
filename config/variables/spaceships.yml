@@ -8,6 +8,7 @@ Nano:
   price: 0
   main_equipment_slots: 1
   utility_equipment_slots: 0
+  align_time: 5
   
 Cerux:
   image: cerux.png
@@ -19,6 +20,7 @@ Cerux:
   price: 12000
   main_equipment_slots: 3
   utility_equipment_slots: 3
+  align_time: 10
 
 Valadria:
   image: valadria.png
@@ -30,6 +32,7 @@ Valadria:
   price: 10000
   main_equipment_slots: 3
   utility_equipment_slots: 2
+  align_time: 10
   
 Crasher:
   image: crasher.png
@@ -41,6 +44,7 @@ Crasher:
   price: 8000
   main_equipment_slots: 2
   utility_equipment_slots: 1
+  align_time: 3
   
 Chronos:
   image: chronos.png
@@ -52,3 +56,4 @@ Chronos:
   price: 5000
   main_equipment_slots: 1
   utility_equipment_slots: 4
+  align_time: 15

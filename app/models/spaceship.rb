@@ -130,4 +130,13 @@ class Spaceship < ApplicationRecord
     end
     slots
   end
+  
+  # Get align time
+  def get_align_time
+    align_time = self.get_attribute('align_time')
+    self.get_equipment.each do |item|
+      align_time = (align_time * item.get_attribute('align_amplifier')).round if item.get_attribute('type') == "Hull" and item.equipped
+    end
+    align_time
+  end
 end
