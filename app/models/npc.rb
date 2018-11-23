@@ -10,7 +10,9 @@ class Npc < ApplicationRecord
   
   # Lets the npc drop loot
   def drop_loot
-    loader = ["asteroid.iron", "asteroid.nickel", "asteroid.cobalt", "equipment.weapons.laser_gatling", "equipment.miner.advanced_miner", "equipment.storage.small_black_hole"]
+    loader = ["asteroid.iron", "asteroid.nickel", "asteroid.cobalt", "equipment.weapons.laser_gatling",
+              "equipment.miner.advanced_miner", "equipment.storage.small_black_hole",
+              "equipment.hulls.light_hull"]
     structure = Structure.create(location: self.location, structure_type: 'wreck')
     rand(1..2).times do
       Item.create(loader: loader.sample, structure: structure, equipped: false)
