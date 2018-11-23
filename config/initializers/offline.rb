@@ -28,7 +28,7 @@ begin
   
   # Ships
   Spaceship.all.each do |ship|
-    ship.update_columns(warp_scrambled: false, warp_target: nil)
+    ship.update_columns(warp_scrambled: false, warp_target_id: nil)
   end
   
 rescue StandardError
