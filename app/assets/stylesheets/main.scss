@@ -622,7 +622,7 @@ body {
     border: 1px solid grey;
     background-color: #101010;
     img { 
-      height: 75%; 
+      max-height: 125%; 
       position: relative;
       top: 50%;
       transform: translateY(-50%);
@@ -859,15 +859,15 @@ body {
 .about-ship-card {
   .card-body {
     .display {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
+      padding: 0.5rem;
+      border: 1px solid grey;
+      background-color: #101010;
+      height: 100%;
       img {
-        height: 125px;
-        border: 1px solid grey;
-        padding: 0.5rem;
-        border: 1px solid grey;
-        background-color: #101010;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        max-height: 125px;
       }
     }
     table {
