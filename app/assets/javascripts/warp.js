@@ -1,14 +1,28 @@
+var align_interval;
+var overview_card;
 $( document ).on('turbolinks:load', function() {
+  
   // Go into warp and show warpcard AJAX
   $('#app-container').on('click', '.warp-btn', function(e) {
     e.preventDefault();
+    
+    // Give all warp buttons fa-icon
+    clearInterval(align_interval);
+    $('.warp-btn').each(function() { $(this).empty().append("<i class='fa fa-angle-double-right'></i>"); })
+    
     loading_animation($(this))
-    var target = $(this).data("id");
-    if (target) {
-      var xhr = $.post( "game/warp", { id: target }, function( data ) {
-        doWarp(10);
-      }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
-    }
+    var button = $(this)
+    var xhr = $.post( "game/warp", { id: button.data("id") }, function( data ) {
+      if (data.align_time) {
+        var align_time = data.align_time;
+        
+        button.empty().append(align_time);
+        align_interval = setInterval(function(){ align_time = align_time - 1; button.empty().append(align_time); if (align_time <= 0) {clearInterval(align_interval); doWarp(10);}}, 1000)
+      } else {
+        clearInterval(align_interval);
+        button.empty().append("<i class='fa fa-angle-double-right'></i>");
+      }
+    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
   });
   
   // Go into warp and show warpcard AJAX

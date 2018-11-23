@@ -16,6 +16,9 @@
         <% if item.get_attribute('type') == "Mining Laser" %>
           <span><i class="fab fa-galactic-senate"></i> <%= item.get_attribute('mining_amount').to_f %></span>
         <% end %>
+        <% if item.get_attribute('type') == "Hull" %>
+          <span><i class="fa fa-forward"></i> <%= item.get_attribute('align_amplifier').to_f %></span>
+        <% end %>
       </div>
     </div>
   </div>

@@ -151,6 +151,10 @@ en:
     cargohold: "Cargohold"
     equipment: "Equipment"
     available_equipment: "Available Equipment in Cargohold"
+    align_time: "Aligntime"
+    main_equipment_slots: "Main Slots"
+    utility_equipment_slots: "Utility Slots"
+    about: "About"
   items:
     type: "Type"
     name: "Name"

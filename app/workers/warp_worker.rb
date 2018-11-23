@@ -6,9 +6,28 @@ class WarpWorker
 
   def perform(player_id, location_id)
     user = User.find(player_id)
+    ship = user.active_spaceship
+    
+    # Get alignment time
+    align_time = ship.get_align_time
     
     # Get ActionCable Server
     ac_server = ActionCable.server
+    
+    # Remove warp target if same target
+    ship.update_columns(warp_target_id: nil) and return if ship.warp_target_id == location_id
+    
+    # Set warp target
+    ship.update_columns(warp_target_id: location_id)
+    
+    # Alignment
+    align_time.times do
+      user = user.reload
+      ship = ship.reload
+      
+      return if !user.can_be_attacked || ship.warp_scrambled || ship.warp_target_id != location_id
+      sleep(1)
+    end
     
     # Make user in warp and loose its target / mining target
     user.update_columns(in_warp: true, target_id: nil, mining_target_id: nil, is_attacking: false)
@@ -25,6 +44,9 @@ class WarpWorker
     
     # Set users location to new location
     user.update_columns(location_id: location_id, in_warp: false)
+    
+    # Unset warp_target_id
+    ship.update_columns(warp_target_id: nil)
     
     # Tell everyone in new system that player has appeared
     ac_server.broadcast("location_#{user.location.id}", method: 'player_appeared')
