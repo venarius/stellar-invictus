@@ -1,5 +1,8 @@
 document.addEventListener("turbolinks:before-cache", function() {
   $('.modal').modal('hide');
+  if ($('.warp-card').length) {
+    $('.warp-card').remove();
+  }
 })
 
 $( document ).on('turbolinks:load', function() {

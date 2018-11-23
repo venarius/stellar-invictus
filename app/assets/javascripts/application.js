@@ -17,6 +17,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui/widgets/sortable
+//= require jquery.ui.touch-punch.min.js
 //= require popper.min.js
 //= require bootstrap.min.js
 //= require slick.min.js
