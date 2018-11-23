@@ -4,7 +4,7 @@ class NpcsController < ApplicationController
       target = Npc.find(params[:id]) rescue nil
       if target and target.location == current_user.location and current_user.npc_target != target
         TargetNpcWorker.perform_async(current_user.id, target.id)
-        render json: {}, status: 200 and return
+        render json: {time: current_user.active_spaceship.get_target_time}, status: 200 and return
       end
     end
     render json: {}, status: 400
