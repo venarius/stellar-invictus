@@ -876,3 +876,19 @@ body {
     }
   }
 }
+
+// ###############
+// Factions
+// ###############
+.factions-card {
+  .display {
+    border: 1px solid grey;
+    background: image-url('galaxy-infinity.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px;
+    img {
+      max-height: 175px;
+    }
+  }
+}

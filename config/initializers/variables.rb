@@ -1,6 +1,7 @@
 SHIP_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/spaceships.yml")
 ITEM_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml")
 STATION_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/stations.yml")
+FACTION_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml")
 
 # Spaceships
 if ActiveRecord::Base.connection.table_exists? 'spaceships'

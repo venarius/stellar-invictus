@@ -1,12 +1,20 @@
-<div class="card">
+<div class="card black-card factions-card">
   <h5 class="card-header"><%= I18n.t('factions.choose_a_faction') %></h5>
   <div class="card-body">
     <div class="row">
       <% @factions.each do |faction| %>
         <div class="col-md-4">
-          <h3><%= faction.name %></h3>
+          <div class="display mb-3 text-center">
+            <%= image_tag("ships/#{FACTION_VARIABLES[faction.id]['placeholder']}") %>
+          </div>
+          
+          <h5><%= faction.name %></h5>
           
           <p><%= faction.description %></p>
+          
+          <h5><%= I18n.t('factions.bonus') %></h5>
+          
+          <p class="color-green"><%= I18n.t("factions.#{faction.id}_bonus") %></p>
           
           <%= button_to choose_faction_path(id: faction.id), class: 'btn btn-primary btn-load', method: :post do %>
             <span><%= I18n.t('factions.choose') %></span>

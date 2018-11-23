@@ -23,7 +23,7 @@
 - Expeditions -> Quiz for loot
 - Trading System
 - More Ships
-- Faction Bonuses
+- ~~Faction Bonuses~~
 - Faction Reputation - Unlocks on different levels
 - Home, About -> Currently empty sites
 - Player Reporting

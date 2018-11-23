@@ -43,6 +43,10 @@ en:
   factions:
     choose_a_faction: "Please choose a Faction"
     choose: "Choose"
+    bonus: "Bonus"
+    1_bonus: "+ 10% Attack Bonus"
+    2_bonus: "+ 10% Defense Bonus"
+    3_bonus: "+ 20% Storage Bonus"
   errors:
     something_went_wrong: "Something went wrong. Please try again."
     recipient_not_found: "Recipient not found"

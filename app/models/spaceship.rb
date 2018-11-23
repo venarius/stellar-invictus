@@ -81,27 +81,30 @@ class Spaceship < ApplicationRecord
   def get_storage_capacity
     storage = self.get_attribute('storage')
     self.get_utility_equipment.each do |item|
-      storage = (storage * item.get_attribute('storage_amplifier')).round if item.get_attribute('type') == "Storage" and item.equipped
+      storage = storage * item.get_attribute('storage_amplifier') if item.get_attribute('type') == "Storage" and item.equipped
     end
-    storage
+    storage = storage * self.user.faction.get_attribute('storage_amplifier')
+    storage.round
   end
   
   # Get Power of Ship
   def get_power
     power = self.get_attribute('power')
     self.get_main_equipment.each do |item|
-      power = (power * item.get_attribute('damage_amplifier')).round if item.get_attribute('type') == "Weapon" and item.equipped
+      power = power * item.get_attribute('damage_amplifier') if item.get_attribute('type') == "Weapon" and item.equipped
     end
-    power
+    power = power * self.user.faction.get_attribute('damage_amplifier')
+    power.round
   end
   
   # Get Defense of ship
   def get_defense
     defense = self.get_attribute('defense')
     self.get_main_equipment.each do |item|
-      defense = (defense * item.get_attribute('defense_amplifier')).round if item.get_attribute('type') == "Defense" and item.equipped
+      defense = defense * item.get_attribute('defense_amplifier') if item.get_attribute('type') == "Defense" and item.equipped
     end
-    defense
+    defense = defense * self.user.faction.get_attribute('defense_amplifier')
+    defense.round
   end
   
   # Get Defense of ship
