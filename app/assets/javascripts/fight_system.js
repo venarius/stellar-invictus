@@ -8,10 +8,10 @@ $( document ).on('turbolinks:load', function() {
   $('#app-container').on('click', '.target-player-btn', function(e) {
     e.preventDefault();
     id = $(this).data("id");
-    $.post( "ship/target", {id: id}, function() {
+    $.post( "ship/target", {id: id}, function(data) {
       if ($('.enemy-space-ship').length) {
         remove_target();
-        animation_target_counter();
+        animation_target_counter(data.time);
       }
     });
   });

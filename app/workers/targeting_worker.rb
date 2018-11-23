@@ -19,14 +19,14 @@ class TargetingWorker
     
     # Look every second if player docked or warped to stop targeting counter
     count = 0
-    5.times do
+    player.active_spaceship.get_target_time.times do
       sleep(1)
       count = count + 1
       unless target.reload.can_be_attacked and target.location == player.location and player.reload.can_be_attacked and player.mining_target_id == nil and player.npc_target_id == nil and player.target_id == nil
         ActionCable.server.broadcast("player_#{target.id}", method: 'getting_targeted', name: player.full_name) if count > 2
         return
       end
-      if count == 2
+      if count == 1
         ActionCable.server.broadcast("player_#{target.id}", method: 'getting_targeted', name: player.full_name)
       end
     end

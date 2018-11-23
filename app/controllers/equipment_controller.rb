@@ -57,7 +57,7 @@ class EquipmentController < ApplicationController
       item.update_columns(equipped: false) if !ids or !ids.include? item.id.to_s
     end
     
-    render json: {power: ship.get_power, defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time}, status: 200 and return
+    render json: {power: ship.get_power, defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time, target: ship.get_target_time}, status: 200 and return
   end
   render json: {}, status: 400
 end

@@ -19,6 +19,10 @@ describe Faction do
         it 'should return attribute' do
           expect(Faction.first.get_attribute('ticker')).to eq('HEL')
         end
+        
+        it 'should return nil' do
+          expect(Faction.first.get_attribute('noot')).to eq(nil)
+        end
       end
       
       describe 'get_ticker' do

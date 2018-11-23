@@ -66,17 +66,20 @@
     </div>
     
     <div class="row mb-3 text-center">
-      <div class="col-md-3">
+      <div class="col-md">
         <%= I18n.t('ships.power').upcase %>: <span id="power-display"><%= @active_spaceship.get_power %></span>
       </div>
-      <div class="col-md-3">
+      <div class="col-md">
         <%= I18n.t('ships.defense').upcase %>: <span id="defense-display"><%= @active_spaceship.get_defense %></span>
       </div>
-      <div class="col-md-3">
+      <div class="col-md">
         <%= I18n.t('ships.storage').upcase %>: <span id="storage-display"><%= @active_spaceship.get_storage_capacity %></span>
       </div>
-      <div class="col-md-3">
+      <div class="col-md">
         <%= I18n.t('ships.align_time').upcase %>: <span id="align-display"><%= @active_spaceship.get_align_time %></span>
+      </div>
+      <div class="col-md">
+        <%= I18n.t('ships.target_time').upcase %>: <span id="target-display"><%= @active_spaceship.get_target_time %></span>
       </div>
     </div>
     

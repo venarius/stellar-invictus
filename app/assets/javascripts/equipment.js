@@ -100,6 +100,7 @@ function after_change() {
     $('#storage-display').text(data.storage);
     $('#defense-display').text(data.defense);
     $('#align-display').text(data.align);
+    $('#target-display').text(data.target);
     set_equipment_draggables();
     refresh_player_info();
   }).fail(function() {reset_equipment_draggables();});

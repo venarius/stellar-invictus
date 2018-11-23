@@ -159,6 +159,7 @@ en:
     main_equipment_slots: "Main Slots"
     utility_equipment_slots: "Utility Slots"
     about: "About"
+    target_time: "Targettime"
   items:
     type: "Type"
     name: "Name"

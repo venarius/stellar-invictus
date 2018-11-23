@@ -9,6 +9,7 @@ Nano:
   main_equipment_slots: 1
   utility_equipment_slots: 0
   align_time: 5
+  target_time: 5
   
 Cerux:
   image: cerux.png
@@ -21,6 +22,7 @@ Cerux:
   main_equipment_slots: 3
   utility_equipment_slots: 3
   align_time: 10
+  target_time: 10
 
 Valadria:
   image: valadria.png
@@ -33,6 +35,7 @@ Valadria:
   main_equipment_slots: 3
   utility_equipment_slots: 2
   align_time: 10
+  target_time: 7
   
 Crasher:
   image: crasher.png
@@ -45,6 +48,7 @@ Crasher:
   main_equipment_slots: 2
   utility_equipment_slots: 1
   align_time: 3
+  target_time: 3
   
 Chronos:
   image: chronos.png
@@ -57,3 +61,4 @@ Chronos:
   main_equipment_slots: 1
   utility_equipment_slots: 4
   align_time: 15
+  target_time: 15
