@@ -13,7 +13,8 @@ $( document ).on('turbolinks:load', function() {
   $('#app-container').on('click', '.attack-container-btn', function(e) {
     e.preventDefault();
     var id = $(this).data('id');
-    $.post('structure/attack', {id: id}, function(data) {});
+    var button = $(this)
+    $.post('structure/attack', {id: id}, function(data) {button.tooltip('dispose');});
   });
   
   // Remove cargocontainer modal if close button is clicked
