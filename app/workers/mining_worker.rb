@@ -30,7 +30,7 @@ class MiningWorker
     player.update_columns(mining_target_id: asteroid_id)
     ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
     while true do
-      15.times do
+      10.times do
         return unless can_mine(player, asteroid, mining_amount)
         sleep(2)
       end
@@ -44,6 +44,13 @@ class MiningWorker
         Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
       end
       
+      # 3 septarium per mine
+      if asteroid.asteroid_type == "septarium"
+        (mining_amount * 3 - mining_amount).times do
+          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+        end
+      end
+      
       # Log
       ac_server.broadcast("player_#{player_id}", method: 'update_asteroid_resources', resources: asteroid.resources)
       ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info')
@@ -55,7 +62,7 @@ class MiningWorker
       end
       
       # Get enemy
-      EnemyWorker.perform_async(player.location.id, 5) if 1 + rand(10) == 10
+      EnemyWorker.perform_async(player.location.id, 5) #if 1 + rand(10) == 10
     end
     
   end
