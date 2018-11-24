@@ -30,7 +30,7 @@ class WarpWorker
     end
     
     # Make user in warp and loose its target / mining target
-    user.update_columns(in_warp: true, target_id: nil, mining_target_id: nil, is_attacking: false)
+    user.update_columns(in_warp: true, target_id: nil, mining_target_id: nil, npc_target_id: nil, is_attacking: false)
     
     # Tell everyone in location that user warped out
     ac_server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)
