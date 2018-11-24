@@ -47,10 +47,14 @@ class Spaceship < ApplicationRecord
   end
   
   # Get Main Equipment in Ship
-  def get_main_equipment
+  def get_main_equipment(active=false)
     items = []
     self.get_equipped_equipment.each do |item|
-      items << item if item.get_attribute('slot_type') == "main"
+      if !active
+        items << item if item.get_attribute('slot_type') == "main"
+      else
+        items << item if item.get_attribute('slot_type') == "main" and item.active
+      end
     end
     items
   end
@@ -62,6 +66,13 @@ class Spaceship < ApplicationRecord
       items << item if item.get_attribute('slot_type') == "utility"
     end
     items
+  end
+  
+  # Deactivate Equipment
+  def deactivate_equipment
+    self.get_equipped_equipment.each do |item|
+      item.update_columns(active: false) if item.active
+    end
   end
   
   # Drop Loot
@@ -89,9 +100,9 @@ class Spaceship < ApplicationRecord
   
   # Get Power of Ship
   def get_power
-    power = self.get_attribute('power')
+    power = 0
     self.get_main_equipment.each do |item|
-      power = power * item.get_attribute('damage_amplifier') if item.get_attribute('type') == "Weapon" and item.equipped
+      power = power + item.get_attribute('damage') if item.get_attribute('type') == "Weapon" and item.equipped and item.active
     end
     power = power * self.user.faction.get_attribute('damage_amplifier')
     power.round
@@ -150,5 +161,24 @@ class Spaceship < ApplicationRecord
       target_time = (target_time * item.get_attribute('target_amplifier')).round if item.get_attribute('type') == "Scanner" and item.equipped
     end
     target_time
+  end
+  
+  # Get septarium in storage
+  def get_septarium
+   Item.where(spaceship: self, loader: 'asteroid.septarium').count
+  end
+  
+  # Get septarium usage
+  def get_septarium_usage
+    septarium_usage = 0
+    self.get_main_equipment(true).each do |item|
+      septarium_usage = septarium_usage + item.get_attribute('septarium_usage') if item.get_attribute('slot_type') == "main"
+    end
+    septarium_usage
+  end
+  
+  # Use septarium
+  def use_septarium
+    Item.where(spaceship: self, loader: 'asteroid.septarium').limit(self.get_septarium_usage).destroy_all
   end
 end

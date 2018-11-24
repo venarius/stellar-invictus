@@ -9,9 +9,9 @@ $( document ).on('turbolinks:load', function() {
       remove_target();
       if (mining_interval == null || mining_interval == false) {
         mining_interval = setInterval(function() {
-          mining_progress = mining_progress + 1;
+          mining_progress = mining_progress + 2;
           $('.mining-progress').css('width', mining_progress + "%");
-        }, 300)
+        }, 400)
       }
     }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
   });

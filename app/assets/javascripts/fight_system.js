@@ -24,14 +24,28 @@ $( document ).on('turbolinks:load', function() {
     });
   });
   
-  // Attack Player AJAX
-  $('.ship-card').on('click', '.attack-player-btn', function(e) {
+  // Use Equipment AJAX
+  $('.ship-card').on('click', '.use-equipment-btn', function(e) {
     e.preventDefault();
     var button = $(this)
     id = $(this).data("id");
-    $.post( "ship/attack", {id: id}, function() {
-      $('.enemy-space-ship').css("border", "1px solid red");
-      button.text("Stop");
+    $.post( "equipment/switch", {id: id}, function(data) {
+      button.tooltip('dispose');
+      $('#septarium-usage').text(data.usage);
+      if (data && data.type == "Weapon") {
+        $('.enemy-space-ship').css("border", "1px solid red");
+        if (button.hasClass('btn-outline-secondary')) {
+          button.removeClass('btn-outline-secondary').addClass('btn-outline-danger');
+        } else {
+          button.removeClass('btn-outline-danger').addClass('btn-outline-flash-danger');
+        }
+      } else if (data.type == "Repair Robot") {
+        if (button.hasClass('btn-outline-secondary')) {
+          button.removeClass('btn-outline-secondary').addClass('btn-outline-success');
+        } else {
+          button.removeClass('btn-outline-success').addClass('btn-outline-secondary');
+        }
+      }
     });
   });
 });

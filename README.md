@@ -16,7 +16,9 @@
 - Trading between Players
 - ~~Time to get into warp~~
 - ~~Equipment System~~
-- Enhanced Fighting -> Warp Scramble, Evasion Try
+- Warp Scramble, Evasion Try
+- Repair Equipment -> Repair Bots
+- ~~New Fight System -> Button for each Weapon, Septarium Usage~~
 - ~~Custom Chatchannels~~
 - ~~Time to target~~
 - Missions

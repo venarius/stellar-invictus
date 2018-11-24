@@ -3,10 +3,10 @@ $( document ).on('turbolinks:load', function() {
   $('#app-container').on('click', '.target-npc-btn', function(e) {
     e.preventDefault();
     id = $(this).data("id");
-    $.post( "npc/target", {id: id}, function() {
+    $.post( "npc/target", {id: id}, function(data) {
       if ($('.enemy-space-ship').length) {
         remove_target();
-        animation_target_counter();
+        animation_target_counter(data.time);
       }
     });
   });
@@ -16,17 +16,6 @@ $( document ).on('turbolinks:load', function() {
     id = $(this).data("id");
     $.post( "npc/untarget", {id: id}, function() {
       remove_target();
-    });
-  });
-  
-  // Attack Player AJAX
-  $('.ship-card').on('click', '.attack-npc-btn', function(e) {
-    e.preventDefault();
-    var button = $(this);
-    id = $(this).data("id");
-    $.post( "npc/attack", {id: id}, function() {
-      $('.enemy-space-ship').css("border", "1px solid red");
-      button.text("Stop");
     });
   });
 });
