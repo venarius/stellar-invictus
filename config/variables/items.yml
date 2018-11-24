@@ -15,6 +15,10 @@ asteroid:
     name: "Cobalt Ore"
     type: "Ore"
     weight: 1
+  septarium:
+    name: "Septarium"
+    type: "Ore"
+    weight: 0
 
 # Equipment
 equipment:
@@ -25,14 +29,16 @@ equipment:
       name: "Laser Gatling"
       type: "Weapon"
       weight: 4
-      damage_amplifier: 1.3
+      damage: 5
       slot_type: "main"
+      septarium_usage: 2
     try_pyon_laser:
       name: "Try Pyon Laser"
       type: "Weapon"
       weight: 5
-      damage_amplifier: 1.6
+      damage: 10
       slot_type: "main"
+      septarium_usage: 10
       
   # Hulls
   hulls:
@@ -52,6 +58,16 @@ equipment:
       target_amplifier: 0.8
       slot_type: "utility"
       
+  # Warp Disruptors
+  warp_disruptors:
+    basic_warp_disruptor:
+      name: "Basic Warp Disruptor"
+      type: "Warp Disruptor"
+      weight: 2
+      escape_chance: 75
+      slot_type: "main"
+      septarium_usage: 5
+      
   # Miner
   miner:
     basic_miner:
@@ -60,12 +76,14 @@ equipment:
       weight: 2
       mining_amount: 1
       slot_type: "main"
+      septarium_usage: 0
     advanced_miner:
       name: "Adv. Mining Laser"
       type: "Mining Laser"
       weight: 2
       mining_amount: 2
       slot_type: "main"
+      septarium_usage: 0
       
   # Defense
   defense:
@@ -74,13 +92,13 @@ equipment:
       type: "Defense"
       weight: 4
       defense_amplifier: 1.1
-      slot_type: "main"
+      slot_type: "utility"
     try_pyon_shield:
       name: "Try Pyon Shield"
       type: "Defense"
       weight: 5
       defense_amplifier: 1.2
-      slot_type: "main"
+      slot_type: "utility"
       
   storage:
     small_black_hole:

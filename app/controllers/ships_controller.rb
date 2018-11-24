@@ -27,18 +27,9 @@ class ShipsController < ApplicationController
     if current_user.target_id
       ActionCable.server.broadcast("player_#{current_user.target_id}", method: 'getting_targeted', name: current_user.full_name)
       current_user.update_columns(target_id: nil, is_attacking: false)
+      current_user.active_spaceship.deactivate_equipment
     end
     render json: {}, status: 200
-  end
-  
-  def attack
-    target = User.find(params[:id]) rescue nil if params[:id]
-    if target and target.can_be_attacked and current_user.can_be_attacked and target.location == current_user.location and current_user.target == target
-      AttackWorker.perform_async(current_user.id, target.id)
-      render json: {}, status: 200
-    else
-      render json: {}, status: 400
-    end
   end
   
   def cargohold

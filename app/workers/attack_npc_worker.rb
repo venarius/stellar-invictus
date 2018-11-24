@@ -11,6 +11,9 @@ class AttackNpcWorker
     # Get current active spaceships of player
     player_ship = player.active_spaceship
     
+    # Check Septarium
+    return if !check_septarium(player)
+    
     # If already attacking -> stop
     if player.is_attacking
       player.update_columns(is_attacking: false)
@@ -56,6 +59,18 @@ class AttackNpcWorker
     target = target.reload
     
     # Return true if both can be attacked, are in the same location and player has target locked on
-    player.can_be_attacked and target.location == player.location and player.npc_target == target and player.is_attacking
+    player.can_be_attacked and target.location == player.location and player.npc_target == target and player.is_attacking and check_septarium(player)
+  end
+  
+  def check_septarium(player, target)
+    if player.active_spaceship.get_septarium_usage > player.active_spaceship.get_septarium 
+      if player.is_attacking
+        player.update_columns(is_attacking: false)
+      end
+      ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_target_info')
+      ActionCable.server.broadcast("player_#{player.id}", method: 'show_error', text: I18n.t('errors.not_enough_septarium'))
+      false
+    end
+    true
   end
 end

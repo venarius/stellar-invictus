@@ -43,3 +43,5 @@ $(document).on "turbolinks:load", ->
           invited_to_conversation(data.data)
         else if (data.method == 'invited_to_fleet' && data.data)
           invited_to_fleet(data.data)
+        else if (data.method == 'show_error' && data.text)
+          show_error(data.text)

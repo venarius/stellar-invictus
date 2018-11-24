@@ -7,7 +7,7 @@ class NpcsController < ApplicationController
         render json: {time: current_user.active_spaceship.get_target_time}, status: 200 and return
       end
     end
-    render json: {}, status: 400
+    render json: {time: current_user.active_spaceship.get_target_time}, status: 400
   end
   
   def untarget
