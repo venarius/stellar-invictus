@@ -64,7 +64,6 @@ Rails.application.routes.draw do
   # NPCs
   scope :npc do
     post 'target', to: 'npcs#target'
-    post 'attack', to: 'npcs#attack'
     post 'untarget', to: 'npcs#untarget'
   end
   

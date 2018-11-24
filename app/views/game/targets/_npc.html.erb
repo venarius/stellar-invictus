@@ -7,6 +7,12 @@
   </div>
 </div>
 <div class="col-12 mt-3 pl-0">
-  <button class="btn btn-outline-danger attack-npc-btn" data-id="<%= current_user.npc_target.id %>"><%= I18n.t('ships.attack') %></button>
-  <button class="btn btn-outline-warning untarget-npc-btn" data-id="<%= current_user.npc_target.id %>"><%= I18n.t('ships.untarget') %></button>
+  <% current_user.active_spaceship.get_main_equipment.each do |equipment| %>
+    <% if equipment.get_attribute('type') == 'Weapon' %>
+      <button class="btn <%= 'btn-outline-secondary' if !equipment.active %> <%= 'btn-outline-danger' if equipment.active %> use-equipment-btn" data-id="<%= equipment.id %>" data-toggle="tooltip" data-placement="top" title="<%= equipment.get_attribute('name') %>">
+        <i class="fa fa-crosshairs"></i>
+      </button>
+    <% end %>
+  <% end %>
+  <button class="btn btn-outline-warning untarget-player-btn float-right" data-id="<%= current_user.npc_target.id %>"><%= I18n.t('ships.untarget') %></button>
 </div>

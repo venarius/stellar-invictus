@@ -28,11 +28,14 @@ class AttackWorker
       # If is attacking else
       if power > 0 and !player.is_attacking
         call_police(player, target)
-        ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
         player.update_columns(is_attacking: true)
+        ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
       elsif power == 0 and player.is_attacking
         player.update_columns(is_attacking: false)
         ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
+        ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+        shutdown(player) and return
+      else
         ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
         shutdown(player) and return
       end
