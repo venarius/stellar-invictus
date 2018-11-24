@@ -72,3 +72,43 @@
     50% { background-color: rgba(255,0,0,0.5); }
     100% { background-color: transparent; }
 }
+
+// Flash Danger Outline
+
+.btn-outline-flash-danger {
+  background-color: transparent;
+  border: 1px solid grey;
+  
+  -moz-animation: attack-outline-flash 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+
+  -webkit-animation: attack-outline-flash 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -ms-animation: attack-outline-flash 1s ease-out;
+  -ms-animation-iteration-count: infinite;
+}
+
+@keyframes attack-outline-flash {
+    0% { border-color: grey; color: grey; }
+    50% { border-color: red; color: red; }
+    100% { border-color: grey; color: grey; }
+}
+
+@-webkit-keyframes attack-outline-flash {
+    0% { border-color: grey; color: grey; }
+    50% { border-color: red; color: red; }
+    100% { border-color: grey; color: grey; }
+}
+
+@-moz-keyframes attack-outline-flash {
+    0% { border-color: grey; color: grey; }
+    50% { border-color: red; color: red; }
+    100% { border-color: grey; color: grey; }
+}
+
+@-ms-keyframes attack-outline-flash {
+    0% { border-color: grey; }
+    50% { border-color: red; }
+    100% { border-color: grey; }
+}

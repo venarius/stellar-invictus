@@ -9,14 +9,6 @@ RSpec.describe NpcsController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
-    describe 'POST attack' do
-      it 'should redirect to new session path' do
-        post :attack
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
   end
   
   describe 'with login' do
@@ -62,53 +54,6 @@ RSpec.describe NpcsController, type: :controller do
         expect(response.status).to eq(200)
         expect(@user.reload.npc_target_id).to eq(nil)
         expect(@user.is_attacking).to eq(false)
-      end
-    end
-    
-    describe 'POST attack' do
-      before(:each) do
-        @user.update_columns(npc_target_id: @enemy.id)
-      end
-      
-      it 'should attack npc if user is in same location and can be attacked' do
-        post :attack, params: {id: @enemy.id}
-        expect(response.status).to eq(200)
-        expect(AttackNpcWorker.jobs.size).to eq(1)
-      end
-      
-      it 'should not attack npc if user is in warp' do
-        @user.update_columns(in_warp: true)
-        post :attack, params: {id: @enemy.id}
-        expect(response.status).to eq(400)
-        expect(AttackNpcWorker.jobs.size).to eq(0)
-      end
-      
-      it 'should not attack npc if npc is not found' do
-        post :attack, params: {id: 2000}
-        expect(response.status).to eq(400)
-        expect(AttackNpcWorker.jobs.size).to eq(0)
-      end
-      
-      it 'should not attack npc if npc is in another location' do
-        @enemy.update_columns(location_id: Location.last.id)
-        post :attack, params: {id: @enemy.id}
-        expect(response.status).to eq(400)
-        expect(AttackNpcWorker.jobs.size).to eq(0)
-      end
-      
-      it 'should not attack npc if user has no target' do
-        @user.update_columns(npc_target_id: nil)
-        post :attack, params: {id: @enemy.id}
-        expect(response.status).to eq(400)
-        expect(AttackNpcWorker.jobs.size).to eq(0)
-      end
-      
-      it 'should not attack npc if user has other target' do
-        enemy2 = FactoryBot.create(:npc, location: @user.location, hp: 100)
-        @user.update_columns(npc_target_id: enemy2.id)
-        post :attack, params: {id: @enemy.id}
-        expect(response.status).to eq(400)
-        expect(AttackNpcWorker.jobs.size).to eq(0)
       end
     end
   end

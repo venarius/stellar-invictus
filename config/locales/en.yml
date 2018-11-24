@@ -55,6 +55,7 @@ en:
     your_ship_cant_carry_that_much: "Your ship can't carry that much."
     couldnt_find_chat_room: "Couldn't find a channel with this ID"
     no_mining_laser: "No mining laser equipped"
+    not_enough_septarium: "Not enough Septarium"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -160,6 +161,7 @@ en:
     utility_equipment_slots: "Utility Slots"
     about: "About"
     target_time: "Targettime"
+    septarium_usage: "Sep. Usage"
   items:
     type: "Type"
     name: "Name"

@@ -51,7 +51,6 @@ Rails.application.routes.draw do
     post 'activate', to: 'ships#activate'
     post 'target', to: 'ships#target'
     post 'untarget', to: 'ships#untarget'
-    post 'attack', to: 'ships#attack'
     get 'cargohold', to: 'ships#cargohold'
     post 'eject_cargo', to: 'ships#eject_cargo'
   end
@@ -65,7 +64,6 @@ Rails.application.routes.draw do
   # NPCs
   scope :npc do
     post 'target', to: 'npcs#target'
-    post 'attack', to: 'npcs#attack'
     post 'untarget', to: 'npcs#untarget'
   end
   
@@ -103,6 +101,7 @@ Rails.application.routes.draw do
   # Equipment
   scope :equipment do
     post 'update', to: 'equipment#update'
+    post 'switch', to: 'equipment#switch'
   end
   
   # ActionCable

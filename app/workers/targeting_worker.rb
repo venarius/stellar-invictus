@@ -11,6 +11,9 @@ class TargetingWorker
     # Remove mining and npc target
     player.update_columns(mining_target_id: nil, npc_target_id: nil)
     
+    # Disable equipment
+    player.active_spaceship.deactivate_equipment
+    
     # Untarget old target if player is targeting new target
     if player.target_id != nil and player.target_id != target_id
       ActionCable.server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)

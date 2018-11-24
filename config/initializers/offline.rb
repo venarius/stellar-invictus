@@ -13,7 +13,7 @@ begin
     Asteroid.destroy_all
     Location.where(location_type: 'asteroid_field').each do |loc|
       rand(5..10).times do 
-        Asteroid.create(location: loc, asteroid_type: rand(3), resources: 35000)
+        Asteroid.create(location: loc, asteroid_type: rand(4), resources: 35000)
       end
     end
   end
@@ -29,6 +29,11 @@ begin
   # Ships
   Spaceship.all.each do |ship|
     ship.update_columns(warp_scrambled: false, warp_target_id: nil)
+  end
+  
+  # Items
+  Item.all.each do |item|
+    item.update_columns(active: false)
   end
   
 rescue StandardError

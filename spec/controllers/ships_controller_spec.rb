@@ -26,14 +26,6 @@ RSpec.describe ShipsController, type: :controller do
       end
     end
     
-    describe 'POST attack' do
-      it 'should redirect to login page' do
-        post :attack
-        expect(response.code).to eq('302')
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-    
     describe 'GET cargohold' do
       it 'should redirect to login page' do
         get :cargohold
@@ -131,52 +123,6 @@ RSpec.describe ShipsController, type: :controller do
         expect(response.status).to eq(200)
         expect(@user.reload.target_id).to eq(nil)
         expect(@user.is_attacking).to eq(false)
-      end
-    end
-    
-    describe 'POST attack' do
-      it 'should attack other player if in same location and has target as target' do
-        user2 = FactoryBot.create(:user_with_faction)
-        @user.update_columns(target_id: user2.id)
-        post :attack, params: {id: user2.id}
-        expect(response.code).to eq('200')
-        expect(AttackWorker.jobs.size).to eq(1)
-      end
-      
-      it 'should not attack other player has target not as target' do
-        user2 = FactoryBot.create(:user_with_faction)
-        post :attack, params: {id: user2.id}
-        expect(response.code).to eq('400')
-        expect(AttackWorker.jobs.size).to eq(0)
-      end
-      
-      it 'should not attack other player has target not as target' do
-        user2 = FactoryBot.create(:user_with_faction)
-        @user.update_columns(target_id: 50)
-        post :attack, params: {id: user2.id}
-        expect(response.code).to eq('400')
-        expect(AttackWorker.jobs.size).to eq(0)
-      end
-      
-      it 'should not attack other player if target is docked' do
-        user2 = FactoryBot.create(:user_with_faction, docked: true)
-        post :attack, params: {id: user2.id}
-        expect(response.code).to eq('400')
-        expect(AttackWorker.jobs.size).to eq(0)
-      end
-      
-      it 'should not attack other player if target is in warp' do
-        user2 = FactoryBot.create(:user_with_faction, in_warp: true)
-        post :attack, params: {id: user2.id}
-        expect(response.code).to eq('400')
-        expect(AttackWorker.jobs.size).to eq(0)
-      end
-      
-      it 'should not attack other player if target is in other location' do
-        user2 = FactoryBot.create(:user_with_faction, location_id: 2)
-        post :attack, params: {id: user2.id}
-        expect(response.code).to eq('400')
-        expect(AttackWorker.jobs.size).to eq(0)
       end
     end
     
