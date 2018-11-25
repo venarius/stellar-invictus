@@ -22,6 +22,9 @@
         <% if item.get_attribute('type') == "Scanner" %>
           <span><i class="fa fa-circle-notch"></i> <%= item.get_attribute('target_amplifier').to_f %></span>
         <% end %>
+        <% if item.get_attribute('type') == "Repair Bot" %>
+          <span><i class="fa fa-wrench"></i> <%= item.get_attribute('repair_amount').to_f %></span>
+        <% end %>
       </div>
     </div>
   </div>

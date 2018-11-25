@@ -62,7 +62,7 @@ class MiningWorker
       end
       
       # Get enemy
-      EnemyWorker.perform_async(player.location.id, 5) if 1 + rand(10) == 10
+      EnemyWorker.perform_async(player.location.id, 5) #if 1 + rand(10) == 10
     end
     
   end
@@ -88,7 +88,7 @@ class MiningWorker
     end
     
     # Stop mining if player's ship is full
-    if player.active_spaceship.get_free_weight < mining_amount
+    if player.active_spaceship.get_free_weight < mining_amount and asteroid.asteroid_type != 'septarium'
       ActionCable.server.broadcast("player_#{player_id}", method: 'asteroid_depleted')
       player.update_columns(mining_target_id: nil)
       return false
