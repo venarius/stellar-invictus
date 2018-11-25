@@ -39,7 +39,7 @@ $( document ).on('turbolinks:load', function() {
         } else {
           button.removeClass('btn-outline-danger').addClass('btn-outline-flash-danger');
         }
-      } else if (data.type == "Repair Robot") {
+      } else if (data.type == "Repair Bot") {
         if (button.hasClass('btn-outline-secondary')) {
           button.removeClass('btn-outline-secondary').addClass('btn-outline-success');
         } else {

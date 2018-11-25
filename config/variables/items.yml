@@ -85,6 +85,16 @@ equipment:
       slot_type: "main"
       septarium_usage: 0
       
+  # Repair Bots
+  repair_bots:
+    simple_repair_bot:
+      name: "Basic Repair Bot"
+      type: "Repair Bot"
+      weight: 3
+      repair_amount: 3
+      slot_type: "main"
+      septarium_usage: 2
+      
   # Defense
   defense:
     ion_shield:

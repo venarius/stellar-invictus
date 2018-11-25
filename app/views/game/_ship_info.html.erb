@@ -12,6 +12,13 @@
     </div>
     <div class="col-12 mt-3 pl-0">
       <button class="btn btn-outline-primary" data-toggle="modal" data-target="#inventory-modal"><%= I18n.t('ships.cargohold') %></button>
+      <% current_user.active_spaceship.get_main_equipment.each do |equipment| %>
+      <% if equipment.get_attribute('type') == 'Repair Bot' %>
+        <button class="btn <%= 'btn-outline-secondary' if !equipment.active %> <%= 'btn-outline-success' if equipment.active %> use-equipment-btn" data-id="<%= equipment.id %>" data-toggle="tooltip" data-placement="top" title="<%= equipment.get_attribute('name') %>">
+          <i class="fa fa-wrench"></i>
+        </button>
+      <% end %>
+    <% end %>
     </div>
   </div>
   <div class="col-md-6 row">

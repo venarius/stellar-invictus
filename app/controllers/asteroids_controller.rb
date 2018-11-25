@@ -6,7 +6,7 @@ class AsteroidsController < ApplicationController
       asteroid = Asteroid.find(params[:id]) rescue nil
       
       # If user can't carry ore -> error
-      if current_user.active_spaceship.get_weight >= current_user.active_spaceship.get_storage_capacity
+      if current_user.active_spaceship.get_weight >= current_user.active_spaceship.get_storage_capacity and asteroid.asteroid_type != 'septarium'
         render json: {error_message: I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
       end
       

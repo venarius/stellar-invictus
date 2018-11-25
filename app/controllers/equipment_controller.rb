@@ -61,17 +61,13 @@ class EquipmentController < ApplicationController
   end
   
   def switch
-    if params[:id] and (current_user.target || current_user.npc_target)
+    if params[:id]
       item = Item.find(params[:id]) rescue nil
       if item and current_user.active_spaceship.get_main_equipment.map(&:id).include? item.id and current_user.can_be_attacked
         item.update_columns(active: !item.active)
         
         if current_user.reload.active_spaceship.get_main_equipment(true).count == 1
-          if current_user.target
-            AttackWorker.perform_async(current_user.id, current_user.target.id)
-          else
-            AttackNpcWorker.perform_async(current_user.id, current_user.npc_target.id)
-          end
+          EquipmentWorker.perform_async(current_user.id)
         end
         
         render json: {type: item.get_attribute('type'), usage: current_user.active_spaceship.get_septarium_usage}, status: 200 and return

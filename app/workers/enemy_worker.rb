@@ -83,7 +83,7 @@ class EnemyWorker
     ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: enemy.name)
     
     # Create attack value
-    attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
+    attack = 0#rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
     
     # While npc can attack player
     while can_attack(enemy, target) do

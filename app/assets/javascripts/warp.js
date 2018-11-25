@@ -56,6 +56,9 @@ function doWarp(warpTime) {
           "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+Math.round(warpTime)+"</h4></div></div>"
         );
       }
+      if (warpTime <= 0) {
+        clearInterval(jump_interval);
+      }
     },250); 
   }
 }
