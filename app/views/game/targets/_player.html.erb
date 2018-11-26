@@ -1,7 +1,7 @@
 <% enemy_vars = SHIP_VARIABLES[current_user.target.active_spaceship.name] %>
 <div class="col-6 enemy-space-ship" data-ship-image="<%= image_path("ships/#{enemy_vars['thruster-image']}") %>" style="<%= 'border: 1px solid red' if current_user.is_attacking %>">
 </div>
-<div class="col-6 text-left">
+<div class="col-6 text-left enemy-space-ship-infos">
   <div class="mt-5px">
     <span><%= current_user.target.full_name %></span><br>
     <span><%= I18n.t('ships.hp').upcase %>: <span id="target-ship-health"><%= current_user.target.active_spaceship.hp %></span></span><br>
@@ -9,7 +9,7 @@
     <span><%= I18n.t('ships.power').upcase %>: <%= current_user.target.active_spaceship.get_power %></span>
   </div>
 </div>
-<div class="col-12 mt-3 pl-0 pr-0">
+<div class="col-12 mt-3 pl-0 pr-0 enemy-space-ship-btns">
   <% current_user.active_spaceship.get_main_equipment.each do |equipment| %>
     <% if equipment.get_attribute('type') == 'Weapon' %>
       <button class="btn <%= 'btn-outline-secondary' if !equipment.active %> <%= 'btn-outline-danger' if equipment.active %> use-equipment-btn" data-id="<%= equipment.id %>" data-toggle="tooltip" data-placement="top" title="<%= equipment.get_attribute('name') %>">

@@ -28,14 +28,11 @@ class EquipmentWorker
     # Equipment Cycle
     while true do
       
-      # Get Ship new
-      player_ship = player.active_spaceship.reload
-      
       # Get Power of Player
-      power = player_ship.get_power
+      power = player.active_spaceship.get_power
       
       # Get Repair Amount of Player
-      repair = player_ship.get_repair
+      repair = player.active_spaceship.get_repair
       
       # If is attacking else
       if power > 0 and !player.is_attacking
@@ -73,6 +70,10 @@ class EquipmentWorker
       # If Repair -> repair
       if repair > 0 
         if player_ship.hp < player_ship.get_attribute('hp')
+          
+          # Septarium Check
+          return if !check_septarium(player)
+          
           # Remove septarium
           player.active_spaceship.use_septarium
             
@@ -91,6 +92,7 @@ class EquipmentWorker
           end
         else
           player.active_spaceship.deactivate_repair_equipment
+          repair = 0
           ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
         end
       end

@@ -18,6 +18,12 @@ class DisappearWorker
       if !user.docked
         # Tell everyone in location that user warped out
         ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)
+        
+        # Drop Loot if Combatlogging
+        if User.where(target_id: player_id, is_attacking: true).count > 0
+          user.active_spaceship.drop_loot
+          ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
+        end
 
         # Remove user as target from every player that targeted him
         user.remove_being_targeted
