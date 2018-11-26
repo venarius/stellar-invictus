@@ -75,6 +75,13 @@ class Spaceship < ApplicationRecord
     end
   end
   
+  # Deactivate Repair Equipment
+  def deactivate_repair_equipment
+    self.get_equipped_equipment.each do |item|
+      item.update_columns(active: false) if item.active and item.get_attribute('type') == "Repair Bot"
+    end
+  end
+  
   # Drop Loot
   def drop_loot
     items = self.get_items
@@ -108,6 +115,15 @@ class Spaceship < ApplicationRecord
     power.round
   end
   
+  # Get Repair Amount of Ship
+  def get_repair
+    repair = 0
+    self.get_main_equipment.each do |item|
+      repair = repair + item.get_attribute('repair_amount') if item.get_attribute('type') == "Repair Bot" and item.equipped and item.active
+    end
+    repair
+  end
+  
   # Get Defense of ship
   def get_defense
     defense = self.get_attribute('defense')
@@ -118,7 +134,7 @@ class Spaceship < ApplicationRecord
     defense.round
   end
   
-  # Get Defense of ship
+  # Get Mining Amount of ship
   def get_mining_amount
     mining_amount = 0
     self.get_main_equipment.each do |item|

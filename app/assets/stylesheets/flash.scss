@@ -108,7 +108,84 @@
 }
 
 @-ms-keyframes attack-outline-flash {
-    0% { border-color: grey; }
-    50% { border-color: red; }
-    100% { border-color: grey; }
+    0% { border-color: grey; color: grey; }
+    50% { border-color: red; color: red; }
+    100% { border-color: grey; color: grey; }
+}
+
+// SUCCESS FLASH
+
+.success-flash {
+  -moz-animation: success-flash 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+
+  -webkit-animation: success-flash 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -ms-animation: success-flash 1s ease-out;
+  -ms-animation-iteration-count: infinite;
+}
+
+@keyframes success-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0,255,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-webkit-keyframes success-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0,255,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-moz-keyframes success-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0,255,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-ms-keyframes success-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0,255,0,0.5); }
+    100% { background-color: transparent; }
+}
+
+// Flash Success Outline
+
+.btn-outline-flash-success {
+  background-color: transparent;
+  border: 1px solid grey;
+  
+  -moz-animation: outline-flash-success 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+
+  -webkit-animation: outline-flash-success 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -ms-animation: outline-flash-success 1s ease-out;
+  -ms-animation-iteration-count: infinite;
+}
+
+@keyframes outline-flash-success {
+    0% { border-color: grey; color: grey; }
+    50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
+    100% { border-color: grey; color: grey; }
+}
+
+@-webkit-keyframes outline-flash-success {
+    0% { border-color: grey; color: grey; }
+    50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
+    100% { border-color: grey; color: grey; }
+}
+
+@-moz-keyframes outline-flash-success {
+    0% { border-color: grey; color: grey; }
+    50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
+    100% { border-color: grey; color: grey; }
+}
+
+@-ms-keyframes outline-flash-success {
+    0% { border-color: grey; color: grey; }
+    50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
+    100% { border-color: grey; color: grey; }
 }

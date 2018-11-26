@@ -89,20 +89,11 @@ RSpec.describe EquipmentController, type: :controller do
         expect(@equipment1.reload.active).to be_truthy
       end
       
-      it 'should activate item on ship and start attack worker' do
+      it 'should activate item on ship and start equipment worker' do
         post :switch, params: {id: @equipment1.id}
         expect(response.status).to eq(200)
         expect(@equipment1.reload.active).to be_truthy
-        expect(AttackWorker.jobs.size).to eq(1)
-      end
-      
-      it 'should activate item on ship and start attack on npc worker' do
-        npc = FactoryBot.create(:npc)
-        @user.update_columns(docked: false, npc_target_id: npc.id, target_id: nil)
-        post :switch, params: {id: @equipment1.id}
-        expect(response.status).to eq(200)
-        expect(@equipment1.reload.active).to be_truthy
-        expect(AttackNpcWorker.jobs.size).to eq(1)
+        expect(EquipmentWorker.jobs.size).to eq(1)
       end
       
       it 'should not activate item on ship if no params' do

@@ -43,7 +43,7 @@ $( document ).on('turbolinks:load', function() {
         if (button.hasClass('btn-outline-secondary')) {
           button.removeClass('btn-outline-secondary').addClass('btn-outline-success');
         } else {
-          button.removeClass('btn-outline-success').addClass('btn-outline-secondary');
+          button.removeClass('btn-outline-success').addClass('btn-outline-flash-success');
         }
       }
     });
@@ -99,10 +99,18 @@ function getting_attacked(name) {
 // Update own health
 function update_health(hp) {
   if ($('#own-ship-health').length) {
-    $('#own-ship-health').empty().append("HP: " + hp);
-    if (!$('#own-ship-health').hasClass('attack-flash')) {
-      $('#own-ship-health').addClass('attack-flash');
-      setTimeout(function() {$('#own-ship-health').removeClass('attack-flash');}, 1000)
+    var health = parseInt($('#own-ship-health').text());
+    $('#own-ship-health').empty().append(hp);
+    if (health < hp) {
+      if (!$('#own-ship-health').parent().hasClass('success-flash') && !$('#own-ship-health').parent().hasClass('attack-flash')) {
+        $('#own-ship-health').parent().addClass('success-flash');
+        setTimeout(function() {$('#own-ship-health').parent().removeClass('success-flash');}, 1000)
+      }
+    } else {
+      if (!$('#own-ship-health').parent().hasClass('success-flash') && !$('#own-ship-health').parent().hasClass('attack-flash')) {
+        $('#own-ship-health').parent().addClass('attack-flash');
+        setTimeout(function() {$('#own-ship-health').parent().removeClass('attack-flash');}, 1000)
+      }
     }
   }
 }
@@ -110,10 +118,18 @@ function update_health(hp) {
 // Update target health
 function update_target_health(hp) {
   if ($('#target-ship-health').length) {
-    $('#target-ship-health').empty().append("HP: " + hp);
-    if (!$('#target-ship-health').hasClass('attack-flash')) {
-      $('#target-ship-health').addClass('attack-flash');
-      setTimeout(function() {$('#target-ship-health').removeClass('attack-flash');}, 1000) 
+    var health = parseInt($('#target-ship-health').text());
+    $('#target-ship-health').empty().append(hp);
+    if (health < hp) {
+      if (!$('#target-ship-health').parent().hasClass('success-flash') && !$('#target-ship-health').parent().hasClass('attack-flash')) {
+        $('#target-ship-health').parent().addClass('success-flash');
+        setTimeout(function() {$('#target-ship-health').parent().removeClass('success-flash');}, 1000)
+      }
+    } else {
+      if (!$('#target-ship-health').parent().hasClass('success-flash') && !$('#target-ship-health').parent().hasClass('attack-flash')) {
+        $('#target-ship-health').parent().addClass('attack-flash');
+        setTimeout(function() {$('#target-ship-health').parent().removeClass('attack-flash');}, 1000)
+      }
     }
   }
 }

@@ -28,8 +28,14 @@ class EquipmentWorker
     # Equipment Cycle
     while true do
       
+      # Get Ship new
+      player_ship = player.active_spaceship.reload
+      
       # Get Power of Player
       power = player_ship.get_power
+      
+      # Get Repair Amount of Player
+      repair = player_ship.get_repair
       
       # If is attacking else
       if power > 0 and !player.is_attacking
@@ -45,20 +51,49 @@ class EquipmentWorker
         
       elsif power == 0 and player.is_attacking
       
+        # Set Attacking to False
+        player.update_columns(is_attacking: false)
+      
         # If player had user targeted -> stop
         if player.target
           ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
         end
         
+        # Shutdown if repair also 0
+        shutdown(player) if repair == 0
+        
         # Broadcast
         ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
         
-        # Shutdown
-        shutdown(player) and return
       end
     
       # Global Cooldown
       sleep(2)
+      
+      # If Repair -> repair
+      if repair > 0 
+        if player_ship.hp < player_ship.get_attribute('hp')
+          # Remove septarium
+          player.active_spaceship.use_septarium
+            
+          if player_ship.hp + repair > player_ship.get_attribute('hp')
+            player_ship.update_columns(hp: player_ship.get_attribute('hp'))
+          else
+            player_ship.update_columns(hp: player_ship.hp + repair)
+          end
+          
+          # Broadcast
+          ac_server.broadcast("player_#{player_id}", method: 'update_health', hp: player_ship.hp)
+          ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info')
+          
+          User.where(target_id: player_id).where("online > 0").each do |u|
+            ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: player_ship.hp)
+          end
+        else
+          player.active_spaceship.deactivate_repair_equipment
+          ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+        end
+      end
       
       # If player can attack target
       if power > 0
@@ -98,7 +133,7 @@ class EquipmentWorker
             ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.npc_target.name, hp: attack))
           end
           
-          ac_server.broadcast("player_#{player_id}", method: 'update_target_health', hp: target_hp)
+          # Refresh for Septarium
           ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info')
           
           # Tell other users who targeted target to also update hp
@@ -112,13 +147,23 @@ class EquipmentWorker
             end
           end
           
-        else
+        else 
+        
           # Broadcast
           ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
         
           shutdown(player) and return
+          
         end
         
+      end
+      
+      # Rescue Global
+      if power == 0 and repair == 0 || !player.can_be_attacked
+        # Broadcast
+        ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+      
+        shutdown(player) and return
       end
       
     end
