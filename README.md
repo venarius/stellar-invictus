@@ -17,7 +17,7 @@
 - ~~Time to get into warp~~
 - ~~Equipment System~~
 - Warp Scramble, Evasion Try
-- Repair Equipment -> Repair Bots
+- ~~Repair Equipment -> Repair Bots~~
 - ~~New Fight System -> Button for each Weapon, Septarium Usage~~
 - ~~Custom Chatchannels~~
 - ~~Time to target~~

@@ -8,7 +8,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= I18n.t('modal.invited_to_fleet_text', user: user.full_name) %>
+        <p><%= I18n.t('modal.invited_to_fleet_text', user: user.full_name) %></p>
+        <p class="color-sec-low"><%= I18n.t('modal.invited_to_fleet_warning') %></p>
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary accept-fleet-invite-btn" data-id="<%= fleet.id %>">
