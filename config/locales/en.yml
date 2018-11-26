@@ -93,6 +93,7 @@ en:
     invited_to_conversation: "Invite to join conversation"
     invited_to_fleet_text: "%{user} invited you to join their fleet. Accept?"
     invited_to_fleet: "Invite to join fleet"
+    invited_to_fleet_warning: "WARNING: Other pilots in the same fleet may attack you without consequences"
   chat:
     local: "Local Chat"
     global: "Global Chat"

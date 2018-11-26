@@ -17,7 +17,7 @@ $( document ).on('turbolinks:load', function() {
         var align_time = data.align_time;
         
         button.empty().append(align_time);
-        align_interval = setInterval(function(){ align_time = align_time - 1; button.empty().append(align_time); if (align_time <= 0) {clearInterval(align_interval); doWarp(10);}}, 1000)
+        align_interval = setInterval(function(){ align_time = align_time - 1; button.empty().append(align_time); if (align_time <= 0) {clearInterval(align_interval); doWarp(10, "WARPING");}}, 1000)
       } else {
         clearInterval(align_interval);
         button.empty().append("<i class='fa fa-angle-double-right'></i>");
@@ -31,18 +31,18 @@ $( document ).on('turbolinks:load', function() {
     loading_animation($(this))
     var time = parseInt($(this).data('time'))
     var xhr = $.post("game/jump", function() {
-      doWarp(time);
+      doWarp(time, "JUMPING");
     }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
   });
 });
 
 // Show warpcard
 var jump_interval;
-function doWarp(warpTime) {
+function doWarp(warpTime, name) {
   if (jump_interval == null || jump_interval == false) {
     remove_target();
     $('.game-card-row').empty().append(
-      "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
+      "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
     );
     pixi_background_speed = 10;
     jump_interval = setInterval(function() {
@@ -53,7 +53,7 @@ function doWarp(warpTime) {
         ); 
       } else {
         $('.game-card-row').empty().append(
-          "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>WARPING</h2><h4 class='flexbox-vert-center'>"+Math.round(warpTime)+"</h4></div></div>"
+          "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+Math.round(warpTime)+"</h4></div></div>"
         );
       }
       if (warpTime <= 0) {
