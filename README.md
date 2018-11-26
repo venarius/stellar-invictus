@@ -21,6 +21,7 @@
 - ~~New Fight System -> Button for each Weapon, Septarium Usage~~
 - ~~Custom Chatchannels~~
 - ~~Time to target~~
+- ~~Panelty for Combatlogging -> Drop random loot as container~~
 - Missions
 - Planetary Interaction
 - Expeditions -> Quiz for loot

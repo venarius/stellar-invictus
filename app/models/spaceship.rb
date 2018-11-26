@@ -89,7 +89,7 @@ class Spaceship < ApplicationRecord
       structure = Structure.create(location: self.user.location, structure_type: 'wreck')
       items.each do |key, value|
         rand(0..value).times do
-          Item.create(loader: key, structure: structure)
+          Item.where(loader: key, spaceship: self).first.update_columns(structure_id: structure.id, spaceship_id: nil)
         end
       end
     end

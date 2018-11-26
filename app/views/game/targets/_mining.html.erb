@@ -1,6 +1,6 @@
 <div class="col-6 enemy-space-ship" data-asteroid-image="<%= image_path('objects/asteroid.png') %>">
 </div>
-<div class="col-6 text-left">
+<div class="col-6 text-left enemy-space-ship-infos">
   <div class="mt-5px">
     <span><%= "#{I18n.t('overview.asteroid')} (#{current_user.mining_target.asteroid_type.capitalize})" %></span><br>
     <span><%= I18n.t('asteroids.resources').upcase %>: <span class='asteroid-resources'><%= current_user.mining_target.resources %></span></span>
@@ -9,6 +9,6 @@
     </div>
   </div>
 </div>
-<div class="col-12 mt-3 pl-0">
+<div class="col-12 mt-3 pl-0 enemy-space-ship-btns">
   <button class='btn btn-outline-primary stop-mining-btn'><%= I18n.t('game.stop') %></button>
 </div>

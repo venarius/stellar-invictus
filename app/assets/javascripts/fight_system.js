@@ -54,7 +54,7 @@ $( document ).on('turbolinks:load', function() {
 function refresh_target_info() {
   if ($('.ship-card').length) {
     $.get("/game/ship_info", function(data) {
-      $('.ship-card .card-body').empty().append(data);
+      $('.ship-card .card-body').html(data);
       load_ship_info_animations();
     });
   }
