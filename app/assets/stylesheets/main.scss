@@ -293,7 +293,7 @@ a {
 body {
   /* width */
   ::-webkit-scrollbar {
-    width: 0px;
+    display: none;
   }
   /* Track */
   ::-webkit-scrollbar-track {
@@ -655,6 +655,8 @@ body {
   }
   .list-equipment-card {
     ::-webkit-scrollbar {
+      margin-left: 5px;
+      display: block;
       width: 10px;
     }
     height: 13.4rem;
