@@ -28,14 +28,17 @@ class EquipmentWorker
     # Equipment Cycle
     while true do
       
+      # Reload Player
+      player = player.reload
+      
       # Get Power of Player
-      power = player.active_spaceship.get_power
+      power = player_ship.get_power
       
       # Get Repair Amount of Player
-      repair = player.active_spaceship.get_repair
+      repair = player_ship.get_repair
       
       # If is attacking else
-      if power > 0 and !player.is_attacking
+      if (power > 0 || player_ship.has_active_warp_disruptor) and !player.is_attacking
         
         # If player is targeting user -> Call Police and Broadcast
         if player.target
@@ -46,7 +49,7 @@ class EquipmentWorker
         # Set Attacking to True
         player.update_columns(is_attacking: true)
         
-      elsif power == 0 and player.is_attacking
+      elsif power == 0 and !player_ship.has_active_warp_disruptor and player.is_attacking
       
         # Set Attacking to False
         player.update_columns(is_attacking: false)
@@ -56,11 +59,11 @@ class EquipmentWorker
           ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
         end
         
-        # Shutdown if repair also 0
-        shutdown(player) if repair == 0
-        
         # Broadcast
         ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+        
+        # Shutdown if repair also 0
+        shutdown(player) and return if repair == 0
         
       end
     
@@ -161,7 +164,7 @@ class EquipmentWorker
       end
       
       # Rescue Global
-      if power == 0 and repair == 0 || !player.can_be_attacked
+      if power == 0 and repair == 0  and !player_ship.has_active_warp_disruptor || !player.can_be_attacked
         # Broadcast
         ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
       

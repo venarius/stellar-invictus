@@ -197,4 +197,28 @@ class Spaceship < ApplicationRecord
   def use_septarium
     Item.where(spaceship: self, loader: 'asteroid.septarium').limit(self.get_septarium_usage).destroy_all
   end
+  
+  # If is warp disrupted
+  def is_warp_disrupted
+    weight = 0
+    User.where(target_id: self.user.id, is_attacking: true).each do |user|
+      if user.active_spaceship.has_active_warp_disruptor
+        user.active_spaceship.get_main_equipment(true).each do |item|
+          weight = weight + item.get_attribute('disrupt_strength') if item.get_attribute('type') == "Warp Disruptor" and item.active and item.equipped
+        end
+      end
+    end
+    self.get_utility_equipment.each do |item|
+      weight = weight - item.get_attribute('disrupt_immunity') if item.get_attribute('type') == "Warp Core Stabilizer" and item.equipped
+    end
+    weight > 0? true : false
+  end
+  
+  # Has active warp disruptor
+  def has_active_warp_disruptor
+    self.get_main_equipment(true).each do |item|
+      return true if item.get_attribute('type') == "Warp Disruptor" and item.active and item.equipped
+    end
+    false
+  end
 end

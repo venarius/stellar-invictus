@@ -3,27 +3,25 @@
     <div class="card-body">
       <span><%= item.get_attribute('name') %></span>
       <div class="float-right">
-          <span><i class="fa fa-cube"></i> <%= item.get_attribute('slot_type').capitalize %></span>
+          <span><i class="fa fa-cube"></i> <%= item.get_attribute('slot_type')[0,1].upcase %></span>
         <% if item.get_attribute('type') == "Weapon" %>
           <span><i class="fa fa-crosshairs"></i> <%= item.get_attribute('damage').to_f %></span>
-        <% end %>
-        <% if item.get_attribute('type') == "Defense" %>
+        <% elsif item.get_attribute('type') == "Defense" %>
           <span><i class="fa fa-shield-alt"></i> <%= item.get_attribute('defense_amplifier').to_f %></span>
-        <% end %>
-        <% if item.get_attribute('type') == "Storage" %>
+        <% elsif item.get_attribute('type') == "Storage" %>
           <span><i class="fa fa-boxes"></i> <%= item.get_attribute('storage_amplifier').to_f %></span>
-        <% end %>
-        <% if item.get_attribute('type') == "Mining Laser" %>
+        <% elsif item.get_attribute('type') == "Mining Laser" %>
           <span><i class="fab fa-galactic-senate"></i> <%= item.get_attribute('mining_amount').to_f %></span>
-        <% end %>
-        <% if item.get_attribute('type') == "Hull" %>
+        <% elsif item.get_attribute('type') == "Hull" %>
           <span><i class="fa fa-forward"></i> <%= item.get_attribute('align_amplifier').to_f %></span>
-        <% end %>
-        <% if item.get_attribute('type') == "Scanner" %>
+        <% elsif item.get_attribute('type') == "Scanner" %>
           <span><i class="fa fa-circle-notch"></i> <%= item.get_attribute('target_amplifier').to_f %></span>
-        <% end %>
-        <% if item.get_attribute('type') == "Repair Bot" %>
+        <% elsif item.get_attribute('type') == "Repair Bot" %>
           <span><i class="fa fa-wrench"></i> <%= item.get_attribute('repair_amount').to_f %></span>
+        <% elsif item.get_attribute('type') == "Warp Disruptor" %>
+          <span><i class="fa fa-broadcast-tower"></i> <%= item.get_attribute('disrupt_strength').to_f %></span>
+        <% elsif item.get_attribute('type') == "Warp Core Stabilizer" %>
+          <span><i class="fa fa-broadcast-tower"></i> <%= item.get_attribute('disrupt_immunity').to_f %></span>
         <% end %>
       </div>
     </div>

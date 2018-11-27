@@ -64,9 +64,18 @@ equipment:
       name: "Basic Warp Disruptor"
       type: "Warp Disruptor"
       weight: 2
-      escape_chance: 75
+      disrupt_strength: 1
       slot_type: "main"
-      septarium_usage: 5
+      septarium_usage: 0
+  
+  # Warp Core Stabilizers   
+  warp_core_stabilizers:
+    warp_core_stabilizer:
+      name: "Warp Core Stabilizer"
+      type: "Warp Core Stabilizer"
+      weight: 2
+      disrupt_immunity: 1
+      slot_type: "utility"
       
   # Miner
   miner:

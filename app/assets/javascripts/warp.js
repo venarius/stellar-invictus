@@ -10,8 +10,9 @@ $( document ).on('turbolinks:load', function() {
     clearInterval(align_interval);
     $('.warp-btn').each(function() { $(this).empty().append("<i class='fa fa-angle-double-right'></i>"); })
     
-    loading_animation($(this))
     var button = $(this)
+    var html = $(this).html();
+    loading_animation($(this));
     var xhr = $.post( "game/warp", { id: button.data("id") }, function( data ) {
       if (data.align_time) {
         var align_time = data.align_time;
@@ -22,17 +23,19 @@ $( document ).on('turbolinks:load', function() {
         clearInterval(align_interval);
         button.empty().append("<i class='fa fa-angle-double-right'></i>");
       }
-    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
+    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } button.html(html); });
   });
   
   // Go into warp and show warpcard AJAX
   $('#app-container').on('click', '.jumpgate-jump-btn', function(e) {
     e.preventDefault();
-    loading_animation($(this))
+    var button = $(this);
+    var html = $(this).html();
+    loading_animation($(this));
     var time = parseInt($(this).data('time'))
     var xhr = $.post("game/jump", function() {
       doWarp(time, "JUMPING");
-    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
+    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } button.html(html); });
   });
 });
 

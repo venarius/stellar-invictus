@@ -18,14 +18,26 @@ class EquipmentController < ApplicationController
               
             # Equip item
             if key == "main"
-              if item.get_attribute('slot_type') == "main" and ship.get_free_main_slots > 0
-                item.update_columns(equipped: true)
+              if item.get_attribute('slot_type') == "main"
+                if !item.equipped
+                  if ship.get_free_main_slots > 0
+                    item.update_columns(equipped: true)
+                  else 
+                    render json: {}, status: 400 and return
+                  end
+                end
               else
                 render json: {}, status: 400 and return
               end
             elsif key == "utility"
-              if item.get_attribute('slot_type') == "utility" and ship.get_free_utility_slots > 0
-                item.update_columns(equipped: true)
+              if item.get_attribute('slot_type') == "utility"
+                if !item.equipped
+                  if ship.get_free_utility_slots > 0
+                    item.update_columns(equipped: true)
+                  else 
+                    render json: {}, status: 400 and return
+                  end
+                end
               else
                 render json: {}, status: 400 and return
               end
