@@ -22,6 +22,7 @@
 - ~~Custom Chatchannels~~
 - ~~Time to target~~
 - ~~Panelty for Combatlogging -> Drop random loot as container~~
+- Asset Overview -> Show where you have what ships / items
 - Missions
 - Planetary Interaction
 - Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems

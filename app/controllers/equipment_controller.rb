@@ -15,28 +15,24 @@ class EquipmentController < ApplicationController
           
           # Item and item belongs to spaceship and item's spaceship is ship of user
           if item and item.spaceship and item.spaceship == ship
-            
-            # If item is not equipped
-            if !item.equipped
               
-              # Equip item
-              if key == "main"
-                if item.get_attribute('slot_type') == "main" and ship.get_free_main_slots > 0
-                  item.update_columns(equipped: true)
-                else
-                  render json: {}, status: 400 and return
-                end
-              elsif key == "utility"
-                if item.get_attribute('slot_type') == "utility" and ship.get_free_utility_slots > 0
-                  item.update_columns(equipped: true)
-                else
-                  render json: {}, status: 400 and return
-                end
+            # Equip item
+            if key == "main"
+              if item.get_attribute('slot_type') == "main" and ship.get_free_main_slots > 0
+                item.update_columns(equipped: true)
               else
                 render json: {}, status: 400 and return
               end
-              
+            elsif key == "utility"
+              if item.get_attribute('slot_type') == "utility" and ship.get_free_utility_slots > 0
+                item.update_columns(equipped: true)
+              else
+                render json: {}, status: 400 and return
+              end
+            else
+              render json: {}, status: 400 and return
             end
+              
           else
             render json: {}, status: 400 and return
           end
@@ -57,7 +53,7 @@ class EquipmentController < ApplicationController
       item.update_columns(equipped: false) if !ids or !ids.include? item.id.to_s
     end
     
-    render json: {power: ship.get_power, defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time, target: ship.get_target_time}, status: 200 and return
+    render json: {defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time, target: ship.get_target_time}, status: 200 and return
   end
   
   def switch
