@@ -63,7 +63,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="card black-card main-equipment-card mb-3">
-          <h5 class="card-header">Main Equipment (<%= @active_spaceship.get_attribute('main_equipment_slots') %>)</h5>
+          <p class="card-header"><strong>Main Equipment (<%= @active_spaceship.get_attribute('main_equipment_slots') %>)</strong></p>
           <div class="card-body">
             <div class="row">
               <% @active_spaceship.get_main_equipment.each do |item| %>
@@ -75,7 +75,7 @@
       </div>
       <div class="col-md-6">
         <div class="card black-card utility-equipment-card">
-          <h5 class="card-header">Utility Equipment (<%= @active_spaceship.get_attribute('utility_equipment_slots') %>)</h5>
+          <p class="card-header"><strong>Utility Equipment (<%= @active_spaceship.get_attribute('utility_equipment_slots') %>)</strong><p>
           <div class="card-body">
             <div class="row">
               <% @active_spaceship.get_utility_equipment.each do |item| %>
