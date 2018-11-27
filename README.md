@@ -24,7 +24,7 @@
 - ~~Panelty for Combatlogging -> Drop random loot as container~~
 - Missions
 - Planetary Interaction
-- Expeditions -> Quiz for loot
+- Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems
 - Trading System
 - More Ships
 - ~~Faction Bonuses~~
