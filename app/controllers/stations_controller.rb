@@ -1,5 +1,6 @@
 class StationsController < ApplicationController
   before_action :check_police, only: [:dock]
+  before_action :get_user_ships, only: [:index]
   
   def dock
     # If user is at station and not docked
@@ -34,7 +35,7 @@ class StationsController < ApplicationController
   def buy
     if params[:type] and params[:type] == 'ship' and params[:name]
       if current_user.can_buy_ship(params[:name])
-        Spaceship.create(user: current_user, name: params[:name], hp: SHIP_VARIABLES[params[:name]]['hp'])
+        Spaceship.create(user: current_user, name: params[:name], hp: SHIP_VARIABLES[params[:name]]['hp'], location: current_user.location)
         current_user.reduce_units(SHIP_VARIABLES[params[:name]]['price'])
         flash[:notice] = I18n.t('station.purchase_successfull')
       else
@@ -80,6 +81,13 @@ class StationsController < ApplicationController
     police = Npc.where(target: current_user.id, npc_type: 'police') rescue nil
     if police.count > 0
       render json: {'error_message' => I18n.t('errors.police_inbound')}, status: 400 and return
+    end
+  end
+  
+  def get_user_ships
+    @user_ships = []
+    Spaceship.where(user: current_user).includes(:location, :user).each do |ship|
+      @user_ships << ship if ship.location == current_user.location || ship == current_user.active_spaceship
     end
   end
 end

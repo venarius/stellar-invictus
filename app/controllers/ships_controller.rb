@@ -6,8 +6,10 @@ class ShipsController < ApplicationController
   
   def activate
     spaceship = Spaceship.find(params[:id]) rescue nil
-    if spaceship and spaceship.user == current_user and current_user.docked
+    if spaceship and spaceship.user == current_user and current_user.docked and spaceship.location == current_user.location
+      current_user.active_spaceship.update_columns(location_id: current_user.location.id)
       current_user.update_columns(active_spaceship_id: spaceship.id)
+      spaceship.update_columns(location_id: nil)
       render json: {}, status: 200 and return
     end
     render json: {}, status: 400

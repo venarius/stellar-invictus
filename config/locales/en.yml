@@ -10,6 +10,7 @@ en:
     map: "Map"
     ship: "Ship"
     friends: "Friends"
+    assets: "Assets"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"

@@ -7,10 +7,12 @@ describe Spaceship do
       it { should respond_to :name }
       it { should respond_to :warp_target_id }
       it { should respond_to :warp_scrambled }
+      it { should respond_to :location }
     end
    
     describe 'Relations' do
       it { should belong_to :user }
+      it { should belong_to :location }
     end
     
     describe 'Functions' do

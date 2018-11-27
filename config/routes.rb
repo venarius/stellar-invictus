@@ -45,6 +45,9 @@ Rails.application.routes.draw do
   # Map
   get '/map', to: 'static_pages#map'
   
+  # Assets
+  get '/assets', to: 'game#assets'
+  
   # Ships
   get '/ship', to: 'ships#index'
   scope :ship do

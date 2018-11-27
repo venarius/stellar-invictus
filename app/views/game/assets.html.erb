@@ -1,0 +1,24 @@
+<% @locations.each do |loc| %>
+  <% location = Location.find(loc) %>
+  <% ships = Spaceship.where(user: current_user, location: location) %>
+  <% items = Item.where(user: current_user, location: location) %>
+  
+  <div class="card black-card mb-3">
+    <h5 class="card-header"><%= location.system.name %> - <%= location.name %></h5>
+    <div class="card-body">
+      <% if ships.count > 0 %>
+        <h5>Ships</h5>
+        <% ships.each do |ship| %>
+          <%= ship.name %><br>
+        <% end %>
+      <% end %>
+      
+      <% if items.count > 0 %>
+        <h5>Items</h5>
+        <% items.each do |item| %>
+          <%= item.get_attribute('name') %><br>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -51,6 +51,12 @@ class GameController < ApplicationController
     render partial: 'player_info'
   end
   
+  def assets
+    var1 = Item.where(user: current_user, spaceship: nil, structure: nil).map(&:location_id)
+    var2 = Spaceship.where(user: current_user).map(&:location_id)
+    @locations = (var1 + var2).uniq.compact
+  end
+  
   private
   
   def get_local_users

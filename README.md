@@ -22,7 +22,7 @@
 - ~~Custom Chatchannels~~
 - ~~Time to target~~
 - ~~Panelty for Combatlogging -> Drop random loot as container~~
-- Asset Overview -> Show where you have what ships / items
+- ~~Asset Overview -> Show where you have what ships / items~~
 - Missions
 - Planetary Interaction
 - Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems
@@ -32,7 +32,7 @@
 - Faction Reputation - Unlocks on different levels
 - Home, About -> Currently empty sites
 - Player Reporting
-- Achivements
+- Achievements
 - Killboard
 - Statistics
 - Admin Backend
