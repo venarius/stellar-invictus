@@ -1,6 +1,7 @@
 class GameController < ApplicationController
   before_action :get_local_users, only: [:index, :local_players]
   before_action :check_police, only: [:warp, :jump]
+  before_action :check_warp_disrupt, only: [:warp]
   
   def index
     if current_user.docked 
@@ -60,6 +61,12 @@ class GameController < ApplicationController
     police = Npc.where(target: current_user.id, npc_type: 'police') rescue nil
     if police and police.count > 0
       render json: {'error_message' => I18n.t('errors.police_inbound')}, status: 400 and return
+    end
+  end
+  
+  def check_warp_disrupt
+    if current_user.active_spaceship.is_warp_disrupted
+      render json: {'error_message' => I18n.t('errors.warp_disrupted')}, status: 400 and return
     end
   end
 end

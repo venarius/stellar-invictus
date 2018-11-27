@@ -32,18 +32,20 @@ $( document ).on('turbolinks:load', function() {
     $.post( "equipment/switch", {id: id}, function(data) {
       button.tooltip('dispose');
       $('#septarium-usage').text(data.usage);
-      if (data && data.type == "Weapon") {
+      if (data && (data.type == "Weapon" || data.type == "Warp Disruptor")) {
         $('.enemy-space-ship').css("border", "1px solid red");
         if (button.hasClass('btn-outline-secondary')) {
           button.removeClass('btn-outline-secondary').addClass('btn-outline-danger');
         } else {
           button.removeClass('btn-outline-danger').addClass('btn-outline-flash-danger');
+          setTimeout(function() {button.removeClass('btn-outline-flash-danger').addClass('btn-outline-secondary');}, 1000)
         }
       } else if (data.type == "Repair Bot") {
         if (button.hasClass('btn-outline-secondary')) {
           button.removeClass('btn-outline-secondary').addClass('btn-outline-success');
         } else {
           button.removeClass('btn-outline-success').addClass('btn-outline-flash-success');
+          setTimeout(function() {button.removeClass('btn-outline-flash-success').addClass('btn-outline-secondary');}, 1000)
         }
       }
     });

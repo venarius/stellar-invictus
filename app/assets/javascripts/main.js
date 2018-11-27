@@ -3,6 +3,8 @@ document.addEventListener("turbolinks:before-cache", function() {
   if ($('.warp-card').length) {
     $('.warp-card').remove();
   }
+  $('table tbody').empty();
+  $('.alert').remove();
 })
 
 $( document ).on('turbolinks:load', function() {

@@ -25,6 +25,15 @@ RSpec.describe EquipmentController, type: :controller do
         expect(@equipment2.reload.equipped).to be_falsey
       end
       
+      it 'should update not equip status of items on utility slot if ship has no slots' do
+        @equipment3 = FactoryBot.create(:item, loader: "equipment.weapons.laser_gatling", spaceship: @user.active_spaceship)
+        @equipment4 = FactoryBot.create(:item, loader: "equipment.weapons.laser_gatling", spaceship: @user.active_spaceship)
+        post :update, params: {ids: {"main": [@equipment1.id, @equipment3.id, @equipment4.id]}}
+        expect(response.status).to eq(400)
+        expect(@equipment1.reload.equipped).to be_truthy
+        expect(@equipment4.reload.equipped).to be_falsey
+      end
+      
       it 'should update equip status of items on utility slot if ship has slots' do
         ship = FactoryBot.create(:spaceship, name: "Valadria", user: @user)
         @user.update_columns(active_spaceship_id: ship.id)
