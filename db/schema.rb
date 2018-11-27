@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_24_181315) do
+ActiveRecord::Schema.define(version: 2018_11_27_142216) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -139,6 +139,8 @@ ActiveRecord::Schema.define(version: 2018_11_24_181315) do
     t.integer "warp_target"
     t.boolean "warp_scrambled", default: false
     t.integer "warp_target_id"
+    t.integer "location_id"
+    t.index ["location_id"], name: "index_spaceships_on_location_id"
     t.index ["user_id"], name: "index_spaceships_on_user_id"
   end
 

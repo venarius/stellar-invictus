@@ -64,13 +64,13 @@ RSpec.describe ShipsController, type: :controller do
       end
       
       it 'should not activate other ship if player is not docked' do
-        FactoryBot.create(:spaceship, user: @user)
+        FactoryBot.create(:spaceship, user: @user, location: @user.location)
         post :activate, params: {id: 2}
         expect(response.code).to eq('400')
       end
       
       it 'should activate other ship if player is docked' do
-        ship = FactoryBot.create(:spaceship, user_id: @user.id)
+        ship = FactoryBot.create(:spaceship, user_id: @user.id, location: @user.location)
         @user.update_columns(docked: true)
         post :activate, params: {id: ship.id}
         expect(response.code).to eq('200')

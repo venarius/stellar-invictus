@@ -24,6 +24,7 @@
               <p class="dropdown-item mb-0"><%= current_user.full_name.truncate(20) %></p>
               <div class="dropdown-divider"></div>
               <%= link_to I18n.t('navbar.profile'), edit_user_registration_path, class: 'dropdown-item' %>
+              <%= link_to I18n.t('navbar.assets'), assets_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.friends'), friends_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.logout'), destroy_user_session_path, method: :delete, class: 'dropdown-item', style: 'color: #CC0000' %>
             </div>

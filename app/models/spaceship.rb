@@ -1,5 +1,6 @@
 class Spaceship < ApplicationRecord
   belongs_to :user, optional: true
+  belongs_to :location, optional: true
   has_many :items, dependent: :destroy
   
   # Get Weight of all Items in Ship

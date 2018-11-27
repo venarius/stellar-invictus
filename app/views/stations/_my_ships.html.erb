@@ -10,14 +10,14 @@
     </tr>
   </thead>
   <tbody>
-    <% current_user.spaceships.each do |ship| %>
+    <% @user_ships.each do |ship| %>
       <% ship_vars = SHIP_VARIABLES[ship.name] %>
       <tr class="<%= 'table-light' if current_user.active_spaceship == ship %>">
         <td><%= ship.name %></td>
         <td><%= ship_vars['hp'] %></td>
         <td><%= ship_vars['power'] %></td>
-        <td class="mobile-display-none"><%= ship_vars['defense'] %></td>
-        <td><%= ship.get_weight %> / <%= ship_vars['storage'] %></td>
+        <td class="mobile-display-none"><%= ship.get_defense %></td>
+        <td><%= ship.get_weight %> / <%= ship.get_storage_capacity %></td>
         <td>
           <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#my-ship-<%= ship.id %>"><i class="fa fa-eye"></i></a>
           <a class="btn btn-outline-success activate-ship-btn" role="button" data-id="<%= ship.id %>"><i class="fa fa-check"></i></a>
