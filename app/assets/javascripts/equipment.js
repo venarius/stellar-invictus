@@ -96,7 +96,6 @@ function after_change() {
   });
   
   $.post('equipment/update', {ids: {main: main_ids, utility: utility_ids}}, function(data) {
-    $('#power-display').text(data.power);
     $('#storage-display').text(data.storage);
     $('#defense-display').text(data.defense);
     $('#align-display').text(data.align);
