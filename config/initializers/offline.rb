@@ -39,6 +39,16 @@ begin
     item.update_columns(active: false)
   end
   
+  15.times do
+    Item.create(loader: 'asteroid.nickel', user: User.first, location: User.first.location)
+  end
+  20.times do
+    Item.create(loader: 'asteroid.cobalt', user: User.first, location: User.first.location)
+  end
+  5.times do
+    Item.create(loader: 'materials.laser_diodes', user: User.first, location: User.first.location)
+  end
+  
 rescue StandardError
   true
 end

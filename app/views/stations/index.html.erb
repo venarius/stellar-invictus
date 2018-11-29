@@ -38,8 +38,9 @@
           <a class="nav-link" data-toggle="pill" href="#ships" role="tab"><%= I18n.t('station.ships') %></a>
           <a class="nav-link" data-toggle="pill" href="#missions" role="tab"><%= I18n.t('station.missions') %></a>
           <a class="nav-link" data-toggle="pill" href="#storage" role="tab"><%= I18n.t('station.storage') %></a>
-          <a class="nav-link mt-10 mobile-mt-0" data-toggle="pill" href="#myships" role="tab"><%= I18n.t('station.my_ships') %></a>
-          <a class="nav-link" data-toggle="pill" href="#activeship" role="tab"><%= I18n.t('station.active_ship') %></a>
+          <a class="nav-link" data-toggle="pill" href="#factory" role="tab"><%= I18n.t('station.factory') %></a>
+          <a class="nav-link mt-10 mobile-mt-0" data-toggle="pill" href="#my_ships" role="tab"><%= I18n.t('station.my_ships') %></a>
+          <a class="nav-link" data-toggle="pill" href="#active_ship" role="tab"><%= I18n.t('station.active_ship') %></a>
         </div>
       </div>
       <div class="col-md-9">
@@ -48,19 +49,22 @@
             
           </div>
           <div class="tab-pane fade" id="ships" role="tabpanel">
-            <%= render 'stations/ships' %>
+            
           </div>
           <div class="tab-pane fade" id="missions" role="tabpanel">
-            <%= render 'stations/missions' %>
+            
           </div>
           <div class="tab-pane fade" id="storage" role="tabpanel">
-            <%= render 'stations/storage' %>
+            
           </div>
-          <div class="tab-pane fade" id="myships" role="tabpanel">
-            <%= render 'stations/my_ships' %>
+          <div class="tab-pane fade" id="factory" role="tabpanel">
+            
           </div>
-          <div class="tab-pane fade" id="activeship" role="tabpanel">
-            <%= render 'stations/active_ship' %>
+          <div class="tab-pane fade" id="my_ships" role="tabpanel">
+            
+          </div>
+          <div class="tab-pane fade" id="active_ship" role="tabpanel">
+            
           </div>
         </div>
       </div>

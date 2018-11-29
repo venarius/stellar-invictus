@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @active_spaceship.get_items.each do |loader, times| %>
+        <% active_spaceship.get_items.each do |loader, times| %>
           <tr>
             <td><%= times %>&times;</td>
             <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
@@ -36,10 +36,10 @@
     <div class="row mt-5px">
       <div class="col-lg-4 mb-3">
         <div class="card black-card main-equipment-card">
-          <h5 class="card-header">Main Equipment (<%= @active_spaceship.get_attribute('main_equipment_slots') %>)</h5>
+          <h5 class="card-header">Main Equipment (<%= active_spaceship.get_attribute('main_equipment_slots') %>)</h5>
           <div class="card-body">
             <div class="row" id="main-equipment-sortable">
-              <% @active_spaceship.get_main_equipment.each do |item| %>
+              <% active_spaceship.get_main_equipment.each do |item| %>
                 <%= render partial: 'equipment/equipment', locals: {item: item} %>
               <% end %>
             </div>
@@ -48,15 +48,15 @@
       </div>
       <div class="col-lg-4 mb-3 mobile-display-none">
         <div class="display text-center">
-          <%= image_tag("ships/#{@active_spaceship.get_attribute('image')}") %>
+          <%= image_tag("ships/#{active_spaceship.get_attribute('image')}") %>
         </div>
       </div>
       <div class="col-lg-4 mb-3">
         <div class="card black-card utility-equipment-card">
-          <h5 class="card-header">Utility Equipment (<%= @active_spaceship.get_attribute('utility_equipment_slots') %>)</h5>
+          <h5 class="card-header">Utility Equipment (<%= active_spaceship.get_attribute('utility_equipment_slots') %>)</h5>
           <div class="card-body">
             <div class="row" id="utility-equipment-sortable">
-              <% @active_spaceship.get_utility_equipment.each do |item| %>
+              <% active_spaceship.get_utility_equipment.each do |item| %>
                 <%= render partial: 'equipment/equipment', locals: {item: item} %>
               <% end %>
             </div>
@@ -67,16 +67,16 @@
     
     <div class="row mb-3 text-center">
       <div class="col-md">
-        <%= I18n.t('ships.defense').upcase %>: <span id="defense-display"><%= @active_spaceship.get_defense %></span>
+        <%= I18n.t('ships.defense').upcase %>: <span id="defense-display"><%= active_spaceship.get_defense %></span>
       </div>
       <div class="col-md">
-        <%= I18n.t('ships.storage').upcase %>: <span id="storage-display"><%= @active_spaceship.get_storage_capacity %></span>
+        <%= I18n.t('ships.storage').upcase %>: <span id="storage-display"><%= active_spaceship.get_storage_capacity %></span>
       </div>
       <div class="col-md">
-        <%= I18n.t('ships.align_time').upcase %>: <span id="align-display"><%= @active_spaceship.get_align_time %></span>
+        <%= I18n.t('ships.align_time').upcase %>: <span id="align-display"><%= active_spaceship.get_align_time %></span>
       </div>
       <div class="col-md">
-        <%= I18n.t('ships.target_time').upcase %>: <span id="target-display"><%= @active_spaceship.get_target_time %></span>
+        <%= I18n.t('ships.target_time').upcase %>: <span id="target-display"><%= active_spaceship.get_target_time %></span>
       </div>
     </div>
     
@@ -84,7 +84,7 @@
       <h5 class="card-header"><%= I18n.t('ships.available_equipment') %></h5>
       <div class="card-body">
         <div class="row" id="list-equipment-sortable">
-          <% @active_spaceship.get_unequipped_equipment.each do |item| %>
+          <% active_spaceship.get_unequipped_equipment.each do |item| %>
             <%= render partial: 'equipment/equipment', locals: {item: item} %>
           <% end %>
         </div>
