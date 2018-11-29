@@ -21,6 +21,8 @@ class StationsController < ApplicationController
       redirect_to game_path and return
     end
     
+    CraftingWorker.perform_async(current_user.id)
+    
     # Render Tabs
     if params[:tab]
       case params[:tab]
@@ -33,7 +35,6 @@ class StationsController < ApplicationController
       when 'storage'
         render partial: 'stations/storage'
       when 'factory'
-        CraftingWorker.perform_async(current_user.id)
         render partial: 'stations/factory'
       when 'my_ships'
         render partial: 'stations/my_ships', locals: {user_ships: get_user_ships}

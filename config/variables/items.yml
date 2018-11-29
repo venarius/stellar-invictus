@@ -32,8 +32,8 @@ equipment:
       damage: 5
       slot_type: "main"
       septarium_usage: 2
-      crafting: {"asteroid.nickel": 15, "asteroid.cobalt": 20, "materials.laser_diodes": 5}
-      crafting_duration: 200
+      crafting: {"asteroid.nickel": 5, "asteroid.cobalt": 10, "materials.laser_diodes": 1}
+      crafting_duration: 10
     try_pyon_laser:
       name: "Try Pyon Laser"
       type: "Weapon"

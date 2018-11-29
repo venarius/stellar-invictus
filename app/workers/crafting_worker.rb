@@ -1,5 +1,5 @@
 class CraftingWorker
-  # Checks every 5 seconds for finished crafting jobs
+  # Checks for finished crafting jobs
   
   include Sidekiq::Worker
   sidekiq_options :retry => false 
