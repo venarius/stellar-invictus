@@ -105,6 +105,7 @@ Rails.application.routes.draw do
   scope :equipment do
     post 'update', to: 'equipment#update'
     post 'switch', to: 'equipment#switch'
+    post 'craft', to: 'equipment#craft'
   end
   
   # ActionCable

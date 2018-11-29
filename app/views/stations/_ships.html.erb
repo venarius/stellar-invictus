@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @ships.each do |k,v| %>
+    <% ships.each do |k,v| %>
       <tr>
         <td><%= k %></td>
         <td><%= v['hp'] %></td>
@@ -26,7 +26,7 @@
   </tbody>
 </table>
 
-<% @ships.each do |k,v| %>
+<% ships.each do |k,v| %>
 <div class="modal fade" id="ship-<%= k %>" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

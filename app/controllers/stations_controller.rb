@@ -1,6 +1,5 @@
 class StationsController < ApplicationController
   before_action :check_police, only: [:dock]
-  before_action :get_user_ships, only: [:index]
   
   def dock
     # If user is at station and not docked
@@ -14,7 +13,6 @@ class StationsController < ApplicationController
   end
   
   def undock
-    # Undock the user
     current_user.undock
   end
   
@@ -23,13 +21,35 @@ class StationsController < ApplicationController
       redirect_to game_path and return
     end
     
-    # Set some variables for the view
-    @system_users = User.where("online > 0").where(system: current_user.system)
-    @ships = current_user.location.get_ships_for_sale
-    @current_user = User.includes(:system).find(current_user.id)
-    @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(location: current_user.location)).last(10)
-    @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.first).last(10)
-    @active_spaceship = current_user.active_spaceship
+    # Render Tabs
+    if params[:tab]
+      case params[:tab]
+      when 'overview'
+        render partial: 'stations/overview'
+      when 'ships'
+        render partial: 'stations/ships', locals: {ships: current_user.location.get_ships_for_sale}
+      when 'missions'
+        render partial: 'stations/missions'
+      when 'storage'
+        render partial: 'stations/storage'
+      when 'factory'
+        CraftingWorker.perform_async(current_user.id)
+        render partial: 'stations/factory'
+      when 'my_ships'
+        render partial: 'stations/my_ships', locals: {user_ships: get_user_ships}
+      when 'active_ship'
+        render partial: 'stations/active_ship', locals: {active_spaceship: current_user.active_spaceship}
+      end
+      return
+      
+    else
+      
+      # Set some variables for the view
+      @system_users = User.where("online > 0").where(system: current_user.system)
+      @current_user = User.includes(:system).find(current_user.id)
+      @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(location: current_user.location)).last(10)
+      @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.first).last(10)
+    end
   end
   
   def buy

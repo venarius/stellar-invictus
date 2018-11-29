@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :structures, dependent: :destroy
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
+  has_many :craft_jobs, dependent: :destroy
   
   has_and_belongs_to_many :chat_rooms
   
