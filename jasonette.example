@@ -1,13 +1,8 @@
 {
   "$jason": {
     "body": {
-      "header": {
-        "title": "Stellar Invictus"
-      },
-      "background": {
         "type": "html",
         "url": "https://stellar-invictus.com"
-      }
     }
   }
 }
