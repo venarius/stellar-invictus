@@ -222,7 +222,7 @@ class Spaceship < ApplicationRecord
   # Has active warp disruptor
   def has_active_warp_disruptor
     self.get_main_equipment(true).each do |item|
-      return true if item.get_attribute('type') == "Warp Disruptor" and item.active and item.equipped
+      return true if item.get_attribute('type') == "Warp Disruptor"
     end
     false
   end

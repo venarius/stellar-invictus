@@ -33,6 +33,6 @@ module ApplicationHelper
     loader.count('.').times do |i|
       out = out[atty[i+1]]
     end
-    out[attribute]
+    out[attribute] rescue nil
   end
 end

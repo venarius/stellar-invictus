@@ -41,6 +41,14 @@ RSpec.describe GameController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'GET assets' do
+      it 'should redirect_to login' do
+        get :assets
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do 
@@ -101,6 +109,14 @@ RSpec.describe GameController, type: :controller do
         post :warp, params: {id: System.first.locations.second.id}
         expect(WarpWorker.jobs.size).to eq(1)
         expect(response.code).to eq('200')
+      end
+    end
+    
+    describe 'GET assets' do
+      it 'should render assets' do
+        get :assets
+        expect(response.status).to eq(200)
+        expect(response).to render_template('game/assets')
       end
     end
     
