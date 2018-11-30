@@ -78,13 +78,3 @@ After that:
 4. Run cap production setup
 5. Run cap production puma:nginx_config
 6. Run cap production deploy
-
-
-## Daily Maintenance / After Crash
-
-Run the following commands on the develop machine:
-```
-cap production puma:stop
-cap production startup:run
-cap production puma:start
-```
