@@ -24,6 +24,7 @@ class GameMailsController < ApplicationController
     mail = GameMail.find(params[:id]) rescue nil
     if mail
       if mail.recipient == current_user || mail.sender == current_user
+        mail.update_columns(read: true)
         render partial: 'game_mails/show', locals: {mail: mail}
       else
         redirect_to game_mails_path

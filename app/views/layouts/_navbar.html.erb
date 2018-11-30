@@ -9,7 +9,7 @@
         <% if current_user %>
           <%= navbar_item(game_path, 'navbar.game') %>
           <%= navbar_item(ship_path, 'navbar.ship') %>
-          <%= navbar_item(game_mails_path, 'navbar.mails') %>
+          <%= navbar_item(game_mails_path, 'navbar.mails', GameMail.where(recipient_id: current_user.id, read: false).count) %>
           <%= navbar_item(map_path, 'navbar.map') %>
         <% else %>
           <%= navbar_item(root_path, 'navbar.home') %>
