@@ -30,6 +30,17 @@ RSpec.describe AsteroidsController, type: :controller do
         expect(MiningWorker.jobs.size).to eq(0)
       end
       
+      it 'should not start when player is full' do
+        @user.active_spaceship.get_storage_capacity.times do
+          Item.create(spaceship: @user.active_spaceship, loader: 'asteroid.nickel', equipped: false)
+        end
+        Item.create(loader: "equipment.miner.basic_miner", spaceship: @user.active_spaceship, equipped: true)
+        @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
+        post :mine, params: {id: @user.location.asteroids.first.id}
+        expect(response.code).to eq('400')
+        expect(MiningWorker.jobs.size).to eq(0)
+      end
+      
       it 'should not start when player is not at this location' do
         post :mine, params: {id: Location.where(location_type: 'asteroid_field').first.asteroids.first.id}
         expect(response.code).to eq('400')

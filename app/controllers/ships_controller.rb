@@ -40,7 +40,7 @@ class ShipsController < ApplicationController
   
   def craft
     if params[:name] and current_user.docked
-      ressources = SHIP_VARIABLES[params[:name]]['crafting']
+      ressources = SHIP_VARIABLES[params[:name]]['crafting'] rescue nil
       if ressources
         # Check if has ressources
         ressources.each do |key, value|

@@ -64,6 +64,21 @@ RSpec.describe StationsController, type: :controller do
         expect(response.code).to eq('200')
       end
       
+      it 'should display tab when user is docked' do
+        @user.update_columns(docked: true)
+        get :index, params: {tab: 'overview'}
+        expect(response.code).to eq('200')
+        expect(response).to render_template('stations/_overview')
+      end
+      
+      it 'should display tab when user is docked' do
+        @user.update_columns(docked: true)
+        get :index, params: {tab: 'my_ships'}
+        expect(response.code).to eq('200')
+        expect(response).to render_template('stations/_my_ships')
+        expect(assigns(:user_ships).count).to eq(0)
+      end
+      
       it 'should redirect_to game when user is not docked' do
         get :index
         expect(response.code).to eq('302')
@@ -161,7 +176,7 @@ RSpec.describe StationsController, type: :controller do
       before(:each) do
         @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
         3.times do
-          Item.create(loader: 'test', spaceship: @user.active_spaceship)
+          Item.create(loader: 'test', spaceship: @user.active_spaceship, equipped: false)
         end
       end
       
@@ -194,7 +209,7 @@ RSpec.describe StationsController, type: :controller do
       before(:each) do
         @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
         3.times do
-          Item.create(loader: 'test', user: @user, location: @user.location)
+          Item.create(loader: 'test', user: @user, location: @user.location, equipped: false)
         end
       end
       

@@ -33,7 +33,7 @@ RSpec.describe StructuresController, type: :controller do
       sign_in @user
       @container = FactoryBot.create(:structure, user: @user, location: @user.location)
       5.times do
-        Item.create(structure: @container, loader: 'test')
+        Item.create(structure: @container, loader: 'test', equipped: false)
       end
     end
     
@@ -112,7 +112,7 @@ RSpec.describe StructuresController, type: :controller do
       
       it 'should not pickup_cargo if user full' do
         10.times do
-          Item.create(spaceship: @user.active_spaceship, loader: 'test')
+          Item.create(spaceship: @user.active_spaceship, loader: 'test', equipped: false)
         end
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(400)
@@ -121,7 +121,7 @@ RSpec.describe StructuresController, type: :controller do
       
       it 'should only pickup cargo until user is full' do
         8.times do
-          Item.create(spaceship: @user.active_spaceship, loader: 'test')
+          Item.create(spaceship: @user.active_spaceship, loader: 'test', equipped: false)
         end
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(200)

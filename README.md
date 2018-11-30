@@ -5,7 +5,7 @@
 - ~~Asteroids - Rename Ore~~
 - Enhance map
 - ~~Fleets~~
-- Crafting
+- ~~Crafting~~
 - Alliances
 - Skills -> Kills with specific ship -> Bonuses
 - ~~Bio for Users~~

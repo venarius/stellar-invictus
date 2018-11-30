@@ -118,5 +118,41 @@ RSpec.describe EquipmentController, type: :controller do
         expect(@equipment1.reload.active).to be_falsey
       end
     end
+    
+    describe 'POST craft' do
+      before(:each) do
+        
+      end
+      
+      it 'should not craft if user not docked' do
+        @user.update_columns(docked: false)
+        post :craft
+        expect(response.status).to eq(400)
+      end
+      
+      it 'should not craft if user doesnt have enough material' do
+        post :craft, params: {loader: 'equipment.weapons.laser_gatling'}
+        expect(response.status).to eq(400)
+      end
+      
+      it 'should not craft asteroid ore / else' do
+        post :craft, params: {loader: 'asteroid.nickel'}
+        expect(response.status).to eq(400)
+      end
+      
+      it 'should start crafting if has enough material' do
+        5.times do
+          Item.create(loader: 'asteroid.nickel', user: @user, location: @user.location, equipped: false)
+        end
+        10.times do
+          Item.create(loader: 'asteroid.cobalt', user: @user, location: @user.location, equipped: false)
+        end
+        Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
+        
+        post :craft, params: {loader: 'equipment.weapons.laser_gatling'}
+        expect(response.status).to eq(200)
+        expect(CraftJob.all.count).to eq(1)
+      end
+    end
   end
 end
