@@ -9,6 +9,8 @@ Nano:
   utility_equipment_slots: 0
   align_time: 5
   target_time: 5
+  crafting: {"asteroid.nickel": 5, "asteroid.cobalt": 10, "materials.laser_diodes": 1}
+  crafting_duration: 10
   
 Cerux:
   image: cerux.png
@@ -21,6 +23,8 @@ Cerux:
   utility_equipment_slots: 3
   align_time: 10
   target_time: 10
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
 
 Valadria:
   image: valadria.png
@@ -33,6 +37,8 @@ Valadria:
   utility_equipment_slots: 2
   align_time: 10
   target_time: 7
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
   
 Crasher:
   image: crasher.png
@@ -45,6 +51,8 @@ Crasher:
   utility_equipment_slots: 1
   align_time: 3
   target_time: 3
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
   
 Chronos:
   image: chronos.png
@@ -57,3 +65,5 @@ Chronos:
   utility_equipment_slots: 4
   align_time: 15
   target_time: 15
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200

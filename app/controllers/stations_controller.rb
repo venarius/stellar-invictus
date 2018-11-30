@@ -21,8 +21,6 @@ class StationsController < ApplicationController
       redirect_to game_path and return
     end
     
-    CraftingWorker.perform_async(current_user.id)
-    
     # Render Tabs
     if params[:tab]
       case params[:tab]
