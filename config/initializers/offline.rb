@@ -1,6 +1,4 @@
-test = `ps faux | grep puma`
-
-if test.lines.count < 2
+unless defined?(::Rails::Generators) || defined?(::Rails::Console) || File.basename($0) =='rake'
   begin
     # User
     if ActiveRecord::Base.connection.table_exists? 'users'
