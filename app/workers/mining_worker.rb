@@ -8,6 +8,9 @@ class MiningWorker
     player = User.find(player_id)
     asteroid = Asteroid.find(asteroid_id)
     
+    # Untarget npc target and is_attacking to false
+    player.update_columns(npc_target_id: nil, is_attacking: false)
+    
     # Cancel if Player already mining this
     return if player.mining_target_id == asteroid_id
     
@@ -22,9 +25,6 @@ class MiningWorker
     
     # Get mining amount
     mining_amount = player.active_spaceship.get_mining_amount
-    
-    # Untarget npc target and is_attacking to false
-    player.update_columns(npc_target_id: nil, is_attacking: false)
     
     # Mine every 30 seconds
     player.update_columns(mining_target_id: asteroid_id)

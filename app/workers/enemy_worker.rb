@@ -94,7 +94,8 @@ class EnemyWorker
       # If target hp is below 0 -> die
       if target_spaceship.hp <= 0
         target_spaceship.update_columns(hp: 0)
-        target.die and return
+        target.die
+        wait_for_new_target(enemy) if enemy.reload.hp > 0
       end
       
       # Tell player to update their hp and log

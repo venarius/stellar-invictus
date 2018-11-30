@@ -11,10 +11,8 @@ class NpcsController < ApplicationController
   end
   
   def untarget
-    if current_user.npc_target
-      current_user.update_columns(npc_target_id: nil, is_attacking: false) 
-      current_user.active_spaceship.deactivate_equipment
-    end
+    current_user.update_columns(npc_target_id: nil, is_attacking: false) 
+    current_user.active_spaceship.deactivate_equipment
     render json: {}, status: 200
   end
 end
