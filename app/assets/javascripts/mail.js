@@ -1,9 +1,18 @@
 $( document ).on('turbolinks:load', function() {
   // Load dynamic mail if click on show button
   $('.show-mail-btn').on('click', function() {
+    var button = $(this)
+    
     $.get('/mails/' + parseInt($(this).data('id')), function(data) {
       if ($('#mail-show-card').length) {
-       $('#mail-show-card').remove(); 
+        $('#mail-show-card').remove(); 
+      }
+      if (button.closest('tr').find('strong').length) {
+        button.closest('tr').find('strong').each(function() {
+          var text = $(this).text();
+          $(this).parent().text(text);
+        });
+        $('.mail-unread-counter').text(parseInt($('.mail-unread-counter').text())-1);
       }
       $('.mails-card').after(data);
     });

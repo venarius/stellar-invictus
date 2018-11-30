@@ -11,10 +11,17 @@
   <tbody>
      <% mails.each do |mail| %>
        <tr>
-         <td><%= mail.sender.full_name %></td>
-         <td><%= mail.recipient.full_name %></td>
-         <td><%= mail.header %></td>
-         <td class="mobile-display-none"><%= mail.created_at.strftime('%F %H:%M') %></td>
+         <% if mail.read %>
+           <td><%= mail.sender.full_name %></td>
+           <td><%= mail.recipient.full_name %></td>
+           <td><%= mail.header %></td>
+           <td class="mobile-display-none"><%= mail.created_at.strftime('%F %H:%M') %></td>
+         <% else %>
+           <td><strong><%= mail.sender.full_name %></strong></td>
+           <td><strong><%= mail.recipient.full_name %></strong></td>
+           <td><strong><%= mail.header %></strong></td>
+           <td class="mobile-display-none"><strong><%= mail.created_at.strftime('%F %H:%M') %></strong></td>
+         <% end %>
          <td>
            <button class="btn btn-outline-primary show-mail-btn" data-id="<%= mail.id %>">
              <i class='fa fa-eye'></i>
