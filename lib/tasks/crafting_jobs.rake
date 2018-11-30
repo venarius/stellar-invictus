@@ -2,7 +2,7 @@ namespace :crafting_jobs do
   
   desc "Finish CraftJobs"
   
-  task finish: :environment do
+  task :finish do
     time = 0
     while time < 50 do
       time = time + 10

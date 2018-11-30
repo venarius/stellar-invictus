@@ -1,7 +1,4 @@
 begin
-
-  require 'sidekiq/api'
-
   # User
   if ActiveRecord::Base.connection.table_exists? 'users'
     User.all.each do |user|
