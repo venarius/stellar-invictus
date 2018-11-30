@@ -58,6 +58,7 @@ en:
     no_mining_laser: "No mining laser equipped"
     not_enough_septarium: "Not enough Septarium"
     warp_disrupted: "Your Warpdrive is being disrupted"
+    not_required_material: "You don't have the required material(s)"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -143,6 +144,9 @@ en:
     purchase_successfull: "Purchase successfull"
     active_ship: "Current Ship"
     storage: "Storage"
+    factory: "Factory"
+    equipment: "Equipment"
+    active: "Active"
   ships:
     ship: "Ship"
     inventory: "Inventory"
@@ -225,3 +229,20 @@ en:
     bio: "Bio"
     about: "About"
     bio_not_much_known: "There is not much known about this pilot..."
+  crafting:
+    craft: "Craft"
+    ressources: "Required Ressources"
+    minutes: "minutes"
+    duration: "Duration"
+  equipment:
+    statistics: "Statistics"
+    slot_type: "Slot Type"
+    damage: "Damage"
+    defense_amplifier: "Defense Amplifier"
+    storage_amplifier: "Storage Amplifier"
+    mining_amount: "Mining Amount"
+    align_amplifier: "Aligntime Amplifier"
+    target_amplifier: "Targettime Amplifier"
+    repair_amount: "Repair Amount"
+    disrupt_strength: "Disrupt Strength"
+    disrupt_immunity: "Disrupt Immunity"

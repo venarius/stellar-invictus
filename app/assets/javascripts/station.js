@@ -1,8 +1,16 @@
 $( document ).on('turbolinks:load', function() {
   
-  // Cookie Setter
+  // Cookie Setter and Lazy Load
   $('.station-card a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
     Cookies.set('station_tab', $(this).attr("href"));
+    
+    // Lazy Load
+    element = $($(this).attr("href"));
+    element.empty().append("<br><div class='text-center'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
+    $.get('?tab=' + $(this).attr("href").substring(1), function(data) {
+      element.empty().append(data);
+      sort_equipment_card()
+    });
   });
   
   // Send dockrequest AJAX
@@ -46,7 +54,7 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Store items from ship on station
-  $('.station-ship-inventory-table').on('click', '.store-btn', function(e) {
+  $('.station-card').on('click', '.store-btn', function(e) {
     $('#store-modal').find('.item-name').text($(this).parent().parent().find('.item-name').html());
     $('#store-modal').find('.store-confirm-btn').data("loader", $(this).data("loader"));
     $('#store-modal').find('.max-btn').data("amount", $(this).data("amount"));
@@ -54,13 +62,13 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Store Max Button click
-  $('#store-modal').on('click', '.max-btn', function(e) {
+  $('.station-card').on('click', '#store-modal .max-btn', function(e) {
     e.preventDefault();
      $('#store-modal').find('input').val($(this).data("amount"));
   });
   
   // Store items from ship on station CONFIRM
-  $('#store-modal').on('click', '.store-confirm-btn', function(e) {
+  $('.station-card').on('click', '#store-modal .store-confirm-btn', function(e) {
     var jqxhr = $.post("/stations/store", {loader: $(this).data('loader'), amount: $('#store-modal').find('input').val()}, function() {
       Turbolinks.visit("/station");
     });
@@ -70,12 +78,12 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Unred input on modal close
-  $('#store-modal').on('hidden.bs.modal', function () {
+  $('.station-card').on('hidden.bs.modal', '#store-modal', function () {
     $('#store-modal').find('input').removeClass("outline-danger");
   })
   
   // Load items from station to ship
-  $('.station-storage-table').on('click', '.load-btn', function(e) {
+  $('.station-card').on('click', '.load-btn', function(e) {
     $('#load-modal').find('.item-name').text($(this).parent().parent().find('.item-name').html());
     $('#load-modal').find('.load-confirm-btn').data("loader", $(this).data("loader"));
     $('#load-modal').find('.max-btn').data("amount", $(this).data("amount"));
@@ -83,13 +91,13 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Load Max Button click
-  $('#load-modal').on('click', '.max-btn', function(e) {
+  $('.station-card').on('click', '#load-modal .max-btn', function(e) {
     e.preventDefault();
      $('#load-modal').find('input').val($(this).data("amount"));
   });
   
   // Load items from station to ship CONFIRM
-  $('#load-modal').on('click', '.load-confirm-btn', function(e) {
+  $('.station-card').on('click', '#load-modal .load-confirm-btn', function(e) {
     var jqxhr = $.post("/stations/load", {loader: $(this).data('loader'), amount: $('#load-modal').find('input').val()}, function() {
       Turbolinks.visit("/station");
     });
@@ -100,7 +108,7 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Unred input on modal close
-  $('#load-modal').on('hidden.bs.modal', function () {
+  $('.station-card').on('hidden.bs.modal', '#load-modal', function () {
     $('#load-modal').find('input').removeClass("outline-danger");
     $('#load-modal').find('span').remove();
   })
@@ -114,4 +122,24 @@ $( document ).on('turbolinks:load', function() {
       });
     }
   }
+  
+  // Craft Equipment AJAX
+  $('.station-card').on('click', '.craft-equipment-btn', function(e) {
+    e.preventDefault();
+    var button = $(this)
+    var loader = $(this).data('loader')
+    $.post('equipment/craft', {loader: loader}, function() {
+      Turbolinks.visit(window.location);
+    }).error(function(data) { if (data.responseJSON.error_message) { button.closest('.modal').modal('hide'); show_error(data.responseJSON.error_message); } });
+  });
+  
+  // Craft Ship AJAX
+  $('.station-card').on('click', '.craft-ship-btn', function(e) {
+    e.preventDefault();
+    var button = $(this)
+    var name = $(this).data('name')
+    $.post('ship/craft', {name: name}, function() {
+      Turbolinks.visit(window.location);
+    }).error(function(data) { if (data.responseJSON.error_message) { button.closest('.modal').modal('hide'); show_error(data.responseJSON.error_message); } });
+  });
 });

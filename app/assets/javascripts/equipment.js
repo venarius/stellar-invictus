@@ -2,11 +2,11 @@ var main_equipment_sortable;
 var utility_equipment_sortable;
 var list_equipment_sortable;
 
-$( document ).on('turbolinks:load', function() {
+function sort_equipment_card() {
   
   if ($('.list-equipment-card').length) {
     
-    after_change();
+    after_change_simple();
     
     set_equipment_draggables();
     
@@ -49,7 +49,7 @@ $( document ).on('turbolinks:load', function() {
     
   }
   
-});
+}
 
 function update_placeholder(event,ui) {
   if (ui.placeholder.parent().attr('id') == "utility-equipment-sortable" || ui.placeholder.parent().attr('id') == "main-equipment-sortable") {
@@ -57,6 +57,16 @@ function update_placeholder(event,ui) {
   } else {
     ui.placeholder.removeClass('col-12').addClass('col-md-4');
   }
+}
+
+function after_change_simple() {
+  $('#main-equipment-sortable, #utility-equipment-sortable').children('.col-md-4').each(function() {
+    $(this).removeClass('col-md-4').addClass('col-md-12');
+  });
+  
+  $('#list-equipment-sortable').children('.col-md-12').each(function() {
+    $(this).removeClass('col-md-12').addClass('col-md-4');
+  })
 }
 
 function set_equipment_draggables() {

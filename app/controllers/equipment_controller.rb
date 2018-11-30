@@ -1,4 +1,7 @@
 class EquipmentController < ApplicationController
+  
+  include ApplicationHelper
+  
   # Update
   def update
     ship = current_user.active_spaceship
@@ -79,6 +82,29 @@ class EquipmentController < ApplicationController
         end
         
         render json: {type: item.get_attribute('type'), usage: current_user.active_spaceship.get_septarium_usage}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
+  def craft
+    if params[:loader] and current_user.docked
+      ressources = get_item_attribute(params[:loader], 'crafting')
+      if ressources
+        # Check if has ressources
+        ressources.each do |key, value|
+          items = Item.where(loader: key, user: current_user)
+          render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !items.present? || items.count < value
+        end
+        
+        # Delete ressources
+        ressources.each do |key, value|
+          Item.where(loader: key, user: current_user).limit(value).destroy_all
+        end
+        
+        # Create CraftJob
+        CraftJob.create(completion: DateTime.now + (get_item_attribute(params[:loader], 'crafting_duration').to_f/1440.0), loader: params[:loader], user: current_user, location: current_user.location)
+        render json: {}, status: 200 and return
       end
     end
     render json: {}, status: 400

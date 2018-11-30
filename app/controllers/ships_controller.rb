@@ -35,7 +35,30 @@ class ShipsController < ApplicationController
   end
   
   def cargohold
-    render partial: 'ships/cargohold', locals: {items: current_user.active_spaceship.get_items}
+    render partial: 'ships/cargohold', locals: {items: current_user.active_spaceship.get_items(true)}
+  end
+  
+  def craft
+    if params[:name] and current_user.docked
+      ressources = SHIP_VARIABLES[params[:name]]['crafting'] rescue nil
+      if ressources
+        # Check if has ressources
+        ressources.each do |key, value|
+          items = Item.where(loader: key, user: current_user)
+          render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !items.present? || items.count < value
+        end
+        
+        # Delete ressources
+        ressources.each do |key, value|
+          Item.where(loader: key, user: current_user).limit(value).destroy_all
+        end
+        
+        # Create CraftJob
+        CraftJob.create(completion: DateTime.now + (SHIP_VARIABLES[params[:name]]['crafting_duration'].to_f/1440.0), loader: params[:name], user: current_user, location: current_user.location)
+        render json: {}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
   end
   
   def eject_cargo

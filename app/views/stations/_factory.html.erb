@@ -1,0 +1,271 @@
+<ul class="nav nav-tabs mt-5px" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#factory-ships" role="tab"><%= I18n.t('station.ships') %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#factory-equipment" role="tab"><%= I18n.t('station.equipment') %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#factory-active" role="tab"><%= I18n.t('station.active') %></a>
+  </li>
+</ul>
+<div class="tab-content mt-5px">
+  <div class="tab-pane fade show active" id="factory-ships" role="tabpanel">
+    <table class="table table-bordered table-hover table-striped table-sm station-factory-table">
+      <thead>
+        <tr>
+          <th scope="col"><%= I18n.t('items.name') %></th>
+          <th style="width:45px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% SHIP_VARIABLES.sort.each do |key, value| %>
+          <tr>
+            <td><%= key %></td>
+            <td><button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#craft-ship-<%= key %>"><i class="fa fa-cogs"></i></button></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane fade" id="factory-equipment" role="tabpanel">
+    <table class="table table-bordered table-hover table-striped table-sm station-factory-table">
+      <thead>
+        <tr>
+          <th scope="col"><%= I18n.t('items.name') %></th>
+          <th scope="col"><%= I18n.t('items.type') %></th>
+          <th style="width:45px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% EQUIPMENT.sort.each_with_index do |item, index| %>
+          <tr>
+            <td><%= get_item_attribute(item, 'name') %></td>
+            <td><%= get_item_attribute(item, 'type') %></td>
+            <td><button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#craft-<%= index %>"><i class="fa fa-cogs"></i></button></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane fade" id="factory-active" role="tabpanel">
+    <table class="table table-bordered table-sm table-striped">
+      <tbody>
+        <% if CraftJob.where(user: current_user, location: current_user.location).empty? %>
+          <tr>
+            <h2 class="text-center">...</h2>
+          </tr>
+        <% end %>
+        <% CraftJob.where(user: current_user, location: current_user.location).each do |job| %>
+          <tr>
+            <% if job.loader.include? "equipment." %>
+              <th><%= get_item_attribute(job.loader, 'name') %></th>
+              <td class="w-50">
+                <div class="progress crafting-progress" style="height:21px" data-current="<%= (get_item_attribute(job.loader, 'crafting_duration') - (job.completion.to_time - Time.current) / 1.minute).round %>" data-max="<%= get_item_attribute(job.loader, 'crafting_duration') %>">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+                </div>
+              </td>
+            <% else %>
+              <th><%= job.loader %></th>
+              <td class="w-50">
+                <div class="progress crafting-progress" style="height:21px" data-current="<%= (SHIP_VARIABLES[job.loader]['crafting_duration'] - (job.completion.to_time - Time.current) / 1.minute).round %>" data-max="<%= SHIP_VARIABLES[job.loader]['crafting_duration'] %>">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+                </div>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% EQUIPMENT.sort.each_with_index do |item, index| %>
+  <div class="modal fade" id="craft-<%= index %>" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= get_item_attribute(item, 'name') %></h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong><%= I18n.t('equipment.statistics') %></strong></p>
+          <table class="table table-bordered table-striped table-sm mb-3">
+            <tr>
+              <th><%= I18n.t('equipment.slot_type') %></th>
+              <td><%= get_item_attribute(item, 'slot_type').capitalize %></td>
+            </tr>
+            <% case get_item_attribute(item, 'type') %>
+            <% when "Weapon" %>
+              <tr>
+                <th><%= I18n.t('equipment.damage') %></th>
+                <td><%= get_item_attribute(item, 'damage').to_f %></td>
+              </tr>
+            <% when "Defense" %>
+              <tr>
+                <th><%= I18n.t('equipment.defense_amplifier') %></th>
+                <td><%= get_item_attribute(item, 'defense_amplifier').to_f %></td>
+              </tr>
+            <% when "Storage" %>
+              <tr>
+                <th><%= I18n.t('equipment.storage_amplifier') %></th>
+                <td><%= get_item_attribute(item, 'storage_amplifier').to_f %></td>
+              </tr>
+            <% when "Mining Laser" %>
+              <tr>
+                <th><%= I18n.t('equipment.mining_amount') %></th>
+                <td><%= get_item_attribute(item, 'mining_amount').to_f %></td>
+              </tr>
+            <% when "Hull" %>
+              <tr>
+                <th><%= I18n.t('equipment.align_amplifier') %></th>
+                <td><%= get_item_attribute(item, 'align_amplifier').to_f %></td>
+              </tr>
+            <% when "Scanner" %>
+              <tr>
+                <th><%= I18n.t('equipment.target_amplifier') %></th>
+                <td><%= get_item_attribute(item, 'target_amplifier').to_f %></td>
+              </tr>
+            <% when "Repair Bot" %>
+              <tr>
+                <th><%= I18n.t('equipment.repair_amount') %></th>
+                <td><%= get_item_attribute(item, 'repair_amount').to_f %></td>
+              </tr>
+            <% when "Warp Disruptor" %>
+              <tr>
+                <th><%= I18n.t('equipment.disrupt_strength') %></th>
+                <td><%= get_item_attribute(item, 'disrupt_strength') %></td>
+              </tr>
+            <% when "Warp Core Stabilizer" %>
+              <tr>
+                <th><%= I18n.t('equipment.disrupt_immunity') %></th>
+                <td><%= get_item_attribute(item, 'disrupt_immunity') %></td>
+              </tr>
+            <% end %>
+          </table>
+          
+          <p><strong><%= I18n.t('crafting.ressources') %></strong></p>
+          <table class="table table-bordered table-striped table-sm mb-3">
+            <% get_item_attribute(item, 'crafting').each do |key, value| %>
+              <tr>
+                <th><%= get_item_attribute(key, 'name') %></th>
+                <th><%= value %>&times;</th>
+              </tr>
+            <% end %>
+          </table>
+          <p><strong><%= I18n.t('crafting.duration') %></strong></p>
+          <% t = get_item_attribute(item, 'crafting_duration') * 60 %>
+          <table class="table table-sm table-bordered table-striped">
+            <tbody>
+              <tr>
+                <td class="text-center">
+                  <%= "%02d:%02d:%02d" % [t/3600%24, t/60%60, t%60] %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary craft-equipment-btn" data-loader="<%= item %>"><%= I18n.t('crafting.craft') %></button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% SHIP_VARIABLES.each do |key, value| %>
+  <div class="modal fade" id="craft-ship-<%= key %>" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= key %></h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="display text-center mb-3" style="padding:10px;border:1px solid grey;">
+            <%= image_tag("ships/#{value['image']}") %>
+          </div>
+          <p><strong><%= I18n.t('equipment.statistics') %></strong></p>
+          <table class="table table-bordered table-striped table-sm mb-3">
+            <tr>
+              <th><%= I18n.t('ships.hp') %></th>
+              <td><%= value['hp'] %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.storage') %></th>
+              <td><%= value['storage'] %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.main_equipment_slots') %></th>
+              <td><%= value['main_equipment_slots'] %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.utility_equipment_slots') %></th>
+              <td><%= value['utility_equipment_slots'] %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.align_time') %></th>
+              <td><%= value['align_time'] %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.defense') %></th>
+              <td><%= value['defense'] %></td>
+            </tr>
+          </table>
+          
+          <p><strong><%= I18n.t('crafting.ressources') %></strong></p>
+          <table class="table table-bordered table-striped table-sm mb-3">
+            <% value['crafting'].each do |k, v| %>
+              <tr>
+                <th><%= get_item_attribute(k, 'name') %></th>
+                <th><%= v %>&times;</th>
+              </tr>
+            <% end %>
+          </table>
+          <p><strong><%= I18n.t('crafting.duration') %></strong></p>
+          <% t = value['crafting_duration'] * 60 %>
+          <table class="table table-sm table-bordered table-striped">
+            <tbody>
+              <tr>
+                <td class="text-center">
+                  <%= "%02d:%02d:%02d" % [t/3600%24, t/60%60, t%60] %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary craft-ship-btn" data-name="<%= key %>"><%= I18n.t('crafting.craft') %></button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  // Crafting Progress Dynamic
+  $('.crafting-progress').each(function() {
+    var current = $(this).data("current");
+    var max = $(this).data("max");
+    var progressbar = $(this).children('div');
+    
+    
+    var interval = setInterval(function() {
+      current = (current * 60 + 1) / 60
+      var width = (current * 60) / ((max * 60) / 100) 
+      progressbar.html(Math.round( width * 10) / 10 + '%');
+      progressbar.css('width', width + '%');
+      
+      if (width >= 100) {
+        clearInterval(interval);
+        progressbar.closest('tr').remove();
+      }
+    },1000)
+  });
+</script>

@@ -8,7 +8,7 @@ class EjectCargoWorker
     user = User.find(user_id)
     
     
-    items = Item.where(loader: loader, spaceship: user.active_spaceship)
+    items = Item.where(loader: loader, spaceship: user.active_spaceship, equipped: false)
     if items.present?
       structure = Structure.create(structure_type: 'container', location: user.location, user: user)
       items.update_all(structure_id: structure.id, user_id: nil, spaceship_id: nil, equipped: false)

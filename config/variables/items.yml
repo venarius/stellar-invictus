@@ -32,6 +32,8 @@ equipment:
       damage: 5
       slot_type: "main"
       septarium_usage: 2
+      crafting: {"asteroid.nickel": 5, "asteroid.cobalt": 10, "materials.laser_diodes": 1}
+      crafting_duration: 10
     try_pyon_laser:
       name: "Try Pyon Laser"
       type: "Weapon"
@@ -39,6 +41,8 @@ equipment:
       damage: 10
       slot_type: "main"
       septarium_usage: 10
+      crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+      crafting_duration: 200
       
   # Hulls
   hulls:
@@ -48,6 +52,8 @@ equipment:
       weight: 2
       align_amplifier: 0.8
       slot_type: "utility"
+      crafting: {"asteroid.nickel": 15, "asteroid.cobalt": 20, "materials.metal_plates": 15}
+      crafting_duration: 200
       
   # Scanner
   scanner:
@@ -57,6 +63,8 @@ equipment:
       weight: 2
       target_amplifier: 0.8
       slot_type: "utility"
+      crafting: {"asteroid.iron": 30, "asteroid.cobalt": 10, "materials.sensor_electronics": 30}
+      crafting_duration: 200
       
   # Warp Disruptors
   warp_disruptors:
@@ -67,6 +75,8 @@ equipment:
       disrupt_strength: 1
       slot_type: "main"
       septarium_usage: 0
+      crafting: {"asteroid.iron": 30, "materials.sensor_electronics": 15}
+      crafting_duration: 200
   
   # Warp Core Stabilizers   
   warp_core_stabilizers:
@@ -76,6 +86,8 @@ equipment:
       weight: 2
       disrupt_immunity: 1
       slot_type: "utility"
+      crafting: {"asteroid.nickel": 30, "materials.fusion_electronics": 15}
+      crafting_duration: 200
       
   # Miner
   miner:
@@ -86,6 +98,8 @@ equipment:
       mining_amount: 1
       slot_type: "main"
       septarium_usage: 0
+      crafting: {"asteroid.nickel": 15, "asteroid.iron": 15, "asteroid.septarium": 15}
+      crafting_duration: 200
     advanced_miner:
       name: "Adv. Mining Laser"
       type: "Mining Laser"
@@ -93,6 +107,8 @@ equipment:
       mining_amount: 2
       slot_type: "main"
       septarium_usage: 0
+      crafting: {"asteroid.nickel": 30, "asteroid.iron": 30, "asteroid.septarium": 30}
+      crafting_duration: 200
       
   # Repair Bots
   repair_bots:
@@ -103,6 +119,8 @@ equipment:
       repair_amount: 3
       slot_type: "main"
       septarium_usage: 2
+      crafting: {"asteroid.cobalt": 15, "asteroid.iron": 15, "materials.ai_components": 10}
+      crafting_duration: 200
       
   # Defense
   defense:
@@ -112,12 +130,16 @@ equipment:
       weight: 4
       defense_amplifier: 1.1
       slot_type: "utility"
+      crafting: {"asteroid.cobalt": 15, "asteroid.nickel": 15, "materials.fusion_electronics": 6}
+      crafting_duration: 200
     try_pyon_shield:
       name: "Try Pyon Shield"
       type: "Defense"
       weight: 5
       defense_amplifier: 1.2
       slot_type: "utility"
+      crafting: {"asteroid.cobalt": 45, "asteroid.nickel": 25, "materials.fusion_electronics": 22}
+      crafting_duration: 200
       
   storage:
     small_black_hole:
@@ -126,4 +148,37 @@ equipment:
       weight: 5
       storage_amplifier: 1.2
       slot_type: "utility"
+      crafting: {"asteroid.iron": 10, "asteroid.nickel": 25, "materials.antimatter": 4}
+      crafting_duration: 200
+      
+# Materials for Crafting
+materials:
+  sensor_electronics:
+    name: "Sensor Electronics"
+    type: "Material"
+    weight: 1
   
+  antimatter:
+    name: "Antimatter"
+    type: "Material"
+    weight: 1
+    
+  fusion_electronics:
+    name: "Fusion Electronics"
+    type: "Material"
+    weight: 1
+    
+  ai_components:
+    name: "AI Components"
+    type: "Material"
+    weight: 1
+    
+  metal_plates:
+    name: "Metal Plates"
+    type: "Material"
+    weight: 1
+    
+  laser_diodes:
+    name: "Laser Diodes"
+    type: "Material"
+    weight: 1

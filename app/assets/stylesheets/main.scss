@@ -687,6 +687,18 @@ body {
   }
 }
 
+// Factory
+
+#factory-ships, #factory-equipment, #factory-active {
+  ::-webkit-scrollbar {
+    margin-left: 5px;
+    display: block;
+    width: 10px;
+  }
+  max-height: 29rem;
+  overflow-x: auto;
+}
+
 // ###############
 // Player-Info
 // ###############

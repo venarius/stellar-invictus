@@ -58,3 +58,5 @@ gem 'faker'
 gem 'redcarpet'
 # Jquery-UI for drag and drop
 gem 'jquery-ui-rails'
+# Whenever for CronJobs
+gem 'whenever', require: false
