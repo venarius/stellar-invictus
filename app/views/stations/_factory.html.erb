@@ -61,14 +61,14 @@
             <% if job.loader.include? "equipment." %>
               <th><%= get_item_attribute(job.loader, 'name') %></th>
               <td class="w-50">
-                <div class="progress crafting-progress" style="height:21px" data-current="<%= (get_item_attribute(job.loader, 'crafting_duration') - (job.completion.to_time - Time.current) / 1.minute).round %>" data-max="<%= get_item_attribute(job.loader, 'crafting_duration') %>">
+                <div class="progress crafting-progress" style="height:21px" data-current="<%= (get_item_attribute(job.loader, 'crafting_duration') * 60 - (job.completion.to_time - Time.current) / 1.second).round %>" data-max="<%= get_item_attribute(job.loader, 'crafting_duration') %>">
                   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
                 </div>
               </td>
             <% else %>
               <th><%= job.loader %></th>
               <td class="w-50">
-                <div class="progress crafting-progress" style="height:21px" data-current="<%= (SHIP_VARIABLES[job.loader]['crafting_duration'] - (job.completion.to_time - Time.current) / 1.minute).round %>" data-max="<%= SHIP_VARIABLES[job.loader]['crafting_duration'] %>">
+                <div class="progress crafting-progress" style="height:21px" data-current="<%= (SHIP_VARIABLES[job.loader]['crafting_duration'] * 60 - (job.completion.to_time - Time.current) / 1.second).round %>" data-max="<%= SHIP_VARIABLES[job.loader]['crafting_duration'] %>">
                   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
                 </div>
               </td>
@@ -257,8 +257,8 @@
     
     
     var interval = setInterval(function() {
-      current = (current * 60 + 1) / 60
-      var width = (current * 60) / ((max * 60) / 100) 
+      current = current + 1
+      var width = current / ((max * 60) / 100) 
       progressbar.html(Math.round( width * 10) / 10 + '%');
       progressbar.css('width', width + '%');
       

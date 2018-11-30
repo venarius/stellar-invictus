@@ -102,9 +102,11 @@ RSpec.describe GameMailsController, type: :controller do
     describe 'GET show' do
       it 'should show message on valid id' do
         @mail = FactoryBot.create(:game_mail, sender: @user, recipient: @user) 
+        expect(@mail.read).to be_falsey
         get :show, params: {id: @mail.id}
         expect(response.code).to eq('200')
         expect(response).to render_template('game_mails/_show')
+        expect(@mail.reload.read).to be_truthy
       end
       
       it 'should redirect on other id which does not belong to user' do
