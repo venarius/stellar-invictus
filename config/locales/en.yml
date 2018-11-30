@@ -231,7 +231,7 @@ en:
     bio_not_much_known: "There is not much known about this pilot..."
   crafting:
     craft: "Craft"
-    ressources: "Ressources"
+    ressources: "Required Ressources"
     minutes: "minutes"
     duration: "Duration"
   equipment:

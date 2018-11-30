@@ -132,4 +132,14 @@ $( document ).on('turbolinks:load', function() {
       Turbolinks.visit(window.location);
     }).error(function(data) { if (data.responseJSON.error_message) { button.closest('.modal').modal('hide'); show_error(data.responseJSON.error_message); } });
   });
+  
+  // Craft Ship AJAX
+  $('.station-card').on('click', '.craft-ship-btn', function(e) {
+    e.preventDefault();
+    var button = $(this)
+    var name = $(this).data('name')
+    $.post('ship/craft', {name: name}, function() {
+      Turbolinks.visit(window.location);
+    }).error(function(data) { if (data.responseJSON.error_message) { button.closest('.modal').modal('hide'); show_error(data.responseJSON.error_message); } });
+  });
 });

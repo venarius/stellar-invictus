@@ -15,6 +15,9 @@ require "capistrano/bundler"
 require 'capistrano/sidekiq'
 require 'capistrano/postgresql'
 
+# Whenever
+require "whenever/capistrano"
+
 # Puma
 require 'capistrano/puma'
 install_plugin Capistrano::Puma  # Default puma tasks

@@ -6,7 +6,7 @@ class Spaceship < ApplicationRecord
   # Get Weight of all Items in Ship
   def get_weight
     weight = 0
-    Item.where(spaceship: self).each do |item|
+    Item.where(spaceship: self, equipped: false).each do |item|
       weight = weight + item.get_attribute('weight')
     end
     weight
@@ -23,8 +23,12 @@ class Spaceship < ApplicationRecord
   end
   
   # Get Items in ship storage
-  def get_items
-    items = Item.where(spaceship: self)
+  def get_items(equipped_switch=false)
+    if equipped_switch
+      items = Item.where(spaceship: self, equipped: false)
+    else
+      items = Item.where(spaceship: self)
+    end
     storage = Hash.new(0)
     items.each do |value|
       storage[value.loader] += 1
