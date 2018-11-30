@@ -1,4 +1,5 @@
 begin
+
   # User
   if ActiveRecord::Base.connection.table_exists? 'users'
     User.all.each do |user|

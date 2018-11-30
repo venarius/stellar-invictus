@@ -19,5 +19,5 @@
 
 # CraftingJobs
 every 1.minutes do
-  rake "crafting_jobs:finish"
+  runner "runner/crafting_job.rb"
 end
