@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_27_142216) do
+ActiveRecord::Schema.define(version: 2018_11_29_104025) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(version: 2018_11_27_142216) do
     t.integer "chat_room_id"
     t.index ["chat_room_id"], name: "index_chat_rooms_users_on_chat_room_id"
     t.index ["user_id"], name: "index_chat_rooms_users_on_user_id"
+  end
+
+  create_table "craft_jobs", force: :cascade do |t|
+    t.datetime "completion"
+    t.string "loader"
+    t.integer "user_id"
+    t.integer "location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_craft_jobs_on_location_id"
+    t.index ["user_id"], name: "index_craft_jobs_on_user_id"
   end
 
   create_table "factions", force: :cascade do |t|

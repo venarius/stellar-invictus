@@ -42,9 +42,7 @@ $( document ).on('turbolinks:load', function() {
     });
     
     // Smooth alert slides
-    $(".alert").hide();
-    $(".alert").slideDown(500);
-    $(".alert").delay(3000).slideUp(500);
+    $(".alert").hide().slideDown(500).delay(3000).slideUp(500);
     
     // Remove nojs link
     $('.nav-link').each(function() {
@@ -106,10 +104,8 @@ function refresh_player_info() {
 
 // Show custom error
 function show_error(error_message) {
-  $('#app-container').prepend("<p class='alert alert-warning'>"+error_message+"</p>");
-  setTimeout(function() {
-    $('.alert').fadeOut();
-  }, 3000)
+  var alert = "<p class='alert alert-warning'>"+error_message+"</p>"
+  $(alert).prependTo('#app-container').hide().slideDown(500).delay(3000).slideUp(500);
 }
 
 // Loading animation

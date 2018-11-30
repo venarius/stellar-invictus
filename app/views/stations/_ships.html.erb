@@ -3,18 +3,16 @@
     <tr>
       <th scope="col"><%= I18n.t('ships.name') %></th>
       <th scope="col"><%= I18n.t('ships.hp') %></th>
-      <th scope="col"><%= I18n.t('ships.power') %></th>
       <th scope="col"><%= I18n.t('ships.storage') %></th>
       <th scope="col"><%= I18n.t('ships.price') %></th>
       <th scope="col" class="btn-th"></th>
     </tr>
   </thead>
   <tbody>
-    <% @ships.each do |k,v| %>
+    <% ships.each do |k,v| %>
       <tr>
         <td><%= k %></td>
         <td><%= v['hp'] %></td>
-        <td><%= v['power'] %></td>
         <td><%= v['storage'] %></td>
         <td><%= v['price'] %></td>
         <td>
@@ -26,7 +24,7 @@
   </tbody>
 </table>
 
-<% @ships.each do |k,v| %>
+<% ships.each do |k,v| %>
 <div class="modal fade" id="ship-<%= k %>" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

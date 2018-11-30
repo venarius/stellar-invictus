@@ -4,21 +4,30 @@
   <% items = Item.where(user: current_user, location: location) %>
   
   <div class="card black-card mb-3">
-    <h5 class="card-header"><%= location.system.name %> - <%= location.name %></h5>
-    <div class="card-body">
-      <% if ships.count > 0 %>
-        <h5>Ships</h5>
-        <% ships.each do |ship| %>
-          <%= ship.name %><br>
+    <h5 class="card-header">
+      <%= location.system.name %> - <%= location.name %>
+      <div class="float-right">
+        <a data-toggle="collapse" href="#collapse-asset-<%= loc %>">
+          <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-right"></i></div>
+        </a>
+      </div>
+    </h5>
+    <div class="collapse" id="collapse-asset-<%= loc %>">
+      <div class="card-body">
+        <% if ships.count > 0 %>
+          <h5>Ships</h5>
+          <% ships.each do |ship| %>
+            <%= ship.name %><br>
+          <% end %>
         <% end %>
-      <% end %>
-      
-      <% if items.count > 0 %>
-        <h5>Items</h5>
-        <% items.each do |item| %>
-          <%= item.get_attribute('name') %><br>
+        
+        <% if items.count > 0 %>
+          <h5>Items</h5>
+          <% items.each do |item| %>
+            <%= item.get_attribute('name') %><br>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
 <% end %>
