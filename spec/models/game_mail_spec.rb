@@ -8,6 +8,7 @@ describe GameMail do
       it { should respond_to :header }
       it { should respond_to :body }
       it { should respond_to :units }
+      it { should respond_to :read }
     end
    
     describe 'Relations' do
