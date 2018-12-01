@@ -35,12 +35,6 @@ $( document ).on('turbolinks:load', function() {
         }
     });
     
-    
-    // Remove field with errors on keyup
-    $( "input" ).keyup(function() {
-        $(this).closest('.field_with_errors').removeClass('field_with_errors');
-    });
-    
     // Smooth alert slides
     $(".alert").hide().slideDown(500).delay(3000).slideUp(500);
     

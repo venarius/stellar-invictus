@@ -7,7 +7,7 @@
     <div class="card black-card mb-3">
       <h5 class="card-header"><%= I18n.t('devise.account') %></h5>
       <div class="card-body">
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, validate: true) do |f| %>
         
           <div class="field mb-3">
             <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>

@@ -114,8 +114,15 @@ a {
 // Errors
 // ###############
 .field_with_errors {
-  border: 2px solid #CC0000;
-  border-radius: 5px;
+  input {
+    border: 2px solid #CC0000;
+    border-radius: 5px;
+  }
+  label {
+    margin-top: 5px;
+    color: #b9b9b9;
+    font-size: 13px;
+  }
 }
 
 // ###############

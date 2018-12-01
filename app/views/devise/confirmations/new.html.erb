@@ -7,7 +7,7 @@
     <div class="card black-card border-success">
       <h5 class="card-header"><%= I18n.t('devise.resend_confirmation') %></h5>
       <div class="card-body">
-        <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+        <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }, validate: true) do |f| %>
         
           <div class="field mb-3">
             <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: I18n.t('devise.email'), class: 'form-control' %>
