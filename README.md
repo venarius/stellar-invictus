@@ -30,7 +30,7 @@
 - More Ships
 - ~~Faction Bonuses~~
 - Faction Reputation - Unlocks on different levels
-- Home, About -> Currently empty sites
+- About -> Currently empty site
 - Player Reporting
 - Achievements
 - Killboard

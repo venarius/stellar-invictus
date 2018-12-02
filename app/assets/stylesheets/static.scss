@@ -5,7 +5,7 @@
   background: image-url('space-full-home.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  height: calc(100vh - 55px);
+  height: calc(100vh - 89px);
   align-items: stretch;
   display: flex;
   flex-direction: column;
@@ -17,6 +17,9 @@
     flex-grow: 1;
     flex-shrink: 0;
     padding: 3rem 1.5rem;
+    .btn-xl {
+      width: 240px;
+    }
   }
 }
 
@@ -24,27 +27,4 @@
   padding: 0.5rem 2rem;
   font-size: 1.5rem;
   line-height: 1.5;
-}
-
-.section.one {
-  background: image-url('space-full-home-2.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.section {
-  height: 50vh;
-  align-items: stretch;
-  display: flex;
-  flex-direction: column;
-  .body {
-    width: 80%;
-    align-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-    display: flex;
-    flex-grow: 1;
-    flex-shrink: 0;
-    padding: 3rem 1.5rem;
-  }
 }
