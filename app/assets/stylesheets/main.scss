@@ -1,3 +1,36 @@
+@font-face {
+    font-family: 'Shentox';
+    src: url('Shentox-Regular14.woff2') format('woff2'),
+        url('Shentox-Regular14.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Shentox Medium';
+    src: url('Shentox-Regular2.woff2') format('woff2'),
+        url('Shentox-Regular2.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Shentox Bold';
+    src: url('Shentox-Regular8.woff2') format('woff2'),
+        url('Shentox-Regular8.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  font-family: 'Shentox Medium';
+}
+
+strong, th {
+  font-family: 'Shentox Bold';
+  font-weight: normal;
+}
+
 html {
   background: image-url('space-background-grid.png') repeat center top, image-url('space-background-blur-tiled2.jpg') repeat center top;
 }
