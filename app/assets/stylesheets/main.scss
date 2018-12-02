@@ -1,15 +1,15 @@
 @font-face {
     font-family: 'Shentox';
-    src: url('Shentox-Regular14.woff2') format('woff2'),
-        url('Shentox-Regular14.woff') format('woff');
+    src: font-url('Shentox-Regular14.woff2') format('woff2'),
+        font-url('Shentox-Regular14.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Shentox Medium';
-    src: url('Shentox-Regular2.woff2') format('woff2'),
-        url('Shentox-Regular2.woff') format('woff');
+    src: font-url('Shentox-Regular2.woff2') format('woff2'),
+        font-url('Shentox-Regular2.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
