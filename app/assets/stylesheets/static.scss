@@ -2,7 +2,7 @@
 // Home
 // ##############
 .full-display {
-  background: url('space-full-home.jpg');
+  background: image-url('space-full-home.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   height: calc(100vh - 55px);
@@ -27,7 +27,7 @@
 }
 
 .section.one {
-  background: url('space-full-home-2.jpg');
+  background: image-url('space-full-home-2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
