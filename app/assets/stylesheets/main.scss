@@ -16,8 +16,8 @@
 
 @font-face {
     font-family: 'Shentox Bold';
-    src: url('Shentox-Regular8.woff2') format('woff2'),
-        url('Shentox-Regular8.woff') format('woff');
+    src: font-url('Shentox-Regular8.woff2') format('woff2'),
+        font-url('Shentox-Regular8.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -110,12 +110,18 @@ html {
   max-height: 25px;
   border: 1px solid grey;
 }
+.navbar.bg-dark {
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-left: 0 !important;
+  border-bottom: 1px solid #282828 !important;
+}
 
 // ###############
 // Footer
 // ###############
 body {
-  padding-bottom: 75px;
+  padding-bottom: 32px;
   min-height: 100vh;
   background-color: transparent;
   position: relative;
