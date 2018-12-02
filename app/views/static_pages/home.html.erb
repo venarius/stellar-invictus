@@ -1,1 +1,31 @@
-<h1>Home</h1>
+<div class="full-display container-fluid">
+  <div class="body">
+    <h1 class="text-center w-100"><strong>A NEW UNIVERSE AWAITS</strong></h1>
+    <h3 class="text-center w-100">WRITE YOUR OWN STORY</h3>
+    <h1 class="text-center w-100">
+      <%= link_to I18n.t('devise.enlist_now'), new_user_registration_path, class: 'btn btn-primary btn-xl' %>
+      <%= link_to I18n.t('navbar.connect'), new_user_session_path, class: 'btn btn-secondary btn-xl' %>
+    </h1>
+  </div>
+  <div class="footer text-center" style="color: black">
+    ESA, NASA and L. Calçada (ESO)
+  </div>
+</div>
+<!--
+<div class="section one container-fluid">
+  <div class="body">
+    <div class="row w-100">
+      <div class="col-md-6">
+        <h3>A SANDBOX WITH UNLIMITED POSSIBILITIES</h3>
+        <p>Lorem Ipsum</p>
+      </div>
+      <div class="col-md-6">
+        
+      </div>
+    </div>
+  </div>
+  <div class="footer text-center" style="color: black">
+    ESO/N. Bartmann/<a href="spaceengine.org" target="_blank">spaceengine.org</a>
+  </div>
+</div>
+-->
