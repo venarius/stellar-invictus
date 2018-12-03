@@ -248,5 +248,6 @@ en:
     repair_amount: "Repair Amount"
     disrupt_strength: "Disrupt Strength"
     disrupt_immunity: "Disrupt Immunity"
+    septarium_usage: "Septarium Usage"
   links:
     go_to_game: "Already logged in. Go to the game&nbsp;&nbsp;<i class='fa fa-arrow-right'></i>"
