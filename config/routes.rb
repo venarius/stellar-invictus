@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   
   # Static Pages
   root 'static_pages#home'
-  get '/about', to: 'static_pages#about'
   get '/credits', to: 'static_pages#credits'
   get '/nojs', to: 'static_pages#nojs'
   

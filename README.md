@@ -37,6 +37,8 @@
 - Statistics
 - Admin Backend
 - Vote for Changes
+- Help Site
+- Bug Reporting
 
 ## Installation
 
