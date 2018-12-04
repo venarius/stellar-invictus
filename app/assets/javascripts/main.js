@@ -105,6 +105,20 @@ $( document ).on('turbolinks:load', function() {
         }
       }
     });
+    
+    // Disconnect on Logout Btn
+    $('#logout-btn').on('click', function() {
+      App.appearance.unsubsribe();
+    });
+    
+    // Enable Button after User aggreed to Privacy Policy
+    $('#privpolCheck').change(function() {
+      if(this.checked) {
+        $('.enlist-btn').prop("disabled", false);
+      } else {
+        $('.enlist-btn').prop("disabled", true);
+      }
+    });
 });
 
 // Time Functions

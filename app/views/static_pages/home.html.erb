@@ -4,7 +4,7 @@
     <h3 class="text-center w-100 mb-3">WRITE YOUR OWN STORY</h3>
     <h1 class="text-center w-100">
       <a class="btn btn-primary btn-xl" href="#more_information"><%= I18n.t('game.more_information') %></a>
-      <%= link_to I18n.t('devise.enlist_now'), new_user_registration_path, class: 'btn btn-primary btn-xl' %>
+      <%= link_to I18n.t('game.play_for_free'), new_user_registration_path, class: 'btn btn-primary btn-xl' %>
     </h1>
   </div>
   <div class="footer text-center" style="color: black">
@@ -19,7 +19,7 @@
         <h2><strong>Explore The Universe And Its Endless Opportunities</strong></h2>
         <h5>Experience Infinite Possibilities And Freedom As You Grow To Become The Most Powerful Player Ever Known!</h5>
       </div>
-      <div class="col-md-4 offset-md-2 mb-3">
+      <div class="col-lg-4 offset-lg-2 mb-3">
         <div class="card black-card">
           <h5 class="card-header text-center">Become a Merchant</h5>
           <div class="card-body">
@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-lg-4 mb-3">
         <div class="card black-card">
           <h5 class="card-header text-center">Become a Miner</h5>
           <div class="card-body">
@@ -39,24 +39,34 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 offset-md-2 mb-3">
+      <div class="col-lg-4 offset-lg-2 mb-3">
         <div class="card black-card">
           <h5 class="card-header text-center">Become a Manufacturer</h5>
+          <div class="card-body">
+            <h5 class="mb-3">You are a skilled craftsman who creates everything that other pilots currently need the most.</h5>
+            <h5 class="mb-5">You have come a long way to achieve a very high success rate on even your most powerful creations.</h5>
+            <%= image_tag('home/factory-home.gif', class: 'border-round') %>
+          </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-lg-4 mb-3">
         <div class="card black-card">
           <h5 class="card-header text-center">Become a Pirate</h5>
+          <div class="card-body">
+            <h5 class="mb-3">You are a dangerous person that others don't even want to meet in their darkest dreams.</h5>
+            <h5 class="mb-5">You know when to go in for a good catch and when to remain in the back.</h5>
+            <%= image_tag('home/attack-home.png') %>
+          </div>
         </div>
       </div>
-      <div class="col-md-4 offset-md-2 mb-3">
+      <div class="col-lg-4 offset-lg-4 mb-3">
         <div class="card black-card">
-          <h5 class="card-header text-center">Become a Leader</h5>
-        </div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <div class="card black-card">
-          <h5 class="card-header text-center">Become a Helper</h5>
+          <h5 class="card-header text-center">Become a Explorer</h5>
+          <div class="card-body">
+            <h5 class="mb-3">You are on a constant lookout for the most valuable goods found in hidden treasures.</h5>
+            <h5 class="mb-5">You jump from system to system and scan for hidden exploration sites.</h5>
+            <%= image_tag('home/storage-home.png') %>
+          </div>
         </div>
       </div>
     </div>
