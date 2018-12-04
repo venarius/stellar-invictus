@@ -97,7 +97,7 @@ class EquipmentController < ApplicationController
           render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !items.present? || items.count < value
         end
         
-        # Delete ressources
+         Delete ressources
         ressources.each do |key, value|
           Item.where(loader: key, user: current_user).limit(value).destroy_all
         end

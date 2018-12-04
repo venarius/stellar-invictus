@@ -80,22 +80,3 @@
     box-shadow: 0px 0px 10px 1px #fff;
     z-index: 100;
 }
-
-.background-bar-chart {
-  background: image-url('home/bar-chart.png');
-  background-repeat: repeat;
-  background-position: bottom;
-  height: 75px;
-  width: 100%;
-  background-size: contain;
-  background-position-x: left;
-}
-
-.background-asteroids {
-  background: image-url('home/asteroids-home.png');
-  background-position: bottom;
-  height: 215px;
-  width: 100%;
-  background-size: cover;
-  background-position: top;
-}

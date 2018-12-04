@@ -48,9 +48,16 @@
           <div class="field mb-3">
             <%= f.text_field :family_name, placeholder: I18n.t('devise.family_name'), class: 'form-control' %>
           </div>
+          
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="privpolCheck">
+            <label class="form-check-label" for="privpolCheck">
+              I have read and agree to the Privacy Policy (<%= link_to 'found here', credits_path %>)
+            </label>
+          </div>
         
           <div class="actions float-right">
-            <%= button_tag( class: 'btn btn-primary btn-sm btn-load') do %>
+            <%= button_tag( class: 'btn btn-primary btn-sm btn-load enlist-btn', disabled: true) do %>
               <span><%= I18n.t('devise.enlist_now') %></span>
               &nbsp;<i class="fas fa-arrow-right"></i>
             <% end %>
