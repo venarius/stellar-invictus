@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#"><%= current_user.system.name %> <%= I18n.t('market.market') %></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#marketNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="marketNavbar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
+          <%= I18n.t('market.items') %>
+        </a>
+        <div class="dropdown-menu">
+          <% ITEM_VARIABLES.keys.each do |key| %>
+            <% next if key == "test" %>
+            <a href="#" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.capitalize %></a>
+          <% end %>
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" id="market-search-input" type="search" placeholder="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" id="market-search-btn">Search</button>
+    </form>
+  </div>
+</nav>
+
+<div class="results">
+  
+</div>
