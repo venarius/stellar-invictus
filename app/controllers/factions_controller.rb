@@ -9,7 +9,7 @@ class FactionsController < ApplicationController
   def choose_faction
     if !current_user.faction
       faction = Faction.find(params[:id]) rescue nil
-      if faction and current_user.update_columns(faction_id: faction.id, location_id: faction.location.id, system_id: faction.location.system.id)
+      if faction and current_user.update_columns(faction_id: faction.id, location_id: faction.location.id, system_id: faction.location.system.id, docked: true)
         
         # Give player ship and equipment
         spaceship = Spaceship.create(user_id: current_user.id, name: 'Nano', hp: 50)

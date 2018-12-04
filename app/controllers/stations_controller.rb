@@ -34,6 +34,8 @@ class StationsController < ApplicationController
         render partial: 'stations/storage'
       when 'factory'
         render partial: 'stations/factory'
+      when 'market'
+        render partial: 'stations/market'
       when 'my_ships'
         render partial: 'stations/my_ships', locals: {user_ships: get_user_ships}
       when 'active_ship'

@@ -151,6 +151,7 @@ en:
     factory: "Factory"
     equipment: "Equipment"
     active: "Active"
+    market: "Market"
   ships:
     ship: "Ship"
     inventory: "Inventory"
@@ -253,3 +254,6 @@ en:
     septarium_usage: "Septarium Usage"
   links:
     go_to_game: "Already logged in. Go to the game&nbsp;&nbsp;<i class='fa fa-arrow-right'></i>"
+  market:
+    market: "Market"
+    items: "Items"

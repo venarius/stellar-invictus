@@ -108,6 +108,12 @@ Rails.application.routes.draw do
     post 'craft', to: 'equipment#craft'
   end
   
+  # Market
+  scope :market do
+    get 'list', to: 'market#list'
+    get 'search', to: 'market#search'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

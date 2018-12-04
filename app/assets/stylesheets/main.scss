@@ -744,6 +744,17 @@ body {
   overflow-x: auto;
 }
 
+// Market
+#market .results {
+  ::-webkit-scrollbar {
+    margin-left: 5px;
+    display: block;
+    width: 10px;
+  }
+  height: 28.5rem;
+  overflow: scroll;
+}
+
 // ###############
 // Player-Info
 // ###############

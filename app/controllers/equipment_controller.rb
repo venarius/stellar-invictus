@@ -88,7 +88,7 @@ class EquipmentController < ApplicationController
   end
   
   def craft
-    if params[:loader] and current_user.docked
+    if params[:loader] and current_user.docked and current_user.location.is_factory
       ressources = get_item_attribute(params[:loader], 'crafting')
       if ressources
         # Check if has ressources

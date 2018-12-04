@@ -1,0 +1,22 @@
+<% if market_listings.present? %>
+  <table class="table table-bordered table-hover table-striped table-sm table-fixed station-market-table">
+    <thead>
+      <tr>
+        <th scope="col"><%= I18n.t('items.name') %></th>
+        <th scope="col"><%= I18n.t('items.type') %></th>
+        <th scope="col"><%= I18n.t('ships.price') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% market_listings.sort.each do |ml| %>
+        <tr>
+          <td><%= get_item_attribute(ml.loader, 'name') %></td>
+          <td><%= get_item_attribute(ml.loader, 'type') %></td>
+          <td><%= ml.price %> Cr</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h2 class="text-center">...</h2>
+<% end %>
