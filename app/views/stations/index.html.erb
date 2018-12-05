@@ -35,7 +35,6 @@
       <div class="col-md-3">
         <div class="nav flex-column nav-pills" role="tablist">
           <a class="nav-link active" data-toggle="pill" href="#overview" role="tab"><%= I18n.t('station.overview') %></a>
-          <a class="nav-link" data-toggle="pill" href="#ships" role="tab"><%= I18n.t('station.ships') %></a>
           <a class="nav-link" data-toggle="pill" href="#missions" role="tab"><%= I18n.t('station.missions') %></a>
           <a class="nav-link" data-toggle="pill" href="#storage" role="tab"><%= I18n.t('station.storage') %></a>
           <% if @current_user.location.is_factory %>
@@ -49,9 +48,6 @@
       <div class="col-md-9">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="overview" role="tabpanel">
-            
-          </div>
-          <div class="tab-pane fade" id="ships" role="tabpanel">
             
           </div>
           <div class="tab-pane fade" id="missions" role="tabpanel">

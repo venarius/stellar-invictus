@@ -45,7 +45,7 @@ equipment:
       weight: 5
       damage: 10
       slot_type: "main"
-      septarium_usage: 10
+      septarium_usage: 5
       crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
       crafting_duration: 200
       price: 350
@@ -82,7 +82,7 @@ equipment:
       weight: 2
       disrupt_strength: 1
       slot_type: "main"
-      septarium_usage: 0
+      septarium_usage: 5
       crafting: {"asteroid.iron": 30, "materials.sensor_electronics": 15}
       crafting_duration: 200
       price: 150
