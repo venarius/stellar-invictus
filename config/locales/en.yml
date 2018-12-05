@@ -87,10 +87,11 @@ en:
     got_disconnected: "Lost connection to server"
     got_disconnected_text: "It seems you have lost connection to the server. Reconnecting..."
     close: "Close"
-    sure_buy: "Please confirm this purchase"
+    sure_buy: "Please confirm this purchase of %{name}"
     buy: "Buy"
     how_much_store: "How much should be stored?"
     how_much_load: "How much should be loaded?"
+    how_much_sell: "How much should be sold?"
     max: "Max"
     died: "Killed in action"
     died_text: "Your ship and your cargo got destroyed. Your corpse has been transfered to: %{location}. A doctor was able to revive you. Be careful next time."
@@ -101,6 +102,8 @@ en:
     invited_to_fleet_text: "%{user} invited you to join their fleet. Accept?"
     invited_to_fleet: "Invite to join fleet"
     invited_to_fleet_warning: "WARNING: Other pilots in the same fleet may attack you without consequences"
+    sure_sell: "Please confirm this sale"
+    sell: "Sell"
   chat:
     local: "Local Chat"
     global: "Global Chat"
@@ -141,7 +144,6 @@ en:
     type: "Type"
   station:
     overview: "Overview"
-    ships: "Spaceships"
     undock: "Undock"
     missions: "Missions"
     my_ships: "My Ships"
@@ -257,3 +259,8 @@ en:
   market:
     market: "Market"
     items: "Items"
+    ships: "Ships"
+    ship: "Ship"
+    confirm_purchase: "Confirm purchase"
+    price: "Price"
+    confirm_sell: "Confirm sale"

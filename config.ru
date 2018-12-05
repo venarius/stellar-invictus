@@ -4,6 +4,10 @@ require_relative 'config/environment'
 
 run Rails.application
 
+# ##############################
+#            CUSTOM
+# ##############################
+
 require "#{Rails.root.to_s}/config/initializers/variables.rb"
 
 # User
@@ -42,18 +46,29 @@ Item.all.each do |item|
 end
 
 # Market Listing
+def get_item_attribute(loader, attribute)
+  atty = loader.split(".")
+  out = ITEM_VARIABLES[atty[0]]
+  loader.count('.').times do |i|
+    out = out[atty[i+1]]
+  end
+  out[attribute] rescue nil
+end
+  
 MarketListing.destroy_all
 Location.where(location_type: 'station').each do |location|
-  EQUIPMENT.each do |equipment|
+  ITEMS.each do |item|
     rand(0..1).times do
+      rabat = rand(0.8..1.2)
       rand(1..10).times do
-        MarketListing.create(loader: equipment, location: location, listing_type: 'item', price: (100 * rand(0.8..1.2)).round)
+        MarketListing.create(loader: item, location: location, listing_type: 'item', price: (get_item_attribute(item, 'price') * rabat * rand(0.95..1.05)).round)
       end
     end
   end
   STATION_VARIABLES[location.id]['spaceships'].each do |ship|
+    rabat = rand(0.8..1.2)
     rand(1..10).times do
-      MarketListing.create(loader: ship, location: location, listing_type: 'ship', price: (SHIP_VARIABLES[ship]['price'] * rand(0.8..1.2)).round)
+      MarketListing.create(loader: ship, location: location, listing_type: 'ship', price: (SHIP_VARIABLES[ship]['price'] * rabat * rand(0.95..1.05)).round)
     end
   end
 end

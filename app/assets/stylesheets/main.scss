@@ -47,6 +47,7 @@ html {
 .color-sec-medium { color: orange; }
 .color-sec-low { color: red; }
 .color-green { color: green; }
+.color-highgreen { color: #03d603; }
 .color-white { color: white; }
 .color-grey { color: grey; }
 .width-max { width: 100%; }
@@ -92,6 +93,37 @@ html {
   .mobile-mb-10 { margin-bottom: 10px !important; }
   .mobile-mt-0 { margin-top: 0; }
   .mobile-mb-1 { margin-bottom: 1rem; }
+}
+
+// Dropdown - Submenu
+.nav-item.dropdown a { color: white; &:hover { color: white; } }
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+  margin-top: 0;
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
+}
+
+@media (max-width: 767px) {
+  .dropdown-submenu .dropdown-menu {
+    margin-right: 0;
+    margin-left: 0;
+    background-color: #3c3c3c;
+    border: 0;
+  }
 }
 
 // ###############
@@ -751,10 +783,14 @@ body {
     display: block;
     width: 10px;
   }
-  height: 28.5rem;
+  margin-top: 5px;
+  max-height: 25rem;
   overflow: scroll;
 }
 
+#market .navbar {
+  border-top: 1px solid #282828 !important;
+}
 // ###############
 // Player-Info
 // ###############

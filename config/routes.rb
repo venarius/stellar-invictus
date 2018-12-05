@@ -112,6 +112,9 @@ Rails.application.routes.draw do
   scope :market do
     get 'list', to: 'market#list'
     get 'search', to: 'market#search'
+    post 'buy', to: 'market#buy'
+    post 'appraisal', to: 'market#appraisal'
+    post 'sell', to: 'market#sell'
   end
   
   # ActionCable
