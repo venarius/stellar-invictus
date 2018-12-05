@@ -91,66 +91,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p><strong><%= I18n.t('equipment.statistics') %></strong></p>
-          <table class="table table-bordered table-striped table-sm mb-3">
-            <tr>
-              <th><%= I18n.t('equipment.slot_type') %></th>
-              <td><%= get_item_attribute(item, 'slot_type').capitalize %></td>
-            </tr>
-            <% if get_item_attribute(item, 'slot_type') == "main" %>
-              <tr>
-                <th><%= I18n.t('equipment.septarium_usage') %></th>
-                <td><%= get_item_attribute(item, 'septarium_usage').to_f %></td>
-              </tr>
-            <% end %>
-            <% case get_item_attribute(item, 'type') %>
-            <% when "Weapon" %>
-              <tr>
-                <th><%= I18n.t('equipment.damage') %></th>
-                <td><%= get_item_attribute(item, 'damage').to_f %></td>
-              </tr>
-            <% when "Defense" %>
-              <tr>
-                <th><%= I18n.t('equipment.defense_amplifier') %></th>
-                <td><%= get_item_attribute(item, 'defense_amplifier').to_f %></td>
-              </tr>
-            <% when "Storage" %>
-              <tr>
-                <th><%= I18n.t('equipment.storage_amplifier') %></th>
-                <td><%= get_item_attribute(item, 'storage_amplifier').to_f %></td>
-              </tr>
-            <% when "Mining Laser" %>
-              <tr>
-                <th><%= I18n.t('equipment.mining_amount') %></th>
-                <td><%= get_item_attribute(item, 'mining_amount').to_f %></td>
-              </tr>
-            <% when "Hull" %>
-              <tr>
-                <th><%= I18n.t('equipment.align_amplifier') %></th>
-                <td><%= get_item_attribute(item, 'align_amplifier').to_f %></td>
-              </tr>
-            <% when "Scanner" %>
-              <tr>
-                <th><%= I18n.t('equipment.target_amplifier') %></th>
-                <td><%= get_item_attribute(item, 'target_amplifier').to_f %></td>
-              </tr>
-            <% when "Repair Bot" %>
-              <tr>
-                <th><%= I18n.t('equipment.repair_amount') %></th>
-                <td><%= get_item_attribute(item, 'repair_amount').to_f %></td>
-              </tr>
-            <% when "Warp Disruptor" %>
-              <tr>
-                <th><%= I18n.t('equipment.disrupt_strength') %></th>
-                <td><%= get_item_attribute(item, 'disrupt_strength') %></td>
-              </tr>
-            <% when "Warp Core Stabilizer" %>
-              <tr>
-                <th><%= I18n.t('equipment.disrupt_immunity') %></th>
-                <td><%= get_item_attribute(item, 'disrupt_immunity') %></td>
-              </tr>
-            <% end %>
-          </table>
+          <%= render partial: 'items/vars', locals: {item: item} %>
           
           <p><strong><%= I18n.t('crafting.ressources') %></strong></p>
           <table class="table table-bordered table-striped table-sm mb-3">
@@ -193,36 +134,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="display text-center mb-3" style="padding:10px;border:1px solid grey;">
-            <%= image_tag("ships/#{value['image']}") %>
-          </div>
-          <p><strong><%= I18n.t('equipment.statistics') %></strong></p>
-          <table class="table table-bordered table-striped table-sm mb-3">
-            <tr>
-              <th><%= I18n.t('ships.hp') %></th>
-              <td><%= value['hp'] %></td>
-            </tr>
-            <tr>
-              <th><%= I18n.t('ships.storage') %></th>
-              <td><%= value['storage'] %></td>
-            </tr>
-            <tr>
-              <th><%= I18n.t('ships.main_equipment_slots') %></th>
-              <td><%= value['main_equipment_slots'] %></td>
-            </tr>
-            <tr>
-              <th><%= I18n.t('ships.utility_equipment_slots') %></th>
-              <td><%= value['utility_equipment_slots'] %></td>
-            </tr>
-            <tr>
-              <th><%= I18n.t('ships.align_time') %></th>
-              <td><%= value['align_time'] %></td>
-            </tr>
-            <tr>
-              <th><%= I18n.t('ships.defense') %></th>
-              <td><%= value['defense'] %></td>
-            </tr>
-          </table>
+          <%= render partial: 'ships/vars', locals: {value: value} %>
           
           <p><strong><%= I18n.t('crafting.ressources') %></strong></p>
           <table class="table table-bordered table-striped table-sm mb-3">

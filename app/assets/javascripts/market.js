@@ -35,17 +35,27 @@ $( document ).on('turbolinks:load', function() {
       button.closest('.modal').modal('hide');
       $(".station-card").find(`[data-target='#`+button.closest('.modal').attr('id')+`']`).parent().parent().remove();
       refresh_player_info();
+    }).error(function(data) {
+      if (!button.closest('.modal').find('.error').length) {
+        button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
+        setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
+      }
     });
   });
   
   // Appraisal AJAX
-  $('.station-card').on('click', '.item-appraise-btn', function(e) {
+  $('.station-card').on('click', '.market-appraise-btn', function(e) {
     $('#market-sell').find('.max-btn').data("amount", $(this).data("amount"));
     $('#market-sell').find('.max-btn').data("loader", $(this).data("loader"));
+    $('#market-sell').find('.max-btn').data("type", $(this).data("type"));
     $('#market-sell').find('.market-sell-btn').data("loader", $(this).data("loader"));
+    $('#market-sell').find('.market-sell-btn').data("id", $(this).data("id"));
+    $('#market-sell').find('.market-sell-btn').data("type", $(this).data("type"));
+    $('#market-sell').find('.market-sell-btn').data("amount", $(this).data("amount"));
     var loader = $(this).data('loader');
+    var type = $(this).data('type');
     
-    $.post('market/appraisal', {loader: loader, type: 'item'}, function(data) {
+    $.post('market/appraisal', {loader: loader, type: type, quantity: 1}, function(data) {
       $('#selling-price').text(data.price + " Cr");
     });
   });
@@ -54,9 +64,11 @@ $( document ).on('turbolinks:load', function() {
   $('.station-card').on('click', '#market-sell .max-btn', function(e) {
     e.preventDefault();
     $('#market-sell').find('input').val($(this).data("amount"));
+    $('#market-sell').find('.market-sell-btn').data("amount", $(this).data("amount"));
     var loader = $(this).data("loader")
+    var type = $(this).data('type')
     
-    $.post('market/appraisal', {loader: loader, type: 'item', quantity: $(this).data("amount")}, function(data) {
+    $.post('market/appraisal', {loader: loader, type: type, quantity: $(this).data("amount")}, function(data) {
       $('#selling-price').text(data.price + " Cr");
     });
   });
@@ -69,22 +81,33 @@ $( document ).on('turbolinks:load', function() {
     
     var amount = $(this).val();
     var loader = $(this).closest('.modal').find('.max-btn').data("loader");
+    var type = $(this).closest('.modal').find('.max-btn').data("type");
     
-    $.post('market/appraisal', {loader: loader, type: 'item', quantity: amount}, function(data) {
+    $('#market-sell').find('.market-sell-btn').data("amount", amount);
+    
+    $.post('market/appraisal', {loader: loader, type: type, quantity: amount}, function(data) {
       $('#selling-price').text(data.price + " Cr");
     });
   });
   
   // Sell Button AJAX
   $('.station-card').on('click', '#market-sell .market-sell-btn', function(e) {
-    var amount = $('#market-sell').find('input').val();
+    var amount = $(this).data('amount');
     var loader = $(this).data('loader');
+    var type = $(this).data('type')
+    var id = $(this).data('id')
     var button = $(this)
     
-    $.post('market/sell', {loader: loader, type: 'item', quantity: amount}, function(data) {
+    $.post('market/sell', {loader: loader, type: type, quantity: amount, id: id}, function(data) {
       button.closest('.modal').modal('hide');
       Turbolinks.visit(window.location);
-    }).error(function() { $('#market-sell').find('input').addClass("outline-danger"); });
+    }).error(function(data) {
+      $('#market-sell').find('input').addClass("outline-danger"); 
+      if (!button.closest('.modal').find('.error').length) {
+        button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
+        setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
+      }
+    });
   });
   
   // On Close Modal Sell

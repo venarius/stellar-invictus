@@ -106,7 +106,10 @@ class StationsController < ApplicationController
   def get_user_ships
     @user_ships = []
     Spaceship.where(user: current_user).includes(:location, :user).each do |ship|
-      @user_ships << ship if ship.location == current_user.location || ship == current_user.active_spaceship
+      if ship.location_id == current_user.location.id || ship == current_user.active_spaceship
+        @user_ships << ship 
+      end
     end
+    @user_ships
   end
 end

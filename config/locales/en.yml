@@ -59,6 +59,9 @@ en:
     not_enough_septarium: "Not enough Septarium"
     warp_disrupted: "Your Warpdrive is being disrupted"
     not_required_material: "You don't have the required material(s)"
+    you_dont_have_enough_credits: "You don't have enough credits"
+    you_cant_sell_active_ship: "You can't sell your active spaceship"
+    you_dont_have_enough_of_this: "You don't have enough of this"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -154,6 +157,7 @@ en:
     equipment: "Equipment"
     active: "Active"
     market: "Market"
+    ships: "Ships"
   ships:
     ship: "Ship"
     inventory: "Inventory"
