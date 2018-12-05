@@ -9,27 +9,32 @@
 <div class="tab-content">
   <div class="tab-pane fade show active" id="ship-inventory" role="tabpanel">
     <table class="table table-bordered table-hover table-sm table-striped station-ship-inventory-table mt-5px">
-      <thead>
-        <tr>
-          <th scope="col">Qty.</th>
-          <th scope="col"><%= I18n.t('items.name') %></th>
-          <th scope="col"><%= I18n.t('items.type') %></th>
-          <th class="btn-th"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% active_spaceship.get_items.each do |loader, times| %>
+      <% if active_spaceship.get_items.size > 0 %>
+        <thead>
           <tr>
-            <td><%= times %>&times;</td>
-            <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
-            <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
-            <td>
-              <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-up"></i></a>
-              <a class="btn btn-outline-success btn-sm" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.sell') %>"><i class="fa fa-dollar-sign"></i></a>
-            </td>
+            <th scope="col">Qty.</th>
+            <th scope="col"><%= I18n.t('items.name') %></th>
+            <th scope="col"><%= I18n.t('items.type') %></th>
+            <th style="width:1px;"></th>
           </tr>
-        <% end %>
-      </tbody>
+        </thead>
+        <tbody>
+          <% active_spaceship.get_items.each do |loader, times| %>
+            <tr>
+              <td><%= times %>&times;</td>
+              <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
+              <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
+              <td>
+                <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-up"></i></a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% else %>
+        <tr>
+          <h2 class="text-center">...</h2>
+        </tr>
+      <% end %>
     </table>
   </div>
   <div class="tab-pane fade" id="ship-equipment" role="tabpanel">
