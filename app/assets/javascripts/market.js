@@ -29,11 +29,16 @@ $( document ).on('turbolinks:load', function() {
   // Market Buy AJAX
   $('.station-card').on('click', '.market-buy-btn', function(e) {
     var id = $(this).data('id');
-    var button = $(this)
+    var button = $(this);
+    var amount = $(this).closest('.modal').find('.market-buy-input').val();
 
-    $.post('market/buy', {id: id}, function(data) {
+    $.post('market/buy', {id: id, amount: amount}, function(data) {
       button.closest('.modal').modal('hide');
-      $(".station-card").find(`[data-target='#`+button.closest('.modal').attr('id')+`']`).parent().parent().remove();
+      if (data.new_amount && data.new_amount != 0) {
+        $(".station-card").find(`[data-target='#`+button.closest('.modal').attr('id')+`']`).parent().parent().children().first().text(data.new_amount + "×");
+      } else {
+        $(".station-card").find(`[data-target='#`+button.closest('.modal').attr('id')+`']`).parent().parent().remove();
+      }
       refresh_player_info();
     }).error(function(data) {
       if (!button.closest('.modal').find('.error').length) {
@@ -41,6 +46,21 @@ $( document ).on('turbolinks:load', function() {
         setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
       }
     });
+  });
+  
+  // Market Buy AJAX
+  $('.station-card').on('click', '.max-buy-btn', function(e) {
+    var amount = parseInt($(this).data('amount'));
+    var price = parseInt($(this).data('price'));
+    
+    $(this).closest('input').val(amount);
+    $(this).closest('.modal').find('.color-highgreen').text(amount * price + " Cr");
+    $(this).closest('.modal').find('input').val(amount);
+  });
+  
+  // On Buy Input Change
+  $('.station-card').on('change', '.market-buy-input', function(e) {
+    $(this).closest('.modal').find('.color-highgreen').text(parseInt($(this).val()) * parseInt($(this).closest('.modal').find('.max-buy-btn').data('price')) + " Cr");
   });
   
   // Appraisal AJAX

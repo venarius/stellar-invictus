@@ -60,3 +60,5 @@ gem 'redcarpet'
 gem 'jquery-ui-rails'
 # Whenever for CronJobs
 gem 'whenever', require: false
+# Perlin Noise for Market
+gem 'perlin_noise'

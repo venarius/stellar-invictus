@@ -2,9 +2,11 @@
   <table class="table table-bordered table-hover table-striped table-sm table-fixed station-market-table">
     <thead>
       <tr>
+        <th scope="col">Qty.</th>
         <th scope="col"><%= I18n.t('items.name') %></th>
         <th scope="col"><%= I18n.t('items.type') %></th>
-        <th scope="col"><%= I18n.t('ships.price') %></th>
+        <th scope="col"><%= I18n.t('market.single') %></th>
+        <th scope="col" class="mobile-display-none"><%= I18n.t('market.total') %></th>
         <th scope="col" style="width: 63px;"></th>
       </tr>
     </thead>
@@ -12,9 +14,11 @@
       <% market_listings.sort_by{ |ml| ml.price }.each do |ml| %>
         <% if ml.item? %>
           <tr>
+            <td><%= ml.amount %>&times;</td>
             <td><%= get_item_attribute(ml.loader, 'name') %></td>
             <td><%= get_item_attribute(ml.loader, 'type') %></td>
             <td class="color-highgreen"><%= ml.price %> Cr</td>
+            <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
             <td>
               <button class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#market-item-<%= ml.loader.gsub('.', '-') %>" <%= 'disabled' unless  ml.loader.include? "equipment" %>><i class="fa fa-info"></i></button>
               <button class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></button>
@@ -22,9 +26,11 @@
           </tr>
         <% else %>
           <tr>
+            <td><%= ml.amount %>&times;</td>
             <td><%= ml.loader.capitalize %></td>
             <td><%= I18n.t('market.ship') %></td>
             <td class="color-highgreen"><%= ml.price %> Cr</td>
+            <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
             <td>
               <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#market-ship-<%= ml.loader %>"><i class="fa fa-info"></i></a>
               <a class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></a>
@@ -86,7 +92,15 @@
           </button>
         </div>
         <div class="modal-body text-center">
-        <h5><%= I18n.t('market.price') %>: <span class="color-highgreen"><%= ml.price %> Cr</span></h5>
+          <p><%= I18n.t('modal.how_much_buy') %></p>
+          <div class="input-group mb-3">
+            <input type="number" class="form-control market-buy-input" value="1">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary max-buy-btn" data-amount="<%= ml.amount %>" data-price="<%= ml.price %>"><%= I18n.t('modal.max') %></button>
+            </div>
+          </div>
+        
+          <h5><%= I18n.t('market.price') %>: <span class="color-highgreen"><%= ml.price %> Cr</span></h5>
           <% if ml.ship? %>
             <%= I18n.t('modal.sure_buy', name: ml.loader) %>
           <% else %>

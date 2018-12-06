@@ -62,6 +62,7 @@ en:
     you_dont_have_enough_credits: "You don't have enough credits"
     you_cant_sell_active_ship: "You can't sell your active spaceship"
     you_dont_have_enough_of_this: "You don't have enough of this"
+    you_cant_buy_that_much: "You can't buy that much"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -95,6 +96,7 @@ en:
     how_much_store: "How much should be stored?"
     how_much_load: "How much should be loaded?"
     how_much_sell: "How much should be sold?"
+    how_much_buy: "How much should be bought?"
     max: "Max"
     died: "Killed in action"
     died_text: "Your ship and your cargo got destroyed. Your corpse has been transfered to: %{location}. A doctor was able to revive you. Be careful next time."
@@ -268,3 +270,5 @@ en:
     confirm_purchase: "Confirm purchase"
     price: "Price"
     confirm_sell: "Confirm sale"
+    single: "Single"
+    total: "Total"

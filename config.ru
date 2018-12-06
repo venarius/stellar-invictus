@@ -56,19 +56,20 @@ def get_item_attribute(loader, attribute)
 end
   
 MarketListing.destroy_all
-Location.where(location_type: 'station').each do |location|
+noise = Perlin::Noise.new 1, seed: Time.now.to_i
+Location.where(location_type: 'station').each_with_index do |location, index|
+  rabat = noise[(index + 1.0) / 10.0] + 0.5
+  puts rabat
   ITEMS.each do |item|
     rand(0..1).times do
-      rabat = rand(0.8..1.2)
-      rand(1..10).times do
-        MarketListing.create(loader: item, location: location, listing_type: 'item', price: (get_item_attribute(item, 'price') * rabat * rand(0.95..1.05)).round)
+      rand(3..15).times do
+        MarketListing.create(loader: item, location: location, listing_type: 'item', price: (get_item_attribute(item, 'price') * rabat * rand(0.95..1.05)).round, amount: rand(10..30))
       end
     end
   end
   STATION_VARIABLES[location.id]['spaceships'].each do |ship|
-    rabat = rand(0.8..1.2)
     rand(1..10).times do
-      MarketListing.create(loader: ship, location: location, listing_type: 'ship', price: (SHIP_VARIABLES[ship]['price'] * rabat * rand(0.95..1.05)).round)
+      MarketListing.create(loader: ship, location: location, listing_type: 'ship', price: (SHIP_VARIABLES[ship]['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
     end
   end
 end
