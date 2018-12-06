@@ -4,6 +4,7 @@ class CreateMarketListings < ActiveRecord::Migration[5.2]
       t.string :loader
       t.integer :listing_type
       t.integer :price
+      t.integer :amount
       t.references :location, foreign_key: true
 
       t.timestamps

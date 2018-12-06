@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_140802) do
     t.string "loader"
     t.integer "listing_type"
     t.integer "price"
+    t.integer "amount"
     t.integer "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

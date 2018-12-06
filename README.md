@@ -41,6 +41,7 @@
 - Help Site
 - Bug Reporting
 - Forum / Subreddit
+- Newbie Channel with ID "NEWBIES"
 
 ## Installation
 
