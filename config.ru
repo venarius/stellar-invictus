@@ -59,7 +59,6 @@ MarketListing.destroy_all
 noise = Perlin::Noise.new 1, seed: Time.now.to_i
 Location.where(location_type: 'station').each_with_index do |location, index|
   rabat = noise[(index + 1.0) / 10.0] + 0.5
-  puts rabat
   ITEMS.each do |item|
     rand(0..1).times do
       rand(3..15).times do

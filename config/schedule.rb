@@ -21,3 +21,8 @@
 every 1.minutes do
   runner "runner/crafting_job.rb"
 end
+
+# Economy Redo
+every 10.minutes do
+  runner "runner/economy_redo.rb" 
+end
