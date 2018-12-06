@@ -8,7 +8,7 @@ def get_item_attribute(loader, attribute)
 end
 
 noise = Perlin::Noise.new 1, seed: Time.now.to_i
-Location.where(location_type: 'station').each do |location|
+Location.where(location_type: 'station').each_with_index do |location, index|
   rabat = noise[(index + 1.0) / 10.0] + 0.5
   MarketListing.where(location: location).each do |ml|
     # Update Prices
@@ -33,7 +33,7 @@ Location.where(location_type: 'station').each do |location|
     end
   end
   
-  if MarketListing.where(location: location, listing_type: 'item').count < 50
+  if MarketListing.where(location: location, listing_type: 'item').count < rand(45..65)
     ITEMS.each do |item|
       rand(0..1).times do
         rand(3..6).times do
@@ -41,5 +41,7 @@ Location.where(location_type: 'station').each do |location|
         end
       end
     end
+  else
+    MarketListing.where(location: location, listing_type: 'item').limit((MarketListing.where(location: location, listing_type: 'item').count / rand(3..5)).round).delete_all
   end
 end
