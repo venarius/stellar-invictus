@@ -13,7 +13,6 @@
 - ~~Drop Items -> Container~~
 - ~~Loot on destroyed enemies / players~~
 - ~~Animated Spaceships~~
-- Trading between Players
 - ~~Time to get into warp~~
 - ~~Equipment System~~
 - ~~Warp Scramble, Warp Stabilizer~~
@@ -27,12 +26,13 @@
 - Missions
 - Planetary Interaction
 - Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems
-- Trading System
+- ~~Trading System~~
 - More Ships
 - ~~Faction Bonuses~~
 - Faction Reputation - Unlocks on different levels
 - ~~About -> Currently empty site~~
 - Player Reporting
+- Reward players for not killing each other
 - Achievements
 - Killboard
 - Statistics
