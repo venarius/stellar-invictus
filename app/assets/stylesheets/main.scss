@@ -47,8 +47,10 @@ html {
 .color-sec-medium { color: orange; }
 .color-sec-low { color: red; }
 .color-green { color: green; }
+.color-highgreen { color: #03d603; }
 .color-white { color: white; }
 .color-grey { color: grey; }
+.color-red { color: red; }
 .width-max { width: 100%; }
 .mt-5px { margin-top: 5px; }
 .mt-10px { margin-top: 10px; }
@@ -92,6 +94,37 @@ html {
   .mobile-mb-10 { margin-bottom: 10px !important; }
   .mobile-mt-0 { margin-top: 0; }
   .mobile-mb-1 { margin-bottom: 1rem; }
+}
+
+// Dropdown - Submenu
+.nav-item.dropdown a { color: white; &:hover { color: white; } }
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+  margin-top: 0;
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
+}
+
+@media (max-width: 767px) {
+  .dropdown-submenu .dropdown-menu {
+    margin-right: 0;
+    margin-left: 0;
+    background-color: #3c3c3c;
+    border: 0;
+  }
 }
 
 // ###############
@@ -623,7 +656,7 @@ body {
           }
         }
       }
-      .my-ships-table .btn-th { width: 80px; }
+      .my-ships-table .btn-th { width: 109px; }
     }
   }
 }
@@ -744,6 +777,21 @@ body {
   overflow-x: auto;
 }
 
+// Market
+#market .results {
+  ::-webkit-scrollbar {
+    margin-left: 5px;
+    display: block;
+    width: 10px;
+  }
+  margin-top: 5px;
+  max-height: 25rem;
+  overflow: scroll;
+}
+
+#market .navbar {
+  border-top: 1px solid #282828 !important;
+}
 // ###############
 // Player-Info
 // ###############

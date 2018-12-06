@@ -9,14 +9,11 @@ class FactionsController < ApplicationController
   def choose_faction
     if !current_user.faction
       faction = Faction.find(params[:id]) rescue nil
-      if faction and current_user.update_columns(faction_id: faction.id, location_id: faction.location.id, system_id: faction.location.system.id)
+      if faction and current_user.update_columns(faction_id: faction.id, location_id: faction.location.id, system_id: faction.location.system.id, docked: true)
         
         # Give player ship and equipment
-        spaceship = Spaceship.create(user_id: current_user.id, name: 'Nano', hp: 50)
-        Item.create(loader: 'equipment.miner.basic_miner', spaceship: spaceship, equipped: true)
-        Item.create(loader: 'equipment.weapons.laser_gatling', spaceship: spaceship, equipped: true)
+        current_user.give_nano
         
-        current_user.update_columns(active_spaceship_id: spaceship.id)
         redirect_to game_path
       else
         flash[:error] = I18n.t('errors.something_went_wrong')

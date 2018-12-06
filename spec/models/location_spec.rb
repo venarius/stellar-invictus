@@ -12,6 +12,7 @@ describe Location do
       it { should respond_to :asteroids }
       it { should respond_to :structures }
       it { should respond_to :spaceships }
+      it { should respond_to :market_listings }
     end
     
     describe 'Relations' do
@@ -21,6 +22,7 @@ describe Location do
       it { should have_many :asteroids }
       it { should have_many :structures }
       it { should have_many :spaceships }
+      it { should have_many :market_listings }
     end
     
     describe 'Enums' do

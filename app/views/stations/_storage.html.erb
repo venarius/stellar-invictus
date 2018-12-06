@@ -1,25 +1,31 @@
 <table class="table table-bordered table-hover table-sm table-striped station-storage-table">
-  <thead>
-    <tr>
-      <th scope="col">Qty.</th>
-      <th scope="col"><%= I18n.t('items.name') %></th>
-      <th scope="col"><%= I18n.t('items.type') %></th>
-      <th class="btn-th"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% current_user.location.get_items(current_user.id).each do |loader, times| %>
+  <% if current_user.location.get_items(current_user.id).size > 0 %>
+    <thead>
       <tr>
-        <td><%= times %>&times;</td>
-        <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
-        <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
-        <td>
-          <a class="btn btn-outline-primary btn-sm load-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-down"></i></a>
-          <a class="btn btn-outline-success btn-sm" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.sell') %>"><i class="fa fa-dollar-sign"></i></a>
-        </td>
+        <th scope="col">Qty.</th>
+        <th scope="col"><%= I18n.t('items.name') %></th>
+        <th scope="col"><%= I18n.t('items.type') %></th>
+        <th class="btn-th"></th>
       </tr>
-    <% end %>
-  </tbody>
+    </thead>
+    <tbody>
+      <% current_user.location.get_items(current_user.id).each do |loader, times| %>
+        <tr>
+          <td><%= times %>&times;</td>
+          <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
+          <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
+          <td>
+            <a class="btn btn-outline-primary btn-sm load-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-down"></i></a>
+            <a class="btn btn-outline-success btn-sm market-appraise-btn" role="button" data-toggle="modal" data-target="#market-sell" data-loader="<%= loader %>" data-amount="<%= times %>" data-type="item"><i class="fa fa-dollar-sign"></i></a>
+          </td>
+        </tr>
+      <% end %>
+    <tbody>
+  <% else %>
+    <tr>
+      <h2 class="text-center">...</h2>
+    </tr>
+  <% end %>
 </table>
 
 <div class="modal fade" id="load-modal" tabindex="-1" role="dialog">
@@ -47,3 +53,5 @@
     </div>
   </div>
 </div>
+
+<%= render partial: 'stations/market/sell_modal', locals: {show_quantity: true} %>

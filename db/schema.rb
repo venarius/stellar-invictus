@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_30_203911) do
+ActiveRecord::Schema.define(version: 2018_12_04_140802) do
 
   create_table "asteroids", force: :cascade do |t|
     t.integer "location_id"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2018_11_30_203911) do
     t.integer "structure_id"
     t.boolean "equipped"
     t.boolean "active", default: false
+    t.integer "price"
     t.index ["location_id"], name: "index_items_on_location_id"
     t.index ["spaceship_id"], name: "index_items_on_spaceship_id"
     t.index ["user_id"], name: "index_items_on_user_id"
@@ -129,6 +130,17 @@ ActiveRecord::Schema.define(version: 2018_11_30_203911) do
     t.integer "faction_id"
     t.index ["faction_id"], name: "index_locations_on_faction_id"
     t.index ["system_id"], name: "index_locations_on_system_id"
+  end
+
+  create_table "market_listings", force: :cascade do |t|
+    t.string "loader"
+    t.integer "listing_type"
+    t.integer "price"
+    t.integer "amount"
+    t.integer "location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_market_listings_on_location_id"
   end
 
   create_table "npcs", force: :cascade do |t|
