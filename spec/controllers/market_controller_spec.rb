@@ -103,6 +103,22 @@ RSpec.describe MarketController, type: :controller do
         expect(Item.count).to eq(1)
       end
       
+      it 'should not buy item if not docked' do
+        @user.update_columns(docked: false)
+        post :buy, params: {id: @item.id, amount: "1"}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(5000)
+        expect(Item.count).to eq(0)
+      end
+      
+      it 'should not buy item if docked elsewhere' do
+        @user.update_columns(location_id: Location.last)
+        post :buy, params: {id: @item.id, amount: "1"}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(5000)
+        expect(Item.count).to eq(0)
+      end
+      
       it 'should buy ship if has enough money' do
         post :buy, params: {id: @ship.id, amount: "1"}
         expect(response.status).to eq(200)
@@ -143,6 +159,22 @@ RSpec.describe MarketController, type: :controller do
         expect(response.status).to eq(200)
         expect(@user.reload.units).to eq(1002)
         expect(Item.count).to eq(0)
+      end
+      
+      it 'should not sell item if not docked' do
+        @user.update_columns(docked: false)
+        post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(1000)
+        expect(Item.count).to eq(1)
+      end
+      
+      it 'should not sell item if user docked elsewhere' do
+        @user.update_columns(location_id: Location.last.id)
+        post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(1000)
+        expect(Item.count).to eq(1)
       end
       
       it 'should sell item on price of listing' do
