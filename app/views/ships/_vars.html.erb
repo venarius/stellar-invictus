@@ -1,0 +1,30 @@
+<div class="display text-center mb-3" style="padding:10px;border:1px solid grey;">
+  <%= image_tag("ships/#{value['image']}") %>
+</div>
+<p><strong><%= I18n.t('equipment.statistics') %></strong></p>
+<table class="table table-bordered table-striped table-sm mb-3">
+  <tr>
+    <th><%= I18n.t('ships.hp') %></th>
+    <td><%= value['hp'] %></td>
+  </tr>
+  <tr>
+    <th><%= I18n.t('ships.storage') %></th>
+    <td><%= value['storage'] %></td>
+  </tr>
+  <tr>
+    <th><%= I18n.t('ships.main_equipment_slots') %></th>
+    <td><%= value['main_equipment_slots'] %></td>
+  </tr>
+  <tr>
+    <th><%= I18n.t('ships.utility_equipment_slots') %></th>
+    <td><%= value['utility_equipment_slots'] %></td>
+  </tr>
+  <tr>
+    <th><%= I18n.t('ships.align_time') %></th>
+    <td><%= value['align_time'] %></td>
+  </tr>
+  <tr>
+    <th><%= I18n.t('ships.defense') %></th>
+    <td><%= value['defense'] %></td>
+  </tr>
+</table>

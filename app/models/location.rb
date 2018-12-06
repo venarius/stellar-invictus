@@ -7,6 +7,7 @@ class Location < ApplicationRecord
   has_many :npcs
   has_many :structures
   has_many :spaceships
+  has_many :market_listings
   has_one :chat_room
   
   enum location_type: [:station, :asteroid_field, :jumpgate]
@@ -31,6 +32,10 @@ class Location < ApplicationRecord
       val[name] = (SHIP_VARIABLES[name])
     end
     val
+  end
+  
+  def is_factory
+    self.location_type == 'station' and self.name.include? "Factory"  
   end
   
 end

@@ -26,14 +26,14 @@ class StationsController < ApplicationController
       case params[:tab]
       when 'overview'
         render partial: 'stations/overview'
-      when 'ships'
-        render partial: 'stations/ships', locals: {ships: current_user.location.get_ships_for_sale}
       when 'missions'
         render partial: 'stations/missions'
       when 'storage'
         render partial: 'stations/storage'
       when 'factory'
         render partial: 'stations/factory'
+      when 'market'
+        render partial: 'stations/market', locals: {market_listings: MarketListing.where(location: current_user.location).map(&:loader)}
       when 'my_ships'
         render partial: 'stations/my_ships', locals: {user_ships: get_user_ships}
       when 'active_ship'
@@ -106,7 +106,10 @@ class StationsController < ApplicationController
   def get_user_ships
     @user_ships = []
     Spaceship.where(user: current_user).includes(:location, :user).each do |ship|
-      @user_ships << ship if ship.location == current_user.location || ship == current_user.active_spaceship
+      if ship.location_id == current_user.location.id || ship == current_user.active_spaceship
+        @user_ships << ship 
+      end
     end
+    @user_ships
   end
 end

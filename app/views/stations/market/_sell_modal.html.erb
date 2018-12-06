@@ -1,0 +1,32 @@
+<div class="modal fade" id="market-sell" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('market.confirm_sell') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% if show_quantity %>
+          <p><%= I18n.t('modal.how_much_sell') %></p>
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" value="1">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary max-btn"><%= I18n.t('modal.max') %></button>
+            </div>
+          </div>
+        <% end %>
+        
+        <div class="text-center">
+          <h5><%= I18n.t('market.price') %>: <span class="color-highgreen" id="selling-price"></span></h5>
+          <%= I18n.t('modal.sure_sell') %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary market-sell-btn" data-loader=""><%= I18n.t('modal.sell') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

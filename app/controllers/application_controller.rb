@@ -22,6 +22,10 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def after_sign_up_path_for(resource)
+    new_user_session_path
+  end
+  
   def redirect_if_no_faction
     if current_user
       redirect_to factions_path unless current_user.faction

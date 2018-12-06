@@ -5,12 +5,10 @@ $( document ).on('turbolinks:load', function() {
     Cookies.set('station_tab', $(this).attr("href"));
     
     // Lazy Load
-    element = $($(this).attr("href"));
-    element.empty().append("<br><div class='text-center'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
-    $.get('?tab=' + $(this).attr("href").substring(1), function(data) {
-      element.empty().append(data);
-      sort_equipment_card()
+    $('.station-card a[data-toggle="pill"]').each(function() {
+      $($(this).attr("href")).empty();
     });
+    load_station_tab($(this).attr("href"));
   });
   
   // Send dockrequest AJAX
@@ -46,9 +44,11 @@ $( document ).on('turbolinks:load', function() {
   $('#app-container').on('click', '.activate-ship-btn', function(e) {
     e.preventDefault();
     var id = $(this).data("id");
+    var button = $(this)
+    
     if (id) {
       $.post("/ship/activate", {id: id}, function() {
-        Turbolinks.visit("/station");
+        load_station_tab("#my_ships");
       }); 
     }
   });
@@ -69,8 +69,11 @@ $( document ).on('turbolinks:load', function() {
   
   // Store items from ship on station CONFIRM
   $('.station-card').on('click', '#store-modal .store-confirm-btn', function(e) {
+    var button = $(this);
+    
     var jqxhr = $.post("/stations/store", {loader: $(this).data('loader'), amount: $('#store-modal').find('input').val()}, function() {
-      Turbolinks.visit("/station");
+      button.closest('.modal').modal('hide');
+      setTimeout(function() {load_station_tab("#active_ship");}, 250);
     });
     jqxhr.error(function(data) {
       $('#store-modal').find('input').addClass("outline-danger");
@@ -98,12 +101,15 @@ $( document ).on('turbolinks:load', function() {
   
   // Load items from station to ship CONFIRM
   $('.station-card').on('click', '#load-modal .load-confirm-btn', function(e) {
+    var button = $(this);
+    
     var jqxhr = $.post("/stations/load", {loader: $(this).data('loader'), amount: $('#load-modal').find('input').val()}, function() {
-      Turbolinks.visit("/station");
+      button.closest('.modal').modal('hide');
+      setTimeout(function() {load_station_tab("#storage");}, 250);
     });
     jqxhr.error(function(data) {
       $('#load-modal').find('input').addClass("outline-danger");
-      $('#load-modal').find('.input-group').after("<span><small>"+data.responseJSON.error_message+"</small></span>");
+      $('#load-modal').find('.input-group').after("<span class='text-center color-red'>"+data.responseJSON.error_message+"</span>");
      })
   });
   
@@ -129,7 +135,7 @@ $( document ).on('turbolinks:load', function() {
     var button = $(this)
     var loader = $(this).data('loader')
     $.post('equipment/craft', {loader: loader}, function() {
-      Turbolinks.visit(window.location);
+      load_station_tab("#factory");
     }).error(function(data) { if (data.responseJSON.error_message) { button.closest('.modal').modal('hide'); show_error(data.responseJSON.error_message); } });
   });
   
@@ -139,7 +145,16 @@ $( document ).on('turbolinks:load', function() {
     var button = $(this)
     var name = $(this).data('name')
     $.post('ship/craft', {name: name}, function() {
-      Turbolinks.visit(window.location);
+      load_station_tab("#factory");
     }).error(function(data) { if (data.responseJSON.error_message) { button.closest('.modal').modal('hide'); show_error(data.responseJSON.error_message); } });
   });
 });
+
+function load_station_tab(href) {
+  element = $(href);
+  element.empty().append("<br><div class='text-center'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
+  $.get('?tab=' + href.substring(1), function(data) {
+    element.empty().append(data);
+    sort_equipment_card()
+  });
+}
