@@ -13,7 +13,7 @@
                 <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: friendship.friend.full_name), class: 'btn btn-outline-primary btn-sm', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
               </div>
               <a href="#" class="player-modal" data-id=<%= friendship.friend.id %>><strong><%= friendship.friend.full_name %></strong></a><br>
-              <%= online_status(friendship.friend) %> - <strong><%= friendship.friend.system.name %></strong> <%= friendship.friend.location.name %>
+              <%= online_status(friendship.friend) %> - <strong class="color-sec-<%= friendship.friend.system.security_status %>"><%= friendship.friend.system.name %></strong> <%= friendship.friend.location.name %>
             </td>
           </tr>
         <% else %>
@@ -27,7 +27,7 @@
                 <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: friendship.user.full_name), class: 'btn btn-outline-primary btn-sm', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
               </div>
               <a href="#" class="player-modal" data-id=<%= friendship.user.id %>><strong><%= friendship.user.full_name %></strong></a><br>
-              <%= online_status(friendship.user) %> - <strong><%= friendship.user.system.name %></strong> <%= friendship.user.location.name %>
+              <%= online_status(friendship.user) %> - <strong class="color-sec-<%= friendship.user.system.security_status %>"><%= friendship.user.system.name %></strong> <%= friendship.user.location.name %>
             </td>
           </tr>
         <% end %>

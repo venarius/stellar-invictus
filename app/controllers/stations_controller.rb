@@ -28,6 +28,8 @@ class StationsController < ApplicationController
         render partial: 'stations/overview'
       when 'missions'
         render partial: 'stations/missions'
+      when 'bounty_office'
+        render partial: 'stations/bounty_office'
       when 'storage'
         render partial: 'stations/storage'
       when 'factory'
