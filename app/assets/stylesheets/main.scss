@@ -1014,3 +1014,29 @@ body {
     }
   }
 }
+
+// ###############
+// Bounty System
+// ###############
+
+.bounty-row img {
+  height: 50px;
+  margin-top:-5px;
+}
+
+#most-wanted, #top-bounty-hunter, #bounties {
+  max-height: 32rem;
+  overflow: scroll;
+}
+
+@media (max-width: 767px)  {
+  .bounty-row h4 {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 991px)  {
+  .bounty-row img {
+    display: none;
+  }
+}

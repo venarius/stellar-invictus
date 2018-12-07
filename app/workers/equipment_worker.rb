@@ -123,6 +123,8 @@ class EquipmentWorker
           if target_hp <= 0
             target_ship.update_columns(hp: 0)
             if player.target
+              player.target.remove_being_targeted
+              player.target.give_bounty(player)
               player.target.die and shutdown(player) and return
             else
               player.npc_target.die and shutdown(player) and return
