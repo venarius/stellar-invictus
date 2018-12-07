@@ -88,11 +88,11 @@ After that:
 ## Help
 
 How to start puma on server if crashed:
-´´´
+```
 bundle exec pumactl -S /home/tla/app/stellar/shared/tmp/pids/puma.state -F /home/tla/app/stellar/shared/puma.rb restart
-´´´
+```
 
 How to start sidekiq on server if crashed:
-´´´
+```
 export RAILS_ENV="production" ; ~/.rvm/bin/rvm default do bundle exec sidekiqctl stop /home/tla/app/stellar/shared/tmp/pids/sidekiq-0.pid 10
-´´´
+```
