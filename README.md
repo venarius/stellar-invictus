@@ -55,6 +55,7 @@ sudo apt install postgresql postgresql-contrib
 sudo su
 vi /etc/postgresql/10/main/pg_hba.conf -> local all all trust
 vi /etc/postgresql/10/main/postgresql.conf -> max_connection = 1000, shared_buffers = 400mb
+vi /etc/apt/apt.conf.d/10periodic -> APT::Periodic::Update-Package-Lists "0";
 service postgresql restart
 systemctl enable postgresql
 exit
@@ -83,3 +84,15 @@ After that:
 4. Run cap production setup
 5. Run cap production puma:nginx_config
 6. Run cap production deploy
+
+## Help
+
+How to start puma on server if crashed:
+´´´
+bundle exec pumactl -S /home/tla/app/stellar/shared/tmp/pids/puma.state -F /home/tla/app/stellar/shared/puma.rb restart
+´´´
+
+How to start sidekiq on server if crashed:
+´´´
+export RAILS_ENV="production" ; ~/.rvm/bin/rvm default do bundle exec sidekiqctl stop /home/tla/app/stellar/shared/tmp/pids/sidekiq-0.pid 10
+´´´
