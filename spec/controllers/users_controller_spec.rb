@@ -17,6 +17,14 @@ RSpec.describe UsersController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'POST place_bounty' do
+      it 'should redirect_to login' do
+        post :place_bounty
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do 
@@ -49,6 +57,29 @@ RSpec.describe UsersController, type: :controller do
       it 'should not update bio of user if no params' do
         post :update_bio
         expect(response.status).to eq(400)
+      end
+    end
+    
+    describe 'POST place_bounty' do
+      it 'should place bounty on user' do
+        post :place_bounty, params: {amount: "1000", id: @user.id}
+        expect(response.status).to eq(200)
+        expect(@user.reload.units).to eq(0)
+        expect(@user.reload.bounty).to eq(1000)
+      end
+      
+      it 'should place less than 1k bounty' do
+        post :place_bounty, params: {amount: "500", id: @user.id}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.bounty).to eq(0)
+      end
+      
+      it 'should place more bounty than user has units' do
+        post :place_bounty, params: {amount: "1500", id: @user.id}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.bounty).to eq(0)
       end
     end
   end

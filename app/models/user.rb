@@ -84,6 +84,7 @@ class User < ApplicationRecord
   def remove_being_targeted
     User.where(target_id: self.id).each do |user|
       user.update_columns(target_id: nil)
+      user.active_spaceship.deactivate_equipment if user.is_attacking
       ActionCable.server.broadcast("player_#{user.id}", method: 'refresh_target_info')
     end
   end
@@ -120,5 +121,21 @@ class User < ApplicationRecord
     Item.create(loader: 'equipment.miner.basic_miner', spaceship: spaceship, equipped: true)
     Item.create(loader: 'equipment.weapons.laser_gatling', spaceship: spaceship, equipped: true)
     self.update_columns(active_spaceship_id: spaceship.id)
+  end
+  
+  # Give bounty to player (50% share of loss)
+  def give_bounty(player)
+    if self.bounty > 0
+      value = (self.active_spaceship.get_total_value * 0.5).round
+      
+      if value <= self.bounty
+        self.update_columns(bounty: self.bounty - value)
+      else
+        value = self.bounty
+        self.update_columns(bounty: 0)
+      end
+      
+      ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.full_name, amount: value))
+    end
   end
 end

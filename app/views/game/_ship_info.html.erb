@@ -4,7 +4,7 @@
     </div>
     <div class="col-6 text-left player-space-ship-infos">
       <div class="mt-5px">
-        <span><%= current_user.full_name %></span><br>
+        <span><a class='player-modal' href="#" data-id="<%= current_user.id %>"><%= current_user.full_name %></a></span><br>
         <span><%= I18n.t('ships.hp').upcase %>: <span id="own-ship-health"><%= current_user.active_spaceship.hp %></span></span><br>
         <span><%= I18n.t('ships.defense').upcase %>: <%= current_user.active_spaceship.get_defense %></span><br>
         <span class="color-sec-high"><%= I18n.t('ships.septarium_usage').upcase %>: <span id="septarium-usage"><%= current_user.active_spaceship.get_septarium_usage %></span></span>

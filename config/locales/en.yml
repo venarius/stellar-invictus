@@ -59,10 +59,11 @@ en:
     not_enough_septarium: "Not enough Septarium"
     warp_disrupted: "Your Warpdrive is being disrupted"
     not_required_material: "You don't have the required material(s)"
-    you_dont_have_enough_credits: "You don't have enough credits"
+    you_dont_have_enough_credits: "You don't have enough Credits"
     you_cant_sell_active_ship: "You can't sell your active spaceship"
     you_dont_have_enough_of_this: "You don't have enough of this"
     you_cant_buy_that_much: "You can't buy that much"
+    minimum_amount_is_1k_credits: "Minimum amount is 1000 Credits"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -160,6 +161,7 @@ en:
     active: "Active"
     market: "Market"
     ships: "Ships"
+    bounty_office: "Bounty Office"
   ships:
     ship: "Ship"
     inventory: "Inventory"
@@ -272,3 +274,14 @@ en:
     confirm_sell: "Confirm sale"
     single: "Single"
     total: "Total"
+  bounty:
+    bounty: "Bounty"
+    bounty_placeholder: "Amount (min. 1000 Credits)"
+    place: "Place"
+    most_wanted: "Most Wanted"
+    top_bounty_hunter: "Top Bounty Hunter"
+    bounties: "Bounties"
+  notification:
+    placed_bounty: "%{user} placed a bounty of %{amount} Cr on your head"
+    received_friend_request: "%{user} has sent you a friend request"
+    received_bounty: "You received %{amount} Cr bounty for the destruction of %{user}"

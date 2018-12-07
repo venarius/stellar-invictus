@@ -13,7 +13,7 @@ $( document ).on('turbolinks:load', function() {
           $('.mining-progress').css('width', mining_progress + "%");
         }, 400)
       }
-    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } });
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   $('#app-container').on('click', '.stop-mining-btn', function(e) {

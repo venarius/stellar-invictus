@@ -1,0 +1,85 @@
+<ul class="nav nav-tabs mt-5px" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#most-wanted" role="tab"><%= I18n.t('bounty.most_wanted') %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#top-bounty-hunter" role="tab"><%= I18n.t('bounty.top_bounty_hunter') %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#bounties" role="tab"><%= I18n.t('bounty.bounties') %></a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="most-wanted" role="tabpanel">
+    <table class="table table-bordered table-striped">
+      <tbody>
+          <% User.where("bounty > 0").order("bounty DESC").limit(10).each_with_index do |user, index| %>
+          <tr>
+            <td>
+              <div class="row bounty-row">
+                <div class="col vert-center">
+                  <h4 class="mb-0"><strong><%= index + 1 %>.</strong></h4>
+                </div>
+                <div class="col vert-center">
+                  <h4 class="mb-0"><%= image_tag("avatars/#{user.avatar}.jpg") %> <a class='player-modal' href="#" data-id="<%= user.id %>"><%= user.full_name %></a></h4>
+                </div>
+                <div class="col vert-center text-right">
+                  <h4 class="mb-0"><strong><%= user.bounty %> Cr</strong></h4>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="tab-pane fade" id="top-bounty-hunter" role="tabpanel">
+    <table class="table table-bordered table-striped">
+      <tbody>
+          <% User.where("bounty_claimed > 0").order("bounty_claimed DESC").limit(10).each_with_index do |user, index| %>
+          <tr>
+            <td>
+              <div class="row bounty-row">
+                <div class="col vert-center">
+                  <h4 class="mb-0"><strong><%= index + 1 %>.</strong></h4>
+                </div>
+                <div class="col vert-center">
+                  <h4 class="mb-0"><%= image_tag("avatars/#{user.avatar}.jpg") %> <a class='player-modal' href="#" data-id="<%= user.id %>"><%= user.full_name %></a></h4>
+                </div>
+                <div class="col vert-center text-right">
+                  <h4 class="mb-0"><strong><%= user.bounty_claimed %> Cr</strong></h4>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="tab-pane fade" id="bounties" role="tabpanel">
+    <table class="table table-bordered table-striped">
+      <tbody>
+          <% User.where("bounty > 0").order("RANDOM()").limit(10).each do |user| %>
+          <tr>
+            <td>
+              <div class="row bounty-row">
+                <div class="col vert-center">
+                  <h4 class="mb-0"><strong class="color-sec-<%= user.system.security_status %>"><%= user.system.name %></strong></h4>
+                </div>
+                <div class="col vert-center">
+                  <h4 class="mb-0"><%= image_tag("avatars/#{user.avatar}.jpg") %> <a class='player-modal' href="#" data-id="<%= user.id %>"><%= user.full_name %></a></h4>
+                </div>
+                <div class="col vert-center text-right">
+                  <h4 class="mb-0"><strong><%= user.bounty %> Cr</strong></h4>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

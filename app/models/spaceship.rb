@@ -3,6 +3,8 @@ class Spaceship < ApplicationRecord
   belongs_to :location, optional: true
   has_many :items, dependent: :destroy
   
+  include ApplicationHelper
+  
   # Get Weight of all Items in Ship
   def get_weight
     weight = 0
@@ -225,5 +227,20 @@ class Spaceship < ApplicationRecord
       return true if item.get_attribute('type') == "Warp Disruptor"
     end
     false
+  end
+  
+  # Get value in credits of ship and its items
+  def get_total_value
+    value = 0
+    
+    # Add ship
+    value = self.get_attribute('price')
+    
+    # Add for items / equipment
+    self.get_items.each do |key, val|
+      value = value + get_item_attribute(key, 'price') * val
+    end
+    
+    value
   end
 end

@@ -22,4 +22,5 @@
 //= require slick.min.js
 //= require rails.validations
 //= require js.cookie.js
+//= require notify.min.js
 //= require_tree .

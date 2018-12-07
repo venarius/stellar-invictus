@@ -45,3 +45,7 @@ $(document).on "turbolinks:load", ->
           invited_to_fleet(data.data)
         else if (data.method == 'show_error' && data.text)
           show_error(data.text)
+        else if (data.method == 'notify_alert' && data.text)
+          $.notify(data.text, {style: 'alert'})
+        else if (data.method == 'notify_info' && data.text)
+          $.notify(data.text, {style: 'info'})
