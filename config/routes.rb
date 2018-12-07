@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   scope :user do
     get 'info/:id', to: 'users#info'
     post 'update_bio', to: 'users#update_bio'
+    post 'place_bounty', to: 'users#place_bounty'
   end
   
   # Mails

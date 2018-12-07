@@ -80,7 +80,7 @@ RSpec.describe MarketController, type: :controller do
       it 'should response with price' do
         post :appraisal, params: {loader: 'asteroid.nickel', quantity: "10", type: "item"}
         expect(response.status).to eq(200)
-        expect(response.body).to include("15")
+        expect(response.body).to include("price")
       end
       
       it 'should not response with price if shit given' do

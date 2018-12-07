@@ -23,6 +23,8 @@ describe User do
       it { should respond_to :structures }
       it { should respond_to :friendships }
       it { should respond_to :chat_rooms }
+      it { should respond_to :bounty }
+      it { should respond_to :bounty_claimed }
     end
    
     describe 'Relations' do

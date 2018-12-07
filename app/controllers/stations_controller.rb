@@ -1,6 +1,8 @@
 class StationsController < ApplicationController
   before_action :check_police, only: [:dock]
   
+  include ApplicationHelper
+  
   def dock
     # If user is at station and not docked
     if current_user.location.location_type == 'station' and !current_user.docked
@@ -28,6 +30,8 @@ class StationsController < ApplicationController
         render partial: 'stations/overview'
       when 'missions'
         render partial: 'stations/missions'
+      when 'bounty_office'
+        render partial: 'stations/bounty_office'
       when 'storage'
         render partial: 'stations/storage'
       when 'factory'
@@ -63,6 +67,7 @@ class StationsController < ApplicationController
     end
   end
   
+  # Ship -> Station
   def store
     if params[:loader] and params[:amount] and current_user.docked
       amount = params[:amount].to_i
@@ -77,11 +82,12 @@ class StationsController < ApplicationController
     render json: {}, status: 400
   end
   
+  # Station -> Ship
   def load
     if params[:loader] and params[:amount] and current_user.docked
       amount = params[:amount].to_i
       items = Item.where(user: current_user, location: current_user.location, loader: params[:loader])
-      if amount > current_user.active_spaceship.get_free_weight
+      if get_item_attribute(items.first.loader, 'weight') * amount > current_user.active_spaceship.get_free_weight
         render json: {'error_message': I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
       end
       if items and amount <= items.count and amount > 0

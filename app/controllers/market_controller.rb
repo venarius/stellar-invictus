@@ -133,9 +133,9 @@ class MarketController < ApplicationController
         quantity.to_i.times do
           listings = 1 if listings == 0
           if type == "item"
-            math = math + (get_item_attribute(loader, 'price') / (1.05 ** listings)) rescue nil
+            math = math + (get_item_attribute(loader, 'price') / (1.02 ** listings)) rescue nil
           else
-            math = math + (SHIP_VARIABLES[loader]['price'] / (1.05 ** listings)) rescue nil
+            math = math + (SHIP_VARIABLES[loader]['price'] / (1.02 ** listings)) rescue nil
           end
           listings = listings + 1
         end
