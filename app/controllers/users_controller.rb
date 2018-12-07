@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         # Check balance
         render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.units >= amount
         
-        current_user.update_columns(units: current_user.units - amount)
+        current_user.reduce_units(amount)
         
         user.update_columns(bounty: user.bounty + amount)
         

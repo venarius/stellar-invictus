@@ -284,3 +284,4 @@ en:
   notification:
     placed_bounty: "%{user} placed a bounty of %{amount} Cr on your head"
     received_friend_request: "%{user} has sent you a friend request"
+    received_bounty: "You received %{amount} Cr bounty for the destruction of %{user}"

@@ -73,6 +73,7 @@ $( document ).on('turbolinks:load', function() {
     
     var jqxhr = $.post("/stations/store", {loader: $(this).data('loader'), amount: $('#store-modal').find('input').val()}, function() {
       button.closest('.modal').modal('hide');
+      refresh_player_info();
       setTimeout(function() {load_station_tab("#active_ship");}, 250);
     });
     jqxhr.error(function(data) {
@@ -105,6 +106,7 @@ $( document ).on('turbolinks:load', function() {
     
     var jqxhr = $.post("/stations/load", {loader: $(this).data('loader'), amount: $('#load-modal').find('input').val()}, function() {
       button.closest('.modal').modal('hide');
+      refresh_player_info();
       setTimeout(function() {load_station_tab("#storage");}, 250);
     });
     jqxhr.error(function(data) {

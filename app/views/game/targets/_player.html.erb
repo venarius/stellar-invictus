@@ -3,7 +3,7 @@
 </div>
 <div class="col-6 text-left enemy-space-ship-infos">
   <div class="mt-5px">
-    <span><%= current_user.target.full_name %></span><br>
+    <span><a class='player-modal' href="#" data-id="<%= current_user.target.id %>"> <%= current_user.target.full_name %></a></span><br>
     <span><%= I18n.t('ships.hp').upcase %>: <span id="target-ship-health"><%= current_user.target.active_spaceship.hp %></span></span><br>
     <span><%= I18n.t('ships.defense').upcase %>: <%= current_user.target.active_spaceship.get_defense %></span><br>
     <span><%= I18n.t('ships.power').upcase %>: <%= current_user.target.active_spaceship.get_power %></span>
