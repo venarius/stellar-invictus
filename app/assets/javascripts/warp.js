@@ -23,7 +23,7 @@ $( document ).on('turbolinks:load', function() {
         clearInterval(align_interval);
         button.empty().append("<i class='fa fa-angle-double-right'></i>");
       }
-    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } button.html(html); });
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
   
   // Go into warp and show warpcard AJAX
@@ -35,7 +35,7 @@ $( document ).on('turbolinks:load', function() {
     var time = parseInt($(this).data('time'))
     var xhr = $.post("game/jump", function() {
       doWarp(time, "JUMPING");
-    }).error(function(data) { if (data.responseJSON.error_message) { show_error(data.responseJSON.error_message); } button.html(html); });
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
 });
 

@@ -16,7 +16,7 @@ class FriendsController < ApplicationController
         else
           Friendship.create(user: current_user, friend: friend, accepted: false)
           # Tell user
-          ActionCable.server.broadcast("player_#{friend.id}", method: 'new_friendrequest')
+          ActionCable.server.broadcast("player_#{friend.id}", method: 'notify_info', text: I18n.t('notification.received_friend_request', user: current_user.full_name))
           render json: {}, status: 200 and return
         end
       end

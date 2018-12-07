@@ -59,6 +59,7 @@ html {
 .mt-10 { margin-top: 10rem; }
 .p-0-5 { padding: 0px 5px; }
 .w-46 { width: 46% !important; }
+.w-33 { width: 32.5% !important; }
 .bg-grey { background-color: grey; }
 .w-20px { width: 20px; }
 .outline-primary { border: 1px solid #2A9FD6; }
@@ -68,6 +69,16 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.vert-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.bg-fade-light {
+  padding: 10px;
+  background-color: #3c3c3c !important;
+  margin-top: 1rem;
 }
 .form-control, .edge-autoSuggestFieldFilled {
   color: white;
@@ -85,6 +96,7 @@ html {
 .dropdown-divider {
   border-top: 1px solid dimgrey;
 }
+
 .btn, .card, .nav-pills .nav-link,
 .modal-content, .dropdown-menu,
 .form-control, .alert, .progress { border-radius: 0; }
@@ -186,7 +198,7 @@ a {
 // Errors
 // ###############
 .field_with_errors {
-  input {
+  input, textarea {
     border: 2px solid #CC0000;
   }
   label {

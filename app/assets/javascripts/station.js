@@ -17,7 +17,7 @@ $( document ).on('turbolinks:load', function() {
     loading_animation($(this))
     $.post("/stations/dock", function(data) {
       Turbolinks.visit("/station");  
-    }).error(function(data) { show_error(data.responseJSON.error_message); });
+    }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); });
   });
   
   // Send undockrequest AJAX
@@ -26,7 +26,7 @@ $( document ).on('turbolinks:load', function() {
     loading_animation($(this))
     $.post("/stations/undock", function(data) {
       Turbolinks.visit("/game");  
-    }).error(function(data) { show_error(data.responseJSON.error_message); });
+    }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); });
   });
   
   // Send buy ship request AJAX
@@ -136,7 +136,7 @@ $( document ).on('turbolinks:load', function() {
     var loader = $(this).data('loader')
     $.post('equipment/craft', {loader: loader}, function() {
       load_station_tab("#factory");
-    }).error(function(data) { if (data.responseJSON.error_message) { button.closest('.modal').modal('hide'); show_error(data.responseJSON.error_message); } });
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Craft Ship AJAX
@@ -146,7 +146,7 @@ $( document ).on('turbolinks:load', function() {
     var name = $(this).data('name')
     $.post('ship/craft', {name: name}, function() {
       load_station_tab("#factory");
-    }).error(function(data) { if (data.responseJSON.error_message) { button.closest('.modal').modal('hide'); show_error(data.responseJSON.error_message); } });
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
 });
 
