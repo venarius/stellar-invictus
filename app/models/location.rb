@@ -1,14 +1,14 @@
 class Location < ApplicationRecord
-  belongs_to :system
-  has_many :users
-  belongs_to :faction, optional: true
-  has_many :asteroids
-  has_many :items
-  has_many :npcs
-  has_many :structures
-  has_many :spaceships
-  has_many :market_listings
-  has_one :chat_room
+  belongs_to :system, dependent: :destroy
+  has_many :users, dependent: :destroy
+  belongs_to :faction, optional: true, dependent: :destroy
+  has_many :asteroids, dependent: :destroy
+  has_many :items, dependent: :destroy
+  has_many :npcs, dependent: :destroy
+  has_many :structures, dependent: :destroy
+  has_many :spaceships, dependent: :destroy
+  has_many :market_listings, dependent: :destroy
+  has_one :chat_room, dependent: :destroy
   
   enum location_type: [:station, :asteroid_field, :jumpgate]
   

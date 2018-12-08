@@ -42,6 +42,8 @@
 - Bug Reporting
 - Forum / Subreddit
 - Newbie Channel with ID "NEWBIES"
+- ~~Better Map -> visjs.org~~
+- Routing System -> See what jumpgates to take to get from A to B
 
 ## Installation
 

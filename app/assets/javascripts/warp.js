@@ -45,7 +45,7 @@ function doWarp(warpTime, name) {
   if (jump_interval == null || jump_interval == false) {
     remove_target();
     $('.game-card-row').empty().append(
-      "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
+      "<div class='col-md-12'><div class='card black-card card-body warp-card mb-3'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
     );
     pixi_background_speed = 10;
     jump_interval = setInterval(function() {
@@ -56,7 +56,7 @@ function doWarp(warpTime, name) {
         ); 
       } else {
         $('.game-card-row').empty().append(
-          "<div class='col-md-12'><div class='card black-card card-body warp-card'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+Math.round(warpTime)+"</h4></div></div>"
+          "<div class='col-md-12'><div class='card black-card card-body warp-card mb-3'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+Math.round(warpTime)+"</h4></div></div>"
         );
       }
       if (warpTime <= 0) {
