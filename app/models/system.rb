@@ -1,6 +1,6 @@
 class System < ApplicationRecord
   has_many :users
-  has_many :locations
+  has_many :locations, dependent: :destroy
   
   enum security_status: [:high, :medium, :low]
   
