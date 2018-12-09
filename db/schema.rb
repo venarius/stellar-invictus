@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_07_114804) do
+ActiveRecord::Schema.define(version: 2018_12_09_135110) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "asteroids", force: :cascade do |t|
-    t.integer "location_id"
+    t.bigint "location_id"
     t.integer "asteroid_type"
     t.integer "resources"
     t.datetime "created_at", null: false
@@ -22,19 +25,18 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
   end
 
   create_table "chat_messages", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "chat_room_id"
+    t.bigint "chat_room_id"
     t.index ["chat_room_id"], name: "index_chat_messages_on_chat_room_id"
     t.index ["user_id"], name: "index_chat_messages_on_user_id"
-    t.index ["user_id"], name: "index_chat_messages_on_user_id_and_system_id_and_type"
   end
 
   create_table "chat_rooms", force: :cascade do |t|
     t.string "title"
-    t.integer "location_id"
+    t.bigint "location_id"
     t.integer "chatroom_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -43,8 +45,8 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
   end
 
   create_table "chat_rooms_users", id: false, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "chat_room_id"
+    t.bigint "user_id"
+    t.bigint "chat_room_id"
     t.index ["chat_room_id"], name: "index_chat_rooms_users_on_chat_room_id"
     t.index ["user_id"], name: "index_chat_rooms_users_on_user_id"
   end
@@ -52,8 +54,8 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
   create_table "craft_jobs", force: :cascade do |t|
     t.datetime "completion"
     t.string "loader"
-    t.integer "user_id"
-    t.integer "location_id"
+    t.bigint "user_id"
+    t.bigint "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_craft_jobs_on_location_id"
@@ -65,13 +67,13 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "location_id"
+    t.bigint "location_id"
     t.index ["location_id"], name: "index_factions_on_location_id"
   end
 
   create_table "fleets", force: :cascade do |t|
-    t.integer "chat_room_id"
-    t.integer "user_id"
+    t.bigint "chat_room_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chat_room_id"], name: "index_fleets_on_chat_room_id"
@@ -98,16 +100,15 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
   end
 
   create_table "items", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "location_id"
-    t.integer "spaceship_id"
+    t.bigint "user_id"
+    t.bigint "location_id"
+    t.bigint "spaceship_id"
     t.string "loader"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "structure_id"
-    t.boolean "equipped"
+    t.boolean "equipped", default: false
     t.boolean "active", default: false
-    t.integer "price"
     t.index ["location_id"], name: "index_items_on_location_id"
     t.index ["spaceship_id"], name: "index_items_on_spaceship_id"
     t.index ["user_id"], name: "index_items_on_user_id"
@@ -123,11 +124,11 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
-    t.integer "system_id"
+    t.bigint "system_id"
     t.integer "location_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "faction_id"
+    t.bigint "faction_id"
     t.index ["faction_id"], name: "index_locations_on_faction_id"
     t.index ["system_id"], name: "index_locations_on_system_id"
   end
@@ -137,7 +138,7 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
     t.integer "listing_type"
     t.integer "price"
     t.integer "amount"
-    t.integer "location_id"
+    t.bigint "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_market_listings_on_location_id"
@@ -145,7 +146,7 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
 
   create_table "npcs", force: :cascade do |t|
     t.integer "npc_type"
-    t.integer "location_id"
+    t.bigint "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "target"
@@ -155,23 +156,22 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
   end
 
   create_table "spaceships", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "name"
     t.integer "hp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "warp_target"
     t.boolean "warp_scrambled", default: false
     t.integer "warp_target_id"
-    t.integer "location_id"
+    t.bigint "location_id"
     t.index ["location_id"], name: "index_spaceships_on_location_id"
     t.index ["user_id"], name: "index_spaceships_on_user_id"
   end
 
   create_table "structures", force: :cascade do |t|
     t.integer "structure_type"
-    t.integer "location_id"
-    t.integer "user_id"
+    t.bigint "location_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_structures_on_location_id"
@@ -198,13 +198,13 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.integer "faction_id"
-    t.integer "system_id"
+    t.bigint "faction_id"
+    t.bigint "system_id"
     t.integer "online", default: 0
     t.string "avatar"
-    t.integer "location_id"
+    t.bigint "location_id"
     t.boolean "in_warp", default: false
-    t.integer "units", default: 1000
+    t.integer "units", default: 10
     t.string "full_name"
     t.integer "active_spaceship_id"
     t.boolean "docked", default: false
@@ -214,9 +214,10 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
     t.boolean "is_attacking"
     t.datetime "last_action"
     t.text "bio"
-    t.integer "fleet_id"
+    t.bigint "fleet_id"
     t.integer "bounty", default: 0
     t.integer "bounty_claimed", default: 0
+    t.string "route", default: [], array: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
@@ -226,4 +227,28 @@ ActiveRecord::Schema.define(version: 2018_12_07_114804) do
     t.index ["system_id"], name: "index_users_on_system_id"
   end
 
+  add_foreign_key "asteroids", "locations"
+  add_foreign_key "chat_messages", "chat_rooms"
+  add_foreign_key "chat_messages", "users"
+  add_foreign_key "chat_rooms", "locations"
+  add_foreign_key "craft_jobs", "locations"
+  add_foreign_key "craft_jobs", "users"
+  add_foreign_key "factions", "locations"
+  add_foreign_key "fleets", "chat_rooms"
+  add_foreign_key "fleets", "users"
+  add_foreign_key "items", "locations"
+  add_foreign_key "items", "spaceships"
+  add_foreign_key "items", "users"
+  add_foreign_key "locations", "factions"
+  add_foreign_key "locations", "systems"
+  add_foreign_key "market_listings", "locations"
+  add_foreign_key "npcs", "locations"
+  add_foreign_key "spaceships", "locations"
+  add_foreign_key "spaceships", "users"
+  add_foreign_key "structures", "locations"
+  add_foreign_key "structures", "users"
+  add_foreign_key "users", "factions"
+  add_foreign_key "users", "fleets"
+  add_foreign_key "users", "locations"
+  add_foreign_key "users", "systems"
 end

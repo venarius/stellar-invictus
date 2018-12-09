@@ -43,6 +43,7 @@ html {
 .mt-1rem { margin-top: 1rem; }
 .mb-0 { margin-bottom: 0; }
 .bg-black { background-color: black; }
+.color-yellow { color: yellow !important }
 .color-sec-high { color: rgba(81, 203, 238, 1); }
 .color-sec-medium { color: orange; }
 .color-sec-low { color: red; }
@@ -95,6 +96,11 @@ html {
 }
 .dropdown-divider {
   border-top: 1px solid dimgrey;
+}
+.collapsing {
+    -webkit-transition: none;
+    transition: none;
+    display: none;
 }
 
 .btn, .card, .nav-pills .nav-link,

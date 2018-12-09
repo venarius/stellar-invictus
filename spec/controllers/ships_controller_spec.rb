@@ -78,7 +78,8 @@ RSpec.describe ShipsController, type: :controller do
       end
       
       it 'should not activate other ship if ship does not belong to player' do
-        ship = FactoryBot.create(:spaceship, user_id: 2000)
+        user = FactoryBot.create(:user_with_faction)
+        ship = FactoryBot.create(:spaceship, user_id: user.id)
         @user.update_columns(docked: true)
         post :activate, params: {id: ship.id}
         expect(response.code).to eq('400')

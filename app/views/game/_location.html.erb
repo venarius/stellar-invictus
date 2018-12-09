@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= 'color-yellow' if location.jumpgate? and current_user.route.include?(location.jumpgate.id.to_s) %>">
   <td><%= image_tag("icons/#{location.location_type}.png") %></td>
   <td class="name"><%= location.name %></td>
   <td><%= I18n.t("types.#{location.location_type}") %></td>

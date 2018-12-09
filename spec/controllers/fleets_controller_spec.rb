@@ -38,7 +38,7 @@ RSpec.describe FleetsController, type: :controller do
       it 'should invite other player if not in fleet' do
         post :invite, params: {id: @user2.id}
         expect(response.status).to eq(200)
-        expect(@user.reload.fleet_id).to eq(1)
+        expect(@user.reload.fleet_id).to eq(Fleet.last.id)
         expect(Fleet.count).to eq(1)
       end
       

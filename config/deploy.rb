@@ -44,11 +44,15 @@ set :linked_files, %w{config/master.key}
 namespace :deploy do
   desc "reload the database with seed data"
   task :seed do
-    run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
+    on roles(:app) do
+      execute "cd #{current_path}; ~/.rvm/bin/rvm default do bundle exec rails db:seed RAILS_ENV=production"
+    end
   end
   
   desc "link certificates"
   task :link_certificates do
-    run "cd /home/tla/app/stellar/shared/certificates; ln -s /home/tla/app/stellar/current/certificates/stellar-invictus_com.crt stellar-invictus_com.crt; ln -s /home/tla/app/stellar/current/certificates/stellar-invictus_com.key stellar-invictus_com.key"
+    on roles(:app) do
+      execute "cd /home/tla/app/stellar/shared/certificates; ln -s /home/tla/app/stellar/current/certificates/stellar-invictus_com.crt stellar-invictus_com.crt; ln -s /home/tla/app/stellar/current/certificates/stellar-invictus_com.key stellar-invictus_com.key"
+    end
   end
 end

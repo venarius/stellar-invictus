@@ -1,8 +1,49 @@
-<div class="card black-card map-card">
+<div class="card black-card route-card mb-3">
+  <h5 class="card-header">
+    <%= I18n.t('routing.route') %> 
+    <% if current_user.route != [] %>
+      <button class="btn btn-outline-danger float-right remove-route-btn"><%= I18n.t('routing.remove_route') %></button>
+    <% end %>
+  </h5>
+  <div class="card-body">
+    <% if current_user.route != [] %>
+      <% path = {} %>
+      <% current_user.route.each_with_index do |jg, index| %>
+        <% jg = Jumpgate.find(jg) %>
+        
+        <% if index == 0 %>
+          <% if jg.origin.system == current_user.system %>
+            <% path[jg.origin.system.name] = jg.destination.system.name %>
+            <%= jg.origin.system.name %> -> <%= jg.destination.system.name %>
+          <% else %>
+            <% path[jg.destination.system.name] = jg.origin.system.name %>
+            <%= jg.destination.system.name %> -> <%= jg.origin.system.name %>
+          <% end %>
+        <% else %>
+          <% if jg.destination.system.name == path[path.size] %>
+            <% path[jg.origin.system.name] = jg.destination.system.name %>
+            -> <%= jg.destination.system.name %>
+          <% else %>
+            <% path[jg.destination.system.name] = jg.origin.system.name %>
+            -> <%= jg.origin.system.name %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <h2 class="text-center">...</h2>
+    <% end %>
+  </div>
+</div>
+
+<div class="card black-card map-card mb-3">
   <h5 class="card-header"><%= I18n.t('navbar.map') %></h5>
   <div class="card-body" id="map">
     
   </div>
+</div>
+
+<div class="results">
+  
 </div>
 
 <style>
@@ -24,7 +65,7 @@
     // create an array with edges
     var edges = new vis.DataSet([
       <% Jumpgate.includes(:origin => :system, :destination => :system).all.each do |jg| %>
-        {from: <%= jg.origin.system.id %>, to: <%= jg.destination.system.id %>},
+        {id: <%= jg.id %>, from: <%= jg.origin.system.id %>, to: <%= jg.destination.system.id %>},
       <% end %>
     ]);
 
@@ -52,9 +93,44 @@
         color: { color: 'grey' }
       },
       physics: { enabled: false },
-      layout: { randomSeed: 123 }
+      layout: { randomSeed: 123 },
+      interaction: { selectConnectedEdges: false }
     };
 
     // initialize your network!
     var network = new vis.Network(container, data, options);
+    
+    // get info from node on select
+    network.on("selectNode", function (params) {
+      var id = this.getNodeAt(params.pointer.DOM);
+      
+      $.get('system/info', {id: id}, function(data) {
+        $('.results').html(data);
+      });
+    });
+    
+    // draw route if user has one
+    <% if current_user.route %>
+      <% current_user.route.each do |step| %>
+        var edge = edges.get(<%= step %>);
+        edges.remove(<%= step %>);
+        edges.add({id: <%= step %>, from: edge.from, to: edge.to, color: {color: 'red'}, width: 2});
+      <% end %>
+    <% end %>
+
+    // create route button
+    $('.results').on('click', '.get-route-btn', function() {
+      var id = $(this).data('id');
+      
+      $.post('system/route', {id: id}, function(data) {
+        Turbolinks.visit(window.location);
+      });
+    });
+    
+    // remove route button
+    $('.remove-route-btn').on('click', function(){
+      $.post('system/clear_route', function() {
+        Turbolinks.visit(window.location);
+      });
+    });
 </script>

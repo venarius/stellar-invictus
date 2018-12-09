@@ -43,7 +43,7 @@
 - Forum / Subreddit
 - Newbie Channel with ID "NEWBIES"
 - ~~Better Map -> visjs.org~~
-- Routing System -> See what jumpgates to take to get from A to B
+- ~~Routing System -> See what jumpgates to take to get from A to B~~
 
 ## Installation
 
@@ -85,7 +85,8 @@ After that:
 3. Copy certificates to /home/app/stellar/shared/certificates
 4. Run cap production setup
 5. Run cap production puma:nginx_config
-6. Run cap production deploy
+6. Run cap production deploy:link_certificates
+7. Run cap production deploy
 
 ## Help
 

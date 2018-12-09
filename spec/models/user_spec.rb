@@ -25,6 +25,7 @@ describe User do
       it { should respond_to :chat_rooms }
       it { should respond_to :bounty }
       it { should respond_to :bounty_claimed }
+      it { should respond_to :route }
     end
    
     describe 'Relations' do
