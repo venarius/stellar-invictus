@@ -78,8 +78,8 @@ RSpec.describe GameMailsController, type: :controller do
         expect(response.code).to eq('302')
         expect(response).to redirect_to(game_mails_path)
         expect(flash[:notice]).to be_present
-        expect(@user.reload.units).to eq(990)
-        expect(@user2.reload.units).to eq(1010)
+        expect(@user.reload.units).to eq(0)
+        expect(@user2.reload.units).to eq(20)
       end
       
       it 'should pass units to self' do
@@ -87,7 +87,7 @@ RSpec.describe GameMailsController, type: :controller do
         expect(response.code).to eq('302')
         expect(response).to redirect_to(game_mails_path)
         expect(flash[:notice]).to be_present
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
       end
       
       it 'should not work with negative units' do
@@ -95,7 +95,7 @@ RSpec.describe GameMailsController, type: :controller do
         expect(response.code).to eq('302')
         expect(response).to redirect_to(game_mails_path)
         expect(flash[:notice]).to be_present
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
       end
     end
     

@@ -118,6 +118,13 @@ Rails.application.routes.draw do
     post 'sell', to: 'market#sell'
   end
   
+  # Systems
+  scope :system do
+    get 'info', to: 'systems#info'
+    post 'route', to: 'systems#route'
+    post 'clear_route', to: 'systems#clear_route'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

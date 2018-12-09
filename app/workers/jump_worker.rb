@@ -24,6 +24,11 @@ class JumpWorker
     # Sleep for the given traveltime by the jumpgate
     sleep(user.location.jumpgate.traveltime)
     
+    # Routing Stuff
+    if user.route
+      user.update_columns(route: user.route - [user.location.jumpgate.id.to_s])
+    end
+    
     # Set user system to new system
     to_system = System.find_by(name: user.location.name)
     user.update_columns(system_id: to_system.id, location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system: to_system.id).id, in_warp: false)

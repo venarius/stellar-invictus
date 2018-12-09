@@ -1,0 +1,21 @@
+<div class="card black-card">
+  <h5 class="card-header"><%= sys.name %></h5>
+  <div class="card-body">
+    <table class="table table-sm table-bordered table-striped">
+      <tr>
+        <th><%= I18n.t('systems.security_status') %></th>
+        <td class="color-sec-<%= sys.security_status %>"><%= sys.security_status.capitalize %></td>
+      </tr>
+      <tr>
+        <th><%= I18n.t('systems.stations') %></th>
+        <td><%= sys.locations.where(location_type: 'station').count %></td>
+      </tr>
+      <tr>
+        <th><%= I18n.t('systems.asteroid_fields') %></th>
+        <td><%= sys.locations.where(location_type: 'asteroid_field').count %></td>
+      </tr>
+    </table>
+    
+    <button class="btn btn-outline-primary get-route-btn" data-id="<%= sys.id %>" <%= 'disabled' if sys == current_user.system %>><%= I18n.t('routing.get_route') %></button>
+  </div>
+</div>

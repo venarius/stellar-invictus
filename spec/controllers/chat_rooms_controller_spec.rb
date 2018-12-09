@@ -45,19 +45,19 @@ RSpec.describe ChatRoomsController, type: :controller do
       it 'should create new room' do
         post :create, params: {title: "Test"}
         expect(response.status).to eq(200)
-        expect(ChatRoom.count).to eq(13)
+        expect(ChatRoom.count).to eq(15)
       end
       
       it 'shouldnt create new room without params' do
         post :create
         expect(response.status).to eq(400)
-        expect(ChatRoom.count).to eq(12)
+        expect(ChatRoom.count).to eq(14)
       end
       
       it 'shouldnt create new room with too long title' do
         post :create, params: {title: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
         expect(response.status).to eq(400)
-        expect(ChatRoom.count).to eq(12)
+        expect(ChatRoom.count).to eq(14)
       end
     end
     
@@ -150,20 +150,20 @@ RSpec.describe ChatRoomsController, type: :controller do
       it 'should fail if no id given' do
         post :start_conversation
         expect(response.status).to eq(400)
-        expect(ChatRoom.count).to eq(12)
+        expect(ChatRoom.count).to eq(14)
       end
       
       it 'should create channel if id given' do
         user2 = FactoryBot.create(:user_with_faction)
         post :start_conversation, params: {id: user2.id}
         expect(response.status).to eq(200)
-        expect(ChatRoom.count).to eq(13)
+        expect(ChatRoom.count).to eq(15)
       end
       
       it 'should fail if inviting self' do
         post :start_conversation, params: {id: @user.id}
         expect(response.status).to eq(400)
-        expect(ChatRoom.count).to eq(12)
+        expect(ChatRoom.count).to eq(14)
       end
     end
   end

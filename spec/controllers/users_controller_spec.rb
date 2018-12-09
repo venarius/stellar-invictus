@@ -61,6 +61,10 @@ RSpec.describe UsersController, type: :controller do
     end
     
     describe 'POST place_bounty' do
+      before(:each) do
+        @user.update_columns(units: 1000)
+      end
+      
       it 'should place bounty on user' do
         post :place_bounty, params: {amount: "1000", id: @user.id}
         expect(response.status).to eq(200)
@@ -68,14 +72,14 @@ RSpec.describe UsersController, type: :controller do
         expect(@user.reload.bounty).to eq(1000)
       end
       
-      it 'should place less than 1k bounty' do
+      it 'should not place less than 1k bounty' do
         post :place_bounty, params: {amount: "500", id: @user.id}
         expect(response.status).to eq(400)
         expect(@user.reload.units).to eq(1000)
         expect(@user.reload.bounty).to eq(0)
       end
       
-      it 'should place more bounty than user has units' do
+      it 'should not place more bounty than user has units' do
         post :place_bounty, params: {amount: "1500", id: @user.id}
         expect(response.status).to eq(400)
         expect(@user.reload.units).to eq(1000)

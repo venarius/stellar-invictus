@@ -157,7 +157,7 @@ RSpec.describe MarketController, type: :controller do
       it 'should sell item' do
         post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
         expect(response.status).to eq(200)
-        expect(@user.reload.units).to eq(1002)
+        expect(@user.reload.units).to eq(12)
         expect(Item.count).to eq(0)
       end
       
@@ -165,7 +165,7 @@ RSpec.describe MarketController, type: :controller do
         @user.update_columns(docked: false)
         post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
         expect(response.status).to eq(400)
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
         expect(Item.count).to eq(1)
       end
       
@@ -173,7 +173,7 @@ RSpec.describe MarketController, type: :controller do
         @user.update_columns(location_id: Location.last.id)
         post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
         expect(response.status).to eq(400)
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
         expect(Item.count).to eq(1)
       end
       
@@ -181,28 +181,28 @@ RSpec.describe MarketController, type: :controller do
         MarketListing.create(location: @user.location, loader: 'asteroid.nickel', listing_type: 'item', price: 1000, amount: 1)  
         post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
         expect(response.status).to eq(200)
-        expect(@user.reload.units).to eq(1002)
+        expect(@user.reload.units).to eq(12)
         expect(Item.count).to eq(0)
       end
       
       it 'should sell not more items than user has' do
         post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '2'}
         expect(response.status).to eq(400)
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
         expect(Item.count).to eq(1)
       end
       
       it 'should sell ship' do
         post :sell, params: {loader: @ship.name, id: @ship.id, type: 'ship', quantity: '1'}
         expect(response.status).to eq(200)
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
         expect(Spaceship.count).to eq(1)
       end
       
       it 'should not sell ship if selling more' do
         post :sell, params: {loader: @ship.name, id: @ship.id, type: 'ship', quantity: '2'}
         expect(response.status).to eq(400)
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
         expect(Spaceship.count).to eq(2)
       end
       
@@ -210,21 +210,21 @@ RSpec.describe MarketController, type: :controller do
         @ship.update_columns(location_id: Location.last.id)
         post :sell, params: {loader: @ship.name, id: @ship.id, type: 'ship', quantity: '1'}
         expect(response.status).to eq(400)
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
         expect(Spaceship.count).to eq(2)
       end
       
       it 'should not sell active spaceship' do
         post :sell, params: {loader: @user.active_spaceship.name, id: @user.active_spaceship.id, type: 'ship', quantity: '1'}
         expect(response.status).to eq(400)
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
         expect(Spaceship.count).to eq(2)
       end
       
       it 'should not sell shit' do
         post :sell, params: {loader: 'Blub', type: 'ship', quantity: '1'}
         expect(response.status).to eq(400)
-        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.units).to eq(10)
         expect(Spaceship.count).to eq(2)
       end
     end
