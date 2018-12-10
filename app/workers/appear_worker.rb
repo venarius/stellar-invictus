@@ -27,6 +27,11 @@ class AppearWorker
         room.update_local_players
       end
       
+      # Start Mission Worker if location is mission and user has mission
+      if user.location.location_type == 'mission' and user.location.mission.user == user
+        MissionWorker.perform_async(user.location.id, user.id)
+      end
+      
     end
   end
 end

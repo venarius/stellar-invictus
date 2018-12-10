@@ -30,7 +30,7 @@ equipment:
   # Weapons
   weapons:
     laser_gatling:
-      name: "Laser Gatling"
+      name: "Gatling Laser"
       type: "Weapon"
       weight: 4
       damage: 5
