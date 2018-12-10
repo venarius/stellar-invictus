@@ -8,7 +8,10 @@ class NpcDiedWorker
     npc = Npc.find(npc_id) rescue nil
     
     if npc
-      # Tell others in system that player "warped out" and log
+      # Remove npc from being targeted by others
+      npc.remove_being_targeted
+      
+      # Tell others in system that npc "warped out" and log
       ActionCable.server.broadcast("location_#{npc.location.id}", method: 'player_warp_out', name: npc.name)
       ActionCable.server.broadcast("location_#{npc.location.id}", method: 'log', text: I18n.t('log.got_killed', name: npc.name) )
       
@@ -16,11 +19,15 @@ class NpcDiedWorker
       npc.drop_loot
       ActionCable.server.broadcast("location_#{npc.location.id}", method: 'player_appeared')
       
-      # Destroy current spaceship of user and give him a nano
-      npc.destroy
+      # If npc was in mission location -> credit kill
+      if npc.location.location_type == 'mission'
+        if npc.location.mission.enemy_amount > 0
+          npc.location.mission.update_columns(enemy_amount: npc.location.mission.enemy_amount - 1)
+        end
+      end
       
-      # Remove npc from being targeted by others
-      npc.remove_being_targeted
+      # Destroy npc
+      npc.destroy
     end
   end
 end

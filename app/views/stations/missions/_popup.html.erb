@@ -1,0 +1,22 @@
+<table class="table table-sm table-bordered table-striped">
+  <thead>
+    <tr>
+      <th scope="col"><%= I18n.t('missions.type') %></th>
+      <th scope="col"><%= I18n.t('missions.faction') %></th>
+      <th scope="col"><%= I18n.t('missions.reward') %></th>
+      <th scope="col"><%= I18n.t('missions.item') %></th>
+      <th scope="col"><%= I18n.t('missions.amount') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% current_user.missions.where(mission_status: 'active').each do |mission| %>
+      <tr>
+        <td><%= mission.mission_type.capitalize %></td>
+        <td><%= mission.faction.get_ticker %></td>
+        <td><%= mission.reward %> Cr</td>
+        <td><%= get_item_attribute(mission.mission_loader, 'name') rescue "" %></td>
+        <td><%= mission.mission_amount %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

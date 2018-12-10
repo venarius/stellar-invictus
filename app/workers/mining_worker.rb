@@ -40,10 +40,16 @@ class MiningWorker
       
       # Add Items to player
       item = Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
-      (mining_amount-1).times do
-        Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+      if asteroid.asteroid_type != 'septarium' and player.active_spaceship.get_free_weight < (mining_amount - 1)
+        (player.active_spaceship.get_free_weight).times do
+          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+        end
+      else
+        (mining_amount-1).times do
+          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+        end
       end
-      
+        
       # 3 septarium per mine
       if asteroid.asteroid_type == "septarium"
         (mining_amount * 3 - mining_amount).times do
@@ -59,6 +65,14 @@ class MiningWorker
       # Tell other users who miner this rock to also update their resources
       User.where(mining_target_id: asteroid_id).where("online > 0").each do |u|
         ac_server.broadcast("player_#{u.id}", method: 'update_asteroid_resources_only', resources: asteroid.resources)
+      end
+      
+      # Add to mission if user has active mission
+      mission = player.missions.where(mission_loader: "asteroid.#{asteroid.asteroid_type}", mission_status: 'active', mission_type: 'mining').where("mission_amount > 0").first rescue nil
+      if mission
+        mining_amount = mining_amount * 3 if asteroid.asteroid_type == 'septarium'
+        mission.update_columns(mission_amount: mission.mission_amount - mining_amount)
+        mission.update_columns(mission_amount: 0) if mission.mission_amount < 0
       end
       
       # Get enemy
@@ -88,7 +102,7 @@ class MiningWorker
     end
     
     # Stop mining if player's ship is full
-    if player.active_spaceship.get_free_weight < mining_amount and asteroid.asteroid_type != 'septarium'
+    if player.active_spaceship.get_free_weight <= 0 and asteroid.asteroid_type != 'septarium'
       ActionCable.server.broadcast("player_#{player_id}", method: 'asteroid_depleted')
       player.update_columns(mining_target_id: nil)
       return false

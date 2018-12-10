@@ -803,13 +803,37 @@ body {
     width: 10px;
   }
   margin-top: 5px;
-  max-height: 25rem;
+  max-height: 500px;
   overflow: scroll;
 }
 
 #market .navbar {
   border-top: 1px solid #282828 !important;
 }
+
+// Missions
+#missions {
+  .tab-content {
+    .list {
+      height: 200px;
+      overflow: scroll;
+      border: 1px solid grey;
+      .btn-th {
+        width: 1px;
+      }
+    }
+    .result {
+      background-color: #101010;
+      padding: 10px;
+      height: 300px;
+      overflow: scroll;
+      border: 1px solid grey;
+      width: 100%;
+    }
+  }
+}
+
+
 // ###############
 // Player-Info
 // ###############

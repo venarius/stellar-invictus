@@ -62,7 +62,7 @@
   <div class="tab-pane fade" id="bounties" role="tabpanel">
     <table class="table table-bordered table-striped">
       <tbody>
-          <% User.where("bounty > 0").order("RANDOM()").limit(10).each do |user| %>
+          <% User.where("bounty > 0").order(Arel.sql("RANDOM()")).limit(10).each do |user| %>
           <tr>
             <td>
               <div class="row bounty-row">

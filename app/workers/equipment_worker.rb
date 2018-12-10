@@ -115,21 +115,9 @@ class EquipmentWorker
             attack = power
           end
           
-          target_ship.update_columns(hp: target_ship.hp - attack.round)
+          target_ship.update_columns(hp: target_ship.reload.hp - attack.round)
           
           target_hp = target_ship.hp
-          
-          # If target hp is below 0 -> die
-          if target_hp <= 0
-            target_ship.update_columns(hp: 0)
-            if player.target
-              player.target.remove_being_targeted
-              player.target.give_bounty(player)
-              player.target.die and shutdown(player) and return
-            else
-              player.npc_target.die and shutdown(player) and return
-            end
-          end
           
           # Tell both parties to update their hp and log
           if player.target
@@ -151,6 +139,18 @@ class EquipmentWorker
           else
             User.where(npc_target_id: target_id).where("online > 0").each do |u|
               ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
+            end
+          end
+          
+          # If target hp is below 0 -> die
+          if target_hp <= 0
+            target_ship.update_columns(hp: 0)
+            if player.target
+              player.target.remove_being_targeted
+              player.target.give_bounty(player)
+              player.target.die and shutdown(player) and return
+            else
+              player.npc_target.die and shutdown(player) and return
             end
           end
           

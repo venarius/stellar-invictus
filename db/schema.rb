@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_09_135110) do
+ActiveRecord::Schema.define(version: 2018_12_10_102141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,7 +109,9 @@ ActiveRecord::Schema.define(version: 2018_12_09_135110) do
     t.integer "structure_id"
     t.boolean "equipped", default: false
     t.boolean "active", default: false
+    t.bigint "mission_id"
     t.index ["location_id"], name: "index_items_on_location_id"
+    t.index ["mission_id"], name: "index_items_on_mission_id"
     t.index ["spaceship_id"], name: "index_items_on_spaceship_id"
     t.index ["user_id"], name: "index_items_on_user_id"
   end
@@ -129,7 +131,9 @@ ActiveRecord::Schema.define(version: 2018_12_09_135110) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "faction_id"
+    t.bigint "mission_id"
     t.index ["faction_id"], name: "index_locations_on_faction_id"
+    t.index ["mission_id"], name: "index_locations_on_mission_id"
     t.index ["system_id"], name: "index_locations_on_system_id"
   end
 
@@ -142,6 +146,28 @@ ActiveRecord::Schema.define(version: 2018_12_09_135110) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_market_listings_on_location_id"
+  end
+
+  create_table "missions", force: :cascade do |t|
+    t.integer "mission_type"
+    t.integer "mission_status"
+    t.string "agent_name"
+    t.string "agent_avatar"
+    t.integer "text"
+    t.integer "reward"
+    t.integer "deliver_to"
+    t.bigint "faction_id"
+    t.bigint "user_id"
+    t.integer "difficulty"
+    t.integer "enemy_amount"
+    t.string "mission_loader"
+    t.integer "mission_amount"
+    t.float "faction_bonus"
+    t.float "faction_malus"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["faction_id"], name: "index_missions_on_faction_id"
+    t.index ["user_id"], name: "index_missions_on_user_id"
   end
 
   create_table "npcs", force: :cascade do |t|
@@ -237,11 +263,15 @@ ActiveRecord::Schema.define(version: 2018_12_09_135110) do
   add_foreign_key "fleets", "chat_rooms"
   add_foreign_key "fleets", "users"
   add_foreign_key "items", "locations"
+  add_foreign_key "items", "missions"
   add_foreign_key "items", "spaceships"
   add_foreign_key "items", "users"
   add_foreign_key "locations", "factions"
+  add_foreign_key "locations", "missions"
   add_foreign_key "locations", "systems"
   add_foreign_key "market_listings", "locations"
+  add_foreign_key "missions", "factions"
+  add_foreign_key "missions", "users"
   add_foreign_key "npcs", "locations"
   add_foreign_key "spaceships", "locations"
   add_foreign_key "spaceships", "users"
