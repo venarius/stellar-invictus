@@ -6,6 +6,8 @@ class MissionsController < ApplicationController
   def info
     if @mission.offered? || (@mission.active? and @mission.user == current_user)
       render partial: 'stations/missions/info', locals: {mission: @mission} and return
+    else
+      render json: {}, status: 400
     end
   end
   
@@ -36,11 +38,15 @@ class MissionsController < ApplicationController
   
   # Abort a mission
   def abort
-    error = MissionGenerator.abort_mission(@mission.id)
-    if error
-      render json: {'error_message': error}, status: 400
+    if @mission.active? and @mission.user == current_user
+      error = MissionGenerator.abort_mission(@mission.id)
+      if error
+        render json: {'error_message': error}, status: 400
+      else
+        render json: {}, status: 200
+      end
     else
-      render json: {}, status: 200
+      render json: {}, status: 400
     end
   end
   

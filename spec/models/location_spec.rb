@@ -13,6 +13,7 @@ describe Location do
       it { should respond_to :structures }
       it { should respond_to :spaceships }
       it { should respond_to :market_listings }
+      it { should respond_to :missions }
     end
     
     describe 'Relations' do
@@ -23,10 +24,11 @@ describe Location do
       it { should have_many :structures }
       it { should have_many :spaceships }
       it { should have_many :market_listings }
+      it { should have_many :missions }
     end
     
     describe 'Enums' do
-       it { should define_enum_for(:location_type).with([:station, :asteroid_field, :jumpgate]) } 
+       it { should define_enum_for(:location_type).with([:station, :asteroid_field, :jumpgate, :mission]) } 
     end
     
     describe 'Functions' do
