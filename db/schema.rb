@@ -156,8 +156,10 @@ ActiveRecord::Schema.define(version: 2018_12_10_102141) do
     t.integer "text"
     t.integer "reward"
     t.integer "deliver_to"
+    t.integer "mission_location_id"
     t.bigint "faction_id"
     t.bigint "user_id"
+    t.bigint "location_id"
     t.integer "difficulty"
     t.integer "enemy_amount"
     t.string "mission_loader"
@@ -167,6 +169,7 @@ ActiveRecord::Schema.define(version: 2018_12_10_102141) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["faction_id"], name: "index_missions_on_faction_id"
+    t.index ["location_id"], name: "index_missions_on_location_id"
     t.index ["user_id"], name: "index_missions_on_user_id"
   end
 
@@ -271,6 +274,7 @@ ActiveRecord::Schema.define(version: 2018_12_10_102141) do
   add_foreign_key "locations", "systems"
   add_foreign_key "market_listings", "locations"
   add_foreign_key "missions", "factions"
+  add_foreign_key "missions", "locations"
   add_foreign_key "missions", "users"
   add_foreign_key "npcs", "locations"
   add_foreign_key "spaceships", "locations"

@@ -4,15 +4,24 @@ class MissionsController < ApplicationController
   
   # Render Info of mission
   def info
-    render partial: 'stations/missions/info', locals: {mission: @mission} and return
+    if @mission.offered? || (@mission.active? and @mission.user == current_user)
+      render partial: 'stations/missions/info', locals: {mission: @mission} and return
+    end
   end
   
   # Accept a mission
   def accept
-    @mission.items.update_all(location_id: current_user.location.id, user_id: current_user.id) if @mission.delivery?
-    
-    @mission.active!
-    render json: {}, status: 200 and return
+    if @mission.offered? and @mission.location == current_user.location and current_user.missions.count < 5
+      
+      @mission.items.update_all(location_id: current_user.location.id, user_id: current_user.id) if @mission.delivery?
+      
+      @mission.active! and @mission.update_columns(user_id: current_user.id)
+      
+      MissionGenerator.generate_missions(current_user.location.id)
+      
+      render json: {}, status: 200 and return
+    end
+    render json: {}, status: 400
   end
   
   # Finish a mission
@@ -27,8 +36,12 @@ class MissionsController < ApplicationController
   
   # Abort a mission
   def abort
-    MissionGenerator.abort_mission(@mission.id)
-    render json: {}, status: 200
+    error = MissionGenerator.abort_mission(@mission.id)
+    if error
+      render json: {'error_message': error}, status: 400
+    else
+      render json: {}, status: 200
+    end
   end
   
   # Popup
@@ -41,7 +54,7 @@ class MissionsController < ApplicationController
   def get_mission
     if params[:id]
       @mission = Mission.find(params[:id]) rescue nil
-      unless @mission and @mission.user == current_user and current_user.docked
+      unless @mission and current_user.docked
         render json: {}, status: 400 and return
       end
     end

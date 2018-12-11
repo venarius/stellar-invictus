@@ -88,9 +88,9 @@ class EnemyWorker
         when 'easy'
           attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
         when 'medium'
-          attack = rand(10..15) * (1.0 - target_spaceship.get_defense/100.0)
+          attack = rand(5..10) * (1.0 - target_spaceship.get_defense/100.0)
         when 'hard'
-          attack = rand(20..30) * (1.0 - target_spaceship.get_defense/100.0)
+          attack = rand(10..15) * (1.0 - target_spaceship.get_defense/100.0)
       end
     else
       attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)

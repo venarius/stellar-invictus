@@ -23,14 +23,15 @@
 - ~~Panelty for Combatlogging -> Drop random loot as container~~
 - ~~Asset Overview -> Show where you have what ships / items~~
 - ~~Bounty System~~
-- Missions
+- ~~Missions~~
 - Planetary Interaction -> Rebid every month to maintain
 - Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems
 - ~~Trading System~~
 - More Ships
 - ~~Faction Bonuses~~
-- Faction Reputation - Unlocks on different levels
+- Faction Reputation - Unlocks on different levels 
 - ~~About -> Currently empty site~~
+- Warp to Fleet Members
 - Main equipment to buff other pilots
 - Player Reporting
 - Reward players for not killing each other

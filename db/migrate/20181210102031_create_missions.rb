@@ -8,8 +8,10 @@ class CreateMissions < ActiveRecord::Migration[5.2]
       t.integer :text
       t.integer :reward
       t.integer :deliver_to
+      t.integer :mission_location_id
       t.references :faction, foreign_key: true
       t.references :user, foreign_key: true
+      t.references :location, foreign_key: true
       t.integer :difficulty
       t.integer :enemy_amount
       t.string :mission_loader

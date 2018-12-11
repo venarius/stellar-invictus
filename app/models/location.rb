@@ -10,6 +10,7 @@ class Location < ApplicationRecord
   has_many :structures, dependent: :destroy
   has_many :spaceships, dependent: :destroy
   has_many :market_listings, dependent: :destroy
+  has_many :missions, dependent: :destroy
   
   has_one :chat_room, dependent: :destroy
   
