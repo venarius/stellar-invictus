@@ -110,6 +110,47 @@ RSpec.describe GameController, type: :controller do
         expect(WarpWorker.jobs.size).to eq(1)
         expect(response.code).to eq('200')
       end
+      
+      it 'should warp to user if in same fleet' do
+        user2 = FactoryBot.create(:user_with_faction, system: @user.system, location: @user.system.locations.last)
+        fleet = FactoryBot.create(:fleet, creator: @user)
+        @user.update_columns(fleet_id: fleet.id)
+        user2.update_columns(fleet_id: fleet.id)
+        
+        post :warp, params: {uid: user2.id}
+        expect(WarpWorker.jobs.size).to eq(1)
+        expect(response.code).to eq('200')
+      end
+      
+      it 'should not warp to user if not in fleet' do
+        user2 = FactoryBot.create(:user_with_faction, system: @user.system, location: @user.system.locations.last)
+        
+        post :warp, params: {uid: user2.id}
+        expect(WarpWorker.jobs.size).to eq(0)
+        expect(response.code).to eq('400')
+      end
+      
+      it 'should not warp if not in same system' do
+        user2 = FactoryBot.create(:user_with_faction, system: System.second, location: System.second.locations.first)
+        fleet = FactoryBot.create(:fleet, creator: @user)
+        @user.update_columns(fleet_id: fleet.id)
+        user2.update_columns(fleet_id: fleet.id)
+        
+        post :warp, params: {uid: user2.id}
+        expect(WarpWorker.jobs.size).to eq(0)
+        expect(response.code).to eq('400')
+      end
+      
+      it 'should not warp if already there' do
+        user2 = FactoryBot.create(:user_with_faction, system: @user.system, location: @user.location)
+        fleet = FactoryBot.create(:fleet, creator: @user)
+        @user.update_columns(fleet_id: fleet.id)
+        user2.update_columns(fleet_id: fleet.id)
+        
+        post :warp, params: {uid: user2.id}
+        expect(WarpWorker.jobs.size).to eq(0)
+        expect(response.code).to eq('400')
+      end
     end
     
     describe 'GET assets' do

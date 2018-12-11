@@ -35,7 +35,7 @@ class ChatRoomsController < ApplicationController
         
         # Broadcast
         ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_joined_channel', user: current_user.full_name)}</td></tr>")
-        ChatChannel.broadcast_to(room, method: 'update_players', names: map_and_sort(room_users.where("online > 0")))
+        room.update_local_players
         
         # Render 200 OK
         render json: {'id': room.identifier}, status: 200 and return
@@ -62,7 +62,7 @@ class ChatRoomsController < ApplicationController
         
         # Broadcast
         ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_left_channel', user: current_user.full_name)}</td></tr>")
-        ChatChannel.broadcast_to(room, method: 'update_players', names: map_and_sort(room_users.where("online > 0")))
+        room.update_local_players
         
         # If the room has a fleet
         if room.fleet

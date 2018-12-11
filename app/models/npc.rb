@@ -24,4 +24,17 @@ class Npc < ApplicationRecord
       ActionCable.server.broadcast("player_#{user.id}", method: 'refresh_target_info')
     end
   end
+  
+  # Give bounty to player
+  def give_bounty(player)
+    
+    value = rand(5..15)
+    
+    value = value * 3 if self.location.system.security_status == 'low'
+    
+    player.update_columns(units: player.units + value)
+    
+    ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.full_name, amount: value))
+    ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
+  end
 end

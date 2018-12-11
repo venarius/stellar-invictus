@@ -15,18 +15,39 @@ class GameController < ApplicationController
   end
   
   def warp
-    if params[:id] && !current_user.in_warp
-      location = Location.find(params[:id]) rescue nil
-      if location && location.system_id == current_user.system_id
-        WarpWorker.perform_async(current_user.id, location.id)
-        if current_user.active_spaceship.warp_target_id == location.id
-          render json: {align_time: 0}, status: 200
+    if (params[:id] || params[:uid]) and !current_user.in_warp
+      
+      if params[:id]
+        location = Location.find(params[:id]) rescue nil
+        if location and location.system_id == current_user.system_id
+          WarpWorker.perform_async(current_user.id, location.id)
+          if current_user.active_spaceship.warp_target_id == location.id
+            render json: {align_time: 0}, status: 200
+          else
+            render json: {align_time: current_user.active_spaceship.get_align_time}, status: 200
+          end
         else
-          render json: {align_time: current_user.active_spaceship.get_align_time}, status: 200
+          render json: {}, status: 400
         end
-      else
-        render json: {}, status: 400
+      elsif params[:uid]
+        user = User.find(params[:uid]) rescue nil
+        if user and user.in_same_fleet_as(current_user.id)
+          # Check location
+          render json: {"error_message": I18n.t('errors.user_must_be_in_same_system')}, status: 400 and return unless user.system == current_user.system
+          render json: {"error_message": I18n.t('errors.already_at_location')}, status: 400 and return if user.location == current_user.location
+          
+          WarpWorker.perform_async(current_user.id, user.location.id)
+          if current_user.active_spaceship.warp_target_id == user.location.id
+            render json: {align_time: 0}, status: 200
+          else
+            render json: {align_time: current_user.active_spaceship.get_align_time}, status: 200
+          end
+        else
+          render json: {}, status: 400
+        end
       end
+    else
+      render json: {}, status: 400
     end
   end
   

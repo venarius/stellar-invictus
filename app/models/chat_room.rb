@@ -15,7 +15,7 @@ class ChatRoom < ApplicationRecord
   
   # Update local players
   def update_local_players
-    ChatChannel.broadcast_to(self, method: 'update_players', names: ApplicationController.helpers.map_and_sort(self.users.where("online > 0")))
+    ChatChannel.broadcast_to(self, method: 'update_players', names: ApplicationController.helpers.map_and_sort(self.users.where("online > 0")), fleet: self.fleet.present?)
   end
   
   private

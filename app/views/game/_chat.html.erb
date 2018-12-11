@@ -63,7 +63,7 @@
     </table>
   </div>
   <% if current_user.chat_rooms.present? %>
-    <% current_user.chat_rooms.last(10).each do |room| %>
+    <% current_user.chat_rooms.each do |room| %>
       <div class="tab-pane fade custom-chat" id="chatroom-<%= room.identifier %>" role="tabpanel">
         <div class="row">
           <div class="col-md-10">
@@ -81,8 +81,13 @@
             </div>
             <div class="outer" id="chatroom-<%= room.identifier %>-players">
               <% map_and_sort(room.users.where("online > 0")).each do |key, value| %>
-                <div>
-                  <a class='player-modal' href="#" data-id="<%= value %>"><%= key %></a>
+                <div class="pt-2px">
+                  <a class='player-modal' href="#" data-id="<%= value %>">
+                    <%= key %>
+                    <% if room.fleet %>
+                      <a class="btn btn-outline-primary btn-xs warp-btn float-right p-0-5 text-primary" data-uid="<%= value %>"><i class='fa fa-angle-double-right'></i></a>
+                    <% end %>
+                  </a>
                 </div>
               <% end %>
             </div>
@@ -150,7 +155,7 @@
               }
             }
             else if (data.method == 'update_players' && data.names) {
-              update_players_in_custom_chat("chatroom-<%= room.identifier %>",data.names);
+              update_players_in_custom_chat("chatroom-<%= room.identifier %>",data.names,data.fleet);
             }
             else if (data.method == 'player_appeared' && ('.players-card').length) {
               reload_players_card();
