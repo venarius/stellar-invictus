@@ -4,7 +4,7 @@ class EnemyWorker
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
-  def perform(location_id, sleep_duration)
+  def perform(location_id, sleep_duration, difficulty=nil)
     
     # Wait before arrival
     sleep(sleep_duration)
@@ -24,7 +24,7 @@ class EnemyWorker
     target = User.where(location: location, docked: false).where('online > 0').sample rescue nil
     
     if target.present? and can_attack(enemy, target)
-      attack(enemy, target)
+      attack(enemy, target, difficulty)
     else
       wait_for_new_target(enemy) if enemy.hp > 0
     end
@@ -63,7 +63,7 @@ class EnemyWorker
   # ################
   # Attack
   # ################
-  def attack(enemy, target)
+  def attack(enemy, target, difficulty=nil)
     # Gets target id and spaceship
     target_id = target.id
     target_spaceship = target.active_spaceship
@@ -83,29 +83,41 @@ class EnemyWorker
     ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: enemy.name)
     
     # Create attack value
-    attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
+    if difficulty
+      case difficulty
+        when 'easy'
+          attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
+        when 'medium'
+          attack = rand(5..10) * (1.0 - target_spaceship.get_defense/100.0)
+        when 'hard'
+          attack = rand(10..15) * (1.0 - target_spaceship.get_defense/100.0)
+      end
+    else
+      attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
+    end
     
     # While npc can attack player
     while can_attack(enemy, target) do
       
       # The attack
-      target_spaceship.update_columns(hp: target_spaceship.hp - attack.round)
-      
-      # If target hp is below 0 -> die
-      if target_spaceship.hp <= 0
-        target_spaceship.update_columns(hp: 0)
-        target.die
-        wait_for_new_target(enemy) if enemy.reload.hp > 0
-      end
+      target_spaceship.update_columns(hp: target_spaceship.reload.hp - attack.round)
       
       # Tell player to update their hp and log
       ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_spaceship.hp)
       ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: enemy.name, hp: attack) )
       
+      # If target hp is below 0 -> die
+      if target_spaceship.hp <= 0
+        target_spaceship.update_columns(hp: 0)
+        target.die
+        wait_for_new_target(enemy) if (enemy.reload.hp rescue 0) > 0
+      end
+      
       # Global Cooldown
       sleep(2)
     end
     # If target is gone wait for new to pop up
-    wait_for_new_target(enemy) if enemy.reload.hp > 0
+    enemy = enemy.reload rescue nil
+    wait_for_new_target(enemy) if enemy and enemy.hp > 0
   end
 end

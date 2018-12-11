@@ -1,5 +1,6 @@
 class Faction < ApplicationRecord
   has_many :users
+  has_many :missions, dependent: :destroy
   has_one :location
   
   # Get Attribute of faction

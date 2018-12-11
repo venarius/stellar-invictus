@@ -125,6 +125,15 @@ Rails.application.routes.draw do
     post 'clear_route', to: 'systems#clear_route'
   end
   
+  # Missions
+  scope :mission do
+    get 'info', to: 'missions#info'
+    post 'accept', to: 'missions#accept'
+    post 'finish', to: 'missions#finish'
+    get 'popup', to: 'missions#popup'
+    post 'abort', to: 'missions#abort'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

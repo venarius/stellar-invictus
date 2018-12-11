@@ -23,25 +23,32 @@
 - ~~Panelty for Combatlogging -> Drop random loot as container~~
 - ~~Asset Overview -> Show where you have what ships / items~~
 - ~~Bounty System~~
-- Missions
-- Planetary Interaction
+- ~~Missions~~
+- Planetary Interaction -> Rebid every month to maintain
 - Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems
 - ~~Trading System~~
 - More Ships
 - ~~Faction Bonuses~~
-- Faction Reputation - Unlocks on different levels
+- Faction Reputation - Unlocks on different levels 
 - ~~About -> Currently empty site~~
+- Warp to Fleet Members
+- Main equipment to buff other pilots
 - Player Reporting
 - Reward players for not killing each other
+- Player-Owned Stations -> 1 per System
 - Achievements
 - Killboard
 - Statistics
 - Admin Backend
 - Vote for Changes
 - Help Site
+- Ability to Change Factions -> Loose rep
+- Enemy Bounty random
 - Bug Reporting
 - Forum / Subreddit
 - Newbie Channel with ID "NEWBIES"
+- Stations Overview empty
+- Factory -> X amount of nanos plus licence -> Can now build next ship
 - ~~Better Map -> visjs.org~~
 - ~~Routing System -> See what jumpgates to take to get from A to B~~
 

@@ -79,6 +79,13 @@ RSpec.describe UsersController, type: :controller do
         expect(@user.reload.bounty).to eq(0)
       end
       
+      it 'should not place invalid bounty' do
+        post :place_bounty, params: {amount: "bla", id: 2000}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(1000)
+        expect(@user.reload.bounty).to eq(0)
+      end
+      
       it 'should not place more bounty than user has units' do
         post :place_bounty, params: {amount: "1500", id: @user.id}
         expect(response.status).to eq(400)

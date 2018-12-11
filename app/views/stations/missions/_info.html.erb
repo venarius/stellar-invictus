@@ -1,0 +1,60 @@
+<h5 class="mb-3"><%= image_tag("avatars/#{mission.agent_avatar}.jpg", style: 'height: 75px; border: 1px solid grey;') %>&nbsp;&nbsp;&nbsp;<%= mission.faction.get_ticker %> <%= mission.agent_name %></h5>
+
+<p class="color-grey"><%= mission.location.name %> - <%= mission.location.system.name %></p>
+
+<p class="color-grey"><%= I18n.t('missions.transmission_start').html_safe %></p>
+
+<% if current_user.missions.count < 3 %>
+  <p><strong><%= I18n.t('missions.objectives') %>:</strong></p>
+  <ul>
+    <% if mission.offered? %>
+      <% case mission.mission_type %>
+      <% when 'delivery' %>
+        <li><%= I18n.t('missions.objective_delivery', amount: mission.items.count, name: mission.items.first.get_attribute('name'), station: Location.find(mission.deliver_to).name, system: Location.find(mission.deliver_to).system.name) %></li>
+      <% when 'combat' %>
+        <li><%= I18n.t('missions.objective_combat', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
+      <% when 'mining' %>
+        <li><%= I18n.t('missions.objective_mining', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
+      <% when 'market' %>
+        <li><%= I18n.t('missions.objective_market', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
+      <% end %>
+    <% else %>
+      <% case mission.mission_type %>
+      <% when 'delivery' %>
+        <li><%= I18n.t('missions.objective_delivery', amount: mission.items.count, name: mission.items.first.get_attribute('name'), station: Location.find(mission.deliver_to).name, system: Location.find(mission.deliver_to).system.name) %></li>
+      <% when 'combat' %>
+        <li><%= I18n.t('missions.objective_combat_progress', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
+      <% when 'mining' %>
+        <li><%= I18n.t('missions.objective_mining_progress', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
+      <% when 'market' %>
+        <li><%= I18n.t('missions.objective_market', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
+      <% end %>
+    <% end %>
+  </ul>
+  
+  <p><strong><%= I18n.t('missions.reputation') %>:</strong></p>
+  <ul>
+    <li class="color-green">+ <%= mission.faction_bonus %> <%= I18n.t('missions.reputation_for') %> <%= mission.faction.name %></li>
+    <% if mission.faction_malus > 0 %>
+      <li class="color-red">- <%= mission.faction_malus %> <%= I18n.t('missions.reputation_for_other') %> </li>
+    <% end %>
+  </ul>
+  
+  <p><strong><%= I18n.t('missions.rewards') %>:</strong></p>
+  <ul>
+    <li><%= I18n.t('missions.credits') %>: <%= mission.reward %> Cr</li>
+  </ul>
+<% else %>
+  <p><%= I18n.t('mission.finish_active_missions_first') %></p>
+<% end %>
+
+<p class="color-grey"><%= I18n.t('missions.transmission_end').html_safe %></p>
+
+<% if mission.offered? %>
+  <% if current_user.missions.count < 3 %>
+    <button class="btn btn-outline-primary accept-mission-btn" data-id="<%= mission.id %>"><%= I18n.t('missions.accept_mission') %></button>
+  <% end %>
+<% else %>
+  <button class="btn btn-outline-success finish-mission-btn" data-id="<%= mission.id %>"><%= I18n.t('missions.finish_mission') %></button>
+  <button class="btn btn-outline-danger abort-mission-modal-btn" data-toggle="modal" data-target="#abort-mission-modal" data-id="<%= mission.id %>"><%= I18n.t('missions.abort_mission') %></button>
+<% end %>

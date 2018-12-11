@@ -72,3 +72,6 @@ Location.where(location_type: 'station').each_with_index do |location, index|
     end
   end
 end
+
+# Mission Scunk
+Location.where(location_type: 'mission', mission: nil).destroy_all

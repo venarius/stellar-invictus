@@ -79,6 +79,49 @@ RSpec.describe StationsController, type: :controller do
         expect(assigns(:user_ships).count).to eq(0)
       end
       
+      it 'should display tab when user is docked' do
+        @user.update_columns(docked: true)
+        get :index, params: {tab: 'active_ship'}
+        expect(response.code).to eq('200')
+        expect(response).to render_template('stations/_active_ship')
+      end
+      
+      it 'should display tab when user is docked' do
+        @user.update_columns(docked: true)
+        get :index, params: {tab: 'bounty_office'}
+        expect(response.code).to eq('200')
+        expect(response).to render_template('stations/_bounty_office')
+      end
+      
+      it 'should display tab when user is docked' do
+        @user.update_columns(docked: true)
+        get :index, params: {tab: 'storage'}
+        expect(response.code).to eq('200')
+        expect(response).to render_template('stations/_storage')
+      end
+      
+      it 'should display tab when user is docked' do
+        @user.update_columns(docked: true)
+        get :index, params: {tab: 'factory'}
+        expect(response.code).to eq('200')
+        expect(response).to render_template('stations/_factory')
+      end
+      
+      it 'should display tab when user is docked' do
+        @user.update_columns(docked: true)
+        get :index, params: {tab: 'market'}
+        expect(response.code).to eq('200')
+        expect(response).to render_template('stations/_market')
+      end
+      
+      it 'should display tab when user is docked' do
+        @user.update_columns(docked: true)
+        get :index, params: {tab: 'missions'}
+        expect(response.code).to eq('200')
+        expect(response).to render_template('stations/_missions')
+        expect(Mission.count).to eq(6)
+      end
+      
       it 'should redirect_to game when user is not docked' do
         get :index
         expect(response.code).to eq('302')
