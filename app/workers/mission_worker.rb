@@ -11,7 +11,7 @@ class MissionWorker
     amount = location.mission.enemy_amount
     
     if amount > 0
-      rounds = rand(2..4)
+      rounds = rand(3..5)
       wave_amount = (amount / rounds).round
       
       rounds.times do

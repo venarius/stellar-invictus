@@ -131,6 +131,7 @@ Rails.application.routes.draw do
     post 'accept', to: 'missions#accept'
     post 'finish', to: 'missions#finish'
     get 'popup', to: 'missions#popup'
+    post 'abort', to: 'missions#abort'
   end
   
   # ActionCable

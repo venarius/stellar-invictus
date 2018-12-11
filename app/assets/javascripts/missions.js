@@ -42,4 +42,18 @@ $( document ).on('turbolinks:load', function() {
   $('#missions-modal').on('hidden.bs.modal', function () {
     $('#missions-modal-body').empty();
   })
+  
+  // Abort Mission Modal AJAX
+  $('.station-card').on('click', '.abort-mission-modal-btn', function(e) {
+    $('#abort-mission-modal').find('.abort-mission-btn').data('id', $(this).data('id'));
+  });
+  
+  $('.station-card').on('click', '#abort-mission-modal .abort-mission-btn', function(e) {
+    var id = $(this).data('id');
+    
+    $.post('mission/abort', {id: id}, function() {
+      $('#abort-mission-modal').modal('hide');
+      setTimeout(function() {load_station_tab("#missions");}, 250)
+    });
+  });
 });

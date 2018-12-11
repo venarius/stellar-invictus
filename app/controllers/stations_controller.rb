@@ -29,7 +29,7 @@ class StationsController < ApplicationController
       when 'overview'
         render partial: 'stations/overview'
       when 'missions'
-        MissionGenerator.generate_missions(current_user.id)
+        MissionGenerator.generate_missions(current_user.location.id)
         render partial: 'stations/missions'
       when 'bounty_office'
         render partial: 'stations/bounty_office'

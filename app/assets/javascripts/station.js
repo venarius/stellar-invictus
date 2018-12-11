@@ -11,6 +11,11 @@ $( document ).on('turbolinks:load', function() {
     load_station_tab($(this).attr("href"));
   });
   
+  // Reload storage on active ship if active
+  $('.station-card').on('shown.bs.tab', 'a[href="#ship-inventory"]', function (e) {
+    load_station_tab("#active_ship"); 
+  });
+  
   // Send dockrequest AJAX
   $('#app-container').on('click', '.station-dock-btn', function(e) {
     e.preventDefault();

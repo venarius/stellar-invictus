@@ -35,7 +35,7 @@ equipment:
       weight: 4
       damage: 5
       slot_type: "main"
-      septarium_usage: 2
+      septarium_usage: 1
       crafting: {"asteroid.nickel": 5, "asteroid.cobalt": 10, "materials.laser_diodes": 1}
       crafting_duration: 10
       price: 40
@@ -45,7 +45,7 @@ equipment:
       weight: 5
       damage: 10
       slot_type: "main"
-      septarium_usage: 5
+      septarium_usage: 2
       crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
       crafting_duration: 200
       price: 350
@@ -82,7 +82,7 @@ equipment:
       weight: 2
       disrupt_strength: 1
       slot_type: "main"
-      septarium_usage: 5
+      septarium_usage: 1
       crafting: {"asteroid.iron": 30, "materials.sensor_electronics": 15}
       crafting_duration: 200
       price: 150
@@ -130,7 +130,7 @@ equipment:
       weight: 3
       repair_amount: 3
       slot_type: "main"
-      septarium_usage: 2
+      septarium_usage: 1
       crafting: {"asteroid.cobalt": 15, "asteroid.iron": 15, "materials.ai_components": 10}
       crafting_duration: 200
       price: 80
