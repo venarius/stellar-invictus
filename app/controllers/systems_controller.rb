@@ -1,7 +1,5 @@
 class SystemsController < ApplicationController
   
-  require './app/lib/pathfinder.rb'
-  
   def info
     if params[:id]
       system = System.find(params[:id]) rescue nil

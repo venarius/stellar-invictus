@@ -1,3 +1,92 @@
-<% #@station.missions.each do |mission| %>
+<ul class="nav nav-tabs mt-5px" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#available-missions" role="tab"><%= I18n.t('missions.available_missions') %> (<%= current_user.location.missions.where(mission_status: 'offered').count %>)</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#active-missions" role="tab"><%= I18n.t('missions.active_missions') %> (<%= current_user.missions.count %>)</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="available-missions" role="tabpanel">
+    <div class="list mt-5px">
+      <table class="table table-sm table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col"><%= I18n.t('missions.type') %></th>
+            <th scope="col"><%= I18n.t('missions.faction') %></th>
+            <th scope="col"><%= I18n.t('missions.reward') %></th>
+            <th scope="col"><%= I18n.t('missions.difficulty') %></th>
+            <th class="btn-th"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% current_user.location.missions.where(mission_status: 'offered').each do |mission| %>
+            <tr>
+              <td><%= mission.mission_type.capitalize %></td>
+              <td><%= mission.faction.get_ticker %></td>
+              <td><%= mission.reward %> Cr</td>
+              <td><%= mission.difficulty.capitalize %></td>
+              <td><button class="btn btn-outline-primary btn-sm mission-info-btn" data-id="<%= mission.id %>"><i class="fa fa-info"></i></button></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="result mt-10px">
+      
+    </div>
+  </div>
+  <div class="tab-pane fade" id="active-missions" role="tabpanel">
+    <div class="list mt-5px">
+      <table class="table table-sm table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col"><%= I18n.t('missions.type') %></th>
+            <th scope="col"><%= I18n.t('missions.faction') %></th>
+            <th scope="col"><%= I18n.t('missions.reward') %></th>
+            <th scope="col"><%= I18n.t('missions.agent_location') %></th>
+            <th class="btn-th"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% current_user.missions.each do |mission| %>
+            <tr>
+              <td><%= mission.mission_type.capitalize %></td>
+              <td><%= mission.faction.get_ticker %></td>
+              <td><%= mission.reward %> Cr</td>
+              <td><%= mission.location.name %> - <%= mission.location.system.name %></td>
+              <td><button class="btn btn-outline-primary btn-sm mission-info-btn" data-id="<%= mission.id %>"><i class="fa fa-info"></i></button></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="result mt-10px">
+      
+    </div>
+  </div>
+</div>
 
-<% #end %>
+<!-- Abort Modal -->
+<div class="modal fade" id="abort-mission-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('missions.abort_mission') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%= I18n.t('missions.sure_abort_text') %></p>
+        <p class="color-red"><%= I18n.t('missions.will_loose_reputation') %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger abort-mission-btn"><%= I18n.t('missions.abort') %></button>
+        <button type="button" class="btn btn-secondary abort-mission-modal-btn" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

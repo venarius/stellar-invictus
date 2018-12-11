@@ -134,7 +134,7 @@ class Spaceship < ApplicationRecord
   # Get Defense of ship
   def get_defense
     defense = self.get_attribute('defense')
-    self.get_main_equipment.each do |item|
+    self.get_utility_equipment.each do |item|
       defense = defense * item.get_attribute('defense_amplifier') if item.get_attribute('type') == "Defense" and item.equipped
     end
     defense = defense * self.user.faction.get_attribute('defense_amplifier')

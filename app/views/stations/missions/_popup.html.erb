@@ -1,0 +1,61 @@
+<% current_user.missions.each_with_index do |mission, index| %>
+  <div class="card black-card <%= 'mt-5px' if index > 0 %>">
+    <h5 class="card-header" style="font-size:20px">
+      <%= mission.faction.get_ticker %> <%= mission.mission_type.capitalize %>
+      <div class="float-right">
+        <a data-toggle="collapse" href="#collapse-<%= mission.id %>">
+          <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-right"></i></div>
+        </a>
+      </div>
+    </h5>
+    <div class="collapse" id="collapse-<%= mission.id %>">
+      <div class="card-body">
+        <table class="table table-bordered table-striped table-sm">
+          <tbody>
+            <tr>
+              <th><%= I18n.t('missions.agent_location') %></th>
+              <td><%= mission.location.name %> - <%= mission.location.system.name %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('missions.reward') %></th>
+              <td><%= mission.reward %> Cr</td>
+            </tr>
+              <% if mission.mining? or mission.market? %>
+                <tr>
+                  <th><%= I18n.t('missions.item') %></th>
+                  <td><%= get_item_attribute(mission.mission_loader, 'name') rescue "" %></td>
+                </tr>
+                <tr>
+                  <th><%= I18n.t('missions.amount') %></th>
+                  <td><%= mission.mission_amount %></td>
+                </tr>
+              <% elsif mission.combat? %>
+                <tr>
+                  <th><%= I18n.t('missions.mission_location') %></th>
+                  <td><%= mission.mission_location.system.name %></td>
+                </tr>
+                <tr>
+                  <th><%= I18n.t('missions.amount') %></th>
+                  <td><%= mission.enemy_amount %></td>
+                </tr>
+              <% elsif mission.delivery? %>
+                <tr>
+                  <th><%= I18n.t('missions.mission_location') %></th>
+                  <td><%= Location.find(mission.deliver_to).name %> - <%= Location.find(mission.deliver_to).system.name %></td>
+                </tr>
+                <tr>
+                  <th><%= I18n.t('missions.item') %></th>
+                  <td><%= get_item_attribute(mission.mission_loader, 'name') rescue "" %></td>
+                </tr>
+                <tr>
+                  <th><%= I18n.t('missions.amount') %></th>
+                  <td><%= mission.mission_amount %></td>
+                </tr>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -26,6 +26,7 @@ describe User do
       it { should respond_to :bounty }
       it { should respond_to :bounty_claimed }
       it { should respond_to :route }
+      it { should respond_to :missions }
     end
    
     describe 'Relations' do
@@ -36,6 +37,7 @@ describe User do
       it { should have_many :spaceships }
       it { should have_many :structures }
       it { should have_many :friendships }
+      it { should have_many :missions }
       it { should have_and_belong_to_many :chat_rooms }
     end
     

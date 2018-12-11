@@ -9,7 +9,7 @@
 <div class="tab-content">
   <div class="tab-pane fade show active" id="ship-inventory" role="tabpanel">
     <table class="table table-bordered table-hover table-sm table-striped station-ship-inventory-table mt-5px">
-      <% if active_spaceship.get_items.size > 0 %>
+      <% if active_spaceship.get_items(true).size > 0 %>
         <thead>
           <tr>
             <th scope="col">Qty.</th>
@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <% active_spaceship.get_items.each do |loader, times| %>
+          <% active_spaceship.get_items(true).each do |loader, times| %>
             <tr>
               <td><%= times %>&times;</td>
               <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>

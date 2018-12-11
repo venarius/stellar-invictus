@@ -11,8 +11,11 @@
         </tr>
       </thead>
       <tbody>
-        <% @current_user.system.locations.each do |location| %>
+        <% @current_user.system.locations.includes(mission: :user).each do |location| %>
           <% next if location == @current_user.location %>
+          <% if location.mission.present? %>
+            <% next unless location.mission.active? and location.mission.user == current_user %>
+          <% end %>
           <%= render partial: 'game/location', locals: {location: location} %>
         <% end %>
       </tbody>
