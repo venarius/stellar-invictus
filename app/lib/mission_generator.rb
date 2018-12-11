@@ -129,7 +129,7 @@ class MissionGenerator
       mission.mission_amount = ((difficulty + 1) * rand(5..10))
       
       # Set Reward
-      mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(0.8..1.2)).round
+      mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(1.0..1.2)).round
     end
     
     mission.faction_bonus = (0.1 * (difficulty + 1))

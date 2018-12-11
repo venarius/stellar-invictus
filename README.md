@@ -7,7 +7,6 @@
 - ~~Fleets~~
 - ~~Crafting~~
 - Alliances
-- Skills -> Kills with specific ship -> Bonuses
 - ~~Bio for Users~~
 - ~~Friends~~
 - ~~Drop Items -> Container~~
@@ -31,7 +30,8 @@
 - ~~Faction Bonuses~~
 - Faction Reputation - Unlocks on different levels 
 - ~~About -> Currently empty site~~
-- Warp to Fleet Members
+- ~~Warp to Fleet Members~~
+- More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas
 - Main equipment to buff other pilots
 - Player Reporting
 - Reward players for not killing each other
@@ -43,7 +43,7 @@
 - Vote for Changes
 - Help Site
 - Ability to Change Factions -> Loose rep
-- Enemy Bounty random
+- ~~Enemy Bounty random~~
 - Bug Reporting
 - Forum / Subreddit
 - Newbie Channel with ID "NEWBIES"

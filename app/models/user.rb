@@ -136,7 +136,10 @@ class User < ApplicationRecord
         self.update_columns(bounty: 0)
       end
       
+      player.update_columns(bounty_claimed: player.reload.bounty_claimed +  value, units: player.units + value)
+      
       ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.full_name, amount: value))
+      ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
     end
   end
 end

@@ -21,7 +21,7 @@
     <% else %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery', amount: mission.items.count, name: mission.items.first.get_attribute('name'), station: Location.find(mission.deliver_to).name, system: Location.find(mission.deliver_to).system.name) %></li>
+        <li><%= I18n.t('missions.objective_delivery_progress', amount: mission.items.count, name: mission.items.first.get_attribute('name'), station: Location.find(mission.deliver_to).name, system: Location.find(mission.deliver_to).system.name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat_progress', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'mining' %>

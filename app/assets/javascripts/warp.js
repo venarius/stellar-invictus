@@ -13,12 +13,12 @@ $( document ).on('turbolinks:load', function() {
     var button = $(this)
     var html = $(this).html();
     loading_animation($(this));
-    var xhr = $.post( "game/warp", { id: button.data("id") }, function( data ) {
+    var xhr = $.post( "game/warp", { id: button.data("id"), uid: button.data("uid") }, function( data ) {
       if (data.align_time) {
         var align_time = data.align_time;
         
         button.empty().append(align_time);
-        align_interval = setInterval(function(){ align_time = align_time - 1; button.empty().append(align_time); if (align_time <= 0) {clearInterval(align_interval); doWarp(10, "WARPING");}}, 1000)
+        align_interval = setInterval(function(){ align_time = align_time - 1; button.empty().append(align_time); if (align_time <= 0) {clearInterval(align_interval); button.empty().append("<i class='fa fa-angle-double-right'></i>"); doWarp(10, "WARPING");}}, 1000)
       } else {
         clearInterval(align_interval);
         button.empty().append("<i class='fa fa-angle-double-right'></i>");

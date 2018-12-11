@@ -1,3 +1,7 @@
+<% if current_user.missions.count == 0 %>
+  <h2 class="text-center">...</h2>
+<% end %>
+
 <% current_user.missions.each_with_index do |mission, index| %>
   <div class="card black-card <%= 'mt-5px' if index > 0 %>">
     <h5 class="card-header" style="font-size:20px">

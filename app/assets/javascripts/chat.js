@@ -140,11 +140,15 @@ function update_players_in_system(count, names) {
 }
 
 // Update players in system
-function update_players_in_custom_chat(id, names) {
+function update_players_in_custom_chat(id, names, fleet) {
   if ($('#' + id).length) {
     $('#' + id + '-players').empty();
-    $.each(names, function(key, value) {  
-      $('#' + id + '-players').append("<div><a class='player-modal' href='#' data-id='"+value+"'>"+key+"</a></div>")
+    $.each(names, function(key, value) {
+      if (fleet == true) {
+        $('#' + id + '-players').append("<div><a class='player-modal' href='#' data-id='"+value+"'>"+key+"</a> <a class='btn btn-outline-primary btn-xs warp-btn float-right text-primary p-0-5' data-uid='"+value+"'><i class='fa fa-angle-double-right'></i></a></div>") 
+      } else {
+        $('#' + id + '-players').append("<div><a class='player-modal' href='#' data-id='"+value+"'>"+key+"</a>")
+      }
     });
   }
 }

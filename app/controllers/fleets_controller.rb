@@ -93,7 +93,7 @@ class FleetsController < ApplicationController
       ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_left_channel', user: user.full_name)}</td></tr>")
       ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
     end
-    ChatChannel.broadcast_to(room, method: 'update_players', names: map_and_sort(room.users.where("online > 0")))
+    room.update_local_players
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
   end
   
