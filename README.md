@@ -25,6 +25,7 @@
 - ~~Missions~~
 - Planetary Interaction -> Rebid every month to maintain
 - Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems
+- Scan locations to see ships at that place
 - ~~Trading System~~
 - More Ships
 - ~~Faction Bonuses~~
@@ -51,6 +52,7 @@
 - Factory -> X amount of nanos plus licence -> Can now build next ship
 - ~~Better Map -> visjs.org~~
 - ~~Routing System -> See what jumpgates to take to get from A to B~~
+- Bounty Hunting for NPCs hiding in their hidden homes -> need scanner -> lots of bounty
 
 ## Installation
 
