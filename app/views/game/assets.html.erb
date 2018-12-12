@@ -1,11 +1,11 @@
 <% @locations.each do |loc| %>
   <% location = Location.find(loc) %>
   <% ships = Spaceship.where(user: current_user, location: location) %>
-  <% items = Item.where(user: current_user, location: location) %>
+  <% items = location.get_items(current_user.id) %>
   
   <div class="card black-card mb-3">
     <h5 class="card-header">
-      <%= location.system.name %> - <%= location.name %>
+      <%= location.system.name %> - <%= location.name %> (<%= ships.count + items.count %>)
       <div class="float-right">
         <a data-toggle="collapse" href="#collapse-asset-<%= loc %>">
           <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-right"></i></div>
@@ -23,8 +23,8 @@
         
         <% if items.count > 0 %>
           <h5>Items</h5>
-          <% items.each do |item| %>
-            <%= item.get_attribute('name') %><br>
+          <% items.each do |key, value| %>
+            <%= value %>&times; <%= get_item_attribute(key, 'name') %><br>
           <% end %>
         <% end %>
       </div>

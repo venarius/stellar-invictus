@@ -66,9 +66,6 @@ class EquipmentWorker
         shutdown(player) and return if repair == 0
         
       end
-    
-      # Global Cooldown
-      sleep(2)
       
       # If Repair -> repair
       if repair > 0 
@@ -172,6 +169,9 @@ class EquipmentWorker
       
         shutdown(player) and return
       end
+      
+      # Global Cooldown
+      sleep(2)
       
     end
     

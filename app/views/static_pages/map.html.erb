@@ -1,12 +1,10 @@
-<div class="card black-card route-card mb-3">
-  <h5 class="card-header">
-    <%= I18n.t('routing.route') %> 
-    <% if current_user.route != [] %>
+<% if current_user.route != [] %>
+  <div class="card black-card route-card mb-3">
+    <h5 class="card-header">
+      <%= I18n.t('routing.route') %>
       <button class="btn btn-outline-danger float-right remove-route-btn"><%= I18n.t('routing.remove_route') %></button>
-    <% end %>
-  </h5>
-  <div class="card-body">
-    <% if current_user.route != [] %>
+    </h5>
+    <div class="card-body">
       <% path = {} %>
       <% current_user.route.each_with_index do |jg, index| %>
         <% jg = Jumpgate.find(jg) %>
@@ -29,11 +27,9 @@
           <% end %>
         <% end %>
       <% end %>
-    <% else %>
-      <h2 class="text-center">...</h2>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>
 
 <div class="card black-card map-card mb-3">
   <h5 class="card-header"><%= I18n.t('navbar.map') %></h5>
