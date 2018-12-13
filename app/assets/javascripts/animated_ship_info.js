@@ -76,7 +76,7 @@ function app_player_ship() {
   	const parent = app.view.parentNode;
      
   	// Resize the renderer
-  	app.renderer.resize(parent.clientWidth-1, 87);
+  	app.renderer.resize(parent.clientWidth-5, 87);
   	
   	// Resize ship
   	ship.x = app.screen.width / 2;
@@ -163,7 +163,7 @@ function enemy_player_ship() {
   	const parent = app.view.parentNode;
      
   	// Resize the renderer
-  	app.renderer.resize(parent.clientWidth-1, 87);
+  	app.renderer.resize(parent.clientWidth-5, 87);
   	
   	// Resize objects
   	if (ship) {

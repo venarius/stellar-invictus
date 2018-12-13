@@ -144,7 +144,7 @@ function update_target_health(hp) {
 // Remove target
 function remove_target() {
   if ($('.enemy-space-ship').length) {
-    $('.enemy-space-ship').css("border", "1px solid grey");
+    $('.enemy-space-ship').css("border", "0");
     $('.enemy-space-ship').next().empty();
     $('.enemy-space-ship').next().next().empty();
   }
