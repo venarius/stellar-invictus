@@ -2,17 +2,17 @@ $( document ).on('turbolinks:load', function() {
   
   // Cookie Setter and Lazy Load
   $('.station-card a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
-    Cookies.set('station_tab', $(this).attr("href"));
+    Cookies.set('station_tab', $(this).data('target'));
     
     // Lazy Load
     $('.station-card a[data-toggle="pill"]').each(function() {
-      $($(this).attr("href")).empty();
+      $($(this).data('target')).empty();
     });
-    load_station_tab($(this).attr("href"));
+    load_station_tab($(this).data('target'));
   });
   
   // Reload storage on active ship if active
-  $('.station-card').on('shown.bs.tab', 'a[href="#ship-inventory"]', function (e) {
+  $('.station-card').on('shown.bs.tab', 'a[data-target="#ship-inventory"]', function (e) {
     load_station_tab("#active_ship"); 
   });
   
@@ -131,7 +131,7 @@ $( document ).on('turbolinks:load', function() {
     var type = Cookies.get('station_tab');
     if (type) {
       $('.station-card .nav-pills a').each(function() {
-        if ($(this).attr('href') == type) { $(this).tab('show'); }
+        if ($(this).data('target') == type) { $(this).tab('show'); }
       });
     }
   }

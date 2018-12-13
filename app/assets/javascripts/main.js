@@ -18,9 +18,6 @@ $( document ).on('turbolinks:load', function() {
         $(event.target).prev('.card-header').find('.fa-arrow-right').removeClass('fa-arrow-right').addClass('fa-arrow-down');
         Cookies.set($(event.target).attr('id'), 'shown');
     });
-    
-    // Turn animation shit off
-    $.fx.off = true;
 
     // Loading Button
     $('.btn-load').on('click', function() {

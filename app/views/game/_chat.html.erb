@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#local-chat" role="tab"><%= I18n.t('chat.local') %> (<span id="system-player-count"><%= @system_users.count %></span>)</a>
+    <a class="nav-link active" data-toggle="tab" data-target="#local-chat" href="#0" role="tab"><%= I18n.t('chat.local') %> (<span id="system-player-count"><%= @system_users.count %></span>)</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#global-chat" role="tab"><%= I18n.t('chat.global') %></a>
+    <a class="nav-link" data-toggle="tab" data-target="#global-chat" href="#0" role="tab"><%= I18n.t('chat.global') %></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#log" role="tab"><%= I18n.t('chat.log') %></a>
+    <a class="nav-link" data-toggle="tab" data-target="#log" href="#0" role="tab"><%= I18n.t('chat.log') %></a>
   </li>
   <% if current_user.chat_rooms.present? %>
     <% current_user.chat_rooms.each do |room| %>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#chatroom-<%= room.identifier %>" role="tab">
+        <a class="nav-link" data-toggle="tab" data-target="#chatroom-<%= room.identifier %>" href="#0" role="tab">
           <%= room.title %>&nbsp;&nbsp;
           <button class="btn btn-outline-danger close-chat-btn" style="padding: 0rem 0.3rem;line-height: 1.3;" data-id="<%= room.identifier %>">
             <i class="fa fa-times fa-sm">

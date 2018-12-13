@@ -21,7 +21,7 @@ $( document ).on('turbolinks:load', function() {
     
     // Cookie setter
     $('.chat-card a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-      Cookies.set('chat_tab', $(this).attr("href"));
+      Cookies.set('chat_tab', $(this).data('target'));
     });
     
      // Cookie getter Chat collapse
@@ -38,7 +38,7 @@ $( document ).on('turbolinks:load', function() {
       var type = Cookies.get('chat_tab');
       if (type) {
         $('.chat-card .nav .nav-item a').each(function() {
-          if ($(this).attr('href') == type) { $(this).tab('show'); }
+          if ($(this).data('target') == type) { $(this).tab('show'); }
         });
       }
     }
@@ -68,7 +68,7 @@ $( document ).on('turbolinks:load', function() {
         App['chatroom-' + id].unsubscribe();
         $(button.parent().attr('href')).remove();
         button.parent().parent().remove();
-        $('.chat-card .nav-tabs a[href="#local-chat"]').tab('show')
+        $('.chat-card .nav-tabs a[data-target="#local-chat"]').tab('show')
       });
     });
     

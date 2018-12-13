@@ -14,7 +14,7 @@
           <% ITEM_VARIABLES.each do |key, value| %>
             <% next if key == "test" %>
             <% if !value.is_a?(Hash) %>
-              <a href="#" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
+              <a href="#0" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
             <% else %>
               <div class="dropdown-submenu">
                 <a class="dropdown-item dropdown-toggle" role="button" data-toggle="dropdown">
@@ -22,7 +22,7 @@
                 </a>
                 <div class="dropdown-menu">
                   <% ITEM_VARIABLES[key].keys.each do |key| %>
-                    <a href="#" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.gsub('_', ' ').capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
+                    <a href="#0" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.gsub('_', ' ').capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
                   <% end %>
                 </div>
               </div>

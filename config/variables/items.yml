@@ -63,10 +63,10 @@ equipment:
       price: 200
       
   # Scanner
-  scanner:
-    small_scanner:
-      name: "Small Scanner"
-      type: "Scanner"
+  sensors:
+    small_sensor:
+      name: "Small Sensor"
+      type: "Sensor"
       weight: 2
       target_amplifier: 0.8
       slot_type: "utility"

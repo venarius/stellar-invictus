@@ -10,7 +10,7 @@ begin
                 "equipment.miner.advanced_miner", "equipment.miner.basic_miner", 
                 "equipment.storage.small_black_hole", "equipment.defense.ion_shield",
                 "equipment.defense.try_pyon_shield", "equipment.warp_core_stabilizers.warp_core_stabilizer",
-                "equipment.hulls.light_hull", "equipment.scanner.small_scanner", 
+                "equipment.hulls.light_hull", "equipment.sensors.small_sensor", 
                 "equipment.repair_bots.simple_repair_bot", "equipment.warp_disruptors.basic_warp_disruptor"] unless defined? EQUIPMENT
                 
     # Materials
