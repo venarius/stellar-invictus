@@ -2,7 +2,7 @@ Nano:
   image: nano.png
   thruster-image: nano-thrusters.png
   storage: 10
-  hp: 50
+  hp: 150
   defense: 10
   price: 0
   main_equipment_slots: 2
@@ -16,7 +16,7 @@ Cerux:
   image: cerux.png
   thruster-image: cerux-thrusters.png
   storage: 40
-  hp: 250
+  hp: 750
   defense: 60
   price: 12000
   main_equipment_slots: 4
@@ -30,7 +30,7 @@ Valadria:
   image: valadria.png
   thruster-image: valadria-thrusters.png
   storage: 35
-  hp: 200
+  hp: 600
   defense: 30
   price: 10000
   main_equipment_slots: 4
@@ -44,7 +44,7 @@ Crasher:
   image: crasher.png
   thruster-image: crasher-thrusters.png
   storage: 15
-  hp: 100
+  hp: 300
   defense: 10
   price: 8000
   main_equipment_slots: 3
@@ -58,7 +58,7 @@ Chronos:
   image: chronos.png
   thruster-image: chronos-thrusters.png
   storage: 80
-  hp: 75
+  hp: 225
   defense: 60
   price: 5000
   main_equipment_slots: 1

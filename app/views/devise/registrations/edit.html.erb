@@ -58,7 +58,7 @@
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade show active" id="edit" role="tabpanel">
-            <textarea placeholder="<%= I18n.t('devise.bio_placeholder') %>", class="form-control user-bio-text", style="height: 275px"><%= current_user.bio %></textarea>
+            <textarea placeholder="<%= I18n.t('devise.bio_placeholder') %>", class="form-control user-bio-text mt-5px", style="height: 275px"><%= current_user.bio %></textarea>
               <p><small><%= I18n.t('devise.markdown_support').html_safe %></small></p>
               <div class="float-right">
                 <%= button_tag( class: 'btn btn-primary btn-sm user-bio-save-btn') do %>
@@ -68,7 +68,7 @@
               </div>
           </div>
           <div class="tab-pane fade" id="preview" role="tabpanel">
-            <div class="preview">
+            <div class="preview mt-5px">
               <%= MARKDOWN.render(current_user.bio).html_safe if current_user.bio %>
             </div>
           </div>
