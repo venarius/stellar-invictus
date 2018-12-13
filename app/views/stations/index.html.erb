@@ -11,7 +11,7 @@
   <h5 class="card-header">
     <%= I18n.t('game.chat') %>
     <div class="float-right">
-      <a data-toggle="collapse" href="#collapse-chat">
+      <a data-toggle="collapse" data-target="#collapse-chat" href="#0">
         <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-down"></i></div>
       </a>
     </div>
@@ -34,16 +34,16 @@
     <div class="row">
       <div class="col-md-3">
         <div class="nav flex-column nav-pills" role="tablist">
-          <a class="nav-link active" data-toggle="pill" href="#overview" role="tab"><%= I18n.t('station.overview') %></a>
-          <a class="nav-link" data-toggle="pill" href="#missions" role="tab"><%= I18n.t('station.missions') %></a>
-          <a class="nav-link" data-toggle="pill" href="#bounty_office" role="tab"><%= I18n.t('station.bounty_office') %></a>
-          <a class="nav-link" data-toggle="pill" href="#storage" role="tab"><%= I18n.t('station.storage') %></a>
+          <a class="nav-link active" data-toggle="pill" data-target="#overview" href="#0" role="tab"><%= I18n.t('station.overview') %></a>
+          <a class="nav-link" data-toggle="pill" data-target="#missions" href="#0" role="tab"><%= I18n.t('station.missions') %></a>
+          <a class="nav-link" data-toggle="pill" data-target="#bounty_office" href="#0" role="tab"><%= I18n.t('station.bounty_office') %></a>
+          <a class="nav-link" data-toggle="pill" data-target="#storage" href="#0" role="tab"><%= I18n.t('station.storage') %></a>
           <% if @current_user.location.is_factory %>
-            <a class="nav-link" data-toggle="pill" href="#factory" role="tab"><%= I18n.t('station.factory') %></a>
+            <a class="nav-link" data-toggle="pill" data-target="#factory" href="#0" role="tab"><%= I18n.t('station.factory') %></a>
           <% end %>
-          <a class="nav-link mb-5" data-toggle="pill" href="#market" role="tab"><%= I18n.t('station.market') %></a>
-          <a class="nav-link mt-auto mobile-mt-0" data-toggle="pill" href="#my_ships" role="tab"><%= I18n.t('station.my_ships') %></a>
-          <a class="nav-link" data-toggle="pill" href="#active_ship" role="tab"><%= I18n.t('station.active_ship') %></a>
+          <a class="nav-link mb-5" data-toggle="pill" data-target="#market" href="#0" role="tab"><%= I18n.t('station.market') %></a>
+          <a class="nav-link mt-auto mobile-mt-0" data-toggle="pill" data-target="#my_ships"  href="#0" role="tab"><%= I18n.t('station.my_ships') %></a>
+          <a class="nav-link" data-toggle="pill" data-target="#active_ship" href="#0" role="tab"><%= I18n.t('station.active_ship') %></a>
         </div>
       </div>
       <div class="col-md-9">

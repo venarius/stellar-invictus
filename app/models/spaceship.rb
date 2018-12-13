@@ -181,7 +181,7 @@ class Spaceship < ApplicationRecord
   def get_target_time
     target_time = self.get_attribute('target_time')
     self.get_equipment.each do |item|
-      target_time = (target_time * item.get_attribute('target_amplifier')).round if item.get_attribute('type') == "Scanner" and item.equipped
+      target_time = (target_time * item.get_attribute('target_amplifier')).round if item.get_attribute('type') == "Sensor" and item.equipped
     end
     target_time
   end

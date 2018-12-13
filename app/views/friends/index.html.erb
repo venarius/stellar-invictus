@@ -5,8 +5,8 @@
       <div class="col-md-3">
         <div class="nav flex-column nav-pills" role="tablist">
           <button class="btn btn-primary mb-10px" data-toggle="modal" data-target="#add-friend-modal"><i class="fa fa-plus"></i> <%= I18n.t('friends.add_friend') %></button>
-          <a class="nav-link active" data-toggle="pill" href="#friends" role="tab"><%= I18n.t('friends.friends') %> <span class="badge badge-secondary"><%= @friends.count %></span></a>
-          <a class="nav-link" data-toggle="pill" href="#pending" role="tab"><%= I18n.t('friends.pending') %> <span class="badge badge-secondary"><%= @pending.count %></span></a>
+          <a class="nav-link active" data-toggle="pill" data-target="#friends" href="#0" role="tab"><%= I18n.t('friends.friends') %> <span class="badge badge-secondary"><%= @friends.count %></span></a>
+          <a class="nav-link" data-toggle="pill" data-target="#pending" href="#0" role="tab"><%= I18n.t('friends.pending') %> <span class="badge badge-secondary"><%= @pending.count %></span></a>
         </div>
       </div>
       <div class="col-md-9">
