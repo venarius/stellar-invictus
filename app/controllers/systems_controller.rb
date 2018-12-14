@@ -33,4 +33,13 @@ class SystemsController < ApplicationController
     current_user.update_columns(route: [])
     render json: {}, status: 200
   end
+  
+  def scan
+    scanner = current_user.active_spaceship.get_scanner
+    if scanner
+      render partial: 'game/locations_table', locals: {locations: current_user.system.locations.includes(mission: :user)}
+    else
+      render json: {}, status: 400
+    end
+  end
 end

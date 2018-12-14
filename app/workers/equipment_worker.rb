@@ -98,7 +98,7 @@ class EquipmentWorker
       end
       
       # If player can attack target
-      if power > 0
+      if power > 0 and target_ship
         
         if can_attack(player)
           

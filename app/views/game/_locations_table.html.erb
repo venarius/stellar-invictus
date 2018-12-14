@@ -1,0 +1,19 @@
+<table class="table table-striped table-bordered table-sm">
+  <thead>
+    <tr>
+      <th id="img-td"></td>
+      <th>Name</td>
+      <th style="width:100px"><%= I18n.t('game.type') %></td>
+      <th id="btn-td"></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% locations.each do |location| %>
+      <% next if location == @current_user.location %>
+      <% if location.mission.present? %>
+        <% next unless (location.mission.active? and location.mission.user == current_user) || (location.mission.user and location.mission.user.in_same_fleet_as(current_user.id)) %>
+      <% end %>
+      <%= render partial: 'game/location', locals: {location: location} %>
+    <% end %>
+  </tbody>
+</table>

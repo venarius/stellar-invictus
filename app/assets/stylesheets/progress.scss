@@ -1,0 +1,18 @@
+.progress-btn {
+  position: relative;
+  overflow: hidden;
+  .content {
+    position: relative;
+    display: block;
+    z-index: 4;
+  }
+  .loader .loader-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    opacity: 1;
+    background-color: #313131;
+    height: 100%;
+  }
+}

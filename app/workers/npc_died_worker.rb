@@ -26,6 +26,11 @@ class NpcDiedWorker
         end
       end
       
+      # If npc was in combat site -> remove from amount
+      if npc.location.location_type == 'exploration_site' and npc.location.enemy_amount > 0
+        npc.location.update_columns(enemy_amount: npc.location.enemy_amount - 1)
+      end
+      
       # Destroy npc
       npc.destroy
     end
