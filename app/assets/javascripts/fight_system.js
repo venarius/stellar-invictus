@@ -92,7 +92,6 @@ function getting_attacked(name) {
           return
         }
         if ($(this).parent().hasClass('attack-flash')) {
-          $('.ship-card').removeClass('outline-danger');
           $(this).parent().removeClass('attack-flash').addClass('target-flash');  
         }
       }
@@ -113,6 +112,7 @@ function update_health(hp) {
     } else {
       if (!$('.ship-card').hasClass('outline-danger')) {
         $('.ship-card').addClass('outline-danger');
+        setTimeout(function() {$('.ship-card').removeClass('outline-danger');}, 2500)
       }
       if (!$('#own-ship-health').parent().hasClass('success-flash') && !$('#own-ship-health').parent().hasClass('attack-flash')) {
         $('#own-ship-health').parent().addClass('attack-flash');

@@ -10,9 +10,13 @@ class Npc < ApplicationRecord
   
   # Lets the npc drop loot
   def drop_loot
-    loader = ASTEROIDS + MATERIALS
+    if self.location.location_type == 'exploration_site'
+      loader = ITEMS + ASTEROIDS + MATERIALS
+    else
+      loader = ASTEROIDS + MATERIALS
+    end
     structure = Structure.create(location: self.location, structure_type: 'wreck')
-    rand(1..2).times do
+    rand(1..3).times do
       Item.create(loader: loader.sample, structure: structure, equipped: false)
     end
   end
@@ -30,11 +34,11 @@ class Npc < ApplicationRecord
     
     value = rand(5..15)
     
-    value = value * 3 if self.location.system.security_status == 'low'
+    value = value * 3 if self.location.system.security_status == 'low' || self.location.location_type == 'exploration_site'
     
     player.update_columns(units: player.units + value)
     
-    ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.full_name, amount: value))
+    ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.name, amount: value))
     ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
   end
 end

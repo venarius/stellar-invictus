@@ -140,6 +140,7 @@ en:
     station: "Station"
     asteroid_field: "Asteroid Belt"
     mission: "Mission"
+    exploration_site: "Site"
   actions:
     jump: "Jump"
     dock: "Dock"
@@ -272,6 +273,8 @@ en:
     disrupt_strength: "Disrupt Strength"
     disrupt_immunity: "Disrupt Immunity"
     septarium_usage: "Septarium Usage"
+    scanner_range: "Scanner Range"
+    scan: "Scan"
   links:
     go_to_game: "Already logged in. Go to the game&nbsp;&nbsp;<i class='fa fa-arrow-right'></i>"
   market:
@@ -321,7 +324,7 @@ en:
     objective_combat_progress: "Warp to %{system} and kill %{amount} more enemies in their hive. Return to me and complete the mission when you are done"
     objective_mining: "Gather %{amount}x %{name}. Return to me and complete the mission when you are done"
     objective_mining_progress: "Gather %{amount} more %{name}. Return to me and complete the mission when you are done"
-    objective_delivery: "Deliver %{amount}x %{name} to %{station} - %{system}. I will put these items into your storage on this station after you accepted the mission."
+    objective_delivery: "Deliver %{amount}x %{name} to %{station} - %{system}. I will put these items into your storage after you accepted the mission."
     objective_delivery_progress: "Deliver %{amount}x %{name} to %{station} - %{system}."
     objective_market: "Try to get %{amount}x %{name} as cheap as possible on the market and deliver them to me."
     reputation_for: "reputation for"

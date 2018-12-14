@@ -41,6 +41,11 @@
       <th><%= I18n.t('equipment.target_amplifier') %></th>
       <td><%= get_item_attribute(item, 'target_amplifier').to_f %></td>
     </tr>
+  <% when "Scanner" %>
+    <tr>
+      <th><%= I18n.t('equipment.scanner_range') %></th>
+      <td><%= get_item_attribute(item, 'scanner_range').to_f %></td>
+    </tr>
   <% when "Repair Bot" %>
     <tr>
       <th><%= I18n.t('equipment.repair_amount') %></th>
