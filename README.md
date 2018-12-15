@@ -45,7 +45,8 @@
 - Help Site
 - Ability to Change Factions -> Loose rep
 - ~~Enemy Bounty random~~
-- Remove Sleep from Workers !Important
+- ~~Remove Sleep from Workers !Important~~
+- Add amount to items
 - Bug Reporting
 - Forum / Subreddit
 - Newbie Channel with ID "NEWBIES"
@@ -55,6 +56,8 @@
 - ~~Routing System -> See what jumpgates to take to get from A to B~~
 - Bounty Hunting for NPCs hiding in their hidden homes -> need scanner -> lots of bounty
 - Natural Occurences -> Sun Storms, Raiders, etc...
+- Rework Material Requirements and Prices on Items / Ships (Titanium Ore)
+- Improve Code with Rubycritic
 
 ## Installation
 
