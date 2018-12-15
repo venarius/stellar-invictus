@@ -3,42 +3,48 @@ class EnemyWorker
   
   include Sidekiq::Worker
   sidekiq_options :retry => false
+  
+  @location
+  @enemy
+  @target
+  @attack
 
-  def perform(location_id, sleep_duration, difficulty=nil)
+  def perform(npc_id, location_id, target_id=nil, attack=nil)
     
-    # Wait before arrival
-    sleep(sleep_duration)
+    # Set some vars
+    @location = Location.find(location_id)
+    @enemy = Npc.find(npc_id) rescue nil if npc_id
+    @target = User.find(target_id) rescue nil if target_id
+    @attack = attack
     
-    # Get the location
-    location = Location.find(location_id)
+    if (@enemy.nil? || @enemy.npc_state == nil) and @attack.nil?
+      @enemy = Npc.create(npc_type: 'enemy', location: @location, hp: 50, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+      @enemy.created!
+      ActionCable.server.broadcast("location_#{@enemy.location.id}", method: 'player_appeared')
+      EnemyWorker.perform_in(3.second, @enemy.id, @location.id) and return
+    end
     
-    # Create an enemy
-    enemy = Npc.create(npc_type: 'enemy', location: location, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}", hp: 30)
+    # Find first User in location and target
+    unless @target
+      @target = User.where(location: @location, docked: false).where('online > 0').sample rescue nil
+    end
     
-    # Tell everyone in the location that an enemy has spawned
-    ActionCable.server.broadcast("location_#{location.id}", method: 'player_appeared')
-    
-    sleep(3)
-    
-    # Find first User in system and target
-    target = User.where(location: location, docked: false).where('online > 0').sample rescue nil
-    
-    if target.present? and can_attack(enemy, target)
-      attack(enemy, target, difficulty)
+    if @target and can_attack
+      attack()
     else
-      wait_for_new_target(enemy, difficulty) if enemy.hp > 0
+      wait_for_new_target if @enemy and @enemy.hp > 0
     end
   end
   
   # ################
   # NPC can attack?
   # ################
-  def can_attack(enemy, target)
-    enemy = enemy.reload rescue nil
-    target = target.reload rescue nil
+  def can_attack
+    @enemy = @enemy.reload rescue nil
+    @target = @target.reload rescue nil
     
-    if enemy and target
-      target.can_be_attacked and target.location == enemy.location and enemy.hp > 0
+    if @enemy and @target
+      @target.can_be_attacked and @target.location == @enemy.location and @enemy.hp > 0
     else
       false
     end
@@ -47,77 +53,92 @@ class EnemyWorker
   # ################
   # Wait for new target
   # ################
-  def wait_for_new_target(enemy, difficulty)
-    sleep(10)
-    
-    # Find first User in system and target
-    target = User.where(location: enemy.location, docked: false).where('online > 0').sample rescue nil
-    
-    if target.present?
-      attack(enemy, target, difficulty)
+  def wait_for_new_target
+    if @enemy.waiting? == false
+      @enemy.waiting!
+      EnemyWorker.perform_in(10.second, @enemy.id, @location.id) and return
     else
-      enemy.destroy and return
+      # Find first User in system and target
+      @target = User.where(location: @enemy.location, docked: false).where('online > 0').sample rescue nil
+      
+      if @target.present?
+        attack
+      else
+        @enemy.destroy and return
+      end
     end
   end
   
   # ################
   # Attack
   # ################
-  def attack(enemy, target, difficulty)
+  def attack
     # Gets target id and spaceship
-    target_id = target.id
-    target_spaceship = target.active_spaceship
-    
-    # Sets user as target of npc
-    enemy.update_columns(target: target_id)
+    target_id = @target.id
+    target_spaceship = @target.active_spaceship
     
     # Get ActionCable Server
     ac_server = ActionCable.server
+    
+    if @enemy.reload.created?
+    
+      # Sets user as target of npc
+      @enemy.update_columns(target: target_id)
+        
+      # Tell user he is getting targeted by outlaw
+      ac_server.broadcast("player_#{target_id}", method: 'getting_targeted', name: @enemy.name)
       
-    # Tell user he is getting targeted by outlaw
-    ac_server.broadcast("player_#{target_id}", method: 'getting_targeted', name: enemy.name)
+      # Set Enemy State to targeting
+      @enemy.targeting!
+      
+      EnemyWorker.perform_in(3.second, @enemy.id, @location.id, @target.id) and return
+      
+    elsif @enemy.targeting?
     
-    sleep(3)
-    
-    # Tell user he is getting attacked by outlaw
-    ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: enemy.name)
-    
-    # Create attack value
-    if difficulty
-      case difficulty
-        when 'easy'
-          attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
-        when 'medium'
-          attack = rand(5..10) * (1.0 - target_spaceship.get_defense/100.0)
-        when 'hard'
-          attack = rand(10..15) * (1.0 - target_spaceship.get_defense/100.0)
+      # Tell user he is getting attacked by outlaw
+      ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: @enemy.name)
+      
+      # Create attack value
+      if @location.mission and @location.mission.difficulty
+        case @location.mission.difficulty
+          when 'easy'
+            @attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
+          when 'medium'
+            @attack = rand(5..10) * (1.0 - target_spaceship.get_defense/100.0)
+          when 'hard'
+            @attack = rand(10..15) * (1.0 - target_spaceship.get_defense/100.0)
+        end
+      else
+        @attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
       end
-    else
-      attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
+      
+      @enemy.attacking!
+      
     end
     
     # While npc can attack player
-    while can_attack(enemy, target) do
+    while can_attack do
       
       # The attack
-      target_spaceship.update_columns(hp: target_spaceship.reload.hp - attack.round)
+      target_spaceship.update_columns(hp: target_spaceship.reload.hp - @attack.round)
       
       # Tell player to update their hp and log
       ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_spaceship.hp)
-      ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: enemy.name, hp: attack) )
+      ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: @enemy.name, hp: @attack) )
       
       # If target hp is below 0 -> die
       if target_spaceship.hp <= 0
         target_spaceship.update_columns(hp: 0)
-        target.die
-        wait_for_new_target(enemy, difficulty) if (enemy.reload.hp rescue 0) > 0
+        @target.die
+        wait_for_new_target if (@enemy.reload.hp rescue 0) > 0
       end
       
       # Global Cooldown
-      sleep(2)
+      EnemyWorker.perform_in(2.second, @enemy.id, @location.id, @target.id, @attack) and return
     end
+    
     # If target is gone wait for new to pop up
-    enemy = enemy.reload rescue nil
-    wait_for_new_target(enemy, difficulty) if enemy and enemy.hp > 0
+    @enemy = @enemy.reload rescue nil
+    wait_for_new_target if @enemy and @enemy.hp > 0
   end
 end

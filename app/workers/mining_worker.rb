@@ -4,36 +4,42 @@ class MiningWorker
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
-  def perform(player_id, asteroid_id)
+  def perform(player_id, asteroid_id, is_mining=false, check_count=0)
     player = User.find(player_id)
     asteroid = Asteroid.find(asteroid_id)
-    
-    # Untarget npc target and is_attacking to false
-    player.update_columns(npc_target_id: nil, is_attacking: false)
-    
-    # Cancel if Player already mining this
-    return if player.mining_target_id == asteroid_id
     
     # Get ActionCable Server
     ac_server = ActionCable.server
     
-    # Untarget combat target if player is targeting mining target
-    unless player.target_id == nil
-      ac_server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)
-      player.update_columns(target_id: nil)
-    end
-    
     # Get mining amount
     mining_amount = player.active_spaceship.get_mining_amount
     
-    # Mine every 30 seconds
-    player.update_columns(mining_target_id: asteroid_id)
-    ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
-    while true do
-      10.times do
-        return unless can_mine(player, asteroid, mining_amount)
-        sleep(2)
+    if !is_mining
+    
+      # Untarget npc target and is_attacking to false
+      player.update_columns(npc_target_id: nil, is_attacking: false)
+      
+      # Cancel if Player already mining this
+      return if player.mining_target_id == asteroid_id
+      
+      # Untarget combat target if player is targeting mining target
+      unless player.target_id == nil
+        ac_server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)
+        player.update_columns(target_id: nil)
       end
+      
+      # Mine every 30 seconds
+      player.update_columns(mining_target_id: asteroid_id)
+      ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+      
+      MiningWorker.perform_in(2.second, player.id, asteroid.id, true, check_count + 2) and return
+      
+    elsif check_count < 20
+    
+      return unless can_mine(player, asteroid, mining_amount)
+      MiningWorker.perform_in(2.second, player.id, asteroid.id, true, check_count + 2) and return
+    
+    else
       
       # Remove amount from asteroids ressources
       asteroid.update_columns(resources: asteroid.resources - (100 * mining_amount))
@@ -76,9 +82,12 @@ class MiningWorker
       end
       
       # Get enemy
-      EnemyWorker.perform_async(player.location.id, 5) if 1 + rand(10) == 10
+      EnemyWorker.perform_async(nil, player.location.id) if rand(10) == 9
+      
+      # Restart MiningWorker
+      MiningWorker.perform_async(player.id, asteroid_id, true) and return
+      
     end
-    
   end
   
   def can_mine(player, asteroid, mining_amount)
