@@ -1072,3 +1072,23 @@ body {
     display: none;
   }
 }
+
+// ###############
+// Abandoned Ship
+// ############### 
+
+.computer-screen {
+    background-color: black;
+    padding: 15px;
+    border-radius: 10px;
+    .glow {
+      color: #03f9f9;
+      text-shadow: 0 0 45px #00e6e6;
+    }
+    input, button {
+      border: 1px solid white;
+      box-shadow: 0 0 5px rgb(255, 255, 255);
+      color: white;
+      background-color: black;
+    }
+}

@@ -1,0 +1,31 @@
+<div class="modal fade" id="abandoned-ship-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('structures.abandoned_ship') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Test bla blub</p>
+        <div class="computer-screen mb-3">
+          <% if structure.items.present? %>
+            <p class="glow"><%= I18n.t('riddles.question') %>:</p>
+            <p class="glow"><%= RIDDLE_VARIABLES[structure.riddle]['question'].html_safe %></p>
+            <div class="row">
+              <div class="col-8">
+                <input type="text" class="form-control" />
+              </div>
+              <div class="col-4">
+                <button class="btn w-100 abandoned-ship-submit-btn"><%= I18n.t('devise.submit') %></button>
+              </div>
+            </div>
+          <% else %>
+            <p class="glow"><%= I18n.t('riddles.someone_else_was_here_before') %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

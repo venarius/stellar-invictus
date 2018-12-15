@@ -41,6 +41,7 @@ en:
     markdown_support: "This form supports markdown. For a markdown reference visit this <a href='https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet' target='_blank'><u>link</u></a>"
     preview: "Preview"
     edit: "Edit"
+    submit: "Submit"
   factions:
     choose_a_faction: "Please choose a Faction"
     choose: "Choose"
@@ -214,6 +215,7 @@ en:
     remove_friend: "Remove friend"
     invite_to_fleet: "Invite to fleet"
     remove_from_fleet: "Remove from fleet"
+    search: "Search"
   overview:
     name: "Name"
     type: "Type"
@@ -240,6 +242,8 @@ en:
     cargo: "Cargo"
     container: "Container"
     wreck: "Wreck"
+    abandoned_ship: "Abandoned Ship"
+    structure: "Structure"
   friends:
     friends: "Friends"
     pending: "Pending"
@@ -275,6 +279,16 @@ en:
     septarium_usage: "Septarium Usage"
     scanner_range: "Scanner Range"
     scan: "Scan"
+    weapon_text: "Very useful if you want to hurt someone badly. BUT be careful: More advanced weapons will need a constant supply of Septarium Ore in order to function properly."
+    hull_text: "Makes your ship weight less and thus decreases the time your ship needs aligning before it can warp."
+    sensor_text: "Increases the resolution of your ships scanners in order to be able to target other structures a lot faster."
+    scanner_text: "Enables you to scan Starsystems for hidden exploration sites. Please use with caution! Too much scanning may result in permanent damage to your brain. Scanner Range stands for the amount of hidden sites you can find with this particular scanner."
+    warp_disruptor_text: "Overloads another ships warpdrive thus resulting in the system malfunctioning. Will need a constant supply of Septarium Ore in order to function properly. Can be powerless against warp core stabilizers."
+    warp_core_stabilizer_text: "Defends your ships warpdrive with another layer of enery. Can be powerless against advanced warp disruptors."
+    mining_laser_text: "Required in order to mine asteroids. More advanced mining laser can mine multiple ores at once."
+    repair_bot_text: "A little helper who can repair your ship whilst in space. BUT be careful: More advanced repair bots will need a constant supply of Septarium Ore in order to function properly."
+    defense_text: "Increases the defense of your ship by a certain percentage. E.g. A defense amplifier of 1.1 means 10% more defense."
+    storage_text: "Increases your ships storage on some unconventional ways. Some of them where reported to swallow your items. Don't say I didn't warn you!"
   links:
     go_to_game: "Already logged in. Go to the game&nbsp;&nbsp;<i class='fa fa-arrow-right'></i>"
   market:
@@ -341,3 +355,8 @@ en:
     sure_abort_text: "Are you sure you want to abort this mission?"
     will_loose_reputation: "You will loose reputation on this faction for aborting a mission"
     abort: "Abort"
+  alliances:
+    unknown: "Unknown"
+  riddles:
+    question: "Question"
+    someone_else_was_here_before: "Someone else was here before..."

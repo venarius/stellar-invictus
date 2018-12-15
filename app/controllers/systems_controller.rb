@@ -36,8 +36,8 @@ class SystemsController < ApplicationController
   
   def scan
     scanner = current_user.active_spaceship.get_scanner
-    if scanner
-      render partial: 'game/locations_table', locals: {locations: current_user.system.locations.includes(mission: :user)}
+    if scanner and current_user.can_be_attacked
+      render partial: 'game/locations_table', locals: {locations: current_user.system.locations.where(hidden: true).limit(scanner.get_attribute('scanner_range'))}
     else
       render json: {}, status: 400
     end

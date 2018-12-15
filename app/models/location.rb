@@ -16,8 +16,6 @@ class Location < ApplicationRecord
   
   enum location_type: [:station, :asteroid_field, :jumpgate, :mission, :exploration_site]
   
-  enum exploration_type: [:combat, :abandoned_structure, :asteroid_field]
-  
   after_create do
     ChatRoom.create(chatroom_type: 'local', title: self.name, location: self)
   end

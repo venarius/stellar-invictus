@@ -4,6 +4,7 @@ begin
     ITEM_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml") unless defined? ITEM_VARIABLES
     STATION_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/stations.yml") unless defined? STATION_VARIABLES
     FACTION_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml") unless defined? FACTION_VARIABLES
+    RIDDLE_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/riddles.yml") unless defined? RIDDLE_VARIABLES
     
     # Equipment
     EQUIPMENT = ["equipment.weapons.laser_gatling", "equipment.weapons.try_pyon_laser",

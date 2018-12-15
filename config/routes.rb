@@ -76,6 +76,7 @@ Rails.application.routes.draw do
     post 'open_container', to: 'structures#open_container'
     post 'pickup_cargo', to: 'structures#pickup_cargo'
     post 'attack', to: 'structures#attack'
+    post 'abandoned_ship', to: 'structures#abandoned_ship'
   end
   
   # Friends
