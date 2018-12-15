@@ -116,6 +116,18 @@ class EquipmentWorker
           
           target_hp = target_ship.hp
           
+          # If target hp is below 0 -> die
+          if target_hp <= 0
+            target_ship.update_columns(hp: 0)
+            if player.target
+              player.target.give_bounty(player)
+              player.target.die and shutdown(player) and return
+            else
+              player.npc_target.give_bounty(player)
+              player.npc_target.die and shutdown(player) and return
+            end
+          end
+          
           # Tell both parties to update their hp and log
           if player.target
             ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_hp)
@@ -139,18 +151,6 @@ class EquipmentWorker
             end
           end
           
-          # If target hp is below 0 -> die
-          if target_hp <= 0
-            target_ship.update_columns(hp: 0)
-            if player.target
-              player.target.give_bounty(player)
-              player.target.die and shutdown(player) and return
-            else
-              player.npc_target.give_bounty(player)
-              player.npc_target.die and shutdown(player) and return
-            end
-          end
-          
         else 
         
           # Broadcast
@@ -171,7 +171,7 @@ class EquipmentWorker
       end
       
       # Global Cooldown
-      sleep(2)
+      EquipmentWorker.perform_in(2.second, player.id) and return
       
     end
     

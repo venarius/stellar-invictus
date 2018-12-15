@@ -4,35 +4,40 @@ class MissionWorker
   include Sidekiq::Worker
   sidekiq_options :retry => false 
   
-  def perform(location_id, player_id)
+  def perform(location_id, amount=0, rounds=0, wave_amount=0)
     location = Location.find(location_id) rescue nil
     
-    # Get amount of enemies to spawn
-    amount = location.mission.enemy_amount
-    
-    if amount > 0
-      rounds = rand(3..5)
-      wave_amount = (amount / rounds).round
+    if location
+      # Get amount of enemies to spawn
+      amount = location.mission.enemy_amount if amount == 0
       
-      rounds.times do
-        location = location.reload rescue nil
-        spawn_enemies(wave_amount, location, location.mission.difficulty) if location
+      if amount > 0
+        
+        if rounds == 0 and wave_amount == 0
+          rounds = rand(3..5)
+          wave_amount = (amount / rounds).round
+          wave_amount = 1 if wave_amount == 0
+        end
+        
+        if location.users.count > 0
+          if location.npcs.count == 0
+            rounds = rounds - 1
+            spawn_enemies(wave_amount, location)
+          end
+          
+          MissionWorker.perform_in(10.seconds, location_id, amount, rounds, wave_amount) if rounds > 0
+        end
+        
       end
     end
   end
   
-  def spawn_enemies(wave_amount, location, difficulty)
-    
-    # set to 1
-    wave_amount = 1 if wave_amount == 0
+  def spawn_enemies(wave_amount, location)
     
     wave_amount.times do
-      EnemyWorker.perform_async(location.id, 2, difficulty) if location.users.count > 0
+      EnemyWorker.perform_async(nil, location.id)
     end
     
-    while true do
-      sleep(10)
-      return if (location.reload.npcs.count rescue 0) == 0
-    end
   end
+  
 end
