@@ -162,7 +162,7 @@ class MissionGenerator
         mission.items.delete_all
       when 'combat'
         # check if user is onsite
-        return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: location.id).present?
+        return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.location.id).present?
     end
     
     mission.destroy and return nil

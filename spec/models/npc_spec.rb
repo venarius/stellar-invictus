@@ -45,6 +45,14 @@ describe Npc do
           expect(user.reload.npc_target).to eq(nil)
         end
       end
+      
+      describe 'give_bounty' do
+        it 'should give user random bounty' do
+          user = FactoryBot.create(:user_with_faction)
+          @npc.give_bounty(user)
+          expect(user.reload.units).not_to eq(10)
+        end
+      end
     end
   end
 end

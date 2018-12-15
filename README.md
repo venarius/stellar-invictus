@@ -45,6 +45,7 @@
 - Help Site
 - Ability to Change Factions -> Loose rep
 - ~~Enemy Bounty random~~
+- Remove Sleep from Workers !Important
 - Bug Reporting
 - Forum / Subreddit
 - Newbie Channel with ID "NEWBIES"
