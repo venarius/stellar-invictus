@@ -77,4 +77,22 @@ class StructuresController < ApplicationController
     end
     render json: {}, status: 400
   end
+  
+  def abandoned_ship
+    if params[:id] || (params[:id] and params[:text])
+      structure = Structure.find(params[:id])
+      if structure and structure.location == current_user.location and current_user.can_be_attacked
+        if params[:text]
+          if params[:text].downcase == RIDDLE_VARIABLES[structure.riddle]['answer']
+            new_structure = Structure.create(location: current_user.location, structure_type: 'wreck')
+            structure.items.update_all(structure_id: new_structure.id)
+            render json: {}, status: 200 and return
+          end
+        else
+          render partial: 'structures/abandoned_ship', locals: {structure: structure} and return
+        end
+      end
+    end
+    render json: {}, status: 400
+  end
 end
