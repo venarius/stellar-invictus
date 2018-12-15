@@ -45,7 +45,7 @@
 - Help Site
 - Ability to Change Factions -> Loose rep
 - ~~Enemy Bounty random~~
-- Remove Sleep from Workers !Important
+- ~~Remove Sleep from Workers !Important~~
 - Add amount to items
 - Bug Reporting
 - Forum / Subreddit
