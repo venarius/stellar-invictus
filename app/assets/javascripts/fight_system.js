@@ -111,11 +111,9 @@ function update_health(hp) {
         setTimeout(function() {$('#own-ship-health').parent().removeClass('success-flash');}, 1000);
       }
     } else {
-      if (!$('.ship-card').hasClass('outline-danger')) {
-        $('.ship-card').addClass('outline-danger');
-        clearTimeout(attackBorderTimeout);
-        attackBorderTimeout = setTimeout(function() {$('.ship-card').removeClass('outline-danger');}, 2500);
-      }
+      $('.ship-card').addClass('outline-danger');
+      clearTimeout(attackBorderTimeout);
+      attackBorderTimeout = setTimeout(function() {$('.ship-card').removeClass('outline-danger');}, 2500);
       if (!$('#own-ship-health').parent().hasClass('success-flash') && !$('#own-ship-health').parent().hasClass('attack-flash')) {
         $('#own-ship-health').parent().addClass('attack-flash');
         setTimeout(function() {$('#own-ship-health').parent().removeClass('attack-flash');}, 1000);
