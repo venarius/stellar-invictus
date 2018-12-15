@@ -4,13 +4,13 @@
 
 <p class="color-grey"><%= I18n.t('missions.transmission_start').html_safe %></p>
 
-<% if current_user.missions.count < 3 %>
+<% if current_user.missions.count < 5 %>
   <p><strong><%= I18n.t('missions.objectives') %>:</strong></p>
   <ul>
     <% if mission.offered? %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery', amount: mission.items.count, name: mission.items.first.get_attribute('name'), station: Location.find(mission.deliver_to).name, system: Location.find(mission.deliver_to).system.name) %></li>
+        <li><%= I18n.t('missions.objective_delivery', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name'), station: Location.find(mission.deliver_to).name, system: Location.find(mission.deliver_to).system.name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'mining' %>
@@ -44,17 +44,17 @@
   <ul>
     <li><%= I18n.t('missions.credits') %>: <%= mission.reward %> Cr</li>
   </ul>
-<% else %>
-  <p><%= I18n.t('mission.finish_active_missions_first') %></p>
-<% end %>
+  
+  <p class="color-grey"><%= I18n.t('missions.transmission_end').html_safe %></p>
 
-<p class="color-grey"><%= I18n.t('missions.transmission_end').html_safe %></p>
-
-<% if mission.offered? %>
-  <% if current_user.missions.count < 3 %>
+  <% if mission.offered? %>
     <button class="btn btn-outline-primary accept-mission-btn" data-id="<%= mission.id %>"><%= I18n.t('missions.accept_mission') %></button>
+  <% else %>
+    <button class="btn btn-outline-success finish-mission-btn" data-id="<%= mission.id %>"><%= I18n.t('missions.finish_mission') %></button>
+    <button class="btn btn-outline-danger abort-mission-modal-btn" data-toggle="modal" data-target="#abort-mission-modal" data-id="<%= mission.id %>"><%= I18n.t('missions.abort_mission') %></button>
   <% end %>
 <% else %>
-  <button class="btn btn-outline-success finish-mission-btn" data-id="<%= mission.id %>"><%= I18n.t('missions.finish_mission') %></button>
-  <button class="btn btn-outline-danger abort-mission-modal-btn" data-toggle="modal" data-target="#abort-mission-modal" data-id="<%= mission.id %>"><%= I18n.t('missions.abort_mission') %></button>
+  <p class="color-grey"><%= I18n.t('missions.transmission_end').html_safe %></p>
+  
+  <p><%= I18n.t('mission.finish_active_missions_first') %></p>
 <% end %>

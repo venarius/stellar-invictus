@@ -64,6 +64,3 @@ Jumpgate.find_or_create_by(origin: kerion_jumpgate_talos, destination: talos_jum
 
 # Chat Rooms for Global and Locations
 ChatRoom.create(chatroom_type: 'global', title: 'Global')
-Location.all.each do |location|
-   ChatRoom.create(chatroom_type: 'local', title: location.name, location: location) 
-end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_10_102141) do
+ActiveRecord::Schema.define(version: 2018_12_14_162523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,8 @@ ActiveRecord::Schema.define(version: 2018_12_10_102141) do
     t.datetime "updated_at", null: false
     t.bigint "faction_id"
     t.bigint "mission_id"
+    t.boolean "hidden", default: false
+    t.integer "enemy_amount", default: 0
     t.index ["faction_id"], name: "index_locations_on_faction_id"
     t.index ["mission_id"], name: "index_locations_on_mission_id"
     t.index ["system_id"], name: "index_locations_on_system_id"
@@ -203,6 +205,7 @@ ActiveRecord::Schema.define(version: 2018_12_10_102141) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "riddle"
     t.index ["location_id"], name: "index_structures_on_location_id"
     t.index ["user_id"], name: "index_structures_on_user_id"
   end

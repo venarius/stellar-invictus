@@ -14,7 +14,11 @@ class Location < ApplicationRecord
   
   has_one :chat_room, dependent: :destroy
   
-  enum location_type: [:station, :asteroid_field, :jumpgate, :mission]
+  enum location_type: [:station, :asteroid_field, :jumpgate, :mission, :exploration_site]
+  
+  after_create do
+    ChatRoom.create(chatroom_type: 'local', title: self.name, location: self)
+  end
   
   def jumpgate
     Jumpgate.where("origin_id = ? OR destination_id = ?", self.id, self.id).first

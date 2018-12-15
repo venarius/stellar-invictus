@@ -15,6 +15,8 @@ function load_ship_info_animations() {
 }
 
 function app_player_ship() {
+  PIXI.utils.skipHello()
+  
   var app = new PIXI.Application(270, 87, { antialias: true, autoResize: true }); 
   $('.player-space-ship').empty().append(app.view);
   
@@ -89,7 +91,9 @@ function enemy_player_ship() {
   // Vars
   var countdown;
   
-  var app = new PIXI.Application(269, 87, { antialias: true, autoResize: true }); 
+  PIXI.utils.skipHello()
+  
+  var app = new PIXI.Application(269, 87, { antialias: true, autoResize: true });
   $('.enemy-space-ship').empty().append(app.view);
   
   // create a texture from an image path

@@ -243,4 +243,12 @@ class Spaceship < ApplicationRecord
     
     value
   end
+  
+  # Get Scanner of Ship
+  def get_scanner
+    self.get_main_equipment.each do |item|
+      return item if item.get_attribute('type') == "Scanner"
+    end
+    return nil
+  end
 end

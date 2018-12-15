@@ -26,3 +26,8 @@ end
 every 10.minutes do
   runner "runner/economy_redo.rb" 
 end
+
+# Hidden Locations
+every 15.minutes do
+  runner "runner/hidden_locations.rb"
+end
