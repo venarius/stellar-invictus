@@ -167,6 +167,24 @@ describe User do
           expect(@user.mining_target).to eq(nil)
         end
       end
+      
+      describe 'give_bounty' do
+        it 'should give given user some bounty if user has bounty' do
+          enemy = FactoryBot.create(:user_with_faction)
+          @user.active_spaceship.update_columns(name: 'Valadria')
+          @user.update_columns(bounty: 1000)
+          @user.give_bounty(enemy)
+          expect(enemy.units).not_to eq(10)
+        end
+        
+        it 'should give given user some bounty if user has less bounty than worth bounty' do
+          enemy = FactoryBot.create(:user_with_faction)
+          @user.active_spaceship.update_columns(name: 'Valadria')
+          @user.update_columns(bounty: 1)
+          @user.give_bounty(enemy)
+          expect(enemy.units).to eq(11)
+        end
+      end
     end
   end
 end

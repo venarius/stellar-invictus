@@ -25,6 +25,14 @@ RSpec.describe SystemsController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'POST scan' do
+      it 'should redirect_to login' do
+        post :scan
+        expect(response.code).to eq('302')
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   context 'with login' do 
@@ -65,6 +73,26 @@ RSpec.describe SystemsController, type: :controller do
         post :clear_route
         expect(response.status).to eq(200)
         expect(@user.reload.route).to eq([])
+      end
+    end
+    
+    describe 'POST scan' do
+      it 'should render template if user has scanner equipped' do
+        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: true)
+        post :scan
+        expect(response.status).to eq(200)
+        expect(response).to render_template('game/_locations_table')
+      end
+      
+      it 'should not render template if user has scanner not equipped' do
+        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: false)
+        post :scan
+        expect(response.status).to eq(400)
+      end
+      
+      it 'should not render template if user has no scanner' do
+        post :scan
+        expect(response.status).to eq(400)
       end
     end
   end

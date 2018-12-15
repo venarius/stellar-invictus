@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   end
   
   def update_last_action
-    if (current_user and current_user.last_action and current_user.last_action < 5.minutes.ago) || current_user.last_action == nil
+    if (current_user and current_user.last_action and current_user.last_action < 5.minutes.ago) || (current_user and current_user.last_action == nil)
       current_user.update_columns(last_action: DateTime.now)
     end
   end
