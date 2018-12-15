@@ -4,41 +4,58 @@ class PoliceWorker
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
-  def perform(player_id, seconds)
-    player = User.find(player_id)
+  def perform(player_id, seconds, npc_id=nil, idle=false, done=false)
+    player = User.find(player_id) rescue nil
     location = player.location
+    police = Npc.find(npc_id) if npc_id
     
-    police = Npc.create(npc_type: 'police', target: player.id, name: generate_name)
+    if npc_id == nil
+      police = Npc.create(npc_type: 'police', target: player.id, name: generate_name)
     
-    sleep(seconds)
+      PoliceWorker.perform_in(seconds.second, player_id, seconds, police.id) and return
+    end
     
-    police.update_columns(location_id: location.id)
+    unless police.npc_state
+      police.update_columns(location_id: location.id, npc_state: 'created')
+      
+      # Tell everyone in the location that police has come
+      ActionCable.server.broadcast("location_#{location.id}", method: 'player_appeared')
+      
+      PoliceWorker.perform_in(2.second, player_id, seconds, police.id) and return
+    end
     
-    # Tell everyone in the location that police has come
-    ActionCable.server.broadcast("location_#{location.id}", method: 'player_appeared')
+    if police.created?
+      # Tell user he is getting targeted by police
+      ActionCable.server.broadcast("player_#{player.id}", method: 'getting_targeted', name: police.name)
+      
+      police.targeting!
     
-    sleep(2)
+      PoliceWorker.perform_in(3.second, player_id, seconds, police.id) and return
+    end
     
-    # Tell user he is getting targeted by police
-    ActionCable.server.broadcast("player_#{player.id}", method: 'getting_targeted', name: police.name)
+    if police.targeting?
+      # Tell user he is getting attacked by police
+      ActionCable.server.broadcast("player_#{player.id}", method: 'getting_attacked', name: police.name)
+      
+      police.attacking!
     
-    sleep(3)
+      PoliceWorker.perform_in(3.second, player_id, seconds, police.id) and return
+    end
     
-    # Tell user he is getting attacked by police
-    ActionCable.server.broadcast("player_#{player.id}", method: 'getting_attacked', name: police.name)
+    if !idle
+      # Let user die
+      player.die
     
-    sleep(1)
+      PoliceWorker.perform_in(3.second, player_id, seconds, police.id, true) and return
+    end
     
-    # Let user die
-    player.die
-    
-    sleep(3)
-    
-    # Let police warp out
-    police.update_columns(location_id: nil)
-    ActionCable.server.broadcast("location_#{location.id}", method: 'player_warp_out', name: police.name)
-    
-    sleep(1)
+    if !done
+      # Let police warp out
+      police.update_columns(location_id: nil)
+      ActionCable.server.broadcast("location_#{police.location.id}", method: 'player_warp_out', name: police.name)
+      
+      PoliceWorker.perform_in(3.second, player_id, seconds, police.id, true, true) and return
+    end
     
     # Destroy police
     police.destroy

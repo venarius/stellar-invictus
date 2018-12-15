@@ -2,6 +2,7 @@ class Npc < ApplicationRecord
   belongs_to :location, optional: true
   
   enum npc_type: [:enemy, :police]
+  enum npc_state: [:created, :targeting, :attacking, :waiting]
   
   # Lets the npc die
   def die
