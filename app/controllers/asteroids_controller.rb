@@ -2,7 +2,7 @@ class AsteroidsController < ApplicationController
   
   def mine
     # If user can be attacked and is at asteroid field
-    if params[:id] and current_user.location.location_type == 'asteroid_field' and current_user.can_be_attacked
+    if params[:id] and current_user.location.asteroids.present? and current_user.can_be_attacked
       asteroid = Asteroid.find(params[:id]) rescue nil
       
       # If user can't carry ore -> error

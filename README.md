@@ -24,12 +24,12 @@
 - ~~Bounty System~~
 - ~~Missions~~
 - Planetary Interaction -> Rebid every month to maintain
-- Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems
-- Scan locations to see ships at that place
+- ~~Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems~~
+- ~~Small Description for each item type~~
 - ~~Trading System~~
 - More Ships
 - ~~Faction Bonuses~~
-- Faction Reputation - Unlocks on different levels 
+- Faction Reputation - Unlocks on different levels
 - ~~About -> Currently empty site~~
 - ~~Warp to Fleet Members~~
 - More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas
@@ -45,6 +45,7 @@
 - Help Site
 - Ability to Change Factions -> Loose rep
 - ~~Enemy Bounty random~~
+- Remove Sleep from Workers !Important
 - Bug Reporting
 - Forum / Subreddit
 - Newbie Channel with ID "NEWBIES"
@@ -53,6 +54,7 @@
 - ~~Better Map -> visjs.org~~
 - ~~Routing System -> See what jumpgates to take to get from A to B~~
 - Bounty Hunting for NPCs hiding in their hidden homes -> need scanner -> lots of bounty
+- Natural Occurences -> Sun Storms, Raiders, etc...
 
 ## Installation
 

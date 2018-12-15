@@ -23,6 +23,11 @@ asteroid:
     type: "Ore"
     weight: 0
     price: 1
+  titanium:
+    name: "Titanium"
+    type: "Ore"
+    weight: 0
+    price: 5
 
 # Equipment
 equipment:
@@ -35,7 +40,7 @@ equipment:
       weight: 4
       damage: 5
       slot_type: "main"
-      septarium_usage: 1
+      septarium_usage: 0
       crafting: {"asteroid.nickel": 5, "asteroid.cobalt": 10, "materials.laser_diodes": 1}
       crafting_duration: 10
       price: 40
@@ -62,7 +67,7 @@ equipment:
       crafting_duration: 200
       price: 200
       
-  # Scanner
+  # Sensors
   sensors:
     small_sensor:
       name: "Small Sensor"
@@ -73,6 +78,38 @@ equipment:
       crafting: {"asteroid.iron": 30, "asteroid.cobalt": 10, "materials.sensor_electronics": 30}
       crafting_duration: 200
       price: 250
+      
+  scanner:
+    basic_scanner:
+      name: "Basic Scanner"
+      type: "Scanner"
+      weight: 2
+      scanner_range: 1
+      septarium_usage: 5
+      slot_type: "main"
+      crafting: {"asteroid.iron": 30, "asteroid.cobalt": 10, "materials.sensor_electronics": 30}
+      crafting_duration: 100
+      price: 250
+    advanced_scanner:
+      name: "Advanced Scanner"
+      type: "Scanner"
+      weight: 2
+      scanner_range: 2
+      septarium_usage: 15
+      slot_type: "main"
+      crafting: {"asteroid.iron": 60, "asteroid.cobalt": 25, "materials.sensor_electronics": 40}
+      crafting_duration: 200
+      price: 500
+    military_scanner:
+      name: "Military Scanner"
+      type: "Scanner"
+      weight: 2
+      scanner_range: 4
+      septarium_usage: 40
+      slot_type: "main"
+      crafting: {"asteroid.iron": 100, "asteroid.cobalt": 50, "materials.sensor_electronics": 65}
+      crafting_duration: 400
+      price: 1250
       
   # Warp Disruptors
   warp_disruptors:
@@ -130,7 +167,7 @@ equipment:
       weight: 3
       repair_amount: 3
       slot_type: "main"
-      septarium_usage: 1
+      septarium_usage: 0
       crafting: {"asteroid.cobalt": 15, "asteroid.iron": 15, "materials.ai_components": 10}
       crafting_duration: 200
       price: 80

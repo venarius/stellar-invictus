@@ -1,0 +1,91 @@
+1:
+  question: "A + A + A + A = 28<br>B + B + A = 17<br>B + C = 9<br>A + B + C - A = ?"
+  answer: "9"
+
+2:
+  question: "What is the name of the spaceship every player starts with?"
+  answer: "nano"
+
+3:
+  question: "What’s the total number of dots on a pair of dice? (number)"
+  answer: "42"
+
+4:
+  question: "Traditionally, how many Wonders of the World are there? (number)"
+  answer: "7"
+
+5:
+  question: "How many strings does a violin have? (number)"
+  answer: "4"
+
+6:
+  question: "What color is the circle on the Japanese national flag?"
+  answer: "red"
+
+7:
+  question: "What is the chemical symbol for Hydrogen?"
+  answer: "h"
+
+8:
+  question: "In Greek mythology, who turned all that he touched into gold?"
+  answer: "midas"
+
+9:
+  question: "How many sides does an octagon have? (number)"
+  answer: "8"
+
+10:
+  question: "How many players are there in a baseball team? (number)"
+  answer: "9"
+
+11:
+  question: "The average human body contains how many pints of blood? (number)"
+  answer: "9"
+
+12:
+  question: "Hg is the chemical symbol of which element?"
+  answer: "mercury"
+
+13:
+  question: "In Fahrenheit, at what temperature does water freeze? (number)"
+  answer: "32"
+
+14:
+  question: "What is the chemical symbol for iron?"
+  answer: "fe"
+
+15:
+  question: "What is the largest two digit prime number? (number)"
+  answer: "97"
+
+16:
+  question: "Who was the Greek god of dreams?"
+  answer: "morpheus"
+
+17:
+  question: "What is the square root of 256? (number)"
+  answer: "16"
+
+18:
+  question: "How many hearts do octopuses have?"
+  answer: "3"
+
+19:
+  question: "What is the heaviest organ in the human body?"
+  answer: "liver"
+
+20:
+  question: "What is the chemical symbol for potassium?"
+  answer: "k"
+
+21:
+  question: "Diamonds are mostly composed of which element?"
+  answer: "carbon"
+
+22:
+  question: "Which scientist formulated the law of universal gravitation?"
+  answer: "isaac newton"
+
+23:
+  question: "Which gas is formed when a hydrogen bomb is detonated?"
+  answer: "helium"

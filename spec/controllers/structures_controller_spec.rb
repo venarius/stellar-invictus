@@ -25,6 +25,14 @@ RSpec.describe StructuresController, type: :controller do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
+    
+    describe 'POST abandoned_ship' do
+      it 'should redirect to new session path' do
+        post :abandoned_ship
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
   
   describe 'with login' do
@@ -152,6 +160,54 @@ RSpec.describe StructuresController, type: :controller do
         post :attack, params: {id: @container.id}
         expect(response.status).to eq(400)
         expect(Structure.count).to eq(1)
+      end
+    end
+    
+    describe 'POST abandoned_ship' do
+      before(:each) do
+        @abandoned_ship = FactoryBot.create(:structure, location: @user.location, structure_type: 'abandoned_ship', riddle: 1)
+      end
+      
+      it 'should render_template if user in same location as structure' do
+        post :abandoned_ship, params: {id: @abandoned_ship.id}
+        expect(response.status).to eq(200)
+        expect(response).to render_template('structures/_abandoned_ship')
+      end
+      
+      it 'should not render_template if user docked' do
+        @user.update_columns(docked: true)
+        post :abandoned_ship, params: {id: @abandoned_ship.id}
+        expect(response.status).to eq(400)
+      end
+      
+      it 'should not render_template if user in warp' do
+        @user.update_columns(in_warp: true)
+        post :abandoned_ship, params: {id: @abandoned_ship.id}
+        expect(response.status).to eq(400)
+      end
+      
+      it 'should not render_template if user in other location' do
+        @user.update_columns(location_id: Location.last.id)
+        post :abandoned_ship, params: {id: @abandoned_ship.id}
+        expect(response.status).to eq(400)
+      end
+      
+      it 'should fail if false answer given' do
+        post :abandoned_ship, params: {id: @abandoned_ship.id, text: "Glub"}
+        expect(response.status).to eq(400)
+      end
+      
+      it 'should succeed if right answer given' do
+        post :abandoned_ship, params: {id: @abandoned_ship.id, text: "9"}
+        expect(response.status).to eq(200)
+        expect(@user.location.structures.count).to eq(3)
+      end
+      
+      it 'should fail if user in other location' do
+        @user.update_columns(location_id: Location.last.id)
+        post :abandoned_ship, params: {id: @abandoned_ship.id, text: "9"}
+        expect(response.status).to eq(400)
+        expect(@abandoned_ship.location.structures.count).to eq(2)
       end
     end
   end

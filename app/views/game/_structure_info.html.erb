@@ -3,7 +3,7 @@
     <tr>
       <td><%= image_tag('icons/cargo.png') %></td>
       <td class="players-card-name-td name"><%= I18n.t('structures.container') %></td>
-      <td><%= I18n.t('structures.cargo') %></td>
+      <td><%= I18n.t('structures.structure') %></td>
       <td class="mobile-display-none"></td>
       <td>
         <button class="btn btn-outline-danger w-46 attack-container-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.attack') %>" data-id="<%= structure.id %>">
@@ -19,7 +19,7 @@
     <tr>
       <td><%= image_tag('icons/cargo.png') %></td>
       <td class="players-card-name-td name"><%= I18n.t('structures.wreck') %></td>
-      <td><%= I18n.t('structures.cargo') %></td>
+      <td><%= I18n.t('structures.structure') %></td>
       <td class="mobile-display-none"></td>
       <td>
         <button class="btn btn-outline-danger w-46 attack-container-btn" data-id="<%= structure.id %>">
@@ -27,6 +27,19 @@
         </button>
         <button class="btn btn-outline-warning w-50 open-container-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.open') %>" data-id="<%= structure.id %>">
           <i class="fa fa-angle-double-up"></i>
+        </button>
+      </td>
+    </tr>
+  <% end %>
+  <% if structure.structure_type == 'abandoned_ship' %>
+    <tr>
+      <td><%= image_tag('icons/spaceship.png') %></td>
+      <td class="players-card-name-td name"><%= I18n.t('structures.abandoned_ship') %></td>
+      <td><%= I18n.t('structures.structure') %></td>
+      <td class="mobile-display-none"><%= I18n.t('alliances.unknown') %></td>
+      <td>
+        <button class="btn btn-outline-primary w-100 open-abandoned-ship-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.search') %>" data-id="<%= structure.id %>">
+          <i class="fa fa-info"></i>
         </button>
       </td>
     </tr>

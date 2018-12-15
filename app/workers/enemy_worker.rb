@@ -26,7 +26,7 @@ class EnemyWorker
     if target.present? and can_attack(enemy, target)
       attack(enemy, target, difficulty)
     else
-      wait_for_new_target(enemy) if enemy.hp > 0
+      wait_for_new_target(enemy, difficulty) if enemy.hp > 0
     end
   end
   
@@ -47,14 +47,14 @@ class EnemyWorker
   # ################
   # Wait for new target
   # ################
-  def wait_for_new_target(enemy)
+  def wait_for_new_target(enemy, difficulty)
     sleep(10)
     
     # Find first User in system and target
     target = User.where(location: enemy.location, docked: false).where('online > 0').sample rescue nil
     
     if target.present?
-      attack(enemy, target)
+      attack(enemy, target, difficulty)
     else
       enemy.destroy and return
     end
@@ -63,7 +63,7 @@ class EnemyWorker
   # ################
   # Attack
   # ################
-  def attack(enemy, target, difficulty=nil)
+  def attack(enemy, target, difficulty)
     # Gets target id and spaceship
     target_id = target.id
     target_spaceship = target.active_spaceship
@@ -110,7 +110,7 @@ class EnemyWorker
       if target_spaceship.hp <= 0
         target_spaceship.update_columns(hp: 0)
         target.die
-        wait_for_new_target(enemy) if (enemy.reload.hp rescue 0) > 0
+        wait_for_new_target(enemy, difficulty) if (enemy.reload.hp rescue 0) > 0
       end
       
       # Global Cooldown
@@ -118,6 +118,6 @@ class EnemyWorker
     end
     # If target is gone wait for new to pop up
     enemy = enemy.reload rescue nil
-    wait_for_new_target(enemy) if enemy and enemy.hp > 0
+    wait_for_new_target(enemy, difficulty) if enemy and enemy.hp > 0
   end
 end

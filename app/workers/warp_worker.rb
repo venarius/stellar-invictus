@@ -58,5 +58,12 @@ class WarpWorker
     if user.location.location_type == 'mission' and user.location.mission.user == user
       MissionWorker.perform_async(user.location.id, user.id)
     end
+    
+    # Spawn Enemies if User at Expedtion Site with Enemies
+    if user.location.location_type == 'exploration_site' and user.location.enemy_amount > 0
+      (user.location.enemy_amount).times do
+        EnemyWorker.perform_async(user.location.id, 1)
+      end
+    end
   end
 end

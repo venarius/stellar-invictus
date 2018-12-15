@@ -10,7 +10,7 @@
       </button>
     </td>
   </tr>
-<% elsif current_user.location.location_type == 'asteroid_field' %>
+<% elsif current_user.location.asteroids.present? %>
   <% current_user.location.asteroids.each do |asteroid| %>
     <% next if asteroid.resources <= 0 %>
     <tr>
