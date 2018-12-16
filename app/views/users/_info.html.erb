@@ -8,29 +8,37 @@
         </button>
       </div>
       <div class="modal-body">
-        <% if current_user.friends.where(id: user.id).empty? and current_user != user %>
-          <button class="btn btn-outline-primary add-as-friend-btn mb-3 w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.add_friend') %>" data-id="<%= user.id %>">
-            <i class="fa fa-user-plus"></i>
-          </button>
-        <% elsif current_user != user %>
-          <button class="btn btn-outline-danger remove-as-friend-btn mb-3  w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_friend') %>" data-id="<%= user.id %>">
-            <i class="fa fa-user-minus"></i>
-          </button>
-        <% end %>
-        <% if current_user != user %>
-          <button class="btn btn-outline-primary chat-player-btn mb-3 w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.message') %>" data-id="<%= user.id %>" <%= 'disabled' if user.online == 0 %>>
-            <i class="fa fa-comment-alt"></i>
-          </button>
-          <% if user.in_same_fleet_as(current_user.id) and current_user.fleet.creator == current_user %>
-            <button class="btn btn-outline-danger remove-from-fleet-btn mb-3 w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_from_fleet') %>" data-id="<%= user.id %>">
-              <i class="fa fa-space-shuttle"></i>
+        <div class="<%= 'mb-3' if user != current_user %>">
+          <% if current_user.friends.where(id: user.id).empty? and current_user != user %>
+            <button class="btn btn-outline-primary add-as-friend-btn w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.add_friend') %>" data-id="<%= user.id %>">
+              <i class="fa fa-user-plus"></i>
             </button>
-          <% else %>
-            <button class="btn btn-outline-primary invite-to-fleet-btn mb-3 w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.invite_to_fleet') %>" data-id="<%= user.id %>" <%= 'disabled' if user.fleet || user.online == 0 %>>
-              <i class="fa fa-space-shuttle"></i>
+          <% elsif current_user != user %>
+            <button class="btn btn-outline-danger remove-as-friend-btn w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_friend') %>" data-id="<%= user.id %>">
+              <i class="fa fa-user-minus"></i>
             </button>
           <% end %>
-        <% end %>
+          <% if current_user != user %>
+            <div class="dropdown w-33 display-inline-block">
+              <button class="btn btn-outline-primary w-100" type="button" data-toggle="dropdown">
+                <i class="fa fa-comment-alt"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item chat-player-btn <%= 'disabled' if user.online == 0 %>" href="#" data-id="<%= user.id %>"><%= I18n.t('users.start_conversation') %></a>
+                <%= link_to I18n.t('users.send_mail'), new_game_mail_path(to: user.full_name), class: 'dropdown-item' %>
+              </div>
+            </div>
+            <% if user.in_same_fleet_as(current_user.id) and current_user.fleet.creator == current_user %>
+              <button class="btn btn-outline-danger remove-from-fleet-btn w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_from_fleet') %>" data-id="<%= user.id %>">
+                <i class="fa fa-space-shuttle"></i>
+              </button>
+            <% else %>
+              <button class="btn btn-outline-primary invite-to-fleet-btn w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.invite_to_fleet') %>" data-id="<%= user.id %>" <%= 'disabled' if user.fleet || user.online == 0 %>>
+                <i class="fa fa-space-shuttle"></i>
+              </button>
+            <% end %>
+          <% end %>
+        </div>
               
         <span class="mb-3">
           <%= I18n.t('bounty.bounty') %>: <span id="user-bounty"><%= user.bounty %></span> Cr&nbsp;&nbsp;

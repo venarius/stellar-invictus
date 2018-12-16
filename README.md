@@ -34,6 +34,7 @@
 - ~~Warp to Fleet Members~~
 - More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas
 - Main equipment to buff other pilots
+- Ship Descriptions, Classes, Bonuses
 - Player Reporting
 - Reward players for not killing each other
 - Player-Owned Stations -> 1 per System
@@ -58,6 +59,8 @@
 - Natural Occurences -> Sun Storms, Raiders, etc...
 - Rework Material Requirements and Prices on Items / Ships (Titanium Ore)
 - Improve Code with Rubycritic
+- Cargo Jettison -> Be able to submit how much
+- Store / Load / Sell -> "All" Button
 
 ## Installation
 

@@ -259,6 +259,8 @@ en:
     bio: "Bio"
     about: "About"
     bio_not_much_known: "There is not much known about this pilot..."
+    start_conversation: "Start Conversation"
+    send_mail: "Send Mail"
   crafting:
     craft: "Craft"
     ressources: "Required Ressources"
