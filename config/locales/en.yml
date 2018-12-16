@@ -362,3 +362,5 @@ en:
   riddles:
     question: "Question"
     someone_else_was_here_before: "Someone else was here before..."
+  exploration:
+    abandoned_ship_text: "You try to search the ship. As you went thorugh its damaged corridors you notice the blinking screen of an still active computer. As you move closer to the screen you begin to recognize the words written on it:"
