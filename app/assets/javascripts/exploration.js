@@ -18,7 +18,7 @@ $( document ).on('turbolinks:load', function() {
         });
         
         if (found == 0) {
-          $('.overview-card .card-body table tbody').append(button.closest('tr'));
+          button.closest('tr').hide().appendTo('.overview-card .card-body table tbody').fadeIn();
         }
       });
       button.html(text);
