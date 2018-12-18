@@ -22,10 +22,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def after_sign_up_path_for(resource)
-    new_user_session_path
-  end
-  
   def redirect_if_no_faction
     if current_user
       redirect_to factions_path unless current_user.faction
@@ -33,11 +29,13 @@ class ApplicationController < ActionController::Base
   end
   
   def call_police(player)
-    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player.id).empty?
+    player_id = player.id
+    
+    if player.system.security_status != 'low' and Npc.where(npc_type: 'police', target: player_id).empty?
       if player.system.security_status == 'high'
-        PoliceWorker.perform_async(player.id, 2)
+        PoliceWorker.perform_async(player_id, 2)
       else
-        PoliceWorker.perform_async(player.id, 10)
+        PoliceWorker.perform_async(player_id, 10)
       end
     end
   end

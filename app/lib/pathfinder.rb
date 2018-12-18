@@ -66,7 +66,7 @@ class Pathfinder
   end
   
   def self.shortest_path(start_system, end_system)
-    previouses = dijkstra(start_system)
+    previouses = PATHFINDER[start_system.name]
     path = []
     u = end_system.name
     while u

@@ -152,6 +152,7 @@ RSpec.describe StationsController, type: :controller do
       end
       
       it 'should remove user as target of other users' do
+        @user.update_columns(location_id: Location.where(location_type: 'station').first.id)
         user2 = FactoryBot.create(:user_with_faction)
         user2.update_columns(target_id: @user.id)
         

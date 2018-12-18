@@ -53,6 +53,15 @@ class MissionGenerator
     end
     
     mission.user.update_columns(units: mission.user.units + mission.reward)
+    
+    case mission.faction_id
+      when 1
+        mission.user.update_columns(reputation_1: mission.user.reputation_1 + mission.faction_bonus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
+      when 2
+        mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 + mission.faction_bonus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
+      when 3
+        mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 + mission.faction_bonus)
+    end
         
     mission.destroy and return nil
   end
@@ -80,7 +89,11 @@ class MissionGenerator
     
     mission.text = rand(1..3)
     
-    mission.faction_id = rand(1..3)
+    if location.faction == nil
+      mission.faction_id = rand(1..3)
+    else
+      mission.faction_id = location.faction_id
+    end
     
     if mission.mission_type == 'delivery'
       

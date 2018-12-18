@@ -3,6 +3,35 @@
 </div>
 
 <div class="row">
+  <div class="col-12 mb-3">
+    <div class="card black-card">
+      <h5 class="card-header"><%= I18n.t('devise.standings') %></h5>
+      <div class="card-body">
+        <div class="row">
+          <% Faction.all.each do |faction| %>
+            <% rank = faction.get_rank(current_user) %>
+            <div class="col-lg-4">
+              <h4 class="text-center"><%= faction.name %></h4>
+              <h5 class="text-center"><%= rank['name'] %></h5>
+              <div class="row">
+                <div class="col-4 text-center">
+                  
+                </div>
+                <div class="col-4 text-center">
+                  <h5 class="<%= 'color-sec-low' if current_user["reputation_#{faction.id}"] < 0 %> <%= 'color-sec-high' if current_user["reputation_#{faction.id}"] >= 0 %>">
+                    <%= current_user["reputation_#{faction.id}"] %>
+                  </h5>
+                </div>
+                <div class="col-4 text-center">
+                  
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="col-md-6 mb-3">
     <div class="card black-card mb-3">
       <h5 class="card-header"><%= I18n.t('devise.account') %></h5>

@@ -43,7 +43,7 @@ class Location < ApplicationRecord
   end
   
   def is_factory
-    self.location_type == 'station' and self.name.include? "Factory"  
+    self.location_type == 'station' and self.name.include? "Industrial"  
   end
   
 end

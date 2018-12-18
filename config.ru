@@ -19,10 +19,10 @@ end
 # Asteroids
 Location.where(location_type: 'asteroid_field').each do |loc|
   if loc.asteroids.count < 5
-    rand(5..10).times do 
+    rand(2..5).times do 
       Asteroid.create(location: loc, asteroid_type: rand(3), resources: 35000)
     end
-    rand(3..5).times do 
+    rand(1..3).times do 
       Asteroid.create(location: loc, asteroid_type: 3, resources: 35000)
     end
   end
@@ -32,9 +32,9 @@ end
 Npc.destroy_all
 
 # Cargocontainer
-Structure.where(structure_type: 'container').destroy_all
+Structure.where(structure_type: 'container').where("created_at > ?", 1.day.ago).destroy_all
 # Wrecks
-Structure.where(structure_type: 'wreck').destroy_all
+Structure.where(structure_type: 'wreck').where("created_at > ?", 1.day.ago).destroy_all
 
 # Ships
 Spaceship.all.each do |ship|
@@ -44,34 +44,6 @@ end
 # Items
 Item.all.each do |item|
   item.update_columns(active: false)
-end
-
-# Market Listing
-def get_item_attribute(loader, attribute)
-  atty = loader.split(".")
-  out = ITEM_VARIABLES[atty[0]]
-  loader.count('.').times do |i|
-    out = out[atty[i+1]]
-  end
-  out[attribute] rescue nil
-end
-  
-MarketListing.destroy_all
-noise = Perlin::Noise.new 1, seed: Time.now.to_i
-Location.where(location_type: 'station').each_with_index do |location, index|
-  rabat = noise[(index + 1.0) / 10.0] + 0.5
-  ITEMS.each do |item|
-    rand(0..1).times do
-      rand(3..15).times do
-        MarketListing.create(loader: item, location: location, listing_type: 'item', price: (get_item_attribute(item, 'price') * rabat * rand(0.95..1.05)).round, amount: rand(10..30))
-      end
-    end
-  end
-  STATION_VARIABLES[location.id]['spaceships'].each do |ship|
-    rand(1..10).times do
-      MarketListing.create(loader: ship, location: location, listing_type: 'ship', price: (SHIP_VARIABLES[ship]['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
-    end
-  end
 end
 
 # Mission Scunk
