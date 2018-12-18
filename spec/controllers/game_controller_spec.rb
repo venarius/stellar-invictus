@@ -163,6 +163,7 @@ RSpec.describe GameController, type: :controller do
     
     describe 'POST jump' do
       it 'should do nothing when user not at jumpgate' do
+        @user.update_columns(location_id: Location.where(location_type: 'station').first.id)
         post :jump
         expect(JumpWorker.jobs.size).to eq(0)
         expect(response.code).to eq('400')

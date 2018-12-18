@@ -47,8 +47,11 @@ $( document ).on('turbolinks:load', function() {
     var button = $(this)
     
     $.post('structure/abandoned_ship', {text: text, id: id}, function(data) {
-      button.closest('.modal').modal('hide');
-      reload_players_card();
+      button.closest('.modal').find('input').css('border', '1px solid green').css('box-shadow', '0 0 5px green');
+      setTimeout(function() {
+        button.closest('.modal').modal('hide');
+        reload_players_card();
+      }, 1000)
     }).error(function() { button.closest('.modal').find('input').css('border', '1px solid red').css('box-shadow', '0 0 5px red'); });
   });
 });

@@ -5,25 +5,25 @@
       <button class="btn btn-outline-danger float-right remove-route-btn"><%= I18n.t('routing.remove_route') %></button>
     </h5>
     <div class="card-body">
-      <% path = {} %>
+      <% path = [] %>
       <% current_user.route.each_with_index do |jg, index| %>
         <% jg = Jumpgate.find(jg) %>
         
         <% if index == 0 %>
           <% if jg.origin.system == current_user.system %>
-            <% path[jg.origin.system.name] = jg.destination.system.name %>
+            <% path << jg.destination.system.name %>
             <%= jg.origin.system.name %> -> <%= jg.destination.system.name %>
           <% else %>
-            <% path[jg.destination.system.name] = jg.origin.system.name %>
+            <% path << jg.origin.system.name %>
             <%= jg.destination.system.name %> -> <%= jg.origin.system.name %>
           <% end %>
         <% else %>
-          <% if jg.destination.system.name == path[path.size] %>
-            <% path[jg.origin.system.name] = jg.destination.system.name %>
-            -> <%= jg.destination.system.name %>
-          <% else %>
-            <% path[jg.destination.system.name] = jg.origin.system.name %>
+          <% if jg.destination.system.name == path.last %>
+            <% path << jg.origin.system.name %>
             -> <%= jg.origin.system.name %>
+          <% else %>
+            <% path << jg.destination.system.name %>
+            -> <%= jg.destination.system.name %>
           <% end %>
         <% end %>
       <% end %>
@@ -54,14 +54,16 @@
     var nodes = new vis.DataSet([
       <% System.all.each do |sys| %>
         <% color = ["rgba(81, 203, 238, 1)", "#FF8C00", "red"] %>
-        {id: <%= sys.id %>, label: "<%= sys.name %>", image: "<%= image_url("planets/star_#{sys.security_status}.png") %>", font: {<%= "size: 20, color: 'yellow'".html_safe if current_user.system == sys %>} },
+        {id: <%= sys.id %>, label: "<%= sys.get_faction.get_ticker if sys.get_faction %> <%= sys.name %>", image: "<%= image_url("planets/star_#{sys.security_status}.png") %>", font: {<%= "size: 20, color: 'yellow'".html_safe if current_user.system == sys %>} },
       <% end %>
     ]);
 
     // create an array with edges
     var edges = new vis.DataSet([
-      <% Jumpgate.includes(:origin => :system, :destination => :system).all.each do |jg| %>
-        {id: <%= jg.id %>, from: <%= jg.origin.system.id %>, to: <%= jg.destination.system.id %>},
+      <% cache Jumpgate do %>
+        <% Jumpgate.includes(:origin => :system, :destination => :system).all.each do |jg| %>
+          {id: <%= jg.id %>, from: <%= jg.origin.system.id %>, to: <%= jg.destination.system.id %>},
+        <% end %>
       <% end %>
     ]);
 
@@ -89,7 +91,8 @@
         color: { color: 'grey' }
       },
       physics: { enabled: false },
-      layout: { randomSeed: 123 },
+      // Seeds: 626344
+      layout: { randomSeed: 576136 },
       interaction: { selectConnectedEdges: false }
     };
 
@@ -118,6 +121,7 @@
     $('.results').on('click', '.get-route-btn', function() {
       var id = $(this).data('id');
       
+      loading_animation($(this));
       $.post('system/route', {id: id}, function(data) {
         Turbolinks.visit(window.location);
       });
@@ -125,6 +129,7 @@
     
     // remove route button
     $('.remove-route-btn').on('click', function(){
+      loading_animation($(this));
       $.post('system/clear_route', function() {
         Turbolinks.visit(window.location);
       });

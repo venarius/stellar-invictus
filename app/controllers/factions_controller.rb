@@ -9,7 +9,8 @@ class FactionsController < ApplicationController
   def choose_faction
     if !current_user.faction
       faction = Faction.find(params[:id]) rescue nil
-      if faction and current_user.update_columns(faction_id: faction.id, location_id: faction.location.id, system_id: faction.location.system.id, docked: true)
+      rand_location = faction.locations.order(Arel.sql("RANDOM()")).first rescue nil
+      if faction and rand_location and current_user.update_columns(faction_id: faction.id, location_id: rand_location.id, system_id: rand_location.system.id, docked: true)
         
         # Give player ship and equipment
         current_user.give_nano

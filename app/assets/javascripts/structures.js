@@ -35,10 +35,7 @@ $( document ).on('turbolinks:load', function() {
         button.parent().parent().remove(); 
       }
       refresh_player_info();
-    }).error(function(data) {
-      $('#cargocontainer-modal').find('.error').remove();
-      $('#cargocontainer-modal').find('table').after("<span class='error'><small>"+data.responseJSON.error_message+"</small></span>");
-    });
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Load all items from cargo container AJAX
@@ -48,9 +45,6 @@ $( document ).on('turbolinks:load', function() {
     $.post('structure/pickup_cargo', {id: id}, function(data) {
       $('#cargocontainer-modal').modal('hide');
       refresh_player_info();
-    }).error(function(data) {
-      $('#cargocontainer-modal').find('.error').remove();
-      $('#cargocontainer-modal').find('table').after("<span class='error'><small>"+data.responseJSON.error_message+"</small></span>");
-    });
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
 });

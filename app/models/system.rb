@@ -12,4 +12,9 @@ class System < ApplicationRecord
         count: users.count, names: ApplicationController.helpers.map_and_sort(users))
     end
   end
+  
+  # Get owning Faction
+  def get_faction
+    self.locations.where(location_type: 'station').first.faction rescue nil
+  end
 end

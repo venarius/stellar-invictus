@@ -100,7 +100,6 @@ RSpec.describe StructuresController, type: :controller do
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(200)
         expect(user2.reload.active_spaceship.get_weight).to eq(5)
-        expect(PoliceWorker.jobs.size).to eq(1)
         expect(Structure.count).to eq(0)
       end
       
@@ -133,7 +132,7 @@ RSpec.describe StructuresController, type: :controller do
         end
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(200)
-        expect(@user.reload.active_spaceship.get_weight).to eq(10)
+        expect(@user.reload.active_spaceship.get_weight).to eq(13)
         expect(Structure.count).to eq(1)
       end
     end
@@ -152,7 +151,6 @@ RSpec.describe StructuresController, type: :controller do
         post :attack, params: {id: @container.id}
         expect(response.status).to eq(200)
         expect(Structure.count).to eq(0)
-        expect(PoliceWorker.jobs.size).to eq(1)
       end
       
       it 'should not destroy if user in other location' do

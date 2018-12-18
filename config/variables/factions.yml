@@ -4,15 +4,47 @@
   damage_amplifier: 1.1
   defense_amplifier: 1
   storage_amplifier: 1
+      
 2:
   placeholder: kraken.png
   ticker: CAL
   damage_amplifier: 1
   defense_amplifier: 1.1
   storage_amplifier: 1
+      
 3:
   placeholder: lupa.png
   ticker: COR
   damage_amplifier: 1
   defense_amplifier: 1
   storage_amplifier: 1.2
+  
+reputation:
+    1:
+      reputation: -25.0
+      name: 'Vilified'
+      unlocks: []
+    2:
+      reputation: -15.0
+      name: 'Hated'
+      unlocks: []
+    3:
+      reputation: -5.0
+      name: 'Shunned'
+      unlocks: []
+    4:
+      reputation: 0.0
+      name: 'Neutral'
+      unlocks: []
+    5:
+      reputation: 10.0
+      name: 'Accepted'
+      unlocks: []
+    6:
+      reputation: 25.0
+      name: 'Liked'
+      unlocks: []
+    7:
+      reputation: 50.0
+      name: 'Idolized'
+      unlocks: []

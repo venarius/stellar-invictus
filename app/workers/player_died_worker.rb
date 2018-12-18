@@ -28,7 +28,8 @@ class PlayerDiedWorker
       Item.create(loader: 'equipment.weapons.laser_gatling', spaceship: ship, equipped: true)
       
       # Make User docked at his factions station
-      user.update_columns(docked: true, location_id: user.faction.location.id, system_id: user.faction.location.system.id, active_spaceship_id: ship.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
+      rand_location = user.faction.locations.order(Arel.sql("RANDOM()")).first rescue nil
+      user.update_columns(docked: true, location_id: rand_location.id, system_id: rand_location.system.id, active_spaceship_id: ship.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
       
       # Tell user to reload page
       ac_server.broadcast("player_#{user.id}", method: 'reload_page')

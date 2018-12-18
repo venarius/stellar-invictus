@@ -51,8 +51,8 @@ class PoliceWorker
     
     if !done
       # Let police warp out
-      police.update_columns(location_id: nil)
       ActionCable.server.broadcast("location_#{police.location.id}", method: 'player_warp_out', name: police.name)
+      police.update_columns(location_id: nil)
       
       PoliceWorker.perform_in(3.second, player_id, seconds, police.id, true, true) and return
     end

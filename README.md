@@ -3,7 +3,7 @@
 ## Roadmap
 
 - ~~Asteroids - Rename Ore~~
-- Enhance map
+- ~~Enhance map~~
 - ~~Fleets~~
 - ~~Crafting~~
 - Alliances
@@ -32,7 +32,7 @@
 - Faction Reputation - Unlocks on different levels
 - ~~About -> Currently empty site~~
 - ~~Warp to Fleet Members~~
-- More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas
+- ~~More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas~~
 - Main equipment to buff other pilots
 - Ship Descriptions, Classes, Bonuses
 - Player Reporting
@@ -61,6 +61,9 @@
 - Improve Code with Rubycritic
 - Cargo Jettison -> Be able to submit how much
 - Store / Load / Sell -> "All" Button
+- Disallow Attacks and Looting anothers loot in Highsec
+- More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space
+- If in area of faction who hates you, may spawn faction ships to come and get you
 
 ## Installation
 

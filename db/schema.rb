@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_15_201134) do
+ActiveRecord::Schema.define(version: 2018_12_17_084041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -251,6 +251,9 @@ ActiveRecord::Schema.define(version: 2018_12_15_201134) do
     t.integer "bounty", default: 0
     t.integer "bounty_claimed", default: 0
     t.string "route", default: [], array: true
+    t.float "reputation_1", default: 0.0
+    t.float "reputation_2", default: 0.0
+    t.float "reputation_3", default: 0.0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
