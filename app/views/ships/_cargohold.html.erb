@@ -4,8 +4,8 @@
       <tr>
         <th scope="col">Qty.</th>
         <th scope="col"><%= I18n.t('items.name') %></th>
-        <th scope="col"><%= I18n.t('items.type') %></th>
-        <th scope="col" id="btn-th"></th>
+        <th scope="col" class="mobile-display-none"><%= I18n.t('items.type') %></th>
+        <th scope="col" style="width:135px"><%= I18n.t('items.eject_cargo') %></th>
       </tr>
     </thead>
     <tbody>
@@ -14,11 +14,16 @@
         <tr>
           <td><%= times %>&times;</td>
           <td><%= item.get_attribute('name') %></td>
-          <td><%= item.get_attribute('type') %></td>
+          <td class="mobile-display-none"><%= item.get_attribute('type') %></td>
           <td>
-            <button class="btn btn-outline-warning eject-cargo-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.eject_cargo') %>" data-loader="<%= loader %>">
-              <i class="fa fa-angle-double-up"></i>
-            </button>
+            <div class="input-group">
+              <input type="number" class="form-control eject-input" placeholder="Amount" value="1">
+              <div class="input-group-append">
+                <button class="btn btn-outline-warning eject-cargo-btn" type="button" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.eject_cargo') %>" data-loader="<%= loader %>">
+                  <i class="fa fa-angle-double-up"></i>
+                </button>
+              </div>
+            </div>
           </td>
         </tr>
       <% end %>
