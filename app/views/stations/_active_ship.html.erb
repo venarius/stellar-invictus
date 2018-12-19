@@ -15,7 +15,7 @@
             <th scope="col">Qty.</th>
             <th scope="col"><%= I18n.t('items.name') %></th>
             <th scope="col"><%= I18n.t('items.type') %></th>
-            <th style="width:1px;"></th>
+            <th style="width:70px;"></th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +26,7 @@
               <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
               <td>
                 <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-up"></i></a>
+                <a class="btn btn-outline-primary btn-sm store-all-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store_all') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-angle-double-up"></i></a>
               </td>
             </tr>
           <% end %>

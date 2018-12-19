@@ -142,21 +142,39 @@ RSpec.describe ShipsController, type: :controller do
       end
       
       it 'should start worker' do
-        post :eject_cargo, params: {loader: 'test'}
+        post :eject_cargo, params: {loader: 'test', amount: 1}
         expect(response.status).to eq(200)
         expect(EjectCargoWorker.jobs.size).to eq(1)
       end
       
+      it 'should not start worker if amount missing' do
+        post :eject_cargo, params: {loader: 'test'}
+        expect(response.status).to eq(400)
+        expect(EjectCargoWorker.jobs.size).to eq(0)
+      end
+      
+      it 'should not start worker if amount negative' do
+        post :eject_cargo, params: {loader: 'test', amount: -1}
+        expect(response.status).to eq(400)
+        expect(EjectCargoWorker.jobs.size).to eq(0)
+      end
+      
+      it 'should not start worker if amount bigger than what have' do
+        post :eject_cargo, params: {loader: 'test', amount: 3}
+        expect(response.status).to eq(400)
+        expect(EjectCargoWorker.jobs.size).to eq(0)
+      end
+      
       it 'should not start worker if docked' do
         @user.update_columns(docked: true)
-        post :eject_cargo, params: {loader: 'test'}
+        post :eject_cargo, params: {loader: 'test', amount: 1}
         expect(response.status).to eq(400)
         expect(EjectCargoWorker.jobs.size).to eq(0)
       end
       
       it 'should not start worker if in warp' do
         @user.update_columns(in_warp: true)
-        post :eject_cargo, params: {loader: 'test'}
+        post :eject_cargo, params: {loader: 'test', amount: 1}
         expect(response.status).to eq(400)
         expect(EjectCargoWorker.jobs.size).to eq(0)
       end
