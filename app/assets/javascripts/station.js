@@ -116,6 +116,7 @@ $( document ).on('turbolinks:load', function() {
     });
     jqxhr.error(function(data) {
       $('#load-modal').find('input').addClass("outline-danger");
+      $('#load-modal').find('span.text-center.color-red').remove();
       $('#load-modal').find('.input-group').after("<span class='text-center color-red'>"+data.responseJSON.error_message+"</span>");
      })
   });

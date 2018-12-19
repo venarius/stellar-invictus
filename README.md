@@ -46,7 +46,7 @@
 - Help Site
 - ~~Enemy Bounty random~~
 - ~~Remove Sleep from Workers !Important~~
-- Add amount to items
+- Fast movement of many items -> Store / Load
 - Bug Reporting
 - Forum / Subreddit
 - Newbie Channel with ID "NEWBIES"
@@ -58,7 +58,7 @@
 - Natural Occurences -> Sun Storms, Raiders, etc...
 - Rework Material Requirements and Prices on Items / Ships (Titanium Ore)
 - Improve Code with Rubycritic
-- Cargo Jettison -> Be able to submit how much
+- ~~Cargo Jettison -> Be able to submit how much~~
 - Store / Load / Sell -> "All" Button
 - Disallow Attacks and Looting anothers loot in Highsec
 - More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space

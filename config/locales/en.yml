@@ -75,6 +75,7 @@ en:
     this_agent_is_not_on_this_station: "This agent is not on this station"
     user_must_be_in_same_system: "User must be in the same system"
     already_at_location: "Already at location"
+    invalid_amount: "Invalid amount entered"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -201,6 +202,7 @@ en:
   items:
     type: "Type"
     name: "Name"
+    eject_cargo: "Eject Cargo"
   tooltips:
     target: "Target"
     info: "Info"
