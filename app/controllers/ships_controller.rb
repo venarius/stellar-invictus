@@ -62,9 +62,18 @@ class ShipsController < ApplicationController
   end
   
   def eject_cargo
-    if params[:loader] and current_user.can_be_attacked
-      EjectCargoWorker.perform_async(current_user.id, params[:loader])
-      render json: {}, status: 200 and return
+    if params[:loader] and params[:amount] and current_user.can_be_attacked
+      amount = params[:amount].to_i rescue nil
+      
+      if amount and amount > 0
+        # check amount
+        render json: {error_message: I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if Item.where(loader: params[:loader], spaceship: current_user.active_spaceship, equipped: false, active: false).count < amount
+        
+        EjectCargoWorker.perform_async(current_user.id, params[:loader], amount)
+        render json: {}, status: 200 and return
+      else
+        render json: {error_message: I18n.t('errors.invalid_amount')}, status: 400 and return
+      end
     end
     render json: {}, status: 400
   end

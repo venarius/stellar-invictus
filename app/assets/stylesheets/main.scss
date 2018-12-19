@@ -705,7 +705,7 @@ body {
 .station-ship-inventory-table, .station-storage-table {
   margin-bottom: 0;
   thead {
-    .btn-th { width: 68px !important; }
+    .btn-th { width: 97px !important; }
   }
   tbody {
     td .btn {
@@ -877,7 +877,7 @@ body {
 }
 
 // ###############
-// Inventory-Modal, Cargocontainer Modal
+// Inventory-Modal, Cargocontainer Modal, Cargohold Modal
 // ###############
 #inventory-modal, #cargocontainer-modal {
   thead tr th, tbody tr td { border: 1px solid grey; }
@@ -889,6 +889,11 @@ body {
       padding: 0rem 0.5rem;
     }
   }
+}
+
+.eject-input {
+  height: 25px;
+  border: 1px solid #FF8800
 }
 
 // ###############
