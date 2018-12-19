@@ -16,7 +16,7 @@ class MissionWorker
         if rounds == 0 and wave_amount == 0
           rounds = rand(3..5)
           wave_amount = (amount / rounds).round
-          wave_amount = 1 if wave_amount == 0
+          wave_amount = 2 if wave_amount == 0 || wave_amount == 1
         end
         
         if location.users.count > 0

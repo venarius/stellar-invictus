@@ -74,9 +74,7 @@ class StationsController < ApplicationController
       amount = params[:amount].to_i
       items = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader])
       if items and amount <= items.count and amount > 0
-        items.first(amount).each do |item|
-          item.update_columns(spaceship_id: nil, location_id: current_user.location.id, user_id: current_user.id, equipped: false)
-        end
+        items.limit(amount).update_all(spaceship_id: nil, location_id: current_user.location.id, user_id: current_user.id, equipped: false)
         render json: {}, status: 200 and return
       end
     end
@@ -92,9 +90,7 @@ class StationsController < ApplicationController
         render json: {'error_message': I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
       end
       if items and amount <= items.count and amount > 0
-        items.first(amount).each do |item|
-          item.update_columns(spaceship_id: current_user.active_spaceship.id, location_id: nil, user_id: nil)
-        end
+        items.limit(amount).update_all(spaceship_id: current_user.active_spaceship.id, location_id: nil, user_id: nil)
         render json: {}, status: 200 and return
       end
     end

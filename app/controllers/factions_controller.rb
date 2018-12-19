@@ -15,6 +15,9 @@ class FactionsController < ApplicationController
         # Give player ship and equipment
         current_user.give_nano
         
+        # Add user to rookie channel
+        ChatRoom.find_by(identifier: 'ROOKIES').users << current_user
+        
         redirect_to game_path
       else
         flash[:error] = I18n.t('errors.something_went_wrong')

@@ -178,6 +178,9 @@ class MissionGenerator
         return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.location.id).present?
     end
     
+    # Reduce Reputation
+    mission.user.update_attribute("reputation_#{mission.faction_id}", mission.user["reputation_#{mission.faction_id}"] - 1)
+    
     mission.destroy and return nil
   end
 end

@@ -363,6 +363,9 @@ en:
     sure_abort_text: "Are you sure you want to abort this mission?"
     will_loose_reputation: "You will loose reputation on this faction for aborting a mission"
     abort: "Abort"
+    successfully_accepted_mission: "Successfully accepted mission"
+    successfully_finished_mission: "Successfully finished mission"
+    successfully_aborted_mission: "Successfully aborted mission"
   alliances:
     unknown: "Unknown"
   riddles:

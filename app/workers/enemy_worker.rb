@@ -117,7 +117,7 @@ class EnemyWorker
     end
     
     # While npc can attack player
-    while can_attack do
+    while can_attack and @attack do
       
       # The attack
       target_spaceship.update_columns(hp: target_spaceship.reload.hp - @attack.round)

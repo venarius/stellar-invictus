@@ -26,7 +26,7 @@ class Npc < ApplicationRecord
   def remove_being_targeted
     User.where(npc_target_id: self.id).each do |user|
       user.update_columns(npc_target_id: nil, is_attacking: false)
-      ActionCable.server.broadcast("player_#{user.id}", method: 'refresh_target_info')
+      ActionCable.server.broadcast("player_#{user.id}", method: 'remove_target')
     end
   end
   

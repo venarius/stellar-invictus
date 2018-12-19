@@ -25,5 +25,19 @@ $(document).ready(function() {
         "white-space": "nowrap"
       }
     }
+  });
+  
+  $.notify.addStyle('success', {
+    html: "<div><i class='fa fa-check'></i>&nbsp;&nbsp;<span data-notify-text/></div>",
+    classes: {
+      base: {
+        "color": "white",
+        "margin-bottom": "10px",
+        "background": "rgba(0, 0, 0, 0.75)",
+        "border": "1px solid #77B300",
+        "padding": "10px",
+        "white-space": "nowrap"
+      }
+    }
   }); 
 });

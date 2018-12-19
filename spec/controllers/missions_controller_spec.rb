@@ -111,10 +111,12 @@ RSpec.describe MissionsController, type: :controller do
     
     describe 'GET abort' do
       it 'should abort mission' do
+        faction_id = Mission.last.faction_id
         Mission.last.update_columns(mission_status: 1, user_id: @user.id)
         get :abort, params: {id: Mission.last.id}
         expect(response.status).to eq(200)
         expect(@user.reload.missions.count).to eq(0)
+        expect(@user["reputation_#{faction_id}"]).to eq(-1)
       end
       
       it 'should not abort mission if belongs to other user' do

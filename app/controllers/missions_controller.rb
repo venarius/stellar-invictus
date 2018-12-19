@@ -21,7 +21,7 @@ class MissionsController < ApplicationController
       
       MissionGenerator.generate_missions(current_user.location.id)
       
-      render json: {}, status: 200 and return
+      render json: {message: I18n.t('missions.successfully_accepted_mission')}, status: 200 and return
     end
     render json: {}, status: 400
   end
@@ -32,7 +32,7 @@ class MissionsController < ApplicationController
     if error
       render json: {'error_message': error}, status: 400
     else
-      render json: {}, status: 200
+      render json: {message: I18n.t('missions.successfully_finished_mission')}, status: 200
     end
   end
   
@@ -43,7 +43,7 @@ class MissionsController < ApplicationController
       if error
         render json: {'error_message': error}, status: 400
       else
-        render json: {}, status: 200
+        render json: {message: I18n.t('missions.successfully_aborted_mission')}, status: 200
       end
     else
       render json: {}, status: 400

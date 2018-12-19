@@ -18,7 +18,7 @@ $( document ).on('turbolinks:load', function() {
         $(event.target).prev('.card-header').find('.fa-arrow-right').removeClass('fa-arrow-right').addClass('fa-arrow-down');
         Cookies.set($(event.target).attr('id'), 'shown');
     });
-
+    
     // Loading Button
     $('.btn-load').on('click', function() {
         if ($('.field_with_errors').length == 0 && $(this).is("button")) {
