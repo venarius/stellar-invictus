@@ -27,9 +27,9 @@
 - ~~Expeditions -> Quiz for loot -> Worker to randomly place hidden Locations in Systems~~
 - ~~Small Description for each item type~~
 - ~~Trading System~~
-- More Ships
+- ~~More Ships~~
 - ~~Faction Bonuses~~
-- Faction Reputation - Unlocks on different levels
+- Faction Reputation - Unlocks on different levels -> Faction Ships
 - ~~About -> Currently empty site~~
 - ~~Warp to Fleet Members~~
 - ~~More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas~~
@@ -44,7 +44,6 @@
 - Admin Backend
 - Vote for Changes
 - Help Site
-- Ability to Change Factions -> Loose rep
 - ~~Enemy Bounty random~~
 - ~~Remove Sleep from Workers !Important~~
 - Add amount to items
@@ -107,6 +106,12 @@ After that:
 5. Run cap production puma:nginx_config
 6. Run cap production deploy:link_certificates
 7. Run cap production deploy
+
+## After every new thing
+```
+rake economy:redo
+rake pathfinder:generate_paths
+```
 
 ## Help
 
