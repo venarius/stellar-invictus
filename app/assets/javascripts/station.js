@@ -66,6 +66,21 @@ $( document ).on('turbolinks:load', function() {
     $("#store-modal").modal("show");
   });
   
+  // Store all from ship on station AJAX
+  $('.station-card').on('click', '.store-all-btn', function(e) {
+    var button = $(this)
+    
+    var jqxhr = $.post("/stations/store", {loader: $(this).data('loader'), amount: $(this).data('amount')}, function() {
+      button.tooltip('dispose');
+      
+      if (button.closest('tbody').find('tr').length == 1) {
+        button.closest('table').replaceWith("<h2 class='text-center'>...</h2>")
+      } else {
+        button.parent().parent().remove();
+      }
+    });
+  });
+  
   // Store Max Button click
   $('.station-card').on('click', '#store-modal .max-btn', function(e) {
     e.preventDefault();
@@ -97,6 +112,21 @@ $( document ).on('turbolinks:load', function() {
     $('#load-modal').find('.load-confirm-btn').data("loader", $(this).data("loader"));
     $('#load-modal').find('.max-btn').data("amount", $(this).data("amount"));
     $("#load-modal").modal("show");
+  });
+  
+  // Load all from station to ship AJAX
+  $('.station-card').on('click', '.load-all-btn', function(e) {
+    var button = $(this)
+    
+    var jqxhr = $.post("/stations/load", {loader: $(this).data('loader'), amount: $(this).data('amount')}, function() {
+      button.tooltip('dispose');
+      
+      if (button.closest('tbody').find('tr').length == 1) {
+        button.closest('table').replaceWith("<h2 class='text-center'>...</h2>")
+      } else {
+        button.parent().parent().remove();
+      }
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Load Max Button click
