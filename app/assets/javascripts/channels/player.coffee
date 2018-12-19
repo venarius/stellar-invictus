@@ -33,6 +33,8 @@ $(document).on "turbolinks:load", ->
         else if (data.method == 'asteroid_depleted')
           remove_target()
           reload_players_card()
+        else if (data.method == 'remove_target')
+          remove_target()
         else if (data.method == 'died_modal' && data.text)
           show_died_modal(data.text)
         else if (data.method == 'log' && data.text)

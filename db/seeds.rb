@@ -112,7 +112,7 @@ end
 System.all.each do |sys|
   romans = ["I", "II", "III", "IV", "V", "VI"]
   count = 0
-  if sys.locations.where(location_type: 1).count == 0
+  if sys.locations.where(location_type: 1).empty?
     (rand(0..6)).times do
       Location.find_or_create_by(name: "Asteroid Belt #{romans[count]}", system: sys, location_type: 1)
       count = count + 1
@@ -165,3 +165,6 @@ end
 
 # Chat Rooms for Global and Locations
 ChatRoom.create(chatroom_type: 'global', title: 'Global')
+
+# Newbie Room
+ChatRoom.create(chatroom_type: 'custom', title: 'Rookies', identifier: 'ROOKIES')

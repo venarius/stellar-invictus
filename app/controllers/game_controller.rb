@@ -1,7 +1,7 @@
 class GameController < ApplicationController
   before_action :get_local_users, only: [:index, :local_players]
   before_action :check_police, only: [:warp, :jump]
-  before_action :check_warp_disrupt, only: [:warp]
+  before_action :check_warp_disrupt, only: [:warp, :jump]
   
   def index
     if current_user.docked 

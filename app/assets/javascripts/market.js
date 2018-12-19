@@ -120,7 +120,13 @@ $( document ).on('turbolinks:load', function() {
     
     $.post('market/sell', {loader: loader, type: type, quantity: amount, id: id}, function(data) {
       button.closest('.modal').modal('hide');
-      Turbolinks.visit(window.location);
+      button = $('#app-container').find('.market-appraise-btn[data-loader="'+loader+'"]');
+      
+      if (button.closest('tbody').find('tr').length == 1) {
+        button.closest('table').replaceWith("<h2 class='text-center'>...</h2>")
+      } else {
+        button.parent().parent().remove();
+      }
     }).error(function(data) {
       $('#market-sell').find('input').addClass("outline-danger"); 
       if (!button.closest('.modal').find('.error').length) {

@@ -46,10 +46,10 @@
 - Help Site
 - ~~Enemy Bounty random~~
 - ~~Remove Sleep from Workers !Important~~
-- Fast movement of many items -> Store / Load
+- ~~Fast movement of many items -> Store / Load~~
 - Bug Reporting
 - Forum / Subreddit
-- Newbie Channel with ID "NEWBIES"
+- ~~Newbie Channel with ID "ROOKIES"~~
 - Stations Overview empty
 - Factory -> X amount of nanos plus licence -> Can now build next ship
 - ~~Better Map -> visjs.org~~
@@ -60,6 +60,8 @@
 - Improve Code with Rubycritic
 - ~~Cargo Jettison -> Be able to submit how much~~
 - ~~Store / Load -> "All" Button~~
+- ~~Should not reload ship info after npc died (performance)~~
+- ~~Notify for successfully accepted mission / finished mission~~
 - Missions / Market more specific to Station
 - Disallow Attacks and Looting anothers loot in Highsec
 - More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space

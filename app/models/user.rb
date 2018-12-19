@@ -86,7 +86,7 @@ class User < ApplicationRecord
     User.where(target_id: self.id).each do |user|
       user.update_columns(target_id: nil)
       user.active_spaceship.deactivate_equipment if user.is_attacking
-      ActionCable.server.broadcast("player_#{user.id}", method: 'refresh_target_info')
+      ActionCable.server.broadcast("player_#{user.id}", method: 'remove_target')
     end
   end
   

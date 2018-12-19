@@ -10,7 +10,7 @@ class ChatRoom < ApplicationRecord
   
   # Before Create -> Generate Identifier
   before_create do
-    self.identifier = generate_random_identifier
+    self.identifier = generate_random_identifier unless self.identifier and self.identifier != ""
   end
   
   # Update local players

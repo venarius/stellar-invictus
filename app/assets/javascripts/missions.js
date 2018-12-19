@@ -16,6 +16,7 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data('id');
     
     $.post('mission/accept', {id: id}, function(data) {
+      $.notify(data.message, {style: 'success'});
       load_station_tab("#missions");
     });
   });
@@ -25,6 +26,7 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data('id');
     
     $.post('mission/finish', {id: id}, function(data) {
+      $.notify(data.message, {style: 'success'});
       load_station_tab("#missions");
       refresh_player_info();
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
@@ -51,7 +53,8 @@ $( document ).on('turbolinks:load', function() {
   $('.station-card').on('click', '#abort-mission-modal .abort-mission-btn', function(e) {
     var id = $(this).data('id');
     
-    $.post('mission/abort', {id: id}, function() {
+    $.post('mission/abort', {id: id}, function(data) {
+      $.notify(data.message, {style: 'success'});
       $('#abort-mission-modal').modal('hide');
       setTimeout(function() {load_station_tab("#missions");}, 250)
     });

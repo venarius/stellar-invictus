@@ -79,7 +79,7 @@ class ChatRoomsController < ApplicationController
         end
         
         # If room is empty -> destroy
-        if room_users.count <= 0
+        if room_users.count <= 0 and room.identifier != 'ROOKIES'
           room.destroy
         end
         
