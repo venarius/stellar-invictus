@@ -33,19 +33,40 @@
 
 <div class="card black-card map-card mb-3">
   <h5 class="card-header"><%= I18n.t('navbar.map') %></h5>
+  <div class="speech-bubble"></div>
   <div class="card-body" id="map">
     
   </div>
 </div>
 
-<div class="results mb-3">
-  
-</div>
-
 <style>
-  .map-card .card-body {
+  #map {
     overflow: hidden;
     padding: 0;
+  }
+  
+  .speech-bubble {
+    z-index: 10;
+    display: block;
+    top: -1000px;
+    left: -1000px;
+  	position: absolute;
+  	background: #5d5d5d;
+  	border-radius: .4em;
+  }
+  
+  .speech-bubble:after {
+  	content: '';
+  	position: absolute;
+  	bottom: 0;
+  	left: 50%;
+  	width: 0;
+  	height: 0;
+  	border: 20px solid transparent;
+  	border-top-color: #191919;
+  	border-bottom: 0;
+  	margin-left: -20px;
+  	margin-bottom: -20px;
   }
 </style>
 
@@ -101,12 +122,26 @@
     var network = new vis.Network(container, data, options);
     
     // get info from node on select
-    network.on("selectNode", function (params) {
-      var id = this.getNodeAt(params.pointer.DOM);
-      
-      $.get('system/info', {id: id}, function(data) {
-        $('.results').html(data);
-      });
+    network.on("click", function (params) {
+      if (params.nodes) {
+        var id = params.nodes[0]
+        var position = network.canvasToDOM(network.getPositions([id])[id])
+        
+        $.get('system/info', {id: id}, function(data) {
+          $('.speech-bubble').html(data);
+          setTimeout(function() { 
+            $('.speech-bubble').css({position: 'absolute', top: position.y-$('.speech-bubble').height()+10, left: position.x-($('.speech-bubble').width() / 2)}); 
+          }, 10)
+        }); 
+      }
+    });
+    
+    network.on("zoom", function () {
+      $('.speech-bubble').css({position: 'absolute', top: -1000, left: -1000, display: 'block'}); 
+    });
+    
+    network.on("dragStart", function () {
+      $('.speech-bubble').css({position: 'absolute', top: -1000, left: -1000, display: 'block'}); 
     });
     
     // draw route if user has one
@@ -119,7 +154,7 @@
     <% end %>
 
     // create route button
-    $('.results').on('click', '.get-route-btn', function() {
+    $('.speech-bubble').on('click', '.get-route-btn', function() {
       var id = $(this).data('id');
       
       loading_animation($(this));

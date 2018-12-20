@@ -5,6 +5,7 @@ document.addEventListener("turbolinks:before-cache", function() {
   }
   $('table tbody').empty();
   $('.alert').remove();
+  $('.speech-bubble').remove();
 })
 
 $( document ).on('turbolinks:load', function() {
