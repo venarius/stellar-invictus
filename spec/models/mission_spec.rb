@@ -32,7 +32,7 @@ describe Mission do
     end
     
     describe 'Enums' do
-       it { should define_enum_for(:mission_type).with([:tutorial, :delivery, :combat, :mining, :market]) } 
+       it { should define_enum_for(:mission_type).with([:tutorial, :delivery, :combat, :mining, :market, :vip]) } 
        it { should define_enum_for(:mission_status).with([:offered, :active, :failed, :completed]) } 
        it { should define_enum_for(:difficulty).with([:easy, :medium, :hard]) } 
     end

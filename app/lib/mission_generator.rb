@@ -32,7 +32,7 @@ class MissionGenerator
         
         # remove items
         Item.where(user: mission.user, location: mission.mission_location, loader: mission.mission_loader).limit(mission.mission_amount).destroy_all
-      when 'combat'
+      when 'combat', 'vip'
         # check enemy_amound
         return I18n.t('errors.you_didnt_kill_all_enemies') if mission.enemy_amount > 0
         
@@ -54,13 +54,18 @@ class MissionGenerator
     
     mission.user.update_columns(units: mission.user.units + mission.reward)
     
-    case mission.faction_id
-      when 1
-        mission.user.update_columns(reputation_1: mission.user.reputation_1 + mission.faction_bonus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
-      when 2
-        mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 + mission.faction_bonus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
-      when 3
-        mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 + mission.faction_bonus)
+    if mission.vip? and mission.mission_location.faction
+      mission.user.update_attribute("reputation_#{mission.faction_id}", mission.user["reputation_#{mission.faction_id}"] + mission.faction_bonus)
+      mission.user.update_attribute("reputation_#{mission.mission_location.faction_id}", mission.user["reputation_#{mission.mission_location.faction_id}"] - mission.faction_malus)
+    else
+      case mission.faction_id
+        when 1
+          mission.user.update_columns(reputation_1: mission.user.reputation_1 + mission.faction_bonus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
+        when 2
+          mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 + mission.faction_bonus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
+        when 3
+          mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 + mission.faction_bonus)
+      end
     end
         
     mission.destroy and return nil
@@ -74,8 +79,6 @@ class MissionGenerator
     mission.location = location
     
     difficulty = rand(2)
-    
-    mission.mission_type = rand(1..4)
     
     mission.mission_status = 'offered'
     
@@ -91,8 +94,10 @@ class MissionGenerator
     
     if location.faction == nil
       mission.faction_id = rand(1..3)
+      mission.mission_type = rand(1..4)
     else
       mission.faction_id = location.faction_id
+      mission.mission_type = rand(1..5)
     end
     
     if mission.mission_type == 'delivery'
@@ -131,7 +136,7 @@ class MissionGenerator
       mission.mission_location = Location.create(location_type: 'mission', system_id: System.find_by(name: location.system.locations.where(location_type: 'jumpgate').order(Arel.sql("RANDOM()")).first.name).id, name: 'Enemy Hive')
       
       # Set Reward
-      mission.reward = (20 * mission.enemy_amount * rand(0.8..1.2)).round
+      mission.reward = (10 * mission.enemy_amount * rand(0.8..1.2)).round
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
     elsif mission.mission_type == 'mining' || mission.mission_type == 'market'
       if mission.mission_type == 'market'
@@ -143,11 +148,26 @@ class MissionGenerator
       
       # Set Reward
       mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(1.0..1.2)).round
+    elsif mission.mission_type == 'vip'
+      mission.enemy_amount = 3
+      m_location = Location.where.not(faction_id: mission.faction_id).where("faction_id IS NOT NULL").first
+      mission.mission_location = Location.create(location_type: 'mission', system_id: m_location.system.id, name: 'Vip Hideout', faction_id: m_location.faction_id)
+      
+       # Set Reward
+      mission.reward = (100 * rand(0.8..1.2)).round
+      mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
+      
+      # Set Difficulty
+      difficulty = 1
+      
+      # Set Bonus / Malus
+      mission.faction_bonus = 1
+      mission.faction_malus = 1
     end
     
-    mission.faction_bonus = (0.1 * (difficulty + 1))
+    mission.faction_bonus = (0.1 * (difficulty + 1)) unless mission.faction_bonus
     
-    mission.faction_malus = (0.1 * rand(0..1))
+    mission.faction_malus = (0.1 * rand(0..1)) unless mission.faction_malus
     
     mission.difficulty = difficulty
     

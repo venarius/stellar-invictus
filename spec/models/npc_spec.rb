@@ -15,7 +15,7 @@ describe Npc do
     end
     
     describe 'Enums' do
-      it { should define_enum_for(:npc_type).with([:enemy, :police]) } 
+      it { should define_enum_for(:npc_type).with([:enemy, :police, :politician, :bodyguard]) } 
       it { should define_enum_for(:npc_state).with([:created, :targeting, :attacking, :waiting]) } 
     end
     

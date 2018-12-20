@@ -3,17 +3,40 @@
     <tr>
       <td><%= image_tag('icons/helmet.png') %></td>
       <td class="players-card-name-td name"><%= npc.name %></td>
-      <td>Police</td>
+      <td><%= I18n.t('npcs.police') %></td>
       <td class="mobile-display-none"></td>
       <td>
       </td>
     </tr>
-  <% end %>
-  <% if npc.npc_type == 'enemy' %>
+  <% elsif npc.npc_type == 'enemy' %>
     <tr class="<%= 'attack-flash' if npc.target == current_user.id %>">
       <td><%= image_tag('icons/helmet.png') %></td>
       <td class="players-card-name-td name"><%= npc.name %></td>
-      <td>Outlaw</td>
+      <td><%= I18n.t('npcs.outlaw') %></td>
+      <td class="mobile-display-none"></td>
+      <td>
+        <button class="btn btn-outline-warning w-100 target-npc-btn" data-id="<%= npc.id %>">
+          <i class="fa fa-crosshairs"></i>
+        </button>
+      </td>
+    </tr>
+  <% elsif npc.npc_type == 'politician' %>
+    <tr class="<%= 'attack-flash' if npc.target == current_user.id %>">
+      <td><%= image_tag('icons/helmet.png') %></td>
+      <td class="players-card-name-td name"><%= npc.name %></td>
+      <td><%= I18n.t('npcs.politician') %></td>
+      <td class="mobile-display-none"></td>
+      <td>
+        <button class="btn btn-outline-warning w-100 target-npc-btn" data-id="<%= npc.id %>">
+          <i class="fa fa-crosshairs"></i>
+        </button>
+      </td>
+    </tr>
+  <% elsif npc.npc_type == 'bodyguard' %>
+    <tr class="<%= 'attack-flash' if npc.target == current_user.id %>">
+      <td><%= image_tag('icons/helmet.png') %></td>
+      <td class="players-card-name-td name"><%= npc.name %></td>
+      <td><%= I18n.t('npcs.bodyguard') %></td>
       <td class="mobile-display-none"></td>
       <td>
         <button class="btn btn-outline-warning w-100 target-npc-btn" data-id="<%= npc.id %>">

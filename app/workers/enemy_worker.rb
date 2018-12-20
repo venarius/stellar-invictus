@@ -9,16 +9,26 @@ class EnemyWorker
   @target
   @attack
 
-  def perform(npc_id, location_id, target_id=nil, attack=nil)
+  def perform(npc_id, location_id, target_id=nil, attack=nil, count=nil)
     
     # Set some vars
     @location = Location.find(location_id)
     @enemy = Npc.find(npc_id) rescue nil if npc_id
     @target = User.find(target_id) rescue nil if target_id
     @attack = attack
+    @count = count
     
     if (@enemy.nil? || @enemy.npc_state == nil) and @attack.nil?
-      @enemy = Npc.create(npc_type: 'enemy', location: @location, hp: 50, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+      if @location.mission and @location.mission.vip? and @count
+        if @count == 1
+          @enemy = Npc.create(npc_type: 'politician', location: @location, hp: 100, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+        else
+          @enemy = Npc.create(npc_type: 'bodyguard', location: @location, hp: 50, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+        end
+      else
+        @enemy = Npc.create(npc_type: 'enemy', location: @location, hp: 50, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+      end
+      
       @enemy.created!
       ActionCable.server.broadcast("location_#{@enemy.location.id}", method: 'player_appeared')
       EnemyWorker.perform_in(3.second, @enemy.id, @location.id) and return
