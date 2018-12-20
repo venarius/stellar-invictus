@@ -13,10 +13,13 @@ class MissionWorker
       
       if amount > 0
         
-        if rounds == 0 and wave_amount == 0
+        if rounds == 0 and wave_amount == 0 and location.mission.combat?
           rounds = rand(3..5)
           wave_amount = (amount / rounds).round
           wave_amount = 2 if wave_amount == 0 || wave_amount == 1
+        elsif rounds == 0 and wave_amount == 0 and location.mission.vip?
+          rounds = 1
+          wave_amount = location.mission.enemy_amount
         end
         
         if location.users.count > 0
@@ -34,8 +37,10 @@ class MissionWorker
   
   def spawn_enemies(wave_amount, location)
     
+    count = 0
     wave_amount.times do
-      EnemyWorker.perform_async(nil, location.id)
+      count = count + 1
+      EnemyWorker.perform_async(nil, location.id, nil, nil, count)
     end
     
   end

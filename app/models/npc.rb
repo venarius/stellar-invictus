@@ -1,7 +1,7 @@
 class Npc < ApplicationRecord
   belongs_to :location, optional: true
   
-  enum npc_type: [:enemy, :police]
+  enum npc_type: [:enemy, :police, :politician, :bodyguard]
   enum npc_state: [:created, :targeting, :attacking, :waiting]
   
   # Lets the npc die
@@ -35,7 +35,7 @@ class Npc < ApplicationRecord
     
     value = rand(5..15)
     
-    value = value * 3 if self.location.system.security_status == 'low' || self.location.location_type == 'exploration_site'
+    value = value * 3 if self.location.system.security_status == 'low' || self.location.location_type == 'exploration_site' || self.politician?
     
     player.update_columns(units: player.units + value)
     

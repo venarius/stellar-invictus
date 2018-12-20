@@ -64,7 +64,7 @@
 - ~~Notify for successfully accepted mission / finished mission~~
 - Missions / Market more specific to Station
 - Disallow Attacks and Looting anothers loot in Highsec
-- More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space
+- ~~More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space~~
 - If in area of faction who hates you, may spawn faction ships to come and get you
 
 ## Installation
