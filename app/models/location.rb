@@ -33,15 +33,6 @@ class Location < ApplicationRecord
     storage
   end
   
-  def get_ships_for_sale
-    val = {}
-    ship_names = STATION_VARIABLES[self.id]['spaceships']
-    ship_names.each do |name|
-      val[name] = (SHIP_VARIABLES[name])
-    end
-    val
-  end
-  
   def is_factory
     self.location_type == 'station' and self.name.include? "Industrial"  
   end

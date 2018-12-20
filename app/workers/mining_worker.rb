@@ -45,21 +45,21 @@ class MiningWorker
       asteroid.update_columns(resources: asteroid.resources - (100 * mining_amount))
       
       # Add Items to player
-      item = Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+      item = Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
       if asteroid.asteroid_type != 'septarium' and player.active_spaceship.get_free_weight < (mining_amount - 1)
         (player.active_spaceship.get_free_weight).times do
-          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
         end
       else
         (mining_amount-1).times do
-          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
         end
       end
         
       # 3 septarium per mine
       if asteroid.asteroid_type == "septarium"
         (mining_amount * 3 - mining_amount).times do
-          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}")
+          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
         end
       end
       
@@ -74,7 +74,7 @@ class MiningWorker
       end
       
       # Add to mission if user has active mission
-      mission = player.missions.where(mission_loader: "asteroid.#{asteroid.asteroid_type}", mission_status: 'active', mission_type: 'mining').where("mission_amount > 0").first rescue nil
+      mission = player.missions.where(mission_loader: "asteroid.#{asteroid.asteroid_type}_ore", mission_status: 'active', mission_type: 'mining').where("mission_amount > 0").first rescue nil
       if mission
         mining_amount = mining_amount * 3 if asteroid.asteroid_type == 'septarium'
         mission.update_columns(mission_amount: mission.mission_amount - mining_amount)

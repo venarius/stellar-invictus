@@ -78,7 +78,7 @@ RSpec.describe MarketController, type: :controller do
     
     describe 'POST appraisal' do
       it 'should response with price' do
-        post :appraisal, params: {loader: 'asteroid.nickel', quantity: "10", type: "item"}
+        post :appraisal, params: {loader: 'asteroid.nickel_ore', quantity: "10", type: "item"}
         expect(response.status).to eq(200)
         expect(response.body).to include("price")
       end
@@ -92,7 +92,7 @@ RSpec.describe MarketController, type: :controller do
     describe 'POST buy' do
       before(:each) do
         @user.update_columns(units: 5000)
-        @item = MarketListing.create(location: @user.location, loader: 'asteroid.nickel', listing_type: 'item', price: 1000, amount: 1)  
+        @item = MarketListing.create(location: @user.location, loader: 'asteroid.nickel_ore', listing_type: 'item', price: 1000, amount: 1)  
         @ship = MarketListing.create(location: @user.location, loader: 'Chronos', listing_type: 'ship', price: 2000, amount: 1)  
       end
       
@@ -127,6 +127,25 @@ RSpec.describe MarketController, type: :controller do
         expect(Item.count).to eq(0)
       end
       
+      it 'should not buy faction ship if not enough reputation' do
+        listing = MarketListing.create(location: @user.location, listing_type: 'ship', price: '1', loader: 'Behemoth', amount: 1)
+        post :buy, params: {id: listing.id, amount: "1"}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(5000)
+        expect(Spaceship.count).to eq(1)
+        expect(Item.count).to eq(0)
+      end
+      
+      it 'should buy faction ship if enough reputation' do
+        listing = MarketListing.create(location: @user.location, listing_type: 'ship', price: '1', loader: 'Behemoth', amount: 1)
+        @user.update_columns(reputation_1: 25)
+        post :buy, params: {id: listing.id, amount: "1"}
+        expect(response.status).to eq(200)
+        expect(@user.reload.units).to eq(4999)
+        expect(Spaceship.count).to eq(2)
+        expect(Item.count).to eq(0)
+      end
+      
       it 'should not buy item if not enough money' do
         @user.update_columns(units: 50)
         post :buy, params: {id: @item.id, amount: "1"}
@@ -150,12 +169,12 @@ RSpec.describe MarketController, type: :controller do
     
     describe 'POST sell' do
       before(:each) do
-        @item = Item.create(location: @user.location, user: @user, loader: 'asteroid.nickel')
+        @item = Item.create(location: @user.location, user: @user, loader: 'asteroid.nickel_ore')
         @ship = Spaceship.create(name: 'Nano', user: @user, hp: 50, location: @user.location)
       end
       
       it 'should sell item' do
-        post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
+        post :sell, params: {loader: 'asteroid.nickel_ore', type: 'item', quantity: '1'}
         expect(response.status).to eq(200)
         expect(@user.reload.units).to eq(12)
         expect(Item.count).to eq(0)
@@ -163,7 +182,7 @@ RSpec.describe MarketController, type: :controller do
       
       it 'should not sell item if not docked' do
         @user.update_columns(docked: false)
-        post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
+        post :sell, params: {loader: 'asteroid.nickel_ore', type: 'item', quantity: '1'}
         expect(response.status).to eq(400)
         expect(@user.reload.units).to eq(10)
         expect(Item.count).to eq(1)
@@ -171,22 +190,22 @@ RSpec.describe MarketController, type: :controller do
       
       it 'should not sell item if user docked elsewhere' do
         @user.update_columns(location_id: Location.last.id)
-        post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
+        post :sell, params: {loader: 'asteroid.nickel_ore', type: 'item', quantity: '1'}
         expect(response.status).to eq(400)
         expect(@user.reload.units).to eq(10)
         expect(Item.count).to eq(1)
       end
       
       it 'should sell item on price of listing' do
-        MarketListing.create(location: @user.location, loader: 'asteroid.nickel', listing_type: 'item', price: 1000, amount: 1)  
-        post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '1'}
+        MarketListing.create(location: @user.location, loader: 'asteroid.nickel_ore', listing_type: 'item', price: 1000, amount: 1)  
+        post :sell, params: {loader: 'asteroid.nickel_ore', type: 'item', quantity: '1'}
         expect(response.status).to eq(200)
         expect(@user.reload.units).to eq(12)
         expect(Item.count).to eq(0)
       end
       
       it 'should sell not more items than user has' do
-        post :sell, params: {loader: 'asteroid.nickel', type: 'item', quantity: '2'}
+        post :sell, params: {loader: 'asteroid.nickel_ore', type: 'item', quantity: '2'}
         expect(response.status).to eq(400)
         expect(@user.reload.units).to eq(10)
         expect(Item.count).to eq(1)

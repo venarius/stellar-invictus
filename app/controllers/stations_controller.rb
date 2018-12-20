@@ -56,18 +56,6 @@ class StationsController < ApplicationController
     end
   end
   
-  def buy
-    if params[:type] and params[:type] == 'ship' and params[:name]
-      if current_user.can_buy_ship(params[:name])
-        Spaceship.create(user: current_user, name: params[:name], hp: SHIP_VARIABLES[params[:name]]['hp'], location: current_user.location)
-        current_user.reduce_units(SHIP_VARIABLES[params[:name]]['price'])
-        flash[:notice] = I18n.t('station.purchase_successfull')
-      else
-        flash[:alert] = I18n.t('errors.not_enough_units')
-      end
-    end
-  end
-  
   # Ship -> Station
   def store
     if params[:loader] and params[:amount] and current_user.docked

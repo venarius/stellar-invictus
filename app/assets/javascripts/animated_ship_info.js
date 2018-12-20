@@ -47,7 +47,7 @@ function app_player_ship() {
     ship.anchor.set(0.5);
     ship.x = app.screen.width / 2;
     ship.y = app.screen.height / 2;
-    ship.scale.y = ship.scale.x = 0.75;
+    ship.scale.y = ship.scale.x = 0.5;
     app.stage.addChild(ship);
     ship.rotation += 1.5708; 
   }
@@ -123,7 +123,7 @@ function enemy_player_ship() {
     ship.anchor.set(0.5);
     ship.x = app.screen.width / 2;
     ship.y = app.screen.height / 2;
-    ship.scale.y = ship.scale.x = 0.75;
+    ship.scale.y = ship.scale.x = 0.5;
     app.stage.addChild(ship);
     ship.rotation += 1.5708; 
   }

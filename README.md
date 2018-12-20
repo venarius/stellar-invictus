@@ -29,7 +29,7 @@
 - ~~Trading System~~
 - ~~More Ships~~
 - ~~Faction Bonuses~~
-- Faction Reputation - Unlocks on different levels -> Faction Ships
+- ~~Faction Reputation - Unlocks on different levels -> Faction Ships~~
 - ~~About -> Currently empty site~~
 - ~~Warp to Fleet Members~~
 - ~~More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas~~

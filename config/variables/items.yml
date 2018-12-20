@@ -3,27 +3,27 @@ test:
   
 # Asteroids
 asteroid:
-  nickel:
+  nickel_ore:
     name: "Nickel Ore"
     type: "Ore"
     weight: 1
     price: 2
-  iron:
+  iron_ore:
     name: "Iron Ore"
     type: "Ore"
     weight: 1
     price: 2
-  cobalt:
+  cobalt_ore:
     name: "Cobalt Ore"
     type: "Ore"
     weight: 1
     price: 2
-  septarium:
+  septarium_ore:
     name: "Septarium"
     type: "Ore"
     weight: 0
     price: 1
-  titanium:
+  titanium_ore:
     name: "Titanium"
     type: "Ore"
     weight: 0

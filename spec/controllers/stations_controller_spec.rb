@@ -26,14 +26,6 @@ RSpec.describe StationsController, type: :controller do
       end
     end
     
-    describe 'POST buy' do
-      it 'should redirect when user is not logged in' do
-        post :buy
-        expect(response.code).to eq('302')
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-    
     describe 'POST store' do
       it 'should redirect when user is not logged in' do
         post :store
@@ -176,43 +168,6 @@ RSpec.describe StationsController, type: :controller do
         post :undock
         expect(response.code).to eq('204')
         expect(@user.docked).to eq(false)
-      end
-    end
-    
-    describe 'POST buy' do
-      it 'should respond with 400 if no ship given' do
-        post :buy
-        expect(response.code).to eq('204')
-      end
-      
-      it 'should respond with 400 if wrong ship given' do
-        post :buy, params: {type: 'ship', name: 'Noot'}
-        expect(response.code).to eq('204')
-      end
-      
-      it 'should respond with flash if not enough units' do
-        post :buy, params: {type: 'ship', name: 'Chronos'}
-        expect(response.code).to eq('204')
-        expect(flash[:alert]).to be_present
-      end
-      
-      it 'should create new ship and remove from units if ok' do
-        @user.update_columns(units: 50000, location_id: 4)
-        
-        post :buy, params: {type: 'ship', name: 'Chronos'}
-        expect(response.code).to eq('204')
-        expect(flash[:notice]).to be_present
-        expect(@user.reload.units).to eq(45000)
-        expect(Spaceship.count).to eq(2)
-        expect(Spaceship.last.get_attribute('storage')).to eq(80)
-      end
-      
-      it 'should respond with flash if ship not sold here' do
-        @user.update_columns(units: 50000, location_id: 1)
-        
-        post :buy, params: {type: 'ship', name: 'Chronos'}
-        expect(response.code).to eq('204')
-        expect(flash[:alert]).to be_present
       end
     end
     

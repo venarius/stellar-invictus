@@ -36,8 +36,25 @@
           <%= I18n.t('market.ships') %>
         </a>
         <div class="dropdown-menu">
-          <% SHIP_VARIABLES.keys.each do |key| %>
-            <a href="#" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
+          <% SHIP_VARIABLES.each do |key, value| %>
+            <% if !value['faction'] %>
+              <a href="#" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
+            <% end %>
+          <% end %>
+          <% faction = current_user.location.faction rescue nil %>
+          <% if faction %>
+            <div class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" role="button" data-toggle="dropdown">
+                <%= faction.name.titleize %>
+              </a>
+              <div class="dropdown-menu">
+                <% SHIP_VARIABLES.each do |key, value| %>
+                  <% if value['faction'] and value['faction'] == faction.id %>
+                    <a href="#" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
           <% end %>
         </div>
       </li>

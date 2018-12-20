@@ -2,7 +2,6 @@ begin
 
     SHIP_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/spaceships.yml") unless defined? SHIP_VARIABLES
     ITEM_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml") unless defined? ITEM_VARIABLES
-    STATION_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/stations.yml") unless defined? STATION_VARIABLES
     FACTION_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml") unless defined? FACTION_VARIABLES
     RIDDLE_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/riddles.yml") unless defined? RIDDLE_VARIABLES
     PATHFINDER = YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml") unless defined? PATHFINDER
@@ -21,7 +20,7 @@ begin
                 "materials.ai_components", "materials.metal_plates", "materials.laser_diodes"] unless defined? MATERIALS
                 
     # Asteroids
-    ASTEROIDS = ["asteroid.nickel", "asteroid.septarium", "asteroid.cobalt", "asteroid.iron"] unless defined? ASTEROIDS
+    ASTEROIDS = ["asteroid.nickel_ore", "asteroid.septarium_ore", "asteroid.cobalt_ore", "asteroid.iron_ore", "asteroid.titanium_ore"] unless defined? ASTEROIDS
                 
     # Items
     ITEMS = EQUIPMENT + MATERIALS + ASTEROIDS unless defined? ITEMS
