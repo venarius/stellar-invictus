@@ -26,9 +26,15 @@ Location.where(location_type: 'station').each_with_index do |location, index|
   
   # Add new Listings
   if MarketListing.where(location: location, listing_type: 'ship').count < 10
-    STATION_VARIABLES[location.id]['spaceships'].each do |ship|
-      rand(1..2).times do
-        MarketListing.create(loader: ship, location: location, listing_type: 'ship', price: (SHIP_VARIABLES[ship]['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
+    SHIP_VARIABLES.each do |key, value|
+      if !value['faction']
+        rand(0..10).times do
+          MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
+        end
+      elsif location.faction_id and value['faction'] == location.faction_id
+        rand(0..10).times do
+          MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
+        end
       end
     end
   end

@@ -32,7 +32,7 @@ RSpec.describe AsteroidsController, type: :controller do
       
       it 'should not start when player is full' do
         @user.active_spaceship.get_storage_capacity.times do
-          Item.create(spaceship: @user.active_spaceship, loader: 'asteroid.nickel', equipped: false)
+          Item.create(spaceship: @user.active_spaceship, loader: 'asteroid.nickel_ore', equipped: false)
         end
         Item.create(loader: "equipment.miner.basic_miner", spaceship: @user.active_spaceship, equipped: true)
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)

@@ -95,3 +95,204 @@ Atlas:
   target_time: 20
   crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
+  
+
+# Faction Ships
+
+# Helix Collective
+
+Behemoth:
+  image: behemoth.png
+  thruster-image: behemoth-thrusters.png
+  storage: 150
+  hp: 1000
+  defense: 50
+  price: 75000
+  main_equipment_slots: 4
+  utility_equipment_slots: 3
+  align_time: 20
+  target_time: 20
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 1
+  reputation_requirement: 6
+
+Intervention:
+  image: intervention.png
+  thruster-image: intervention-thrusters.png
+  storage: 20
+  hp: 400
+  defense: 20
+  price: 12000
+  main_equipment_slots: 3
+  utility_equipment_slots: 1
+  align_time: 3
+  target_time: 3
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 1
+  reputation_requirement: 5
+  
+Leviathan:
+  image: leviathan.png
+  thruster-image: leviathan-thrusters.png
+  storage: 250
+  hp: 2500
+  defense: 60
+  price: 120000
+  main_equipment_slots: 6
+  utility_equipment_slots: 4
+  align_time: 30
+  target_time: 30
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 1
+  reputation_requirement: 7
+  
+Vanguard:
+  image: vanguard.png
+  thruster-image: vanguard-thrusters.png
+  storage: 100
+  hp: 800
+  defense: 40
+  price: 30000
+  main_equipment_slots: 3
+  utility_equipment_slots: 3
+  align_time: 15
+  target_time: 15
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 1
+  reputation_requirement: 5
+  
+# Core Republic
+
+Escorial:
+  image: escorial.png
+  thruster-image: escorial-thrusters.png
+  storage: 1000
+  hp: 3000
+  defense: 50
+  price: 120000
+  main_equipment_slots: 2
+  utility_equipment_slots: 5
+  align_time: 30
+  target_time: 30
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 3
+  reputation_requirement: 7
+  
+Aurora:
+  image: aurora.png
+  thruster-image: aurora-thrusters.png
+  storage: 800
+  hp: 2000
+  defense: 40
+  price: 80000
+  main_equipment_slots: 2
+  utility_equipment_slots: 4
+  align_time: 25
+  target_time: 25
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 3
+  reputation_requirement: 6
+
+Aquila:
+  image: aquila.png
+  thruster-image: aquila-thrusters.png
+  storage: 600
+  hp: 1500
+  defense: 40
+  price: 50000
+  main_equipment_slots: 2
+  utility_equipment_slots: 4
+  align_time: 20
+  target_time: 20
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 3
+  reputation_requirement: 6
+
+Lupus:
+  image: lupus.png
+  thruster-image: lupus-thrusters.png
+  storage: 400
+  hp: 1000
+  defense: 40
+  price: 25000
+  main_equipment_slots: 2
+  utility_equipment_slots: 3
+  align_time: 15
+  target_time: 15
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 3
+  reputation_requirement: 5
+  
+# Caldarius Federation
+
+Spectrum:
+  image: spectrum.png
+  thruster-image: spectrum-thrusters.png
+  storage: 400
+  hp: 2500
+  defense: 80
+  price: 120000
+  main_equipment_slots: 4
+  utility_equipment_slots: 4
+  align_time: 25
+  target_time: 25
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 2
+  reputation_requirement: 7
+
+Yucatan:
+  image: yucatan.png
+  thruster-image: yucatan-thrusters.png
+  storage: 300
+  hp: 2000
+  defense: 70
+  price: 80000
+  main_equipment_slots: 3
+  utility_equipment_slots: 4
+  align_time: 20
+  target_time: 20
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 2
+  reputation_requirement: 6
+  
+Cromwell:
+  image: cromwell.png
+  thruster-image: cromwell-thrusters.png
+  storage: 250
+  hp: 1500
+  defense: 60
+  price: 50000
+  main_equipment_slots: 3
+  utility_equipment_slots: 3
+  align_time: 20
+  target_time: 20
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 2
+  reputation_requirement: 6
+  
+Analyzer:
+  image: analyzer.png
+  thruster-image: analyzer-thrusters.png
+  storage: 150
+  hp: 1000
+  defense: 50
+  price: 30000
+  main_equipment_slots: 2
+  utility_equipment_slots: 3
+  align_time: 15
+  target_time: 15
+  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting_duration: 200
+  faction: 2
+  reputation_requirement: 5

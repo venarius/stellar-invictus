@@ -23,8 +23,14 @@ namespace :economy do
         end
       end
       SHIP_VARIABLES.each do |key, value|
-        rand(0..10).times do
-          MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
+        if !value['faction']
+          rand(0..10).times do
+            MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
+          end
+        elsif location.faction_id and value['faction'] == location.faction_id
+          rand(0..10).times do
+            MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
+          end
         end
       end
     end

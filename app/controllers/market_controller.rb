@@ -13,6 +13,7 @@ class MarketController < ApplicationController
   
   def search
     if params[:search]
+      
       listings = MarketListing.where(location: current_user.location).where("loader ilike ?", "%#{params[:search].gsub(' ', '_')}%")
       render partial: 'stations/market/list', locals: {market_listings: listings} and return
     end
@@ -37,6 +38,14 @@ class MarketController < ApplicationController
             Item.create(location: current_user.location, user: current_user, loader: listing.loader, equipped: false)
           end
         else
+          
+          # Check if met requirements
+          ship = SHIP_VARIABLES[listing.loader]
+          if ship['faction'] and ship['reputation_requirement']
+            rank = Faction.find(ship['faction']).get_rank(current_user)
+            render json: {'error_message': I18n.t('errors.you_dont_have_the_required_reputation')}, status: 400 and return unless rank and rank['type'] >= ship['reputation_requirement']
+          end
+          
           amount.times do
             Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: SHIP_VARIABLES[listing.loader]['hp'])
           end
@@ -102,9 +111,9 @@ class MarketController < ApplicationController
       current_user.update_columns(units: current_user.units + price)
       
       # Generate Listing
-      listing = MarketListing.where(loader: params[:loader], location: current_user.location).first rescue nil
-      if listing
-        MarketListing.create(loader: params[:loader], listing_type: params[:type], location: current_user.location, price: (listing.price * rand(0.95..1.05)).round, amount: quantity)
+      fill_listing = MarketListing.where(loader: params[:loader], location: current_user.location).where("amount < 20").first rescue nil
+      if fill_listing
+        fill_listing.update_columns(amount: fill_listing.amount + quantity)
       else
         rabat = rand(0.8..1.2)
         if params[:type] == "item"

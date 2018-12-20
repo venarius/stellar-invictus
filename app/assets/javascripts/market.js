@@ -127,6 +127,7 @@ $( document ).on('turbolinks:load', function() {
       } else {
         button.parent().parent().remove();
       }
+      refresh_player_info();
     }).error(function(data) {
       $('#market-sell').find('input').addClass("outline-danger"); 
       if (!button.closest('.modal').find('.error').length) {

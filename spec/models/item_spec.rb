@@ -23,7 +23,7 @@ describe Item do
     describe 'Functions' do
       describe 'get_attribute' do
         it 'should return attribute of item' do
-          @item = Item.create(loader: 'asteroid.iron', user: FactoryBot.create(:user_with_faction))
+          @item = Item.create(loader: 'asteroid.iron_ore', user: FactoryBot.create(:user_with_faction))
           expect(@item.get_attribute('weight')).to eq(1)
         end
       end

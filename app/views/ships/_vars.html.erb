@@ -1,5 +1,5 @@
 <div class="display text-center mb-3" style="padding:10px;border:1px solid grey;">
-  <%= image_tag("ships/#{value['image']}") %>
+  <%= image_tag("ships/#{value['image']}", style: 'max-height:200px') %>
 </div>
 <p><strong><%= I18n.t('equipment.statistics') %></strong></p>
 <table class="table table-bordered table-striped table-sm mb-3">
@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <th><%= I18n.t('ships.storage') %></th>
-    <td><%= value['storage'] %></td>
+    <td><%= value['storage'] %> m²</td>
   </tr>
   <tr>
     <th><%= I18n.t('ships.main_equipment_slots') %></th>
@@ -21,10 +21,18 @@
   </tr>
   <tr>
     <th><%= I18n.t('ships.align_time') %></th>
-    <td><%= value['align_time'] %></td>
+    <td><%= value['align_time'] %> s</td>
+  </tr>
+  <tr>
+    <th><%= I18n.t('ships.target_time') %></th>
+    <td><%= value['target_time'] %> s</td>
   </tr>
   <tr>
     <th><%= I18n.t('ships.defense') %></th>
     <td><%= value['defense'] %></td>
   </tr>
 </table>
+<% if value['faction'] and value['reputation_requirement'] %>
+  <p><strong><%= I18n.t('equipment.requirements') %></strong></p>
+  <p class="text-center"><%= I18n.t('equipment.reputation_requirement', rank: FACTION_VARIABLES['reputation'][value['reputation_requirement']]['name'], faction: Faction.find(value['faction']).name) %></p>
+<% end %>

@@ -42,7 +42,7 @@
     <div class="row mt-5px">
       <div class="col-lg-4 mb-3">
         <div class="card black-card main-equipment-card">
-          <h5 class="card-header">Main Equipment (<%= active_spaceship.get_attribute('main_equipment_slots') %>)</h5>
+          <h5 class="card-header"><%= I18n.t('equipment.main_equipment') %> (<%= active_spaceship.get_attribute('main_equipment_slots') %>)</h5>
           <div class="card-body">
             <div class="row" id="main-equipment-sortable">
               <% active_spaceship.get_main_equipment.each do |item| %>
@@ -59,7 +59,7 @@
       </div>
       <div class="col-lg-4 mb-3">
         <div class="card black-card utility-equipment-card">
-          <h5 class="card-header">Utility Equipment (<%= active_spaceship.get_attribute('utility_equipment_slots') %>)</h5>
+          <h5 class="card-header"><%= I18n.t('equipment.utility_equipment') %> (<%= active_spaceship.get_attribute('utility_equipment_slots') %>)</h5>
           <div class="card-body">
             <div class="row" id="utility-equipment-sortable">
               <% active_spaceship.get_utility_equipment.each do |item| %>

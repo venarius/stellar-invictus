@@ -21,30 +21,37 @@
   
 reputation:
     1:
+      type: 1
       reputation: -25.0
       name: 'Vilified'
       unlocks: []
     2:
+      type: 2
       reputation: -15.0
       name: 'Hated'
       unlocks: []
     3:
+      type: 3
       reputation: -5.0
       name: 'Shunned'
       unlocks: []
     4:
+      type: 4
       reputation: 0.0
       name: 'Neutral'
       unlocks: []
     5:
+      type: 5
       reputation: 10.0
       name: 'Accepted'
       unlocks: []
     6:
+      type: 6
       reputation: 25.0
       name: 'Liked'
       unlocks: []
     7:
+      type: 7
       reputation: 50.0
       name: 'Idolized'
       unlocks: []
