@@ -41,6 +41,9 @@ class WarpWorker
       
       # Remove user from being targeted
       user.remove_being_targeted
+      
+      # Disable Equipment of user
+      user.active_spaceship.deactivate_equipment
     
       # Sleep for global warp time, which is 10
       WarpWorker.perform_in(10.second, player_id, location_id, align_current, align_time, true) and return

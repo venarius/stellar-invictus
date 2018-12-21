@@ -120,7 +120,9 @@ class EquipmentWorker
           
           target_ship.update_columns(hp: target_ship.reload.hp - attack.round + remote_repair)
           
-          target_ship.update_columns(hp: SHIP_VARIABLES[target_ship.name]['hp']) if target_ship.hp > SHIP_VARIABLES[target_ship.name]['hp']
+          if player.target
+            target_ship.update_columns(hp: SHIP_VARIABLES[target_ship.name]['hp']) if target_ship.hp > SHIP_VARIABLES[target_ship.name]['hp']
+          end
           
           target_hp = target_ship.hp
           

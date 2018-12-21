@@ -240,6 +240,7 @@ en:
     outlaw: "Outlaw"
     politician: "Politician"
     bodyguard: "Bodyguard"
+    wanted_outlaw: "Wanted Outlaw"
   log:
     user_warped_out: "%{user} is warping to %{location}"
     user_jumped_out: "%{user} is jumping to %{location}"
@@ -326,6 +327,7 @@ en:
     most_wanted: "Most Wanted"
     top_bounty_hunter: "Top Bounty Hunter"
     bounties: "Bounties"
+    npc_bounties: "Outlaw Bounties"
   notification:
     placed_bounty: "%{user} placed a bounty of %{amount} Cr on your head"
     received_friend_request: "%{user} has sent you a friend request"
@@ -385,3 +387,7 @@ en:
     someone_else_was_here_before: "Someone else was here before..."
   exploration:
     abandoned_ship_text: "You try to search the ship. As you went thorugh its damaged corridors you notice the blinking screen of an still active computer. As you move closer to the screen you begin to recognize the words written on it:"
+    combat_site: "Combat Site"
+    emergency_beacon: "Emergency Beacon"
+    mining_site: "Mining Site"
+    outlaw_hideout: "Outlaw Hideout"

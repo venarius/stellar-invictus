@@ -8,7 +8,7 @@ def get_item_attribute(loader, attribute)
 end
 
 noise = Perlin::Noise.new 1, seed: Time.now.to_i
-Location.where(location_type: 'station').each_with_index do |location, index|
+Location.where(location_type: 'station').sort(Arel.sql("RANDOM()")).limit((Location.all.count / 3).round).each_with_index do |location, index|
   rabat = noise[(index + 1.0) / 10.0] + 0.5
   MarketListing.where(location: location).each do |ml|
     # Update Prices

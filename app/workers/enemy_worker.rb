@@ -25,6 +25,8 @@ class EnemyWorker
         else
           @enemy = Npc.create(npc_type: 'bodyguard', location: @location, hp: 50, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
         end
+      elsif @location.exploration_site? and @location.enemy_amount == 1
+        @enemy = Npc.create(npc_type: 'wanted_enemy', location: @location, hp: 450, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
       else
         @enemy = Npc.create(npc_type: 'enemy', location: @location, hp: 50, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
       end
@@ -118,6 +120,8 @@ class EnemyWorker
           when 'hard'
             @attack = rand(10..15) * (1.0 - target_spaceship.get_defense/100.0)
         end
+      elsif @location.exploration_site? and @location.enemy_amount == 1
+        @attack = rand(20..30) * (1.0 - target_spaceship.get_defense/100.0)
       else
         @attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
       end

@@ -3,12 +3,12 @@ class Location < ApplicationRecord
   belongs_to :faction, optional: true
   belongs_to :mission, optional: true
   
-  has_many :users, dependent: :destroy
+  has_many :users
   has_many :asteroids, dependent: :destroy
   has_many :items, dependent: :destroy
   has_many :npcs, dependent: :destroy
   has_many :structures, dependent: :destroy
-  has_many :spaceships, dependent: :destroy
+  has_many :spaceships
   has_many :market_listings, dependent: :destroy
   has_many :missions, dependent: :destroy
   
@@ -18,6 +18,11 @@ class Location < ApplicationRecord
   
   after_create do
     ChatRoom.create(chatroom_type: 'local', title: self.name, location: self)
+  end
+  
+  before_destroy do
+    location = Location.where.not(id: self.id).first
+    self.users.update_all(location_id: location.id, system_id: location.system.id)
   end
   
   def jumpgate
