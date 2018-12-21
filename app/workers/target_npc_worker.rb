@@ -11,7 +11,7 @@ class TargetNpcWorker
     if max_rounds == 0
       # Untarget old target if player is targeting new target
       if player.target_id != nil
-        ActionCable.server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)
+        ActionCable.server.broadcast("player_#{player.target_id}", method: 'stopping_target', name: player.full_name)
         player.update_columns(target_id: nil)
       end
       

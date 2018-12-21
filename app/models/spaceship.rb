@@ -82,10 +82,17 @@ class Spaceship < ApplicationRecord
     end
   end
   
-  # Deactivate Repair Equipment
-  def deactivate_repair_equipment
+  # Deactivate Selfrepair Equipment
+  def deactivate_selfrepair_equipment
     self.get_equipped_equipment.each do |item|
       item.update_columns(active: false) if item.active and item.get_attribute('type') == "Repair Bot"
+    end
+  end
+  
+  # Deactivate Remoterepair Equipment
+  def deactivate_remoterepair_equipment
+    self.get_equipped_equipment.each do |item|
+      item.update_columns(active: false) if item.active and item.get_attribute('type') == "Repair Beam"
     end
   end
   
@@ -122,11 +129,20 @@ class Spaceship < ApplicationRecord
     power.round
   end
   
-  # Get Repair Amount of Ship
-  def get_repair
+  # Get Selfrepair Amount of Ship
+  def get_selfrepair
     repair = 0
     self.get_main_equipment.each do |item|
       repair = repair + item.get_attribute('repair_amount') if item.get_attribute('type') == "Repair Bot" and item.equipped and item.active
+    end
+    repair
+  end
+  
+  # Get Remoterepair Amount of Ship
+  def get_remoterepair
+    repair = 0
+    self.get_main_equipment.each do |item|
+      repair = repair + item.get_attribute('repair_amount') if item.get_attribute('type') == "Repair Beam" and item.equipped and item.active
     end
     repair
   end

@@ -18,7 +18,7 @@ class TargetingWorker
       
       # Untarget old target if player is targeting new target
       if player.target_id != nil and player.target_id != target_id
-        ActionCable.server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)
+        ActionCable.server.broadcast("player_#{player.target_id}", method: 'stopping_target', name: player.full_name)
         player.update_columns(target_id: nil)
       end
       
@@ -32,12 +32,12 @@ class TargetingWorker
     # Look every second if player docked or warped to stop targeting counter
     elsif round < max_rounds
       unless target.reload.can_be_attacked and target.location == player.location and player.reload.can_be_attacked and player.mining_target_id == nil and player.npc_target_id == nil and player.target_id == nil
-        ActionCable.server.broadcast("player_#{target.id}", method: 'getting_targeted', name: player.full_name) if round > 2
+        ActionCable.server.broadcast("player_#{target.id}", method: 'stopping_target', name: player.full_name) if round > 2
         return
       end
-      if round == 1
-        ActionCable.server.broadcast("player_#{target.id}", method: 'getting_targeted', name: player.full_name)
-      end
+      
+      # Broadcast Targeting
+      ActionCable.server.broadcast("player_#{target.id}", method: 'getting_targeted', name: player.full_name)
       
       TargetingWorker.perform_in(1.second, player_id, target_id, round + 1, max_rounds) and return
     else

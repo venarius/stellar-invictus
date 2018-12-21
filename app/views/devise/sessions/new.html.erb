@@ -5,7 +5,7 @@
       <div class="card-body">
         <%= form_for(@user, url: session_path(resource_name), validate: true) do |f| %>
           <div class="field mb-3">
-            <%= f.email_field :email, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>
           </div>
         
           <div class="field mb-3">

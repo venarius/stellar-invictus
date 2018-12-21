@@ -35,10 +35,11 @@ class EquipmentWorker
       power = player_ship.get_power
       
       # Get Repair Amount of Player
-      repair = player_ship.get_repair
+      self_repair = player_ship.get_selfrepair
+      remote_repair = player_ship.get_remoterepair
       
       # If is attacking else
-      if (power > 0 || player_ship.has_active_warp_disruptor) and !player.is_attacking
+      if  (power > 0 || player_ship.has_active_warp_disruptor) || (power > 0 and remote_repair > 0)
         
         # If player is targeting user -> Call Police and Broadcast
         if player.target
@@ -47,28 +48,33 @@ class EquipmentWorker
         end
         
         # Set Attacking to True
-        player.update_columns(is_attacking: true)
+        player.update_columns(is_attacking: true) if !player.is_attacking
         
-      elsif power == 0 and !player_ship.has_active_warp_disruptor and player.is_attacking
+      elsif power == 0 and remote_repair == 0 and !player_ship.has_active_warp_disruptor and player.is_attacking
       
         # Set Attacking to False
         player.update_columns(is_attacking: false)
       
         # If player had user targeted -> stop
         if player.target
-          ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
+          ac_server.broadcast("player_#{target_id}", method: 'stopping_attack', name: player_name)
         end
         
-        # Broadcast
-        ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
-        
         # Shutdown if repair also 0
-        shutdown(player) and return if repair == 0
+        shutdown(player) and return if self_repair == 0 and remote_repair == 0
         
+      elsif remote_repair > 0
+        # If player is targeting user -> Broadcast
+        if player.target
+          ac_server.broadcast("player_#{target_id}", method: 'getting_helped', name: player_name)
+        end
+        
+        # Set Attacking to True
+        player.update_columns(is_attacking: true) if !player.is_attacking
       end
       
       # If Repair -> repair
-      if repair > 0 
+      if self_repair > 0
         if player_ship.hp < player_ship.get_attribute('hp')
           
           # Septarium Check
@@ -77,28 +83,28 @@ class EquipmentWorker
           # Remove septarium
           player.active_spaceship.use_septarium
             
-          if player_ship.hp + repair > player_ship.get_attribute('hp')
+          if player_ship.hp + self_repair > player_ship.get_attribute('hp')
             player_ship.update_columns(hp: player_ship.get_attribute('hp'))
           else
-            player_ship.update_columns(hp: player_ship.hp + repair)
+            player_ship.update_columns(hp: player_ship.hp + self_repair)
           end
           
           # Broadcast
           ac_server.broadcast("player_#{player_id}", method: 'update_health', hp: player_ship.hp)
-          ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info')
+          ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info') if player.active_spaceship.get_septarium_usage > 0
           
           User.where(target_id: player_id).where("online > 0").each do |u|
             ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: player_ship.hp)
           end
         else
-          player.active_spaceship.deactivate_repair_equipment
-          repair = 0
-          ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+          player.active_spaceship.deactivate_selfrepair_equipment
+          self_repair = 0
+          ac_server.broadcast("player_#{player_id}", method: 'disable_equipment')
         end
       end
       
-      # If player can attack target
-      if power > 0 and target_ship
+      # If player can attack target or remote repair
+      if (power > 0 and target_ship) || (remote_repair > 0 and target_ship)
         
         if can_attack(player)
           
@@ -112,7 +118,9 @@ class EquipmentWorker
             attack = power
           end
           
-          target_ship.update_columns(hp: target_ship.reload.hp - attack.round)
+          target_ship.update_columns(hp: target_ship.reload.hp - attack.round + remote_repair)
+          
+          target_ship.update_columns(hp: SHIP_VARIABLES[target_ship.name]['hp']) if target_ship.hp > SHIP_VARIABLES[target_ship.name]['hp']
           
           target_hp = target_ship.hp
           
@@ -138,7 +146,7 @@ class EquipmentWorker
           end
           
           # Refresh for Septarium
-          ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info')
+          ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info') if player.active_spaceship.get_septarium_usage > 0
           
           # Tell other users who targeted target to also update hp
           if player.target
@@ -153,9 +161,7 @@ class EquipmentWorker
           
         else 
         
-          # Broadcast
-          ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
-        
+          ActionCable.server.broadcast("player_#{player.id}", method: 'disable_equipment')
           shutdown(player) and return
           
         end
@@ -163,9 +169,9 @@ class EquipmentWorker
       end
       
       # Rescue Global
-      if power == 0 and repair == 0  and !player_ship.has_active_warp_disruptor || !player.can_be_attacked
+      if power == 0 and self_repair == 0  and remote_repair == 0 and !player_ship.has_active_warp_disruptor || !player.can_be_attacked
         # Broadcast
-        ac_server.broadcast("player_#{player_id}", method: 'refresh_target_info')
+        ActionCable.server.broadcast("player_#{player.id}", method: 'disable_equipment')
       
         shutdown(player) and return
       end
@@ -183,10 +189,10 @@ class EquipmentWorker
     if player.active_spaceship.get_septarium_usage > player.active_spaceship.get_septarium 
       
       # If player is currently attacking -> stop
-      ActionCable.server.broadcast("player_#{player.target.id}", method: 'getting_attacked', name: player.full_name) if player.is_attacking and player.target
+      ActionCable.server.broadcast("player_#{player.target.id}", method: 'stopping_attack', name: player.full_name) if player.is_attacking and player.target
       
       # Broadcast
-      ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_target_info')
+      ActionCable.server.broadcast("player_#{player.id}", method: 'disable_equipment')
       ActionCable.server.broadcast("player_#{player.id}", method: 'show_error', text: I18n.t('errors.not_enough_septarium'))
       
       # Shutdown
