@@ -13,7 +13,8 @@ begin
                 "equipment.defense.try_pyon_shield", "equipment.warp_core_stabilizers.warp_core_stabilizer",
                 "equipment.hulls.light_hull", "equipment.sensors.small_sensor", 
                 "equipment.repair_bots.simple_repair_bot", "equipment.warp_disruptors.basic_warp_disruptor",
-                "equipment.scanner.basic_scanner", "equipment.scanner.advanced_scanner", "equipment.scanner.military_scanner"] unless defined? EQUIPMENT
+                "equipment.scanner.basic_scanner", "equipment.scanner.advanced_scanner", "equipment.scanner.military_scanner",
+                "equipment.remote_repair.simple_repair_beam"] unless defined? EQUIPMENT
                 
     # Materials
     MATERIALS = ["materials.sensor_electronics", "materials.antimatter", "materials.fusion_electronics",

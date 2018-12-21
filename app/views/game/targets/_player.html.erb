@@ -16,6 +16,11 @@
         <i class="fa fa-crosshairs"></i>
       </button>
     <% end %>
+    <% if equipment.get_attribute('type') == 'Repair Beam' %>
+      <button class="btn <%= 'btn-outline-secondary' if !equipment.active %> <%= 'btn-outline-success' if equipment.active %> use-equipment-btn" data-id="<%= equipment.id %>" data-toggle="tooltip" data-placement="top" title="<%= equipment.get_attribute('name') %>">
+        <i class="fa fa-wrench"></i>
+      </button>
+    <% end %>
   <% end %>
   <button class="btn btn-outline-warning untarget-player-btn float-right" data-id="<%= current_user.target.id %>"><%= I18n.t('ships.untarget') %></button>
 </div>

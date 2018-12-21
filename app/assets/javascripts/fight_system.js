@@ -33,14 +33,13 @@ $( document ).on('turbolinks:load', function() {
       button.tooltip('dispose');
       $('#septarium-usage').text(data.usage);
       if (data && (data.type == "Weapon" || data.type == "Warp Disruptor")) {
-        $('.enemy-space-ship').css("border", "1px solid red");
         if (button.hasClass('btn-outline-secondary')) {
           button.removeClass('btn-outline-secondary').addClass('btn-outline-danger');
         } else {
           button.removeClass('btn-outline-danger').addClass('btn-outline-flash-danger');
           setTimeout(function() {button.removeClass('btn-outline-flash-danger').addClass('btn-outline-secondary');}, 1000)
         }
-      } else if (data.type == "Repair Bot") {
+      } else if (data.type == "Repair Bot" || data.type == "Repair Beam") {
         if (button.hasClass('btn-outline-secondary')) {
           button.removeClass('btn-outline-secondary').addClass('btn-outline-success');
         } else {
@@ -62,8 +61,8 @@ function refresh_target_info() {
   }
 }
 
-// Add flash to player who is targeting you
-function getting_targeted(name) {
+// Remove flash from player who is untargeting you
+function stopping_target(name) {
   if ($('.players-card').length) {
     $('.players-card .players-card-name-td').each(function() {
       if ($(this).html() == name) {
@@ -72,9 +71,24 @@ function getting_targeted(name) {
           $('.ship-card').removeClass('outline-danger');
           return
         }
+        if ($(this).parent().hasClass('help-flash')) {
+          $(this).parent().removeClass('help-flash');
+          return
+        }
         if ($(this).parent().hasClass('target-flash')) {
           $(this).parent().removeClass('target-flash');  
-        } else {
+        }
+      }
+    });
+  }
+}
+
+// Add flash to player who is targeting you
+function getting_targeted(name) {
+  if ($('.players-card').length) {
+    $('.players-card .players-card-name-td').each(function() {
+      if ($(this).html() == name) {
+        if (!$(this).parent().hasClass('target-flash')) {
           $(this).parent().addClass('target-flash');  
         }
       }
@@ -91,8 +105,50 @@ function getting_attacked(name) {
           $(this).parent().removeClass('target-flash').addClass('attack-flash');
           return
         }
+        if ($(this).parent().hasClass('help-flash')) {
+          $(this).parent().removeClass('help-flash').addClass('attack-flash');  
+        }
+      }
+    });
+  }
+}
+
+// Stopping Attack
+function stopping_attack(name) {
+  if ($('.players-card').length) {
+    $('.players-card .players-card-name-td').each(function() {
+      if ($(this).html() == name) {
         if ($(this).parent().hasClass('attack-flash')) {
           $(this).parent().removeClass('attack-flash').addClass('target-flash');  
+        }
+        if ($(this).parent().hasClass('help-flash')) {
+          $(this).parent().removeClass('help-flash').addClass('target-flash');
+        }
+      }
+    });
+  }
+}
+
+// Disable Equipment
+function disable_equipment() {
+  if ($('.players-card').length) {
+    $('.use-equipment-btn').each(function() {
+      $(this).removeClass('btn-outline-success').removeClass('btn-outline-danger').addClass('btn-outline-secondary');
+    });
+  }
+}
+
+
+// Add flash to player who is helping you
+function getting_helped(name) {
+  if ($('.players-card').length) {
+    $('.players-card .players-card-name-td').each(function() {
+      if ($(this).html() == name) {
+        if ($(this).parent().hasClass('target-flash')) {
+          $(this).parent().removeClass('target-flash').addClass('help-flash');
+        }
+        if ($(this).parent().hasClass('attack-flash')) {
+          $(this).parent().removeClass('attack-flash').addClass('help-flash');
         }
       }
     });
@@ -105,7 +161,7 @@ function update_health(hp) {
   if ($('#own-ship-health').length) {
     var health = parseInt($('#own-ship-health').text());
     $('#own-ship-health').empty().append(hp);
-    if (health < hp) {
+    if (health <= hp) {
       if (!$('#own-ship-health').parent().hasClass('success-flash') && !$('#own-ship-health').parent().hasClass('attack-flash')) {
         $('#own-ship-health').parent().addClass('success-flash');
         setTimeout(function() {$('#own-ship-health').parent().removeClass('success-flash');}, 1000);
@@ -127,7 +183,7 @@ function update_target_health(hp) {
   if ($('#target-ship-health').length) {
     var health = parseInt($('#target-ship-health').text());
     $('#target-ship-health').empty().append(hp);
-    if (health < hp) {
+    if (health <= hp) {
       if (!$('#target-ship-health').parent().hasClass('success-flash') && !$('#target-ship-health').parent().hasClass('attack-flash')) {
         $('#target-ship-health').parent().addClass('success-flash');
         setTimeout(function() {$('#target-ship-health').parent().removeClass('success-flash');}, 1000)

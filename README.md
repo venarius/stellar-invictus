@@ -33,7 +33,7 @@
 - ~~About -> Currently empty site~~
 - ~~Warp to Fleet Members~~
 - ~~More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas~~
-- Main equipment to buff other pilots
+- ~~Main equipment to buff other pilots~~
 - Ship Descriptions, Classes, Bonuses
 - Player Reporting
 - Reward players for not killing each other

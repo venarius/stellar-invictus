@@ -9,7 +9,7 @@ $(document).on "turbolinks:load", ->
       
       # On message received
       received: (data)->
-        if (data.method == 'player_warp_out' && data.name)
+        if (data.method == 'player_warp_out' && data.name && ('.players-card').length)
           player_warp_out(data.name)
         else if (data.method == 'player_appeared' && ('.players-card').length)
           reload_players_card()

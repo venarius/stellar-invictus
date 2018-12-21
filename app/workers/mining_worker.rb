@@ -24,7 +24,7 @@ class MiningWorker
       
       # Untarget combat target if player is targeting mining target
       unless player.target_id == nil
-        ac_server.broadcast("player_#{player.target_id}", method: 'getting_targeted', name: player.full_name)
+        ac_server.broadcast("player_#{player.target_id}", method: 'stopping_target', name: player.full_name)
         player.update_columns(target_id: nil)
       end
       

@@ -171,6 +171,19 @@ equipment:
       crafting: {"asteroid.cobalt": 15, "asteroid.iron": 15, "materials.ai_components": 10}
       crafting_duration: 200
       price: 80
+  
+  # Remote Repair Beam
+  remote_repair:
+    simple_repair_beam:
+      name: "Simple Repair Beam"
+      type: "Repair Beam"
+      weight: 3
+      repair_amount: 3
+      slot_type: "main"
+      septarium_usage: 0
+      crafting: {"asteroid.cobalt": 15, "asteroid.iron": 15, "materials.ai_components": 10}
+      crafting_duration: 200
+      price: 80
       
   # Defense
   defense:

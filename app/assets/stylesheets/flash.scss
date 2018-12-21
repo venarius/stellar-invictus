@@ -73,6 +73,43 @@
     100% { background-color: transparent; }
 }
 
+// HELP
+
+.help-flash {
+  -moz-animation: help-flash 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+
+  -webkit-animation: help-flash 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -ms-animation: help-flash 1s ease-out;
+  -ms-animation-iteration-count: infinite;
+}
+
+@keyframes help-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0,0,148,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-webkit-keyframes help-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0,0,148,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-moz-keyframes help-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0,0,148,0.5); }
+    100% { background-color: transparent; }
+}
+
+@-ms-keyframes help-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0,0,148,0.5); }
+    100% { background-color: transparent; }
+}
+
 // Flash Danger Outline
 
 .btn-outline-flash-danger {

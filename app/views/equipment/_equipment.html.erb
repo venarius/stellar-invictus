@@ -19,7 +19,7 @@
           <span><i class="fa fa-circle-notch"></i> <%= item.get_attribute('target_amplifier').to_f %></span>
         <% when "Scanner" %>
           <span><i class="fa fa-wifi"></i> <%= item.get_attribute('scanner_range').to_f %></span>
-        <% when "Repair Bot" %>
+        <% when "Repair Bot", "Repair Beam" %>
           <span><i class="fa fa-wrench"></i> <%= item.get_attribute('repair_amount').to_f %></span>
         <% when "Warp Disruptor" %>
           <span><i class="fa fa-broadcast-tower"></i> <%= item.get_attribute('disrupt_strength').to_f %></span>
