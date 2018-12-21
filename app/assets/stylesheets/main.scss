@@ -1064,7 +1064,11 @@ body {
   margin-top:-5px;
 }
 
-#most-wanted, #top-bounty-hunter, #bounties {
+.bounty-row h4 {
+  font-size: 20px;
+}
+
+#most-wanted, #top-bounty-hunter, #bounties, #npc-bounties {
   max-height: 32rem;
   overflow: scroll;
 }

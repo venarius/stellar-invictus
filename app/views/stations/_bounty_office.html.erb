@@ -8,6 +8,9 @@
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" data-target="#bounties" href="#0" role="tab"><%= I18n.t('bounty.bounties') %></a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" data-target="#npc-bounties" href="#0" role="tab"><%= I18n.t('bounty.npc_bounties') %></a>
+  </li>
 </ul>
 
 <div class="tab-content">
@@ -74,6 +77,30 @@
                 </div>
                 <div class="col vert-center text-right">
                   <h4 class="mb-0"><strong><%= user.bounty %> Cr</strong></h4>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="tab-pane fade" id="npc-bounties" role="tabpanel">
+    <table class="table table-bordered table-striped">
+      <tbody>
+          <% Location.where(location_type: 'exploration_site', enemy_amount: 1).order(Arel.sql("RANDOM()")).limit(10).each do |location| %>
+          <tr>
+            <td>
+              <div class="row bounty-row">
+                <div class="col vert-center">
+                  <h4 class="mb-0"><strong class="color-sec-<%= location.system.security_status %>"><%= location.system.name %></strong></h4>
+                </div>
+                <div class="col vert-center">
+                  <h4 class="mb-0"><%= I18n.t('npcs.wanted_outlaw') %></h4>
+                </div>
+                <div class="col vert-center text-right">
+                  <h4 class="mb-0"><strong><%= rand(500..1500) %> Cr</strong></h4>
                 </div>
               </div>
             </td>

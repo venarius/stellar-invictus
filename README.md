@@ -54,16 +54,14 @@
 - Factory -> X amount of nanos plus licence -> Can now build next ship
 - ~~Better Map -> visjs.org~~
 - ~~Routing System -> See what jumpgates to take to get from A to B~~
-- Bounty Hunting for NPCs hiding in their hidden homes -> need scanner -> lots of bounty
-- Natural Occurences -> Sun Storms, Raiders, etc...
-- Rework Material Requirements and Prices on Items / Ships (Titanium Ore)
+- ~~Bounty Hunting for NPCs hiding in their hidden homes -> need scanner -> lots of bounty~~
+- Rework Material Requirements and Prices on Items / Ships (Titanium Ore) -> Defense can't be more than 90
 - Improve Code with Rubycritic
 - ~~Cargo Jettison -> Be able to submit how much~~
 - ~~Store / Load -> "All" Button~~
 - ~~Should not reload ship info after npc died (performance)~~
 - ~~Notify for successfully accepted mission / finished mission~~
 - Missions / Market more specific to Station
-- Disallow Attacks and Looting anothers loot in Highsec
 - ~~More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space~~
 - If in area of faction who hates you, may spawn faction ships to come and get you
 
