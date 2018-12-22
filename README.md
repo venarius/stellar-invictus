@@ -61,7 +61,8 @@
 - ~~Store / Load -> "All" Button~~
 - ~~Should not reload ship info after npc died (performance)~~
 - ~~Notify for successfully accepted mission / finished mission~~
-- Missions / Market more specific to Station
+- ~~Missions / Market more specific to Station~~
+- Modal on Faction Choose with Intro and how to find Help
 - ~~More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space~~
 - If in area of faction who hates you, may spawn faction ships to come and get you
 

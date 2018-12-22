@@ -202,7 +202,7 @@ RSpec.describe ShipsController, type: :controller do
       end
       
       it 'should start crafting if has enough material' do
-        @user.update_columns(location_id: Location.where(name: 'Industrial Station').first.id, docked: true)
+        @user.update_columns(location_id: Location.where(station_type: 0).first.id, docked: true)
         5.times do
           Item.create(loader: 'asteroid.nickel', user: @user, location: @user.location, equipped: false)
         end

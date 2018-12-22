@@ -391,3 +391,13 @@ en:
     emergency_beacon: "Emergency Beacon"
     mining_site: "Mining Site"
     outlaw_hideout: "Outlaw Hideout"
+  locations:
+    jumpgate: ""
+    asteroid_field: "Asteroid Field"
+    station: ""
+    mission: "Mission Site"
+    exploration_site: ""
+    industrial_station: "Industrial Station"
+    warfare_plant: "Warfare Plant"
+    mining_station: "Mining Station"
+    research_station: "Research Station"

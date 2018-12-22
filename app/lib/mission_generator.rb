@@ -133,7 +133,7 @@ class MissionGenerator
       mission.mission_amount = amount
     elsif mission.mission_type == 'combat'
       mission.enemy_amount = rand(2..5) * (difficulty + 1)
-      mission.mission_location = Location.create(location_type: 'mission', system_id: System.find_by(name: location.system.locations.where(location_type: 'jumpgate').order(Arel.sql("RANDOM()")).first.name).id, name: 'Enemy Hive')
+      mission.mission_location = Location.create(location_type: 'mission', system_id: System.find_by(name: location.system.locations.where(location_type: 'jumpgate').order(Arel.sql("RANDOM()")).first.name).id)
       
       # Set Reward
       mission.reward = (10 * mission.enemy_amount * rand(0.8..1.2)).round
@@ -151,7 +151,7 @@ class MissionGenerator
     elsif mission.mission_type == 'vip'
       mission.enemy_amount = 3
       m_location = Location.where.not(faction_id: mission.faction_id).where("faction_id IS NOT NULL").first
-      mission.mission_location = Location.create(location_type: 'mission', system_id: m_location.system.id, name: 'Vip Hideout', faction_id: m_location.faction_id)
+      mission.mission_location = Location.create(location_type: 'mission', system_id: m_location.system.id, faction_id: m_location.faction_id)
       
        # Set Reward
       mission.reward = (100 * rand(0.8..1.2)).round

@@ -25,7 +25,7 @@
 
 <div class="card black-card station-card mb-3">
   <h4 class="card-header">
-    <%= @current_user.location.name %>
+    <%= @current_user.location.get_name %>
     <div class="float-right">
       <div class="btn btn-outline-warning station-undock-btn"><span><%= I18n.t('station.undock') %></span></div>
     </div>

@@ -121,7 +121,7 @@ RSpec.describe EquipmentController, type: :controller do
     
     describe 'POST craft' do
       before(:each) do
-        @user.update_columns(location_id: Location.where(name: 'Industrial Station').first.id, docked: true)
+        @user.update_columns(location_id: Location.where(station_type: 0).first.id, docked: true)
       end
       
       it 'should not craft if user not docked' do
