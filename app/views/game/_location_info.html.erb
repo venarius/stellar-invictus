@@ -1,7 +1,7 @@
 <% if current_user.location.location_type == 'jumpgate' %>
   <tr class="<%= 'color-yellow' if current_user.route.include?(current_user.location.jumpgate.id.to_s) %>">
     <td><%= image_tag('icons/jumpgate.png') %></td>
-    <td class="name"><%= current_user.location.name %></td>
+    <td class="name"><%= current_user.location.get_name %></td>
     <td><%= I18n.t('overview.jumpgate') %></td>
     <td class="mobile-display-none"></td>
     <td>
@@ -28,7 +28,7 @@
 <% elsif current_user.location.location_type == 'station' %>
   <tr>
     <td><%= image_tag('icons/station.png') %></td>
-    <td class="name"><%= current_user.location.name %></td>
+    <td class="name"><%= current_user.location.get_name %></td>
     <td><%= I18n.t('overview.station') %></td>
     <td class="mobile-display-none"><%= current_user.location.faction.get_ticker if current_user.location.faction %></td>
     <td>

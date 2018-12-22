@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_17_084041) do
+ActiveRecord::Schema.define(version: 2018_12_21_132318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2018_12_17_084041) do
     t.bigint "mission_id"
     t.boolean "hidden", default: false
     t.integer "enemy_amount", default: 0
+    t.integer "station_type"
     t.index ["faction_id"], name: "index_locations_on_faction_id"
     t.index ["mission_id"], name: "index_locations_on_mission_id"
     t.index ["system_id"], name: "index_locations_on_system_id"

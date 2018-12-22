@@ -1,19 +1,19 @@
 1:
-  placeholder: rison.png
+  placeholder: leviathan.png
   ticker: HEL
   damage_amplifier: 1.1
   defense_amplifier: 1
   storage_amplifier: 1
       
 2:
-  placeholder: kraken.png
+  placeholder: spectrum.png
   ticker: CAL
   damage_amplifier: 1
   defense_amplifier: 1.1
   storage_amplifier: 1
       
 3:
-  placeholder: lupa.png
+  placeholder: escorial.png
   ticker: COR
   damage_amplifier: 1
   defense_amplifier: 1

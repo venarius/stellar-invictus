@@ -114,51 +114,50 @@ System.all.each do |sys|
   count = 0
   if sys.locations.where(location_type: 1).empty?
     (rand(0..6)).times do
-      Location.find_or_create_by(name: "Asteroid Belt #{romans[count]}", system: sys, location_type: 1)
+      Location.find_or_create_by(name: "#{romans[count]}", system: sys, location_type: 1)
       count = count + 1
     end
   end
 end
 
 # Locations - Stations ["Industrial Station", "Warfare Plant", "Mining Station", "Research Station"]
-Location.find_or_create_by(name: 'Industrial Station', system: aunia, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Mining Station', system: aunia, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Research Station', system: minin, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Warfare Plant', system: chanoun, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Industrial Station', system: dau, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Mining Station', system: inari, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Research Station', system: inari, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Mining Station', system: joamma, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Industrial Station', system: belinara, location_type: 0, faction: faction3)
-Location.find_or_create_by(name: 'Mining Station', system: belinara, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 0, system: aunia, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 2, system: aunia, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 3, system: minin, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 1, system: chanoun, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 0, system: dau, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 2, system: inari, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 3, system: inari, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 2, system: joamma, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 0, system: belinara, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: 2, system: belinara, location_type: 0, faction: faction3)
 
-Location.find_or_create_by(name: 'Industrial Station', system: perseus, location_type: 0, faction: faction2)
-Location.find_or_create_by(name: 'Mining Station', system: pherona, location_type: 0, faction: faction2)
-Location.find_or_create_by(name: 'Research Station', system: pherona, location_type: 0, faction: faction2)
-Location.find_or_create_by(name: 'Warfare Plant', system: zenais, location_type: 0, faction: faction2)
-Location.find_or_create_by(name: 'Industrial Station', system: hyperion, location_type: 0, faction: faction2)
-Location.find_or_create_by(name: 'Mining Station', system: hyperion, location_type: 0, faction: faction2)
-Location.find_or_create_by(name: 'Research Station', system: aulin, location_type: 0, faction: faction2)
-Location.find_or_create_by(name: 'Mining Station', system: aulin, location_type: 0, faction: faction2)
-Location.find_or_create_by(name: 'Industrial Station', system: komo, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 0, system: perseus, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 2, system: pherona, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 3, system: pherona, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 1, system: zenais, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 0, system: hyperion, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 2, system: hyperion, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 3, system: aulin, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 2, system: aulin, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: 0, system: komo, location_type: 0, faction: faction2)
 
-Location.find_or_create_by(name: 'Industrial Station', system: dresi, location_type: 0, faction: faction1)
-Location.find_or_create_by(name: 'Mining Station', system: zimse, location_type: 0, faction: faction1)
-Location.find_or_create_by(name: 'Research Station', system: zimse, location_type: 0, faction: faction1)
-Location.find_or_create_by(name: 'Warfare Plant', system: latos, location_type: 0, faction: faction1)
-Location.find_or_create_by(name: 'Industrial Station', system: latos, location_type: 0, faction: faction1)
-Location.find_or_create_by(name: 'Mining Station', system: urus, location_type: 0, faction: faction1)
-Location.find_or_create_by(name: 'Research Station', system: odin, location_type: 0, faction: faction1)
-Location.find_or_create_by(name: 'Mining Station', system: odin, location_type: 0, faction: faction1)
-Location.find_or_create_by(name: 'Industrial Station', system: alba, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 0, system: dresi, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 2, system: zimse, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 3, system: zimse, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 1, system: latos, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 0, system: latos, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 2, system: urus, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 3, system: odin, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 2, system: odin, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 0, system: alba, location_type: 0, faction: faction1)
 
 # Random Stations
 System.all.each do |sys|
-  types = ["Industrial Station", "Warfare Plant", "Mining Station", "Research Station"]
   if sys.security_status == 'medium' and sys.locations.where(location_type: 'station').empty?
     rand(1..2).times do
-      type = types.sample
-      Location.find_or_create_by(name: type, system: sys, location_type: 0) if sys.locations.where(name: type).empty?
+      type = rand(0..3)
+      Location.find_or_create_by(station_type: type, system: sys, location_type: 0) if sys.locations.where(station_type: type).empty?
     end
   end
 end

@@ -15,6 +15,7 @@ class Location < ApplicationRecord
   has_one :chat_room, dependent: :destroy
   
   enum location_type: [:station, :asteroid_field, :jumpgate, :mission, :exploration_site]
+  enum station_type: [:industrial_station, :warfare_plant, :mining_station, :research_station]
   
   after_create do
     ChatRoom.create(chatroom_type: 'local', title: self.name, location: self)
@@ -39,7 +40,19 @@ class Location < ApplicationRecord
   end
   
   def is_factory
-    self.location_type == 'station' and self.name.include? "Industrial"  
+    self.industrial_station?
+  end
+  
+  def get_name
+    if I18n.t("locations.#{self.location_type}") != ""
+      "#{I18n.t("locations.#{self.location_type}")} #{self.name}"
+    else
+      if self.station?
+        I18n.t("locations.#{self.station_type}")
+      else
+        self.name
+      end
+    end
   end
   
 end

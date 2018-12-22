@@ -18,7 +18,7 @@ class SystemsController < ApplicationController
         
         jumpgates = []
         path.each_with_index do |step, index|
-          location = System.find_by(name: step).locations.where(name: path[index+1]).first
+          location = System.find_by(name: step).locations.where("name ilike ?", path[index+1]).first
           jumpgates << location.jumpgate.id if location
         end
         
