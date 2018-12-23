@@ -10,7 +10,7 @@ while time < 50 do
       if job.loader.include? "equipment."
         Item.create(loader: job.loader, user: job.user, location: job.location, active: false, equipped: false)
       else
-        Spaceship.create(user_id: job.user.id, name: job.loader, hp: SHIP_VARIABLES[job.loader]['hp'])
+        Spaceship.create(user_id: job.user.id, name: job.loader, hp: SHIP_VARIABLES[job.loader]['hp'], location: job.location)
       end
       
       # Increase Effiency

@@ -10,7 +10,7 @@ Nano:
   align_time: 5
   target_time: 5
   crafting: {"asteroid.nickel_ore": 5, "asteroid.cobalt_ore": 10, "materials.laser_diodes": 1}
-  crafting_duration: 10
+  crafting_duration: 1
   
 Cerux:
   image: cerux.png
