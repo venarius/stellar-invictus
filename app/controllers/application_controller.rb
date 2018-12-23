@@ -45,4 +45,8 @@ class ApplicationController < ActionController::Base
       current_user.update_columns(last_action: DateTime.now)
     end
   end
+  
+  def check_docked
+    render json: {}, status: 400 and return unless current_user.docked
+  end
 end

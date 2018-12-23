@@ -9,8 +9,8 @@ Nano:
   utility_equipment_slots: 0
   align_time: 5
   target_time: 5
-  crafting: {"asteroid.nickel": 5, "asteroid.cobalt": 10, "materials.laser_diodes": 1}
-  crafting_duration: 10
+  crafting: {"asteroid.nickel_ore": 5, "asteroid.cobalt_ore": 10, "materials.laser_diodes": 1}
+  crafting_duration: 1
   
 Cerux:
   image: cerux.png
@@ -23,7 +23,7 @@ Cerux:
   utility_equipment_slots: 3
   align_time: 10
   target_time: 10
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
 
 Valadria:
@@ -37,7 +37,7 @@ Valadria:
   utility_equipment_slots: 2
   align_time: 10
   target_time: 7
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   
 Crasher:
@@ -51,7 +51,7 @@ Crasher:
   utility_equipment_slots: 1
   align_time: 3
   target_time: 3
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   
 Chronos:
@@ -65,7 +65,7 @@ Chronos:
   utility_equipment_slots: 4
   align_time: 15
   target_time: 15
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   
 Revenant:
@@ -79,7 +79,7 @@ Revenant:
   utility_equipment_slots: 2
   align_time: 8
   target_time: 5
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   
 Atlas:
@@ -93,7 +93,7 @@ Atlas:
   utility_equipment_slots: 6
   align_time: 20
   target_time: 20
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   
 
@@ -112,7 +112,7 @@ Behemoth:
   utility_equipment_slots: 3
   align_time: 20
   target_time: 20
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 1
   reputation_requirement: 6
@@ -128,7 +128,7 @@ Intervention:
   utility_equipment_slots: 1
   align_time: 3
   target_time: 3
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 1
   reputation_requirement: 5
@@ -144,7 +144,7 @@ Leviathan:
   utility_equipment_slots: 4
   align_time: 30
   target_time: 30
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 1
   reputation_requirement: 7
@@ -160,7 +160,7 @@ Vanguard:
   utility_equipment_slots: 3
   align_time: 15
   target_time: 15
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 1
   reputation_requirement: 5
@@ -178,7 +178,7 @@ Escorial:
   utility_equipment_slots: 5
   align_time: 30
   target_time: 30
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 3
   reputation_requirement: 7
@@ -194,7 +194,7 @@ Aurora:
   utility_equipment_slots: 4
   align_time: 25
   target_time: 25
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 3
   reputation_requirement: 6
@@ -210,7 +210,7 @@ Aquila:
   utility_equipment_slots: 4
   align_time: 20
   target_time: 20
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 3
   reputation_requirement: 6
@@ -226,7 +226,7 @@ Lupus:
   utility_equipment_slots: 3
   align_time: 15
   target_time: 15
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 3
   reputation_requirement: 5
@@ -244,7 +244,7 @@ Spectrum:
   utility_equipment_slots: 4
   align_time: 25
   target_time: 25
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 2
   reputation_requirement: 7
@@ -260,7 +260,7 @@ Yucatan:
   utility_equipment_slots: 4
   align_time: 20
   target_time: 20
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 2
   reputation_requirement: 6
@@ -276,7 +276,7 @@ Cromwell:
   utility_equipment_slots: 3
   align_time: 20
   target_time: 20
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 2
   reputation_requirement: 6
@@ -292,7 +292,7 @@ Analyzer:
   utility_equipment_slots: 3
   align_time: 15
   target_time: 15
-  crafting: {"asteroid.nickel": 30, "asteroid.cobalt": 40, "materials.laser_diodes": 15}
+  crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
   faction: 2
   reputation_requirement: 5

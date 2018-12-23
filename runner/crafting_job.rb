@@ -10,8 +10,13 @@ while time < 50 do
       if job.loader.include? "equipment."
         Item.create(loader: job.loader, user: job.user, location: job.location, active: false, equipped: false)
       else
-        Spaceship.create(user_id: job.user.id, name: job.loader, hp: SHIP_VARIABLES[job.loader]['hp'])
+        Spaceship.create(user_id: job.user.id, name: job.loader, hp: SHIP_VARIABLES[job.loader]['hp'], location: job.location)
       end
+      
+      # Increase Effiency
+      blueprint = job.user.blueprints.find_by(loader: job.loader) rescue nil
+      blueprint.update_columns(efficiency: blueprint.efficiency - 0.05) if blueprint and blueprint.efficiency > 0.5
+      
       job.destroy
     end
   end
