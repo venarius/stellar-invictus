@@ -7,7 +7,7 @@ class ChatRoomsController < ApplicationController
         room.users << current_user
         render json: {'id': room.identifier}, status: 200 and return
       else
-        render json: {}, status: 400 and return
+        render json: {error_message: room.errors.full_messages}, status: 400 and return
       end
     end
     render json: {}, status: 400
@@ -22,7 +22,10 @@ class ChatRoomsController < ApplicationController
       room_users = room.users rescue nil
       
       # If room found and room is custom type and player hasn't joined already
-      if room and room.custom? and room_users.where(id: current_user.id).empty?
+      if room and room.custom?
+        
+        # Check if already joined
+        render json: {'error_message': I18n.t('errors.already_joined_chat_room')}, status: 400 and return unless room_users.where(id: current_user.id).empty?
         
         # If room has fleet -> Fleet Stuff
         if room.fleet
