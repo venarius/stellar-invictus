@@ -189,6 +189,8 @@ en:
     faction: "Owning Faction"
     about: "About"
     statistics: "Statistics"
+    blueprints: "Blueprints"
+    dont_have_blueprint: "You don't have the required blueprint"
   ships:
     ship: "Ship"
     inventory: "Inventory"
@@ -289,7 +291,9 @@ en:
     craft: "Craft"
     ressources: "Required Ressources"
     minutes: "minutes"
-    duration: "Duration"
+    duration: "Crafting Duration"
+    at_100_efficiency: "At 100% efficiency"
+    current_efficiency: "Current efficiency"
   equipment:
     statistics: "Statistics"
     slot_type: "Slot Type"
@@ -319,7 +323,7 @@ en:
     repair_beam_text: "This one also shoots laserbeams but unlike the 'Gatling Laser' these beams are not deadly but instead repair the target they hit. Can't use on self."
     defense_text: "Increases the defense of your ship by a certain percentage. E.g. A defense amplifier of 1.1 means 10% more defense."
     storage_text: "Increases your ships storage on some unconventional ways. Some of them where reported to swallow your items. Don't say I didn't warn you!"
-    reputation_requirement: "You need to have the rank '%{rank}' of the faction '%{faction}' to be able to buy this ship"
+    reputation_requirement: "You need to have the rank '%{rank}' of the faction '%{faction}' to be able to buy this ship or its blueprint"
   links:
     go_to_game: "Already logged in. Go to the game&nbsp;&nbsp;<i class='fa fa-arrow-right'></i>"
   market:
@@ -413,3 +417,7 @@ en:
     warfare_plant: "Warfare Plant"
     mining_station: "Mining Station"
     research_station: "Research Station"
+  blueprints:
+    buy_blueprint: "Buy Blueprint"
+    price: "Price"
+    already_own_blueprint: "You already own this blueprint"

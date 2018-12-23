@@ -296,7 +296,7 @@ a {
       margin-bottom: 5px;
       tbody {
         width: 100%;
-        overflow: auto;
+        overflow: scroll;
         height: 14.5rem;
         display: block;
         tr {
@@ -790,7 +790,7 @@ body {
 
 // Factory
 
-#factory-ships, #factory-equipment, #factory-active {
+#factory-ships, #factory-equipment, #factory-active, #blueprints-ships, #blueprints-equipment {
   ::-webkit-scrollbar {
     margin-left: 5px;
     display: block;

@@ -34,5 +34,13 @@
 </table>
 <% if value['faction'] and value['reputation_requirement'] %>
   <p><strong><%= I18n.t('equipment.requirements') %></strong></p>
-  <p class="text-center"><%= I18n.t('equipment.reputation_requirement', rank: FACTION_VARIABLES['reputation'][value['reputation_requirement']]['name'], faction: Faction.find(value['faction']).name) %></p>
+  <table class="table table-sm table-bordered table-striped mb-3">
+    <tbody>
+      <tr>
+        <td class="text-center">
+          <%= I18n.t('equipment.reputation_requirement', rank: FACTION_VARIABLES['reputation'][value['reputation_requirement']]['name'], faction: Faction.find(value['faction']).name) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 <% end %>

@@ -1,6 +1,6 @@
 $( document ).on('turbolinks:load', function() {
     // Scroll to bottom
-    scrollChats();
+    setTimeout(function() {scrollChats();}, 250);
     
     // Get flash Chats
     getFlashChats();

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_21_132318) do
+ActiveRecord::Schema.define(version: 2018_12_23_152028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 2018_12_21_132318) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_asteroids_on_location_id"
+  end
+
+  create_table "blueprints", force: :cascade do |t|
+    t.string "loader"
+    t.float "efficiency", default: 1.5
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_blueprints_on_user_id"
   end
 
   create_table "chat_messages", force: :cascade do |t|
@@ -265,6 +274,7 @@ ActiveRecord::Schema.define(version: 2018_12_21_132318) do
   end
 
   add_foreign_key "asteroids", "locations"
+  add_foreign_key "blueprints", "users"
   add_foreign_key "chat_messages", "chat_rooms"
   add_foreign_key "chat_messages", "users"
   add_foreign_key "chat_rooms", "locations"

@@ -43,6 +43,8 @@ class StationsController < ApplicationController
         render partial: 'stations/storage'
       when 'factory'
         render partial: 'stations/factory'
+      when 'blueprints'
+        render partial: 'stations/blueprints'
       when 'market'
         render partial: 'stations/market', locals: {market_listings: MarketListing.where(location: current_user.location).map(&:loader)}
       when 'my_ships'
