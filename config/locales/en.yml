@@ -77,6 +77,7 @@ en:
     already_at_location: "Already at location"
     invalid_amount: "Invalid amount entered"
     you_dont_have_the_required_reputation: "You don't have the required reputation"
+    docking_request_denied_low_standing: "Your docking request has been denied due to bad standing with the local faction"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
