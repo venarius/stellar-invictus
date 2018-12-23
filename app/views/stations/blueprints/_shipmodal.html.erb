@@ -1,0 +1,54 @@
+<div class="modal fade" id="blueprint-ship-<%= key %>" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= key %></h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= render partial: 'ships/vars', locals: {value: value} %>
+        
+        <p><strong><%= I18n.t('crafting.ressources') %> (<%= I18n.t('crafting.at_100_efficiency') %>)</strong></p>
+        <table class="table table-bordered table-striped table-sm mb-3">
+          <% value['crafting'].each do |k, v| %>
+            <tr>
+              <th><%= get_item_attribute(k, 'name') %></th>
+              <th><%= v %>&times;</th>
+            </tr>
+          <% end %>
+        </table>
+        <p><strong><%= I18n.t('crafting.duration') %></strong></p>
+        <% t = value['crafting_duration'] * 60 %>
+        <table class="table table-sm table-bordered table-striped mb-3">
+          <tbody>
+            <tr>
+              <td class="text-center">
+                <%= "%02d:%02d:%02d" % [t/3600%24, t/60%60, t%60] %> H
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong><%= I18n.t('blueprints.price') %></strong></p>
+        <table class="table table-sm table-bordered table-striped">
+          <tbody>
+            <tr>
+              <td class="text-center color-highgreen">
+                <%= SHIP_VARIABLES[key]['price'] * 20 %> Cr
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <% if current_user.blueprints.where(loader: key).empty? %>
+          <button type="button" class="btn btn-primary buy-blueprint-btn" data-loader="<%= key %>" data-type="ship"><%= I18n.t('blueprints.buy_blueprint') %></button>
+        <% else %>
+          <span><%= I18n.t('blueprints.already_own_blueprint') %></span>
+        <% end %>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

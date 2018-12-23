@@ -178,24 +178,34 @@ $( document ).on('turbolinks:load', function() {
     }
   }
   
-  // Craft Equipment AJAX
-  $('.station-card').on('click', '.craft-equipment-btn', function(e) {
-    e.preventDefault();
+  // Craft Btn AJAX
+  $('.station-card').on('click', '.craft-btn', function() {
     var button = $(this)
     var loader = $(this).data('loader')
-    $.post('equipment/craft', {loader: loader}, function() {
-      load_station_tab("#factory");
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    var type = $(this).data('type');
+    var html = $(this).html();
+    
+    loading_animation($(this));
+    $.post('factory/craft', {loader: loader, type: type}, function() {
+      button.closest('.modal').modal('hide');
+      setTimeout(function() {load_station_tab("#factory");}, 250);
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
   
-  // Craft Ship AJAX
-  $('.station-card').on('click', '.craft-ship-btn', function(e) {
-    e.preventDefault();
-    var button = $(this)
-    var name = $(this).data('name')
-    $.post('ship/craft', {name: name}, function() {
-      load_station_tab("#factory");
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+  // Show modal Crafting Btn AJAX
+  $('#factory').on('click', '.factory-modal-btn', function() {
+    var loader = $(this).data('loader');
+    var type = $(this).data('type');
+    var button = $(this);
+    var html = $(this).html();
+    
+    if (loader && type) {
+      loading_animation($(this));
+      $.get('factory/modal', {loader: loader, type: type}, function(data) {
+        $(data).appendTo('#factory').modal('show');
+        button.html(html);
+      }).error(function(data) { if (data && data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+    }
   });
 });
 

@@ -52,7 +52,7 @@ class MarketController < ApplicationController
         end
         
         # Deduct units
-        current_user.update_columns(units: current_user.units - listing.price * amount)
+        current_user.reduce_units(listing.price * amount)
         
         # Destroy Listing
         new_amount = listing.amount - amount
@@ -129,10 +129,6 @@ class MarketController < ApplicationController
   end
   
   private
-  
-  def check_docked
-    render json: {}, status: 400 and return unless current_user.docked
-  end
   
   def generate_price(loader, type, quantity)
     if loader and type
