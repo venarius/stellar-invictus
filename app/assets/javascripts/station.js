@@ -1,5 +1,10 @@
 $( document ).on('turbolinks:load', function() {
   
+  // Load Tab
+  if (window.location.pathname == "/station") {
+    load_station_tab($('.station-card a.nav-link.active').data('target'));
+  }
+  
   // Cookie Setter and Lazy Load
   $('.station-card a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
     Cookies.set('station_tab', $(this).data('target'));

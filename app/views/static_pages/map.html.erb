@@ -12,18 +12,18 @@
         <% if index == 0 %>
           <% if jg.origin.system == current_user.system %>
             <% path << jg.destination.system.name %>
-            <%= jg.origin.system.name %> -> <%= jg.destination.system.name %>
+            <%= jg.origin.system.name %> <i class="fa fa-arrow-right fa-sm"></i> <%= jg.destination.system.name %>
           <% else %>
             <% path << jg.origin.system.name %>
-            <%= jg.destination.system.name %> -> <%= jg.origin.system.name %>
+            <%= jg.destination.system.name %> <i class="fa fa-arrow-right fa-sm"></i> <%= jg.origin.system.name %>
           <% end %>
         <% else %>
           <% if jg.destination.system.name == path.last %>
             <% path << jg.origin.system.name %>
-            -> <%= jg.origin.system.name %>
+            <i class="fa fa-arrow-right fa-sm"></i> <%= jg.origin.system.name %>
           <% else %>
             <% path << jg.destination.system.name %>
-            -> <%= jg.destination.system.name %>
+            <i class="fa fa-arrow-right fa-sm"></i> <%= jg.destination.system.name %>
           <% end %>
         <% end %>
       <% end %>
