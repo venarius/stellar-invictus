@@ -2,6 +2,9 @@ $( document ).on('turbolinks:load', function() {
     // Scroll to bottom
     scrollChats();
     
+    // Get flash Chats
+    getFlashChats();
+    
     // Send actioncable on button press
     $('#chat_send').on('click', function(e) {
       e.preventDefault();
@@ -22,6 +25,7 @@ $( document ).on('turbolinks:load', function() {
     // Cookie setter
     $('.chat-card a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       Cookies.set('chat_tab', $(this).data('target'));
+      removeChatFlash($(this).data('target'));
     });
     
      // Cookie getter Chat collapse
@@ -153,6 +157,40 @@ function scrollChats() {
     $('.chat-card .tab-content').children('.tab-pane').each(function() {
       $(this).find('tbody').scrollTop($(this).find('tbody').get(0).scrollHeight);
     })
+  }
+}
+
+// Set flash Chats
+function setFlashChats() {
+  if ($('.chat-card').length) {
+    var flashes = []
+    $('.chat-card a.nav-link').each(function() {
+      if ($(this).hasClass('chat-flash')) {
+        flashes.push($(this).data('target')) 
+      }
+    }); 
+    Cookies.set('chat_flash', flashes);
+  }
+}
+
+// Get flash Chats
+function getFlashChats() {
+  if ($('.chat-card').length) {
+    var flashes = Cookies.get('chat_flash');
+    $.each(JSON.parse(flashes), function(index, value) {
+      $('a[data-target="'+value+'"]').addClass('chat-flash');
+    });
+  }
+}
+
+// Remove from flash Chats
+function removeChatFlash(target) {
+  if (target) {
+    $('a[data-target="'+target+'"]').removeClass('chat-flash');
+    var flashes = jQuery.grep(JSON.parse(Cookies.get('chat_flash')), function(value) {
+      return value != target;
+    });
+    Cookies.set('chat_flash', flashes);
   }
 }
 
