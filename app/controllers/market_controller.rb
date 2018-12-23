@@ -143,6 +143,17 @@ class MarketController < ApplicationController
           listings = 1 if listings == 0
           if type == "item"
             math = math + (get_item_attribute(loader, 'price') / (1.02 ** listings)) rescue nil
+            
+            # Customization
+            location = current_user.location
+            if location.industrial_station?
+              math = math * 0.5 if loader.include?("equipment.")
+            elsif location.warfare_plant?
+              math = math * 0.5 if loader.include?("equipment.weapons")
+            elsif location.mining_station?
+              math = math * 0.5 if loader.include?("asteroid.")
+            end
+            
           else
             math = math + (SHIP_VARIABLES[loader]['price'] / (1.02 ** listings)) rescue nil
           end

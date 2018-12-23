@@ -50,7 +50,7 @@
 - Bug Reporting
 - Forum / Subreddit
 - ~~Newbie Channel with ID "ROOKIES"~~
-- Stations Overview empty
+- ~~Stations Overview empty~~
 - Factory -> X amount of nanos plus licence -> Can now build next ship
 - ~~Better Map -> visjs.org~~
 - ~~Routing System -> See what jumpgates to take to get from A to B~~
@@ -64,7 +64,9 @@
 - ~~Missions / Market more specific to Station~~
 - Modal on Faction Choose with Intro and how to find Help
 - ~~More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space~~
-- If in area of faction who hates you, may spawn faction ships to come and get you
+- Registration Mail Flash not showing
+- If standing is bad, stations of this faction will refuse your dockrequest
+- Better Errors for ChatRooms join / create -> notfiy?
 
 ## Installation
 
