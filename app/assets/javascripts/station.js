@@ -24,19 +24,25 @@ $( document ).on('turbolinks:load', function() {
   // Send dockrequest AJAX
   $('#app-container').on('click', '.station-dock-btn', function(e) {
     e.preventDefault();
+    var html = $(this).html();
+    var button = $(this);
     loading_animation($(this))
+    
     $.post("/stations/dock", function(data) {
       Turbolinks.visit("/station");  
-    }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); });
+    }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); button.html(html); });
   });
   
   // Send undockrequest AJAX
   $('#app-container').on('click', '.station-undock-btn', function(e) {
     e.preventDefault();
+    var html = $(this).html();
+    var button = $(this);
     loading_animation($(this))
+    
     $.post("/stations/undock", function(data) {
       Turbolinks.visit("/game");  
-    }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); });
+    }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); button.html(html); });
   });
   
   // Send buy ship request AJAX

@@ -6,6 +6,12 @@ class StationsController < ApplicationController
   def dock
     # If user is at station and not docked
     if current_user.location.location_type == 'station' and !current_user.docked
+      
+      # Refuse if standing below -10
+      if current_user.location.faction and current_user["reputation_#{current_user.location.faction.id}"] <= -10
+        render json: {error_message: I18n.t('errors.docking_request_denied_low_standing')}, status: 400 and return
+      end
+      
       # Dock the user
       current_user.dock
       

@@ -154,6 +154,14 @@ RSpec.describe StationsController, type: :controller do
         expect(@user.reload.docked).to be_truthy
         expect(user2.reload.target_id).to eq(nil)
       end
+      
+      it 'should refuse request if user standing below or eq -10 with faction' do
+        @user.update_columns(location_id: Location.where(location_type: 'station').where(faction_id: 1).first.id)
+        @user.update_columns(reputation_1: -10)
+        post :dock
+        expect(response.code).to eq('400')
+        expect(@user.reload.docked).to be_falsey
+      end
     end
     
     describe 'POST undock' do
