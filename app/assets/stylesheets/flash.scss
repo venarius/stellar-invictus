@@ -226,3 +226,40 @@
     50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
     100% { border-color: grey; color: grey; }
 }
+
+// Chat Flash
+
+.chat-flash {
+  -moz-animation: chat-flash 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+
+  -webkit-animation: chat-flash 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -ms-animation: chat-flash 1s ease-out;
+  -ms-animation-iteration-count: infinite;
+}
+
+@keyframes chat-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(105, 105, 105, 0.5);; }
+    100% { background-color: transparent; }
+}
+
+@-webkit-keyframes chat-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(105, 105, 105, 0.5);; }
+    100% { background-color: transparent; }
+}
+
+@-moz-keyframes chat-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(105, 105, 105, 0.5);; }
+    100% { background-color: transparent; }
+}
+
+@-ms-keyframes chat-flash {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(105, 105, 105, 0.5);; }
+    100% { background-color: transparent; }
+}

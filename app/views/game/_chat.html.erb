@@ -151,6 +151,10 @@
             if (data.message) {
               if ($('#chatroom-<%= room.identifier %>').length > 0) {
                 $('#chatroom-<%= room.identifier %> table tbody').append(data.message);
+                if (!$('a[data-target="#chatroom-<%= room.identifier %>"]').hasClass('active')) {
+                  $('a[data-target="#chatroom-<%= room.identifier %>"]').addClass('chat-flash');
+                  setFlashChats();
+                }
                 return scrollChats();
               }
             }

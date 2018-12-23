@@ -4,6 +4,9 @@ $(document).on "turbolinks:load", ->
       received: (data) ->
         if ($('#local-chat').length > 0)
           $('#local-chat table tbody').append(data.message)
+          if (!$('a[data-target="#local-chat"]').hasClass('active'))
+            $('a[data-target="#local-chat"]').addClass('chat-flash')
+            setFlashChats()
           scrollChats()
           
       send_message: (message) ->
@@ -18,6 +21,9 @@ $(document).on "turbolinks:load", ->
       received: (data) ->
         if ($('#global-chat').length > 0)
           $('#global-chat table tbody').append(data.message)
+          if (!$('a[data-target="#global-chat"]').hasClass('active'))
+            $('a[data-target="#global-chat"]').addClass('chat-flash')
+            setFlashChats()
           scrollChats()
           
       send_message: (message) ->
