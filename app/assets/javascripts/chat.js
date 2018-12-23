@@ -47,17 +47,30 @@ $( document ).on('turbolinks:load', function() {
     $('#join-chatroom-modal').on('click', '#join-chatroom-modal-join-btn', function(e) {
       e.preventDefault();
       var id = $('#join-chatroom-modal-join-input').val()
+      var button = $(this);
+      
       if (id) {
         $.post('chat/join', {id: id}, function(data) {
           Cookies.set('chat_tab', '#chatroom-' + data.id)
           Turbolinks.visit(window.location);
         }).error(function(data) {
           $('#join-chatroom-modal-join-input').removeClass("outline-danger").addClass("outline-danger");
+          if (!button.closest('.modal').find('.error').length) {
+            button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
+            setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 2000) 
+          }
         });
       } else {
         $('#join-chatroom-modal-join-input').removeClass("outline-danger").addClass("outline-danger");
       }
     });
+    
+    // Fast Join Enter Btn
+    $("#join-chatroom-modal-join-input").on('keyup', function (e) {
+      if (e.keyCode == 13) {
+        $('#join-chatroom-modal-join-btn').click();
+      }
+    })
     
     // Close Chat AJAX
     $('.chat-card').on('click', '.close-chat-btn', function(e) {
@@ -76,15 +89,30 @@ $( document ).on('turbolinks:load', function() {
     $('#join-chatroom-modal').on('click', '#join-chatroom-modal-create-btn', function(e) {
       e.preventDefault();
       var title = $('#join-chatroom-modal-create-input').val()
+      var button = $(this);
+      
       if (title) {
         $.post('chat/create', {title: title}, function(data) {
           Cookies.set('chat_tab', '#chatroom-' + data.id)
           Turbolinks.visit(window.location);
+        }).error(function(data) {
+          $('#join-chatroom-modal-create-input').removeClass("outline-danger").addClass("outline-danger");
+          if (!button.closest('.modal').find('.error').length) {
+            button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
+            setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 2000) 
+          }
         });
       } else {
         $('#join-chatroom-modal-create-input').removeClass("outline-danger").addClass("outline-danger");
       }
     });
+    
+    // Fast Create Enter Btn
+    $("#join-chatroom-modal-create-input").on('keyup', function (e) {
+      if (e.keyCode == 13) {
+        $('#join-chatroom-modal-create-btn').click();
+      }
+    })
     
     // Clear on hidden modal
     $('#join-chatroom-modal').on('hidden.bs.modal', function(e) {
