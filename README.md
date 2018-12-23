@@ -38,7 +38,6 @@
 - Player Reporting
 - Reward players for not killing each other
 - Player-Owned Stations -> 1 per System
-- Achievements
 - Killboard
 - Statistics
 - Admin Backend
@@ -64,7 +63,7 @@
 - ~~Missions / Market more specific to Station~~
 - Modal on Faction Choose with Intro and how to find Help
 - ~~More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space~~
-- Registration Mail Flash not showing
+- ~~Registration Mail Flash not showing~~
 - If standing is bad, stations of this faction will refuse your dockrequest
 - Better Errors for ChatRooms join / create -> notfiy?
 

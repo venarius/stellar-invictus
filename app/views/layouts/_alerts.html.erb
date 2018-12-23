@@ -1,10 +1,10 @@
-<% if (flash[:notice] || notice) and !current_page?(root_path) %>
-  <p class="alert alert-warning">
+<% if (flash[:notice] || notice) %>
+  <p class="alert alert-warning" style="<%= 'margin-bottom:0' if current_page?(root_path)%>">
     <%= flash[:notice] %>
   </p>
 <% end %>
-<% if (flash[:alert] || alert) and !current_page?(root_path) %>
-  <p class="alert alert-danger">
+<% if (flash[:alert] || alert) %>
+  <p class="alert alert-danger" style="<%= 'margin-bottom:0' if current_page?(root_path)%>">
     <%= flash[:alert] %>
   </p>
 <% end %>
