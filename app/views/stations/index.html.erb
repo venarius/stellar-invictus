@@ -38,8 +38,11 @@
           <a class="nav-link" data-toggle="pill" data-target="#missions" href="#0" role="tab"><%= I18n.t('station.missions') %></a>
           <a class="nav-link" data-toggle="pill" data-target="#bounty_office" href="#0" role="tab"><%= I18n.t('station.bounty_office') %></a>
           <a class="nav-link" data-toggle="pill" data-target="#storage" href="#0" role="tab"><%= I18n.t('station.storage') %></a>
-          <% if @current_user.location.is_factory %>
+          <% if @current_user.location.industrial_station? %>
             <a class="nav-link" data-toggle="pill" data-target="#factory" href="#0" role="tab"><%= I18n.t('station.factory') %></a>
+          <% end %>
+          <% if @current_user.location.research_station? %>
+            <a class="nav-link" data-toggle="pill" data-target="#blueprints" href="#0" role="tab"><%= I18n.t('station.blueprints') %></a>
           <% end %>
           <a class="nav-link mb-5" data-toggle="pill" data-target="#market" href="#0" role="tab"><%= I18n.t('station.market') %></a>
           <a class="nav-link mt-auto mobile-mt-0" data-toggle="pill" data-target="#my_ships"  href="#0" role="tab"><%= I18n.t('station.my_ships') %></a>
@@ -48,30 +51,15 @@
       </div>
       <div class="col-md-9">
         <div class="tab-content">
-          <div class="tab-pane fade show active" id="overview" role="tabpanel">
-            
-          </div>
-          <div class="tab-pane fade" id="missions" role="tabpanel">
-            
-          </div>
-          <div class="tab-pane fade" id="bounty_office" role="tabpanel">
-            
-          </div>
-          <div class="tab-pane fade" id="storage" role="tabpanel">
-            
-          </div>
-          <div class="tab-pane fade" id="factory" role="tabpanel">
-            
-          </div>
-          <div class="tab-pane fade" id="market" role="tabpanel">
-            
-          </div>
-          <div class="tab-pane fade" id="my_ships" role="tabpanel">
-            
-          </div>
-          <div class="tab-pane fade" id="active_ship" role="tabpanel">
-            
-          </div>
+          <div class="tab-pane fade show active" id="overview" role="tabpanel"></div>
+          <div class="tab-pane fade" id="missions" role="tabpanel"></div>
+          <div class="tab-pane fade" id="bounty_office" role="tabpanel"></div>
+          <div class="tab-pane fade" id="storage" role="tabpanel"></div>
+          <div class="tab-pane fade" id="factory" role="tabpanel"></div>
+          <div class="tab-pane fade" id="blueprints" role="tabpanel"></div>
+          <div class="tab-pane fade" id="market" role="tabpanel"></div>
+          <div class="tab-pane fade" id="my_ships" role="tabpanel"></div>
+          <div class="tab-pane fade" id="active_ship" role="tabpanel"></div>
         </div>
       </div>
     </div>

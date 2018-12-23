@@ -39,10 +39,6 @@ class Location < ApplicationRecord
     storage
   end
   
-  def is_factory
-    self.industrial_station?
-  end
-  
   def get_name
     if I18n.t("locations.#{self.location_type}") != ""
       "#{I18n.t("locations.#{self.location_type}")} #{self.name}"

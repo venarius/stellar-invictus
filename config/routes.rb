@@ -56,7 +56,6 @@ Rails.application.routes.draw do
     post 'untarget', to: 'ships#untarget'
     get 'cargohold', to: 'ships#cargohold'
     post 'eject_cargo', to: 'ships#eject_cargo'
-    post 'craft', to: 'ships#craft'
   end
   
   # Asteroids
@@ -107,7 +106,6 @@ Rails.application.routes.draw do
   scope :equipment do
     post 'update', to: 'equipment#update'
     post 'switch', to: 'equipment#switch'
-    post 'craft', to: 'equipment#craft'
   end
   
   # Market
@@ -134,6 +132,18 @@ Rails.application.routes.draw do
     post 'finish', to: 'missions#finish'
     get 'popup', to: 'missions#popup'
     post 'abort', to: 'missions#abort'
+  end
+  
+  # Blueprints
+  scope :blueprint do
+    post 'buy', to: 'blueprints#buy'
+    get 'modal', to: 'blueprints#modal'
+  end
+  
+  # Factory
+  scope :factory do
+    get 'modal', to: 'factories#modal'
+    post 'craft', to: 'factories#craft'
   end
   
   # ActionCable

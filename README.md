@@ -40,7 +40,8 @@
 - Player-Owned Stations -> 1 per System
 - Killboard
 - Statistics
-- Admin Backend
+- Admin Backend -> Scheduled Server Downtime
+- Invite Players to join ChatRoom
 - Vote for Changes
 - Help Site
 - ~~Enemy Bounty random~~
@@ -50,7 +51,7 @@
 - Forum / Subreddit
 - ~~Newbie Channel with ID "ROOKIES"~~
 - ~~Stations Overview empty~~
-- Factory -> X amount of nanos plus licence -> Can now build next ship
+- ~~Factory -> Buy Blueprint -> Can now build next ship~~
 - ~~Better Map -> visjs.org~~
 - ~~Routing System -> See what jumpgates to take to get from A to B~~
 - ~~Bounty Hunting for NPCs hiding in their hidden homes -> need scanner -> lots of bounty~~
@@ -66,7 +67,7 @@
 - ~~Registration Mail Flash not showing~~
 - ~~If standing is bad, stations of this faction will refuse your dockrequest~~
 - ~~Better Errors for ChatRooms join / create -> notfiy?~~
-
+ 
 ## Installation
 
 Run the following commands on the deployment machine:
