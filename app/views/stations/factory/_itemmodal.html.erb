@@ -10,13 +10,13 @@
       <div class="modal-body">
         <%= render partial: 'items/vars', locals: {item: item} %>
         
-        <% if current_user.blueprints.where(loader: key).present? %>
-          <p class="mt-3"><strong><%= I18n.t('crafting.ressources') %> (<%= I18n.t('crafting.current_efficiency') %>: <%= (100 / current_user.blueprints.find_by(loader: key).efficiency).round %>%)</strong></p>
+        <% if current_user.blueprints.where(loader: item).present? %>
+          <p class="mt-3"><strong><%= I18n.t('crafting.ressources') %> (<%= I18n.t('crafting.current_efficiency') %>: <%= (100 / current_user.blueprints.find_by(loader: item).efficiency).round %>%)</strong></p>
           <table class="table table-bordered table-striped table-sm mb-3">
             <% get_item_attribute(item, 'crafting').each do |key, value| %>
               <tr>
                 <th><%= get_item_attribute(key, 'name') %></th>
-                <th><%= (value * current_user.blueprints.find_by(loader: key).efficiency).round %>&times;</th>
+                <th><%= (value * current_user.blueprints.find_by(loader: item).efficiency).round %>&times;</th>
               </tr>
             <% end %>
           </table>
