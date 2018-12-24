@@ -177,15 +177,17 @@ function setFlashChats() {
 function getFlashChats() {
   if ($('.chat-card').length) {
     var flashes = Cookies.get('chat_flash');
-    $.each(JSON.parse(flashes), function(index, value) {
-      $('a[data-target="'+value+'"]').addClass('chat-flash');
-    });
+    if (flashes) {
+      $.each(JSON.parse(flashes), function(index, value) {
+        $('a[data-target="'+value+'"]').addClass('chat-flash');
+      }); 
+    }
   }
 }
 
 // Remove from flash Chats
 function removeChatFlash(target) {
-  if (target) {
+  if (target && Cookies.get('chat_flash')) {
     $('a[data-target="'+target+'"]').removeClass('chat-flash');
     var flashes = jQuery.grep(JSON.parse(Cookies.get('chat_flash')), function(value) {
       return value != target;
