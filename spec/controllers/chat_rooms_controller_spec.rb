@@ -161,6 +161,14 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect(ChatRoom.count).to eq(@count+1)
       end
       
+      it 'should take existing channel if identifier given' do
+        room = ChatRoom.create(chatroom_type: 'custom', title: 'Test')
+        user2 = FactoryBot.create(:user_with_faction)
+        post :start_conversation, params: {id: user2.id, identifier: room.identifier}
+        expect(response.status).to eq(200)
+        expect(ChatRoom.count).to eq(@count+1)
+      end
+      
       it 'should fail if inviting self' do
         post :start_conversation, params: {id: @user.id}
         expect(response.status).to eq(400)

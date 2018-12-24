@@ -93,6 +93,7 @@ Rails.application.routes.draw do
     post 'create', to: 'chat_rooms#create'
     post 'leave', to: 'chat_rooms#leave'
     post 'start_conversation', to: 'chat_rooms#start_conversation'
+    post 'search', to: 'chat_rooms#search'
   end
   
   # Fleets

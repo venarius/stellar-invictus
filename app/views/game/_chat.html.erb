@@ -76,8 +76,9 @@
             </table>
           </div>
           <div class="col-md-2">
-            <div class="w-100">
+            <div class="w-100 mt-5px">
               <span>ID: <%= room.identifier %></span>
+              <a class="btn btn-outline-primary btn-sm float-right p-0-5 text-primary invite-to-chatroom-btn" data-toggle="modal" data-target="#add-to-chat-modal" href="#0" data-identifier="<%= room.identifier %>"><i class="fa fa-plus"></i></a>
             </div>
             <div class="outer" id="chatroom-<%= room.identifier %>-players">
               <% map_and_sort(room.users.where("online > 0")).each do |key, value| %>
@@ -132,6 +133,34 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search Users Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="add-to-chat-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('chat.invite_user_to_join_room') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="add-friend-modal-body">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="<%= I18n.t('search.user_name') %>" id="add-to-chat-modal-input">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="button" id="add-to-chat-modal-search-btn"><%= I18n.t('search.search') %></button>
+          </div>
+        </div>
+        <div id="add-to-chat-modal-result">
+          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
       </div>
     </div>
   </div>

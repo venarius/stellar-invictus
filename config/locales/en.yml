@@ -141,6 +141,8 @@ en:
     user_joined_channel: "%{user} joined the channel"
     user_left_channel: "%{user} left the channel"
     conversation: "Conversation"
+    invite_user_to_join_room: "Invite to join channel"
+    user_already_in_channel: "User already in channel"
   types:
     jumpgate: "Jumpgate"
     station: "Station"
