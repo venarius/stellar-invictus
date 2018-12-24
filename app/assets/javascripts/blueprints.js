@@ -8,6 +8,7 @@ $( document ).on('turbolinks:load', function() {
     if (loader && type) {
       $.post('blueprint/buy', {loader: loader, type: type}, function() {
         button.closest('.modal').modal('hide');
+        refresh_player_info();
         setTimeout(function() {load_station_tab('#blueprints');}, 250);
       }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
     }

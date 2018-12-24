@@ -4,6 +4,10 @@
 <p><strong><%= I18n.t('equipment.statistics') %></strong></p>
 <table class="table table-bordered table-striped table-sm mb-3">
   <tr>
+    <th><%= I18n.t('ships.name') %></th>
+    <td><%= value['image'].gsub('.png', '').capitalize %></td>
+  </tr>
+  <tr>
     <th><%= I18n.t('ships.hp') %></th>
     <td><%= value['hp'] %></td>
   </tr>

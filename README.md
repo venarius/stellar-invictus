@@ -57,6 +57,7 @@
 - ~~Bounty Hunting for NPCs hiding in their hidden homes -> need scanner -> lots of bounty~~
 - Rework Material Requirements and Prices on Items / Ships (Titanium Ore) -> Defense can't be more than 90
 - Improve Code with Rubycritic
+- ~~Add Info about Pilots Ship in User Modal~~
 - ~~Cargo Jettison -> Be able to submit how much~~
 - ~~Store / Load -> "All" Button~~
 - ~~Should not reload ship info after npc died (performance)~~

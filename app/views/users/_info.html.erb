@@ -63,6 +63,9 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" data-target="#about-user-info" href="#0" role="tab"><%= I18n.t('users.about') %></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-target="#about-user-ship" href="#0" role="tab"><%= I18n.t('users.current_ship') %></a>
+          </li>
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade show active" id="bio-user-info" role="tabpanel">
@@ -75,7 +78,12 @@
             </div>
           </div>
           <div class="tab-pane fade" id="about-user-info" role="tabpanel">
-            <p><strong>Faction: <%= user.faction.name %></strong></p>
+            <span><%= I18n.t('users.faction') %>: <%= user.faction.name %></span><br>
+          </div>
+          <div class="tab-pane fade" id="about-user-ship" role="tabpanel">
+            <div class="mt-5px">
+              <%= render partial: 'ships/vars', locals: {value: SHIP_VARIABLES[user.active_spaceship.name]} %>
+            </div>
           </div>
         </div>
       </div>
