@@ -101,11 +101,15 @@ class ChatRoomsController < ApplicationController
       # If user and user is not current_user
       if user and user != current_user
         
-        # Create a new ChatRoom
-        room = ChatRoom.create(title: I18n.t('chat.conversation'), chatroom_type: 'custom')
-        
-        # Add User to ChatRoom
-        room.users << current_user
+        if !params[:identifier]
+          # Create a new ChatRoom
+          room = ChatRoom.create(title: I18n.t('chat.conversation'), chatroom_type: 'custom')
+          
+          # Add User to ChatRoom
+          room.users << current_user
+        else
+          room = ChatRoom.find_by(identifier: params[:identifier])
+        end
         
         # Perform Job
         InviteToConversationJob.perform_now(current_user.id, room.identifier, user.id)
@@ -113,6 +117,14 @@ class ChatRoomsController < ApplicationController
         # Render 200 OK
         render json: {'id': room.identifier}, status: 200 and return
       end
+    end
+    render json: {}, status: 400
+  end
+  
+  def search
+    if params[:name] and params[:identifier]
+      result = User.where("full_name LIKE ?", "%#{params[:name]}%").first(20)
+      render partial: 'game/chat/search', locals: {users: result, identifier: params[:identifier]} and return
     end
     render json: {}, status: 400
   end

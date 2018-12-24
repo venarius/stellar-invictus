@@ -1,0 +1,22 @@
+<table class="table table-striped table-bordered chat-search-table">
+  <tbody>
+    <% users.each do |user| %>
+      <tr>
+        <td>
+          <%= image_tag("avatars/#{user.avatar}.jpg", class: 'float-left') %>
+          <div class="float-right">
+            <% if ChatRoom.find_by(identifier: identifier).users.where(id: user.id).empty? and current_user != user %>
+              <button class="btn btn-outline-primary search-invite-to-chat-btn" data-id="<%= user.id %>" data-identifier="<%= identifier %>">
+                <i class="fa fa-user-plus"></i>
+              </button>
+            <% else %>
+              <p><%= I18n.t('chat.user_already_in_channel') %></p>
+            <% end %>
+          </div>
+          <%= user.full_name %><br>
+          <%= online_status(user) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

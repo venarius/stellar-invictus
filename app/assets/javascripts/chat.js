@@ -149,6 +149,38 @@ $( document ).on('turbolinks:load', function() {
     $('#app-container').on('hidden.bs.modal', '.invited-to-conversation-modal', function(e) {
       $(this).remove();
     });
+    
+    // Invite to ChatRoom Btn
+    $('.chat-card').on('click', '.invite-to-chatroom-btn', function() {
+      var identifier = $(this).data('identifier');
+      $('#add-to-chat-modal-search-btn').data('identifier', identifier);
+      $('#add-to-chat-modal').find('.modal-title').append(" '" + identifier + "'");
+    });
+    
+    // Search for Users AJAX
+    $('#add-to-chat-modal').on('click', '#add-to-chat-modal-search-btn', function(e) {
+      if ($('#add-to-chat-modal-input').val()) {
+          $('#add-to-chat-modal-input').css("border", "1px solid grey");
+          $('#add-to-chat-modal-result').empty().append("<div class='text-center spinner-modal'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
+        $.post('chat/search', {name: $('#add-to-chat-modal-input').val(), identifier: $(this).data('identifier')}, function(data) {
+          $('#add-to-chat-modal-body').find('.spinner-modal').remove();
+          $('#add-to-chat-modal-result').empty().append(data);
+        })
+      } else {
+        $('#add-to-chat-modal-input').css("border", "1px solid red");
+      }
+    });
+    
+    // Search invite User Btn AJAX
+    $('#add-to-chat-modal').on('click', '.search-invite-to-chat-btn', function() {
+      var id = $(this).data('id');
+      var identifier = $(this).data('identifier');
+      var button = $(this);
+      
+      $.post('chat/start_conversation', {id: id, identifier: identifier}, function() {
+        button.closest('.modal').modal('hide');
+      });
+    });
 });
 
 // Scroll to bottom of each chat

@@ -369,8 +369,8 @@ a {
         border-left: 1px solid grey;
         padding-left: 5px; 
         .outer { 
-          margin-top: 0;
-          height: 13.6rem;
+          margin-top: 5px;
+          height: 13rem;
         }
       }
     }
@@ -951,7 +951,7 @@ body {
   margin-top: 5px;
 }
 
-.friends-search-table {
+.friends-search-table, .chat-search-table {
   font-size: 13px;;
   margin-bottom: 5px;
   tbody {
@@ -967,6 +967,9 @@ body {
         img {
           height: 38px;
           margin-right: 10px;
+        }
+        p {
+          margin-top: 9px;
         }
       }
     }

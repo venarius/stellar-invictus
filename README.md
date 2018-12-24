@@ -41,7 +41,7 @@
 - Killboard
 - Statistics
 - Admin Backend -> Scheduled Server Downtime
-- Invite Players to join ChatRoom
+- ~~Invite Players to join ChatRoom~~
 - Vote for Changes
 - Help Site
 - ~~Enemy Bounty random~~
