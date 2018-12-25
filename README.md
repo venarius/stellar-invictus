@@ -6,7 +6,7 @@
 - ~~Enhance map~~
 - ~~Fleets~~
 - ~~Crafting~~
-- Alliances
+- Corporations
 - ~~Bio for Users~~
 - ~~Friends~~
 - ~~Drop Items -> Container~~

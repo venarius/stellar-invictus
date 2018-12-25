@@ -5,7 +5,7 @@
   
   <div class="card black-card mb-3">
     <h5 class="card-header">
-      <%= location.system.name %> - <%= location.name %> (<%= ships.count + items.count %>)
+      <%= location.system.name %> - <%= location.get_name %> (<%= ships.count + items.count %>)
       <div class="float-right">
         <a data-toggle="collapse" data-target="#collapse-asset-<%= loc %>" href="#0">
           <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-right"></i></div>

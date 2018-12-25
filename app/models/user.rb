@@ -4,6 +4,7 @@ class User < ApplicationRecord
   belongs_to :system, optional: true
   belongs_to :location, optional: true
   belongs_to :fleet, optional: true
+  belongs_to :corporation, optional: true
   
   has_many :chat_messages, dependent: :destroy
   has_many :spaceships, dependent: :destroy
@@ -17,12 +18,14 @@ class User < ApplicationRecord
   
   has_and_belongs_to_many :chat_rooms
   
+  enum corporation_role: [:recruit, :lieutenant, :commodore, :admiral, :founder]
+  
   # Validations
   validates :name, :family_name, :email, :password, :password_confirmation, :avatar, presence: true
   validates :name, uniqueness: { scope: :family_name }
   validates :email, uniqueness: true
   validates_format_of :name, :family_name, :with => /\A[a-zA-Z]+\z/i, message: I18n.t('validations.can_only_contain_letters')
-  validates :name, :family_name, length: { minimum: 2, maximum: 20,
+  validates :name, :family_name, length: { minimum: 4, maximum: 20,
             too_short: I18n.t('validations.too_short'), too_long: I18n.t('validations.too_long_name') }
   
   # Devise
