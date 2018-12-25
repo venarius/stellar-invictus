@@ -49,7 +49,6 @@ Rails.application.routes.draw do
   get '/assets', to: 'game#assets'
   
   # Ships
-  get '/ship', to: 'ships#index'
   scope :ship do
     post 'activate', to: 'ships#activate'
     post 'target', to: 'ships#target'
@@ -145,6 +144,11 @@ Rails.application.routes.draw do
   scope :factory do
     get 'modal', to: 'factories#modal'
     post 'craft', to: 'factories#craft'
+  end
+  
+  # Corporation
+  scope :corporation do
+    get '/', to: 'corporations#index', as: :corporation
   end
   
   # ActionCable

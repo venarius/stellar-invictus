@@ -55,7 +55,7 @@
               <td><%= mission.mission_type.capitalize %></td>
               <td><%= mission.faction.get_ticker %></td>
               <td><%= mission.reward %> Cr</td>
-              <td><%= mission.location.name %> - <%= mission.location.system.name %></td>
+              <td><%= mission.location.get_name %> - <%= mission.location.system.name %></td>
               <td><button class="btn btn-outline-primary btn-sm mission-info-btn" data-id="<%= mission.id %>"><i class="fa fa-info"></i></button></td>
             </tr>
           <% end %>

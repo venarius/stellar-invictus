@@ -2,7 +2,9 @@ $( document ).on('turbolinks:load', function() {
   
   // Load Tab
   if (window.location.pathname == "/station") {
-    load_station_tab($('.station-card a.nav-link.active').data('target'));
+    if ($('.station-card a.nav-link.active').data('target') == '#overview') {
+      load_station_tab($('.station-card a.nav-link.active').data('target')); 
+    }
   }
   
   // Cookie Setter and Lazy Load
@@ -173,7 +175,10 @@ $( document ).on('turbolinks:load', function() {
     var type = Cookies.get('station_tab');
     if (type) {
       $('.station-card .nav-pills a').each(function() {
-        if ($(this).data('target') == type) { $(this).tab('show'); }
+        if ($(this).data('target') == type) { 
+          $(this).tab('show'); 
+          load_station_tab($('.station-card a.nav-link.active').data('target'));
+        }
       });
     }
   }

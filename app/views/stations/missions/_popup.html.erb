@@ -18,7 +18,7 @@
           <tbody>
             <tr>
               <th><%= I18n.t('missions.agent_location') %></th>
-              <td><%= mission.location.name %> - <%= mission.location.system.name %></td>
+              <td><%= mission.location.get_name %> - <%= mission.location.system.name %></td>
             </tr>
             <tr>
               <th><%= I18n.t('missions.reward') %></th>

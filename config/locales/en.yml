@@ -8,7 +8,7 @@ en:
     profile: "Profile"
     mails: "Mails"
     map: "Map"
-    ship: "Ship"
+    corporation: "Corporation"
     friends: "Friends"
     assets: "Assets"
   devise:
@@ -88,7 +88,9 @@ en:
     too_long_chat_message: "cannot be longer than 300 characters"
     too_long_mail_body: "cannot be longer than 500 characters"
     too_long_mail_header: "cannot be longer than 100 characters"
-    too_short: "cannot be shorter than 2 characters"
+    too_long_ticker: "cannot be longer than 6 characters"
+    too_short_3: "cannot be shorter than 3 characters"
+    too_short: "cannot be shorter than 4 characters"
   game:
     current_system: "SYSTEM:"
     current_sec_level: "SECURITY:"

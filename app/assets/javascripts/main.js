@@ -6,6 +6,7 @@ document.addEventListener("turbolinks:before-cache", function() {
   $('table tbody').empty();
   $('.alert').remove();
   $('.speech-bubble').remove();
+  $('.station-card').find('.tab-pane.fade.active.show').html("<div class='text-center mt-5px'><i class='fa fa-spinner fa-spin fa-2x'></i></div>");
 })
 
 $( document ).on('turbolinks:load', function() {

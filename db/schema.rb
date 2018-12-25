@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_23_152028) do
+ActiveRecord::Schema.define(version: 2018_12_25_203355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,15 @@ ActiveRecord::Schema.define(version: 2018_12_23_152028) do
     t.bigint "chat_room_id"
     t.index ["chat_room_id"], name: "index_chat_rooms_users_on_chat_room_id"
     t.index ["user_id"], name: "index_chat_rooms_users_on_user_id"
+  end
+
+  create_table "corporations", force: :cascade do |t|
+    t.string "name"
+    t.string "ticker"
+    t.text "bio"
+    t.float "tax", default: 0.0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "craft_jobs", force: :cascade do |t|
@@ -264,7 +273,10 @@ ActiveRecord::Schema.define(version: 2018_12_23_152028) do
     t.float "reputation_1", default: 0.0
     t.float "reputation_2", default: 0.0
     t.float "reputation_3", default: 0.0
+    t.bigint "corporation_id"
+    t.integer "corporation_role", default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["corporation_id"], name: "index_users_on_corporation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
     t.index ["fleet_id"], name: "index_users_on_fleet_id"
@@ -299,6 +311,7 @@ ActiveRecord::Schema.define(version: 2018_12_23_152028) do
   add_foreign_key "spaceships", "users"
   add_foreign_key "structures", "locations"
   add_foreign_key "structures", "users"
+  add_foreign_key "users", "corporations"
   add_foreign_key "users", "factions"
   add_foreign_key "users", "fleets"
   add_foreign_key "users", "locations"
