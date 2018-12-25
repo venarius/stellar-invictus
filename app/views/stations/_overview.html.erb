@@ -1,21 +1,23 @@
-<h4><%= I18n.t('station.overview') %></h4>
-
-<p><strong><%= I18n.t('station.about') %>:</strong></p>
-
-<p><%= I18n.t("station.#{current_user.location.station_type}_overview") %></p>
-
-<% if current_user.location.faction %>
-  <p><%= I18n.t('station.faction_station_overview', faction: current_user.location.faction.name) %></p>
-<% else %>
-  <p><%= I18n.t('station.no_faction_station_overview') %></p>
-<% end %>
-
-<p><strong><%= I18n.t('station.statistics') %>:</strong></p>
-
-<p><%= I18n.t('station.pilots_docked') %>: <%= User.where(location: current_user.location, docked: true).count %></p>
-
-<% if current_user.location.faction %>
-  <p><%= I18n.t('station.faction') %>: <%= current_user.location.faction.name %></p>
-<% else %>
-  <p><%= I18n.t('station.faction') %>: -</p>
-<% end %>
+<div class="mt-5px">
+  <h4><%= I18n.t('station.overview') %></h4>
+  
+  <p><strong><%= I18n.t('station.about') %>:</strong></p>
+  
+  <p><%= I18n.t("station.#{current_user.location.station_type}_overview") %></p>
+  
+  <% if current_user.location.faction %>
+    <p><%= I18n.t('station.faction_station_overview', faction: current_user.location.faction.name) %></p>
+  <% else %>
+    <p><%= I18n.t('station.no_faction_station_overview') %></p>
+  <% end %>
+  
+  <p><strong><%= I18n.t('station.statistics') %>:</strong></p>
+  
+  <p><%= I18n.t('station.pilots_docked') %>: <%= User.where(location: current_user.location, docked: true).count %></p>
+  
+  <% if current_user.location.faction %>
+    <p><%= I18n.t('station.faction') %>: <%= current_user.location.faction.name %></p>
+  <% else %>
+    <p><%= I18n.t('station.faction') %>: -</p>
+  <% end %>
+</div>

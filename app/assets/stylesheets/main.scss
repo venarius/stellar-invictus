@@ -111,10 +111,12 @@ html {
 .form-control, .alert, .progress { border-radius: 0; }
 
 @media (max-width: 767px) {
-  .mobile-display-none { display: none; }
+  .mobile-display-none { display: none !important; }
   .mobile-mb-10 { margin-bottom: 10px !important; }
-  .mobile-mt-0 { margin-top: 0; }
-  .mobile-mb-1 { margin-bottom: 1rem; }
+  .mobile-mb-10px { margin-bottom: 10px !important; }
+  .mobile-mt-0 { margin-top: 0 !important; }
+  .mobile-mb-0 { margin-bottom: 0 !important; }
+  .mobile-mb-1 { margin-bottom: 1rem !important; }
 }
 
 // Dropdown - Submenu
@@ -647,7 +649,11 @@ body {
       }
     }
     .tab-content {
-      min-height: 10rem;
+      height: 560px !important;
+      @media (max-width: 767px) {
+        padding-top: 5px;
+        border-top: 1px solid grey;
+      }
       .nav-tabs {
         overflow-x: auto;
         overflow-y: hidden;

@@ -211,7 +211,7 @@ $( document ).on('turbolinks:load', function() {
 
 function load_station_tab(href) {
   element = $(href);
-  element.empty().append("<br><div class='text-center'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
+  element.empty().append("<div class='text-center mt-5px'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
   $.get('?tab=' + href.substring(1), function(data) {
     element.empty().append(data);
     sort_equipment_card()
