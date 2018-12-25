@@ -44,7 +44,7 @@
           <% if @current_user.location.research_station? %>
             <a class="nav-link" data-toggle="pill" data-target="#blueprints" href="#0" role="tab"><%= I18n.t('station.blueprints') %></a>
           <% end %>
-          <a class="nav-link mb-5" data-toggle="pill" data-target="#market" href="#0" role="tab"><%= I18n.t('station.market') %></a>
+          <a class="nav-link mb-5 mobile-mb-10px" data-toggle="pill" data-target="#market" href="#0" role="tab"><%= I18n.t('station.market') %></a>
           <a class="nav-link mt-auto mobile-mt-0" data-toggle="pill" data-target="#my_ships"  href="#0" role="tab"><%= I18n.t('station.my_ships') %></a>
           <a class="nav-link" data-toggle="pill" data-target="#active_ship" href="#0" role="tab"><%= I18n.t('station.active_ship') %></a>
         </div>
