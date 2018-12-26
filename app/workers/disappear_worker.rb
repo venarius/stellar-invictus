@@ -39,6 +39,9 @@ class DisappearWorker
       user.chat_rooms.where(chatroom_type: 'custom').each do |room|
         room.update_local_players
       end
+      user.chat_rooms.where(chatroom_type: 'corporation').each do |room|
+        room.update_local_players
+      end
     end
       
   end

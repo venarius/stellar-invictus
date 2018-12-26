@@ -1,9 +1,14 @@
-<% unless current_user.corporation %>
+<% if !current_user.corporation %>
   <div class="card black-card">
-    <h5 class="card-header">Create A Corporation Now!</h5>
+    <h5 class="card-header"><%= I18n.t('corporations.create_a_corporation_now') %> <%= link_to "<i class='fa fa-plus'></i> #{I18n.t('corporations.create_a_corporation')}".html_safe, new_corporation_path, class: 'btn btn-outline-primary float-right' %></h5>
     <div class="card-body">
-      <p>Being part of a corporation is key in taking part of the Stellar Invicuts Universe.</p><br>
-      <p>A corporation allows you to band together with your friends, form an identity and accept mercenary contracts. Corporations also have their own chat channel and can build stations in low security space!</p>
+      <p><%= I18n.t('corporations.create_a_corporation_text1') %></p><br>
+      <p><%= I18n.t('corporations.create_a_corporation_text2') %></p>
     </div>
   </div>
+<% else %>
+  Name: <%= @corporation.name %>
+  Ticker: <%= @corporation.ticker %>
+  Tax Rate: <%= @corporation.tax %>
+  About: <%= @corporation.bio %>
 <% end %>

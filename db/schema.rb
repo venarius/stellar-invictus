@@ -65,8 +65,10 @@ ActiveRecord::Schema.define(version: 2018_12_25_203355) do
     t.string "ticker"
     t.text "bio"
     t.float "tax", default: 0.0
+    t.bigint "chat_room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["chat_room_id"], name: "index_corporations_on_chat_room_id"
   end
 
   create_table "craft_jobs", force: :cascade do |t|
@@ -290,6 +292,7 @@ ActiveRecord::Schema.define(version: 2018_12_25_203355) do
   add_foreign_key "chat_messages", "chat_rooms"
   add_foreign_key "chat_messages", "users"
   add_foreign_key "chat_rooms", "locations"
+  add_foreign_key "corporations", "chat_rooms"
   add_foreign_key "craft_jobs", "locations"
   add_foreign_key "craft_jobs", "users"
   add_foreign_key "factions", "locations"

@@ -145,6 +145,7 @@ en:
     conversation: "Conversation"
     invite_user_to_join_room: "Invite to join channel"
     user_already_in_channel: "User already in channel"
+    corporation: "Corporation"
   types:
     jumpgate: "Jumpgate"
     station: "Station"
@@ -293,6 +294,7 @@ en:
     send_mail: "Send Mail"
     faction: "Faction"
     current_ship: "Current Spaceship"
+    corporation: "Corporation"
   crafting:
     craft: "Craft"
     ressources: "Required Ressources"
@@ -427,3 +429,13 @@ en:
     buy_blueprint: "Buy Blueprint"
     price: "Price"
     already_own_blueprint: "You already own this blueprint"
+  corporations:
+    create_a_corporation: "Create A Corporation"
+    create_a_corporation_now: "Create A Corporation Now!"
+    create_a_corporation_text1: "Being part of a corporation is key in taking full advantage of the Stellar Invicuts Universe."
+    create_a_corporation_text2: "A corporation allows you to band together with your friends, form an identity and take over the Universe. Corporations also have their own chat channel and can build stations in low security space!"
+    name: "Name"
+    ticker: "Ticker"
+    about: "About"
+    tax_rate: "Tax Rate"
+    create: "Create"
