@@ -147,9 +147,7 @@ Rails.application.routes.draw do
   end
   
   # Corporation
-  scope :corporation do
-    get '/', to: 'corporations#index', as: :corporation
-  end
+  resources :corporations, only: [:index, :new, :create, :show], path: 'corporation'
   
   # ActionCable
   mount ActionCable.server => '/cable'

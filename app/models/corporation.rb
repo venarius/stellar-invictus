@@ -10,6 +10,7 @@ class Corporation < ApplicationRecord
             too_short: I18n.t('validations.too_short'), too_long: I18n.t('validations.too_long_name') }
   validates :ticker, length: { minimum: 3, maximum: 6,
             too_short: I18n.t('validations.too_short_3'), too_long: I18n.t('validations.too_long_ticker') }
+  validates_inclusion_of :tax, :in => 0..100
   
   before_destroy do
     self.users.each do |user|

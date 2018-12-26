@@ -26,6 +26,9 @@ class AppearWorker
       user.chat_rooms.where(chatroom_type: 'custom').each do |room|
         room.update_local_players
       end
+      user.chat_rooms.where(chatroom_type: 'corporation').each do |room|
+        room.update_local_players
+      end
       
       # Start Mission Worker if location is mission and user has mission
       if user.location.location_type == 'mission' and user.location.mission.user == user

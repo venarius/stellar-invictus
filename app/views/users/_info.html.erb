@@ -79,6 +79,9 @@
           </div>
           <div class="tab-pane fade" id="about-user-info" role="tabpanel">
             <span><%= I18n.t('users.faction') %>: <%= user.faction.name %></span><br>
+            <% if user.corporation %>
+              <span><%= I18n.t('users.corporation') %>: <%= link_to user.corporation.name, corporation_path(user.corporation) %></span><br>
+            <% end %>
           </div>
           <div class="tab-pane fade" id="about-user-ship" role="tabpanel">
             <div class="mt-5px">

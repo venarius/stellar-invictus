@@ -5,6 +5,7 @@ class CreateCorporations < ActiveRecord::Migration[5.2]
       t.string :ticker
       t.text :bio
       t.float :tax, default: 0.0
+      t.references :chat_room, foreign_key: true
 
       t.timestamps
     end

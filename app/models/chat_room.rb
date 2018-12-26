@@ -6,7 +6,7 @@ class ChatRoom < ApplicationRecord
   
   validates :title, presence: true, length: { maximum: 20, too_long: I18n.t('validations.too_long_chat_room') }
   
-  enum chatroom_type: [:global, :local, :custom]
+  enum chatroom_type: [:global, :local, :custom, :corporation]
   
   # Before Create -> Generate Identifier
   before_create do

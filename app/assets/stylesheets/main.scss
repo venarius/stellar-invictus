@@ -39,6 +39,7 @@ html {
 // Helpers
 // ###############
 .display-inline { display: inline; }
+.overflow-scroll { overflow: scroll; }
 .display-inline-block { display: inline-block !important; }
 .mt-1rem { margin-top: 1rem; }
 .mb-0 { margin-bottom: 0; }
@@ -327,7 +328,7 @@ a {
   }
 }
 
-#local-chat, .custom-chat {
+#local-chat, .custom-chat, #corporation-chat {
   .row { 
     padding: 0; 
     .col-md-2 { 
@@ -350,7 +351,7 @@ a {
 }
 
 @media (min-width: 768px) {
-  #local-chat {
+  #local-chat, #corporation-chat {
     .row { 
       padding: 0; 
       .col-md-10 { padding-right: 5px; margin-top: 5px; }
@@ -380,7 +381,7 @@ a {
 }
 
 @media (max-width: 767px) {
-  #local-chat, .custom-chat {
+  #local-chat, .custom-chat, #corporation-chat {
     .row { 
       .col-md-10 { margin-top: 5px; }
       .col-md-2 { 
@@ -654,6 +655,9 @@ body {
         padding-top: 5px;
         border-top: 1px solid grey;
       }
+      .tab-pane.fade {
+        height: inherit;
+      }
       .nav-tabs {
         overflow-x: auto;
         overflow-y: hidden;
@@ -796,13 +800,14 @@ body {
 
 // Factory
 
-#factory-ships, #factory-equipment, #factory-active, #blueprints-ships, #blueprints-equipment {
+#factory-ships, #factory-equipment, #factory-active, #blueprints-ships, #blueprints-equipment,
+#ship-inventory {
   ::-webkit-scrollbar {
     margin-left: 5px;
     display: block;
     width: 10px;
   }
-  max-height: 29rem;
+  height: 92%;
   overflow-x: auto;
 }
 
@@ -1078,7 +1083,7 @@ body {
 }
 
 #most-wanted, #top-bounty-hunter, #bounties, #npc-bounties {
-  max-height: 32rem;
+  height: 92%;
   overflow: scroll;
 }
 
