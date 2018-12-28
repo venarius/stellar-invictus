@@ -246,6 +246,8 @@ a {
   background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
   .card-header {
     border-bottom: 1px solid #6493cd;
+    padding: 0.5rem 0.5rem;
+    font-size: 18px;
   }
 }
 .jumpgate-card, .player-card {

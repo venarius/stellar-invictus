@@ -148,6 +148,9 @@ Rails.application.routes.draw do
   
   # Corporation
   resources :corporations, only: [:index, :new, :create, :show], path: 'corporation'
+  scope :corporation do
+    post 'update_motd', to: 'corporations#update_motd'
+  end
   
   # ActionCable
   mount ActionCable.server => '/cable'
