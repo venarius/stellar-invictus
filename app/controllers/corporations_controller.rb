@@ -26,6 +26,14 @@ class CorporationsController < ApplicationController
     @corporation = Corporation.find(params[:id]) rescue nil
   end
   
+  def update_motd
+    if params[:text] and current_user.founder?
+      current_user.corporation.update_columns(motd: params[:text])
+      render json: {text: current_user.corporation.motd, button_text: I18n.t('corporations.edit') }, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
+  
   private
   
   def corporation_params

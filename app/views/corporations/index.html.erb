@@ -7,8 +7,71 @@
     </div>
   </div>
 <% else %>
-  Name: <%= @corporation.name %>
-  Ticker: <%= @corporation.ticker %>
-  Tax Rate: <%= @corporation.tax %>
-  About: <%= @corporation.bio %>
+  <div class="card black-card">
+    <h5 class="card-header"><%= @corporation.name %> [<%= @corporation.ticker %>] <span class="float-right"><%= @corporation.users.where('online > 0').count %> / <%= @corporation.users.count %> <%= I18n.t('corporations.members_online') %></span></h5>
+    <div class="card-body">
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="card black-card border-success">
+            <h5 class="card-header">
+              <%= I18n.t('corporations.motd') %>
+              <% if current_user.founder? %>
+                <button class="btn btn-sm btn-outline-primary float-right p-0-5" id="edit-corporation-motd-btn">&nbsp;<%= I18n.t('corporations.edit') %>&nbsp;</button>
+              <% end %>
+            </h5>
+            <div class="card-body" style="height: 200px;overflow: scroll;white-space: pre-wrap;" id="corporation-motd">
+              <% if @corporation.motd %>
+                <%= @corporation.motd %>
+              <% else %>
+                <h2 class="text-center no-motd-pl">...</h2>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="card black-card border-info">
+            <h5 class="card-header">
+              <%= I18n.t('corporations.corporation') %>
+              <% if current_user.founder? %>
+                <button class="btn btn-sm btn-outline-primary float-right p-0-5">&nbsp;<%= I18n.t('corporations.edit') %>&nbsp;</button>
+              <% end %>
+            </h5>
+            <div class="card-body" style="height: 200px;overflow: scroll;">
+              <p><strong><%= I18n.t('corporations.tax_rate') %>:</strong></p>
+              <p><%= @corporation.tax %> %</p>
+              <p><strong><%= I18n.t('corporations.about') %>:</strong></p>
+              <p><%= @corporation.bio %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card black-card border-primary">
+        <h5 class="card-header"><%= I18n.t('corporations.roster') %></h5>
+        <div class="card-body">
+          <table class="table table-bordered table-striped table-sm">
+            <thead>
+              <tr>
+                <th scope="col"><%= I18n.t('corporations.rank') %></th>
+                <th scope="col"><%= I18n.t('corporations.name') %></th>
+                <th scope="col"><%= I18n.t('corporations.location') %></th>
+                <th scope="col"><%= I18n.t('corporations.online') %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @corporation.users.each do |user| %>
+                <tr>
+                  <td><%= I18n.t("corporations.rank_#{user.corporation_role}") %></td>
+                  <td><%= user.full_name %></td>
+                  <td><%= user.location.get_name %> - <%= user.system.name %></td>
+                  <td><%= online_status(user) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>

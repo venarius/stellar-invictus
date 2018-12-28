@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2018_12_25_203355) do
     t.string "name"
     t.string "ticker"
     t.text "bio"
+    t.text "motd"
     t.float "tax", default: 0.0
     t.bigint "chat_room_id"
     t.datetime "created_at", null: false
