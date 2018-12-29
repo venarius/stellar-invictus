@@ -34,6 +34,14 @@ class CorporationsController < ApplicationController
     render json: {}, status: 400
   end
   
+  def update_corporation
+    if params[:about] and params[:tax] and current_user.founder?
+      current_user.corporation.update_columns(tax: params[:tax].to_i, bio: params[:about])
+      render json: {tax: current_user.corporation.tax, about: current_user.corporation.bio, button_text: I18n.t('corporations.edit') }, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
+  
   private
   
   def corporation_params
