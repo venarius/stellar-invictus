@@ -79,6 +79,8 @@ en:
     you_dont_have_the_required_reputation: "You don't have the required reputation"
     docking_request_denied_low_standing: "Your docking request has been denied due to bad standing with the local faction"
     already_joined_chat_room: "Already joined chat room"
+    cant_change_to_higher_rank_than_self: "Can't change to higher rank than self"
+    cant_derank_only_founder: "Can't derank the only founder"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -127,6 +129,7 @@ en:
     invited_to_fleet_warning: "WARNING: Other pilots in the same fleet may attack you without consequences"
     sure_sell: "Please confirm this sale"
     sell: "Sell"
+    save: "Save"
   chat:
     local: "Local Chat"
     global: "Global Chat"
@@ -241,7 +244,10 @@ en:
     remove_friend: "Remove friend"
     invite_to_fleet: "Invite to fleet"
     remove_from_fleet: "Remove from fleet"
+    change_rank: "Change Rank"
     search: "Search"
+    kick: "Kick"
+    sure: "Are you sure?"
   overview:
     name: "Name"
     type: "Type"
@@ -454,3 +460,6 @@ en:
     rank_lieutenant: "Lieutenant"
     rank_commodore: "Commodore"
     rank_admiral: "Admiral"
+    create: "Create"
+    change_rank_of: "Change rank of %{user}"
+    select_one: "Select One"

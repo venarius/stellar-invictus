@@ -69,7 +69,7 @@ class FleetsController < ApplicationController
         room = current_user.fleet.chat_room
         
         # Remove user from room
-        room.users.destroy(user)
+        room.users.delete(user)
         
         # Broadcast
         broadcast("leave", user, room)

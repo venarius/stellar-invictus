@@ -29,7 +29,7 @@ $(document).on "turbolinks:load", ->
           disable_equipment()
         else if (data.method == 'reload_page')
           clear_jump()
-          if (window.location.pathname == "/game")
+          if (window.location.pathname == "/game" || window.location.pathname == "/station")
             Turbolinks.visit(window.location)
         else if (data.method == 'update_health' && data.hp)
           update_health(data.hp)

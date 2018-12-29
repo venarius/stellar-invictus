@@ -1,0 +1,25 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="corporation-change-rank-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('corporations.change_rank_of', user: user.full_name) %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% roles = [[I18n.t('corporations.select_one'), ""]] %>
+        <% User.corporation_roles.each do |key, value| %>
+          <% if value <= User.corporation_roles[current_user.corporation_role] %>
+           <% roles << [ I18n.t("corporations.rank_#{key}"), value] %>
+          <% end %>
+        <% end %>
+        <%= select_tag :corporation_role, options_for_select(roles), :class => 'form-control' %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary corporation-save-mote-user" data-id="<%= user.id %>"><%= I18n.t('modal.save') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

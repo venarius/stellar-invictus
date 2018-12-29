@@ -56,4 +56,42 @@ $( document ).on('turbolinks:load', function() {
       
     }
   });
+  
+  // Kick User from Corp Btn 
+  $('.corporation-kick-user-btn').on('click', function() {
+    var button = $(this);
+    var result = confirm("Are you sure?");
+    
+    if (result) {
+      $.post('corporation/kick_user', {id: button.data('id')}, function(data) {
+        if (data.reload == true) {
+          Turbolinks.visit(window.location);
+        } else {
+          button.closest('tr').remove(); 
+        }
+      });
+    }
+  });
+  
+  // Mote User Btn
+  $('.corporation-mote-user-btn').on('click', function(e) {
+    $.get('corporation/change_rank_modal', {id: $(this).data('id')}, function(data) {
+      $(data).appendTo('#app-container').modal('show');
+    });
+  });
+  
+  // Mote User Modal Close
+  $('#app-container').on('hidden.bs.modal', '#corporation-change-rank-modal', function() {
+    $(this).remove();
+  });
+  
+  // Save Mote User Btn
+  $('#app-container').on('click', '#corporation-change-rank-modal .corporation-save-mote-user', function() {
+    var rank = $('#corporation-change-rank-modal').find(":selected").val();
+    var button = $(this);
+    
+    $.post('corporation/change_rank', {id: button.data('id'), rank: rank}, function(data) {
+      button.closest('.modal').modal('hide');
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+  });
 });
