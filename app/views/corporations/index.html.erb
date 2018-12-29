@@ -1,6 +1,6 @@
 <% if !current_user.corporation %>
   <div class="card black-card">
-    <h5 class="card-header"><%= I18n.t('corporations.create_a_corporation_now') %> <%= link_to "<i class='fa fa-plus'></i> #{I18n.t('corporations.create_a_corporation')}".html_safe, new_corporation_path, class: 'btn btn-outline-primary float-right' %></h5>
+    <h5 class="card-header"><%= I18n.t('corporations.create_a_corporation_now') %> <%= link_to "&nbsp;<i class='fa fa-plus'></i> #{I18n.t('corporations.create')}&nbsp;".html_safe, new_corporation_path, class: 'btn btn-outline-primary float-right p-0-5' %></h5>
     <div class="card-body">
       <p><%= I18n.t('corporations.create_a_corporation_text1') %></p><br>
       <p><%= I18n.t('corporations.create_a_corporation_text2') %></p>
@@ -20,7 +20,7 @@
                 <button class="btn btn-sm btn-outline-primary float-right p-0-5" id="edit-corporation-motd-btn">&nbsp;<%= I18n.t('corporations.edit') %>&nbsp;</button>
               <% end %>
             </h5>
-            <div class="card-body" style="height: 200px;overflow: scroll;white-space: pre-wrap;" id="corporation-motd"><%= @corporation.motd if @corporation.motd %>
+            <div class="card-body" style="height: 200px;overflow: scroll;white-space: pre-wrap;" id="corporation-motd"><%= @corporation.motd.strip if @corporation.motd %>
               <% unless @corporation.motd %>
                 <h2 class="text-center no-motd-pl">...</h2>
               <% end %>
@@ -40,13 +40,16 @@
                 <p><strong><%= I18n.t('corporations.tax_rate') %>:</strong></p>
                 <p class="show-view-tax"><%= @corporation.tax %> %</p>
                 <p><strong><%= I18n.t('corporations.about') %>:</strong></p>
-                <p class="show-view-bio"><%= @corporation.bio %></p>
+                <div class="show-view-bio p-4" style="border:1px solid grey;">
+                  <%= MARKDOWN.render(@corporation.bio).html_safe %>
+                </div>
               </div>
               <div class="edit-view" style="display:none;">
                 <p><strong><%= I18n.t('corporations.tax_rate') %>:</strong></p>
                 <p><input type="number" class="form-control" value="<%= @corporation.tax %>" min=0 max=100></input><p>
                 <p><strong><%= I18n.t('corporations.about') %>:</strong></p>
-                <textarea class="form-control"><%= @corporation.bio %></textarea>
+                <textarea class="form-control" style="min-height:125px"><%= @corporation.bio %></textarea>
+                <p><small><%= I18n.t('devise.markdown_support').html_safe %></small></p>
               </div>
             </div>
           </div>
@@ -55,23 +58,30 @@
       
       <div class="card black-card border-primary">
         <h5 class="card-header"><%= I18n.t('corporations.roster') %></h5>
-        <div class="card-body">
-          <table class="table table-bordered table-striped table-sm">
+        <div class="card-body p-5px">
+          <table class="table table-bordered table-striped table-sm mb-0">
             <thead>
               <tr>
-                <th scope="col"><%= I18n.t('corporations.rank') %></th>
+                <th scope="col" class="mobile-display-none"><%= I18n.t('corporations.rank') %></th>
                 <th scope="col"><%= I18n.t('corporations.name') %></th>
                 <th scope="col"><%= I18n.t('corporations.location') %></th>
                 <th scope="col"><%= I18n.t('corporations.online') %></th>
+                <th class="btn-th" style="width:60px;"></th>
               </tr>
             </thead>
             <tbody>
               <% @corporation.users.each do |user| %>
                 <tr>
-                  <td><%= I18n.t("corporations.rank_#{user.corporation_role}") %></td>
-                  <td><%= user.full_name %></td>
-                  <td><%= user.location.get_name %> - <%= user.system.name %></td>
+                  <td class="mobile-display-none"><%= I18n.t("corporations.rank_#{user.corporation_role}") %></td>
+                  <td><a class="player-modal" href="#" data-id="<%= user.id %>"><%= user.full_name %></a></td>
+                  <td><span class="mobile-display-none"><%= user.location.get_name %> - </span><%= user.system.name %></td>
                   <td><%= online_status(user) %></td>
+                  <th>
+                    <% if user == current_user || current_user.founder? %>
+                      <button class="btn btn-outline-danger btn-sm p-0-5 corporation-kick-user-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.kick') %>" data-id="<%= user.id %>"><i class="fa fa-times"></i></button>
+                    <% end %>
+                    <button class="btn btn-outline-primary btn-sm p-0-5 corporation-mote-user-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.change_rank') %>" data-id="<%= user.id %>"><i class="fa fa-exchange-alt"></i></button>
+                  </th>
                 </tr>
               <% end %>
             </tbody>

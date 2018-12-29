@@ -147,10 +147,13 @@ Rails.application.routes.draw do
   end
   
   # Corporation
-  resources :corporations, only: [:index, :new, :create, :show], path: 'corporation'
+  resources :corporations, only: [:index, :new, :create], path: 'corporation'
   scope :corporation do
     post 'update_motd', to: 'corporations#update_motd'
     post 'update_corporation', to: 'corporations#update_corporation'
+    post 'kick_user', to: 'corporations#kick_user'
+    get 'change_rank_modal', to: 'corporations#change_rank_modal'
+    post 'change_rank', to: 'corporations#change_rank'
   end
   
   # ActionCable
