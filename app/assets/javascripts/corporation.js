@@ -1,5 +1,5 @@
 $( document ).on('turbolinks:load', function() {
-  // Edit Corporation Btn
+  // Edit Corporation Motd Btn
   $('#edit-corporation-motd-btn').on('click', function() {
     var button = $(this);
     
@@ -27,5 +27,33 @@ $( document ).on('turbolinks:load', function() {
       
     }
     
+  });
+  
+  // Edit Coporation Btn
+  $('#edit-corporation-btn').on('click', function(e) {
+    var button = $(this)
+    
+    if ($('#corporation-form').find('.edit-view').is(":visible")) {
+      
+      // Save Mode
+      var tax = $('#corporation-form').find('input').val();
+      var about = $('#corporation-form').find('textarea').val();
+      $.post('corporation/update_corporation', {tax: tax, about: about}, function(data) {
+        $('#corporation-form').find('.edit-view').css('display', 'none');
+        $('#corporation-form').find('.show-view').css('display', 'block');
+        $('#corporation-form').find('.show-view-tax').html(data.tax.toFixed(1) + " %");
+        $('#corporation-form').find('.show-view-bio').html(data.about);
+        button.html(data.button_text);
+      });
+      
+      
+    } else {
+      
+      // Edit Mode
+      $('#corporation-form').find('.edit-view').css('display', 'block');
+      $('#corporation-form').find('.show-view').css('display', 'none');
+      button.html("<i class='fa fa-save'></i>") 
+      
+    }
   });
 });

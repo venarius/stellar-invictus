@@ -150,6 +150,7 @@ Rails.application.routes.draw do
   resources :corporations, only: [:index, :new, :create, :show], path: 'corporation'
   scope :corporation do
     post 'update_motd', to: 'corporations#update_motd'
+    post 'update_corporation', to: 'corporations#update_corporation'
   end
   
   # ActionCable
