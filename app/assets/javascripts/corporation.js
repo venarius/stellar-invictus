@@ -1,6 +1,36 @@
 $( document ).on('turbolinks:load', function() {
+  
+  // Load Tab
+  if (window.location.pathname == "/corporation") {
+    load_corporation_tab($('.corporation-card a.nav-link.active').data('target')); 
+  }
+  
+  // Cookie Setter and Lazy Load
+  $('.corporation-card a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    Cookies.set('corporation_tab', $(this).data('target'));
+    
+    // Lazy Load
+    $('.corporation-card a[data-toggle="tab"]').each(function() {
+      $($(this).data('target')).empty();
+    });
+    load_station_tab($(this).data('target'));
+  });
+  
+  // Cookie getter
+  if ($('.corporation-card').length) {
+    var type = Cookies.get('corporation_tab');
+    if (type) {
+      $('.corporation-card .nav-tabs a').each(function() {
+        if ($(this).data('target') == type) { 
+          $(this).tab('show'); 
+          load_corporation_tab($('.corporation-card a.nav-link.active').data('target'));
+        }
+      });
+    }
+  }
+  
   // Edit Corporation Motd Btn
-  $('#edit-corporation-motd-btn').on('click', function() {
+  $('.corporation-card').on('click', '#edit-corporation-motd-btn', function() {
     var button = $(this);
     
     if ($('#corporation-motd').find('textarea').length) {
@@ -30,7 +60,7 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Edit Coporation Btn
-  $('#edit-corporation-btn').on('click', function(e) {
+  $('.corporation-card').on('click', '#edit-corporation-btn', function(e) {
     var button = $(this)
     
     if ($('#corporation-form').find('.edit-view').is(":visible")) {
@@ -58,7 +88,7 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Kick User from Corp Btn 
-  $('.corporation-kick-user-btn').on('click', function() {
+  $('.corporation-card').on('click', '.corporation-kick-user-btn', function() {
     var button = $(this);
     var result = confirm("Are you sure?");
     
@@ -74,7 +104,7 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Mote User Btn
-  $('.corporation-mote-user-btn').on('click', function(e) {
+  $('.corporation-card').on('click', '.corporation-mote-user-btn', function(e) {
     $.get('corporation/change_rank_modal', {id: $(this).data('id')}, function(data) {
       $(data).appendTo('#app-container').modal('show');
     });
@@ -92,6 +122,97 @@ $( document ).on('turbolinks:load', function() {
     
     $.post('corporation/change_rank', {id: button.data('id'), rank: rank}, function(data) {
       button.closest('.modal').modal('hide');
+      setTimeout(function(){ load_station_tab('#roster'); }, 250)
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+  });
+  
+  // Deposit Credits Btn
+  $('.corporation-card').on('click', '.corporation-deposit-credits-btn', function(e) {
+    var button = $(this);
+    var amount = button.closest('.modal').find('input').val();
+    
+    $.post('corporation/deposit_credits', {amount: amount}, function(data) {
+      button.closest('.modal').modal('hide');
+      setTimeout(function(){ load_station_tab('#finances'); }, 250)
+    }).error(function(data) {
+      button.closest('.modal').find('input').addClass("outline-danger"); 
+      if (!button.closest('.modal').find('.error').length) {
+        button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
+        setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
+      }
+    });
+  });
+  
+  // Withdraw Credits Btn
+  $('.corporation-card').on('click', '.corporation-withdraw-credits-btn', function(e) {
+    var button = $(this);
+    var amount = button.closest('.modal').find('input').val();
+    
+    $.post('corporation/withdraw_credits', {amount: amount}, function(data) {
+      button.closest('.modal').modal('hide');
+      setTimeout(function(){ load_station_tab('#finances'); }, 250)
+    }).error(function(data) {
+      button.closest('.modal').find('input').addClass("outline-danger"); 
+      if (!button.closest('.modal').find('.error').length) {
+        button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
+        setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
+      }
+    });
+  });
+  
+  // Show info on corporation AJAX
+  $('body').on('click', '.corporation-modal' , function(e){
+    e.preventDefault(); 
+    if ($(this).data( "id" )) {
+      $.get( "corporation/info", {id: $(this).data( "id" )}, function( data ) {
+        $('body').append(data);
+        // Enable Popovers
+        $('[data-toggle="popover"]').popover();
+        $('#corporation-show-modal').modal('show');
+      });
+    }
+  });
+  
+  // Remove modal if close button is clicked
+  $('body').on('hidden.bs.modal', '#corporation-show-modal', function () {
+    $(this).remove();
+  });
+  
+  // Corporation Apply Modal Btn
+  $('body').on('click', '.corporation-apply-modal-btn' , function(e){
+    e.preventDefault(); 
+    if ($(this).data( "id" )) {
+      $.get( "corporation/apply_modal", {id: $(this).data( "id" )}, function( data ) {
+        $('body').append(data);
+        // Enable Popovers
+        $('[data-toggle="popover"]').popover();
+        $('#corporation-apply-modal').modal('show');
+      });
+    }
+  });
+  
+  // Remove modal if close button is clicked
+  $('body').on('hidden.bs.modal', '#corporation-apply-modal', function () {
+    $(this).remove();
+  });
+  
+  // Corporation Apply Btn
+  $('body').on('click', '.corporation-apply-btn' , function(e){
+    var text = $(this).closest('.modal').find('textarea').val();
+    var id = $(this).data('id');
+    var button = $(this);
+    
+    $.post('corporation/apply', {id: id, text: text}, function(data) {
+      button.closest('.modal').modal('hide');
+      $.notify(data.message, {style: 'success'});
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
 });
+
+function load_corporation_tab(href) {
+  element = $(href);
+  element.empty().append("<div class='text-center mt-5px'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
+  $.get('?tab=' + href.substring(1), function(data) {
+    element.empty().append(data);
+  });
+}

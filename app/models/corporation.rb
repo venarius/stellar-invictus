@@ -1,6 +1,8 @@
 class Corporation < ApplicationRecord
   belongs_to :chat_room, dependent: :destroy
   has_many :users
+  has_many :finance_histories, dependent: :destroy
+  has_many :corp_applications, dependent: :destroy
   
   validates :name, :ticker, :tax, :bio, presence: true
   validates :name, uniqueness: true
@@ -10,6 +12,7 @@ class Corporation < ApplicationRecord
             too_short: I18n.t('validations.too_short'), too_long: I18n.t('validations.too_long_name') }
   validates :ticker, length: { minimum: 3, maximum: 6,
             too_short: I18n.t('validations.too_short_3'), too_long: I18n.t('validations.too_long_ticker') }
+  validates :bio, :motd, length: { maximum: 1000, too_long: I18n.t('validations.too_long_game_mail') }
   validates_inclusion_of :tax, :in => 0..100
   
   before_destroy do

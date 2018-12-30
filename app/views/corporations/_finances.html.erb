@@ -1,0 +1,77 @@
+<br><h4 class="text-center"><%= I18n.t('corporations.current_balance') %>: <span class="color-highgreen"><%= @corporation.units %> Cr</span></h4>
+
+<div class="text-center mb-3">
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <div class="finance-history-table">
+        <table class="table table-bordered table-striped table-sm mb-0">
+          <thead>
+            <tr>
+              <th scope="col"><%= I18n.t('corporations.action') %></th>
+              <th scope="col"><%= I18n.t('corporations.member') %></th>
+              <th scope="col"><%= I18n.t('corporations.amount') %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @corporation.finance_histories.includes(:user).order("created_at DESC").each do |finance_history| %>
+              <tr class="color-action-<%= finance_history.action %>">
+                <td><%= I18n.t("corporations.action_#{finance_history.action}") %></td>
+                <td><%= finance_history.user.full_name %></td>
+                <td><%= finance_history.amount %> Cr</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center mb-3">
+  <button class="btn btn-outline-primary display-inline-block" data-toggle="modal" data-target="#corporation-deposit-credits-modal"><i class="fa fa-plus"></i> <%= I18n.t('corporations.deposit_credits') %></button>
+  <button class="btn btn-outline-warning display-inline-block ml-3" data-toggle="modal" data-target="#corporation-withdraw-credits-modal"><i class="fa fa-minus"></i> <%= I18n.t('corporations.withdraw_credits') %></button>
+</div>
+
+<!-- Deposit Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="corporation-deposit-credits-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('corporations.deposit_credits') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%= I18n.t('corporations.how_much_deposit') %></p>
+        <input type="number" class="form-control" placeholder="Credits" min=0 max=<%= current_user.units %>>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary corporation-deposit-credits-btn"><%= I18n.t('modal.save') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Withdraw Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="corporation-withdraw-credits-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('corporations.withdraw_credits') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%= I18n.t('corporations.how_much_withdraw') %></p>
+        <input type="number" class="form-control" placeholder="Credits" min=0 max=<%= current_user.corporation.units %>>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary corporation-withdraw-credits-btn"><%= I18n.t('modal.save') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

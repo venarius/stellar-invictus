@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_25_203355) do
+ActiveRecord::Schema.define(version: 2018_12_30_173048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,12 +60,22 @@ ActiveRecord::Schema.define(version: 2018_12_25_203355) do
     t.index ["user_id"], name: "index_chat_rooms_users_on_user_id"
   end
 
+  create_table "corp_applications", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "corporation_id"
+    t.text "application_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["corporation_id"], name: "index_corp_applications_on_corporation_id"
+    t.index ["user_id"], name: "index_corp_applications_on_user_id"
+  end
+
   create_table "corporations", force: :cascade do |t|
     t.string "name"
     t.string "ticker"
     t.text "bio"
     t.text "motd"
-    t.integer "units"
+    t.integer "units", default: 0
     t.float "tax", default: 0.0
     t.bigint "chat_room_id"
     t.datetime "created_at", null: false
@@ -91,6 +101,17 @@ ActiveRecord::Schema.define(version: 2018_12_25_203355) do
     t.datetime "updated_at", null: false
     t.bigint "location_id"
     t.index ["location_id"], name: "index_factions_on_location_id"
+  end
+
+  create_table "finance_histories", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "corporation_id"
+    t.integer "amount"
+    t.integer "action"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["corporation_id"], name: "index_finance_histories_on_corporation_id"
+    t.index ["user_id"], name: "index_finance_histories_on_user_id"
   end
 
   create_table "fleets", force: :cascade do |t|
@@ -294,10 +315,14 @@ ActiveRecord::Schema.define(version: 2018_12_25_203355) do
   add_foreign_key "chat_messages", "chat_rooms"
   add_foreign_key "chat_messages", "users"
   add_foreign_key "chat_rooms", "locations"
+  add_foreign_key "corp_applications", "corporations"
+  add_foreign_key "corp_applications", "users"
   add_foreign_key "corporations", "chat_rooms"
   add_foreign_key "craft_jobs", "locations"
   add_foreign_key "craft_jobs", "users"
   add_foreign_key "factions", "locations"
+  add_foreign_key "finance_histories", "corporations"
+  add_foreign_key "finance_histories", "users"
   add_foreign_key "fleets", "chat_rooms"
   add_foreign_key "fleets", "users"
   add_foreign_key "items", "locations"
