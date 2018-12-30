@@ -1,0 +1,53 @@
+<table class="table table-bordered table-striped table-sm mb-0">
+  <thead>
+    <tr>
+      <th scope="col"><%= I18n.t('corporations.name') %></th>
+      <th scope="col"><%= I18n.t('corporations.online') %></th>
+      <th scope="col"><%= I18n.t('corporations.created_at') %></th>
+      <th class="btn-th" style="width:56px;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @corporation.corp_applications.each do |corp_application| %>
+      <tr>
+        <td><a class="player-modal" href="#" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a></td>
+        <td><%= online_status(corp_application.user) %></td>
+        <td><%= corp_application.created_at.strftime("%F %H:%M") %></td>
+        <th>
+          <button class="btn btn-outline-primary btn-sm p-0-5" data-toggle="modal" data-target="#application-<%= corp_application.id %>">&nbsp;<i class="fa fa-info"></i>&nbsp;</button>
+          <button class="btn btn-outline-danger btn-sm p-0-5 corporation-deny-application-btn" data-id="<%= corp_application.id %>"><i class="fa fa-times"></i></button>
+        </th>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% @corporation.corp_applications.each do |corp_application| %>
+  <div class="modal fade" tabindex="-1" role="dialog" id="application-<%= corp_application.id %>">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= I18n.t('corporations.application') %></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong><%= I18n.t('corporations.name') %></strong></p>
+          <a href="#" class="player-modal" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a>
+          
+          <p><strong><%= I18n.t('corporations.application') %></strong></p>
+          
+          <div style="border: 1px solid grey;padding:10px;">
+            <%= corp_application.application_text %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary"><%= I18n.t('corporations.accept') %></button>
+          <button type="button" class="btn btn-danger"><%= I18n.t('corporations.reject') %></button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

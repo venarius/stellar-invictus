@@ -45,8 +45,8 @@ html {
 .mb-0 { margin-bottom: 0; }
 .bg-black { background-color: black; }
 .color-yellow { color: yellow !important }
-.color-sec-high { color: rgba(81, 203, 238, 1) !important; }
-.color-sec-medium { color: orange !important; }
+.color-sec-high, .color-action-deposit { color: rgba(81, 203, 238, 1) !important; }
+.color-sec-medium, .color-action-withdraw { color: orange !important; }
 .color-sec-low { color: red !important; }
 .color-green { color: green !important; }
 .color-highgreen { color: #03d603 !important; }
@@ -1120,4 +1120,51 @@ body {
       color: white;
       background-color: black;
     }
+}
+
+// ###############
+// Corporation
+// ###############
+.corporation-card {
+  .card-body {
+    padding: 5px;
+    .nav-tabs {
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: -webkit-box;  
+      display: -moz-box;
+      flex-wrap: nowrap;
+      .nav-item {
+        float:none;
+        margin-right: 5px;
+        .nav-link {
+          border-radius: 0;
+          background-color: black;
+          border: 1px solid #282828;
+        }
+        .nav-link.active {
+          border: 1px solid #2A9FD6;
+          border-bottom: 1px solid black;
+        }
+      }
+    }
+    
+    .show-view-bio { border: 1px solid #282828; }
+    .corporation-motd-body {
+      height: 400px;
+      overflow: scroll;
+      white-space: pre-wrap;
+      padding:1.25rem;
+    }
+    .corporation-config-body {
+      height: 400px;
+      overflow: scroll;
+      padding:1.25rem;
+    }
+    .finance-history-table {
+      height: 350px;
+      overflow: scroll;
+      border: 1px solid #282828;
+    }
+  }
 }

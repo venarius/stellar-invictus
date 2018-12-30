@@ -154,6 +154,11 @@ Rails.application.routes.draw do
     post 'kick_user', to: 'corporations#kick_user'
     get 'change_rank_modal', to: 'corporations#change_rank_modal'
     post 'change_rank', to: 'corporations#change_rank'
+    post 'deposit_credits', to: 'corporations#deposit_credits'
+    post 'withdraw_credits', to: 'corporations#withdraw_credits'
+    get 'info', to: 'corporations#info'
+    get 'apply_modal', to: 'corporations#apply_modal'
+    post 'apply', to: 'corporations#apply'
   end
   
   # ActionCable

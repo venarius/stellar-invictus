@@ -40,26 +40,30 @@
   <div class="tab-pane fade" id="active-missions" role="tabpanel">
     <div class="list mt-5px">
       <table class="table table-sm table-bordered table-striped">
-        <thead>
-          <tr>
-            <th scope="col"><%= I18n.t('missions.type') %></th>
-            <th scope="col"><%= I18n.t('missions.faction') %></th>
-            <th scope="col"><%= I18n.t('missions.reward') %></th>
-            <th scope="col"><%= I18n.t('missions.agent_location') %></th>
-            <th class="btn-th"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% current_user.missions.each do |mission| %>
+        <% if current_user.missions.present? %>
+          <thead>
             <tr>
-              <td><%= mission.mission_type.capitalize %></td>
-              <td><%= mission.faction.get_ticker %></td>
-              <td><%= mission.reward %> Cr</td>
-              <td><%= mission.location.get_name %> - <%= mission.location.system.name %></td>
-              <td><button class="btn btn-outline-primary btn-sm mission-info-btn" data-id="<%= mission.id %>"><i class="fa fa-info"></i></button></td>
+              <th scope="col"><%= I18n.t('missions.type') %></th>
+              <th scope="col"><%= I18n.t('missions.faction') %></th>
+              <th scope="col"><%= I18n.t('missions.reward') %></th>
+              <th scope="col"><%= I18n.t('missions.agent_location') %></th>
+              <th class="btn-th"></th>
             </tr>
-          <% end %>
-        </tbody>
+          </thead>
+          <tbody>
+            <% current_user.missions.each do |mission| %>
+              <tr>
+                <td><%= mission.mission_type.capitalize %></td>
+                <td><%= mission.faction.get_ticker %></td>
+                <td><%= mission.reward %> Cr</td>
+                <td><%= mission.location.get_name %> - <%= mission.location.system.name %></td>
+                <td><button class="btn btn-outline-primary btn-sm mission-info-btn" data-id="<%= mission.id %>"><i class="fa fa-info"></i></button></td>
+              </tr>
+            <% end %>
+          </tbody>
+        <% else %>
+          <h2 class="text-center">...</h2>
+        <% end %>
       </table>
     </div>
     
