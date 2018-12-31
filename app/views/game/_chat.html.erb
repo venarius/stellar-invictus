@@ -7,7 +7,7 @@
   </li>
   <% if current_user.corporation %>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" data-target="#corporation-chat" href="#0" role="tab"><%= I18n.t('chat.corporation') %></a>
+      <a class="nav-link" data-toggle="tab" data-target="#chatroom-<%= current_user.corporation.chat_room.identifier %>" href="#0" role="tab"><%= I18n.t('chat.corporation') %></a>
     </li>
   <% end %>
   <li class="nav-item">
@@ -64,20 +64,20 @@
     </table>
   </div>
   <% if current_user.corporation %>
-    <div class="tab-pane fade" id="corporation-chat" role="tabpanel">
+    <div class="tab-pane fade corporation-chat" id="chatroom-<%= current_user.corporation.chat_room.identifier %>" role="tabpanel">
       <div class="row">
         <div class="col-md-10">
           <table class="table table-striped table-bordered">
             <tbody>
-              <% current_user.corporation.chat_room.chat_messages.last(20).each do |msg| %>
+              <% current_user.corporation.chat_room.chat_messages.includes(:user).last(20).each do |msg| %>
                 <%= render partial: 'chat_messages/message', locals: { message: msg } %>
               <% end %>
             </tbody>
           </table>
         </div>
         <div class="col-md-2">
-          <div class="outer" id="corporation-players">
-            <% map_and_sort(current_user.corporation.chat_room.users).each do |key, value| %>
+          <div class="outer" id="chatroom-<%= current_user.corporation.chat_room.identifier %>-players">
+            <% map_and_sort(current_user.corporation.chat_room.users.where("online > 0")).each do |key, value| %>
               <div>
                 <a class='player-modal' href="#" data-id="<%= value %>"><%= key %></a>
               </div>
@@ -204,39 +204,37 @@
 <script>
   <% if current_user and current_user.chat_rooms.present? %>
     <% current_user.chat_rooms.each do |room| %>
-      <% if room.custom? %>
-        if (!App['chatroom-<%= room.identifier %>']) {
-          App['chatroom-<%= room.identifier %>'] = App.cable.subscriptions.create({
-            channel: 'ChatChannel',
-            room: 'chatroom-<%= room.identifier %>'
-          }, {
-            received: function(data) {
-              if (data.message) {
-                if ($('#chatroom-<%= room.identifier %>').length > 0) {
-                  $('#chatroom-<%= room.identifier %> table tbody').append(data.message);
-                  if (!$('a[data-target="#chatroom-<%= room.identifier %>"]').hasClass('active')) {
-                    $('a[data-target="#chatroom-<%= room.identifier %>"]').addClass('chat-flash');
-                    setFlashChats();
-                  }
-                  return scrollChats();
+      if (!App['chatroom-<%= room.identifier %>']) {
+        App['chatroom-<%= room.identifier %>'] = App.cable.subscriptions.create({
+          channel: 'ChatChannel',
+          room: 'chatroom-<%= room.identifier %>'
+        }, {
+          received: function(data) {
+            if (data.message) {
+              if ($('#chatroom-<%= room.identifier %>').length > 0) {
+                $('#chatroom-<%= room.identifier %> table tbody').append(data.message);
+                if (!$('a[data-target="#chatroom-<%= room.identifier %>"]').hasClass('active')) {
+                  $('a[data-target="#chatroom-<%= room.identifier %>"]').addClass('chat-flash');
+                  setFlashChats();
                 }
+                return scrollChats();
               }
-              else if (data.method == 'update_players' && data.names) {
-                update_players_in_custom_chat("chatroom-<%= room.identifier %>",data.names,data.fleet);
-              }
-              else if (data.method == 'player_appeared' && ('.players-card').length) {
-                reload_players_card();
-              }
-            },
-            send_message: function(message) {
-              return this.perform('send_message', {
-                message: message,
-                room: 'chatroom-<%= room.identifier %>'
-              });
             }
-          });
-        }
-      <% end %>
+            else if (data.method == 'update_players' && data.names) {
+              update_players_in_custom_chat("chatroom-<%= room.identifier %>",data.names,data.fleet);
+            }
+            else if (data.method == 'player_appeared' && ('.players-card').length) {
+              reload_players_card();
+            }
+          },
+          send_message: function(message) {
+            return this.perform('send_message', {
+              message: message,
+              room: 'chatroom-<%= room.identifier %>'
+            });
+          }
+        });
+      }
     <% end %>
   <% end %>
 </script>

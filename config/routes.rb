@@ -159,6 +159,8 @@ Rails.application.routes.draw do
     get 'info', to: 'corporations#info'
     get 'apply_modal', to: 'corporations#apply_modal'
     post 'apply', to: 'corporations#apply'
+    post 'accept_application', to: 'corporations#accept_application'
+    post 'reject_application', to: 'corporations#reject_application'
   end
   
   # ActionCable

@@ -1,25 +1,29 @@
 <table class="table table-bordered table-striped table-sm mb-0">
-  <thead>
-    <tr>
-      <th scope="col"><%= I18n.t('corporations.name') %></th>
-      <th scope="col"><%= I18n.t('corporations.online') %></th>
-      <th scope="col"><%= I18n.t('corporations.created_at') %></th>
-      <th class="btn-th" style="width:56px;"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @corporation.corp_applications.each do |corp_application| %>
+  <% if @corporation.corp_applications.present? %>
+    <thead>
       <tr>
-        <td><a class="player-modal" href="#" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a></td>
-        <td><%= online_status(corp_application.user) %></td>
-        <td><%= corp_application.created_at.strftime("%F %H:%M") %></td>
-        <th>
-          <button class="btn btn-outline-primary btn-sm p-0-5" data-toggle="modal" data-target="#application-<%= corp_application.id %>">&nbsp;<i class="fa fa-info"></i>&nbsp;</button>
-          <button class="btn btn-outline-danger btn-sm p-0-5 corporation-deny-application-btn" data-id="<%= corp_application.id %>"><i class="fa fa-times"></i></button>
-        </th>
+        <th scope="col"><%= I18n.t('corporations.name') %></th>
+        <th scope="col"><%= I18n.t('corporations.online') %></th>
+        <th scope="col"><%= I18n.t('corporations.created_at') %></th>
+        <th class="btn-th" style="width:56px;"></th>
       </tr>
-    <% end %>
-  </tbody>
+    </thead>
+    <tbody>
+      <% @corporation.corp_applications.each do |corp_application| %>
+        <tr>
+          <td><a class="player-modal" href="#" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a></td>
+          <td><%= online_status(corp_application.user) %></td>
+          <td><%= corp_application.created_at.strftime("%F %H:%M") %></td>
+          <th>
+            <button class="btn btn-outline-primary btn-sm p-0-5" data-toggle="modal" data-target="#application-<%= corp_application.id %>">&nbsp;<i class="fa fa-info"></i>&nbsp;</button>
+            <button class="btn btn-outline-danger btn-sm p-0-5 corporation-reject-application-btn" data-id="<%= corp_application.id %>"><i class="fa fa-times"></i></button>
+          </th>
+        </tr>
+      <% end %>
+    </tbody>
+  <% else %>
+    <h2 class="text-center">...</h2>
+  <% end %>
 </table>
 
 <% @corporation.corp_applications.each do |corp_application| %>
@@ -33,8 +37,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <p><strong><%= I18n.t('corporations.name') %></strong></p>
-          <a href="#" class="player-modal" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a>
+          <span><strong><%= I18n.t('corporations.name') %></strong></span><br>
+          <a href="#" class="player-modal" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a><br><br>
           
           <p><strong><%= I18n.t('corporations.application') %></strong></p>
           
@@ -43,8 +47,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary"><%= I18n.t('corporations.accept') %></button>
-          <button type="button" class="btn btn-danger"><%= I18n.t('corporations.reject') %></button>
+          <button type="button" class="btn btn-primary corporation-accept-application-btn" data-id="<%= corp_application.id %>"><%= I18n.t('corporations.accept') %></button>
+          <button type="button" class="btn btn-danger corporation-reject-application-btn" data-id="<%= corp_application.id %>"><%= I18n.t('corporations.reject') %></button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
         </div>
       </div>
