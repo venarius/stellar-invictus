@@ -207,6 +207,30 @@ $( document ).on('turbolinks:load', function() {
       $.notify(data.message, {style: 'success'});
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
+  
+  // Corporation Accept Application Btn
+  $('.corporation-card').on('click', '.corporation-accept-application-btn', function() {
+    var id = $(this).data('id');
+    button = $(this);
+    
+    $.post('corporation/accept_application', {id: id}, function(data) {
+      button.closest('.modal').modal('hide');
+      $('#corporation-applications-count').html(parseInt($('#corporation-applications-count').html()) - 1);
+      setTimeout(function(){ load_station_tab('#applications'); }, 250)
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+  });
+  
+  // Corporation Reject Application Btn
+  $('.corporation-card').on('click', '.corporation-reject-application-btn', function() {
+    var id = $(this).data('id');
+    button = $(this);
+    
+    $.post('corporation/reject_application', {id: id}, function(data) {
+      button.closest('.modal').modal('hide');
+      $('#corporation-applications-count').html(parseInt($('#corporation-applications-count').html()) - 1);
+      setTimeout(function(){ load_station_tab('#applications'); }, 250)
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+  });
 });
 
 function load_corporation_tab(href) {

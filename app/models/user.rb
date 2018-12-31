@@ -85,6 +85,12 @@ class User < ApplicationRecord
     f_id != nil and f_id == User.find(id).fleet_id
   end
   
+  # Returns if user is in same fleet with given id
+  def in_same_corporation_as(id)
+    f_id = self.corporation_id
+    f_id != nil and f_id == User.find(id).corporation_id
+  end
+  
   # Gets the user remove being a target of other players
   def remove_being_targeted
     User.where(target_id: self.id).each do |user|

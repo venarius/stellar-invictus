@@ -39,6 +39,7 @@ html {
 // Helpers
 // ###############
 .display-inline { display: inline; }
+.display-none { display: none; }
 .overflow-scroll { overflow: scroll; }
 .display-inline-block { display: inline-block !important; }
 .mt-1rem { margin-top: 1rem; }
@@ -71,6 +72,7 @@ html {
 .outline-primary { border: 1px solid #2A9FD6; }
 .outline-danger { border: 1px solid #CC0000 !important; }
 .table-fleet { background-color: #3b1d4c !important; }
+.table-corporation { background-color: #0f3c00 !important; }
 .flexbox-vert-center {
   display: flex;
   align-items: center;
@@ -114,6 +116,7 @@ html {
 
 @media (max-width: 767px) {
   .mobile-display-none { display: none !important; }
+  .mobile-display-block { display: block !important; }
   .mobile-mb-10 { margin-bottom: 10px !important; }
   .mobile-mb-10px { margin-bottom: 10px !important; }
   .mobile-mt-0 { margin-top: 0 !important; }
@@ -331,7 +334,7 @@ a {
   }
 }
 
-#local-chat, .custom-chat, #corporation-chat {
+#local-chat, .custom-chat, .corporation-chat {
   .row { 
     padding: 0; 
     .col-md-2 { 
@@ -354,7 +357,7 @@ a {
 }
 
 @media (min-width: 768px) {
-  #local-chat, #corporation-chat {
+  #local-chat, .corporation-chat {
     .row { 
       padding: 0; 
       .col-md-10 { padding-right: 5px; margin-top: 5px; }
@@ -384,7 +387,7 @@ a {
 }
 
 @media (max-width: 767px) {
-  #local-chat, .custom-chat, #corporation-chat {
+  #local-chat, .custom-chat, .corporation-chat {
     .row { 
       .col-md-10 { margin-top: 5px; }
       .col-md-2 { 
@@ -1166,5 +1169,6 @@ body {
       overflow: scroll;
       border: 1px solid #282828;
     }
+    #help .mobile-display-block td { min-width: 30px; }
   }
 }

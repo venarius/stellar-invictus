@@ -14,6 +14,8 @@ class CorporationsController < ApplicationController
         render partial: 'corporations/finances'
       when 'applications'
         render partial: 'corporations/applications'
+      when 'help'
+        render partial: 'corporations/help'
       end
       return
     end
@@ -68,6 +70,7 @@ class CorporationsController < ApplicationController
     if params[:id] and (current_user.founder? || User.find(params[:id]) == current_user)
       corporation = current_user.corporation
       corporation.users.delete(User.find(params[:id]))
+      ActionCable.server.broadcast("player_#{params[:id]}", method: 'reload_page')
       
       if corporation.users.count == 0
         corporation.destroy
@@ -89,7 +92,7 @@ class CorporationsController < ApplicationController
       user = User.find(params[:id]) rescue nil
       rank = params[:rank].to_i rescue nil
       
-      if user and rank
+      if user and rank and user.corporation_id == current_user.corporation_id
         
         # Check Permissions
         render json: {'error_message': I18n.t('errors.cant_change_to_higher_rank_than_self')}, status: 400 and return if User.corporation_roles[current_user.corporation_role] < rank
@@ -173,6 +176,33 @@ class CorporationsController < ApplicationController
         
         CorpApplication.create(user: current_user, corporation: corporation, application_text: params[:text])
         render json: {message: I18n.t('corporations.received_application')}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
+  def accept_application
+    if params[:id]
+      application = CorpApplication.find(params[:id]) rescue nil
+      
+      if application and application.corporation = current_user.corporation and current_user.founder?
+        application.user.update_columns(corporation_role: :recruit, corporation_id: current_user.corporation_id)
+        current_user.corporation.chat_room.users << application.user
+        CorpApplication.where(user: application.user).destroy_all
+        ActionCable.server.broadcast("player_#{application.user.id}", method: 'reload_page')
+        render json: {}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
+  def reject_application
+    if params[:id]
+      application = CorpApplication.find(params[:id]) rescue nil
+      
+      if application and application.corporation == current_user.corporation and current_user.founder?
+        application.destroy
+        render json: {}, status: 200 and return
       end
     end
     render json: {}, status: 400
