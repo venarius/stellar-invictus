@@ -2,13 +2,6 @@ require 'rails_helper'
 
 RSpec.describe ShipsController, type: :controller do
   context 'without login' do
-    describe 'GET index' do
-      it 'should redirect to login page' do
-        get :index
-        expect(response.code).to eq('302')
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
     
     describe 'POST activate' do
       it 'should redirect to login page' do
@@ -47,14 +40,6 @@ RSpec.describe ShipsController, type: :controller do
     before(:each) do
       @user = FactoryBot.create(:user_with_faction)
       sign_in @user
-    end
-    
-    describe 'GET index' do
-      it 'should render index' do
-        get :index
-        expect(response.code).to eq('200')
-        expect(response).to render_template('ships/index')
-      end
     end
     
     describe 'POST activate' do

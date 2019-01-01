@@ -25,8 +25,8 @@ class User < ApplicationRecord
   validates :name, uniqueness: { scope: :family_name }
   validates :email, uniqueness: true
   validates_format_of :name, :family_name, :with => /\A[a-zA-Z]+\z/i, message: I18n.t('validations.can_only_contain_letters')
-  validates :name, :family_name, length: { minimum: 4, maximum: 20,
-            too_short: I18n.t('validations.too_short'), too_long: I18n.t('validations.too_long_name') }
+  validates :name, :family_name, length: { minimum: 2, maximum: 20,
+            too_short: I18n.t('validations.too_short_2'), too_long: I18n.t('validations.too_long_name') }
   
   # Devise
   devise :database_authenticatable, :registerable, :confirmable,
@@ -126,6 +126,17 @@ class User < ApplicationRecord
     self.update_columns(units: self.units - amount)
   end
   
+  # Give the user units
+  def give_units(amount)
+    if self.corporation and self.corporation.tax > 0
+      new_amount = amount - amount * (self.corporation.tax / 100)
+      self.corporation.update_columns(units: self.corporation.units + (amount - new_amount))
+      self.update_columns(units: self.units + new_amount)
+    else
+      self.update_columns(units: self.units + amount)
+    end
+  end
+  
   # Give user a nano
   def give_nano
     spaceship = Spaceship.create(user_id: self.id, name: 'Nano', hp: 50)
@@ -146,7 +157,8 @@ class User < ApplicationRecord
         self.update_columns(bounty: 0)
       end
       
-      player.update_columns(bounty_claimed: player.reload.bounty_claimed +  value, units: player.units + value)
+      player.update_columns(bounty_claimed: player.reload.bounty_claimed +  value)
+      player.give_units(value)
       
       ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.full_name, amount: value))
       ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')

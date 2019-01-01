@@ -52,7 +52,7 @@ class MissionGenerator
         return I18n.t('errors.you_didnt_mine_enough_ore') if mission.mission_amount > 0
     end
     
-    mission.user.update_columns(units: mission.user.units + mission.reward)
+    mission.user.give_units(mission.reward)
     
     if mission.vip? and mission.mission_location.faction
       mission.user.update_attribute("reputation_#{mission.faction_id}", mission.user["reputation_#{mission.faction_id}"] + mission.faction_bonus)

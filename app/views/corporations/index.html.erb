@@ -8,7 +8,7 @@
   </div>
 <% else %>
   <div class="card black-card corporation-card">
-    <h5 class="card-header"><%= @corporation.name %> [<%= @corporation.ticker %>] <span class="float-right"><%= @corporation.users.where('online > 0').count %> / <%= @corporation.users.count %> <%= I18n.t('corporations.members_online') %></span></h5>
+    <h5 class="card-header"><%= @corporation.name %> [<%= @corporation.ticker %>]</h5>
     <div class="card-body">
       
       <ul class="nav nav-tabs mt-5px" role="tablist">
@@ -23,9 +23,11 @@
             <a class="nav-link" data-toggle="tab" data-target="#finances" href="#0" role="tab"><%= I18n.t('corporations.finances') %></a>
           </li>
         <% end %>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" data-target="#applications" href="#0" role="tab"><%= I18n.t('corporations.applications') %> (<span id="corporation-applications-count"><%= @corporation.corp_applications.count %></span>)</a>
-        </li>
+        <% if current_user.founder? || current_user.admiral? || current_user.commodore? %>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-target="#applications" href="#0" role="tab"><%= I18n.t('corporations.applications') %> (<span id="corporation-applications-count"><%= @corporation.corp_applications.count %></span>)</a>
+          </li>
+        <% end %>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" data-target="#help" href="#0" role="tab"><%= I18n.t('corporations.help') %></a>
         </li>

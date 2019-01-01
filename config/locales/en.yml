@@ -84,6 +84,7 @@ en:
     amount_must_be_bigger_than_0: "Amount must be bigger than 0"
     corporation_dont_have_enough_credits: "Your corporation doesn't have that much credits"
     already_in_corporation: "Already in corporation"
+    cant_change_a_higher_rank: "Can't change a higher rank"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -95,6 +96,7 @@ en:
     too_long_mail_header: "cannot be longer than 100 characters"
     too_long_ticker: "cannot be longer than 6 characters"
     too_short_3: "cannot be shorter than 3 characters"
+    too_short_2: "cannot be shorter than 2 characters"
     too_short: "cannot be shorter than 4 characters"
   game:
     current_system: "SYSTEM:"
@@ -499,3 +501,5 @@ en:
     edit_corporation: "Edit Corporation"
     disband_corporation: "Disband Corporation"
     manage_applications: "Manage Applications"
+    disband: "Disband"
+    disband_corporation_sure: "Are you sure you want to disband your corporation? All left finances will be restrained by federal forces, so please make sure to check your finances."

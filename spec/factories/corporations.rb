@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :corporation do
-    founder_id { 1 }
     name { "MyString" }
-    ticker { "MyString" }
+    ticker { "XXX" }
     tax { 1.5 }
+    bio { "Blub" }
+    chat_room { FactoryBot.create(:chat_room, chatroom_type: :corporation) }
   end
 end

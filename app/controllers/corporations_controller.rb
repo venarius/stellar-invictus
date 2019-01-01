@@ -26,21 +26,19 @@ class CorporationsController < ApplicationController
   end
   
   def create
-    corporation = Corporation.new(corporation_params)
-    corporation.chat_room = ChatRoom.create(title: 'Corporation', chatroom_type: :corporation)
-    if corporation.save
-      current_user.update_columns(corporation_role: :founder, corporation_id: corporation.id)
-      corporation.chat_room.users << current_user
-      redirect_to corporations_path
-    else
-      corporation.chat_room.destroy
-      @corporation = corporation
-      render :new
+    unless current_user.corporation
+      corporation = Corporation.new(corporation_params)
+      corporation.chat_room = ChatRoom.create(title: 'Corporation', chatroom_type: :corporation)
+      if corporation.save
+        current_user.update_columns(corporation_role: :founder, corporation_id: corporation.id)
+        corporation.chat_room.users << current_user
+        redirect_to corporations_path
+      else
+        corporation.chat_room.destroy
+        @corporation = corporation
+        render :new
+      end
     end
-  end
-  
-  def show
-    @corporation = Corporation.find(params[:id]) rescue nil
   end
   
   def update_motd
@@ -69,14 +67,21 @@ class CorporationsController < ApplicationController
   def kick_user
     if params[:id] and ((current_user.founder? || current_user.admiral? || current_user.commodore? || current_user.lieutenant?) || User.find(params[:id]) == current_user)
       corporation = current_user.corporation
-      corporation.users.delete(User.find(params[:id]))
-      ActionCable.server.broadcast("player_#{params[:id]}", method: 'reload_page')
+      user = User.find(params[:id])
       
-      if corporation.users.count == 0
-        corporation.destroy
+      if user
+        # Check Permissions
+        render json: {'error_message': I18n.t('errors.cant_change_a_higher_rank')}, status: 400 and return if User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role]
+        
+        user.update_columns(corporation_id: nil, corporation_role: 0)
+        ActionCable.server.broadcast("player_#{params[:id]}", method: 'reload_page')
+        
+        if corporation.users.count == 0
+          corporation.destroy
+        end
+        
+        render json: {reload: (corporation.users.count == 0 || User.find(params[:id]) == current_user) }, status: 200 and return
       end
-      
-      render json: {reload: (corporation.users.count == 0 || User.find(params[:id]) == current_user) }, status: 200 and return
     end
     render json: {}, status: 400
   end
@@ -84,6 +89,8 @@ class CorporationsController < ApplicationController
   def change_rank_modal
     if params[:id] and (current_user.founder? || current_user.admiral? || current_user.commodore? || current_user.lieutenant?)
       render partial: 'corporations/change_rank_modal', locals: {user: User.find(params[:id])}
+    else
+      render json: {}, status: 400
     end
   end
   
@@ -96,6 +103,9 @@ class CorporationsController < ApplicationController
         
         # Check Permissions
         render json: {'error_message': I18n.t('errors.cant_change_to_higher_rank_than_self')}, status: 400 and return if User.corporation_roles[current_user.corporation_role] < rank
+        
+        # Check Permissions
+        render json: {'error_message': I18n.t('errors.cant_change_a_higher_rank')}, status: 400 and return if User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role]
         
         # Check Founder
         render json: {'error_message': I18n.t('errors.cant_derank_only_founder')}, status: 400 and return if user == current_user and user.founder? and user.corporation.users.where(corporation_role: 'founder').count == 1
@@ -185,7 +195,7 @@ class CorporationsController < ApplicationController
     if params[:id] and (current_user.founder? || current_user.admiral? || current_user.commodore?)
       application = CorpApplication.find(params[:id]) rescue nil
       
-      if application and application.corporation = current_user.corporation and current_user.founder?
+      if application and application.corporation = current_user.corporation
         application.user.update_columns(corporation_role: :recruit, corporation_id: current_user.corporation_id)
         current_user.corporation.chat_room.users << application.user
         CorpApplication.where(user: application.user).destroy_all
@@ -200,7 +210,7 @@ class CorporationsController < ApplicationController
     if params[:id] and (current_user.founder? || current_user.admiral? || current_user.commodore?)
       application = CorpApplication.find(params[:id]) rescue nil
       
-      if application and application.corporation == current_user.corporation and current_user.founder?
+      if application and application.corporation == current_user.corporation
         application.destroy
         render json: {}, status: 200 and return
       end
@@ -208,9 +218,26 @@ class CorporationsController < ApplicationController
     render json: {}, status: 400
   end
   
+  def disband
+    if current_user.founder? and current_user.corporation
+      corporation = current_user.corporation
+      
+      corporation.users.each do |user|
+        user.update_columns(corporation_id: nil, corporation_role: 0)
+        ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
+      end
+      
+      if corporation.users.count == 0
+        corporation.destroy
+      end
+      render json: {}, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
+  
   private
   
   def corporation_params
-    params.require(:corporation).permit(:name, :ticker, :bio, :tax_rate)
+    params.require(:corporation).permit(:name, :ticker, :bio, :tax)
   end
 end

@@ -16,8 +16,8 @@
         <td><span class="mobile-display-none"><%= user.location.get_name %> - </span><%= user.system.name %></td>
         <td><%= online_status(user) %></td>
         <th>
-          <button class="btn btn-outline-danger btn-sm p-0-5 corporation-kick-user-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.kick') %>" data-id="<%= user.id %>" <%= 'disabled' if current_user.recruit and user != current_user %>><i class="fa fa-times"></i></button>
-          <button class="btn btn-outline-primary btn-sm p-0-5 corporation-mote-user-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.change_rank') %>" data-id="<%= user.id %>" <%= 'disabled' if current_user.recruit and user != current_user %>><i class="fa fa-exchange-alt"></i></button>
+          <button class="btn btn-outline-danger btn-sm p-0-5 corporation-kick-user-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.kick') %>" data-id="<%= user.id %>" <%= 'disabled' if (current_user.recruit? and user != current_user) || User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role] %>><i class="fa fa-times"></i></button>
+          <button class="btn btn-outline-primary btn-sm p-0-5 corporation-mote-user-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.change_rank') %>" data-id="<%= user.id %>" <%= 'disabled' if current_user.recruit? || User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role] %>><i class="fa fa-exchange-alt"></i></button>
         </th>
       </tr>
     <% end %>
