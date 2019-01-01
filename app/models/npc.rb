@@ -39,7 +39,7 @@ class Npc < ApplicationRecord
     
     value = value * 50 if self.wanted_enemy?
     
-    player.update_columns(units: player.units + value)
+    player.give_units(value)
     
     ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.name, amount: value))
     ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')

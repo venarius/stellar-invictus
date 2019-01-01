@@ -167,3 +167,6 @@ ChatRoom.create(chatroom_type: 'global', title: 'Global')
 
 # Newbie Room
 ChatRoom.create(chatroom_type: 'custom', title: 'Rookies', identifier: 'ROOKIES')
+
+# Recruitment Room
+ChatRoom.create(chatroom_type: 'custom', title: 'Recruiting', identifier: 'RECRUIT')

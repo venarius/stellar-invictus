@@ -1,6 +1,6 @@
 <h5 class="mb-3"><%= image_tag("avatars/#{mission.agent_avatar}.jpg", style: 'height: 75px; border: 1px solid grey;') %>&nbsp;&nbsp;&nbsp;<%= mission.faction.get_ticker %> <%= mission.agent_name %></h5>
 
-<p class="color-grey"><%= mission.location.name %> - <%= mission.location.system.name %></p>
+<p class="color-grey"><%= mission.location.get_name %> - <%= mission.location.system.name %></p>
 
 <p class="color-grey"><%= I18n.t('missions.transmission_start').html_safe %></p>
 

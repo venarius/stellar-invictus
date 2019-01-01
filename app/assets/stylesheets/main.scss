@@ -39,13 +39,15 @@ html {
 // Helpers
 // ###############
 .display-inline { display: inline; }
+.display-none { display: none; }
+.overflow-scroll { overflow: scroll; }
 .display-inline-block { display: inline-block !important; }
 .mt-1rem { margin-top: 1rem; }
 .mb-0 { margin-bottom: 0; }
 .bg-black { background-color: black; }
 .color-yellow { color: yellow !important }
-.color-sec-high { color: rgba(81, 203, 238, 1) !important; }
-.color-sec-medium { color: orange !important; }
+.color-sec-high, .color-action-deposit { color: rgba(81, 203, 238, 1) !important; }
+.color-sec-medium, .color-action-withdraw { color: orange !important; }
 .color-sec-low { color: red !important; }
 .color-green { color: green !important; }
 .color-highgreen { color: #03d603 !important; }
@@ -60,6 +62,7 @@ html {
 .mb-10px { margin-bottom: 10px; }
 .mt-10 { margin-top: 10rem; }
 .pt-2px { padding-top: 2px; }
+.p-5px { padding: 5px; }
 .p-0-5 { padding: 0px 5px; }
 .w-46 { width: 46% !important; }
 .w-33 { width: 32.5% !important; }
@@ -69,6 +72,7 @@ html {
 .outline-primary { border: 1px solid #2A9FD6; }
 .outline-danger { border: 1px solid #CC0000 !important; }
 .table-fleet { background-color: #3b1d4c !important; }
+.table-corporation { background-color: #0f3c00 !important; }
 .flexbox-vert-center {
   display: flex;
   align-items: center;
@@ -111,10 +115,13 @@ html {
 .form-control, .alert, .progress { border-radius: 0; }
 
 @media (max-width: 767px) {
-  .mobile-display-none { display: none; }
+  .mobile-display-none { display: none !important; }
+  .mobile-display-block { display: block !important; }
   .mobile-mb-10 { margin-bottom: 10px !important; }
-  .mobile-mt-0 { margin-top: 0; }
-  .mobile-mb-1 { margin-bottom: 1rem; }
+  .mobile-mb-10px { margin-bottom: 10px !important; }
+  .mobile-mt-0 { margin-top: 0 !important; }
+  .mobile-mb-0 { margin-bottom: 0 !important; }
+  .mobile-mb-1 { margin-bottom: 1rem !important; }
 }
 
 // Dropdown - Submenu
@@ -243,6 +250,8 @@ a {
   background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
   .card-header {
     border-bottom: 1px solid #6493cd;
+    padding: 0.5rem 0.5rem;
+    font-size: 18px;
   }
 }
 .jumpgate-card, .player-card {
@@ -325,7 +334,7 @@ a {
   }
 }
 
-#local-chat, .custom-chat {
+#local-chat, .custom-chat, .corporation-chat {
   .row { 
     padding: 0; 
     .col-md-2 { 
@@ -348,7 +357,7 @@ a {
 }
 
 @media (min-width: 768px) {
-  #local-chat {
+  #local-chat, .corporation-chat {
     .row { 
       padding: 0; 
       .col-md-10 { padding-right: 5px; margin-top: 5px; }
@@ -378,7 +387,7 @@ a {
 }
 
 @media (max-width: 767px) {
-  #local-chat, .custom-chat {
+  #local-chat, .custom-chat, .corporation-chat {
     .row { 
       .col-md-10 { margin-top: 5px; }
       .col-md-2 { 
@@ -647,7 +656,14 @@ body {
       }
     }
     .tab-content {
-      min-height: 10rem;
+      height: 560px !important;
+      @media (max-width: 767px) {
+        padding-top: 5px;
+        border-top: 1px solid grey;
+      }
+      .tab-pane.fade {
+        height: inherit;
+      }
       .nav-tabs {
         overflow-x: auto;
         overflow-y: hidden;
@@ -790,13 +806,14 @@ body {
 
 // Factory
 
-#factory-ships, #factory-equipment, #factory-active, #blueprints-ships, #blueprints-equipment {
+#factory-ships, #factory-equipment, #factory-active, #blueprints-ships, #blueprints-equipment,
+#ship-inventory {
   ::-webkit-scrollbar {
     margin-left: 5px;
     display: block;
     width: 10px;
   }
-  max-height: 29rem;
+  height: 92%;
   overflow-x: auto;
 }
 
@@ -1072,7 +1089,7 @@ body {
 }
 
 #most-wanted, #top-bounty-hunter, #bounties, #npc-bounties {
-  max-height: 32rem;
+  height: 92%;
   overflow: scroll;
 }
 
@@ -1106,4 +1123,52 @@ body {
       color: white;
       background-color: black;
     }
+}
+
+// ###############
+// Corporation
+// ###############
+.corporation-card {
+  .card-body {
+    padding: 5px;
+    .nav-tabs {
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: -webkit-box;  
+      display: -moz-box;
+      flex-wrap: nowrap;
+      .nav-item {
+        float:none;
+        margin-right: 5px;
+        .nav-link {
+          border-radius: 0;
+          background-color: black;
+          border: 1px solid #282828;
+        }
+        .nav-link.active {
+          border: 1px solid #2A9FD6;
+          border-bottom: 1px solid black;
+        }
+      }
+    }
+    
+    .show-view-bio { border: 1px solid #282828; }
+    .corporation-motd-body {
+      height: 400px;
+      overflow: scroll;
+      white-space: pre-wrap;
+      padding:1.25rem;
+    }
+    .corporation-config-body {
+      height: 400px;
+      overflow: scroll;
+      padding:1.25rem;
+    }
+    .finance-history-table {
+      height: 350px;
+      overflow: scroll;
+      border: 1px solid #282828;
+    }
+    #help .mobile-display-block td { min-width: 30px; }
+  }
 }

@@ -49,7 +49,6 @@ Rails.application.routes.draw do
   get '/assets', to: 'game#assets'
   
   # Ships
-  get '/ship', to: 'ships#index'
   scope :ship do
     post 'activate', to: 'ships#activate'
     post 'target', to: 'ships#target'
@@ -145,6 +144,24 @@ Rails.application.routes.draw do
   scope :factory do
     get 'modal', to: 'factories#modal'
     post 'craft', to: 'factories#craft'
+  end
+  
+  # Corporation
+  resources :corporations, only: [:index, :new, :create], path: 'corporation'
+  scope :corporation do
+    post 'update_motd', to: 'corporations#update_motd'
+    post 'update_corporation', to: 'corporations#update_corporation'
+    post 'kick_user', to: 'corporations#kick_user'
+    get 'change_rank_modal', to: 'corporations#change_rank_modal'
+    post 'change_rank', to: 'corporations#change_rank'
+    post 'deposit_credits', to: 'corporations#deposit_credits'
+    post 'withdraw_credits', to: 'corporations#withdraw_credits'
+    get 'info', to: 'corporations#info'
+    get 'apply_modal', to: 'corporations#apply_modal'
+    post 'apply', to: 'corporations#apply'
+    post 'accept_application', to: 'corporations#accept_application'
+    post 'reject_application', to: 'corporations#reject_application'
+    post 'disband', to: 'corporations#disband'
   end
   
   # ActionCable

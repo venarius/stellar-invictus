@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-md-6 mobile-mb-1">
+    <div class="card black-card border-primary">
+      <h5 class="card-header">
+        <%= I18n.t('corporations.motd') %>
+        <% if (current_user.founder? || current_user.admiral? || current_user.commodore? || current_user.lieutenant?) %>
+          <button class="btn btn-sm btn-outline-primary float-right p-0-5" id="edit-corporation-motd-btn">&nbsp;<%= I18n.t('corporations.edit') %>&nbsp;</button>
+        <% end %>
+      </h5>
+      <div class="card-body corporation-motd-body" id="corporation-motd"><%= @corporation.motd.strip if @corporation.motd %>
+        <% unless @corporation.motd %>
+          <h2 class="text-center no-motd-pl">...</h2>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 mobile-mb-1">
+    <div class="card black-card border-primary">
+      <h5 class="card-header">
+        <%= I18n.t('corporations.corporation') %>
+        <% if current_user.founder? %>
+          <button class="btn btn-sm btn-outline-primary float-right p-0-5" id="edit-corporation-btn">&nbsp;<%= I18n.t('corporations.edit') %>&nbsp;</button>
+        <% end %>
+      </h5>
+      <div class="card-body corporation-config-body" id="corporation-form">
+        <div class="show-view">
+          <p><strong><%= I18n.t('corporations.tax_rate') %>:</strong></p>
+          <p class="show-view-tax"><%= @corporation.tax %> %</p>
+          <p><strong><%= I18n.t('corporations.about') %>:</strong></p>
+          <div class="show-view-bio p-5px">
+            <%= MARKDOWN.render(@corporation.bio).html_safe %>
+          </div>
+        </div>
+        <div class="edit-view" style="display:none;">
+          <p><strong><%= I18n.t('corporations.tax_rate') %>:</strong></p>
+          <p><input type="number" class="form-control" value="<%= @corporation.tax %>" min=0 max=100></input><p>
+          <p><strong><%= I18n.t('corporations.about') %>:</strong></p>
+          <textarea class="form-control" style="min-height:125px"><%= @corporation.bio %></textarea>
+          <p><small><%= I18n.t('devise.markdown_support').html_safe %></small></p>
+          <button class="btn btn-danger" data-toggle="modal" data-target="#disband-corporation-modal"><%= I18n.t('corporations.disband_corporation') %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="disband-corporation-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('corporations.disband_corporation') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%= I18n.t('corporations.disband_corporation_sure') %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger corporation-disband-corporation-btn"><%= I18n.t('corporations.disband') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>
