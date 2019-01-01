@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_23_152028) do
+ActiveRecord::Schema.define(version: 2018_12_30_173048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,29 @@ ActiveRecord::Schema.define(version: 2018_12_23_152028) do
     t.index ["user_id"], name: "index_chat_rooms_users_on_user_id"
   end
 
+  create_table "corp_applications", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "corporation_id"
+    t.text "application_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["corporation_id"], name: "index_corp_applications_on_corporation_id"
+    t.index ["user_id"], name: "index_corp_applications_on_user_id"
+  end
+
+  create_table "corporations", force: :cascade do |t|
+    t.string "name"
+    t.string "ticker"
+    t.text "bio"
+    t.text "motd"
+    t.integer "units", default: 0
+    t.float "tax", default: 0.0
+    t.bigint "chat_room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id"], name: "index_corporations_on_chat_room_id"
+  end
+
   create_table "craft_jobs", force: :cascade do |t|
     t.datetime "completion"
     t.string "loader"
@@ -78,6 +101,17 @@ ActiveRecord::Schema.define(version: 2018_12_23_152028) do
     t.datetime "updated_at", null: false
     t.bigint "location_id"
     t.index ["location_id"], name: "index_factions_on_location_id"
+  end
+
+  create_table "finance_histories", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "corporation_id"
+    t.integer "amount"
+    t.integer "action"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["corporation_id"], name: "index_finance_histories_on_corporation_id"
+    t.index ["user_id"], name: "index_finance_histories_on_user_id"
   end
 
   create_table "fleets", force: :cascade do |t|
@@ -264,7 +298,10 @@ ActiveRecord::Schema.define(version: 2018_12_23_152028) do
     t.float "reputation_1", default: 0.0
     t.float "reputation_2", default: 0.0
     t.float "reputation_3", default: 0.0
+    t.bigint "corporation_id"
+    t.integer "corporation_role", default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["corporation_id"], name: "index_users_on_corporation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
     t.index ["fleet_id"], name: "index_users_on_fleet_id"
@@ -278,9 +315,14 @@ ActiveRecord::Schema.define(version: 2018_12_23_152028) do
   add_foreign_key "chat_messages", "chat_rooms"
   add_foreign_key "chat_messages", "users"
   add_foreign_key "chat_rooms", "locations"
+  add_foreign_key "corp_applications", "corporations"
+  add_foreign_key "corp_applications", "users"
+  add_foreign_key "corporations", "chat_rooms"
   add_foreign_key "craft_jobs", "locations"
   add_foreign_key "craft_jobs", "users"
   add_foreign_key "factions", "locations"
+  add_foreign_key "finance_histories", "corporations"
+  add_foreign_key "finance_histories", "users"
   add_foreign_key "fleets", "chat_rooms"
   add_foreign_key "fleets", "users"
   add_foreign_key "items", "locations"
@@ -299,6 +341,7 @@ ActiveRecord::Schema.define(version: 2018_12_23_152028) do
   add_foreign_key "spaceships", "users"
   add_foreign_key "structures", "locations"
   add_foreign_key "structures", "users"
+  add_foreign_key "users", "corporations"
   add_foreign_key "users", "factions"
   add_foreign_key "users", "fleets"
   add_foreign_key "users", "locations"

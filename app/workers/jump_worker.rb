@@ -18,7 +18,7 @@ class JumpWorker
       
       # Tell everyone in location that user warped out
       ac_server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)
-      ac_server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.user_jumped_out', user: user.full_name, location: user.location.name))
+      ac_server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.user_jumped_out', user: user.full_name, location: user.location.get_name))
       
       # Remove user from being targeted by others
       user.remove_being_targeted
@@ -34,7 +34,7 @@ class JumpWorker
       end
       
       # Set user system to new system
-      to_system = System.find_by(name: user.location.name)
+      to_system = System.find_by(name: user.location.get_name)
       user.update_columns(system_id: to_system.id, location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system: to_system.id).id, in_warp: false)
       
       # Set Variable

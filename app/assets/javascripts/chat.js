@@ -83,7 +83,7 @@ $( document ).on('turbolinks:load', function() {
       var id = $(this).data('id')
       $.post('chat/leave', {id: id}, function(data) {
         App['chatroom-' + id].unsubscribe();
-        $(button.parent().attr('href')).remove();
+        $(button.parent().data('target')).remove();
         button.parent().parent().remove();
         $('.chat-card .nav-tabs a[data-target="#local-chat"]').tab('show')
       });

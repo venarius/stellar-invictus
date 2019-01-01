@@ -1,6 +1,6 @@
 $( document ).on('turbolinks:load', function() {
   $('.friends-card').on('shown.bs.tab', '.nav-pills a', function (e) {
-    var id = $(this).attr('href');
+    var id = $(this).data('target');
     Cookies.set('friends_tab', id);
   });
   
@@ -28,7 +28,7 @@ $( document ).on('turbolinks:load', function() {
     var type = Cookies.get('friends_tab');
     if (type) {
       $('.friends-card .nav-pills a').each(function() {
-        if ($(this).attr('href') == type) { $(this).tab('show'); }
+        if ($(this).data('target') == type) { $(this).tab('show'); }
       });
     }
   }

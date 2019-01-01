@@ -1,0 +1,55 @@
+<% if !@corporation %>
+  <div class="card black-card corporation-card mb-3">
+    <h5 class="card-header"><%= I18n.t('corporations.create_a_corporation_now') %> <%= link_to "&nbsp;<i class='fa fa-plus'></i> #{I18n.t('corporations.create')}&nbsp;".html_safe, new_corporation_path, class: 'btn btn-outline-primary float-right p-0-5' %></h5>
+    <div class="card-body">
+      <p><%= I18n.t('corporations.create_a_corporation_text1') %></p><br>
+      <p><%= I18n.t('corporations.create_a_corporation_text2') %></p>
+    </div>
+  </div>
+<% else %>
+  <div class="card black-card corporation-card">
+    <h5 class="card-header"><%= @corporation.name %> [<%= @corporation.ticker %>]</h5>
+    <div class="card-body">
+      
+      <ul class="nav nav-tabs mt-5px" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" data-target="#info" href="#0" role="tab"><%= I18n.t('corporations.info') %></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" data-target="#roster" href="#0" role="tab"><%= I18n.t('corporations.roster') %></a>
+        </li>
+        <% if current_user.admiral? || current_user.founder? %>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-target="#finances" href="#0" role="tab"><%= I18n.t('corporations.finances') %></a>
+          </li>
+        <% end %>
+        <% if current_user.founder? || current_user.admiral? || current_user.commodore? %>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-target="#applications" href="#0" role="tab"><%= I18n.t('corporations.applications') %> (<span id="corporation-applications-count"><%= @corporation.corp_applications.count %></span>)</a>
+          </li>
+        <% end %>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" data-target="#help" href="#0" role="tab"><%= I18n.t('corporations.help') %></a>
+        </li>
+      </ul>
+      <div class="tab-content mt-5px">
+        <div class="tab-pane fade show active" id="info" role="tabpanel">
+          
+        </div>
+        <div class="tab-pane fade" id="roster" role="tabpanel">
+          
+        </div>
+        <div class="tab-pane fade" id="finances" role="tabpanel">
+          
+        </div>
+        <div class="tab-pane fade" id="applications" role="tabpanel">
+          
+        </div>
+        <div class="tab-pane fade" id="help" role="tabpanel">
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<% end %>

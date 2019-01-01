@@ -6,9 +6,9 @@ FactoryBot.define do
         email { Faker::Internet.email }
         password { pass }
         password_confirmation { pass }
-        name { Faker::Name.first_name }
+        name { Faker::Name.first_name + "AA" }
         avatar { "M_1.jpg" }
-        family_name { Faker::Name.first_name }
+        family_name { Faker::Name.first_name + "AA" }
         confirmed_at { Date.today }
         docked { false }
         online { 1 }

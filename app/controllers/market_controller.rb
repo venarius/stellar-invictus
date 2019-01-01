@@ -108,7 +108,7 @@ class MarketController < ApplicationController
       end
       
       # Deduct Units
-      current_user.update_columns(units: current_user.units + price)
+      current_user.give_units(price)
       
       # Generate Listing
       fill_listing = MarketListing.where(loader: params[:loader], location: current_user.location).where("amount < 20").first rescue nil
