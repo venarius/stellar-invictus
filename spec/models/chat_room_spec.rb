@@ -25,7 +25,7 @@ describe ChatRoom do
     end
     
     describe 'Enums' do
-       it { should define_enum_for(:chatroom_type).with([:global, :local, :custom]) } 
+       it { should define_enum_for(:chatroom_type).with([:global, :local, :custom, :corporation]) } 
     end
     
     describe 'Functions' do

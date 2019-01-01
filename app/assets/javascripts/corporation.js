@@ -231,6 +231,13 @@ $( document ).on('turbolinks:load', function() {
       setTimeout(function(){ load_station_tab('#applications'); }, 250)
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
+  
+  // Corporation Disband Corporation Btn
+  $('.corporation-card').on('click', '.corporation-disband-corporation-btn', function() {
+    $.post('corporation/disband', function() {
+      Turbolinks.visit(window.location);
+    });
+  });
 });
 
 function load_corporation_tab(href) {

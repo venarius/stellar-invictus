@@ -161,6 +161,7 @@ Rails.application.routes.draw do
     post 'apply', to: 'corporations#apply'
     post 'accept_application', to: 'corporations#accept_application'
     post 'reject_application', to: 'corporations#reject_application'
+    post 'disband', to: 'corporations#disband'
   end
   
   # ActionCable

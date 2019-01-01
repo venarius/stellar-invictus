@@ -37,7 +37,28 @@
           <p><strong><%= I18n.t('corporations.about') %>:</strong></p>
           <textarea class="form-control" style="min-height:125px"><%= @corporation.bio %></textarea>
           <p><small><%= I18n.t('devise.markdown_support').html_safe %></small></p>
+          <button class="btn btn-danger" data-toggle="modal" data-target="#disband-corporation-modal"><%= I18n.t('corporations.disband_corporation') %></button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="disband-corporation-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('corporations.disband_corporation') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%= I18n.t('corporations.disband_corporation_sure') %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger corporation-disband-corporation-btn"><%= I18n.t('corporations.disband') %></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
       </div>
     </div>
   </div>
