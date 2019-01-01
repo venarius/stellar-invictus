@@ -18,9 +18,11 @@
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" data-target="#roster" href="#0" role="tab"><%= I18n.t('corporations.roster') %></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" data-target="#finances" href="#0" role="tab"><%= I18n.t('corporations.finances') %></a>
-        </li>
+        <% if current_user.admiral? || current_user.founder? %>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" data-target="#finances" href="#0" role="tab"><%= I18n.t('corporations.finances') %></a>
+          </li>
+        <% end %>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" data-target="#applications" href="#0" role="tab"><%= I18n.t('corporations.applications') %> (<span id="corporation-applications-count"><%= @corporation.corp_applications.count %></span>)</a>
         </li>
