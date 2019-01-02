@@ -1,5 +1,5 @@
 <% if !@corporation %>
-  <div class="card black-card corporation-card mb-3">
+  <div class="card black-card corporation-card">
     <h5 class="card-header"><%= I18n.t('corporations.create_a_corporation_now') %> <%= link_to "&nbsp;<i class='fa fa-plus'></i> #{I18n.t('corporations.create')}&nbsp;".html_safe, new_corporation_path, class: 'btn btn-outline-primary float-right p-0-5' %></h5>
     <div class="card-body">
       <p><%= I18n.t('corporations.create_a_corporation_text1') %></p><br>
