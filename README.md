@@ -70,6 +70,7 @@
 - Overhaul Root Page
 - Redesign Devise Mails -> Change E-Mail to no-reply@stellar-invictus.com and find smtp service
 - GameMails should be able to accept more than one recipient and maybe also shortcodes like 'corporation'
+- Mobile Tables (overflow: ellipsis) -> corporation (like players table)
  
 ## Installation
 
