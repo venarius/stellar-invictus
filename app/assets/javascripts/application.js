@@ -23,4 +23,5 @@
 //= require rails.validations
 //= require js.cookie.js
 //= require notify.min.js
+//= require thredded
 //= require_tree .

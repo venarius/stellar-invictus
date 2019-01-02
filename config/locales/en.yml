@@ -11,6 +11,7 @@ en:
     corporation: "Corporation"
     friends: "Friends"
     assets: "Assets"
+    community: "Community"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
@@ -443,7 +444,7 @@ en:
   corporations:
     create_a_corporation: "Create A Corporation"
     create_a_corporation_now: "Create A Corporation Now!"
-    create_a_corporation_text1: "Being part of a corporation is key in taking full advantage of the Stellar Invicuts Universe."
+    create_a_corporation_text1: "Being part of a corporation is key in taking full advantage of the Stellar Invictus Universe."
     create_a_corporation_text2: "A corporation allows you to band together with your friends, form an identity and take over the Universe. Corporations also have their own chat channel and can build stations in low security space!"
     name: "Name"
     ticker: "Ticker"
@@ -503,3 +504,6 @@ en:
     manage_applications: "Manage Applications"
     disband: "Disband"
     disband_corporation_sure: "Are you sure you want to disband your corporation? All left finances will be restrained by federal forces, so please make sure to check your finances."
+  community:
+    forum: "Forum"
+    back_to_game: "Back to Game"

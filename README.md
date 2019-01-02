@@ -36,7 +36,6 @@
 - ~~Main equipment to buff other pilots~~
 - Ship Descriptions, Classes, Bonuses
 - Player Reporting
-- Reward players for not killing each other
 - Player-Owned Stations -> 1 per System
 - Killboard
 - Statistics
@@ -68,6 +67,9 @@
 - ~~Registration Mail Flash not showing~~
 - ~~If standing is bad, stations of this faction will refuse your dockrequest~~
 - ~~Better Errors for ChatRooms join / create -> notfiy?~~
+- Overhaul Root Page
+- Redesign Devise Mails -> Change E-Mail to no-reply@stellar-invictus.com and find smtp service
+- GameMails should be able to accept more than one recipient and maybe also shortcodes like 'corporation'
  
 ## Installation
 
