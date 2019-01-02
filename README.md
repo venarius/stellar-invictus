@@ -46,8 +46,8 @@
 - ~~Enemy Bounty random~~
 - ~~Remove Sleep from Workers !Important~~
 - ~~Fast movement of many items -> Store / Load~~
-- Bug Reporting
-- Forum / Subreddit
+- ~~Bug Reporting~~
+- ~~Forum / Subreddit~~
 - ~~Newbie Channel with ID "ROOKIES"~~
 - ~~Stations Overview empty~~
 - ~~Factory -> Buy Blueprint -> Can now build next ship~~
