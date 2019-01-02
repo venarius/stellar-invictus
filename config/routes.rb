@@ -164,6 +164,14 @@ Rails.application.routes.draw do
     post 'disband', to: 'corporations#disband'
   end
   
+  # Community
+  scope :community do
+    get '/', to: 'communities#index', as: :community
+  end
+  
+  # Thredded
+  mount Thredded::Engine => '/forum'
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   
