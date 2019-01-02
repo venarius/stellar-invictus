@@ -656,8 +656,11 @@ body {
       }
     }
     .tab-content {
-      height: 560px !important;
+      @media (min-width: 768px) {
+        height: 560px !important;
+      }
       @media (max-width: 767px) {
+        height: auto !important;
         padding-top: 5px;
         border-top: 1px solid grey;
       }
