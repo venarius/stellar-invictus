@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6 offset-md-3">
-    <div class="card black-card border-success">
+    <div class="card black-card">
       <h5 class="card-header"><%= I18n.t('devise.connect_to_game') %></h5>
       <div class="card-body">
         <%= form_for(@user, url: session_path(resource_name), validate: true) do |f| %>
