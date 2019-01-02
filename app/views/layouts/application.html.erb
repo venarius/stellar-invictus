@@ -20,7 +20,7 @@
   <body>
     <%= render 'layouts/navbar' %>
   
-    <div class="<%= 'mt-1rem container' unless current_page?(root_path) %>" id="app-container">
+    <div class="<%= 'mt-1rem container mb-3' unless current_page?(root_path) %>" id="app-container">
       <%= render 'layouts/alerts' %>
       
       <%= yield %>
