@@ -1172,3 +1172,50 @@ body {
     #help .mobile-display-block td { min-width: 30px; }
   }
 }
+
+// ###############
+// Thredded
+// ###############
+
+#thredded--container {
+  margin-top: 1rem;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  label, p, #q::placeholder, li, cite, .thredded--nav-text, .thredded--navigation-breadcrumbs a,
+  .thredded--topic-header--follow-info--unfollow {
+    color: white;
+  }
+  a, h2 {
+    color: #4a90e2;
+    &.thredded--button {
+      color: white;
+    }
+  }
+  #q {
+    background-color: transparent;
+    color: white;
+  }
+  .thredded--alert.thredded--alert-danger {
+    background-color: #CC0000;
+    border-color: #CC0000;
+    color: white;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .thredded--post--dropdown--actions--item {
+    color: rgba(0, 0, 0, 0.87);
+  }
+  .thredded--moderated-notice {
+    .thredded--post-moderation-record--moderation-state-notice, h2, p, a {
+      color: rgba(0, 0, 0, 0.87);
+    }
+  }
+  .thredded--unread-topics--followed-icon {
+    top: -1.8px;
+  }
+  .thredded--main-section {
+    margin-bottom: 1rem;
+  }
+}
