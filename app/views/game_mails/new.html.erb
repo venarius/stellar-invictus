@@ -12,7 +12,7 @@
         <%= f.text_area :body, placeholder: I18n.t('mails.body'), class: 'form-control' %>
       </div>
       <div class="field mb-3">
-        <%= f.number_field :units, placeholder: 'Units', class: 'form-control', max: current_user.units, min: 0 %>
+        <%= f.number_field :units, placeholder: 'Credits', class: 'form-control', max: current_user.units, min: 0 %>
       </div>
       
       <div class="actions">

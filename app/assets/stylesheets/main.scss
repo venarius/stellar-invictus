@@ -1228,5 +1228,14 @@ body {
   }
   .thredded--main-section {
     margin-bottom: 1rem;
+    input[type="text"], textarea, select {
+      color: white;
+      background-color: rgba(0, 0, 0, 0.50);
+      border: 1px solid #4a90e2;
+      &:focus {
+        color: white !important;
+        background-color: black;
+      }
+    }
   }
 }
