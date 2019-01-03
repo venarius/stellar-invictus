@@ -2,7 +2,7 @@ var scaninterval;
 $( document ).on('turbolinks:load', function() {
   
   // Scan System Btn AJAX
-  $('.overview-card').on('click', '.scan-system-btn', function() {
+  $('#app-container').on('click', '.scan-system-btn', function() {
     var text = $(this).text();
     var button = $(this).button();
     

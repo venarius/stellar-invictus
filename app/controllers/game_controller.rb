@@ -86,11 +86,11 @@ class GameController < ApplicationController
   end
   
   def system_card
-    render partial: 'game/system_card'
+    render partial: 'game/system_card' unless current_user.docked
   end
   
   def locations_card
-    render partial: 'game/locations'
+    render partial: 'game/locations' unless current_user.docked
   end
   
   private
