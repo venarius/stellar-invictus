@@ -14,6 +14,7 @@ class SystemsController < ApplicationController
     if params[:id]
       system = System.find(params[:id]) rescue nil
       if system
+        old_route = current_user.route
         path = Pathfinder.find_path(current_user.system.id, system.id)
         
         jumpgates = []
@@ -23,15 +24,16 @@ class SystemsController < ApplicationController
         end
         
         current_user.update_columns(route: jumpgates)
-        render json: {"route": jumpgates}, status: 200 and return
+        render json: {old_route: old_route, route: jumpgates, card: render_to_string(partial: 'systems/route_card') }, status: 200 and return
       end
     end
     render json: {}, status: 400
   end
   
   def clear_route
+    old_route = current_user.route
     current_user.update_columns(route: [])
-    render json: {}, status: 200
+    render json: {route: old_route}, status: 200
   end
   
   def scan

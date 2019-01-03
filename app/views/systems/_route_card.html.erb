@@ -1,0 +1,32 @@
+<% if current_user.route != [] %>
+  <div class="card black-card route-card mb-3">
+    <h5 class="card-header">
+      <%= I18n.t('routing.route') %>
+      <button class="btn btn-outline-danger float-right remove-route-btn"><%= I18n.t('routing.remove_route') %></button>
+    </h5>
+    <div class="card-body">
+      <% path = [] %>
+      <% current_user.route.each_with_index do |jg, index| %>
+        <% jg = Jumpgate.find(jg) %>
+        
+        <% if index == 0 %>
+          <% if jg.origin.system == current_user.system %>
+            <% path << jg.destination.system.name %>
+            <%= jg.origin.system.name %> <i class="fa fa-arrow-right fa-sm"></i> <%= jg.destination.system.name %>
+          <% else %>
+            <% path << jg.origin.system.name %>
+            <%= jg.destination.system.name %> <i class="fa fa-arrow-right fa-sm"></i> <%= jg.origin.system.name %>
+          <% end %>
+        <% else %>
+          <% if jg.destination.system.name == path.last %>
+            <% path << jg.origin.system.name %>
+            <i class="fa fa-arrow-right fa-sm"></i> <%= jg.origin.system.name %>
+          <% else %>
+            <% path << jg.destination.system.name %>
+            <i class="fa fa-arrow-right fa-sm"></i> <%= jg.destination.system.name %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

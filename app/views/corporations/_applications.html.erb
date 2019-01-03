@@ -4,7 +4,7 @@
       <tr>
         <th scope="col"><%= I18n.t('corporations.name') %></th>
         <th scope="col"><%= I18n.t('corporations.online') %></th>
-        <th scope="col"><%= I18n.t('corporations.created_at') %></th>
+        <th scope="col" class="mobile-display-none"><%= I18n.t('corporations.created_at') %></th>
         <th class="btn-th" style="width:56px;"></th>
       </tr>
     </thead>
@@ -13,7 +13,7 @@
         <tr>
           <td><a class="player-modal" href="#" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a></td>
           <td><%= online_status(corp_application.user) %></td>
-          <td><%= corp_application.created_at.strftime("%F %H:%M") %></td>
+          <td class="mobile-display-none"><%= corp_application.created_at.strftime("%F %H:%M") %></td>
           <th>
             <button class="btn btn-outline-primary btn-sm p-0-5" data-toggle="modal" data-target="#application-<%= corp_application.id %>">&nbsp;<i class="fa fa-info"></i>&nbsp;</button>
             <button class="btn btn-outline-danger btn-sm p-0-5 corporation-reject-application-btn" data-id="<%= corp_application.id %>"><i class="fa fa-times"></i></button>
