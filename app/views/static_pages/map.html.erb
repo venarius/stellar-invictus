@@ -1,36 +1,3 @@
-<% if current_user.route != [] %>
-  <div class="card black-card route-card mb-3">
-    <h5 class="card-header">
-      <%= I18n.t('routing.route') %>
-      <button class="btn btn-outline-danger float-right remove-route-btn"><%= I18n.t('routing.remove_route') %></button>
-    </h5>
-    <div class="card-body">
-      <% path = [] %>
-      <% current_user.route.each_with_index do |jg, index| %>
-        <% jg = Jumpgate.find(jg) %>
-        
-        <% if index == 0 %>
-          <% if jg.origin.system == current_user.system %>
-            <% path << jg.destination.system.name %>
-            <%= jg.origin.system.name %> <i class="fa fa-arrow-right fa-sm"></i> <%= jg.destination.system.name %>
-          <% else %>
-            <% path << jg.origin.system.name %>
-            <%= jg.destination.system.name %> <i class="fa fa-arrow-right fa-sm"></i> <%= jg.origin.system.name %>
-          <% end %>
-        <% else %>
-          <% if jg.destination.system.name == path.last %>
-            <% path << jg.origin.system.name %>
-            <i class="fa fa-arrow-right fa-sm"></i> <%= jg.origin.system.name %>
-          <% else %>
-            <% path << jg.destination.system.name %>
-            <i class="fa fa-arrow-right fa-sm"></i> <%= jg.destination.system.name %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
-<% end %>
-
 <div class="card black-card map-card">
   <h5 class="card-header"><%= I18n.t('navbar.map') %></h5>
   <div class="speech-bubble"></div>
@@ -143,31 +110,44 @@
     network.on("dragStart", function () {
       $('.speech-bubble').css({position: 'absolute', top: -1000, left: -1000, display: 'block'}); 
     });
-    
-    // draw route if user has one
-    <% if current_user.route %>
-      <% current_user.route.each do |step| %>
-        var edge = edges.get(<%= step %>);
-        edges.remove(<%= step %>);
-        edges.add({id: <%= step %>, from: edge.from, to: edge.to, color: { color: 'red' }, width: 5});
-      <% end %>
-    <% end %>
 
     // create route button
     $('.speech-bubble').on('click', '.get-route-btn', function() {
       var id = $(this).data('id');
-      
       loading_animation($(this));
+      var button = $(this);
+      var html = $(this).html();
+      
       $.post('system/route', {id: id}, function(data) {
-        Turbolinks.visit(window.location);
+        if ($('.route-card').length) {
+          $('.route-card').remove();
+        }
+        $(data.card).insertBefore($('.map-card'));
+        $.each(data.old_route, function(index, value) {
+          var edge = edges.get(value);
+          edges.remove(value);
+          edges.add({id: value, from: edge.from, to: edge.to, color: { color: 'grey' }, width: 1});
+        });
+        $.each(data.route, function(index, value) {
+          var edge = edges.get(value);
+          edges.remove(value);
+          edges.add({id: value, from: edge.from, to: edge.to, color: { color: 'red' }, width: 5});
+        });
+        button.html(html);
+        $('.speech-bubble').css({position: 'absolute', top: -1000, left: -1000, display: 'block'}); 
       });
     });
     
     // remove route button
-    $('.remove-route-btn').on('click', function(){
+    $('#app-container').on('click', '.remove-route-btn', function(){
       loading_animation($(this));
-      $.post('system/clear_route', function() {
-        Turbolinks.visit(window.location);
+      $.post('system/clear_route', function(data) {
+        $('.route-card').remove();
+        $.each(data.route, function(index, value) {
+          var edge = edges.get(value);
+          edges.remove(value);
+          edges.add({id: value, from: edge.from, to: edge.to, color: { color: 'grey' }, width: 1});
+        });
       });
     });
 </script>

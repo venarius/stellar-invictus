@@ -1,4 +1,4 @@
-<br><h4 class="text-center"><%= I18n.t('corporations.current_balance') %>: <span class="color-highgreen"><%= @corporation.units %> Cr</span></h4>
+<br><h5 class="text-center"><%= I18n.t('corporations.current_balance') %>: <span class="color-highgreen"><%= @corporation.units %> Cr</span></h5>
 
 <div class="text-center mb-3">
   <div class="row">
@@ -27,9 +27,15 @@
   </div>
 </div>
 
-<div class="text-center mb-3">
-  <button class="btn btn-outline-primary display-inline-block" data-toggle="modal" data-target="#corporation-deposit-credits-modal"><i class="fa fa-plus"></i> <%= I18n.t('corporations.deposit_credits') %></button>
-  <button class="btn btn-outline-warning display-inline-block ml-3" data-toggle="modal" data-target="#corporation-withdraw-credits-modal"><i class="fa fa-minus"></i> <%= I18n.t('corporations.withdraw_credits') %></button>
+<div class="mb-3">
+  <div class="row">
+    <div class="col-md-6 mb-2 text-md-right text-center">
+      <button class="btn btn-outline-primary display-inline-block" data-toggle="modal" data-target="#corporation-deposit-credits-modal"><i class="fa fa-plus"></i> <%= I18n.t('corporations.deposit_credits') %></button>
+    </div>
+    <div class="col-md-6 text-md-left text-center">
+      <button class="btn btn-outline-warning display-inline-block" data-toggle="modal" data-target="#corporation-withdraw-credits-modal"><i class="fa fa-minus"></i> <%= I18n.t('corporations.withdraw_credits') %></button>
+    </div>
+  </div>
 </div>
 
 <!-- Deposit Modal -->

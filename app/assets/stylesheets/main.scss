@@ -321,6 +321,8 @@ a {
             p {
               margin-left: 48px;
               margin-bottom: 0;
+              word-break: break-word;
+              overflow-wrap: break-word;
             }
           }
         }
@@ -1153,6 +1155,12 @@ body {
           border-bottom: 1px solid black;
         }
       }
+    }
+    
+    table tbody td {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
     
     .show-view-bio { border: 1px solid #282828; }
