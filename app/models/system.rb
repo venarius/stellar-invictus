@@ -4,6 +4,10 @@ class System < ApplicationRecord
   
   enum security_status: [:high, :medium, :low]
   
+  after_create do
+    ChatRoom.create(chatroom_type: 'local', title: self.name, system: self)
+  end
+  
   # Updates local players of every user in system
   def update_local_players
     users = User.where("online > 0").where(system: self)

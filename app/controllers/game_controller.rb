@@ -9,8 +9,8 @@ class GameController < ApplicationController
     end
     @current_user = User.includes(:system).find(current_user.id)
     @system_users = User.where("online > 0").where(system: current_user.system)
-    @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(location: current_user.location)).last(10)
-    @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.first).last(10)
+    @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(system: current_user.system)).last(10)
+    @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
     @ship_vars = SHIP_VARIABLES[current_user.active_spaceship.name]
   end
   
@@ -76,6 +76,21 @@ class GameController < ApplicationController
     var1 = Item.where(user: current_user, spaceship: nil, structure: nil).pluck(:location_id)
     var2 = Spaceship.where(user: current_user).pluck(:location_id)
     @locations = (var1 + var2).uniq.compact
+  end
+  
+  def chat
+    @system_users = User.where("online > 0").where(system: current_user.system)
+    @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(system: current_user.system)).last(10)
+    @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
+    render partial: 'game/chat', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages}
+  end
+  
+  def system_card
+    render partial: 'game/system_card'
+  end
+  
+  def locations_card
+    render partial: 'game/locations'
   end
   
   private

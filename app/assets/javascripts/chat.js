@@ -266,3 +266,22 @@ function invited_to_conversation(data) {
   var modal = data
   $(modal).appendTo('#app-container').modal('show');
 }
+
+// Reload Chat
+function reload_chat() {
+  if ($('.chat-card').length) {
+    $.get('game/chat', function(data) {
+      $('.chat-card').find('.card-body').html(data);
+    });
+  }
+}
+
+// Reload local Chat
+function reload_local_chat() {
+  if ($('.chat-card').length) {
+    $.get('game/chat', function(data) {
+      $('.chat-card').find('#system-player-count').html($(data).find('#system-player-count').html());
+      $('.chat-card').find('#local-chat').html($(data).find('#local-chat').html());
+    });
+  }
+}

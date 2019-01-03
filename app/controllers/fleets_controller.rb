@@ -91,7 +91,7 @@ class FleetsController < ApplicationController
       ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_joined_channel', user: user.full_name)}</td></tr>")
     else
       ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_left_channel', user: user.full_name)}</td></tr>")
-      ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
+      ActionCable.server.broadcast("player_#{user.id}", method: 'reload_fleet')
     end
     room.update_local_players
     ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')

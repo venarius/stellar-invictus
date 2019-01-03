@@ -41,9 +41,11 @@ $( document ).on('turbolinks:load', function() {
 
 // Show warpcard
 var jump_interval;
+var cards;
 function doWarp(warpTime, name) {
   if (jump_interval == null || jump_interval == false) {
     remove_target();
+    cards = $('.game-card-row').html();
     $('.game-card-row').empty().append(
       "<div class='col-md-12'><div class='card black-card card-body warp-card mb-3'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
     );
@@ -90,6 +92,24 @@ function reload_players_card() {
   }
 }
 
+// Reload player card AJAX
+function reload_locations_card() {
+  if ($('.overview-card').length) {
+    $.get("game/locations_card", function(data) {
+      $('.overview-card').replaceWith(data);
+    });
+  }
+}
+
+// Reload location info
+function reload_location_info() {
+  if ($('.system-card').length) {
+    $.get("game/system_card", function(data) {
+      $('.system-card').html(data);
+    });
+  }
+}
+
 // Clear Jump
 function clear_jump() {
   App.local.reload();
@@ -98,4 +118,14 @@ function clear_jump() {
   clearInterval(jump_interval);
   jump_interval = false
   pixi_background_speed = 1;
+  if (window.location.pathname == "/game" || window.location.pathname == "/station") {
+    if (cards) {
+      $('.game-card-row').html(cards); 
+    }
+    check_chats();
+    reload_local_chat();
+    reload_players_card();
+    reload_locations_card();
+    reload_location_info(); 
+  }
 }

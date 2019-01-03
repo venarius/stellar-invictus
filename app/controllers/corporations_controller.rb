@@ -74,7 +74,7 @@ class CorporationsController < ApplicationController
         render json: {'error_message': I18n.t('errors.cant_change_a_higher_rank')}, status: 400 and return if User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role]
         
         user.update_columns(corporation_id: nil, corporation_role: 0)
-        ActionCable.server.broadcast("player_#{params[:id]}", method: 'reload_page')
+        ActionCable.server.broadcast("player_#{params[:id]}", method: 'reload_corporation')
         
         if corporation.users.count == 0
           corporation.destroy
@@ -199,7 +199,7 @@ class CorporationsController < ApplicationController
         application.user.update_columns(corporation_role: :recruit, corporation_id: current_user.corporation_id)
         current_user.corporation.chat_room.users << application.user
         CorpApplication.where(user: application.user).destroy_all
-        ActionCable.server.broadcast("player_#{application.user.id}", method: 'reload_page')
+        ActionCable.server.broadcast("player_#{application.user.id}", method: 'reload_corporation')
         render json: {}, status: 200 and return
       end
     end
@@ -224,7 +224,7 @@ class CorporationsController < ApplicationController
       
       corporation.users.each do |user|
         user.update_columns(corporation_id: nil, corporation_role: 0)
-        ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
+        ActionCable.server.broadcast("player_#{user.id}", method: 'reload_corporation')
       end
       
       if corporation.users.count == 0

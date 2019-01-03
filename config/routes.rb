@@ -20,6 +20,9 @@ Rails.application.routes.draw do
     get 'local_players', to: 'game#local_players'
     get 'ship_info', to: 'game#ship_info'
     get 'player_info', to: 'game#player_info'
+    get 'chat', to: 'game#chat'
+    get 'system_card', to: 'game#system_card'
+    get 'locations_card', to: 'game#locations_card'
   end
   
   # User

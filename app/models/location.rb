@@ -17,10 +17,6 @@ class Location < ApplicationRecord
   enum location_type: [:station, :asteroid_field, :jumpgate, :mission, :exploration_site]
   enum station_type: [:industrial_station, :warfare_plant, :mining_station, :research_station]
   
-  after_create do
-    ChatRoom.create(chatroom_type: 'local', title: self.name, location: self)
-  end
-  
   before_destroy do
     location = Location.where.not(id: self.id).first
     self.users.update_all(location_id: location.id, system_id: location.system.id)
