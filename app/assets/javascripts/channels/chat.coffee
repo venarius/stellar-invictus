@@ -1,4 +1,7 @@
 $(document).on "turbolinks:load", ->
+  check_chats()
+    
+window.check_chats = ->
   if (logged_in && !App['local-chat'])
     App['local-chat'] = App.cable.subscriptions.create({channel: 'ChatChannel', room: 'local_chat'},
       received: (data) ->
@@ -11,9 +14,6 @@ $(document).on "turbolinks:load", ->
           
       send_message: (message) ->
         @perform 'send_message', message: message, room: 'local'
-        
-      reload:->
-        @perform("reload")
     )
         
   if (logged_in && !App['global-chat'])

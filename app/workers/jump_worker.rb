@@ -50,7 +50,7 @@ class JumpWorker
       user_system.update_local_players
       
       # Tell user to reload page
-      ac_server.broadcast("player_#{user.id}", method: 'reload_page')
+      ac_server.broadcast("player_#{user.id}", method: 'warp_finish')
       
     end
   end

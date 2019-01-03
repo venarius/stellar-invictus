@@ -18,7 +18,7 @@ class Corporation < ApplicationRecord
   before_destroy do
     self.users.each do |user|
       user.update_columns(corporation_id: nil)
-      ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
+      ActionCable.server.broadcast("player_#{user.id}", method: 'reload_corporation')
     end
   end
 end
