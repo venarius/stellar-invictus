@@ -1,9 +1,28 @@
+<div class="card black-card rules-help-card mb-3">
+  <h5 class="card-header"><%= I18n.t('factions.rules_and_help') %></h5>
+  <div class="card-body">
+    <h5><%= I18n.t('factions.rules') %></h5>
+      <ul>
+        <li><%= I18n.t('factions.rule_1') %></li>
+        <li><%= I18n.t('factions.rule_2') %></li>
+        <li><%= I18n.t('factions.rule_3') %></li>
+        <li><%= I18n.t('factions.rule_4') %></li>
+        <li><%= I18n.t('factions.rule_5') %></li>
+      </ul>
+    <h5><%= I18n.t('factions.help') %></h5>
+      <ul>
+        <li><%= I18n.t('factions.help_1') %></li>
+        <li><%= I18n.t('factions.help_2') %></li>
+      </ul>
+  </div>
+</div>
+
 <div class="card black-card factions-card">
   <h5 class="card-header"><%= I18n.t('factions.choose_a_faction') %></h5>
   <div class="card-body">
     <div class="row">
       <% @factions.each_with_index do |faction, index| %>
-        <div class="col-md-4" style="position:relative">
+        <div class="col-md-4 mb-3" style="position:relative">
           <div class="display mb-3 text-center">
             <%= image_tag("ships/#{FACTION_VARIABLES[faction.id]['placeholder']}") %>
           </div>
@@ -12,7 +31,7 @@
           
           <p><%= faction.description %></p>
           
-          <div style="<%= 'position:absolute;bottom:0' if index > 0 %>">
+          <div class="<%= 'grounded' if index > 0 %>">
             <h5><%= I18n.t('factions.bonus') %></h5>
           
             <p class="color-green"><%= I18n.t("factions.#{faction.id}_bonus") %></p>

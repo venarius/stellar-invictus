@@ -1080,6 +1080,13 @@ body {
   }
 }
 
+@media (min-width: 768px) {
+  .grounded {
+    position: absolute;
+    bottom: 0;
+  } 
+}
+
 // ###############
 // Bounty System
 // ###############
