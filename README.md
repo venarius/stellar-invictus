@@ -62,7 +62,7 @@
 - ~~Should not reload ship info after npc died (performance)~~
 - ~~Notify for successfully accepted mission / finished mission~~
 - ~~Missions / Market more specific to Station~~
-- Modal on Faction Choose with Intro and how to find Help
+- ~~Modal on Faction Choose with Intro and how to find Help~~
 - ~~More Stations that belong to the main factions -> sell faction ships, missions where to kill another npc who has information in other faction space~~
 - ~~Registration Mail Flash not showing~~
 - ~~If standing is bad, stations of this faction will refuse your dockrequest~~
@@ -70,6 +70,7 @@
 - Overhaul Root Page
 - Redesign Devise Mails -> Change E-Mail to no-reply@stellar-invictus.com and find smtp service
 - ~~Mobile Tables (overflow: ellipsis) -> corporation (like players table)~~
+- Rules from Faction to TOS (Copy from EVE Online TOS)
  
 ## Installation
 

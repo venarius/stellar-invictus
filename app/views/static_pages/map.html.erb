@@ -1,3 +1,7 @@
+<% if current_user.route != [] %>
+  <%= render partial: 'systems/route_card' %>
+<% end %>
+
 <div class="card black-card map-card">
   <h5 class="card-header"><%= I18n.t('navbar.map') %></h5>
   <div class="speech-bubble"></div>
@@ -110,6 +114,15 @@
     network.on("dragStart", function () {
       $('.speech-bubble').css({position: 'absolute', top: -1000, left: -1000, display: 'block'}); 
     });
+    
+    // draw route if user has one
+    <% if current_user.route %>
+      <% current_user.route.each do |step| %>
+        var edge = edges.get(<%= step %>);
+        edges.remove(<%= step %>);
+        edges.add({id: <%= step %>, from: edge.from, to: edge.to, color: { color: 'red' }, width: 5});
+      <% end %>
+    <% end %>
 
     // create route button
     $('.speech-bubble').on('click', '.get-route-btn', function() {
