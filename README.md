@@ -132,3 +132,4 @@ How to start sidekiq on server if crashed:
 ```
 export RAILS_ENV="production" ; ~/.rvm/bin/rvm default do bundle exec sidekiqctl stop /home/tla/app/stellar/shared/tmp/pids/sidekiq-0.pid 10
 ```
+
