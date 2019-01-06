@@ -71,6 +71,7 @@
 - Redesign Devise Mails -> Change E-Mail to no-reply@stellar-invictus.com and find smtp service
 - ~~Mobile Tables (overflow: ellipsis) -> corporation (like players table)~~
 - Rules from Faction to TOS (Copy from EVE Online TOS)
+- Forum from Thredded to Discourse -> forums.stellar-invictus.com
  
 ## Installation
 
