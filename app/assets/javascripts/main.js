@@ -115,7 +115,14 @@ $( document ).on('turbolinks:load', function() {
     
     // Enable Button after User aggreed to Privacy Policy
     $('#privpolCheck').change(function() {
-      if(this.checked) {
+      if($(this).prop('checked') && $('#tosCheck').prop('checked')) {
+        $('.enlist-btn').prop("disabled", false);
+      } else {
+        $('.enlist-btn').prop("disabled", true);
+      }
+    });
+    $('#tosCheck').change(function() {
+      if($(this).prop('checked') && $('#privpolCheck').prop('checked')) {
         $('.enlist-btn').prop("disabled", false);
       } else {
         $('.enlist-btn').prop("disabled", true);
