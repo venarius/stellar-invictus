@@ -1,0 +1,36 @@
+<p class="text-center"><%= online_status(user) %> - <strong class="color-sec-<%= user.system.security_status %>"><%= user.system.name %></strong> <%= user.location.get_name %></p>
+
+<div class="row">
+  <div class="col-md-4 mb-3">
+    <button class="btn btn-outline-primary w-100 admin-teleport-to-btn" data-id="<%= user.id %>"><%= I18n.t('admin.teleport_to') %></button>
+  </div>
+  <div class="col-md-4 mb-3">
+    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-ban-modal"><%= I18n.t('admin.ban') %></button>
+  </div>
+  <div class="col-md-4 mb-3">
+    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-set-credits" data-id="<%= user.id %>"><%= I18n.t('admin.set_credits') %></button>
+  </div>
+  <div class="col-md-4 mb-3">
+    <button class="btn btn-outline-primary w-100 admin-message-history-btn" data-id="<%= user.id %>"><%= I18n.t('admin.message_history') %></button>
+  </div>
+</div>
+
+<!-- COLLAPSE -->
+<div class="accordion" id="accordion">
+  <div class="collapse" id="admin-ban-modal" data-parent="#accordion">
+    <p><%= I18n.t('admin.bantime_in_hours') %></p>
+    <input type="number" class="form-control mb-3" id="admin-bantime-input" min=0>
+    <p><%= I18n.t('admin.banreason') %></p>
+    <textarea class="form-control mb-3" id="admin-banreason-input"></textarea>
+    <div class="float-right">
+      <button class="btn btn-outline-danger admin-ban-btn"><%= I18n.t('admin.ban') %></button>
+    </div>
+  </div>
+  <div class="collapse" id="admin-set-credits" data-parent="#accordion">
+    <p><%= I18n.t('admin.credits') %></p>
+    <input type="number" class="form-control mb-3" id="admin-credits-input" value="<%= user.units %>">
+    <div class="float-right">
+      <button class="btn btn-outline-primary admin-set-credits-btn"><%= I18n.t('admin.set_credits') %></button>
+    </div>
+  </div>
+</div>

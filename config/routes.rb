@@ -175,6 +175,13 @@ Rails.application.routes.draw do
   # Discourse
   get 'discourse/sso' => 'discourse_sso#sso'
   
+  # Admin
+  scope :admin do
+    get '/', to: 'admin#index', as: :admin
+    post 'search', to: 'admin#search'
+    post 'teleport', to: 'admin#teleport'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

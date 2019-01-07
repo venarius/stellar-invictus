@@ -8,7 +8,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= I18n.t('modal.invited_to_conversation_text', user: user.full_name) %>
+        <% if user.admin %>
+          <%= I18n.t('modal.invited_to_conversation_text', user: "<span class='color-red'>#{user.full_name} <span class='badge badge-danger'>DEV</span></span>").html_safe %>
+        <% else %>
+          <%= I18n.t('modal.invited_to_conversation_text', user: user.full_name) %>
+        <% end %>
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary accept-chat-invite-btn" data-id="<%= room.identifier %>">
