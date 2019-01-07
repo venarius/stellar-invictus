@@ -9,7 +9,7 @@ class DiscourseSsoController < ApplicationController
     sso.name = current_user.full_name # this is a custom method on the User class
     sso.username = current_user.full_name.titleize.gsub(' ', '_') # from devise
     sso.external_id = current_user.id # from devise
-    sso.avatar = "https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/avatars/#{current_user.avatar}.jpg"
+    sso.avatar_url = "https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/avatars/#{current_user.avatar}.jpg"
     sso.sso_secret = secret
 
     redirect_to sso.to_url("https://forums.stellar-invictus.com/session/sso_login")
