@@ -55,6 +55,13 @@
               I have read and agree to the Privacy Policy (<%= link_to 'found here', credits_path %>)
             </label>
           </div>
+          
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="tosCheck">
+            <label class="form-check-label" for="tosCheck">
+              I have read and agree to the Terms of Services (<%= link_to 'found here', credits_path %>)
+            </label>
+          </div>
         
           <div class="actions float-right">
             <%= button_tag( class: 'btn btn-primary btn-sm btn-load enlist-btn', disabled: true) do %>
