@@ -68,10 +68,10 @@
 - ~~If standing is bad, stations of this faction will refuse your dockrequest~~
 - ~~Better Errors for ChatRooms join / create -> notfiy?~~
 - Overhaul Root Page
-- Redesign Devise Mails -> Change E-Mail to no-reply@stellar-invictus.com and find smtp service
+- ~~Redesign Devise Mails -> Change E-Mail to no-reply@stellar-invictus.com and find smtp service~~
 - ~~Mobile Tables (overflow: ellipsis) -> corporation (like players table)~~
 - Rules from Faction to TOS (Copy from EVE Online TOS)
-- Forum from Thredded to Discourse -> forums.stellar-invictus.com
+- ~~Forum from Thredded to Discourse -> forums.stellar-invictus.com~~
  
 ## Installation
 
@@ -109,6 +109,7 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -> GitHub
 
 After that:
 1. Copy master.key from rails project to deployment_machine:/home/app/stellar/shared/config/master.key
+2. Copy environment.env.sample in project root to environment.env and fill out informations
 2. Change IP of Server in Deploy Config to deployment_machine
 3. Copy certificates to /home/app/stellar/shared/certificates
 4. Run cap production setup
