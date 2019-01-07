@@ -12,6 +12,7 @@ en:
     friends: "Friends"
     assets: "Assets"
     community: "Community"
+    admin_dashboard: "Admin Dashboard"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
@@ -318,6 +319,7 @@ en:
     faction: "Faction"
     current_ship: "Current Spaceship"
     corporation: "Corporation"
+    admin: "Admin"
   crafting:
     craft: "Craft"
     ressources: "Required Ressources"
@@ -518,3 +520,14 @@ en:
   community:
     forum: "Forum"
     back_to_game: "Back to Game"
+  admin:
+    admin_dashboard: "Admin Dashboard"
+    users: "Users"
+    reports: "Reports"
+    teleport_to: "Teleport To"
+    ban: "Ban"
+    message_history: "Message History"
+    set_credits: "Set Credits"
+    bantime_in_hours: "Bantime in hours"
+    banreason: "Banreason"
+    credits: "Credits"

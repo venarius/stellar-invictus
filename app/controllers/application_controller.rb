@@ -49,4 +49,8 @@ class ApplicationController < ActionController::Base
   def check_docked
     render json: {}, status: 400 and return unless current_user.docked
   end
+  
+  def check_admin
+    redirect_back(fallback_location: root_path) unless current_user.admin
+  end
 end

@@ -876,7 +876,13 @@ body {
     }
   }
   .nav-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: -webkit-box;  
+    display: -moz-box;
+    flex-wrap: nowrap;
     .nav-item {
+      float:none;
       margin-right: 5px;
       .nav-link {
         border-radius: 0;
@@ -1188,6 +1194,40 @@ body {
       border: 1px solid #282828;
     }
     #help .mobile-display-block td { min-width: 30px; }
+  }
+}
+
+// ###############
+// Admin
+// ###############
+.admin-card {
+  .card-body {
+    padding: 5px;
+    .nav-tabs {
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: -webkit-box;  
+      display: -moz-box;
+      flex-wrap: nowrap;
+      .nav-item {
+        float:none;
+        margin-right: 5px;
+        .nav-link {
+          border-radius: 0;
+          background-color: black;
+          border: 1px solid #282828;
+        }
+        .nav-link.active {
+          border: 1px solid #2A9FD6;
+          border-bottom: 1px solid black;
+        }
+      }
+    }
+    table tbody td {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
   }
 }
 

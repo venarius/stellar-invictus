@@ -1,0 +1,33 @@
+<div class="card black-card admin-card">
+  <h5 class="card-header"><%= I18n.t('admin.admin_dashboard') %></h5>
+  <div class="card-body">
+    <ul class="nav nav-tabs mt-5px" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" data-target="#users" href="#0" role="tab"><%= I18n.t('admin.users') %></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" data-target="#reports" href="#0" role="tab"><%= I18n.t('admin.reports') %></a>
+        </li>
+      </ul>
+      
+      <div class="tab-content mt-5px">
+        
+        <div class="tab-pane fade show active" id="users" role="tabpanel">
+          <div class="input-group mb-5px">
+            <input type="text" class="form-control" placeholder="<%= I18n.t('search.user_name') %>" id="admin-search-users-input">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="button" id="admin-search-users-search-btn"><%= I18n.t('search.search') %></button>
+            </div>
+          </div>
+          <div class="results">
+            
+          </div>
+        </div>
+        
+        <div class="tab-pane fade" id="reports" role="tabpanel">
+          
+        </div>
+        
+      </div>
+  </div>
+</div>

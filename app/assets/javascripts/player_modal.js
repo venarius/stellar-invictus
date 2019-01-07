@@ -12,6 +12,19 @@ $( document ).on('turbolinks:load', function() {
     }
   });
   
+  // Show info on player AJAX (Admin)
+  $('#app-container').on('click', '.admin-player-modal' ,function(e){
+    e.preventDefault(); 
+    if ($(this).data( "id" )) {
+      $.get( "user/admin_info/" + $(this).data( "id" ), function( data ) {
+        $('body').append(data);
+        // Enable Popovers
+        $('[data-toggle="popover"]').popover();
+        $('#player-show-modal').modal('show');
+      });
+    }
+  });
+  
   // Add as friend AJAX
   $('body').on('click', '.add-as-friend-btn', function(e){
     e.preventDefault(); 

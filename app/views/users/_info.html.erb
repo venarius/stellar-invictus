@@ -66,6 +66,11 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" data-target="#about-user-ship" href="#0" role="tab"><%= I18n.t('users.current_ship') %></a>
           </li>
+          <% if current_user.admin %>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" data-target="#admin" href="#0" role="tab"><%= I18n.t('users.admin') %></a>
+            </li>
+          <% end %>
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade show active" id="bio-user-info" role="tabpanel">
@@ -88,6 +93,13 @@
               <%= render partial: 'ships/vars', locals: {value: SHIP_VARIABLES[user.active_spaceship.name]} %>
             </div>
           </div>
+          <% if current_user.admin %>
+            <div class="tab-pane fade" id="admin" role="tabpanel">
+              <div class="mt-5px">
+                <%= render partial: 'users/admin', locals: {user: user} %>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
