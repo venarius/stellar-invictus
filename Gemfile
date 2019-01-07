@@ -62,3 +62,5 @@ gem 'jquery-ui-rails'
 gem 'whenever', require: false
 # Perlin Noise for Market
 gem 'perlin_noise'
+# Dotenv for ENV Variables
+gem 'dotenv-rails'
