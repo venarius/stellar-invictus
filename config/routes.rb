@@ -172,8 +172,8 @@ Rails.application.routes.draw do
     get '/', to: 'communities#index', as: :community
   end
   
-  # Thredded
-  mount Thredded::Engine => '/forum'
+  # Discourse
+  get 'discourse/sso' => 'discourse_sso#sso'
   
   # ActionCable
   mount ActionCable.server => '/cable'
