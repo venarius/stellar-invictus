@@ -77,11 +77,19 @@ RSpec.describe SystemsController, type: :controller do
     end
     
     describe 'POST scan' do
-      it 'should render template if user has scanner equipped' do
+      it 'should render template if user has scanner equipped and is in system where there are exploration sites' do
+        Location.create(system: @user.system, name: "Test", location_type: :exploration_site, hidden: true)
         Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: true)
         post :scan
         expect(response.status).to eq(200)
         expect(response).to render_template('game/_locations_table')
+      end
+      
+      it 'should render not template if user has scanner equipped but no hidden sites' do
+        @user.system.locations.where(hidden: true).destroy_all
+        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: true)
+        post :scan
+        expect(response.status).to eq(400)
       end
       
       it 'should not render template if user has scanner not equipped' do
