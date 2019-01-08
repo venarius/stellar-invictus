@@ -1,4 +1,5 @@
 begin
+    $allow_login = true
 
     SHIP_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/spaceships.yml") unless defined? SHIP_VARIABLES
     ITEM_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml") unless defined? ITEM_VARIABLES

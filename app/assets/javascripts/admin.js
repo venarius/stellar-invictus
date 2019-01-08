@@ -23,10 +23,63 @@ $( document ).on('turbolinks:load', function() {
   // Admin Ban Btn
   $('body').on('click', '.admin-ban-btn', function() {
     var id = $(this).data('id');
+    var reason = $('#admin-banreason-input').val();
+    var duration = $('#admin-bantime-input').val();
     var button = $(this);
+    var html = button.html();
     
-    $.post('admin/ban', {id: id, duration: duration}, function() {
+    loading_animation(button);
+    $.post('admin/ban', {id: id, duration: duration, reason: reason}, function(data) {
+      $.notify(data.message, {style: 'success'});
+      button.html(html);
+      var collapse = button.closest('.collapse');
+      collapse.html("<p class='text-center'>User banned until " + data.banned_until + "</p><div class='text-center'><button class='btn btn-outline-primary admin-unban-btn'>Unban</button></div>")
+      collapse.find('button').data('id', id);
+    });
+  });
+  
+  // Admin Unban Btn
+  $('body').on('click', '.admin-unban-btn', function() {
+    var id = $(this).data('id');
+    var button = $(this);
+    var html = button.html();
+    
+    loading_animation(button);
+    $.post('admin/unban', {id: id}, function(data) {
+      $.notify(data.message, {style: 'success'});
       button.closest('.modal').modal('hide');
     });
+  });
+  
+  // Admin Set Credits Btn
+  $('body').on('click', '.admin-set-credits-btn', function() {
+    var id = $(this).data('id');
+    var credits = $('#admin-credits-input').val();
+    var button = $(this);
+    var html = button.html();
+    
+    loading_animation(button);
+    $.post('admin/set_credits', {id: id, credits: credits}, function(data) {
+      $.notify(data.message, {style: 'success'});
+      button.html(html);
+    });
+  });
+  
+  // Admin Activate Maintenance Mode Btn
+  $('.admin-activate-maintenance-mode-btn').on('click', function() {
+    if (confirm('Are you sure?')) {
+      $.post('admin/activate_maintenance', function() {});
+    }
+  });
+  
+  // Admin Send Server Message Btn
+  $('.admin-send-server-message-btn').on('click', function() {
+    var message = $('#admin-server-message-input').val();
+    
+    if (message) {
+      $.post('admin/server_message', {text: message}, function() {
+        $('#admin-server-message-input').val("");
+      });
+    }
   });
 });

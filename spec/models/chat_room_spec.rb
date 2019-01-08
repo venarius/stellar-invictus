@@ -7,10 +7,12 @@ describe ChatRoom do
       it { should respond_to :title }
       it { should respond_to :chat_messages }
       it { should respond_to :location }
+      it { should respond_to :system }
     end
    
     describe 'Relations' do
       it { should belong_to :location }
+      it { should belong_to :system }
       it { should have_and_belong_to_many :users }
       it { should have_many :chat_messages }
     end

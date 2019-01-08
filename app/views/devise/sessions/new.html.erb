@@ -1,44 +1,58 @@
-<div class="row">
-  <div class="col-md-6 offset-md-3">
-    <div class="card black-card">
-      <h5 class="card-header"><%= I18n.t('devise.connect_to_game') %></h5>
-      <div class="card-body">
-        <%= form_for(@user, url: session_path(resource_name), validate: true) do |f| %>
-          <div class="field mb-3">
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>
-          </div>
-        
-          <div class="field mb-3">
-            <%= f.password_field :password, autocomplete: "current-password", placeholder: I18n.t('devise.password'), class: 'form-control' %>
-          </div>
-        
-          <% if devise_mapping.rememberable? -%>
-            <div class="field float-left">
-              <div class="form-check">
-                <%= f.check_box :remember_me, class: 'form-check-input' %>
-                <%= f.label :remember_me, class: 'form-check-label' %>
-              </div>
+<% if $allow_login %>
+
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card black-card">
+        <h5 class="card-header"><%= I18n.t('devise.connect_to_game') %></h5>
+        <div class="card-body">
+          <%= form_for(@user, url: session_path(resource_name), validate: true) do |f| %>
+            <div class="field mb-3">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>
             </div>
-          <% end -%>
-        
-          <div class="actions float-right">
-            <%= button_tag(class: 'btn btn-primary btn-sm btn-load') do %>
-              <span><%= I18n.t('navbar.connect') %></span>
-              &nbsp;<i class='fas fa-arrow-right'></i>
-            <% end %>
-          </div>
-        <% end %><br>
-        
-        <div class="mt-3">
-          <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-            <%= link_to "<i class='fa fa-lock'></i> #{I18n.t('devise.account_recovery')}".html_safe, new_password_path(resource_name), class: 'display-inline-block' %>
-          <% end -%>
           
-          <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-            <%= link_to "<i class='fa fa-arrow-circle-right'></i> #{I18n.t('devise.enlist_now')}".html_safe, new_registration_path(resource_name), class: 'display-inline-block ml-3' %><br />
-          <% end -%>
+            <div class="field mb-3">
+              <%= f.password_field :password, autocomplete: "current-password", placeholder: I18n.t('devise.password'), class: 'form-control' %>
+            </div>
+          
+            <% if devise_mapping.rememberable? -%>
+              <div class="field float-left">
+                <div class="form-check">
+                  <%= f.check_box :remember_me, class: 'form-check-input' %>
+                  <%= f.label :remember_me, class: 'form-check-label' %>
+                </div>
+              </div>
+            <% end -%>
+          
+            <div class="actions float-right">
+              <%= button_tag(class: 'btn btn-primary btn-sm btn-load') do %>
+                <span><%= I18n.t('navbar.connect') %></span>
+                &nbsp;<i class='fas fa-arrow-right'></i>
+              <% end %>
+            </div>
+          <% end %><br>
+          
+          <div class="mt-3">
+            <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+              <%= link_to "<i class='fa fa-lock'></i> #{I18n.t('devise.account_recovery')}".html_safe, new_password_path(resource_name), class: 'display-inline-block' %>
+            <% end -%>
+            
+            <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+              <%= link_to "<i class='fa fa-arrow-circle-right'></i> #{I18n.t('devise.enlist_now')}".html_safe, new_registration_path(resource_name), class: 'display-inline-block ml-3' %><br />
+            <% end -%>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  
+<% else %>
+
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card black-card card-body">
+        <%= I18n.t('server.maintenance') %>
+      </div>
+    </div>
+  </div>
+
+<% end %>

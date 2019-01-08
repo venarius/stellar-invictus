@@ -83,6 +83,11 @@ function player_warp_out(name) {
   }
 }
 
+// Reload Page
+function reload_page() {
+  Turbolinks.visit(window.location);
+}
+
 // Reload player card AJAX
 function reload_players_card() {
   if ($('#players-card').length) {

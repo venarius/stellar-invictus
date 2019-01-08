@@ -28,6 +28,10 @@ describe User do
       it { should respond_to :route }
       it { should respond_to :missions }
       it { should respond_to :blueprints }
+      it { should respond_to :banned }
+      it { should respond_to :banned_until }
+      it { should respond_to :banreason }
+      it { should respond_to :admin }
     end
    
     describe 'Relations' do

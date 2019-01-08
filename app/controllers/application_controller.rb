@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :redirect_if_no_faction
   before_action :update_last_action
+  before_action :check_banned
+  before_action :check_maintenance
   
   include ApplicationHelper
   
@@ -52,5 +54,29 @@ class ApplicationController < ActionController::Base
   
   def check_admin
     redirect_back(fallback_location: root_path) unless current_user.admin
+  end
+  
+  def check_banned
+    if current_user.present? and current_user.banned
+      if current_user.banned_until
+        if current_user.banned_until > DateTime.now
+          flash[:notice] = I18n.t('errors.account_suspended_until', time: current_user.banned_until.strftime("%F %H:%M"), reason: current_user.banreason)
+          current_user.disappear
+          sign_out current_user
+          redirect_to root_path
+        else
+          current_user.update_columns(banned: false, banned_until: nil, banreason: nil)
+        end
+      else
+        flash[:notice] = I18n.t('errors.account_suspended_permanently', reason: current_user.banreason)
+        current_user.disappear
+        sign_out current_user
+        redirect_to root_path
+      end
+    end
+  end
+  
+  def check_maintenance
+    sign_out current_user and redirect_to root_path unless $allow_login
   end
 end
