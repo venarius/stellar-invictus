@@ -1,6 +1,60 @@
-<div class="card black-card">
+<div class="card black-card mb-5">
   <h5 class="card-header"><%= I18n.t('community.forum') %></h5>
   <div class="card-body text-center">
     <%= link_to "#{I18n.t('community.forum')} <i class='fa fa-arrow-right'></i>".html_safe, "https://forums.stellar-invictus.com/", class: 'btn btn-primary', target: '_blank' %>
+  </div>
+</div>
+
+<h2 class="text-center"><%= I18n.t('community.community_polls') %></h2>
+
+<% if current_user.admin? %>
+  <div class="card black-card card-body mb-3">
+    <div class="row">
+      <div class="col-md-6 mobile-mb-1">
+        <input type="text" class="form-control" placeholder="Question" id="admin-add-poll-question-input">
+      </div>
+      <div class="col-md-4 mobile-mb-1">
+        <input type="text" class="form-control" placeholder="Forum Link" id="admin-add-poll-link-input">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-outline-primary admin-add-poll-btn w-100" type="button"><%= I18n.t('admin.send') %></button>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-lg-4 mb-3">
+    <div class="card black-card">
+      <h5 class="card-header"><%= I18n.t('community.active') %></h5>
+      <div class="card-body">
+        <% Poll.where(status: :active).each do |poll| %>
+          <%= render partial: 'communities/poll', locals: {poll: poll} %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 mb-3">
+    <div class="card black-card">
+      <h5 class="card-header"><%= I18n.t('community.waiting') %></h5>
+      <div class="card-body">
+        <% Poll.where(status: :waiting).each do |poll| %>
+          <%= render partial: 'communities/poll', locals: {poll: poll} %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 mb-3">
+    <div class="card black-card">
+      <h5 class="card-header"><%= I18n.t('community.in_progress') %></h5>
+      <div class="card-body">
+        <% Poll.where(status: :in_progress).each do |poll| %>
+          <%= render partial: 'communities/poll', locals: {poll: poll} %>
+        <% end %>
+        <% Poll.where(status: :finished).each do |poll| %>
+          <%= render partial: 'communities/poll', locals: {poll: poll} %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

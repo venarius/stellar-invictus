@@ -187,6 +187,15 @@ Rails.application.routes.draw do
     post 'server_message', to: 'admin#server_message'
   end
   
+  # Polls
+  scope :poll do
+    post 'create', to: 'polls#create'
+    post 'upvote', to: 'polls#upvote'
+    post 'downvote', to: 'polls#downvote'
+    post 'move_up', to: 'polls#move_up'
+    post 'delete', to: 'polls#delete'
+  end
+  
   # ActionCable
   mount ActionCable.server => '/cable'
   

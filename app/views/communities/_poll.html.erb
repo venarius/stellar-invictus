@@ -1,0 +1,29 @@
+<% if poll.finished? %>
+  <div class="card card-body" style="padding:0.25rem;display:block;">
+    <span><s><%= poll.question %></s></span>
+    <% if current_user.admin %>
+      <a href="#" class="display-inline-block float-right poll-delete-btn color-red" data-id="<%= poll.id %>"><i class="fa fa-times"></i></a>
+    <% end %>
+  </div>
+<% else %>
+  <div class="card black-card border-primary card-body">
+    <span class="mb-3"><%= poll.question %> (<%= link_to I18n.t('community.discussion'), poll.forum_link, target: '_blank' %>)</span>
+    <div class="progress">
+      <div class="progress-bar bg-success" role="progressbar" style="width: <%= (100.0 / (poll.get_upvotes.size.to_f / poll.votes_for.size) rescue 0) rescue 0 %>%"></div>
+      <div class="progress-bar bg-danger" role="progressbar" style="width: <%= (100.0 / (poll.get_downvotes.size.to_f / poll.votes_for.size) rescue 0) rescue 0 %>%"></div>
+    </div>
+    <p class="text-center mb-0"><small><span class="vote-size"><%= poll.votes_for.size %></span> <%= I18n.t('community.votes') %></small></p>
+    <% if poll.active? and !current_user.voted_for? poll %>
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-success display-inline-block float-left poll-upvote-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_yes') %></button>
+        <button class="btn btn-outline-danger display-inline-block float-right poll-downvote-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_no') %></button>
+      </div>
+    <% end %>
+    <% if current_user.admin %>
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-primary display-inline-block float-left poll-move-up-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_move_up') %></button>
+        <button class="btn btn-outline-danger display-inline-block float-right poll-delete-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_delete') %></button>
+      </div>
+    <% end %>
+  </div>
+<% end %>
