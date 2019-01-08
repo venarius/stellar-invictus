@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   
+  acts_as_voter
+  
   belongs_to :faction, optional: true
   belongs_to :system, optional: true
   belongs_to :location, optional: true

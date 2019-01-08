@@ -64,3 +64,5 @@ gem 'whenever', require: false
 gem 'perlin_noise'
 # Dotenv for ENV Variables
 gem 'dotenv-rails'
+# Acts as Votable for Polls
+gem 'acts_as_votable'

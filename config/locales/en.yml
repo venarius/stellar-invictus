@@ -522,6 +522,16 @@ en:
   community:
     forum: "Forum"
     back_to_game: "Back to Game"
+    community_polls: "Community Polls"
+    active: "Active"
+    waiting: "Waiting"
+    in_progress: "In Progress"
+    poll_yes: "Yes"
+    poll_no: "No"
+    poll_move_up: "Move Up"
+    poll_delete: "Delete"
+    votes: "Vote(s)"
+    discussion: "Discussion"
   admin:
     admin_dashboard: "Admin Dashboard"
     users: "Users"
