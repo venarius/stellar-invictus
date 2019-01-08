@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :poll do
     status { 1 }
     question { "MyString" }
-    working_on { false }
+    forum_link { "https://forums.stellar-invictus.com" }
   end
 end
