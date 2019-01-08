@@ -10,12 +10,12 @@ class PollsController < ApplicationController
   end
   
   def upvote
-    @poll.upvote_from current_user
+    @poll.upvote_from current_user if @poll.active?
     render json: {upvotes: ((100 / (@poll.get_upvotes.size.to_f / @poll.votes_for.size) rescue 0) rescue 0), downvotes: ((100 / (@poll.get_downvotes.size.to_f / @poll.votes_for.size) rescue 0) rescue 0), votes: @poll.votes_for.size}, status: 200
   end
   
   def downvote
-    @poll.downvote_from current_user
+    @poll.downvote_from current_user if @poll.active?
     render json: {upvotes: ((100 / (@poll.get_upvotes.size.to_f / @poll.votes_for.size) rescue 0) rescue 0), downvotes: ((100 / (@poll.get_downvotes.size.to_f / @poll.votes_for.size) rescue 0) rescue 0), votes: @poll.votes_for.size}, status: 200
   end
   
@@ -32,10 +32,8 @@ class PollsController < ApplicationController
   private
   
   def get_poll
-    if params[:id]
-      @poll = Poll.find(params[:id]) rescue nil
-      render json: {}, status: 400 unless @poll
-    end
+    @poll = Poll.find(params[:id]) rescue nil
+    render json: {}, status: 400 if @poll.nil?
   end
   
 end
