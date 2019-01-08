@@ -38,8 +38,7 @@
 - Player Reporting
 - Player-Owned Stations -> 1 per System
 - Killboard
-- Statistics
-- Admin Backend -> Scheduled Server Downtime
+- ~~Admin Backend -> Scheduled Server Downtime~~
 - ~~Invite Players to join ChatRoom~~
 - Vote for Changes
 - Help Site

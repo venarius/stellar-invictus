@@ -8,29 +8,57 @@
     <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-ban-modal"><%= I18n.t('admin.ban') %></button>
   </div>
   <div class="col-md-4 mb-3">
-    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-set-credits" data-id="<%= user.id %>"><%= I18n.t('admin.set_credits') %></button>
+    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-set-credits"><%= I18n.t('admin.set_credits') %></button>
   </div>
   <div class="col-md-4 mb-3">
-    <button class="btn btn-outline-primary w-100 admin-message-history-btn" data-id="<%= user.id %>"><%= I18n.t('admin.message_history') %></button>
+    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-message-history"><%= I18n.t('admin.message_history') %></button>
   </div>
 </div>
 
 <!-- COLLAPSE -->
 <div class="accordion" id="accordion">
   <div class="collapse" id="admin-ban-modal" data-parent="#accordion">
-    <p><%= I18n.t('admin.bantime_in_hours') %></p>
-    <input type="number" class="form-control mb-3" id="admin-bantime-input" min=0>
-    <p><%= I18n.t('admin.banreason') %></p>
-    <textarea class="form-control mb-3" id="admin-banreason-input"></textarea>
-    <div class="float-right">
-      <button class="btn btn-outline-danger admin-ban-btn"><%= I18n.t('admin.ban') %></button>
-    </div>
+    <% if user.banned %>
+      <% if user.banned_until %>
+        <p class="text-center"><%= I18n.t('admin.user_banned_until', time: user.banned_until.strftime("%F %H:%M")) %></p>
+      <% else %>
+        <p class="text-center"><%= I18n.t('admin.user_banned_permanently') %></p>
+      <% end %>
+      <div class="text-center">
+        <button class="btn btn-outline-primary admin-unban-btn" data-id="<%= user.id %>"><%= I18n.t('admin.unban') %></button>
+      </div>
+    <% else %>
+      <p><%= I18n.t('admin.bantime_in_hours') %></p>
+      <input type="number" class="form-control mb-3" id="admin-bantime-input" min=0>
+      <p><%= I18n.t('admin.banreason') %></p>
+      <textarea class="form-control mb-3" id="admin-banreason-input"></textarea>
+      <div class="float-right">
+        <button class="btn btn-outline-danger admin-ban-btn" data-id="<%= user.id %>"><%= I18n.t('admin.ban') %></button>
+      </div>
+    <% end %>
   </div>
   <div class="collapse" id="admin-set-credits" data-parent="#accordion">
     <p><%= I18n.t('admin.credits') %></p>
     <input type="number" class="form-control mb-3" id="admin-credits-input" value="<%= user.units %>">
     <div class="float-right">
-      <button class="btn btn-outline-primary admin-set-credits-btn"><%= I18n.t('admin.set_credits') %></button>
+      <button class="btn btn-outline-primary admin-set-credits-btn" data-id="<%= user.id %>"><%= I18n.t('admin.set_credits') %></button>
     </div>
+  </div>
+  <div class="collapse" id="admin-message-history" data-parent="#accordion">
+    <table class="table table-striped table-bordered table-sm">
+      <% if user.chat_messages.empty? %>
+        <tr>
+          <h2 class="text-center">...</h2>
+        </tr>
+      <% end %>
+      <% user.chat_messages.last(20).each do |msg| %>
+        <tr>
+          <%= msg.body %>
+          <span class="float-right">
+            <%= msg.created_at.strftime("%F %H:%M") %>
+          </span>
+        </tr>
+      <% end %>
+    </table>
   </div>
 </div>

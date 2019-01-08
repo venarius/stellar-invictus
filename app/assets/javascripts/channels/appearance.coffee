@@ -8,3 +8,8 @@ $(document).on "turbolinks:load", ->
       # Called when the WebSocket connection is closed.
       disconnected:->
         $('#got-disconnected-modal').modal('show')
+        
+      # On message received
+      received: (data)->
+        if (data.method == 'server_message' && data.text)
+          server_message(data.text)

@@ -180,6 +180,11 @@ Rails.application.routes.draw do
     get '/', to: 'admin#index', as: :admin
     post 'search', to: 'admin#search'
     post 'teleport', to: 'admin#teleport'
+    post 'set_credits', to: 'admin#set_credits'
+    post 'ban', to: 'admin#ban'
+    post 'unban', to: 'admin#unban'
+    post 'activate_maintenance', to: 'admin#activate_maintenance'
+    post 'server_message', to: 'admin#server_message'
   end
   
   # ActionCable

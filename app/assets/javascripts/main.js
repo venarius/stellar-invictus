@@ -185,3 +185,8 @@ function loading_animation(element) {
   element.empty().append("<i class='fa fa-spinner fa-spin'></i>");
   element.width(width);
 }
+
+// Server Message
+function server_message(text) {
+  $.notify(text, { position:"top center", style: 'alert' } );
+}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_181233) do
+ActiveRecord::Schema.define(version: 2019_01_07_193847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -303,6 +303,9 @@ ActiveRecord::Schema.define(version: 2019_01_03_181233) do
     t.bigint "corporation_id"
     t.integer "corporation_role", default: 0
     t.boolean "admin"
+    t.boolean "banned"
+    t.datetime "banned_until"
+    t.string "banreason"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["corporation_id"], name: "index_users_on_corporation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
