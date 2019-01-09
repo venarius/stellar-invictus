@@ -127,6 +127,7 @@ en:
     music: "Music"
     play_for_free: "Play For Free"
     more: "More"
+    support: "Support"
   modal:
     got_disconnected: "Lost connection to server"
     got_disconnected_text: "It seems you have lost connection to the server. Reconnecting..."
@@ -556,3 +557,11 @@ en:
     send: "Send"
   server:
     maintenance: "The Server is currently undergoing maintenance. Please wait for a few minutes and then try again."
+  support:
+    submit_support_ticket: "Submit Support Ticket"
+    username: "Username"
+    submit: "Submit"
+    subject: "Subject"
+    description: "Description"
+    category: "Category"
+    mail_sent_successfully: "We successfully received your ticket! If we have any questions we will contact you via ingame mails."

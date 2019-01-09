@@ -66,3 +66,5 @@ gem 'perlin_noise'
 gem 'dotenv-rails'
 # Acts as Votable for Polls
 gem 'acts_as_votable'
+# Recaptcha for Registration
+gem 'recaptcha'

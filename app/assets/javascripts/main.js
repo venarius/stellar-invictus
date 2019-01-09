@@ -9,6 +9,8 @@ document.addEventListener("turbolinks:before-cache", function() {
   $('.station-card').find('.tab-pane.fade.active.show').html("<div class='text-center mt-5px'><i class='fa fa-spinner fa-spin fa-2x'></i></div>");
 })
 
+
+var captchaCheck = false;
 $( document ).on('turbolinks:load', function() {
     // HELPERS
     // Collapsing arrows
@@ -115,14 +117,14 @@ $( document ).on('turbolinks:load', function() {
     
     // Enable Button after User aggreed to Privacy Policy
     $('#privpolCheck').change(function() {
-      if($(this).prop('checked') && $('#tosCheck').prop('checked')) {
+      if($(this).prop('checked') && $('#tosCheck').prop('checked') && captchaCheck) {
         $('.enlist-btn').prop("disabled", false);
       } else {
         $('.enlist-btn').prop("disabled", true);
       }
     });
     $('#tosCheck').change(function() {
-      if($(this).prop('checked') && $('#privpolCheck').prop('checked')) {
+      if($(this).prop('checked') && $('#privpolCheck').prop('checked') && captchaCheck) {
         $('.enlist-btn').prop("disabled", false);
       } else {
         $('.enlist-btn').prop("disabled", true);
@@ -189,4 +191,12 @@ function loading_animation(element) {
 // Server Message
 function server_message(text) {
   $.notify(text, { position:"top center", style: 'alert' } );
+}
+
+// Captcha Callback
+function recaptcha_callback() {
+  captchaCheck = true;
+  if($('#tosCheck').prop('checked') && $('#privpolCheck').prop('checked') && captchaCheck) {
+    $('.enlist-btn').prop("disabled", false);
+  }
 }
