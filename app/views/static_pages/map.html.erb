@@ -53,8 +53,8 @@
     // create an array with edges
     var edges = new vis.DataSet([
       <% cache Jumpgate do %>
-        <% Jumpgate.includes(:origin => :system, :destination => :system).all.each do |jg| %>
-          {id: <%= jg.id %>, from: <%= jg.origin.system.id %>, to: <%= jg.destination.system.id %>},
+        <% Jumpgate.includes(:origin, :destination).all.each do |jg| %>
+          {id: <%= jg.id %>, from: <%= jg.origin.system_id %>, to: <%= jg.destination.system_id %>},
         <% end %>
       <% end %>
     ]);
@@ -94,7 +94,7 @@
     
     // get info from node on select
     network.on("click", function (params) {
-      if (params.nodes) {
+      if (params.nodes.length) {
         var id = params.nodes[0]
         var position = network.canvasToDOM(network.getPositions([id])[id])
         
