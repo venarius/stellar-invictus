@@ -35,12 +35,12 @@
 - ~~More different Stations with their own traits -> https://forums.frontier.co.uk/showthread.php/462896-new-station-ideas~~
 - ~~Main equipment to buff other pilots~~
 - Ship Descriptions, Classes, Bonuses
-- Player Reporting
+- ~~Player Reporting -> Support Tickets~~
 - Player-Owned Stations -> 1 per System
 - Killboard
 - ~~Admin Backend -> Scheduled Server Downtime~~
 - ~~Invite Players to join ChatRoom~~
-- Vote for Changes
+- ~~Vote for Changes~~
 - Help Site
 - ~~Enemy Bounty random~~
 - ~~Remove Sleep from Workers !Important~~
@@ -108,7 +108,7 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -> GitHub
 
 After that:
 1. Copy master.key from rails project to deployment_machine:/home/app/stellar/shared/config/master.key
-2. Copy environment.env.sample in project root to environment.env and fill out informations
+2. Copy .env.sample in project root to .env in /app/stellar/shared and fill out informations
 2. Change IP of Server in Deploy Config to deployment_machine
 3. Copy certificates to /home/app/stellar/shared/certificates
 4. Run cap production setup

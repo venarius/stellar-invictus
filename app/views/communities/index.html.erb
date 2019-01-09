@@ -28,6 +28,9 @@
     <div class="card black-card">
       <h5 class="card-header"><%= I18n.t('community.active') %></h5>
       <div class="card-body">
+        <% if Poll.where(status: :active).count == 0 %>
+          <h2 class="text-center">...</h2>
+        <% end %>
         <% Poll.where(status: :active).each do |poll| %>
           <%= render partial: 'communities/poll', locals: {poll: poll} %>
         <% end %>
@@ -38,6 +41,9 @@
     <div class="card black-card">
       <h5 class="card-header"><%= I18n.t('community.waiting') %></h5>
       <div class="card-body">
+        <% if Poll.where(status: :waiting).count == 0 %>
+          <h2 class="text-center">...</h2>
+        <% end %>
         <% Poll.where(status: :waiting).each do |poll| %>
           <%= render partial: 'communities/poll', locals: {poll: poll} %>
         <% end %>
@@ -48,6 +54,9 @@
     <div class="card black-card">
       <h5 class="card-header"><%= I18n.t('community.in_progress') %></h5>
       <div class="card-body">
+        <% if Poll.where(status: :in_progress).count == 0 and Poll.where(status: :finished).count == 0 %>
+          <h2 class="text-center">...</h2>
+        <% end %>
         <% Poll.where(status: :in_progress).each do |poll| %>
           <%= render partial: 'communities/poll', locals: {poll: poll} %>
         <% end %>

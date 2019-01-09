@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist', edit: 'pilot' }
+  devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist', edit: 'pilot' }, controllers: { registrations: "registrations" }
   
   # Static Pages
   root 'static_pages#home'
   get '/credits', to: 'static_pages#credits'
   get '/nojs', to: 'static_pages#nojs'
+  get '/support', to: 'static_pages#support'
+  post '/support_ticket/create', to: 'static_pages#create_support_ticket', as: :create_support_ticket
   
   # Factions
   resources :factions, only: [:index]

@@ -7,7 +7,12 @@
   </div>
 <% else %>
   <div class="card black-card border-primary card-body">
-    <span class="mb-3"><%= poll.question %> (<%= link_to I18n.t('community.discussion'), poll.forum_link, target: '_blank' %>)</span>
+    <span class="mb-3">
+      <%= poll.question %> 
+      <% if poll.forum_link and poll.forum_link != "" %>
+        (<%= link_to I18n.t('community.discussion'), poll.forum_link, target: '_blank' %>)
+      <% end %>
+    </span>
     <div class="progress">
       <div class="progress-bar bg-success" role="progressbar" style="width: <%= (100.0 / (poll.get_upvotes.size.to_f / poll.votes_for.size) rescue 0) rescue 0 %>%"></div>
       <div class="progress-bar bg-danger" role="progressbar" style="width: <%= (100.0 / (poll.get_downvotes.size.to_f / poll.votes_for.size) rescue 0) rescue 0 %>%"></div>
