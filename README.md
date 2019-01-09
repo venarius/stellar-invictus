@@ -66,7 +66,7 @@
 - ~~Registration Mail Flash not showing~~
 - ~~If standing is bad, stations of this faction will refuse your dockrequest~~
 - ~~Better Errors for ChatRooms join / create -> notfiy?~~
-- Overhaul Root Page
+- ~~Overhaul Root Page~~
 - ~~Redesign Devise Mails -> Change E-Mail to no-reply@stellar-invictus.com and find smtp service~~
 - ~~Mobile Tables (overflow: ellipsis) -> corporation (like players table)~~
 - ~~Rules from Faction to TOS (Copy from EVE Online TOS)~~
