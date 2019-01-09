@@ -89,7 +89,9 @@ service postgresql restart
 systemctl enable postgresql
 exit
 
-sudo apt install redis
+sudo add-apt-repository ppa:chris-lea/redis-server
+sudo apt update
+sudo apt install redis-server
 systemctl enable redis-server
 
 $rvm.io install
