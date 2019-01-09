@@ -8,6 +8,10 @@
     <td><%= value['image'].gsub('.png', '').capitalize %></td>
   </tr>
   <tr>
+    <th><%= I18n.t('ships.type') %></th>
+    <td><%= I18n.t("ships.type_#{value['type'].downcase}") %></td>
+  </tr>
+  <tr>
     <th><%= I18n.t('ships.hp') %></th>
     <td><%= value['hp'] %></td>
   </tr>
