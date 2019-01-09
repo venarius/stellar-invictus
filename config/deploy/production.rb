@@ -6,7 +6,8 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-server "178.62.53.20", user: "tla", roles: %w{web app db}
+server "94.237.57.202", user: "deploy", roles: %w{web app db}
+server "94.237.61.32", user: "deploy", roles: %w{db}
 
 
 # role-based syntax
@@ -62,7 +63,7 @@ server "178.62.53.20", user: "tla", roles: %w{web app db}
 
 # Postgres
 set :pg_without_sudo, false
-set :pg_host, 'localhost'
+set :pg_host, 'db.stellar-invictus.com'
 set :pg_database, 'stellar'
 set :pg_username, 'stellar'
 set :pg_generate_random_password, true
