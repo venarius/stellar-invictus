@@ -86,7 +86,7 @@ sudo apt install redis-server
 systemctl enable redis-server
 
 $rvm.io install
-source /home/tla/.rvm/scripts/rvm
+source /home/deploy/.rvm/scripts/rvm
 rvm install ruby
 sudo apt install nodejs
 sudo apt install libpq-dev
@@ -101,15 +101,21 @@ vi /etc/apt/apt.conf.d/10periodic -> APT::Periodic::Update-Package-Lists "0";
 https://github.com/mperham/sidekiq/wiki/Deploying-to-Ubuntu
 ```
 
-Run the following commands on the main machine:
+Run the following commands on the db machine:
 ```
 adduser deploy
 sudo visudo -> deploy ALL=(ALL) NOPASSWD: ALL
 $switch to user deploy
 sudo apt install postgresql postgresql-contrib
 
+$rvm.io install
+source /home/deploy/.rvm/scripts/rvm
+rvm install ruby
+sudo apt install nodejs
+sudo apt install libpq-dev
+
 sudo su
-vi /etc/postgresql/10/main/pg_hba.conf -> host all $app-ip password
+vi /etc/postgresql/10/main/pg_hba.conf -> host all $app-ip/32 password
 vi /etc/apt/apt.conf.d/10periodic -> APT::Periodic::Update-Package-Lists "0";
 service postgresql restart
 systemctl enable postgresql
