@@ -199,7 +199,7 @@ class CorporationsController < ApplicationController
         application.user.update_columns(corporation_role: :recruit, corporation_id: current_user.corporation_id)
         current_user.corporation.chat_room.users << application.user
         CorpApplication.where(user: application.user).destroy_all
-        ActionCable.server.broadcast("player_#{application.user.id}", method: 'reload_corporation')
+        ActionCable.server.broadcast("player_#{application.user_id}", method: 'reload_corporation')
         render json: {}, status: 200 and return
       end
     end

@@ -13,14 +13,14 @@ System.all.each do |system|
         when 1
           # Enemies with loot
           amount = rand(2..5)
-          amount = amount * 2 if location.system.security_status == 'low'
+          amount = amount * 2 if location.system_security_status == 'low'
           location.update_columns(enemy_amount: amount, name: I18n.t('exploration.combat_site'))
         when 2
           # Create Structure with loot and some enemies
           loader = ITEMS + ASTEROIDS + MATERIALS
           structure = Structure.create(location: location, structure_type: 'wreck')
           amount = rand(2..5)
-          amount = amount * 3 if location.system.security_status == 'low'
+          amount = amount * 3 if location.system_security_status == 'low'
           amount.times do
             Item.create(loader: loader.sample, structure: structure, equipped: false)
           end
@@ -30,7 +30,7 @@ System.all.each do |system|
           loader = ITEMS + ASTEROIDS + MATERIALS
           structure = Structure.create(location: location, structure_type: 'abandoned_ship', riddle: rand(1..23))
           amount = rand(4..5)
-          amount = amount * 3 if location.system.security_status == 'low'
+          amount = amount * 3 if location.system_security_status == 'low'
           amount.times do
             Item.create(loader: loader.sample, structure: structure, equipped: false)
           end

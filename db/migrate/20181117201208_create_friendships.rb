@@ -5,6 +5,9 @@ class CreateFriendships < ActiveRecord::Migration[5.2]
       t.integer :friend_id
       t.boolean :accepted
 
+      t.index :user_id
+      t.index :friend_id
+
       t.timestamps
     end
   end

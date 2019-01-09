@@ -94,7 +94,7 @@ class FleetsController < ApplicationController
       ActionCable.server.broadcast("player_#{user.id}", method: 'reload_fleet')
     end
     room.update_local_players
-    ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
+    ActionCable.server.broadcast("location_#{user.location_id}", method: 'player_appeared')
   end
   
 end

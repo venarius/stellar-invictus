@@ -13,7 +13,7 @@
       <tr>
         <td class="mobile-display-none"><%= I18n.t("corporations.rank_#{user.corporation_role}") %></td>
         <td><a class="player-modal" href="#" data-id="<%= user.id %>"><%= user.full_name %></a></td>
-        <td><span class="mobile-display-none"><%= user.location.get_name %> - </span><%= user.system.name %></td>
+        <td><span class="mobile-display-none"><%= user.location.get_name %> - </span><%= user.system_name %></td>
         <td class="mobile-display-none"><%= online_status(user) %></td>
         <th>
           <button class="btn btn-outline-danger btn-sm p-0-5 corporation-kick-user-btn" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.kick') %>" data-id="<%= user.id %>" <%= 'disabled' if (current_user.recruit? and user != current_user) || User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role] %>><i class="fa fa-times"></i></button>

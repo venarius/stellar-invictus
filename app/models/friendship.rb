@@ -4,6 +4,9 @@ class Friendship < ApplicationRecord
 
   belongs_to :user
   belongs_to :friend, class_name: 'User'
+  
+  delegate :avatar, :full_name, :to => :user, :prefix => true
+  delegate :avatar, :full_name, :to => :friend, :prefix => true
 
   private
 

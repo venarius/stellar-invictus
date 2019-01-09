@@ -8,7 +8,7 @@ class StationsController < ApplicationController
     if current_user.location.location_type == 'station' and !current_user.docked
       
       # Refuse if standing below -10
-      if current_user.location.faction and current_user["reputation_#{current_user.location.faction.id}"] <= -10
+      if current_user.location.faction and current_user["reputation_#{current_user.location.faction_id}"] <= -10
         render json: {error_message: I18n.t('errors.docking_request_denied_low_standing')}, status: 400 and return
       end
       
@@ -35,7 +35,7 @@ class StationsController < ApplicationController
       when 'overview'
         render partial: 'stations/overview'
       when 'missions'
-        MissionGenerator.generate_missions(current_user.location.id)
+        MissionGenerator.generate_missions(current_user.location_id)
         render partial: 'stations/missions'
       when 'bounty_office'
         render partial: 'stations/bounty_office'
@@ -70,7 +70,7 @@ class StationsController < ApplicationController
       amount = params[:amount].to_i
       items = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader])
       if items and amount <= items.count and amount > 0
-        items.limit(amount).update_all(spaceship_id: nil, location_id: current_user.location.id, user_id: current_user.id, equipped: false)
+        items.limit(amount).update_all(spaceship_id: nil, location_id: current_user.location_id, user_id: current_user.id, equipped: false)
         render json: {}, status: 200 and return
       end
     end
@@ -86,7 +86,7 @@ class StationsController < ApplicationController
         render json: {'error_message': I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
       end
       if items and amount <= items.count and amount > 0
-        items.limit(amount).update_all(spaceship_id: current_user.active_spaceship.id, location_id: nil, user_id: nil)
+        items.limit(amount).update_all(spaceship_id: current_user.active_spaceship_id, location_id: nil, user_id: nil)
         render json: {}, status: 200 and return
       end
     end
@@ -105,7 +105,7 @@ class StationsController < ApplicationController
   def get_user_ships
     @user_ships = []
     Spaceship.where(user: current_user).includes(:location, :user).each do |ship|
-      if ship.location_id == current_user.location.id || ship == current_user.active_spaceship
+      if ship.location_id == current_user.location_id || ship == current_user.active_spaceship
         @user_ships << ship 
       end
     end

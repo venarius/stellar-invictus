@@ -17,6 +17,10 @@ class Location < ApplicationRecord
   enum location_type: [:station, :asteroid_field, :jumpgate, :mission, :exploration_site]
   enum station_type: [:industrial_station, :warfare_plant, :mining_station, :research_station]
   
+  delegate :security_status, :name, :to => :system, :prefix => true
+  delegate :difficulty, :enemy_amount, :to => :mission, :prefix => true
+  delegate :name, :to => :faction, :prefix => true
+  
   before_destroy do
     location = Location.where.not(id: self.id).first
     self.users.update_all(location_id: location.id, system_id: location.system.id)

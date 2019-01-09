@@ -9,7 +9,7 @@ class MissionWorker
     
     if location
       # Get amount of enemies to spawn
-      amount = location.mission.enemy_amount if amount == 0
+      amount = location.mission_enemy_amount if amount == 0
       
       if amount > 0
         
@@ -19,7 +19,7 @@ class MissionWorker
           wave_amount = 2 if wave_amount == 0 || wave_amount == 1
         elsif rounds == 0 and wave_amount == 0 and location.mission.vip?
           rounds = 1
-          wave_amount = location.mission.enemy_amount
+          wave_amount = location.mission_enemy_amount
         end
         
         if location.users.count > 0

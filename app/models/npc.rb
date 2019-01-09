@@ -4,6 +4,8 @@ class Npc < ApplicationRecord
   enum npc_type: [:enemy, :police, :politician, :bodyguard, :wanted_enemy]
   enum npc_state: [:created, :targeting, :attacking, :waiting]
   
+  delegate :location_type, :enemy_amount, :to => :location, :prefix => true
+  
   # Lets the npc die
   def die
     NpcDiedWorker.perform_async(self.id)
