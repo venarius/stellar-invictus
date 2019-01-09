@@ -8,7 +8,7 @@ set :repo_url, "git@github.com:venarius/stellarInvictusRails.git"
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/tla/app/stellar"
+set :deploy_to, "/home/deploy/app/stellar"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -52,7 +52,7 @@ namespace :deploy do
   desc "link certificates"
   task :link_certificates do
     on roles(:app) do
-      execute "cd /home/tla/app/stellar/shared/certificates; ln -s /home/tla/app/stellar/current/certificates/stellar-invictus_com.crt stellar-invictus_com.crt; ln -s /home/tla/app/stellar/current/certificates/stellar-invictus_com.key stellar-invictus_com.key"
+      execute "cd /home/deploy/app/stellar/shared/certificates; ln -s /home/deploy/app/stellar/current/certificates/stellar-invictus_com.crt stellar-invictus_com.crt; ln -s /home/deploy/app/stellar/current/certificates/stellar-invictus_com.key stellar-invictus_com.key"
     end
   end
 end
