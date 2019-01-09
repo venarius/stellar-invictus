@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PollsController, type: :controller do
   context 'with login' do
     before (:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = FactoryBot.create(:user_with_faction, units: 1000)
       sign_in @user
     end
     
@@ -46,6 +46,13 @@ RSpec.describe PollsController, type: :controller do
         expect(response.status).to eq(200)
         expect(@poll.get_upvotes.size).to eq(0)
       end
+      
+      it 'should not upvote poll if not enough credits' do
+        @user.update_columns(units: 100)
+        post :upvote, params: {id: @poll.id}
+        expect(response.status).to eq(400)
+        expect(@poll.get_upvotes.size).to eq(0)
+      end
     end
     
     describe 'POST downvote' do
@@ -63,6 +70,13 @@ RSpec.describe PollsController, type: :controller do
         @poll.waiting!
         post :downvote, params: {id: @poll.id}
         expect(response.status).to eq(200)
+        expect(@poll.get_downvotes.size).to eq(0)
+      end
+      
+      it 'should not downvote poll if not enough credits' do
+        @user.update_columns(units: 100)
+        post :downvote, params: {id: @poll.id}
+        expect(response.status).to eq(400)
         expect(@poll.get_downvotes.size).to eq(0)
       end
     end

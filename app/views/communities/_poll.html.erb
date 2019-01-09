@@ -9,7 +9,7 @@
   <div class="card black-card border-primary card-body">
     <span class="mb-3">
       <%= poll.question %> 
-      <% if poll.forum_link and poll.forum_link != "" %>
+      <% if poll.forum_link? %>
         (<%= link_to I18n.t('community.discussion'), poll.forum_link, target: '_blank' %>)
       <% end %>
     </span>

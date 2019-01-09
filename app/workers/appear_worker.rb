@@ -31,13 +31,13 @@ class AppearWorker
       end
       
       # Start Mission Worker if location is mission and user has mission
-      if user.location.location_type == 'mission' and user.location.mission.user == user
+      if user.location_location_type == 'mission' and user.location.mission.user == user
         MissionWorker.perform_async(user.location.id)
       end
       
       # Spawn Enemies if User at Expedtion Site with Enemies
-      if user.location.location_type == 'exploration_site' and user.location.enemy_amount > 0
-        (user.location.enemy_amount).times do
+      if user.location_location_type == 'exploration_site' and user.location_enemy_amount > 0
+        (user.location_enemy_amount).times do
           EnemyWorker.perform_async(nil, user.location.id)
         end
       end

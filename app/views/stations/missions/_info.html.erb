@@ -10,11 +10,11 @@
     <% if mission.offered? %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system.name) %></li>
+        <li><%= I18n.t('missions.objective_delivery', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'vip' %>
-        <li><%= I18n.t('missions.objective_vip', system: mission.mission_location.system.name, faction: mission.mission_location.faction.name) %></li>
+        <li><%= I18n.t('missions.objective_vip', system: mission.mission_location.system.name, faction: mission.mission_location.faction_name) %></li>
       <% when 'mining' %>
         <li><%= I18n.t('missions.objective_mining', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
       <% when 'market' %>
@@ -23,11 +23,11 @@
     <% else %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery_progress', amount: mission.items.count, name: mission.items.first.get_attribute('name'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system.name) %></li>
+        <li><%= I18n.t('missions.objective_delivery_progress', amount: mission.items.count, name: mission.items.first.get_attribute('name'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat_progress', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'vip' %>
-        <li><%= I18n.t('missions.objective_vip_progress', system: mission.mission_location.system.name, faction: mission.mission_location.faction.name) %></li>
+        <li><%= I18n.t('missions.objective_vip_progress', system: mission.mission_location.system.name, faction: mission.mission_location.faction_name) %></li>
       <% when 'mining' %>
         <li><%= I18n.t('missions.objective_mining_progress', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
       <% when 'market' %>
@@ -38,10 +38,10 @@
   
   <p><strong><%= I18n.t('missions.reputation') %>:</strong></p>
   <ul>
-    <li class="color-green">+ <%= mission.faction_bonus %> <%= I18n.t('missions.reputation_for') %> <%= mission.faction.name %></li>
+    <li class="color-green">+ <%= mission.faction_bonus %> <%= I18n.t('missions.reputation_for') %> <%= mission.faction_name %></li>
     <% if mission.faction_malus > 0 %>
       <% if mission.vip? %>
-        <li class="color-red">- <%= mission.faction_malus %> <%= I18n.t('missions.reputation_for') %> <%= mission.mission_location.faction.name %></li>
+        <li class="color-red">- <%= mission.faction_malus %> <%= I18n.t('missions.reputation_for') %> <%= mission.mission_location.faction_name %></li>
       <% else %>
         <li class="color-red">- <%= mission.faction_malus %> <%= I18n.t('missions.reputation_for_other') %> </li>
       <% end %>

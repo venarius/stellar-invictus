@@ -11,7 +11,7 @@
     <tbody>
       <% @corporation.corp_applications.each do |corp_application| %>
         <tr>
-          <td><a class="player-modal" href="#" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a></td>
+          <td><a class="player-modal" href="#" data-id="<%= corp_application.user_id %>"><%= corp_application.user_full_name %></a></td>
           <td><%= online_status(corp_application.user) %></td>
           <td class="mobile-display-none"><%= corp_application.created_at.strftime("%F %H:%M") %></td>
           <th>
@@ -38,7 +38,7 @@
         </div>
         <div class="modal-body">
           <span><strong><%= I18n.t('corporations.name') %></strong></span><br>
-          <a href="#" class="player-modal" data-id="<%= corp_application.user.id %>"><%= corp_application.user.full_name %></a><br><br>
+          <a href="#" class="player-modal" data-id="<%= corp_application.user_id %>"><%= corp_application.user_full_name %></a><br><br>
           
           <p><strong><%= I18n.t('corporations.application') %></strong></p>
           

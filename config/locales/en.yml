@@ -89,7 +89,7 @@ en:
     already_at_location: "Already at location"
     invalid_amount: "Invalid amount entered"
     you_dont_have_the_required_reputation: "You don't have the required reputation"
-    docking_request_denied_low_standing: "Your docking request has been denied due to bad standing with the local faction"
+    docking_request_denied_low_standing: "Docking request denied due to bad standing with the local faction"
     already_joined_chat_room: "Already joined chat room"
     cant_change_to_higher_rank_than_self: "Can't change to higher rank than self"
     cant_derank_only_founder: "Can't change rank of the only founder"
@@ -100,6 +100,7 @@ en:
     no_exploration_sites_found: "No exploration sites found"
     account_suspended_until: "Your Account has been suspended until %{time} for the following reason: %{reason}"
     account_suspended_permanently: "Your Account has been suspended permanently for the following reason: %{reason}"
+    need_1000_credits_to_be_eligible_to_vote: "Need 1000 Cr to be eligible to vote"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"

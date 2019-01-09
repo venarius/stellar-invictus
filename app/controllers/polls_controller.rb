@@ -1,5 +1,6 @@
 class PollsController < ApplicationController
   before_action :get_poll, only: [:upvote, :downvote, :move_up, :delete]
+  before_action :check_voting_right, only: [:upvote, :downvote]
   
   def create
     if params[:question] and params[:link] and current_user.admin?
@@ -34,6 +35,10 @@ class PollsController < ApplicationController
   def get_poll
     @poll = Poll.find(params[:id]) rescue nil
     render json: {}, status: 400 if @poll.nil?
+  end
+  
+  def check_voting_right
+    render json: {error_message: I18n.t('errors.need_1000_credits_to_be_eligible_to_vote')}, status: 400 if current_user.units < 1000
   end
   
 end

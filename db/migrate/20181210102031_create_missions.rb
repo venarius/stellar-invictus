@@ -18,6 +18,8 @@ class CreateMissions < ActiveRecord::Migration[5.2]
       t.integer :mission_amount
       t.float :faction_bonus
       t.float :faction_malus
+      
+      t.index :mission_location_id
 
       t.timestamps
     end

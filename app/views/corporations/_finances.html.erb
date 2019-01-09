@@ -16,7 +16,7 @@
             <% @corporation.finance_histories.includes(:user).order("created_at DESC").each do |finance_history| %>
               <tr class="color-action-<%= finance_history.action %>">
                 <td><%= I18n.t("corporations.action_#{finance_history.action}") %></td>
-                <td><%= finance_history.user.full_name %></td>
+                <td><%= finance_history.user_full_name %></td>
                 <td><%= finance_history.amount %> Cr</td>
               </tr>
             <% end %>

@@ -60,11 +60,11 @@ class MissionGenerator
     else
       case mission.faction_id
         when 1
-          mission.user.update_columns(reputation_1: mission.user.reputation_1 + mission.faction_bonus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
+          mission.user.update_columns(reputation_1: mission.user_reputation_1 + mission.faction_bonus, reputation_2: mission.user_reputation_2 - mission.faction_malus, reputation_3: mission.user_reputation_3 - mission.faction_malus)
         when 2
-          mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 + mission.faction_bonus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
+          mission.user.update_columns(reputation_1: mission.user_reputation_1 - mission.faction_malus, reputation_2: mission.user_reputation_2 + mission.faction_bonus, reputation_3: mission.user_reputation_3 - mission.faction_malus)
         when 3
-          mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 + mission.faction_bonus)
+          mission.user.update_columns(reputation_1: mission.user_reputation_1 - mission.faction_malus, reputation_2: mission.user_reputation_2 - mission.faction_malus, reputation_3: mission.user_reputation_3 + mission.faction_bonus)
       end
     end
         
@@ -121,7 +121,7 @@ class MissionGenerator
       
       # Set Reward
       mission.reward = (10 * path.size * rand(0.8..1.2)).round
-      mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system.security_status == 'low'
+      mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system_security_status == 'low'
       
       # Generate Items
       loader = ITEMS.sample

@@ -45,7 +45,7 @@ class PlayerDiedWorker
     else
     
       # Tell user to show died modal
-      ac_server.broadcast("player_#{user.id}", method: 'died_modal', text: I18n.t('modal.died_text', location: "#{user.location.get_name} - #{user.system.name}") )
+      ac_server.broadcast("player_#{user.id}", method: 'died_modal', text: I18n.t('modal.died_text', location: "#{user.location.get_name} - #{user.system_name}") )
       
     end
   end

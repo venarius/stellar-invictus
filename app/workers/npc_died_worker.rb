@@ -20,15 +20,15 @@ class NpcDiedWorker
       ActionCable.server.broadcast("location_#{npc.location.id}", method: 'player_appeared')
       
       # If npc was in mission location -> credit kill
-      if npc.location.location_type == 'mission'
+      if npc.location_location_type == 'mission'
         if npc.location.mission.enemy_amount > 0
           npc.location.mission.update_columns(enemy_amount: npc.location.mission.enemy_amount - 1)
         end
       end
       
       # If npc was in combat site -> remove from amount
-      if npc.location.location_type == 'exploration_site' and npc.location.enemy_amount > 0
-        npc.location.update_columns(enemy_amount: npc.location.enemy_amount - 1)
+      if npc.location_location_type == 'exploration_site' and npc.location_enemy_amount > 0
+        npc.location.update_columns(enemy_amount: npc.location_enemy_amount - 1)
       end
       
       # Destroy npc
