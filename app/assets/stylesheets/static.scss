@@ -29,6 +29,21 @@
   line-height: 1.5;
 }
 
+@media (max-width: 767px) {
+  .section h2 {
+    font-size: 40px;
+  }
+  .section h5 {
+    font-size: 20px;
+  }
+  .full-display .title {
+    font-size: 45px;
+  }
+  .full-display h3 {
+    font-size: 20px;
+  }
+}
+
 .section {
   &.one {
     background: image-url('home/space-full-home-2.jpg');

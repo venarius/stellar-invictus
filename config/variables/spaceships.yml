@@ -1,3 +1,6 @@
+# Ship Classes
+# Multipurpose, Combat, Freighter, Hunter
+
 Nano:
   image: nano.png
   thruster-image: nano-thrusters.png
@@ -11,6 +14,7 @@ Nano:
   target_time: 5
   crafting: {"asteroid.nickel_ore": 5, "asteroid.cobalt_ore": 10, "materials.laser_diodes": 1}
   crafting_duration: 1
+  type: "Multipurpose"
   
 Cerux:
   image: cerux.png
@@ -25,6 +29,7 @@ Cerux:
   target_time: 10
   crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
+  type: "Combat"
 
 Valadria:
   image: valadria.png
@@ -39,6 +44,7 @@ Valadria:
   target_time: 7
   crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
+  type: "Combat"
   
 Crasher:
   image: crasher.png
@@ -53,6 +59,7 @@ Crasher:
   target_time: 3
   crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
+  type: "Hunter"
   
 Chronos:
   image: chronos.png
@@ -67,6 +74,7 @@ Chronos:
   target_time: 15
   crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
+  type: "Freighter"
   
 Revenant:
   image: revenant.png
@@ -81,6 +89,7 @@ Revenant:
   target_time: 5
   crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
+  type: "Multipurpose"
   
 Atlas:
   image: atlas.png
@@ -95,6 +104,7 @@ Atlas:
   target_time: 20
   crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 40, "materials.laser_diodes": 15}
   crafting_duration: 200
+  type: "Freighter"
   
 
 # Faction Ships
@@ -116,6 +126,7 @@ Behemoth:
   crafting_duration: 200
   faction: 1
   reputation_requirement: 6
+  type: "combat"
 
 Intervention:
   image: intervention.png
@@ -132,6 +143,7 @@ Intervention:
   crafting_duration: 200
   faction: 1
   reputation_requirement: 5
+  type: "combat"
   
 Leviathan:
   image: leviathan.png
@@ -148,6 +160,7 @@ Leviathan:
   crafting_duration: 200
   faction: 1
   reputation_requirement: 7
+  type: "combat"
   
 Vanguard:
   image: vanguard.png
@@ -164,6 +177,7 @@ Vanguard:
   crafting_duration: 200
   faction: 1
   reputation_requirement: 5
+  type: "combat"
   
 # Core Republic
 
@@ -182,6 +196,7 @@ Escorial:
   crafting_duration: 200
   faction: 3
   reputation_requirement: 7
+  type: "freighter"
   
 Aurora:
   image: aurora.png
@@ -198,6 +213,7 @@ Aurora:
   crafting_duration: 200
   faction: 3
   reputation_requirement: 6
+  type: "freighter"
 
 Aquila:
   image: aquila.png
@@ -214,6 +230,7 @@ Aquila:
   crafting_duration: 200
   faction: 3
   reputation_requirement: 6
+  type: "freighter"
 
 Lupus:
   image: lupus.png
@@ -230,6 +247,7 @@ Lupus:
   crafting_duration: 200
   faction: 3
   reputation_requirement: 5
+  type: "freighter"
   
 # Caldarius Federation
 
@@ -248,6 +266,7 @@ Spectrum:
   crafting_duration: 200
   faction: 2
   reputation_requirement: 7
+  type: "multipurpose"
 
 Yucatan:
   image: yucatan.png
@@ -264,6 +283,7 @@ Yucatan:
   crafting_duration: 200
   faction: 2
   reputation_requirement: 6
+  type: "multipurpose"
   
 Cromwell:
   image: cromwell.png
@@ -280,6 +300,7 @@ Cromwell:
   crafting_duration: 200
   faction: 2
   reputation_requirement: 6
+  type: "multipurpose"
   
 Analyzer:
   image: analyzer.png
@@ -296,3 +317,4 @@ Analyzer:
   crafting_duration: 200
   faction: 2
   reputation_requirement: 5
+  type: "multipurpose"

@@ -243,6 +243,10 @@ en:
     target_time: "Target time"
     septarium_usage: "Sep. Usage"
     evasive_action: "Evasive Action"
+    type: "Type"
+    type_multipurpose: "Multipurpose"
+    type_combat: "Combat"
+    type_freighter: "Freighter"
   items:
     type: "Type"
     name: "Name"
