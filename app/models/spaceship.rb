@@ -206,7 +206,7 @@ class Spaceship < ApplicationRecord
   
   # Get septarium in storage
   def get_septarium
-   Item.where(spaceship: self, loader: 'asteroid.septarium').count
+   Item.where(spaceship: self, loader: 'asteroid.septarium_ore').count
   end
   
   # Get septarium usage
@@ -220,7 +220,7 @@ class Spaceship < ApplicationRecord
   
   # Use septarium
   def use_septarium
-    Item.where(spaceship: self, loader: 'asteroid.septarium').limit(self.get_septarium_usage).destroy_all
+    Item.where(spaceship: self, loader: 'asteroid.septarium_ore').limit(self.get_septarium_usage).destroy_all
   end
   
   # If is warp disrupted
