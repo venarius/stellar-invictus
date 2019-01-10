@@ -59,14 +59,14 @@
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="privpolCheck">
               <label class="form-check-label" for="privpolCheck">
-                I have read and agree to the Privacy Policy (<%= link_to 'found here', credits_path %>)
+                I have read and agree to the <%= link_to 'Privacy Policy', credits_path %>
               </label>
             </div>
             
             <div class="form-check mb-1">
               <input class="form-check-input" type="checkbox" value="" id="tosCheck">
               <label class="form-check-label" for="tosCheck">
-                I have read and agree to the Terms of Services (<%= link_to 'found here', credits_path %>)
+                I have read and agree to the <%= link_to 'Terms of Services', credits_path %>
               </label>
             </div>
             
@@ -89,6 +89,37 @@
       </div>
     </div>
   </div>
+  
+  <!-- ALPHA MODAL -->
+  <div class="modal fade" tabindex="-1" role="dialog" id="alphaModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Welcome to Stellar Invictus</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Before you continue, please note the following:</p>
+          <ul>
+            <li>This game is in <span class="color-sec-high">alpha</span></li>
+            <li>There may be <span class="color-sec-high">a lot of bugs</span></li>
+            <li>There may be <span class="color-sec-high">complete data wipes</span></li>
+            <li>There may be <span class="color-sec-high">longer downtimes</span></li>
+          </ul>
+          <p>If you read all this and still want to play the game, I am very happy to welcome you :)</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    $('#alphaModal').modal('show');
+  </script>
   
 <% else %>
 
