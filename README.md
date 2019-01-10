@@ -116,6 +116,7 @@ sudo apt install libpq-dev
 
 sudo su
 vi /etc/postgresql/10/main/pg_hba.conf -> host all $app-ip/32 password
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -> GitHub
 vi /etc/apt/apt.conf.d/10periodic -> APT::Periodic::Update-Package-Lists "0";
 service postgresql restart
 systemctl enable postgresql
