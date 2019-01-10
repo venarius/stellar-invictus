@@ -123,7 +123,7 @@ class ChatRoomsController < ApplicationController
   
   def search
     if params[:name] and params[:identifier]
-      result = User.where("full_name LIKE ?", "%#{params[:name]}%").first(20)
+      result = User.where("full_name LIKE ?", "%#{params[:name]}%").where.not(faction_id: nil).first(20)
       render partial: 'game/chat/search', locals: {users: result, identifier: params[:identifier]} and return
     end
     render json: {}, status: 400
