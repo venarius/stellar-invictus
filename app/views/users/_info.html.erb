@@ -78,7 +78,7 @@
               <% if user.bio %>
                 <%= MARKDOWN.render(user.bio).html_safe %>
               <% else %>
-                <p><%= I18n.t('users.bio_not_much_known') %></p>
+                <p class="not-much-known"><%= I18n.t('users.bio_not_much_known') %></p>
               <% end %>
             </div>
           </div>
