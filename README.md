@@ -53,8 +53,8 @@
 - ~~Better Map -> visjs.org~~
 - ~~Routing System -> See what jumpgates to take to get from A to B~~
 - ~~Bounty Hunting for NPCs hiding in their hidden homes -> need scanner -> lots of bounty~~
-- Rework Material Requirements and Prices on Items / Ships (Titanium Ore) -> Defense can't be more than 90
-- Improve Code with Rubycritic
+- ~~Rework Material Requirements and Prices on Items / Ships (Titanium Ore) -> Defense can't be more than 90~~
+- ~~Improve Code with Rubycritic~~
 - ~~Add Info about Pilots Ship in User Modal~~
 - ~~Cargo Jettison -> Be able to submit how much~~
 - ~~Store / Load -> "All" Button~~

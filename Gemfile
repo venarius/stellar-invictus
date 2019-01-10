@@ -68,3 +68,5 @@ gem 'dotenv-rails'
 gem 'acts_as_votable'
 # Recaptcha for Registration
 gem 'recaptcha'
+# Bugsnag for Errors
+gem 'bugsnag'

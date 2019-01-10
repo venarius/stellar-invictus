@@ -8,14 +8,17 @@ begin
     PATHFINDER = YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml") unless defined? PATHFINDER
     
     # Equipment
-    EQUIPMENT = ["equipment.weapons.laser_gatling", "equipment.weapons.try_pyon_laser",
-                "equipment.miner.advanced_miner", "equipment.miner.basic_miner", 
-                "equipment.storage.small_black_hole", "equipment.defense.ion_shield",
-                "equipment.defense.try_pyon_shield", "equipment.warp_core_stabilizers.warp_core_stabilizer",
-                "equipment.hulls.light_hull", "equipment.sensors.small_sensor", 
-                "equipment.repair_bots.simple_repair_bot", "equipment.warp_disruptors.basic_warp_disruptor",
-                "equipment.scanner.basic_scanner", "equipment.scanner.advanced_scanner", "equipment.scanner.military_scanner",
-                "equipment.remote_repair.simple_repair_beam"] unless defined? EQUIPMENT
+    EQUIPMENT = ["equipment.weapons.laser_gatling", "equipment.weapons.try_pyon_laser" "equipment.weapons.military_laser",
+                 "equipment.hulls.light_hull", "equipment.hulls.ultralight_hull",
+                 "equipment.sensors.small_sensor", "equipment.sensors.try_pyon_sensor",
+                 "equipment.scanner.basic_scanner", "equipment.scanner.advanced_scanner", "equipment.scanner.military_scanner",
+                 "equipment.warp_disruptors.basic_warp_disruptor", "equipment.warp_disruptors.try_pyon_warp_disruptor", "equipment.warp_disruptors.military_warp_disruptor",
+                 "equipment.warp_core_stabilizers.basic_warp_core_stabilizer", "equipment.warp_core_stabilizers.try_pyon_warp_core_stabilizer", "equipment.warp_core_stabilizers.military_warp_core_stabilizer",
+                 "equipment.miner.basic_miner", "equipment.miner.advanced_miner", "equipment.miner.core_miner",
+                 "equipment.repair_bots.simple_repair_bot", "equipment.repair_bots.advanced_repair_bot", "equipment.repair_bots.colton_repair_bot",
+                 "equipment.remote_repair.simple_repair_beam", "equipment.remote_repair.advanced_repair_beam", "equipment.remote_repair.colton_repair_beam",
+                 "equipment.defense.ion_shield", "equipment.defense.try_pyon_shield",
+                 "equipment.storage.small_black_hole", "equipment.storage.medium_black_hole", "equipment.storage.large_black_hole"] unless defined? EQUIPMENT
                 
     # Materials
     MATERIALS = ["materials.sensor_electronics", "materials.antimatter", "materials.fusion_electronics",
