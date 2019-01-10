@@ -48,11 +48,4 @@ namespace :deploy do
       execute "cd #{current_path}; ~/.rvm/bin/rvm default do bundle exec rails db:seed RAILS_ENV=production"
     end
   end
-  
-  desc "link certificates"
-  task :link_certificates do
-    on roles(:app) do
-      execute "cd /home/deploy/app/stellar/shared/certificates; ln -s /home/deploy/app/stellar/current/certificates/stellar-invictus_com.crt stellar-invictus_com.crt; ln -s /home/deploy/app/stellar/current/certificates/stellar-invictus_com.key stellar-invictus_com.key"
-    end
-  end
 end
