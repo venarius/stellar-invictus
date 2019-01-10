@@ -97,8 +97,8 @@ sudo apt install nginx
 sudo ufw allow 'Nginx Full'
 
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -> GitHub
+
 vi /etc/apt/apt.conf.d/10periodic -> APT::Periodic::Update-Package-Lists "0";
-https://github.com/mperham/sidekiq/wiki/Deploying-to-Ubuntu
 ```
 
 Run the following commands on the db machine:
@@ -115,12 +115,14 @@ sudo apt install nodejs
 sudo apt install libpq-dev
 
 sudo su
-vi /etc/postgresql/10/main/pg_hba.conf -> host all $app-ip/32 password
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -> GitHub
-vi /etc/apt/apt.conf.d/10periodic -> APT::Periodic::Update-Package-Lists "0";
+vi /etc/postgresql/10/main/pg_hba.conf -> host all $app-ip/32 md5, host all $db-ip/32 md5
+vi /etc/postgresql/10/main/postgresql.conf -> listen_addresses = '*'
 service postgresql restart
 systemctl enable postgresql
-exit
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -> GitHub
+
+vi /etc/apt/apt.conf.d/10periodic -> APT::Periodic::Update-Package-Lists "0";
 ```
 
 
@@ -130,8 +132,7 @@ After that:
 2. Change IP of Server in Deploy Config to deployment_machine
 3. Run cap production setup
 4. Run cap production puma:nginx_config
-5. Run cap production deploy:link_certificates
-6. Run cap production deploy
+5. Run cap production deploy
 
 ## After every new thing
 ```
@@ -143,19 +144,19 @@ rake pathfinder:generate_paths
 
 How to start puma on server if crashed:
 ```
-bundle exec pumactl -S /home/tla/app/stellar/shared/tmp/pids/puma.state -F /home/tla/app/stellar/shared/puma.rb restart
+bundle exec pumactl -S /home/deploy/app/stellar/shared/tmp/pids/puma.state -F /home/deploy/app/stellar/shared/puma.rb restart
 
 OR
 
-~/.rvm/bin/rvm default do bundle exec puma -C /home/tla/app/stellar/shared/puma.rb --daemon
+~/.rvm/bin/rvm default do bundle exec puma -C /home/deploy/app/stellar/shared/puma.rb --daemon
 ```
 
 How to start sidekiq on server if crashed:
 ```
-export RAILS_ENV="production" ; ~/.rvm/bin/rvm default do bundle exec sidekiqctl stop /home/tla/app/stellar/shared/tmp/pids/sidekiq-0.pid 10
+export RAILS_ENV="production" ; ~/.rvm/bin/rvm default do bundle exec sidekiqctl stop /home/deploy/app/stellar/shared/tmp/pids/sidekiq-0.pid 10
 
 OR
 
-~/.rvm/bin/rvm default do bundle exec sidekiq --index 0 --pidfile /home/tla/app/stellar/shared/tmp/pids/sidekiq-0.pid --environment production --logfile /home/tla/app/stellar/shared/log/sidekiq.log --daemon
+~/.rvm/bin/rvm default do bundle exec sidekiq --index 0 --pidfile /home/deploy/app/stellar/shared/tmp/pids/sidekiq-0.pid --environment production --logfile /home/deploy/app/stellar/shared/log/sidekiq.log --daemon
 ```
 
