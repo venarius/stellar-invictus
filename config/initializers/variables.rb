@@ -8,7 +8,7 @@ begin
     PATHFINDER = YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml") unless defined? PATHFINDER
     
     # Equipment
-    EQUIPMENT = ["equipment.weapons.laser_gatling", "equipment.weapons.try_pyon_laser" "equipment.weapons.military_laser",
+    EQUIPMENT = ["equipment.weapons.laser_gatling", "equipment.weapons.try_pyon_laser", "equipment.weapons.military_laser",
                  "equipment.hulls.light_hull", "equipment.hulls.ultralight_hull",
                  "equipment.sensors.small_sensor", "equipment.sensors.try_pyon_sensor",
                  "equipment.scanner.basic_scanner", "equipment.scanner.advanced_scanner", "equipment.scanner.military_scanner",
