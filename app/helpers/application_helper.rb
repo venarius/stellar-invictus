@@ -32,11 +32,15 @@ module ApplicationHelper
   end
   
   def get_item_attribute(loader, attribute)
-    atty = loader.split(".")
-    out = ITEM_VARIABLES[atty[0]]
-    loader.count('.').times do |i|
-      out = out[atty[i+1]]
+    begin
+      atty = loader.split(".")
+      out = ITEM_VARIABLES[atty[0]]
+      loader.count('.').times do |i|
+        out = out[atty[i+1]]
+      end
+      out[attribute] rescue nil
+    rescue 
+      ""
     end
-    out[attribute] rescue nil
   end
 end
