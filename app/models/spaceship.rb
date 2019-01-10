@@ -154,6 +154,8 @@ class Spaceship < ApplicationRecord
       defense = defense * item.get_attribute('defense_amplifier') if item.get_attribute('type') == "Defense" and item.equipped
     end
     defense = defense * self.user.faction.get_attribute('defense_amplifier')
+    # cap to 90 max
+    defense = 90 if defense > 90
     defense.round
   end
   

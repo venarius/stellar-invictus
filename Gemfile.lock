@@ -52,6 +52,8 @@ GEM
     bootstrap4-kaminari-views (1.0.1)
       kaminari (>= 0.13)
       rails (>= 3.1)
+    bugsnag (6.10.0)
+      concurrent-ruby (~> 1.0)
     builder (3.2.3)
     bullet (5.9.0)
       activesupport (>= 3.0.0)
@@ -301,6 +303,7 @@ DEPENDENCIES
   acts_as_votable
   bootsnap (>= 1.1.0)
   bootstrap4-kaminari-views
+  bugsnag
   bullet
   capistrano
   capistrano-postgresql
