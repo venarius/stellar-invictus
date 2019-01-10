@@ -37,7 +37,7 @@ class WarpWorker
       
       # Tell everyone in location that user warped out
       ac_server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)
-      ac_server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.user_warped_out', user: user.full_name, location: Location.find(location_id).name))
+      ac_server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.user_warped_out', user: user.full_name, location: Location.find(location_id).get_name))
       
       # Remove user from being targeted
       user.remove_being_targeted
