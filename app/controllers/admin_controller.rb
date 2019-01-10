@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   
   def search
     if params[:name]
-      result = User.where("full_name LIKE ?", "%#{params[:name]}%").first(20)
+      result = User.where("full_name LIKE ?", "%#{params[:name]}%").where.not(faction_id: nil).first(20)
       render partial: 'admin/search', locals: {users: result} and return
     end
     render json: {}, status: 400
