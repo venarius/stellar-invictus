@@ -41,7 +41,7 @@ class User < ApplicationRecord
   
   # Sets full name after create       
   after_create do
-    self.update_columns(full_name: "#{name} #{family_name}".titleize)
+    self.update_columns(full_name: "#{name} #{family_name}".downcase.titleize)
   end
   
   # Will be called when a user loggs in
