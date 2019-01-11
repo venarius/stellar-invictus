@@ -12,7 +12,7 @@ require "#{Rails.root.to_s}/config/initializers/variables.rb"
 
 # User
 User.all.each do |user|
-   user.update_columns(online: 0, in_warp: false, target_id: nil, mining_target_id: nil, npc_target_id: nil, is_attacking: false)
+   user.update_columns(online: 0, in_warp: false, target_id: nil, mining_target_id: nil, npc_target_id: nil, is_attacking: false, equipment_worker: false)
    user.update_columns(docked: false) if user.docked.nil?
 end
 

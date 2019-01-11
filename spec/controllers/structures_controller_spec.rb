@@ -132,7 +132,7 @@ RSpec.describe StructuresController, type: :controller do
         end
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(200)
-        expect(@user.reload.active_spaceship.get_weight).to eq(13)
+        expect(@user.reload.active_spaceship.get_weight).to eq(10)
         expect(Structure.count).to eq(1)
       end
     end

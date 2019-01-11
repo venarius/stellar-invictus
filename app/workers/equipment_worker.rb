@@ -7,6 +7,10 @@ class EquipmentWorker
   def perform(player_id)
     # Get the Player and ship
     player = User.find(player_id)
+    
+    # Set Player status to using equipment worker
+    player.update_columns(equipment_worker: true)
+    
     player_ship = player.active_spaceship
     player_name = player.full_name
     
@@ -206,7 +210,7 @@ class EquipmentWorker
   # Shutdown Method
   def shutdown(player)
     player.active_spaceship.deactivate_equipment
-    player.update_columns(is_attacking: false)
+    player.update_columns(is_attacking: false, equipment_worker: false)
   end
   
   # Call Police

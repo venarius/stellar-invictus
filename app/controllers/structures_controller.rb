@@ -40,7 +40,7 @@ class StructuresController < ApplicationController
               items.each do |item|
                 if item.get_attribute('weight') <= free_weight
                   item.update_columns(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
-                  free_weight - item.get_attribute('weight')
+                  free_weight = free_weight - item.get_attribute('weight')
                 end
               end
               render json: {amount: item_count - free_weight}, status: 200 and return
