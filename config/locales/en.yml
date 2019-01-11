@@ -538,6 +538,7 @@ en:
     poll_delete: "Delete"
     votes: "Vote(s)"
     discussion: "Discussion"
+    poll_text: "Got an awesome idea / suggestion for the game? Post it in the <a href='https://forums.stellar-invictus.com/c/suggestions-feature-requests' target='_blank' class='color-sec-high'>forums</a> and we will create a poll for the community!"
   admin:
     admin_dashboard: "Admin Dashboard"
     users: "Users"
