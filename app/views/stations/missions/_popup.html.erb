@@ -30,7 +30,7 @@
                   <td><%= get_item_attribute(mission.mission_loader, 'name') rescue "" %></td>
                 </tr>
                 <tr>
-                  <th><%= I18n.t('missions.amount') %></th>
+                  <th><%= I18n.t('missions.amount_left') %></th>
                   <td><%= mission.mission_amount %></td>
                 </tr>
               <% elsif mission.combat? %>
@@ -39,7 +39,7 @@
                   <td><%= mission.mission_location.system.name %></td>
                 </tr>
                 <tr>
-                  <th><%= I18n.t('missions.amount') %></th>
+                  <th><%= I18n.t('missions.amount_left') %></th>
                   <td><%= mission.enemy_amount %></td>
                 </tr>
               <% elsif mission.delivery? %>
@@ -52,7 +52,7 @@
                   <td><%= get_item_attribute(mission.mission_loader, 'name') rescue "" %></td>
                 </tr>
                 <tr>
-                  <th><%= I18n.t('missions.amount') %></th>
+                  <th><%= I18n.t('missions.amount_left') %></th>
                   <td><%= mission.mission_amount %></td>
                 </tr>
               <% end %>
