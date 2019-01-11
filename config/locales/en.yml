@@ -429,6 +429,7 @@ en:
     finish_mission: "Finish Mission"
     abort_mission: "Abort Mission"
     amount: "Amount"
+    amount_left: "Amount Left"
     item: "Item"
     finish_active_missions_first: "Please finish your active missions first before I can give you more work."
     sure_abort_text: "Are you sure you want to abort this mission?"
