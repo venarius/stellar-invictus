@@ -90,7 +90,7 @@ describe User do
       
       describe 'full_name' do
         it 'should return full_name of user' do
-          expect(@user.full_name).to eq("#{@user.name} #{@user.family_name}")
+          expect(@user.full_name).to eq("#{@user.name} #{@user.family_name}".downcase.titleize)
         end
       end
       
