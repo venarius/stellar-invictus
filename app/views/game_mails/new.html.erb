@@ -9,7 +9,7 @@
         <%= f.text_field :header, placeholder: I18n.t('mails.header'), class: 'form-control' %>
       </div>
       <div class="field mb-3">
-        <%= f.text_area :body, placeholder: I18n.t('mails.body'), class: 'form-control' %>
+        <%= f.text_area :body, placeholder: I18n.t('mails.body'), class: 'form-control', style: 'height:200px' %>
       </div>
       <div class="field mb-3">
         <%= f.number_field :units, placeholder: 'Credits', class: 'form-control', max: current_user.units, min: 0 %>
