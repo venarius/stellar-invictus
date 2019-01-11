@@ -32,6 +32,7 @@ describe User do
       it { should respond_to :banned_until }
       it { should respond_to :banreason }
       it { should respond_to :admin }
+      it { should respond_to :equipment_worker }
     end
    
     describe 'Relations' do

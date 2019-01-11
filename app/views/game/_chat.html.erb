@@ -101,7 +101,7 @@
             <div class="col-md-10">
               <table class="table table-striped table-bordered">
                 <tbody>
-                  <% room.chat_messages.includes(:user).each do |msg| %>
+                  <% room.chat_messages.includes(:user).last(20).each do |msg| %>
                     <%= render partial: 'chat_messages/message', locals: { message: msg } %>
                   <% end %>
                 </tbody>
