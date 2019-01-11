@@ -73,12 +73,12 @@ class User < ApplicationRecord
   
   # Returns mining target of player
   def mining_target
-    Asteroid.find(mining_target_id) if mining_target_id?
+    Asteroid.find(mining_target_id) rescue nil if mining_target_id?
   end
   
   # Returns npc target of player
   def npc_target
-    Npc.find(npc_target_id) if npc_target_id?
+    Npc.find(npc_target_id) rescue nil if npc_target_id?
   end
   
   # Lets the player die
