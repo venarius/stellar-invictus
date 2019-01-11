@@ -16,7 +16,7 @@
     <tbody>
        <% mails.each do |mail| %>
          <tr>
-           <% if mail.read %>
+           <% if mail.read || mail.sender == current_user %>
              <td><%= mail.sender.full_name %></td>
              <td><%= mail.recipient.full_name %></td>
              <td><%= mail.header %></td>
