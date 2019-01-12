@@ -210,7 +210,7 @@ en:
     ships: "Ships"
     bounty_office: "Bounty Office"
     mining_station_overview: "This station is a mining station. Mining stations are built close to asteroid fields in order to easily gather a lot of ore in a very short timespan. Because of this, almost all of them sell their ore for cheap."
-    industrial_station_overview: "This station is an industrial station. Industrial Stations offer manufacturing services to pilots in exchange for ressources needed to built these items or ships. This station also produces equipment on its own and sells them cheaply on its market."
+    industrial_station_overview: "This station is an industrial station. Industrial Stations offer manufacturing services to pilots in exchange for resources needed to built these items or ships. This station also produces equipment on its own and sells them cheaply on its market."
     warfare_plant_overview: "This station is a warfare plant. Warfare Plants produce weapons and ships and sell them cheaply to pilots for them to be able to defend themselves. In case of war these stations can also be used as a hideout due to their defensive capabilities."
     research_station_overview: "This station is a research station. Research Stations create and sell blueprints for pilots who want to be able to manufacture ships and items."
     faction_station_overview: "This station also belongs to the %{faction}. Bad standing with this faction will result in the station refusing your dock requests."
@@ -330,7 +330,7 @@ en:
     admin: "Admin"
   crafting:
     craft: "Craft"
-    ressources: "Required Ressources"
+    ressources: "Required Resources"
     minutes: "minutes"
     duration: "Crafting Duration"
     at_100_efficiency: "At 100% efficiency"

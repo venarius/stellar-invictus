@@ -122,12 +122,20 @@ $( document ).on('turbolinks:load', function() {
       button.closest('.modal').modal('hide');
       button = $('#app-container').find('.market-appraise-btn[data-loader="'+loader+'"]');
       
-      if (button.closest('tbody').find('tr').length == 1) {
-        button.closest('table').replaceWith("<h2 class='text-center'>...</h2>")
-      } else {
-        button.parent().parent().remove();
-      }
+      setTimeout(function() {
+        var type = Cookies.get('station_tab');
+        if (type) {
+          $('.station-card .nav-pills a').each(function() {
+            if ($(this).data('target') == type) { 
+              $(this).tab('show'); 
+              load_station_tab($('.station-card a.nav-link.active').data('target'));
+            }
+          });
+        }
+      }, 250);
+      
       refresh_player_info();
+      
     }).error(function(data) {
       $('#market-sell').find('input').addClass("outline-danger"); 
       if (!button.closest('.modal').find('.error').length) {
