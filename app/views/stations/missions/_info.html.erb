@@ -4,7 +4,7 @@
 
 <p class="color-grey"><%= I18n.t('missions.transmission_start').html_safe %></p>
 
-<% if current_user.missions.count < 5 %>
+<% if current_user.missions.count < 5 || mission.active? %>
 
   <% if (mission.combat? || mission.vip?) and (mission.hard? || mission.medium?) %>
     <p class="color-red"><%= I18n.t('missions.hard_warning') %></p>
