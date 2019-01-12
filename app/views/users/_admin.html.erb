@@ -45,20 +45,14 @@
     </div>
   </div>
   <div class="collapse" id="admin-message-history" data-parent="#accordion">
-    <table class="table table-striped table-bordered table-sm">
-      <% if user.chat_messages.empty? %>
-        <tr>
-          <h2 class="text-center">...</h2>
-        </tr>
-      <% end %>
-      <% user.chat_messages.last(20).each do |msg| %>
-        <tr>
-          <%= msg.body %>
-          <span class="float-right">
-            <%= msg.created_at.strftime("%F %H:%M") %>
-          </span>
-        </tr>
-      <% end %>
-    </table>
+    <% if user.chat_messages.empty? %>
+        <h2 class="text-center">...</h2>
+    <% end %>
+    <% user.chat_messages.last(20).each do |msg| %>
+        <%= msg.body %>
+        <span class="float-right">
+          <%= msg.created_at.strftime("%F %H:%M") %>
+        </span><br>
+    <% end %>
   </div>
 </div>
