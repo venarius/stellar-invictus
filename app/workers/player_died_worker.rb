@@ -18,7 +18,7 @@ class PlayerDiedWorker
       ac_server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.got_killed', name: user.full_name) )
       
       # Create Wreck and fill with random loot
-      user.active_spaceship.drop_loot
+      user.active_spaceship.drop_loot if user.active_spaceship
       ac_server.broadcast("location_#{user.location.id}", method: 'player_appeared')
       
       # Destroy current spaceship of user and give him a nano
