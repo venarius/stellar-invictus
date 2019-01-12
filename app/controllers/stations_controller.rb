@@ -82,7 +82,7 @@ class StationsController < ApplicationController
     if params[:loader] and params[:amount] and current_user.docked
       amount = params[:amount].to_i
       items = Item.where(user: current_user, location: current_user.location, loader: params[:loader])
-      if get_item_attribute(items.first.loader, 'weight') * amount > current_user.active_spaceship.get_free_weight
+      if (get_item_attribute(items.first.loader, 'weight') rescue 0) * amount > current_user.active_spaceship.get_free_weight
         render json: {'error_message': I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
       end
       if items and amount <= items.count and amount > 0

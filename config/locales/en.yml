@@ -220,7 +220,7 @@ en:
     about: "About"
     statistics: "Statistics"
     blueprints: "Blueprints"
-    dont_have_blueprint: "You don't have the required blueprint"
+    dont_have_blueprint: "You don't have the required blueprint (from research station)"
   ships:
     ship: "Ship"
     inventory: "Inventory"
@@ -438,6 +438,7 @@ en:
     successfully_accepted_mission: "Successfully accepted mission"
     successfully_finished_mission: "Successfully finished mission"
     successfully_aborted_mission: "Successfully aborted mission"
+    hard_warning: "Warning: This mission has a higher difficulty and thus shouldn't be attempted in a starter ship (e.g. Nano)."
   alliances:
     unknown: "Unknown"
   riddles:

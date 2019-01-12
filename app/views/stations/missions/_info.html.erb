@@ -5,6 +5,11 @@
 <p class="color-grey"><%= I18n.t('missions.transmission_start').html_safe %></p>
 
 <% if current_user.missions.count < 5 %>
+
+  <% if (mission.combat? || mission.vip?) and (mission.hard? || mission.medium?) %>
+    <p class="color-red"><%= I18n.t('missions.hard_warning') %></p>
+  <% end %>
+
   <p><strong><%= I18n.t('missions.objectives') %>:</strong></p>
   <ul>
     <% if mission.offered? %>
@@ -23,7 +28,7 @@
     <% else %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery_progress', amount: mission.items.count, name: mission.items.first.get_attribute('name'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
+        <li><%= I18n.t('missions.objective_delivery_progress', amount: (mission.items.count rescue 0), name: (mission.items.first.get_attribute('name') rescue ""), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat_progress', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'vip' %>
@@ -64,5 +69,5 @@
 <% else %>
   <p class="color-grey"><%= I18n.t('missions.transmission_end').html_safe %></p>
   
-  <p><%= I18n.t('mission.finish_active_missions_first') %></p>
+  <p><%= I18n.t('missions.finish_active_missions_first') %></p>
 <% end %>
