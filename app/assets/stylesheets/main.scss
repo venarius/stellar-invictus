@@ -187,6 +187,11 @@ body {
   background-color: transparent;
   position: relative;
 }
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 50px;
+  }
+}
 #footer {
   padding: 5px;
   left: 0;
