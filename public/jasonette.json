@@ -5,7 +5,7 @@
         "type": "html",
         "url": "https://stellar-invictus.com",
         "action": {
-          "trigger": "navigate"
+          "type": "$default"
         }
       }
     }
