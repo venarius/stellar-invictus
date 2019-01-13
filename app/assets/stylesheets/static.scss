@@ -21,6 +21,10 @@
       width: 240px;
     }
   }
+  .play-logo {
+    display: none;
+    img { height: 75px; }
+  }
 }
 
 .btn-xl {
@@ -41,6 +45,9 @@
   }
   .full-display h3 {
     font-size: 20px;
+  }
+  .play-logo {
+    display: block !important;
   }
 }
 
