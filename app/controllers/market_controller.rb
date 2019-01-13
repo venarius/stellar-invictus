@@ -89,7 +89,7 @@ class MarketController < ApplicationController
         
       elsif params[:type] == "ship" and params[:id] and quantity == 1
       
-        ship = Spaceship.find(params[:id].to_i)
+        ship = Spaceship.find(params[:id].to_i) rescue nil
         if ship and ship.user == current_user
           # Check if active ship
           render json: {'error_message': I18n.t('errors.you_cant_sell_active_ship')}, status: 400 and return if ship == current_user.active_spaceship

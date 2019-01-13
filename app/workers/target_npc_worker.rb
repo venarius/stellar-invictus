@@ -6,7 +6,9 @@ class TargetNpcWorker
 
   def perform(player_id, target_id, round=0, max_rounds=0)
     player = User.find(player_id)
-    target = Npc.find(target_id)
+    target = Npc.find(target_id) rescue nil
+    
+    return unless target
     
     if max_rounds == 0
       # Untarget old target if player is targeting new target

@@ -44,6 +44,11 @@ class User < ApplicationRecord
     self.update_columns(full_name: "#{name} #{family_name}".downcase.titleize)
   end
   
+  # Remove friendships
+  before_destroy do
+    Friendship.where(friend_id: self.id).destroy_all
+  end
+  
   # Will be called when a user loggs in
   def appear
     AppearWorker.perform_async(self.id)
