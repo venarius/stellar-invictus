@@ -71,7 +71,7 @@ $( document ).on('turbolinks:load', function() {
     $('#market-sell').find('.market-sell-btn').data("loader", $(this).data("loader"));
     $('#market-sell').find('.market-sell-btn').data("id", $(this).data("id"));
     $('#market-sell').find('.market-sell-btn').data("type", $(this).data("type"));
-    $('#market-sell').find('.market-sell-btn').data("amount", $(this).data("amount"));
+    $('#market-sell').find('.market-sell-btn').data("amount", "1");
     var loader = $(this).data('loader');
     var type = $(this).data('type');
     
