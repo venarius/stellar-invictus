@@ -66,7 +66,7 @@ class MiningWorker
       # Log
       ac_server.broadcast("player_#{player_id}", method: 'update_asteroid_resources', resources: asteroid.resources)
       ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info')
-      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', ore: item.get_attribute('name').downcase) )
+      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: item.get_attribute('name').downcase) )
       
       # Tell other users who miner this rock to also update their resources
       User.where(mining_target_id: asteroid_id).where("online > 0").each do |u|

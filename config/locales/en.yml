@@ -298,7 +298,7 @@ en:
     you_hit_for_hp: "You hit %{target} for %{hp} damage"
     you_got_hit_hp: "You got hit by %{attacker} for %{hp} damage"
     got_killed: "%{name} got destroyed"
-    you_mined_from_asteroid: "You extracted 1x %{ore} from the asteroid"
+    you_mined_from_asteroid: "You extracted %{amount}x %{ore} from the asteroid"
     user_ejected_cargo: "%{user} ejected a cargo container"
     user_destroyed_cargo: "%{user} destroyed a cargo container"
   structures:
