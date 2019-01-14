@@ -131,9 +131,9 @@
     <% end %>
   <% end %>
   <div class="input-group">
-    <input type="text" class="form-control" id="chat_msg" placeholder="Message" maxlength="300">
+    <input type="text" class="form-control" id="chat_msg" placeholder="Message" maxlength="300" autocomplete="off">
     <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button" id="chat_send">Send</button>
+      <button class="btn btn-outline-secondary" type="button" id="chat_send"><%= I18n.t('chat.send') %></button>
     </div>
   </div>
 </div>

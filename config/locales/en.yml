@@ -171,6 +171,7 @@ en:
     invite_user_to_join_room: "Invite to join channel"
     user_already_in_channel: "User already in channel"
     corporation: "Corporation"
+    send: "Send"
   types:
     jumpgate: "Jumpgate"
     station: "Station"

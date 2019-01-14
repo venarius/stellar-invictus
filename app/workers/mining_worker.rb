@@ -81,7 +81,11 @@ class MiningWorker
       end
       
       # Log
-      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: item.get_attribute('name').downcase) )
+      if asteroid.asteroid_type == 'septarium'
+        ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount * 3, ore: item.get_attribute('name').downcase) )   
+      else
+        ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: item.get_attribute('name').downcase) )
+      end
       
       # Get enemy
       EnemyWorker.perform_async(nil, player.location.id) if rand(10) == 9
