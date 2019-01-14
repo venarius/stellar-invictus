@@ -14,7 +14,15 @@ class Npc < ApplicationRecord
   # Lets the npc drop loot
   def drop_loot
     if self.location.location_type == 'exploration_site'
-      loader = ITEMS + ASTEROIDS + MATERIALS
+      loader = ASTEROIDS + MATERIALS
+      case rand(1..10)
+        when 1..7
+          loader = EQUIPMENT_EASY + loader
+        when 8..9
+          loader = EQUIPMENT_MEDIUM + loader
+        when 10
+          loader = EQUIPMENT_HARD + loader
+      end
     else
       loader = ASTEROIDS + MATERIALS
     end

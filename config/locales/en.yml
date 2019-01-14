@@ -248,6 +248,7 @@ en:
     type_multipurpose: "Multipurpose"
     type_combat: "Combat"
     type_freighter: "Freighter"
+    type_hunter: "Hunter"
   items:
     type: "Type"
     name: "Name"
@@ -358,7 +359,7 @@ en:
     sensor_text: "Increases the resolution of your ships scanners in order to be able to target other structures a lot faster."
     scanner_text: "Enables you to scan Starsystems for hidden exploration sites. Please use with caution! Too much scanning may result in permanent damage to your brain. Scanner Range stands for the amount of hidden sites you can find with this particular scanner."
     warp_disruptor_text: "Overloads another ships warpdrive thus resulting in the system malfunctioning. Will need a constant supply of Septarium Ore in order to function properly. Can be powerless against warp core stabilizers."
-    warp_core_stabilizer_text: "Defends your ships warpdrive with another layer of enery. Can be powerless against advanced warp disruptors."
+    warp_core_stabilizer_text: "Defends your ships warpdrive with another layer of energy. Can be powerless against advanced warp disruptors."
     mining_laser_text: "Required in order to mine asteroids. More advanced mining laser can mine multiple ores at once."
     repair_bot_text: "A little helper who can repair your ship whilst in space. BUT be careful: More advanced repair bots will need a constant supply of Septarium Ore in order to function properly."
     repair_beam_text: "This one also shoots laserbeams but unlike the 'Gatling Laser' these beams are not deadly but instead repair the target they hit. Can't use on self."
