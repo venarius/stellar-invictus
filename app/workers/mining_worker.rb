@@ -66,7 +66,6 @@ class MiningWorker
       # Log
       ac_server.broadcast("player_#{player_id}", method: 'update_asteroid_resources', resources: asteroid.resources)
       ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info')
-      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: item.get_attribute('name').downcase) )
       
       # Tell other users who miner this rock to also update their resources
       User.where(mining_target_id: asteroid_id).where("online > 0").each do |u|
@@ -80,6 +79,9 @@ class MiningWorker
         mission.update_columns(mission_amount: mission.mission_amount - mining_amount)
         mission.update_columns(mission_amount: 0) if mission.mission_amount < 0
       end
+      
+      # Log
+      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: item.get_attribute('name').downcase) )
       
       # Get enemy
       EnemyWorker.perform_async(nil, player.location.id) if rand(10) == 9
