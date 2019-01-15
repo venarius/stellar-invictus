@@ -22,7 +22,7 @@ Cerux:
   storage: 45
   hp: 750
   defense: 30
-  price: 6500
+  price: 19500
   main_equipment_slots: 2
   utility_equipment_slots: 2
   align_time: 10
@@ -37,7 +37,7 @@ Valadria:
   storage: 35
   hp: 600
   defense: 25
-  price: 4500
+  price: 13500
   main_equipment_slots: 2
   utility_equipment_slots: 1
   align_time: 10
@@ -52,7 +52,7 @@ Crasher:
   storage: 10
   hp: 300
   defense: 10
-  price: 3000
+  price: 9000
   main_equipment_slots: 3
   utility_equipment_slots: 1
   align_time: 3
@@ -67,7 +67,7 @@ Chronos:
   storage: 80
   hp: 225
   defense: 25
-  price: 4500
+  price: 13500
   main_equipment_slots: 1
   utility_equipment_slots: 3
   align_time: 15
@@ -82,7 +82,7 @@ Revenant:
   storage: 40
   hp: 200
   defense: 15
-  price: 2500
+  price: 7500
   main_equipment_slots: 2
   utility_equipment_slots: 2
   align_time: 8
@@ -95,7 +95,7 @@ Atlas:
   image: atlas.png
   thruster-image: atlas-thrusters.png
   storage: 150
-  hp: 500
+  hp: 1500
   defense: 40
   price: 9500
   main_equipment_slots: 1
@@ -117,7 +117,7 @@ Leviathan:
   storage: 150
   hp: 2500
   defense: 45
-  price: 20000
+  price: 60000
   main_equipment_slots: 6
   utility_equipment_slots: 4
   align_time: 30
@@ -134,7 +134,7 @@ Behemoth:
   storage: 150
   hp: 1000
   defense: 45
-  price: 15000
+  price: 45000
   main_equipment_slots: 4
   utility_equipment_slots: 3
   align_time: 20
@@ -151,7 +151,7 @@ Vanguard:
   storage: 100
   hp: 800
   defense: 40
-  price: 12000
+  price: 36000
   main_equipment_slots: 3
   utility_equipment_slots: 3
   align_time: 15
@@ -168,7 +168,7 @@ Intervention:
   storage: 20
   hp: 400
   defense: 20
-  price: 4500
+  price: 13500
   main_equipment_slots: 3
   utility_equipment_slots: 1
   align_time: 3
@@ -187,7 +187,7 @@ Escorial:
   storage: 500
   hp: 1000
   defense: 45
-  price: 20000
+  price: 60000
   main_equipment_slots: 2
   utility_equipment_slots: 5
   align_time: 30
@@ -204,7 +204,7 @@ Aurora:
   storage: 400
   hp: 850
   defense: 45
-  price: 15000
+  price: 45000
   main_equipment_slots: 2
   utility_equipment_slots: 5
   align_time: 25
@@ -221,7 +221,7 @@ Aquila:
   storage: 350
   hp: 850
   defense: 40
-  price: 12000
+  price: 36000
   main_equipment_slots: 2
   utility_equipment_slots: 4
   align_time: 20
@@ -238,7 +238,7 @@ Lupus:
   storage: 200
   hp: 400
   defense: 30
-  price: 4500
+  price: 13500
   main_equipment_slots: 1
   utility_equipment_slots: 3
   align_time: 15
@@ -257,7 +257,7 @@ Spectrum:
   storage: 150
   hp: 2500
   defense: 55
-  price: 20000
+  price: 60000
   main_equipment_slots: 4
   utility_equipment_slots: 6
   align_time: 25
@@ -274,7 +274,7 @@ Yucatan:
   storage: 150
   hp: 2000
   defense: 50
-  price: 15000
+  price: 45000
   main_equipment_slots: 3
   utility_equipment_slots: 4
   align_time: 20
@@ -291,7 +291,7 @@ Cromwell:
   storage: 100
   hp: 1500
   defense: 50
-  price: 12000
+  price: 36000
   main_equipment_slots: 3
   utility_equipment_slots: 3
   align_time: 20
@@ -308,7 +308,7 @@ Analyzer:
   storage: 20
   hp: 1000
   defense: 35
-  price: 4500
+  price: 13500
   main_equipment_slots: 2
   utility_equipment_slots: 2
   align_time: 15

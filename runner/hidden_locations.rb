@@ -23,12 +23,12 @@ System.all.each do |system|
           amount = rand(2..3)
           amount = amount * 3 if location.system_security_status == 'low'
           amount.times do
-            case rand(1..10)
-              when 1..7
+            case rand(1..100)
+              when 1..75
                 Item.create(loader: (loader + EQUIPMENT_EASY).sample, structure: structure, equipped: false)
-              when 8..9
+              when 76..95
                 Item.create(loader: (loader + EQUIPMENT_MEDIUM).sample, structure: structure, equipped: false)
-              when 10
+              when 96..100
                 Item.create(loader: (loader + EQUIPMENT_HARD).sample, structure: structure, equipped: false)
             end
           end
@@ -40,12 +40,12 @@ System.all.each do |system|
           amount = rand(3..4)
           amount = amount * 3 if location.system_security_status == 'low'
           amount.times do
-            case rand(1..10)
-              when 1..7
+            case rand(1..100)
+              when 1..75
                 Item.create(loader: (loader + EQUIPMENT_EASY).sample, structure: structure, equipped: false)
-              when 8..9
+              when 76..95
                 Item.create(loader: (loader + EQUIPMENT_MEDIUM).sample, structure: structure, equipped: false)
-              when 10
+              when 96..100
                 Item.create(loader: (loader + EQUIPMENT_HARD).sample, structure: structure, equipped: false)
             end
           end

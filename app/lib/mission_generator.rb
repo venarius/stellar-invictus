@@ -136,7 +136,7 @@ class MissionGenerator
       mission.mission_location = Location.create(location_type: 'mission', system_id: System.find_by(name: location.system.locations.where(location_type: 'jumpgate').order(Arel.sql("RANDOM()")).first.name).id)
       
       # Set Reward
-      mission.reward = (10 * mission.enemy_amount * rand(0.8..1.2)).round
+      mission.reward = (20 * (difficulty + 1) * mission.enemy_amount * rand(0.8..1.2)).round
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
     elsif mission.mission_type == 'mining' || mission.mission_type == 'market'
       if mission.mission_type == 'market'
@@ -154,20 +154,20 @@ class MissionGenerator
       mission.mission_location = Location.create(location_type: 'mission', system_id: m_location.system.id, faction_id: m_location.faction_id)
       
        # Set Reward
-      mission.reward = (100 * rand(0.8..1.2)).round
+      mission.reward = (200 * rand(0.8..1.2)).round
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
       
       # Set Difficulty
       difficulty = 1
       
       # Set Bonus / Malus
-      mission.faction_bonus = 1
-      mission.faction_malus = 1
+      mission.faction_bonus = 0.25
+      mission.faction_malus = 0.25
     end
     
-    mission.faction_bonus = (0.1 * (difficulty + 1)) unless mission.faction_bonus
+    mission.faction_bonus = (0.05 * (difficulty + 1)) unless mission.faction_bonus
     
-    mission.faction_malus = (0.1 * rand(0..1)) unless mission.faction_malus
+    mission.faction_malus = (0.05 * rand(0..1)) unless mission.faction_malus
     
     mission.difficulty = difficulty
     
