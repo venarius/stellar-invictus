@@ -167,7 +167,7 @@ $( document ).on('turbolinks:load', function() {
   // Unred input on modal close
   $('.station-card').on('hidden.bs.modal', '#load-modal', function () {
     $('#load-modal').find('input').removeClass("outline-danger");
-    $('#load-modal').find('span').remove();
+    $('#load-modal').find('span.color-red').remove();
   })
   
   // Cookie getter

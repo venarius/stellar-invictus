@@ -14,7 +14,7 @@
           <tr>
             <td><%= times %>&times;</td>
             <% if loader.include? "equipment" %>
-              <td class="item-name"><a href="#" class="equipment-info" data-loader="<%= loader %>"><%= get_item_attribute(loader, 'name') %></a></td>
+              <td><a href="#" class="equipment-info item-name" data-loader="<%= loader %>"><%= get_item_attribute(loader, 'name') %></a></td>
             <% else %>
               <td class="item-name"><%= get_item_attribute(loader, 'name') %></td>
             <% end %>
