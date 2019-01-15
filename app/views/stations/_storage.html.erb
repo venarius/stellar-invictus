@@ -13,8 +13,12 @@
         <% current_user.location.get_items(current_user.id).each do |loader, times| %>
           <tr>
             <td><%= times %>&times;</td>
-            <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
-            <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
+            <% if loader.include? "equipment" %>
+              <td class="item-name"><a href="#" class="equipment-info" data-loader="<%= loader %>"><%= get_item_attribute(loader, 'name') %></a></td>
+            <% else %>
+              <td class="item-name"><%= get_item_attribute(loader, 'name') %></td>
+            <% end %>
+            <td><%= get_item_attribute(loader, 'type') %></td>
             <td>
               <a class="btn btn-outline-primary btn-sm load-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-down"></i></a>
               <a class="btn btn-outline-primary btn-sm load-all-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load_all') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-angle-double-down"></i></a>

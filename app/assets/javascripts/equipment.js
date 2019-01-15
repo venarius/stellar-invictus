@@ -1,3 +1,24 @@
+$( document ).on('turbolinks:load', function() {
+  // Equipment Info AJAX
+  $('#app-container').on('click', '.equipment-info', function(e) {
+    e.preventDefault();
+    var loader = $(this).data('loader');
+    
+    $.get('equipment/info', {loader: loader}, function(data) {
+      $(data).appendTo('#app-container').modal('show');
+    });
+  });
+  
+  // Close Equipment Info
+  $('#app-container').on('hidden.bs.modal', '#equipment-info-modal', function () {
+    $(this).remove();
+  })
+});
+
+// ##################
+// Equipment Manager
+// ##################
+
 var main_equipment_sortable;
 var utility_equipment_sortable;
 var list_equipment_sortable;

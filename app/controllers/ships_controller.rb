@@ -38,6 +38,13 @@ class ShipsController < ApplicationController
     render partial: 'ships/cargohold', locals: {items: current_user.active_spaceship.get_items(true)}
   end
   
+  def info
+    if params[:name]
+      value = SHIP_VARIABLES[params[:name]]
+      render partial: 'ships/info', locals: {value: value, key: params[:name]}
+    end
+  end
+  
   def eject_cargo
     if params[:loader] and params[:amount] and current_user.can_be_attacked
       amount = params[:amount].to_i rescue nil

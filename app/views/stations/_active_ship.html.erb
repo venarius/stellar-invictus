@@ -22,8 +22,12 @@
           <% active_spaceship.get_items(true).each do |loader, times| %>
             <tr>
               <td><%= times %>&times;</td>
-              <td class="item-name"><%= Item.find_by(loader: loader).get_attribute('name') %></td>
-              <td><%= Item.find_by(loader: loader).get_attribute('type') %></td>
+              <% if loader.include? "equipment" %>
+                <td class="item-name"><a href="#" class="equipment-info" data-loader="<%= loader %>"><%= get_item_attribute(loader, 'name') %></a></td>
+              <% else %>
+                <td class="item-name"><%= get_item_attribute(loader, 'name') %></td>
+              <% end %>
+              <td><%= get_item_attribute(loader, 'type') %></td>
               <td>
                 <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-up"></i></a>
                 <a class="btn btn-outline-primary btn-sm store-all-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store_all') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-angle-double-up"></i></a>

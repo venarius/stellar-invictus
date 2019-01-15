@@ -59,7 +59,6 @@ class StationsController < ApplicationController
       # Set some variables for the view
       @system_users = User.where("online > 0").where(system: current_user.system)
       @current_user = User.includes(:system).find(current_user.id)
-      @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(system: current_user.system)).last(10)
       @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
     end
   end

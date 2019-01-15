@@ -13,7 +13,11 @@
         <% item = Item.find_by(loader: loader) %>
         <tr>
           <td><%= times %>&times;</td>
-          <td><%= item.get_attribute('name') %></td>
+          <% if item.loader.include? "equipment" %>
+            <td><a href="#" class="equipment-info" data-loader="<%= item.loader %>"><%= item.get_attribute('name') %></a></td>
+          <% else %>
+            <td><%= item.get_attribute('name') %></td></td>
+          <% end %>
           <td class="mobile-display-none"><%= item.get_attribute('type') %></td>
           <td>
             <div class="input-group">

@@ -7,7 +7,7 @@
         <th scope="col"><%= I18n.t('items.type') %></th>
         <th scope="col"><%= I18n.t('market.single') %></th>
         <th scope="col" class="mobile-display-none"><%= I18n.t('market.total') %></th>
-        <th scope="col" style="width: 63px;"></th>
+        <th scope="col" style="width: 1px;"></th>
       </tr>
     </thead>
     <tbody>
@@ -15,24 +15,26 @@
         <% if ml.item? %>
           <tr>
             <td><%= ml.amount %>&times;</td>
-            <td><%= get_item_attribute(ml.loader, 'name') %></td>
+            <% if ml.loader.include? "equipment" %>
+              <td><a href="#" class="equipment-info" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
+            <% else %> 
+              <td><%= get_item_attribute(ml.loader, 'name') %></td>
+            <% end %>
             <td><%= get_item_attribute(ml.loader, 'type') %></td>
             <td class="color-highgreen"><%= ml.price %> Cr</td>
             <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
             <td>
-              <button class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#market-item-<%= ml.loader.gsub('.', '-') %>" <%= 'disabled' unless  ml.loader.include? "equipment" %>><i class="fa fa-info"></i></button>
               <button class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></button>
             </td>
           </tr>
         <% else %>
           <tr>
             <td><%= ml.amount %>&times;</td>
-            <td><%= ml.loader.capitalize %></td>
+            <td><a href="#" class="ship-info" data-name="<%= ml.loader.capitalize %>"><%= ml.loader.capitalize %></a></td>
             <td><%= I18n.t('market.ship') %></td>
             <td class="color-highgreen"><%= ml.price %> Cr</td>
             <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
             <td>
-              <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#market-ship-<%= ml.loader %>"><i class="fa fa-info"></i></a>
               <a class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></a>
             </td>
           </tr>
@@ -46,42 +48,6 @@
 
 <!-- MODALS -->
 <% market_listings.each do |ml| %>
-  <% if ml.ship? %>
-    <% value = SHIP_VARIABLES[ml.loader] %>
-    <div class="modal fade" id="market-ship-<%= ml.loader %>" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title"><%= ml.loader %></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <%= render partial: 'ships/vars', locals: {value: value} %>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% elsif ml.loader.include?('equipment') %>
-    <% item = ml.loader %>
-    <div class="modal fade" id="market-item-<%= item.gsub('.', '-') %>" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title"><%= get_item_attribute(item, 'name') %></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <%= render partial: 'items/vars', locals: {item: item} %>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
-  
   <div class="modal fade" id="market-buy-<%= ml.id %>" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
