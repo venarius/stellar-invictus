@@ -78,7 +78,7 @@ class MissionGenerator
     
     mission.location = location
     
-    difficulty = rand(2)
+    difficulty = rand(3)
     
     mission.mission_status = 'offered'
     

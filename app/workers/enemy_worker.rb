@@ -9,7 +9,7 @@ class EnemyWorker
   @target
   @attack
 
-  def perform(npc_id, location_id, target_id=nil, attack=nil, count=nil)
+  def perform(npc_id, location_id, target_id=nil, attack=nil, count=nil, hard=nil)
     
     # Set some vars
     @location = Location.find(location_id)
@@ -25,7 +25,7 @@ class EnemyWorker
         else
           @enemy = Npc.create(npc_type: 'bodyguard', location: @location, hp: 75, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
         end
-      elsif @location.exploration_site? and @location.enemy_amount == 1
+      elsif (@location.exploration_site? and @location.enemy_amount == 1) || hard
         @enemy = Npc.create(npc_type: 'wanted_enemy', location: @location, hp: 650, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
       else
         @enemy = Npc.create(npc_type: 'enemy', location: @location, hp: [50, 75, 100].sample, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
