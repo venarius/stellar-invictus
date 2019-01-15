@@ -17,7 +17,11 @@
           <%= form_for(@user, url: registration_path(resource_name), validate: true) do |f| %>
           
             <h5 class="mb-3">Account</h5>
-          
+            
+            <div class="card card-body text-white bg-secondary mb-3">
+              <span>Don't want to enter your real email? Use <a href="https://10minutemail.com/10MinuteMail/index.html" target="_blank" class="color-sec-medium">10MinuteMail</a> - You can still change your email later!</span>  
+            </div>
+            
             <div class="field mb-3">
               <%= f.email_field :email, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>
             </div>
