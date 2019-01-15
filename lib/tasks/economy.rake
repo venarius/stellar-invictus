@@ -17,25 +17,25 @@ namespace :economy do
     i = 0
     
     Location.where(location_type: 'station').each_with_index do |location, index|
-      rabat = (noise[(noise_level[i] + 1.0) / 10.0] + 1) - 0.5
+      rabat = ((noise[(noise_level[i] + 1.0) / 10.0] + 1) - 0.5).clamp(0.95, 1.05)
       i = i + 1
       i = 0 if i >= noise_level.size
       
       ITEMS.each do |item|
         rand(0..1).times do
           rand(3..15).times do
-            MarketListing.create(loader: item, location: location, listing_type: 'item', price: (get_item_attribute(item, 'price') * rabat * rand(0.95..1.05)).round, amount: rand(10..30))
+            MarketListing.create(loader: item, location: location, listing_type: 'item', price: (get_item_attribute(item, 'price') * rabat * rand(0.98..1.02)).round, amount: rand(10..30))
           end
         end
       end
       SHIP_VARIABLES.each do |key, value|
         if !value['faction']
           rand(0..10).times do
-            MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
+            MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.98..1.02)).round, amount: rand(1..3))
           end
         elsif location.faction_id and value['faction'] == location.faction_id
           rand(0..10).times do
-            MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.95..1.05)).round, amount: rand(1..3))
+            MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.98..1.02)).round, amount: rand(1..3))
           end
         end
       end
