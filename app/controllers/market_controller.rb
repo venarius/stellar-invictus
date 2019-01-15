@@ -138,7 +138,7 @@ class MarketController < ApplicationController
         quantity.to_i.times do
           if type == "item"
             
-            if listings == 0
+            if MarketListing.where(loader: loader, location: current_user.location).empty?
               price = get_item_attribute(loader, 'price') rescue nil
             else
               price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.99) rescue nil
@@ -155,12 +155,13 @@ class MarketController < ApplicationController
             end
             
           else
-            if listings == 0
+            if MarketListing.where(loader: loader, location: current_user.location).empty?
               price = SHIP_VARIABLES[loader]['price'] rescue nil
             else
               price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.99) rescue nil
             end
           end
+          listings = 1 if listings == 0
           math = math + (price / (1.01 ** listings)) rescue nil
           listings = listings + 1
         end
