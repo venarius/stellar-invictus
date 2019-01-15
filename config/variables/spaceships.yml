@@ -27,7 +27,7 @@ Cerux:
   utility_equipment_slots: 2
   align_time: 10
   target_time: 10
-  crafting: {"asteroid.nickel_ore": 300, "asteroid.cobalt_ore": 400, "materials.laser_diodes": 450, "asteroid.titanium_ore": 100}
+  crafting: {"asteroid.nickel_ore": 275, "asteroid.cobalt_ore": 400, "materials.laser_diodes": 450, "asteroid.titanium_ore": 100}
   crafting_duration: 700
   type: "Combat"
 
@@ -42,7 +42,7 @@ Valadria:
   utility_equipment_slots: 1
   align_time: 10
   target_time: 10
-  crafting: {"asteroid.iron_ore": 200, "asteroid.cobalt_ore": 300, "materials.metal_plates": 250, "asteroid.titanium_ore": 100}
+  crafting: {"asteroid.iron_ore": 190, "asteroid.cobalt_ore": 300, "materials.metal_plates": 250, "asteroid.titanium_ore": 100}
   crafting_duration: 500
   type: "Combat"
   
@@ -57,7 +57,7 @@ Crasher:
   utility_equipment_slots: 1
   align_time: 3
   target_time: 3
-  crafting: {"asteroid.nickel_ore": 150, "asteroid.cobalt_ore": 200, "materials.antimatter": 175, "asteroid.titanium_ore": 50}
+  crafting: {"asteroid.nickel_ore": 140, "asteroid.cobalt_ore": 200, "materials.antimatter": 175, "asteroid.titanium_ore": 50}
   crafting_duration: 350
   type: "Hunter"
   
@@ -72,7 +72,7 @@ Chronos:
   utility_equipment_slots: 3
   align_time: 15
   target_time: 15
-  crafting: {"asteroid.nickel_ore": 300, "asteroid.iron_ore": 400, "materials.laser_diodes": 250, "asteroid.titanium_ore": 100}
+  crafting: {"asteroid.nickel_ore": 275, "asteroid.iron_ore": 400, "materials.laser_diodes": 250, "asteroid.titanium_ore": 100}
   crafting_duration: 500
   type: "Freighter"
   
@@ -87,7 +87,7 @@ Revenant:
   utility_equipment_slots: 2
   align_time: 8
   target_time: 5
-  crafting: {"asteroid.iron_ore": 150, "asteroid.cobalt_ore": 400, "materials.fusion_electronics": 75, "materials.antimatter": 25}
+  crafting: {"asteroid.iron_ore": 140, "asteroid.cobalt_ore": 400, "materials.fusion_electronics": 75, "materials.antimatter": 25}
   crafting_duration: 300
   type: "Multipurpose"
   
@@ -102,7 +102,7 @@ Atlas:
   utility_equipment_slots: 4
   align_time: 20
   target_time: 20
-  crafting: {"asteroid.nickel_ore": 100, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting: {"asteroid.nickel_ore": 80, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
   crafting_duration: 1000
   type: "Freighter"
   
@@ -122,7 +122,7 @@ Leviathan:
   utility_equipment_slots: 4
   align_time: 30
   target_time: 30
-  crafting: {"materials.ai_components": 1000, "materials.metal_plates": 300, "asteroid.titanium_ore": 1500}
+  crafting: {"materials.ai_components": 1000, "materials.metal_plates": 200, "asteroid.titanium_ore": 1500}
   crafting_duration: 2000
   faction: 1
   reputation_requirement: 7
@@ -139,7 +139,7 @@ Behemoth:
   utility_equipment_slots: 3
   align_time: 20
   target_time: 20
-  crafting: {"materials.ai_components": 500, "materials.metal_plates": 300, "asteroid.titanium_ore": 1500}
+  crafting: {"materials.ai_components": 500, "materials.metal_plates": 200, "asteroid.titanium_ore": 1500}
   crafting_duration: 1500
   faction: 1
   reputation_requirement: 6
@@ -156,7 +156,7 @@ Vanguard:
   utility_equipment_slots: 3
   align_time: 15
   target_time: 15
-  crafting: {"materials.ai_components": 500, "materials.metal_plates": 500, "asteroid.titanium_ore": 500}
+  crafting: {"materials.ai_components": 500, "materials.metal_plates": 450, "asteroid.titanium_ore": 500}
   crafting_duration: 1200
   faction: 1
   reputation_requirement: 5
@@ -173,7 +173,7 @@ Intervention:
   utility_equipment_slots: 1
   align_time: 3
   target_time: 3
-  crafting: {"materials.ai_components": 200, "materials.metal_plates": 150, "asteroid.titanium_ore": 100}
+  crafting: {"materials.ai_components": 200, "materials.metal_plates": 100, "asteroid.titanium_ore": 100}
   crafting_duration: 500
   faction: 1
   reputation_requirement: 5
@@ -192,7 +192,7 @@ Escorial:
   utility_equipment_slots: 5
   align_time: 30
   target_time: 30
-  crafting: {"materials.sensor_electronics": 1000, "materials.fusion_electronics": 300, "asteroid.titanium_ore": 1500}
+  crafting: {"materials.sensor_electronics": 900, "materials.fusion_electronics": 300, "asteroid.titanium_ore": 1500}
   crafting_duration: 2000
   faction: 3
   reputation_requirement: 7
@@ -209,7 +209,7 @@ Aurora:
   utility_equipment_slots: 5
   align_time: 25
   target_time: 25
-  crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 300, "asteroid.titanium_ore": 1500}
+  crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 250, "asteroid.titanium_ore": 1500}
   crafting_duration: 1500
   faction: 3
   reputation_requirement: 6
@@ -226,7 +226,7 @@ Aquila:
   utility_equipment_slots: 4
   align_time: 20
   target_time: 20
-  crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 500, "asteroid.titanium_ore": 500}
+  crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 450, "asteroid.titanium_ore": 500}
   crafting_duration: 1200
   faction: 3
   reputation_requirement: 6
@@ -243,7 +243,7 @@ Lupus:
   utility_equipment_slots: 3
   align_time: 15
   target_time: 15
-  crafting: {"materials.sensor_electronics": 200, "materials.fusion_electronics": 150, "asteroid.titanium_ore": 100}
+  crafting: {"materials.sensor_electronics": 200, "materials.fusion_electronics": 100, "asteroid.titanium_ore": 100}
   crafting_duration: 500
   faction: 3
   reputation_requirement: 5
@@ -262,7 +262,7 @@ Spectrum:
   utility_equipment_slots: 6
   align_time: 25
   target_time: 25
-  crafting: {"materials.laser_diodes": 1000, "materials.antimatter": 300, "asteroid.titanium_ore": 1500}
+  crafting: {"materials.laser_diodes": 1000, "materials.antimatter": 250, "asteroid.titanium_ore": 1500}
   crafting_duration: 2000
   faction: 2
   reputation_requirement: 7
@@ -279,7 +279,7 @@ Yucatan:
   utility_equipment_slots: 4
   align_time: 20
   target_time: 20
-  crafting: {"materials.laser_diodes": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 1500}
+  crafting: {"materials.laser_diodes": 500, "materials.antimatter": 250, "asteroid.titanium_ore": 1500}
   crafting_duration: 1500
   faction: 2
   reputation_requirement: 6
@@ -296,7 +296,7 @@ Cromwell:
   utility_equipment_slots: 3
   align_time: 20
   target_time: 20
-  crafting: {"materials.laser_diodes": 500, "materials.antimatter": 500, "asteroid.titanium_ore": 500}
+  crafting: {"materials.laser_diodes": 500, "materials.antimatter": 450, "asteroid.titanium_ore": 500}
   crafting_duration: 1200
   faction: 2
   reputation_requirement: 6
@@ -313,7 +313,7 @@ Analyzer:
   utility_equipment_slots: 2
   align_time: 15
   target_time: 15
-  crafting: {"materials.laser_diodes": 200, "materials.antimatter": 150, "asteroid.titanium_ore": 100}
+  crafting: {"materials.laser_diodes": 200, "materials.antimatter": 100, "asteroid.titanium_ore": 100}
   crafting_duration: 500
   faction: 2
   reputation_requirement: 5
