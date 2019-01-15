@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <% current_user.location.get_items(current_user.id).each do |loader, times| %>
+        <% current_user.location.get_items(current_user.id).sort.each do |loader, times| %>
           <tr>
             <td><%= times %>&times;</td>
             <% if loader.include? "equipment" %>

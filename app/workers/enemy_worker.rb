@@ -21,14 +21,14 @@ class EnemyWorker
     if (@enemy.nil? || @enemy.npc_state == nil) and @attack.nil?
       if @location.mission and @location.mission.vip? and @count
         if @count == 1
-          @enemy = Npc.create(npc_type: 'politician', location: @location, hp: 100, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+          @enemy = Npc.create(npc_type: 'politician', location: @location, hp: 150, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
         else
-          @enemy = Npc.create(npc_type: 'bodyguard', location: @location, hp: 50, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+          @enemy = Npc.create(npc_type: 'bodyguard', location: @location, hp: 75, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
         end
       elsif @location.exploration_site? and @location.enemy_amount == 1
-        @enemy = Npc.create(npc_type: 'wanted_enemy', location: @location, hp: 450, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+        @enemy = Npc.create(npc_type: 'wanted_enemy', location: @location, hp: 650, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
       else
-        @enemy = Npc.create(npc_type: 'enemy', location: @location, hp: 50, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
+        @enemy = Npc.create(npc_type: 'enemy', location: @location, hp: [50, 75, 100].sample, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
       end
       
       @enemy.created!
@@ -116,12 +116,12 @@ class EnemyWorker
           when 'easy'
             @attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
           when 'medium'
-            @attack = rand(5..10) * (1.0 - target_spaceship.get_defense/100.0)
+            @attack = rand(15..20) * (1.0 - target_spaceship.get_defense/100.0)
           when 'hard'
-            @attack = rand(10..15) * (1.0 - target_spaceship.get_defense/100.0)
+            @attack = rand(25..30) * (1.0 - target_spaceship.get_defense/100.0)
         end
       elsif @location.exploration_site? and @location.enemy_amount == 1
-        @attack = rand(20..30) * (1.0 - target_spaceship.get_defense/100.0)
+        @attack = rand(40..50) * (1.0 - target_spaceship.get_defense/100.0)
       else
         @attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)
       end

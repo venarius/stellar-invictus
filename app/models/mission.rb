@@ -4,7 +4,7 @@ class Mission < ApplicationRecord
   belongs_to :location
   
   before_destroy do
-    location.mission_location.destroy if location.mission_location
+    Location.where(mission_id: self.id, location_type: :mission).destroy_all if self.mission_location
   end
   
   has_many :items, dependent: :destroy

@@ -15,12 +15,12 @@ class Npc < ApplicationRecord
   def drop_loot
     if self.location.location_type == 'exploration_site'
       loader = ASTEROIDS + MATERIALS
-      case rand(1..10)
-        when 1..7
+      case rand(1..100)
+        when 1..75
           loader = EQUIPMENT_EASY + loader
-        when 8..9
+        when 76..95
           loader = EQUIPMENT_MEDIUM + loader
-        when 10
+        when 96..100
           loader = EQUIPMENT_HARD + loader
       end
     else
