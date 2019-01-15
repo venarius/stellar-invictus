@@ -7,27 +7,27 @@ asteroid:
     name: "Nickel Ore"
     type: "Ore"
     weight: 1
-    price: 6
+    price: 9
   iron_ore:
     name: "Iron Ore"
     type: "Ore"
     weight: 1
-    price: 6
+    price: 9
   cobalt_ore:
     name: "Cobalt Ore"
     type: "Ore"
     weight: 1
-    price: 6
+    price: 9
   septarium_ore:
     name: "Septarium"
     type: "Ore"
     weight: 0
-    price: 3
+    price: 4
   titanium_ore:
     name: "Titanium"
     type: "Ore"
     weight: 1
-    price: 15
+    price: 20
 
 # Equipment
 equipment:

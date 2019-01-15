@@ -36,3 +36,8 @@ end
 every 30.minutes do
   runner "runner/mission_cleaner.rb"
 end
+
+# Hidden Enemies
+every 1.minutes do
+  runner "runner/hidden_enemies.rb"
+end
