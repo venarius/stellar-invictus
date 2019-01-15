@@ -37,7 +37,7 @@ class MissionGenerator
         return I18n.t('errors.you_didnt_kill_all_enemies') if mission.enemy_amount > 0
         
         # check if user is onsite
-        return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0
+        return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.mission_location.id).present?
       when 'market'
         # check amount
         amount = mission.location.get_items(mission.user.id)[mission.mission_loader] rescue nil
@@ -150,7 +150,7 @@ class MissionGenerator
       mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(1.0..1.2)).round
     elsif mission.mission_type == 'vip'
       mission.enemy_amount = 3
-      m_location = Location.where.not(faction_id: mission.faction_id).where("faction_id IS NOT NULL").first
+      m_location = Location.where.not(faction_id: mission.faction_id).where("faction_id IS NOT NULL").order(Arel.sql("RANDOM()")).first
       mission.mission_location = Location.create(location_type: 'mission', system_id: m_location.system.id, faction_id: m_location.faction_id)
       
        # Set Reward

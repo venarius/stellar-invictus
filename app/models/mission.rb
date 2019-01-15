@@ -3,6 +3,10 @@ class Mission < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :location
   
+  before_destroy do
+    location.mission_location.destroy if location.mission_location
+  end
+  
   has_many :items, dependent: :destroy
   has_one  :mission_location, :class_name => "Location", dependent: :destroy
   

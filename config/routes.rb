@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     post 'untarget', to: 'ships#untarget'
     get 'cargohold', to: 'ships#cargohold'
     post 'eject_cargo', to: 'ships#eject_cargo'
+    get 'info', to: 'ships#info'
   end
   
   # Asteroids
@@ -111,6 +112,7 @@ Rails.application.routes.draw do
   scope :equipment do
     post 'update', to: 'equipment#update'
     post 'switch', to: 'equipment#switch'
+    get 'info', to: 'equipment#info'
   end
   
   # Market

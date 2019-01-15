@@ -31,3 +31,8 @@ end
 every 15.minutes do
   runner "runner/hidden_locations.rb"
 end
+
+# Mission Cleaner
+every 30.minutes do
+  runner "runner/mission_cleaner.rb"
+end

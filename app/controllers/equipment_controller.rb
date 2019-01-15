@@ -86,4 +86,10 @@ class EquipmentController < ApplicationController
     end
     render json: {}, status: 400
   end
+  
+  def info
+    if params[:loader]
+      render partial: 'equipment/info', locals: {item: params[:loader]}
+    end
+  end
 end
