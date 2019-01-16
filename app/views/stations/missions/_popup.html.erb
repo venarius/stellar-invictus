@@ -33,7 +33,7 @@
                   <th><%= I18n.t('missions.amount_left') %></th>
                   <td><%= mission.mission_amount %></td>
                 </tr>
-              <% elsif mission.combat? %>
+              <% elsif mission.combat? || mission.vip? %>
                 <tr>
                   <th><%= I18n.t('missions.mission_location') %></th>
                   <td><%= mission.mission_location.system.name %></td>

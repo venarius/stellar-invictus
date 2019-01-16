@@ -140,7 +140,7 @@ class MissionGenerator
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
     elsif mission.mission_type == 'mining' || mission.mission_type == 'market'
       if mission.mission_type == 'market'
-        mission.mission_loader = ITEMS.sample
+        mission.mission_loader = EQUIPMENT_EASY.sample
       else
         mission.mission_loader = ASTEROIDS.sample
       end

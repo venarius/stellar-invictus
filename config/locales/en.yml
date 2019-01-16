@@ -309,6 +309,7 @@ en:
     wreck: "Wreck"
     abandoned_ship: "Abandoned Ship"
     structure: "Structure"
+    container_police_warning: "Warning! Looting this container will result in the police attacking you"
   friends:
     friends: "Friends"
     pending: "Pending"
@@ -415,8 +416,8 @@ en:
     objectives: "Objectives"
     objective_combat: "Warp to %{system} and kill %{amount} enemies in their hive. Return to me and complete the mission when you are done"
     objective_combat_progress: "Warp to %{system} and kill %{amount} more enemies in their hive. Return to me and complete the mission when you are done"
-    objective_vip: "Warp to %{system} and kill a politician, who is working for %{faction}. He is in the possession of valuable information about us and needs to be taken down immediately! Return to me and complete the mission when you are done"
-    objective_vip_progress: "Warp to %{system} and kill the politician. Return to me and complete the mission when you are done"
+    objective_vip: "Warp to %{system} and kill a politician and his bodyguards, who are working for %{faction}. The politician is in the possession of valuable information about us and needs to be taken down immediately! Return to me and complete the mission when you are done"
+    objective_vip_progress: "Warp to %{system} and kill the politician and his bodyguard. Return to me and complete the mission when you are done"
     objective_mining: "Gather %{amount}x %{name}. Return to me and complete the mission when you are done"
     objective_mining_progress: "Gather %{amount} more %{name}. Return to me and complete the mission when you are done"
     objective_delivery: "Deliver %{amount}x %{name} to %{station} - %{system}. I will put these items into your storage after you accepted the mission."
