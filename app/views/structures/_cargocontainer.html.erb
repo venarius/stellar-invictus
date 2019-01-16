@@ -37,6 +37,10 @@
             <% end %>
           </tbody>
         </table>
+        
+        <% if Structure.find(container_id).container? and (current_user.system.medium? || current_user.system.high?) and !Structure.find(container_id).user&.in_same_fleet_as(current_user.id) and Structure.find(container_id).user != current_user %>
+          <p class="color-red"><%= I18n.t('structures.container_police_warning') %></p>
+        <% end %>
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary cargocontainer-pickup-all-btn" data-id="<%= container_id %>"><%= I18n.t('modal.take_all') %></button>
