@@ -13,6 +13,8 @@ en:
     assets: "Assets"
     community: "Community"
     admin_dashboard: "Admin Dashboard"
+    forum: "Forum"
+    polls: "Polls"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
