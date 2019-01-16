@@ -11,6 +11,7 @@
           <%= navbar_item(main_app.corporations_path, 'navbar.corporation') %>
           <%= navbar_item(main_app.game_mails_path, 'navbar.mails', GameMail.where(recipient_id: current_user.id, read: false).count) %>
           <%= navbar_item(main_app.map_path, 'navbar.map') %>
+          <%= link_to I18n.t('navbar.forum'), 'https://forums.stellar-invictus.com/', target: '_blank', class: 'nav-link' %>
         <% else %>
           <%= navbar_item(main_app.root_path, 'navbar.home') %>
         <% end %>
@@ -28,7 +29,7 @@
               <%= link_to I18n.t('navbar.profile'), main_app.edit_user_registration_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.assets'), main_app.assets_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.friends'), main_app.friends_path, class: 'dropdown-item' %>
-              <%= link_to I18n.t('navbar.community'), main_app.community_path, class: 'dropdown-item' %>
+              <%= link_to I18n.t('navbar.polls'), main_app.community_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.logout'), main_app.destroy_user_session_path, method: :delete, class: 'dropdown-item', style: 'color: #CC0000', id: 'logout-btn' %>
             </div>
           </div>
