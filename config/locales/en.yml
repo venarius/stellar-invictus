@@ -103,6 +103,7 @@ en:
     account_suspended_until: "Your Account has been suspended until %{time} for the following reason: %{reason}"
     account_suspended_permanently: "Your Account has been suspended permanently for the following reason: %{reason}"
     need_1000_credits_to_be_eligible_to_vote: "Need 1000 Cr to be eligible to vote"
+    clear_storage_first: "Can only unequip storage expansions if cargohold is empty"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"

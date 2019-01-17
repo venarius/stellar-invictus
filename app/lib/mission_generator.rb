@@ -124,7 +124,7 @@ class MissionGenerator
       mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system_security_status == 'low'
       
       # Generate Items
-      loader = ITEMS.sample
+      loader = EQUIPMENT_EASY.sample
       mission.mission_loader = loader
       amount = rand(2..5)
       amount.times do
