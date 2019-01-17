@@ -67,7 +67,7 @@ class User < ApplicationRecord
   
   # Returns if player can be attacked
   def can_be_attacked
-    ship_hp = active_spaceship.hp rescue 0
+    ship_hp = self.active_spaceship.hp rescue 0
     !docked and !in_warp and online > 0 and ship_hp > 0
   end
   

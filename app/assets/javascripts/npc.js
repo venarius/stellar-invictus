@@ -13,8 +13,7 @@ $( document ).on('turbolinks:load', function() {
   
   // Untarget player if clicked AJAX
   $('.ship-card').on('click', '.untarget-npc-btn', function(e) {
-    id = $(this).data("id");
-    $.post( "npc/untarget", {id: id}, function() {
+    $.post( "npc/untarget", function() {
       remove_target();
     });
   });

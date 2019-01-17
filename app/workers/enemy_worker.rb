@@ -138,7 +138,7 @@ class EnemyWorker
       
       # Tell player to update their hp and log
       ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_spaceship.hp)
-      ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: @enemy.name, hp: @attack) )
+      ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: @enemy.name, hp: @attack.round) )
       
       # If target hp is below 0 -> die
       if target_spaceship.hp <= 0
