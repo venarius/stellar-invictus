@@ -3,6 +3,10 @@
 <p><strong><%= I18n.t('equipment.statistics') %></strong></p>
 <table class="table table-bordered table-sm table-striped">
   <tr>
+    <th><%= I18n.t('equipment.weight') %></th>
+    <td><%= get_item_attribute(item, 'weight') %></td>
+  </tr>
+  <tr>
     <th><%= I18n.t('equipment.slot_type') %></th>
     <td><%= get_item_attribute(item, 'slot_type').capitalize %></td>
   </tr>

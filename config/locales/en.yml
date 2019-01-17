@@ -345,6 +345,7 @@ en:
     statistics: "Statistics"
     slot_type: "Slot Type"
     damage: "Damage"
+    weight: "Weight"
     main_equipment: "Main Equipment"
     utility_equipment: "Utility Equipment"
     defense_amplifier: "Defense Amplifier"
