@@ -20,7 +20,7 @@ class EnemyWorker
     
     if (@enemy.nil? || @enemy.npc_state == nil) and @attack.nil?
       if @location.mission and @location.mission.vip? and @count
-        if @count == 1
+        if @count == 1 and @location.mission.enemy_amount == 3
           @enemy = Npc.create(npc_type: 'politician', location: @location, hp: 150, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
         else
           @enemy = Npc.create(npc_type: 'bodyguard', location: @location, hp: 75, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")

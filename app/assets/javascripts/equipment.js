@@ -133,5 +133,5 @@ function after_change() {
     $('#target-display').text(data.target);
     set_equipment_draggables();
     refresh_player_info();
-  }).fail(function() {reset_equipment_draggables();});
+  }).fail(function(data) {if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } reset_equipment_draggables();});
 }

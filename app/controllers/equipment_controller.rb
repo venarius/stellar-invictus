@@ -65,7 +65,12 @@ class EquipmentController < ApplicationController
       ids = ids + params[:ids][:utility] if params[:ids][:utility]
     end
     ship.get_equipped_equipment.each do |item|
-      item.update_columns(equipped: false) if !ids or !ids.include? item.id.to_s
+      if !ids or !ids.include? item.id.to_s
+        # check black hole
+        render json: {error_message: I18n.t('errors.clear_storage_first')}, status: 400 and return if item.loader.include?("equipment.storage") and current_user.active_spaceship.get_weight > 0
+        
+        item.update_columns(equipped: false)
+      end
     end
     
     render json: {defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time, target: ship.get_target_time}, status: 200 and return
