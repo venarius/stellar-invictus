@@ -1,82 +1,92 @@
 <p class="text-center"><%= online_status(user) %> - <strong class="color-sec-<%= user.system_security_status %>"><%= user.system_name %></strong> <%= user.location.get_name %></p>
 
 <div class="row">
-  <div class="col-md-4 mb-3">
-    <button class="btn btn-outline-primary w-100 admin-teleport-to-btn" data-id="<%= user.id %>"><%= I18n.t('admin.teleport_to') %></button>
-  </div>
-  <div class="col-md-4 mb-3">
-    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-ban-modal"><%= I18n.t('admin.ban') %></button>
-  </div>
-  <div class="col-md-4 mb-3">
-    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-set-credits"><%= I18n.t('admin.set_credits') %></button>
-  </div>
-  <div class="col-md-4 mb-3">
-    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-message-history"><%= I18n.t('admin.message_history') %></button>
-  </div>
-  <div class="col-md-4 mb-3">
-    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-mute"><%= I18n.t('admin.mute') %></button>
-  </div>
-  <div class="col-md-4 mb-3">
-    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-delete-chat"><%= I18n.t('admin.delete_chat') %></button>
-  </div>
+  <% if current_user.admin %>
+    <div class="col-md-4 mb-3">
+      <button class="btn btn-outline-primary w-100 admin-teleport-to-btn" data-id="<%= user.id %>"><%= I18n.t('admin.teleport_to') %></button>
+    </div>
+    <div class="col-md-4 mb-3">
+      <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-ban-modal"><%= I18n.t('admin.ban') %></button>
+    </div>
+    <div class="col-md-4 mb-3">
+      <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-set-credits"><%= I18n.t('admin.set_credits') %></button>
+    </div>
+  <% end %>
+  
+  <% if current_user.chat_mod || current_user.admin %>
+    <div class="col-md-4 mb-3">
+      <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-message-history"><%= I18n.t('admin.message_history') %></button>
+    </div>
+    <div class="col-md-4 mb-3">
+      <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-mute"><%= I18n.t('admin.mute') %></button>
+    </div>
+    <div class="col-md-4 mb-3">
+      <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-delete-chat"><%= I18n.t('admin.delete_chat') %></button>
+    </div>
+  <% end %>
 </div>
 
 <!-- COLLAPSE -->
 <div class="accordion" id="accordion">
-  <div class="collapse" id="admin-ban-modal" data-parent="#accordion">
-    <% if user.banned %>
-      <% if user.banned_until %>
-        <p class="text-center"><%= I18n.t('admin.user_banned_until', time: user.banned_until.strftime("%F %H:%M")) %></p>
+  <% if current_user.admin %>
+    <div class="collapse" id="admin-ban-modal" data-parent="#accordion">
+      <% if user.banned %>
+        <% if user.banned_until %>
+          <p class="text-center"><%= I18n.t('admin.user_banned_until', time: user.banned_until.strftime("%F %H:%M")) %></p>
+        <% else %>
+          <p class="text-center"><%= I18n.t('admin.user_banned_permanently') %></p>
+        <% end %>
+        <div class="text-center">
+          <button class="btn btn-outline-primary admin-unban-btn" data-id="<%= user.id %>"><%= I18n.t('admin.unban') %></button>
+        </div>
       <% else %>
-        <p class="text-center"><%= I18n.t('admin.user_banned_permanently') %></p>
+        <p><%= I18n.t('admin.bantime_in_hours') %></p>
+        <input type="number" class="form-control mb-3" id="admin-bantime-input" min=0>
+        <p><%= I18n.t('admin.banreason') %></p>
+        <textarea class="form-control mb-3" id="admin-banreason-input"></textarea>
+        <div class="float-right">
+          <button class="btn btn-outline-danger admin-ban-btn" data-id="<%= user.id %>"><%= I18n.t('admin.ban') %></button>
+        </div>
       <% end %>
-      <div class="text-center">
-        <button class="btn btn-outline-primary admin-unban-btn" data-id="<%= user.id %>"><%= I18n.t('admin.unban') %></button>
-      </div>
-    <% else %>
-      <p><%= I18n.t('admin.bantime_in_hours') %></p>
-      <input type="number" class="form-control mb-3" id="admin-bantime-input" min=0>
-      <p><%= I18n.t('admin.banreason') %></p>
-      <textarea class="form-control mb-3" id="admin-banreason-input"></textarea>
+    </div>
+    <div class="collapse" id="admin-set-credits" data-parent="#accordion">
+      <p><%= I18n.t('admin.credits') %></p>
+      <input type="number" class="form-control mb-3" id="admin-credits-input" value="<%= user.units %>">
       <div class="float-right">
-        <button class="btn btn-outline-danger admin-ban-btn" data-id="<%= user.id %>"><%= I18n.t('admin.ban') %></button>
+        <button class="btn btn-outline-primary admin-set-credits-btn" data-id="<%= user.id %>"><%= I18n.t('admin.set_credits') %></button>
       </div>
-    <% end %>
-  </div>
-  <div class="collapse" id="admin-set-credits" data-parent="#accordion">
-    <p><%= I18n.t('admin.credits') %></p>
-    <input type="number" class="form-control mb-3" id="admin-credits-input" value="<%= user.units %>">
-    <div class="float-right">
-      <button class="btn btn-outline-primary admin-set-credits-btn" data-id="<%= user.id %>"><%= I18n.t('admin.set_credits') %></button>
     </div>
-  </div>
-  <div class="collapse" id="admin-message-history" data-parent="#accordion">
-    <% if user.chat_messages.empty? %>
-        <h2 class="text-center">...</h2>
-    <% end %>
-    <% user.chat_messages.last(20).each do |msg| %>
-        <%= msg.body %>
-        <span class="float-right">
-          <%= msg.created_at.strftime("%F %H:%M") %>
-        </span><br>
-    <% end %>
-  </div>
-  <div class="collapse" id="admin-mute" data-parent="#accordion">
-    <p class="text-center"><%= I18n.t('admin.user_muted_text') %> <%= user.muted %></p>
-    <% if user.muted %>
-      <div class="text-center">
-        <button class="btn btn-outline-primary admin-unmute-btn" data-id="<%= user.id %>"><%= I18n.t('admin.unmute') %></button>
-      </div>
-    <% else %>
-      <div class="text-center">
-        <button class="btn btn-outline-danger admin-mute-btn" data-id="<%= user.id %>"><%= I18n.t('admin.mute') %></button>
-      </div>
-    <% end %>
-  </div>
-  <div class="collapse" id="admin-delete-chat" data-parent="#accordion">
-    <p class="text-center"><%= I18n.t('admin.delete_chat_text') %></p>
-    <div class="text-center">
-      <button class="btn btn-outline-danger admin-delete-chat-btn" data-id="<%= user.id %>"><%= I18n.t('admin.delete_chat') %></button>
+  <% end %>
+  
+  <% if current_user.chat_mod || current_user.admin %>
+    <div class="collapse" id="admin-message-history" data-parent="#accordion">
+      <% if user.chat_messages.empty? %>
+          <h2 class="text-center">...</h2>
+      <% end %>
+      <% user.chat_messages.last(20).each do |msg| %>
+          <%= msg.body %>
+          <span class="float-right">
+            <%= msg.created_at.strftime("%F %H:%M") %>
+          </span><br>
+      <% end %>
     </div>
-  </div>
+    <div class="collapse" id="admin-mute" data-parent="#accordion">
+      <p class="text-center"><%= I18n.t('admin.user_muted_text') %> <%= user.muted %></p>
+      <% if user.muted %>
+        <div class="text-center">
+          <button class="btn btn-outline-primary admin-unmute-btn" data-id="<%= user.id %>"><%= I18n.t('admin.unmute') %></button>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <button class="btn btn-outline-danger admin-mute-btn" data-id="<%= user.id %>"><%= I18n.t('admin.mute') %></button>
+        </div>
+      <% end %>
+    </div>
+    <div class="collapse" id="admin-delete-chat" data-parent="#accordion">
+      <p class="text-center"><%= I18n.t('admin.delete_chat_text') %></p>
+      <div class="text-center">
+        <button class="btn btn-outline-danger admin-delete-chat-btn" data-id="<%= user.id %>"><%= I18n.t('admin.delete_chat') %></button>
+      </div>
+    </div>
+  <% end %>
 </div>

@@ -56,6 +56,10 @@ class ApplicationController < ActionController::Base
     redirect_back(fallback_location: root_path) unless current_user.admin
   end
   
+  def check_chat_mod
+    redirect_back(fallback_location: root_path) unless current_user.chat_mod || current_user.admin
+  end
+  
   def check_banned
     if current_user.present? and current_user.banned
       if current_user.banned_until

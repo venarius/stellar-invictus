@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
-  before_action :check_admin
+  before_action :check_admin, except: [:mute, :unmute, :delete_chat]
+  before_action :check_chat_mod, only: [:mute, :unmute, :delete_chat]
   
   def index
   end
