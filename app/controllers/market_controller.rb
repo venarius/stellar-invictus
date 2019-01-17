@@ -162,7 +162,7 @@ class MarketController < ApplicationController
             end
           end
           listings = 1 if listings == 0
-          math = math + price
+          math = math + price.round
         end
         return (math / (1.05 ** listings)).round rescue nil
       end
