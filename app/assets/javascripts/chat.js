@@ -79,14 +79,16 @@ $( document ).on('turbolinks:load', function() {
     // Close Chat AJAX
     $('.chat-card').on('click', '.close-chat-btn', function(e) {
       e.preventDefault();
-      var button = $(this)
-      var id = $(this).data('id')
-      $.post('chat/leave', {id: id}, function(data) {
-        App['chatroom-' + id].unsubscribe();
-        $(button.parent().data('target')).remove();
-        button.parent().parent().remove();
-        $('.chat-card .nav-tabs a[data-target="#local-chat"]').tab('show')
-      });
+      if (confirm('Close this chat?')) {
+        var button = $(this)
+        var id = $(this).data('id')
+        $.post('chat/leave', {id: id}, function(data) {
+          App['chatroom-' + id].unsubscribe();
+          $(button.parent().data('target')).remove();
+          button.parent().parent().remove();
+          $('.chat-card .nav-tabs a[data-target="#local-chat"]').tab('show')
+        });
+      }
     });
     
     // Create chatroom AJAX

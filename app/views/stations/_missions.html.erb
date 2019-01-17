@@ -52,7 +52,7 @@
           </thead>
           <tbody>
             <% current_user.missions.each do |mission| %>
-              <tr>
+              <tr class="<%= 'color-sec-high' if mission.location == current_user.location %>">
                 <td><%= mission.mission_type.capitalize %></td>
                 <td><%= mission.faction.get_ticker %></td>
                 <td><%= mission.reward %> Cr</td>

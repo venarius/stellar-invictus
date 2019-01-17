@@ -423,7 +423,7 @@ en:
     objective_vip_progress: "Warp to %{system} and kill the politician and his bodyguard. Return to me and complete the mission when you are done"
     objective_mining: "Gather %{amount}x %{name}. Return to me and complete the mission when you are done"
     objective_mining_progress: "Gather %{amount} more %{name}. Return to me and complete the mission when you are done"
-    objective_delivery: "Deliver %{amount}x %{name} to %{station} - %{system}. I will put these items into your storage after you accepted the mission."
+    objective_delivery: "Deliver %{amount}x %{name} to %{station} - %{system}. I will put these items into your stations storage after you accepted the mission."
     objective_delivery_progress: "Deliver %{amount}x %{name} to %{station} - %{system}."
     objective_market: "Try to get %{amount}x %{name} as cheap as possible on the market and deliver them to me."
     reputation_for: "reputation for"
