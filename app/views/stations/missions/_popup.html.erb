@@ -45,7 +45,7 @@
               <% elsif mission.delivery? %>
                 <tr>
                   <th><%= I18n.t('missions.mission_location') %></th>
-                  <td><%= Location.find(mission.deliver_to).name %> - <%= Location.find(mission.deliver_to).system_name %></td>
+                  <td><%= Location.find(mission.deliver_to).get_name %> - <%= Location.find(mission.deliver_to).system_name %></td>
                 </tr>
                 <tr>
                   <th><%= I18n.t('missions.item') %></th>
