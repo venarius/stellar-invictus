@@ -139,6 +139,32 @@ RSpec.describe AdminController, type: :controller do
       end
     end
     
+    describe 'POST mute_user' do
+      it 'should mute user' do
+        post :mute, params: {id: @user.id}
+        expect(response.status).to eq(200)
+        expect(@user.reload.muted).to be_truthy
+      end
+    end
+    
+    describe 'POST unmute_user' do
+      it 'should unmute user' do
+        @user.update_columns(muted: true)
+        post :unmute, params: {id: @user.id}
+        expect(response.status).to eq(200)
+        expect(@user.reload.muted).to be_falsey
+      end
+    end
+    
+    describe 'POST delete_chat' do
+      it 'should delete chat messages of user' do
+        ChatMessage.create(user: @user, body: "Test", chat_room: ChatRoom.first)
+        post :delete_chat, params: {id: @user.id}
+        expect(response.status).to eq(200)
+        expect(@user.reload.chat_messages.count).to eq(0)
+      end
+    end
+    
     describe 'POST activate_maintenance' do
       it 'should activate maintenance' do
         post :activate_maintenance

@@ -570,6 +570,14 @@ en:
     maintenance_mode: "Maintenance Mode"
     server_message: "Server Message"
     send: "Send"
+    mute: "Mute"
+    unmute: "Unmute"
+    delete_chat: "Delete Chat"
+    user_muted_text: "Is user muted?"
+    delete_chat_text: "Delete the user's chat messages?"
+    successfully_muted_user: "Successfully muted user"
+    successfully_unmuted_user: "Successfully unmuted user"
+    successfully_deleted_chat: "Successfully deleted chat"
   server:
     maintenance: "The Server is currently undergoing maintenance. Please wait for a few minutes and then try again."
   support:

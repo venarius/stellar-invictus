@@ -151,7 +151,7 @@ class User < ApplicationRecord
   
   # Give user a nano
   def give_nano
-    spaceship = Spaceship.create(user_id: self.id, name: 'Nano', hp: 50)
+    spaceship = Spaceship.create(user_id: self.id, name: 'Nano', hp: 150)
     Item.create(loader: 'equipment.miner.basic_miner', spaceship: spaceship, equipped: true)
     Item.create(loader: 'equipment.weapons.laser_gatling', spaceship: spaceship, equipped: true)
     self.update_columns(active_spaceship_id: spaceship.id)

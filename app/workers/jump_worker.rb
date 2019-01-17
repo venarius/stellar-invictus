@@ -30,7 +30,7 @@ class JumpWorker
     
       # Routing Stuff
       if user.route
-        user.update_columns(route: user.route - [user.location.jumpgate.id.to_s])
+        user.update_columns(route: user.route - [user.location.jumpgate.id.to_s]) rescue true
       end
       
       # Set user system to new system

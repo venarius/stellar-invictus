@@ -82,4 +82,41 @@ $( document ).on('turbolinks:load', function() {
       });
     }
   });
+  
+  // Admin Mute Btn
+  $('body').on('click', '.admin-mute-btn', function() {
+    var id = $(this).data('id');
+    var button = $(this);
+    
+    if (id) {
+      $.post('admin/mute', {id: id}, function(data) {
+        $.notify(data.message, {style: 'success'});
+        button.closest('.modal').modal('hide');
+      });
+    }
+  });
+  
+  // Admin Unmute Btn
+  $('body').on('click', '.admin-unmute-btn', function() {
+    var id = $(this).data('id');
+    var button = $(this);
+    
+    if (id) {
+      $.post('admin/unmute', {id: id}, function(data) {
+        $.notify(data.message, {style: 'success'});
+        button.closest('.modal').modal('hide');
+      });
+    }
+  });
+  
+  // Admin Delete Chat Btn
+  $('body').on('click', '.admin-delete-chat-btn', function() {
+    var id = $(this).data('id');
+    
+    if (id) {
+      $.post('admin/delete_chat', {id: id}, function(data) {
+        $.notify(data.message, {style: 'success'});
+      });
+    }
+  });
 });
