@@ -85,4 +85,34 @@ class AdminController < ApplicationController
     render json: {}, status: 400
   end
   
+  def mute
+    if params[:id]
+      user = User.find(params[:id]) rescue nil
+      if user and !user.muted
+        user.update_columns(muted: true)
+        render json: {message: I18n.t('admin.successfully_muted_user')}, status: 200 and return
+      end
+    end
+  end
+  
+  def unmute
+    if params[:id]
+      user = User.find(params[:id]) rescue nil
+      if user and user.muted
+        user.update_columns(muted: false)
+        render json: {message: I18n.t('admin.successfully_unmuted_user')}, status: 200 and return
+      end
+    end
+  end
+  
+  def delete_chat
+    if params[:id]
+      user = User.find(params[:id]) rescue nil
+      if user
+        user.chat_messages.destroy_all
+        render json: {message: I18n.t('admin.successfully_deleted_chat')}, status: 200 and return
+      end
+    end
+  end
+  
 end

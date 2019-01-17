@@ -13,6 +13,12 @@
   <div class="col-md-4 mb-3">
     <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-message-history"><%= I18n.t('admin.message_history') %></button>
   </div>
+  <div class="col-md-4 mb-3">
+    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-mute"><%= I18n.t('admin.mute') %></button>
+  </div>
+  <div class="col-md-4 mb-3">
+    <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-delete-chat"><%= I18n.t('admin.delete_chat') %></button>
+  </div>
 </div>
 
 <!-- COLLAPSE -->
@@ -54,5 +60,23 @@
           <%= msg.created_at.strftime("%F %H:%M") %>
         </span><br>
     <% end %>
+  </div>
+  <div class="collapse" id="admin-mute" data-parent="#accordion">
+    <p class="text-center"><%= I18n.t('admin.user_muted_text') %> <%= user.muted %></p>
+    <% if user.muted %>
+      <div class="text-center">
+        <button class="btn btn-outline-primary admin-unmute-btn" data-id="<%= user.id %>"><%= I18n.t('admin.unmute') %></button>
+      </div>
+    <% else %>
+      <div class="text-center">
+        <button class="btn btn-outline-danger admin-mute-btn" data-id="<%= user.id %>"><%= I18n.t('admin.mute') %></button>
+      </div>
+    <% end %>
+  </div>
+  <div class="collapse" id="admin-delete-chat" data-parent="#accordion">
+    <p class="text-center"><%= I18n.t('admin.delete_chat_text') %></p>
+    <div class="text-center">
+      <button class="btn btn-outline-danger admin-delete-chat-btn" data-id="<%= user.id %>"><%= I18n.t('admin.delete_chat') %></button>
+    </div>
   </div>
 </div>

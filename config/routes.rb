@@ -189,6 +189,9 @@ Rails.application.routes.draw do
     post 'unban', to: 'admin#unban'
     post 'activate_maintenance', to: 'admin#activate_maintenance'
     post 'server_message', to: 'admin#server_message'
+    post 'mute', to: 'admin#mute'
+    post 'unmute', to: 'admin#unmute'
+    post 'delete_chat', to: 'admin#delete_chat'
   end
   
   # Polls

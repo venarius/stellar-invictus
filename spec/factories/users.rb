@@ -7,7 +7,7 @@ FactoryBot.define do
         password { pass }
         password_confirmation { pass }
         name { Faker::Name.first_name + "AA" }
-        avatar { "M_1.jpg" }
+        avatar { "M_1" }
         family_name { Faker::Name.first_name + "AA" }
         confirmed_at { Date.today }
         docked { false }

@@ -11,13 +11,15 @@ class ChatChannel < ApplicationCable::Channel
   end
   
   def send_message(data)
-    if data['room'] == "local"
-      ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.find_by(system: current_user.reload.system))
-    elsif data['room'] == "global"
-      ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.where(chatroom_type: :global).first)
-    elsif data['room'].include?("chatroom-")
-      room_id = data['room'].gsub("chatroom-", '')
-      ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.find_by(identifier: room_id))
+    unless current_user.reload.muted
+      if data['room'] == "local"
+        ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.find_by(system: current_user.reload.system))
+      elsif data['room'] == "global"
+        ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.where(chatroom_type: :global).first)
+      elsif data['room'].include?("chatroom-")
+        room_id = data['room'].gsub("chatroom-", '')
+        ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.find_by(identifier: room_id))
+      end
     end
   end
 end
