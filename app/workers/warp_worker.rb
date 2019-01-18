@@ -27,7 +27,7 @@ class WarpWorker
       user = user.reload
       ship = ship.reload
       
-      return if !user.can_be_attacked || ship.warp_scrambled || ship.warp_target_id != location_id
+      return if !user.can_be_attacked || ship.is_warp_disrupted || ship.warp_target_id != location_id
       WarpWorker.perform_in(1.second, player_id, location_id, align_current + 1, align_time) and return
     
     elsif !in_warp
