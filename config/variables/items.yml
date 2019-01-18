@@ -22,12 +22,17 @@ asteroid:
     name: "Septarium"
     type: "Ore"
     weight: 0
-    price: 4
+    price: 2
   titanium_ore:
-    name: "Titanium"
+    name: "Titanium Ore"
     type: "Ore"
     weight: 1
     price: 20
+  tryon_ore:
+    name: "Tryon Ore"
+    type: "Ore"
+    weight: 1
+    price: 40
 
 # Equipment
 equipment:

@@ -46,11 +46,26 @@ class User < ApplicationRecord
   
   # Remove friendships
   before_destroy do
+    # fleet
     if self.fleet
       self.fleet.chat_room.delete(self)
       self.update_columns(fleet_id: nil)
     end
+    # corporation
+    if self.founder? and self.corporation
+      corp = self.corporation
+      
+      corp.users.each do |user|
+        user.update_columns(corporation_id: nil, corporation_role: :recruit)
+        ActionCable.server.broadcast("player_#{user.id}", method: 'reload_corporation')
+      end
+      
+      corp.destroy if corp.users.count == 0
+    end
+    # friendships
     Friendship.where(friend_id: self.id).destroy_all
+    # game mails
+    GameMail.where(sender_id: self.id).destroy_all
   end
   
   # Will be called when a user loggs in

@@ -120,7 +120,7 @@ class MissionGenerator
       end
       
       # Set Reward
-      mission.reward = (10 * path.size * rand(0.8..1.2)).round
+      mission.reward = (20 * path.size * rand(0.8..1.2)).round
       mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system_security_status == 'low'
       
       # Generate Items
@@ -136,7 +136,7 @@ class MissionGenerator
       mission.mission_location = Location.create(location_type: 'mission', system_id: System.find_by(name: location.system.locations.where(location_type: 'jumpgate').order(Arel.sql("RANDOM()")).first.name).id)
       
       # Set Reward
-      mission.reward = (20 * (difficulty + 1) * mission.enemy_amount * rand(0.8..1.2)).round
+      mission.reward = (40 * (difficulty + 1) * mission.enemy_amount * rand(0.8..1.2)).round
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
     elsif mission.mission_type == 'mining' || mission.mission_type == 'market'
       if mission.mission_type == 'market'
@@ -147,14 +147,14 @@ class MissionGenerator
       mission.mission_amount = ((difficulty + 1) * rand(5..10))
       
       # Set Reward
-      mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(1.0..1.2)).round
+      mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(1.2..1.4)).round
     elsif mission.mission_type == 'vip'
       mission.enemy_amount = 3
       m_location = Location.where.not(faction_id: mission.faction_id).where("faction_id IS NOT NULL").order(Arel.sql("RANDOM()")).first
       mission.mission_location = Location.create(location_type: 'mission', system_id: m_location.system.id, faction_id: m_location.faction_id)
       
        # Set Reward
-      mission.reward = (200 * rand(0.8..1.2)).round
+      mission.reward = (400 * rand(0.8..1.2)).round
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
       
       # Set Difficulty
@@ -199,7 +199,7 @@ class MissionGenerator
     end
     
     # Reduce Reputation
-    mission.user.update_attribute("reputation_#{mission.faction_id}", mission.user["reputation_#{mission.faction_id}"] - 1)
+    mission.user.update_attribute("reputation_#{mission.faction_id}", mission.user["reputation_#{mission.faction_id}"] - 0.2)
     
     mission.destroy and return nil
   end

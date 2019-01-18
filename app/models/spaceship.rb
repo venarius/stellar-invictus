@@ -227,7 +227,7 @@ class Spaceship < ApplicationRecord
   # If is warp disrupted
   def is_warp_disrupted
     weight = 0
-    User.where(target_id: self.user.id, is_attacking: true).each do |user|
+    User.where(target_id: self.user.id, is_attacking: true).where.not(online: 0).each do |user|
       if user.active_spaceship.has_active_warp_disruptor
         user.active_spaceship.get_main_equipment(true).each do |item|
           weight = weight + item.get_attribute('disrupt_strength') if item.get_attribute('type') == "Warp Disruptor" and item.active and item.equipped

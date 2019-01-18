@@ -73,7 +73,7 @@ class CorporationsController < ApplicationController
         # Check Permissions
         render json: {'error_message': I18n.t('errors.cant_change_a_higher_rank')}, status: 400 and return if User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role]
         
-        user.update_columns(corporation_id: nil, corporation_role: 0)
+        user.update_columns(corporation_id: nil, corporation_role: :recruit)
         ActionCable.server.broadcast("player_#{params[:id]}", method: 'reload_corporation')
         
         if corporation.users.count == 0
@@ -223,7 +223,7 @@ class CorporationsController < ApplicationController
       corporation = current_user.corporation
       
       corporation.users.each do |user|
-        user.update_columns(corporation_id: nil, corporation_role: 0)
+        user.update_columns(corporation_id: nil, corporation_role: :recruit)
         ActionCable.server.broadcast("player_#{user.id}", method: 'reload_corporation')
       end
       

@@ -12,7 +12,6 @@
   </tr>
 <% elsif current_user.location.asteroids.present? %>
   <% current_user.location.asteroids.each do |asteroid| %>
-    <% next if asteroid.resources <= 0 %>
     <tr>
       <td><%= image_tag('icons/asteroid.png') %></td>
       <td class="name"><%= I18n.t('overview.asteroid') %> <span class="mobile-display-none">(<%= asteroid.asteroid_type.capitalize %>)</span></td>
