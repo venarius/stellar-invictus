@@ -47,7 +47,7 @@ class EquipmentWorker
         
         # If player is targeting user -> Call Police and Broadcast
         if player.target
-          call_police(player)
+          call_police(player) unless player.target.target_id == player.id and player.target.is_attacking
           ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
         end
         

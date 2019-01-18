@@ -5,11 +5,13 @@ class MiningWorker
   sidekiq_options :retry => false
 
   def perform(player_id, asteroid_id, is_mining=false, check_count=0)
-    player = User.find(player_id)
-    asteroid = Asteroid.find(asteroid_id)
+    player = User.find(player_id) rescue nil
+    asteroid = Asteroid.find(asteroid_id) rescue nil
     
     # Get ActionCable Server
     ac_server = ActionCable.server
+    
+    return unless player.active_spaceship and player and asteroid
     
     # Get mining amount
     mining_amount = player.active_spaceship.get_mining_amount

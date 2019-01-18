@@ -116,10 +116,12 @@ function reload_location_info() {
 }
 
 // Clear Jump
-function clear_jump() {
+function clear_jump(local) {
+  if (!local) {
+    App['local-chat'].unsubscribe();
+    App['local-chat'] = null; 
+  }
   App.local.reload();
-  App['local-chat'].unsubscribe();
-  App['local-chat'] = null;
   clearInterval(jump_interval);
   jump_interval = false
   pixi_background_speed = 1;
@@ -127,8 +129,10 @@ function clear_jump() {
     if (cards) {
       $('.game-card-row').html(cards); 
     }
-    check_chats();
-    reload_local_chat();
+    if (!local) {
+      check_chats();
+      reload_local_chat();
+    }
     reload_players_card();
     reload_locations_card();
     reload_location_info(); 

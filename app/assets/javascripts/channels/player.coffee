@@ -64,6 +64,6 @@ $(document).on "turbolinks:load", ->
             reload_chat()
             reload_players_card()
         else if (data.method == 'warp_finish')
-            clear_jump()
+            clear_jump(data.local)
         else if (data.method == 'reload_page')
           reload_page()

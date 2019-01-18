@@ -60,7 +60,7 @@ class WarpWorker
       ac_server.broadcast("location_#{user.location.id}", method: 'player_appeared')
       
       # Tell user to reload page
-      ac_server.broadcast("player_#{user.id}", method: 'warp_finish')
+      ac_server.broadcast("player_#{user.id}", method: 'warp_finish', local: true)
       
       # Start Mission Worker if location is mission and user has mission
       if user.location_location_type == 'mission' and user.location.mission.user == user

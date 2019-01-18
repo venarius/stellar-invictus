@@ -7,7 +7,9 @@ class PoliceWorker
   def perform(player_id, seconds, npc_id=nil, idle=false, done=false)
     player = User.find(player_id) rescue nil
     location = player.location
-    police = Npc.find(npc_id) if npc_id
+    police = Npc.find(npc_id) rescue nil if npc_id
+    
+    return unless police if npc_id
     
     if npc_id == nil
       police = Npc.create(npc_type: 'police', target: player.id, name: generate_name)
