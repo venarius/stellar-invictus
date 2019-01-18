@@ -44,7 +44,9 @@ class MiningWorker
     else
       
       # Remove amount from asteroids ressources
+      mining_amount = asteroid.resources / 100 unless asteroid.resources >= 100 * mining_amount
       asteroid.update_columns(resources: asteroid.resources - (100 * mining_amount))
+      
       
       # Add Items to player
       item = Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
@@ -100,15 +102,22 @@ class MiningWorker
   
   def can_mine(player, asteroid, mining_amount)
     player = player.reload
-    asteroid = asteroid.reload
+    asteroid = asteroid.reload rescue nil
     
     # Set Variables
     player_id = player.id
-    asteroid_id = asteroid.id
+    asteroid_id = asteroid.id rescue nil
     
     # Remove asteroid as target if depleted
-    if asteroid.resources < (100 * mining_amount)
+    if asteroid.resources <= 0
+      # Tell other users who miner this rock is depleted
+      User.where(mining_target_id: asteroid_id).where("online > 0").each do |u|
+        ActionCable.server.broadcast("player_#{u.id}", method: 'asteroid_depleted')
+      end
+      
+      asteroid.destroy
       ActionCable.server.broadcast("player_#{player_id}", method: 'asteroid_depleted')
+      
       player.update_columns(mining_target_id: nil)
       return false
     end

@@ -26,7 +26,7 @@ class StructuresController < ApplicationController
         end
         if items.present? and structure.location == current_user.location
           # Call police
-          call_police(current_user) if structure.user != current_user and structure.structure_type != 'wreck' and !structure.user.in_same_fleet_as(current_user.id)
+          call_police(current_user) if structure.user != current_user and structure.structure_type != 'wreck' and !structure.user.in_same_fleet_as(current_user.id) and structure.created_at > (DateTime.now.to_time - 10.minutes).to_datetime
           
           # Check if player has enough space
           weight = 0
@@ -70,7 +70,7 @@ class StructuresController < ApplicationController
       structure = Structure.find(params[:id]) rescue nil
       if structure and structure.location == current_user.location
         # Call police
-        call_police(current_user) if structure.user != current_user and structure.structure_type != 'wreck'
+        call_police(current_user) if structure.user != current_user and structure.structure_type != 'wreck' and structure.created_at > (DateTime.now.to_time - 10.minutes).to_datetime
         # Destroy Structure
         structure.destroy
         # Tell Players in location

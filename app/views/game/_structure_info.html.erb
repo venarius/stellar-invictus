@@ -2,7 +2,7 @@
   <% if structure.structure_type == 'container' %>
     <tr>
       <td><%= image_tag('icons/cargo.png') %></td>
-      <td class="players-card-name-td name"><%= I18n.t('structures.container') %></td>
+      <td class="players-card-name-td name"><%= I18n.t('structures.abandoned') if structure.created_at <= (DateTime.now.to_time - 10.minutes).to_datetime %> <%= I18n.t('structures.container') %></td>
       <td><%= I18n.t('structures.structure') %></td>
       <td class="mobile-display-none"></td>
       <td>

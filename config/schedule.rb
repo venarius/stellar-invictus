@@ -41,3 +41,8 @@ end
 every 1.minutes do
   runner "runner/hidden_enemies.rb"
 end
+
+# Asteroids Redo
+every 2.hours do
+  runner "runner/asteroids_redo.rb"
+end

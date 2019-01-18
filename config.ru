@@ -16,18 +16,6 @@ User.all.each do |user|
    user.update_columns(docked: false) if user.docked.nil?
 end
 
-# Asteroids
-Location.where(location_type: 'asteroid_field').each do |loc|
-  if loc.asteroids.count < 5
-    rand(2..5).times do 
-      Asteroid.create(location: loc, asteroid_type: rand(3), resources: 35000)
-    end
-    rand(1..3).times do 
-      Asteroid.create(location: loc, asteroid_type: 3, resources: 35000)
-    end
-  end
-end
-
 # NPC
 Npc.destroy_all
 

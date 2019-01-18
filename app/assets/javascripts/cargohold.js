@@ -13,7 +13,7 @@ $( document ).on('turbolinks:load', function() {
   // Eject Cargo Btn AJAX
   $('#inventory-modal').on('click', '.eject-cargo-btn', function(e) {
     e.preventDefault();
-    var amount = $(this).closest('.modal').find('.eject-input').val();
+    var amount = $(this).closest('.input-group').find('.eject-input').val();
     var loader = $(this).data('loader');
     var button = $(this);
     

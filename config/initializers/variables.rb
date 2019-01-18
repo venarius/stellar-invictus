@@ -58,7 +58,7 @@ begin
                 "materials.ai_components", "materials.metal_plates", "materials.laser_diodes"] unless defined? MATERIALS
                 
     # Asteroids
-    ASTEROIDS = ["asteroid.nickel_ore", "asteroid.septarium_ore", "asteroid.cobalt_ore", "asteroid.iron_ore", "asteroid.titanium_ore"] unless defined? ASTEROIDS
+    ASTEROIDS = ["asteroid.nickel_ore", "asteroid.septarium_ore", "asteroid.cobalt_ore", "asteroid.iron_ore", "asteroid.titanium_ore", "asteroid.tryon_ore"] unless defined? ASTEROIDS
                 
     # Items
     ITEMS = EQUIPMENT + MATERIALS + ASTEROIDS unless defined? ITEMS
