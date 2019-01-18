@@ -141,7 +141,7 @@ class MarketController < ApplicationController
             if MarketListing.where(loader: loader, location: current_user.location).empty?
               price = get_item_attribute(loader, 'price') rescue nil
             else
-              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.99) rescue nil
+              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.95) rescue nil
             end
             
             # Customization
@@ -158,13 +158,13 @@ class MarketController < ApplicationController
             if MarketListing.where(loader: loader, location: current_user.location).empty?
               price = SHIP_VARIABLES[loader]['price'] rescue nil
             else
-              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.99) rescue nil
+              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.95) rescue nil
             end
           end
           listings = 1 if listings == 0
-          math = math + price.round
+          math = math + (price rescue nil / (1.05 ** listings)).round rescue nil
         end
-        return (math / (1.05 ** listings)).round rescue nil
+        return math rescue nil
       end
     end
   end

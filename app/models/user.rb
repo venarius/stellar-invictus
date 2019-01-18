@@ -46,6 +46,10 @@ class User < ApplicationRecord
   
   # Remove friendships
   before_destroy do
+    if self.fleet
+      self.fleet.chat_room.delete(self)
+      self.update_columns(fleet_id: nil)
+    end
     Friendship.where(friend_id: self.id).destroy_all
   end
   

@@ -211,7 +211,7 @@ equipment:
       mining_amount: 1
       slot_type: "main"
       septarium_usage: 0
-      crafting: {"asteroid.nickel_ore": 5, "asteroid.iron_ore": 10, "asteroid.septarium": 5}
+      crafting: {"asteroid.nickel_ore": 5, "asteroid.iron_ore": 10, "asteroid.septarium_ore": 5}
       crafting_duration: 5
       price: 105
     advanced_miner:
@@ -221,7 +221,7 @@ equipment:
       mining_amount: 2
       slot_type: "main"
       septarium_usage: 0
-      crafting: {"asteroid.nickel_ore": 25, "asteroid.iron_ore": 30, "asteroid.septarium": 30}
+      crafting: {"asteroid.nickel_ore": 25, "asteroid.iron_ore": 30, "asteroid.septarium_ore": 30}
       crafting_duration: 20
       price: 450
     core_miner:
