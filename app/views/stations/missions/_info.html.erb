@@ -15,7 +15,7 @@
     <% if mission.offered? %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
+        <li><%= I18n.t('missions.objective_delivery', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name'), weight: get_item_attribute(mission.mission_loader, 'weight'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'vip' %>
@@ -28,7 +28,7 @@
     <% else %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery_progress', amount: (mission.items.count rescue 0), name: (mission.items.first.get_attribute('name') rescue ""), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
+        <li><%= I18n.t('missions.objective_delivery_progress', amount: (mission.items.count rescue 0), name: (mission.items.first.get_attribute('name') rescue ""), weight: (mission.items.first.get_attribute('weight') rescue "-"), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat_progress', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'vip' %>

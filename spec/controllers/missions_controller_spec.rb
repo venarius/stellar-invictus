@@ -116,7 +116,7 @@ RSpec.describe MissionsController, type: :controller do
         get :abort, params: {id: Mission.last.id}
         expect(response.status).to eq(200)
         expect(@user.reload.missions.count).to eq(0)
-        expect(@user["reputation_#{faction_id}"]).to eq(-1)
+        expect(@user["reputation_#{faction_id}"]).to eq(-0.2)
       end
       
       it 'should not abort mission if belongs to other user' do
