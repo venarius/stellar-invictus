@@ -17,7 +17,7 @@
        <% mails.each do |mail| %>
          <tr>
            <% if mail.read || mail.sender == current_user %>
-             <td><%= mail.sender.full_name %></td>
+             <td><%= mail.sender.full_name rescue "-" %></td>
              <td><%= mail.recipient.full_name %></td>
              <td><%= mail.header %></td>
              <td class="mobile-display-none"><%= mail.created_at.strftime('%F %H:%M') %></td>

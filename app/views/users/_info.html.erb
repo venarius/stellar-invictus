@@ -83,7 +83,9 @@
             </div>
           </div>
           <div class="tab-pane fade" id="about-user-info" role="tabpanel">
-            <span><%= I18n.t('users.faction') %>: <%= user.faction_name %></span><br>
+            <% if user.faction %>
+              <span><%= I18n.t('users.faction') %>: <%= user.faction_name %></span><br>
+            <% end %>
             <% if user.corporation %>
               <span><%= I18n.t('users.corporation') %>: <a class="corporation-modal" href="#" data-id="<%= user.corporation_id %>"><%= user.corporation_name %></a></span><br>
             <% end %>

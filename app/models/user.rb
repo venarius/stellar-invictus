@@ -48,7 +48,7 @@ class User < ApplicationRecord
   before_destroy do
     # fleet
     if self.fleet
-      self.fleet.chat_room.delete(self)
+      self.fleet.chat_room.delete(User.find(self.id))
       self.update_columns(fleet_id: nil)
     end
     # corporation

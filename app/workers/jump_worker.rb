@@ -35,7 +35,9 @@ class JumpWorker
       
       # Set user system to new system
       to_system = System.find_by(name: user.location.get_name)
-      user.update_columns(system_id: to_system.id, location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system: to_system.id).id, in_warp: false)
+      user.update_columns(system_id: to_system.id, 
+                          location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system: to_system.id).id,
+                          in_warp: false)
       
       # Set Variable
       user_system = user.system

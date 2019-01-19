@@ -1,6 +1,20 @@
 test:
   weight: 1
   
+# Delivery
+
+delivery:
+  data:
+    name: "Data"
+    type: "Delivery Good"
+    weight: 2
+    price: 0
+  intelligence:
+    name: "Intelligence"
+    type: "Delivery Good"
+    weight: 2
+    price: 0
+  
 # Asteroids
 asteroid:
   nickel_ore:

@@ -25,9 +25,9 @@ class WarpWorker
     
     elsif align_current < align_time
       user = user.reload
-      ship = ship.reload
+      ship = ship.reload rescue nil
       
-      return if !user.can_be_attacked || ship.is_warp_disrupted || ship.warp_target_id != location_id
+      return if !ship || !user.can_be_attacked || ship.is_warp_disrupted || ship.warp_target_id != location_id
       WarpWorker.perform_in(1.second, player_id, location_id, align_current + 1, align_time) and return
     
     elsif !in_warp
