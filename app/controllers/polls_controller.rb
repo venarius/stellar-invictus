@@ -12,12 +12,12 @@ class PollsController < ApplicationController
   
   def upvote
     @poll.upvote_from current_user if @poll.active?
-    render json: {upvotes: ((poll.get_upvotes.size.to_f / (poll.votes_for.size / 100.0) rescue 0) rescue 0), downvotes: ((poll.get_downvotes.size.to_f / (poll.votes_for.size / 100.0) rescue 0) rescue 0), votes: @poll.votes_for.size}, status: 200
+    render json: {upvotes: ((@poll.get_upvotes.size.to_f / (@poll.votes_for.size / 100.0) rescue 0) rescue 0), downvotes: ((@poll.get_downvotes.size.to_f / (@poll.votes_for.size / 100.0) rescue 0) rescue 0), votes: @poll.votes_for.size}, status: 200
   end
   
   def downvote
     @poll.downvote_from current_user if @poll.active?
-    render json: {upvotes: ((poll.get_upvotes.size.to_f / (poll.votes_for.size / 100.0) rescue 0) rescue 0), downvotes: ((poll.get_downvotes.size.to_f / (poll.votes_for.size / 100.0) rescue 0) rescue 0), votes: @poll.votes_for.size}, status: 200
+    render json: {upvotes: ((@poll.get_upvotes.size.to_f / (@poll.votes_for.size / 100.0) rescue 0) rescue 0), downvotes: ((@poll.get_downvotes.size.to_f / (@poll.votes_for.size / 100.0) rescue 0) rescue 0), votes: @poll.votes_for.size}, status: 200
   end
   
   def move_up
