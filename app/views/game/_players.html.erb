@@ -20,7 +20,7 @@
           <tr class="<%= 'target-flash' if user.target == current_user and !user.is_attacking %> <%= 'table-fleet' if user.in_same_fleet_as(current_user.id) %> <%= 'table-corporation' if user.in_same_corporation_as(current_user.id) %>">
             <td><%= image_tag('icons/helmet.png') %></td>
             <td class="players-card-name-td"><%= user.full_name %></td>
-            <td><%= user.active_spaceship.name %></td>
+            <td><%= user.active_spaceship.name rescue "" %></td>
             <td class="name mobile-display-none">
               <%= user.faction.get_ticker %>
               <% if user.corporation_id %>

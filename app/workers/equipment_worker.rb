@@ -191,6 +191,9 @@ class EquipmentWorker
   
   # Septarium Check
   def check_septarium(player)
+    # Shutdown on rescue
+    shutdown(player) and return false unless player.active_spaceship
+      
     # If player Septarium Usage is greater than what he has in Storage -> stop
     if player.active_spaceship.get_septarium_usage > player.active_spaceship.get_septarium 
       

@@ -62,6 +62,9 @@ begin
                 
     # Items
     ITEMS = EQUIPMENT + MATERIALS + ASTEROIDS unless defined? ITEMS
+    
+    # Delivery
+    DELIVERY = ["delivery.data", "delivery.intelligence"] unless defined? DELIVERY
   
 rescue StandardError
   true

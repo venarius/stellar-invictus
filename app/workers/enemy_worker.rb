@@ -131,7 +131,7 @@ class EnemyWorker
     end
     
     # While npc can attack player
-    while can_attack and @attack do
+    if can_attack and @attack
       
       # The attack
       target_spaceship.update_columns(hp: target_spaceship.reload.hp - @attack.round)
@@ -148,7 +148,7 @@ class EnemyWorker
       end
       
       # Global Cooldown
-      EnemyWorker.perform_in(2.second, @enemy.id, @location.id, @target.id, @attack) and return
+      EnemyWorker.perform_in(2.second, @enemy.id, @location.id, @target.id, @attack) and return if @enemy and @target
     end
     
     # If target is gone wait for new to pop up

@@ -23,11 +23,11 @@
     </div>
   </div>
   <div class="col-md-6 row">
-    <% if current_user.target_id %>
+    <% if current_user.target %>
       <%= render 'game/targets/player' %>
-    <% elsif current_user.mining_target_id %>
+    <% elsif current_user.mining_target %>
       <%= render 'game/targets/mining' %>
-    <% elsif current_user.npc_target_id %>
+    <% elsif current_user.npc_target %>
       <%= render 'game/targets/npc' %>
     <% else %>
       <div class="col-6 enemy-space-ship">

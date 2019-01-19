@@ -13,7 +13,7 @@ class MissionsController < ApplicationController
   
   # Accept a mission
   def accept
-    if @mission.offered? and @mission.location == current_user.location and current_user.missions.count < 5
+    if @mission&.offered? and @mission.location == current_user.location and current_user.missions.count < 5
       
       @mission.items.update_all(location_id: current_user.location.id, user_id: current_user.id) if @mission.delivery?
       

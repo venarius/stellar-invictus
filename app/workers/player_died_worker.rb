@@ -22,7 +22,7 @@ class PlayerDiedWorker
       ac_server.broadcast("location_#{user.location.id}", method: 'player_appeared')
       
       # Destroy current spaceship of user and give him a nano
-      Spaceship.find(user.active_spaceship_id).destroy
+      user.active_spaceship.destroy if user.active_spaceship
       ship = Spaceship.create(user_id: user.id, name: 'Nano', hp: 50)
       Item.create(loader: 'equipment.miner.basic_miner', spaceship: ship, equipped: true)
       Item.create(loader: 'equipment.weapons.laser_gatling', spaceship: ship, equipped: true)
