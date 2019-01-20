@@ -35,6 +35,10 @@ class JumpWorker
       
       # Set user system to new system
       to_system = System.find_by(name: user.location.get_name)
+      
+      # Check for to_system
+      return unless to_system
+      
       user.update_columns(system_id: to_system.id, 
                           location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system: to_system.id).id,
                           in_warp: false)

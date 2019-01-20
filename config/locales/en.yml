@@ -478,6 +478,7 @@ en:
     create_a_corporation_text1: "Being part of a corporation is key in taking full advantage of the Stellar Invictus Universe."
     create_a_corporation_text2: "A corporation allows you to band together with your friends, form an identity and take over the Universe. Corporations also have their own chat channel and can build stations in low security space!"
     name: "Name"
+    corporations: "Corporations"
     ticker: "Ticker"
     about: "About"
     tax_rate: "Tax Rate"

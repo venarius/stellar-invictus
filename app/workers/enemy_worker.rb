@@ -12,11 +12,13 @@ class EnemyWorker
   def perform(npc_id, location_id, target_id=nil, attack=nil, count=nil, hard=nil)
     
     # Set some vars
-    @location = Location.find(location_id)
+    @location = Location.find(location_id) rescue nil
     @enemy = Npc.find(npc_id) rescue nil if npc_id
     @target = User.find(target_id) rescue nil if target_id
     @attack = attack
     @count = count
+    
+    return unless @location
     
     if (@enemy.nil? || @enemy.npc_state == nil) and @attack.nil?
       if @location.mission and @location.mission.vip? and @count

@@ -135,10 +135,10 @@ class EquipmentWorker
             target_ship.update_columns(hp: 0)
             if player.target
               player.target.give_bounty(player)
-              player.target.die and shutdown(player) and return
+              player.target.die and player.active_spaceship.deactivate_weapons
             else
               player.npc_target.give_bounty(player)
-              player.npc_target.die and shutdown(player) and return
+              player.npc_target.die and player.active_spaceship.deactivate_weapons
             end
           end
           
@@ -147,7 +147,7 @@ class EquipmentWorker
             ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_hp)
             ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player_name, hp: attack))
             ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.target.full_name, hp: attack))
-          else
+          elsif player.npc_target
             ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.npc_target.name, hp: attack))
           end
           
@@ -159,7 +159,7 @@ class EquipmentWorker
             User.where(target_id: target_id).where("online > 0").each do |u|
               ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
             end
-          else
+          elsif player.npc_target
             User.where(npc_target_id: target_id).where("online > 0").each do |u|
               ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
             end

@@ -82,6 +82,13 @@ class Spaceship < ApplicationRecord
     end
   end
   
+  # Deactivate Weapons
+  def deactivate_weapons
+    self.get_equipped_equipment.each do |item|
+      item.update_columns(active: false) if item.active and item.get_attribute('type') == "Weapon"
+    end
+  end
+  
   # Deactivate Selfrepair Equipment
   def deactivate_selfrepair_equipment
     self.get_equipped_equipment.each do |item|

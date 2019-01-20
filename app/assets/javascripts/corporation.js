@@ -1,7 +1,7 @@
 $( document ).on('turbolinks:load', function() {
   
   // Load Tab
-  if (window.location.pathname == "/corporation") {
+  if (window.location.pathname == "/corporation" && $('.corporation-card').find('.nav').length) {
     load_corporation_tab($('.corporation-card a.nav-link.active').data('target')); 
   }
   

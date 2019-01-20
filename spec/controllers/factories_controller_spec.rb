@@ -47,12 +47,12 @@ RSpec.describe FactoriesController, type: :controller do
       end
       
       it 'should not craft if user doesnt have enough material' do
-        post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item'}
+        post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 1}
         expect(response.status).to eq(400)
       end
       
       it 'should not craft asteroid ore / else' do
-        post :craft, params: {loader: 'asteroid.nickel', type: 'item'}
+        post :craft, params: {loader: 'asteroid.nickel', type: 'item', amount: 1}
         expect(response.status).to eq(400)
       end
       
@@ -67,7 +67,7 @@ RSpec.describe FactoriesController, type: :controller do
           Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
         end
         
-        post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item'}
+        post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 1}
         expect(response.status).to eq(400)
         expect(CraftJob.all.count).to eq(0)
       end
@@ -84,7 +84,7 @@ RSpec.describe FactoriesController, type: :controller do
           Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
         end
         
-        post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item'}
+        post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 1}
         expect(response.status).to eq(200)
         expect(CraftJob.all.count).to eq(1)
       end
@@ -102,7 +102,7 @@ RSpec.describe FactoriesController, type: :controller do
           Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
         end
         
-        post :craft, params: {loader: 'Nano', type: 'ship'}
+        post :craft, params: {loader: 'Nano', type: 'ship', amount: 1}
         expect(response.status).to eq(200)
         expect(CraftJob.all.count).to eq(1)
       end
@@ -119,7 +119,7 @@ RSpec.describe FactoriesController, type: :controller do
           Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
         end
         
-        post :craft, params: {loader: 'Nano', type: 'ship'}
+        post :craft, params: {loader: 'Nano', type: 'ship', amount: 1}
         expect(response.status).to eq(400)
         expect(CraftJob.all.count).to eq(0)
       end

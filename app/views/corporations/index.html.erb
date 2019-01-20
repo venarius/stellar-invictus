@@ -1,9 +1,37 @@
 <% if !@corporation %>
-  <div class="card black-card corporation-card">
+  <div class="card black-card corporation-card mb-3">
     <h5 class="card-header"><%= I18n.t('corporations.create_a_corporation_now') %> <%= link_to "&nbsp;<i class='fa fa-plus'></i> #{I18n.t('corporations.create')}&nbsp;".html_safe, new_corporation_path, class: 'btn btn-outline-primary float-right p-0-5' %></h5>
     <div class="card-body">
       <p><%= I18n.t('corporations.create_a_corporation_text1') %></p><br>
       <p><%= I18n.t('corporations.create_a_corporation_text2') %></p>
+    </div>
+  </div>
+  
+  <div class="card black-card">
+    <h5 class="card-header"><%= I18n.t('corporations.corporations') %></h5>
+    <div class="card-body p-5px">
+      <table class="table table-bordered table-striped table-sm mb-5px">
+        <thead>
+          <tr>
+            <th scope="col"><%= I18n.t('corporations.name') %></th>
+            <th scope="col"><%= I18n.t('corporations.tax_rate') %></th>
+            <th scope="col"><%= I18n.t('corporations.member_count') %></th>
+            <th style="width: 1px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% Corporation.order(Arel.sql("RANDOM()")).limit(20).each do |corp| %>
+            <tr>
+              <td><%= corp.name %></td>
+              <td><%= corp.tax %> %</td>
+              <td><%= corp.users.count %></td>
+              <td>
+                <a class="corporation-modal btn btn-outline-primary btn-sm p-0-5" href="#" data-id="<%= corp.id %>">&nbsp;<i class="fa fa-info"></i>&nbsp;</a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 <% else %>
