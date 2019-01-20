@@ -29,6 +29,11 @@ class StationsController < ApplicationController
       redirect_to game_path and return
     end
     
+    # Fallback
+    if current_user.location.location_type != "station"
+      current_user.update_columns(docked: false) and redirect_to game_path and return
+    end
+    
     # Render Tabs
     if params[:tab]
       case params[:tab]

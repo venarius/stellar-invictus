@@ -18,7 +18,7 @@
       <div class="progress-bar bg-danger" role="progressbar" style="width: <%= (poll.get_downvotes.size.to_f / (poll.votes_for.size / 100.0) rescue 0) rescue 0 %>%"></div>
     </div>
     <p class="text-center mb-0"><small><span class="vote-size"><%= poll.votes_for.size %></span> <%= I18n.t('community.votes') %></small></p>
-    <% if poll.active? #and !current_user.voted_for? poll %>
+    <% if poll.active? and !current_user.voted_for? poll %>
       <div class="text-center mt-3">
         <button class="btn btn-outline-success display-inline-block float-left poll-upvote-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_yes') %></button>
         <button class="btn btn-outline-danger display-inline-block float-right poll-downvote-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_no') %></button>

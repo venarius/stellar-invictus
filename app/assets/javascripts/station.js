@@ -187,11 +187,12 @@ $( document ).on('turbolinks:load', function() {
   $('.station-card').on('click', '.craft-btn', function() {
     var button = $(this)
     var loader = $(this).data('loader')
+    var amount = $(this).closest('.modal-footer').find('.crafting-amount').val();
     var type = $(this).data('type');
     var html = $(this).html();
     
     loading_animation($(this));
-    $.post('factory/craft', {loader: loader, type: type}, function() {
+    $.post('factory/craft', {loader: loader, type: type, amount: amount}, function() {
       button.closest('.modal').modal('hide');
       setTimeout(function() {load_station_tab("#factory");}, 250);
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });

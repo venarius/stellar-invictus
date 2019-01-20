@@ -46,6 +46,7 @@
       </div>
       <div class="modal-footer">
         <% if current_user.blueprints.where(loader: key).present? %>
+          <input type="number" min=0 class="form-control crafting-amount" value="1">
           <button type="button" class="btn btn-primary craft-btn" data-loader="<%= key %>" data-type="ship"><%= I18n.t('crafting.craft') %></button>
         <% else %>
           <span><%= I18n.t('station.dont_have_blueprint') %></span>

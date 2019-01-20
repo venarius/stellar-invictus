@@ -1,40 +1,76 @@
-<table class="table table-bordered table-hover table-sm">
-  <% if items.size > 0 %>
-    <thead>
-      <tr>
-        <th scope="col">Qty.</th>
-        <th scope="col"><%= I18n.t('items.name') %></th>
-        <th scope="col" class="mobile-display-none"><%= I18n.t('items.type') %></th>
-        <th scope="col" style="width:135px"><%= I18n.t('items.eject_cargo') %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% items.each do |loader, times| %>
-        <% item = Item.find_by(loader: loader) %>
-        <tr>
-          <td><%= times %>&times;</td>
-          <% if item.loader.include? "equipment" %>
-            <td><a href="#" class="equipment-info" data-loader="<%= item.loader %>"><%= item.get_attribute('name') %></a></td>
-          <% else %>
-            <td><%= item.get_attribute('name') %></td></td>
+<ul class="nav nav-tabs mt-5px" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" data-target="#cargohold-storage" href="#0" role="tab"><%= I18n.t('ships.storage') %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" data-target="#cargohold-equipment" href="#0" role="tab"><%= I18n.t('ships.equipment') %></a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="cargohold-storage" role="tabpanel">
+    <table class="table table-bordered table-hover table-sm mt-5px mb-5px">
+      <% if items.size > 0 %>
+        <thead>
+          <tr>
+            <th scope="col">Qty.</th>
+            <th scope="col"><%= I18n.t('items.name') %></th>
+            <th scope="col" class="mobile-display-none"><%= I18n.t('items.type') %></th>
+            <th scope="col" style="width:135px"><%= I18n.t('items.eject_cargo') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.each do |loader, times| %>
+            <% item = Item.find_by(loader: loader) %>
+            <tr>
+              <td><%= times %>&times;</td>
+              <% if item.loader.include? "equipment" %>
+                <td><a href="#" class="equipment-info" data-loader="<%= item.loader %>"><%= item.get_attribute('name') %></a></td>
+              <% else %>
+                <td><%= item.get_attribute('name') %></td></td>
+              <% end %>
+              <td class="mobile-display-none"><%= item.get_attribute('type') %></td>
+              <td>
+                <div class="input-group">
+                  <input type="number" class="form-control eject-input" placeholder="Amount" value="1">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-warning eject-cargo-btn" type="button" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.eject_cargo') %>" data-loader="<%= loader %>">
+                      <i class="fa fa-angle-double-up"></i>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
           <% end %>
-          <td class="mobile-display-none"><%= item.get_attribute('type') %></td>
-          <td>
-            <div class="input-group">
-              <input type="number" class="form-control eject-input" placeholder="Amount" value="1">
-              <div class="input-group-append">
-                <button class="btn btn-outline-warning eject-cargo-btn" type="button" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.eject_cargo') %>" data-loader="<%= loader %>">
-                  <i class="fa fa-angle-double-up"></i>
-                </button>
-              </div>
-            </div>
-          </td>
+        </tbody>
+      <% else %>
+        <tr>
+          <h2 class="text-center">...</h2>
         </tr>
       <% end %>
-    </tbody>
-  <% else %>
-    <tr>
-      <h2 class="text-center">...</h2>
-    </tr>
-  <% end %>
-</table>
+    </table>
+  </div>
+  
+  <div class="tab-pane fade" id="cargohold-equipment" role="tabpanel">
+    <div class="card black-card main-equipment-card mt-5px mb-3">
+      <h5 class="card-header"><%= I18n.t('equipment.main_equipment') %> (<%= current_user.active_spaceship.get_attribute('main_equipment_slots') %>)</h5>
+      <div class="card-body">
+        <div class="row" id="main-equipment-sortable">
+          <% current_user.active_spaceship.get_main_equipment.each do |item| %>
+            <%= render partial: 'equipment/equipment', locals: {item: item} %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card black-card utility-equipment-card">
+      <h5 class="card-header"><%= I18n.t('equipment.utility_equipment') %> (<%= current_user.active_spaceship.get_attribute('utility_equipment_slots') %>)</h5>
+      <div class="card-body">
+        <div class="row" id="utility-equipment-sortable">
+          <% current_user.active_spaceship.get_utility_equipment.each do |item| %>
+            <%= render partial: 'equipment/equipment', locals: {item: item} %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

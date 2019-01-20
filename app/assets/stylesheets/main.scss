@@ -927,6 +927,37 @@ body {
   }
 }
 
+#inventory-modal {
+  .modal-body {
+    padding: 5px;
+    .nav-tabs {
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: -webkit-box;  
+      display: -moz-box;
+      flex-wrap: nowrap;
+      .nav-item {
+        float:none;
+        margin-right: 5px;
+        .nav-link {
+          border-radius: 0;
+          background-color: black;
+          border: 1px solid #282828;
+        }
+        .nav-link.active {
+          border: 1px solid #2A9FD6;
+          border-bottom: 1px solid black;
+        }
+      }
+    }
+  }
+}
+
+#cargohold-storage, #cargohold-equipment {
+  padding: 5px;
+  border: 1px solid grey;
+}
+
 .eject-input {
   height: 25px;
   border: 1px solid #FF8800
