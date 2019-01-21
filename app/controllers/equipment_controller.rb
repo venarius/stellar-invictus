@@ -79,7 +79,7 @@ class EquipmentController < ApplicationController
   def switch
     if params[:id]
       item = Item.find(params[:id]) rescue nil
-      if item and current_user.active_spaceship.get_main_equipment.map(&:id).include? item.id and current_user.can_be_attacked
+      if item and current_user.active_spaceship&.get_main_equipment.map(&:id).include? item.id and current_user.can_be_attacked
         item.update_columns(active: !item.active)
         
         if current_user.reload.active_spaceship.get_main_equipment(true).count == 1 and !current_user.equipment_worker

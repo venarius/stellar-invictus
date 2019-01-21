@@ -34,6 +34,8 @@ class User < ApplicationRecord
   validates_format_of :name, :family_name, :with => /\A[a-zA-Z]+\z/i, message: I18n.t('validations.can_only_contain_letters')
   validates :name, :family_name, length: { minimum: 2, maximum: 20,
             too_short: I18n.t('validations.too_short_2'), too_long: I18n.t('validations.too_long_name') }
+            
+  validate :check_avatar
   
   # Devise
   devise :database_authenticatable, :registerable, :confirmable,
@@ -42,6 +44,14 @@ class User < ApplicationRecord
   # Sets full name after create       
   after_create do
     self.update_columns(full_name: "#{name} #{family_name}".downcase.titleize)
+  end
+  
+  # Verify Avatar
+  def check_avatar
+    path = "avatars/#{self.avatar}.jpg"
+    if Rails.application.assets.find_asset(path) == nil
+      errors.add(:avatar, "has not a correct value")
+    end
   end
   
   # Remove friendships

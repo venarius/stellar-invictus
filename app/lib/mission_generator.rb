@@ -14,7 +14,9 @@ class MissionGenerator
   
   # Finish Mission
   def self.finish_mission(mission_id)
-    mission = Mission.find(mission_id)
+    mission = Mission.find(mission_id) rescue nil
+    
+    return nil unless mission
     
     # check location
     return I18n.t('errors.this_agent_is_not_on_this_station') if mission.location != mission.user.location and mission.mission_type != 'delivery'
