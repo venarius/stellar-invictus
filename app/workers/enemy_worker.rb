@@ -68,18 +68,18 @@ class EnemyWorker
   # Wait for new target
   # ################
   def wait_for_new_target
-    if @enemy.waiting? == false
-      @enemy.waiting!
-      EnemyWorker.perform_in(10.second, @enemy.id, @location.id) and return
-    else
+    if @enemy.waiting?
       # Find first User in system and target
       @target = User.where(location: @enemy.location, docked: false).where('online > 0').sample rescue nil
       
-      if @target.present?
+      if @target
         attack
       else
         @enemy.destroy and return
       end
+    else
+      @enemy.update_columns(npc_state: :waiting)
+      EnemyWorker.perform_in(10.second, @enemy.id, @location.id) and return
     end
   end
   
@@ -132,7 +132,7 @@ class EnemyWorker
       
     end
     
-    # While npc can attack player
+    # If npc can attack player
     if can_attack and @attack
       
       # The attack

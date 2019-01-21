@@ -40,7 +40,7 @@ class JumpWorker
       return unless to_system
       
       user.update_columns(system_id: to_system.id, 
-                          location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system: to_system.id).id,
+                          location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system_id: to_system.id).id,
                           in_warp: false)
       
       # Set Variable

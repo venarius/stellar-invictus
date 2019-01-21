@@ -199,7 +199,7 @@ function loading_animation(element) {
 
 // Server Message
 function server_message(text) {
-  $.notify(text, { position:"top center", style: 'alert' } );
+  $.notify(text, { position:"top left", style: 'alert' } );
 }
 
 // Captcha Callback

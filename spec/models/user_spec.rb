@@ -79,8 +79,8 @@ describe User do
       
       describe 'avatar' do
         it { should validate_presence_of :avatar }
-        it { should allow_values('Utrigas', 'Gregory', 'Meyers', 'Al').for :avatar }
-        it { should_not allow_values('', nil).for :avatar }
+        it { should allow_values('M_1', 'F_1').for :avatar }
+        it { should_not allow_values('', nil, 'blub', '<script>Meme</script>').for :avatar }
       end
     end
     
