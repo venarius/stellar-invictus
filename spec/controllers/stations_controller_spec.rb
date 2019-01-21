@@ -45,7 +45,7 @@ RSpec.describe StationsController, type: :controller do
   
   context 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = FactoryBot.create(:user_with_faction, location: Location.where(location_type: :station).first)
       sign_in @user
     end
     
