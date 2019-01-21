@@ -189,7 +189,7 @@ Escorial:
   defense: 45
   price: 60000
   main_equipment_slots: 2
-  utility_equipment_slots: 5
+  utility_equipment_slots: 7
   align_time: 30
   target_time: 30
   crafting: {"materials.sensor_electronics": 900, "materials.fusion_electronics": 300, "asteroid.tryon_ore": 500}
@@ -273,7 +273,7 @@ Yucatan:
   thruster-image: yucatan-thrusters.png
   storage: 150
   hp: 2000
-  defense: 50
+  defense: 45
   price: 45000
   main_equipment_slots: 3
   utility_equipment_slots: 4
@@ -290,7 +290,7 @@ Cromwell:
   thruster-image: cromwell-thrusters.png
   storage: 100
   hp: 1500
-  defense: 50
+  defense: 40
   price: 36000
   main_equipment_slots: 3
   utility_equipment_slots: 3

@@ -17,7 +17,7 @@ namespace :economy do
     i = 0
     
     Location.where(location_type: 'station').each_with_index do |location, index|
-      rabat = ((noise[(noise_level[i] + 1.0) / 10.0] + 1) - 0.5).clamp(0.95, 1.05)
+      rabat = ((noise[(noise_level[i] + 1.0) / 10.0] + 1) - 0.5).clamp(0.98, 1.02)
       i = i + 1
       i = 0 if i >= noise_level.size
       
@@ -43,19 +43,19 @@ namespace :economy do
       # Customization
       if location.industrial_station?
         location.market_listings.where("loader ilike ?", "equipment.").each do |listing|
-          listing.update_columns(price: (listing.price * rand(0.8..0.9)).round, amount: listing.amount * 2)
+          listing.update_columns(price: (listing.price * rand(0.95..0.98)).round, amount: listing.amount * 2)
         end
       end
       
       if location.warfare_plant?
         location.market_listings.where("loader ilike ?", "equipment.weapons").each do |listing|
-          listing.update_columns(price: (listing.price * rand(0.8..0.9)).round, amount: listing.amount * 2)
+          listing.update_columns(price: (listing.price * rand(0.95..0.98)).round, amount: listing.amount * 2)
         end
       end
       
       if location.mining_station?
         location.market_listings.where("loader ilike ?", "asteroid.").each do |listing|
-          listing.update_columns(price: (listing.price * rand(0.8..0.9)).round, amount: listing.amount * 2)
+          listing.update_columns(price: (listing.price * rand(0.95..0.98)).round, amount: listing.amount * 2)
         end
       end
       

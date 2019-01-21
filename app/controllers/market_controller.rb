@@ -117,9 +117,9 @@ class MarketController < ApplicationController
       else
         rabat = rand(0.8..1.2)
         if params[:type] == "item"
-          MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (get_item_attribute(params[:loader], 'price') * rabat * rand(0.95..1.05)).round, amount: quantity)
+          MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (get_item_attribute(params[:loader], 'price') * rabat * rand(0.98..1.02)).round, amount: quantity)
         elsif params[:type] == "ship"
-          MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: (SHIP_VARIABLES[params[:loader]]['price'] * rabat * rand(0.95..1.05)).round, amount: quantity)
+          MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: (SHIP_VARIABLES[params[:loader]]['price'] * rabat * rand(0.98..1.02)).round, amount: quantity)
         end
       end
       
@@ -141,24 +141,24 @@ class MarketController < ApplicationController
             if MarketListing.where(loader: loader, location: current_user.location).empty?
               price = get_item_attribute(loader, 'price') rescue nil
             else
-              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.95) rescue nil
+              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.98) rescue nil
             end
             
             # Customization
             location = current_user.location
             if location.industrial_station?
-              price = price * 0.5 if loader.include?("equipment.")
+              price = price * 0.75 if loader.include?("equipment.")
             elsif location.warfare_plant?
-              price = price * 0.5 if loader.include?("equipment.weapons")
+              price = price * 0.75 if loader.include?("equipment.weapons")
             elsif location.mining_station?
-              price = price * 0.5 if loader.include?("asteroid.")
+              price = price * 0.75 if loader.include?("asteroid.")
             end
             
           else
             if MarketListing.where(loader: loader, location: current_user.location).empty?
               price = SHIP_VARIABLES[loader]['price'] rescue nil
             else
-              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.95) rescue nil
+              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.98) rescue nil
             end
           end
           listings = 1 if listings == 0
