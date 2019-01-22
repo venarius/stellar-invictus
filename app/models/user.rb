@@ -48,8 +48,8 @@ class User < ApplicationRecord
   
   # Verify Avatar
   def check_avatar
-    path = "avatars/#{self.avatar}.jpg"
-    if Rails.application.assets.find_asset(path) == nil
+    unless %w(M_1 M_2 M_3 M_4 M_5 M_6 M_7 M_8 M_9 M_10 M_11 M_12 M_13 M_14 M_15 M_16 M_17
+              F_1 F_2 F_3 F_4 F_5 F_6 F_7 F_8 F_9 F_10 F_11 F_12 F_13 F_14 F_15).include?(self.avatar)
       errors.add(:avatar, "has not a correct value")
     end
   end

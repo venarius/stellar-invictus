@@ -149,6 +149,10 @@ bundle exec pumactl -S /home/deploy/app/stellar/shared/tmp/pids/puma.state -F /h
 OR
 
 ~/.rvm/bin/rvm default do bundle exec puma -C /home/deploy/app/stellar/shared/puma.rb --daemon
+
+OR
+
+cap production deploy:restart
 ```
 
 How to start sidekiq on server if crashed:
