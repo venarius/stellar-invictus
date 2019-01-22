@@ -3,7 +3,7 @@
         <%= I18n.t('game.current_system') %>
         <%= current_user.system.name.upcase %>
         
-        <% if current_user.system.locations.where(location_type: :station).first.faction %>
+        <% if current_user.system.locations.where(location_type: :station).first&.faction %>
         - <%= current_user.system.locations.where(location_type: :station).first.faction.get_ticker %>
         <% end %>
     </span>
