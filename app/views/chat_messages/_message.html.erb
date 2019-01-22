@@ -1,7 +1,12 @@
 <tr>
   <td>
     <%= image_tag("avatars/#{message.user.avatar}.jpg", class: 'float-left') %>
-    <a href="#" class="player-modal" data-id=<%= message.user.id %>><strong><%= message.user.full_name %></strong></a>
+    <a href="#" class="player-modal" data-id=<%= message.user.id %>>
+      <% if message.user.corporation %>
+        <strong>[<%= message.user.corporation&.ticker %>]</strong>
+      <% end %>
+      <strong><%= message.user.full_name %></strong>
+    </a>
     <span class="float-right"><%= message.created_at.strftime("%H:%M") %></span><br>
     <p><%= message.body %></p>
   </td>
