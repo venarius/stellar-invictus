@@ -473,5 +473,18 @@ RSpec.describe CorporationsController, type: :controller do
         expect(Corporation.count).to eq(1)
       end
     end
+    
+    describe 'POST search' do
+      it 'should render template' do
+        post :search, params: {search: "test"}
+        expect(response.status).to eq(200)
+        expect(response).to render_template('corporations/_search')
+      end
+      
+      it 'should not render if no params' do
+        post :search
+        expect(response.status).to eq(400)
+      end
+    end 
   end
 end

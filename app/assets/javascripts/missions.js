@@ -24,11 +24,17 @@ $( document ).on('turbolinks:load', function() {
   // Finish Mission Btn AJAX
   $('.station-card').on('click', '.finish-mission-btn', function(e) {
     var id = $(this).data('id');
+    var button = $(this);
     
     $.post('mission/finish', {id: id}, function(data) {
       $.notify(data.message, {style: 'success'});
-      load_station_tab("#missions");
-      refresh_player_info();
+      button.closest('.result').empty();
+      $('#active-missions table').find('.mission-info-btn').each(function() {
+        if ($(this).data('id') == id) {
+          $(this).closest('tr').remove();
+        }
+      });
+      
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   

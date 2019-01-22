@@ -34,13 +34,14 @@ class JumpWorker
       end
       
       # Set user system to new system
-      to_system = System.find_by(name: user.location.get_name)
+      to_system = System.find_by(name: user.location.get_name) rescue nil
+      new_loc = Location.find_by(location_type: 'jumpgate', name: old_system.name, system_id: to_system.id) rescue nil
       
       # Check for to_system
-      return unless to_system
+      user.update_columns(in_warp: false) and return unless to_system and new_loc
       
       user.update_columns(system_id: to_system.id, 
-                          location_id: Location.find_by(location_type: 'jumpgate', name: old_system.name, system_id: to_system.id).id,
+                          location_id: new_loc.id,
                           in_warp: false)
       
       # Set Variable

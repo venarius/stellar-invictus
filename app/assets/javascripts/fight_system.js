@@ -172,6 +172,7 @@ function update_health(hp) {
       attackBorderTimeout = setTimeout(function() {$('.ship-card').removeClass('outline-danger');}, 2500);
       if (!$('#own-ship-health').parent().hasClass('success-flash') && !$('#own-ship-health').parent().hasClass('attack-flash')) {
         $('#own-ship-health').parent().addClass('attack-flash');
+        play_beep();
         setTimeout(function() {$('#own-ship-health').parent().removeClass('attack-flash');}, 1000);
       }
     }

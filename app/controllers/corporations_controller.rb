@@ -235,6 +235,14 @@ class CorporationsController < ApplicationController
     render json: {}, status: 400
   end
   
+  def search
+    if params[:search]
+      result = Corporation.where("name ILIKE ?", "%#{params[:search]}%").first(20)
+      render partial: 'corporations/search', locals: {corporations: result} and return
+    end
+    render json: {}, status: 400
+  end
+  
   private
   
   def corporation_params

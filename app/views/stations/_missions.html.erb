@@ -20,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          <% current_user.location.missions.where(mission_status: 'offered').each do |mission| %>
+          <% current_user.location.missions.where(mission_status: 'offered').order("difficulty ASC").each do |mission| %>
             <tr>
               <td><%= mission.mission_type.capitalize %></td>
               <td><%= mission.faction.get_ticker %></td>

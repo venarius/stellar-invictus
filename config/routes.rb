@@ -169,6 +169,7 @@ Rails.application.routes.draw do
     post 'accept_application', to: 'corporations#accept_application'
     post 'reject_application', to: 'corporations#reject_application'
     post 'disband', to: 'corporations#disband'
+    post 'search', to: 'corporations#search'
   end
   
   # Community

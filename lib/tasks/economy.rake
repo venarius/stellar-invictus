@@ -59,6 +59,15 @@ namespace :economy do
         end
       end
       
+      # Combine MarketListings with same price
+      location.market_listings.each do |ml|
+        listings =  MarketListing.where(location: location, price: ml.price).where.not(id: ml.id)
+        if listings.present?
+          listings.first.update_columns(amount: listings.first.amount + ml.amount)
+          ml.destroy and next
+        end
+      end
+      
     end
   end
 end
