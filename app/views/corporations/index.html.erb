@@ -8,30 +8,19 @@
   </div>
   
   <div class="card black-card">
-    <h5 class="card-header"><%= I18n.t('corporations.corporations') %></h5>
-    <div class="card-body p-5px">
-      <table class="table table-bordered table-striped table-sm mb-5px">
-        <thead>
-          <tr>
-            <th scope="col"><%= I18n.t('corporations.name') %></th>
-            <th scope="col"><%= I18n.t('corporations.tax_rate') %></th>
-            <th scope="col"><%= I18n.t('corporations.member_count') %></th>
-            <th style="width: 1px"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% Corporation.order(Arel.sql("RANDOM()")).limit(20).each do |corp| %>
-            <tr>
-              <td><%= corp.name %></td>
-              <td><%= corp.tax %> %</td>
-              <td><%= corp.users.count %></td>
-              <td>
-                <a class="corporation-modal btn btn-outline-primary btn-sm p-0-5" href="#" data-id="<%= corp.id %>">&nbsp;<i class="fa fa-info"></i>&nbsp;</a>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+    <h5 class="card-header">
+      <%= I18n.t('corporations.corporations') %>
+      <span class="float-right">
+        <div class="input-group">
+          <input type="text" placeholder="<%= I18n.t('corporations.search') %>" class="form-control">
+          <div class="input-group-append">
+            <button class="btn btn-outline-success" id="corporation-search-btn"><%= I18n.t('corporations.search') %></button>
+          </div>
+        </div>
+      </span>
+    </h5>
+    <div class="card-body p-5px" id="corporations-search-body">
+      <%= render partial: 'corporations/search', locals: {corporations: Corporation.order(Arel.sql("RANDOM()")).limit(20)} %>
     </div>
   </div>
 <% else %>

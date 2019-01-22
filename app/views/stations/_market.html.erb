@@ -12,7 +12,7 @@
         </a>
         <div class="dropdown-menu">
           <% ITEM_VARIABLES.each do |key, value| %>
-            <% next if key == "test" %>
+            <% next if key == "test" || key == "delivery" %>
             <% if !value.is_a?(Hash) %>
               <a href="#0" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.titleize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
             <% else %>

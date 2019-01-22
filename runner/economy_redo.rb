@@ -75,4 +75,13 @@ Location.where(location_type: 'station').order(Arel.sql("RANDOM()")).limit((Loca
   else
     MarketListing.where(location: location, listing_type: 'item').limit((MarketListing.where(location: location, listing_type: 'item').count / rand(3..5)).round).delete_all
   end
+  
+  # Combine MarketListings with same price
+  location.market_listings.each do |ml|
+    listings =  MarketListing.where(location: location, price: ml.price).where.not(id: ml.id)
+    if listings.present?
+      listings.first.update_columns(amount: listings.first.amount + ml.amount)
+      ml.destroy and next
+    end
+  end
 end

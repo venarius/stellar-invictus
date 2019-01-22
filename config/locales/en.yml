@@ -447,6 +447,8 @@ en:
     successfully_finished_mission: "Successfully finished mission"
     successfully_aborted_mission: "Successfully aborted mission"
     hard_warning: "Warning: This mission has a higher difficulty and thus shouldn't be attempted in a starter ship (e.g. Nano)."
+    route: "Plot route"
+    agent: "Agent"
   alliances:
     unknown: "Unknown"
   riddles:
@@ -479,6 +481,7 @@ en:
     create_a_corporation_text2: "A corporation allows you to band together with your friends, form an identity and take over the Universe. Corporations also have their own chat channel and can build stations in low security space!"
     name: "Name"
     corporations: "Corporations"
+    search: "Search"
     ticker: "Ticker"
     about: "About"
     tax_rate: "Tax Rate"

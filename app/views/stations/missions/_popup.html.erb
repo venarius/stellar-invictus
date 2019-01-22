@@ -59,6 +59,14 @@
             </tr>
           </tbody>
         </table>
+        
+        <div>
+          <p><strong><%= I18n.t('missions.route') %></strong></p>
+          <button class="btn btn-outline-primary plot-route-btn" data-id="<%= mission.location.system_id %>"><%= I18n.t('missions.agent') %></button>
+          <% if mission.mission_location %>
+            <button class="btn btn-outline-primary plot-route-btn" data-id="<%= mission.mission_location.system_id %>"><%= I18n.t('missions.location') %></button>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

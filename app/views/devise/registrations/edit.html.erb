@@ -11,6 +11,9 @@
           <% Faction.all.each do |faction| %>
             <% rank = faction.get_rank(current_user) %>
             <div class="col-lg-4">
+              <div class="text-center mb-3">
+                <%= image_tag("factions/#{faction.name.downcase.gsub(' ', '_')}.svg", style: 'height:80px') %>
+              </div>
               <h4 class="text-center"><%= faction.name %></h4>
               <h5 class="text-center"><%= rank['name'] %></h5>
               <div class="row">

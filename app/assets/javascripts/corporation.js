@@ -238,6 +238,16 @@ $( document ).on('turbolinks:load', function() {
       Turbolinks.visit(window.location);
     });
   });
+  
+  // Corporation Search Btn
+  $('#corporation-search-btn').on('click', function() {
+    var search = $(this).closest('.input-group').find('input').val();
+    
+    $('#corporations-search-body').html("<div class='text-center spinner-modal'><i class='fa fa-spinner fa-spin fa-2x'></i></div>");
+    $.post('/corporation/search', {search: search}, function(data) {
+      $('#corporations-search-body').html(data);
+    });
+  });
 });
 
 function load_corporation_tab(href) {
