@@ -179,7 +179,6 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rack-timeout (0.5.1)
     rails (5.2.2)
       actioncable (= 5.2.2)
       actionmailer (= 5.2.2)
@@ -326,7 +325,6 @@ DEPENDENCIES
   perlin_noise
   pg
   puma (~> 3.11)
-  rack-timeout
   rails (~> 5.2.1)
   rails-controller-testing
   recaptcha
