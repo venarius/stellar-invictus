@@ -38,7 +38,8 @@
           </tbody>
         </table>
         
-        <% if Structure.find(container_id).container? and (current_user.system.medium? || current_user.system.high?) and !Structure.find(container_id).user&.in_same_fleet_as(current_user.id) and Structure.find(container_id).user != current_user and Structure.find(container_id).created_at > (DateTime.now.to_time - 10.minutes).to_datetime %>
+        <% structure = Structure.find(container_id) %>
+        <% if structure.container? and (current_user.system.medium? || current_user.system.high?) and !structure.user&.in_same_fleet_as(current_user.id) and structure.user != current_user and structure.created_at < (DateTime.now.to_time - 10.minutes).to_datetime %>
           <p class="color-red"><%= I18n.t('structures.container_police_warning') %></p>
         <% end %>
       </div>
