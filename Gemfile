@@ -70,5 +70,3 @@ gem 'acts_as_votable'
 gem 'recaptcha'
 # Bugsnag for Errors
 gem 'bugsnag'
-# Rack Timeout
-gem "rack-timeout"
