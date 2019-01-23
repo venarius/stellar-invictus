@@ -8,6 +8,7 @@ describe Spaceship do
       it { should respond_to :warp_target_id }
       it { should respond_to :warp_scrambled }
       it { should respond_to :location }
+      it { should respond_to :insured }
     end
    
     describe 'Relations' do

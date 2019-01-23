@@ -6,9 +6,16 @@
 
 <% if current_user.missions.count < 5 || mission.active? %>
 
+  <!-- WARNINGS -->
   <% if (mission.combat? || mission.vip?) and (mission.hard? || mission.medium?) %>
     <p class="color-red"><%= I18n.t('missions.hard_warning') %></p>
   <% end %>
+  <% if mission.mining? %>
+    <% if mission.mission_loader == "asteroid.titanium_ore" %>
+      <p class="color-red"><%= I18n.t('missions.titanium_warning') %></p>
+    <% end %>
+  <% end %>
+  <!-- WARNINGS END -->
 
   <p><strong><%= I18n.t('missions.objectives') %>:</strong></p>
   <ul>

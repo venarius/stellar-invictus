@@ -21,15 +21,18 @@ class PlayerDiedWorker
       user.active_spaceship.drop_loot if user.active_spaceship
       ac_server.broadcast("location_#{user.location.id}", method: 'player_appeared')
       
-      # Destroy current spaceship of user and give him a nano
-      user.active_spaceship.destroy if user.active_spaceship
-      ship = Spaceship.create(user_id: user.id, name: 'Nano', hp: 50)
-      Item.create(loader: 'equipment.miner.basic_miner', spaceship: ship, equipped: true)
-      Item.create(loader: 'equipment.weapons.laser_gatling', spaceship: ship, equipped: true)
+      # Destroy current spaceship of user and give him a nano if not insured
+      old_ship = user.active_spaceship.destroy if user.active_spaceship
+      if old_ship&.insured
+        spaceship = Spaceship.create(user_id: user.id, name: old_ship.name, hp: SHIP_VARIABLES[old_ship.name]['hp'])
+        user.update_columns(active_spaceship_id: spaceship.id)
+      else
+        user.give_nano
+      end
       
       # Make User docked at his factions station
       rand_location = user.faction.locations.where(location_type: :station).order(Arel.sql("RANDOM()")).first rescue nil
-      user.update_columns(in_warp: false, docked: true, location_id: rand_location.id, system_id: rand_location.system.id, active_spaceship_id: ship.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
+      user.update_columns(in_warp: false, docked: true, location_id: rand_location.id, system_id: rand_location.system.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
       
       # Tell user to reload page
       ac_server.broadcast("player_#{user.id}", method: 'reload_page')

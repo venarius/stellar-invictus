@@ -226,6 +226,9 @@ en:
     blueprints: "Blueprints"
     dont_have_blueprint: "You don't have the required blueprint (from research station)"
   ships:
+    insurance: "Insurance"
+    insurance_text: "Purchase Insurance for this ship? Once purchased, your ship will get replaced in case of destruction."
+    ship_already_insured: "Spaceship already insured"
     ship: "Ship"
     inventory: "Inventory"
     name: "Name"
@@ -447,6 +450,8 @@ en:
     successfully_finished_mission: "Successfully finished mission"
     successfully_aborted_mission: "Successfully aborted mission"
     hard_warning: "Warning: This mission has a higher difficulty and thus shouldn't be attempted in a starter ship (e.g. Nano)."
+    titanium_warning: "Warning: This mission requires titanium ore, which can only be found in hidden exploration sites. A scanner is required."
+    tryon_warning: "Warning: This mission requires tryon ore, which is a rare ore that can only be found in low-density asteroid fields in low security systems."
     route: "Plot route"
     agent: "Agent"
   alliances:
