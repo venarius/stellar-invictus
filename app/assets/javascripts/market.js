@@ -31,7 +31,9 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data('id');
     var button = $(this);
     var amount = $(this).closest('.modal').find('.market-buy-input').val();
+    var html = button.html();
 
+    loading_animation(button);
     $.post('market/buy', {id: id, amount: amount}, function(data) {
       button.closest('.modal').modal('hide');
       if (data.new_amount && data.new_amount != 0) {
@@ -41,6 +43,7 @@ $( document ).on('turbolinks:load', function() {
       }
       refresh_player_info();
     }).error(function(data) {
+      button.html(html);
       if (!button.closest('.modal').find('.error').length) {
         button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
         setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
@@ -48,7 +51,7 @@ $( document ).on('turbolinks:load', function() {
     });
   });
   
-  // Market Buy AJAX
+  // Market Buy
   $('.station-card').on('click', '.max-buy-btn', function(e) {
     var amount = parseInt($(this).data('amount'));
     var price = parseInt($(this).data('price'));
@@ -117,7 +120,9 @@ $( document ).on('turbolinks:load', function() {
     var type = $(this).data('type')
     var id = $(this).data('id')
     var button = $(this)
+    var html = button.html();
     
+    loading_animation(button);
     $.post('market/sell', {loader: loader, type: type, quantity: amount, id: id}, function(data) {
       button.closest('.modal').modal('hide');
       button = $('#app-container').find('.market-appraise-btn[data-loader="'+loader+'"]');
@@ -137,6 +142,7 @@ $( document ).on('turbolinks:load', function() {
       refresh_player_info();
       
     }).error(function(data) {
+      button.html(html);
       $('#market-sell').find('input').addClass("outline-danger"); 
       if (!button.closest('.modal').find('.error').length) {
         button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");

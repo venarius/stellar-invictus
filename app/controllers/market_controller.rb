@@ -30,13 +30,18 @@ class MarketController < ApplicationController
         render json: {'error_message': I18n.t('errors.you_cant_buy_that_much')}, status: 400 and return if amount > listing.amount
         
         # Check Balance
-        render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.units >= listing.price * amount
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.reload.units >= listing.price * amount
+        
+        # Deduct units
+        current_user.reduce_units(listing.price * amount)
         
         # If listing is item -> else..
         if listing.item?
+          items = []
           amount.times do
-            Item.create(location: current_user.location, user: current_user, loader: listing.loader, equipped: false)
+            items << Item.new(location: current_user.location, user: current_user, loader: listing.loader, equipped: false)
           end
+          Item.import items
         else
           
           # Check if met requirements
@@ -50,9 +55,6 @@ class MarketController < ApplicationController
             Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: SHIP_VARIABLES[listing.loader]['hp'])
           end
         end
-        
-        # Deduct units
-        current_user.reduce_units(listing.price * amount)
         
         # Destroy Listing
         new_amount = listing.amount - amount
@@ -135,35 +137,34 @@ class MarketController < ApplicationController
       listings = MarketListing.where(loader: loader, location: current_user.location).count
       if quantity and quantity.to_i > 0
         math = 0
-        quantity.to_i.times do
-          if type == "item"
-            
-            if MarketListing.where(loader: loader, location: current_user.location).empty?
-              price = get_item_attribute(loader, 'price') rescue nil
-            else
-              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.98) rescue nil
-            end
-            
-            # Customization
-            location = current_user.location
-            if location.industrial_station?
-              price = price * 0.75 if loader.include?("equipment.")
-            elsif location.warfare_plant?
-              price = price * 0.75 if loader.include?("equipment.weapons")
-            elsif location.mining_station?
-              price = price * 0.75 if loader.include?("asteroid.")
-            end
-            
+        if type == "item"
+          
+          if MarketListing.where(loader: loader, location: current_user.location).empty?
+            price = get_item_attribute(loader, 'price') rescue nil
           else
-            if MarketListing.where(loader: loader, location: current_user.location).empty?
-              price = SHIP_VARIABLES[loader]['price'] rescue nil
-            else
-              price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.98) rescue nil
-            end
+            price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.98) rescue nil
           end
-          listings = 1 if listings == 0
-          math = math + (price rescue nil / (1.05 ** listings)).round rescue nil
+          
+          # Customization
+          location = current_user.location
+          if location.industrial_station?
+            price = price * 0.75 if loader.include?("equipment.")
+          elsif location.warfare_plant?
+            price = price * 0.75 if loader.include?("equipment.weapons")
+          elsif location.mining_station?
+            price = price * 0.75 if loader.include?("asteroid.")
+          end
+          
+        else
+          if MarketListing.where(loader: loader, location: current_user.location).empty?
+            price = SHIP_VARIABLES[loader]['price'] rescue nil
+          else
+            price = (MarketListing.where(loader: loader, location: current_user.location).order('price ASC').first.price * 0.98) rescue nil
+          end
         end
+        listings = 1 if listings == 0
+        price = price * quantity.to_i
+        math = math + (price rescue nil / (1.05 ** listings)).round rescue nil
         return math rescue nil
       end
     end
