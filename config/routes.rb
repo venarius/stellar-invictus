@@ -61,6 +61,7 @@ Rails.application.routes.draw do
     get 'cargohold', to: 'ships#cargohold'
     post 'eject_cargo', to: 'ships#eject_cargo'
     get 'info', to: 'ships#info'
+    post 'insure', to: 'ships#insure'
   end
   
   # Asteroids

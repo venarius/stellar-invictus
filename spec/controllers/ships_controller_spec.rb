@@ -164,5 +164,40 @@ RSpec.describe ShipsController, type: :controller do
         expect(EjectCargoWorker.jobs.size).to eq(0)
       end
     end
+    
+    describe 'POST insure' do
+      before(:each) do
+        spaceship = FactoryBot.create(:spaceship, name: "Valadria", hp: "500", user: @user)
+        @user.update_columns(active_spaceship_id: spaceship.id)
+      end
+      
+      it 'should insure ship' do
+        @user.update_columns(docked: true, units: 10000)
+        post :insure, params: {id: @user.active_spaceship.id}
+        expect(response.status).to eq(200)
+        expect(@user.active_spaceship.reload.insured).to be_truthy
+      end
+      
+      it 'should not insure ship if user is not docked' do
+        post :insure, params: {id: @user.active_spaceship.id}
+        expect(response.status).to eq(400)
+        expect(@user.active_spaceship.reload.insured).to be_falsey
+      end
+      
+      it 'should not insure ship if user has no money' do
+        @user.update_columns(units: 0)
+        post :insure, params: {id: @user.active_spaceship.id}
+        expect(response.status).to eq(400)
+        expect(@user.active_spaceship.reload.insured).to be_falsey
+      end
+      
+      it 'should not insure already insured ship' do
+        @user.update_columns(docked: true, units: 10000)
+        @user.active_spaceship.update_columns(insured: true)
+        post :insure, params: {id: @user.active_spaceship.id}
+        expect(response.status).to eq(400)
+        expect(@user.active_spaceship.reload.insured).to be_truthy
+      end
+    end
   end
 end

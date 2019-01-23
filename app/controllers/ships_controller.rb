@@ -61,4 +61,26 @@ class ShipsController < ApplicationController
     end
     render json: {}, status: 400
   end
+  
+  def insure
+    if params[:id]
+      ship = Spaceship.find(params[:id]) rescue nil
+      if ship and ship.user == current_user and !ship.insured and current_user.docked
+        price = (SHIP_VARIABLES[ship.name]['price'] / 2).round
+        
+        # check credits
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.units >= price
+        
+        # Insure
+        ship.update_columns(insured: true)
+        
+        # Deduct units
+        current_user.reduce_units(price)
+        
+        render json: {}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
 end

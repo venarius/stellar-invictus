@@ -4,7 +4,7 @@
       <tr>
         <th scope="col"><%= I18n.t('ships.name') %></th>
         <th scope="col"><%= I18n.t('ships.hp') %></th>
-        <th scope="col"><%= I18n.t('ships.defense') %></th>
+        <th scope="col" class="mobile-display-none"><%= I18n.t('ships.defense') %></th>
         <th scope="col"><%= I18n.t('ships.storage') %></th>
         <th scope="col" class="btn-th"></th>
       </tr>
@@ -15,10 +15,11 @@
         <tr class="<%= 'table-light' if current_user.active_spaceship == ship %>">
           <td><%= ship.name %></td>
           <td><%= ship_vars['hp'] %></td>
-          <td><%= ship.get_defense %></td>
+          <td class="mobile-display-none"><%= ship.get_defense %></td>
           <td><%= ship.get_weight %> / <%= ship.get_storage_capacity %></td>
           <td>
-            <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#my-ship-<%= ship.id %>"><i class="fa fa-eye"></i></a>
+            <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#insurance-<%= ship.id %>"><i class="fa fa-file-contract"></i></a>
+            <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#my-ship-<%= ship.id %>"><i class="fa fa-info"></i></a>
             <a class="btn btn-outline-success activate-ship-btn" role="button" data-id="<%= ship.id %>"><i class="fa fa-check"></i></a>
             <a class="btn btn-outline-success market-appraise-btn" role="button" data-toggle="modal" data-target="#market-sell" data-loader="<%= ship.name %>" data-amount="1" data-type="ship" data-id="<%= ship.id %>"><i class="fa fa-dollar-sign"></i></a>
           </td>
@@ -40,6 +41,36 @@
           </div>
           <div class="modal-body">
             <%= render partial: 'ships/vars', locals: {value: value} %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="insurance-<%= ship.id %>" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><%= I18n.t('ships.insurance') %></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="text-center"><%= I18n.t('ships.insurance_text') %></p>
+            
+            <% if ship.insured %>
+              <p class="text-center"><%= I18n.t('ships.ship_already_insured') %></p>
+            <% else %>
+              <div class="text-center">
+                <h5><%= I18n.t('market.price') %>: <span class="color-highgreen"><%= (value['price'] / 2).round %> Cr</span></h5>
+              </div>
+            <% end %>
+          </div>
+          <div class="modal-footer">
+            <% unless ship.insured %>
+              <button type="button" class="btn btn-primary insure-ship-btn" data-id="<%= ship.id %>"><%= I18n.t('modal.buy') %></button>
+            <% end %>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
           </div>
         </div>
       </div>

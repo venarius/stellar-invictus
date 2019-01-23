@@ -17,6 +17,7 @@ class EnemyWorker
     @target = User.find(target_id) rescue nil if target_id
     @attack = attack
     @count = count
+    @hard = hard
     
     return unless @location
     
@@ -27,7 +28,7 @@ class EnemyWorker
         else
           @enemy = Npc.create(npc_type: 'bodyguard', location: @location, hp: 75, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
         end
-      elsif (@location.exploration_site? and @location.enemy_amount == 1) || hard
+      elsif (@location.exploration_site? and @location.enemy_amount == 1) || @hard
         @enemy = Npc.create(npc_type: 'wanted_enemy', location: @location, hp: 650, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
       else
         @enemy = Npc.create(npc_type: 'enemy', location: @location, hp: [50, 75, 100].sample, name: "#{Faker::Name.first_name} #{Faker::Name.last_name}")
@@ -122,7 +123,7 @@ class EnemyWorker
           when 'hard'
             @attack = rand(25..30) * (1.0 - target_spaceship.get_defense/100.0)
         end
-      elsif @location.exploration_site? and @location.enemy_amount == 1
+      elsif (@location.exploration_site? and @location.enemy_amount == 1) || @enemy.wanted_enemy?
         @attack = rand(40..50) * (1.0 - target_spaceship.get_defense/100.0)
       else
         @attack = rand(2..5) * (1.0 - target_spaceship.get_defense/100.0)

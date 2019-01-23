@@ -71,6 +71,20 @@ $( document ).on('turbolinks:load', function() {
     }
   });
   
+  // Pay insurance for ship AJAX
+  $('#app-container').on('click', '.insure-ship-btn', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var button = $(this)
+    
+    if (id) {
+      $.post("/ship/insure", {id: id}, function() {
+        button.closest('.modal').modal('hide');
+        setTimeout(function() {load_station_tab("#my_ships");}, 250);
+      }); 
+    }
+  }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); });
+  
   // Store items from ship on station
   $('.station-card').on('click', '.store-btn', function(e) {
     $('#store-modal').find('.item-name').text($(this).parent().parent().find('.item-name').html());
