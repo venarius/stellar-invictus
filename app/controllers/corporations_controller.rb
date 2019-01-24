@@ -69,7 +69,7 @@ class CorporationsController < ApplicationController
       corporation = current_user.corporation
       user = User.find(params[:id])
       
-      if user
+      if user and user.corporation == current_user.corporation
         # Check Permissions
         render json: {'error_message': I18n.t('errors.cant_change_a_higher_rank')}, status: 400 and return if User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role]
         
