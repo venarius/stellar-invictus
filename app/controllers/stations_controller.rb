@@ -72,9 +72,9 @@ class StationsController < ApplicationController
   def store
     if params[:loader] and params[:amount] and current_user.docked
       amount = params[:amount].to_i
-      items = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader])
+      items = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false)
       if items and amount <= items.count and amount > 0
-        items.limit(amount).update_all(spaceship_id: nil, location_id: current_user.location_id, user_id: current_user.id, equipped: false)
+        items.limit(amount).update_all(spaceship_id: nil, location_id: current_user.location_id, user_id: current_user.id)
         render json: {}, status: 200 and return
       end
     end

@@ -86,7 +86,7 @@ class StructuresController < ApplicationController
   def abandoned_ship
     if params[:id] || (params[:id] and params[:text])
       structure = Structure.find(params[:id]) rescue nil
-      if structure and structure.location == current_user.location and current_user.can_be_attacked
+      if structure and structure.location == current_user.location and current_user.can_be_attacked and structure.items.present?
         if params[:text]
           if params[:text].downcase == RIDDLE_VARIABLES[structure.riddle]['answer']
             new_structure = Structure.create(location: current_user.location, structure_type: 'wreck')

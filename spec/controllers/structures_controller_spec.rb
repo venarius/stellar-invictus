@@ -164,6 +164,7 @@ RSpec.describe StructuresController, type: :controller do
     describe 'POST abandoned_ship' do
       before(:each) do
         @abandoned_ship = FactoryBot.create(:structure, location: @user.location, structure_type: 'abandoned_ship', riddle: 1)
+        FactoryBot.create(:item, structure: @abandoned_ship)
       end
       
       it 'should render_template if user in same location as structure' do

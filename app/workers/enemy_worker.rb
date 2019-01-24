@@ -73,7 +73,7 @@ class EnemyWorker
       # Find first User in system and target
       @target = User.where(location: @enemy.location, docked: false).where('online > 0').sample rescue nil
       
-      if @target
+      if @target and can_attack
         attack
       else
         @enemy.destroy and return
