@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= render partial: 'ships/vars', locals: {value: value} %>
+        <%= render partial: 'ships/vars', locals: {value: value, key: key} %>
         
         <% if current_user.blueprints.where(loader: key).present? %>
           <p><strong><%= I18n.t('crafting.ressources') %> (<%= I18n.t('crafting.current_efficiency') %>: <%= (100 / current_user.blueprints.find_by(loader: key).efficiency).round %>%)</strong></p>

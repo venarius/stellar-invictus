@@ -52,3 +52,13 @@
     </tbody>
   </table>
 <% end %>
+<p><strong><%= I18n.t('ships.traits') %></strong></p>
+  <table class="table table-sm table-bordered table-striped mb-3">
+    <tbody>
+      <tr>
+        <td class="text-center">
+          <%= I18n.t("ships.trait_#{key.downcase}") %>
+        </td>
+      </tr>
+    </tbody>
+  </table>

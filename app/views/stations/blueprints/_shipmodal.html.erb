@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= render partial: 'ships/vars', locals: {value: value} %>
+        <%= render partial: 'ships/vars', locals: {value: value, key: key} %>
         
         <p><strong><%= I18n.t('crafting.ressources') %> (<%= I18n.t('crafting.at_100_efficiency') %>)</strong></p>
         <table class="table table-bordered table-striped table-sm mb-3">
