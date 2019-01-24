@@ -122,7 +122,7 @@ class Spaceship < ApplicationRecord
     storage = self.get_attribute('storage')
     self.get_utility_equipment.each do |item|
       item_attr = item.get_attribute('storage_amplifier') if item.get_attribute('type') == "Storage" and item.equipped
-      item_attr = (item_attr - 1) * SHIP_VARIABLES[name]['trait']['storage_amplifier'] if (SHIP_VARIABLES[name]['trait']['storage_amplifier'] rescue nil) and item_attr
+      item_attr = (item_attr - 1) * SHIP_VARIABLES[name]['trait']['storage_amplifier'] + 1 if (SHIP_VARIABLES[name]['trait']['storage_amplifier'] rescue nil) and item_attr
       item_attr = 1 unless item_attr
       storage = storage * item_attr
     end
@@ -172,7 +172,7 @@ class Spaceship < ApplicationRecord
     defense = self.get_attribute('defense')
     self.get_utility_equipment.each do |item|
       item_attr = item.get_attribute('defense_amplifier') if item.get_attribute('type') == "Defense" and item.equipped
-      item_attr = (item_attr - 1) * SHIP_VARIABLES[name]['trait']['defense_amplifier'] if (SHIP_VARIABLES[name]['trait']['defense_amplifier'] rescue nil) and item_attr
+      item_attr = (item_attr - 1) * SHIP_VARIABLES[name]['trait']['defense_amplifier'] + 1 if (SHIP_VARIABLES[name]['trait']['defense_amplifier'] rescue nil) and item_attr
       item_attr = 1 unless item_attr
       defense = defense * item_attr
     end
