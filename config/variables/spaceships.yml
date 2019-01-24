@@ -197,7 +197,7 @@ Intervention:
   type: "Hunter"
   trait:
     warp_disrupt_amplifier: 2
-    align_amplifier: 2
+    align_amplifier: 0.5
   
 # Core Republic
 
