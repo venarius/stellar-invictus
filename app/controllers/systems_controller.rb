@@ -37,12 +37,12 @@ class SystemsController < ApplicationController
   end
   
   def scan
-    scanner = current_user.active_spaceship.get_scanner
-    if scanner and current_user.can_be_attacked
+    scanner_range = current_user.active_spaceship.get_scanner_range
+    if scanner_range and current_user.can_be_attacked
       # check count
       render json: {error_message: I18n.t('errors.no_exploration_sites_found')}, status: 400 and return if current_user.system.locations.where(hidden: true).count == 0
       
-      render partial: 'game/locations_table', locals: {locations: current_user.system.locations.where(hidden: true).limit(scanner.get_attribute('scanner_range'))}
+      render partial: 'game/locations_table', locals: {locations: current_user.system.locations.where(hidden: true).limit(scanner_range)}
     else
       render json: {}, status: 400
     end
