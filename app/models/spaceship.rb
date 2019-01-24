@@ -247,7 +247,7 @@ class Spaceship < ApplicationRecord
     self.get_main_equipment(true).each do |item|
       septarium_usage = septarium_usage + item.get_attribute('septarium_usage') if item.get_attribute('slot_type') == "main"
     end
-    septarium_usage = septarium_usage * SHIP_VARIABLES[name]['trait']['septarium_usage_amplifier'] if (SHIP_VARIABLES[name]['trait']['septarium_usage_amplifier'] rescue nil) and item_attr
+    septarium_usage = septarium_usage * SHIP_VARIABLES[name]['trait']['septarium_usage_amplifier'] if (SHIP_VARIABLES[name]['trait']['septarium_usage_amplifier'] rescue nil)
     septarium_usage.round
   end
   
@@ -271,7 +271,7 @@ class Spaceship < ApplicationRecord
     end
     self.get_utility_equipment.each do |item|
       weight = weight - item.get_attribute('disrupt_immunity') if item.get_attribute('type') == "Warp Core Stabilizer" and item.equipped
-      weight = weight - SHIP_VARIABLES[name]['trait']['disrupt_immunity'] if (SHIP_VARIABLES[name]['trait']['disrupt_immunity'] rescue nil) and item_attr
+      weight = weight - SHIP_VARIABLES[name]['trait']['disrupt_immunity'] if (SHIP_VARIABLES[name]['trait']['disrupt_immunity'] rescue nil)
     end
     weight > 0? true : false
   end
