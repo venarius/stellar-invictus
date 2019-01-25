@@ -29,7 +29,7 @@ class FactoriesController < ApplicationController
         
         # Check if has ressources
         ressources.each do |key, value|
-          items = Item.where(loader: key, user: current_user)
+          items = Item.where(loader: key, user: current_user, location: current_user.location)
           value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
           render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !items.present? || items.count < value.round * params[:amount].to_i
         end
@@ -38,7 +38,7 @@ class FactoriesController < ApplicationController
           # Delete ressources
           ressources.each do |key, value|
             value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
-            Item.where(loader: key, user: current_user).limit(value.round).destroy_all
+            Item.where(loader: key, user: current_user, location: current_user.location).limit(value.round).destroy_all
           end
           
            # Create CraftJob

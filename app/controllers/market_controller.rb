@@ -32,9 +32,6 @@ class MarketController < ApplicationController
         # Check Balance
         render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.reload.units >= listing.price * amount
         
-        # Deduct units
-        current_user.reduce_units(listing.price * amount)
-        
         # If listing is item -> else..
         if listing.item?
           items = []
@@ -55,6 +52,9 @@ class MarketController < ApplicationController
             Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: SHIP_VARIABLES[listing.loader]['hp'])
           end
         end
+        
+        # Deduct units
+        current_user.reduce_units(listing.price * amount)
         
         # Destroy Listing
         new_amount = listing.amount - amount
