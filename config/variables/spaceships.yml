@@ -286,7 +286,7 @@ Spectrum:
   hp: 2500
   defense: 55
   price: 60000
-  main_equipment_slots: 4
+  main_equipment_slots: 6
   utility_equipment_slots: 6
   align_time: 25
   target_time: 20
