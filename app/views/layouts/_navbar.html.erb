@@ -8,7 +8,7 @@
       <ul class="navbar-nav mr-auto">
         <% if current_user %>
           <%= navbar_item(main_app.game_path, 'navbar.game') %>
-          <%= navbar_item(main_app.corporations_path, 'navbar.corporation', CorpApplication.where(corporation: current_user.corporation).count if current_user.founder? || current_user.admiral? || current_user.commodore?) %>
+          <%= navbar_item(main_app.corporations_path, 'navbar.corporation', CorpApplication.where(corporation: current_user.corporation).count ) %>
           <%= navbar_item(main_app.game_mails_path, 'navbar.mails', GameMail.where(recipient_id: current_user.id, read: false).count) %>
           <%= navbar_item(main_app.map_path, 'navbar.map') %>
           <%= link_to I18n.t('navbar.forum'), 'https://forums.stellar-invictus.com/', target: '_blank', class: 'nav-link' %>
