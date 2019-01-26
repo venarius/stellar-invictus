@@ -39,7 +39,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # set :ssh_options, verify_host_key: :secure
 
 # Master Key
-# set :linked_files, %w{config/master.key .env}
+set :linked_files, %w{config/master.key .env}
 
 namespace :deploy do
   desc "reload the database with seed data"
