@@ -89,3 +89,31 @@
 23:
   question: "Which gas is formed when a hydrogen bomb is detonated?"
   answer: "helium"
+  
+24:
+  question: "What is the name of the largest hadron collider?"
+  answer: "european organization for nuclear research"
+  
+25:
+  question: "What is the name of a scientist who discovered most of the periodic table?"
+  answer: "dimitri mendeleev"
+  
+26:
+  question: "Molten salt reactors, which element can be used in them?"
+  answer: "thorium"
+  
+27:
+  question: "What kind of engine can get a space ship to around 30% of the speed of light?"
+  answer: "ion"
+  
+28:
+  question: "Who invented ion propulsion?"
+  answer: "nasa"
+  
+29:
+  question: "What do we call a stream of charged particles released from the upper atmosphere of the Sun?"
+  answer: "solar wind"
+  
+30:
+  question: "We can observe them near the poles when sun is sending solar wind toward our planet."
+  answer: "aurora borealis"

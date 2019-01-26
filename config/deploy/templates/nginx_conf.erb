@@ -13,6 +13,7 @@ end
 <% if fetch(:nginx_use_ssl) -%>
 server {
   listen 80;
+  error_page 502 503 /home/deploy/app/stellar/current/public/503.html;
   server_name <%= fetch(:nginx_server_name) %>;
   return 301 https://$host$1$request_uri;
 }
