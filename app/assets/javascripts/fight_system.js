@@ -27,16 +27,20 @@ $( document ).on('turbolinks:load', function() {
   // Use Equipment AJAX
   $('.ship-card').on('click', '.use-equipment-btn', function(e) {
     e.preventDefault();
-    var button = $(this)
+    let button = $(this)
     id = $(this).data("id");
     $.post( "equipment/switch", {id: id}, function(data) {
       button.tooltip('dispose');
       $('#septarium-usage').text(data.usage);
       if (data && (data.type == "Weapon" || data.type == "Warp Disruptor")) {
         if (button.hasClass('btn-outline-secondary')) {
-          button.removeClass('btn-outline-secondary').addClass('btn-outline-danger');
+          if (data.type == "Weapon") {
+            button.removeClass('btn-outline-secondary').addClass('btn-outline-danger');
+          } else if (data.type == "Warp Disruptor") {
+            button.removeClass('btn-outline-secondary').addClass('btn-outline-warning');
+          }
         } else {
-          button.removeClass('btn-outline-danger').addClass('btn-outline-flash-danger');
+          button.removeClass('btn-outline-danger btn-outline-warning').addClass('btn-outline-flash-danger');
           setTimeout(function() {button.removeClass('btn-outline-flash-danger').addClass('btn-outline-secondary');}, 1000)
         }
       } else if (data.type == "Repair Bot" || data.type == "Repair Beam") {
