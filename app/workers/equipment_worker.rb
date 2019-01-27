@@ -138,7 +138,8 @@ class EquipmentWorker
               player.target.die and player.active_spaceship.deactivate_weapons
             else
               player.npc_target.give_bounty(player)
-              player.npc_target.die and player.active_spaceship.deactivate_weapons
+              player.npc_target.die if player.npc_target
+              player.active_spaceship.deactivate_weapons
             end
           end
           
