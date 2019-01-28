@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark <%= 'fixed-top' if current_user %>">
     <a class="navbar-brand" href="/<%= 'game' if current_user %>"><%= image_tag('logo.png') %></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -15,10 +15,11 @@
           <div class="mobile-ml-0 mobile-mb-1" style="margin-top:7px;margin-left:5px">
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
               <input type="hidden" name="cmd" value="_s-xclick" />
-              <input type="hidden" name="hosted_button_id" value="M99V7SEHGVEXL" />
+              <input type="hidden" name="hosted_button_id" value="PTXZHALEG5QAY" />
               <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-              <img alt="" border="0" src="https://www.paypal.com/en_DE/i/scr/pixel.gif" width="1" height="1" />
-              </form>
+              <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+            </form>
+
           </div>
         <% else %>
           <%= navbar_item(main_app.root_path, 'navbar.home') %>
