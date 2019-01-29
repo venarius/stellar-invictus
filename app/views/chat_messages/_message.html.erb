@@ -5,8 +5,13 @@
       <% if message.user.corporation %>
         <strong>[<%= message.user.corporation&.ticker %>]</strong>
       <% end %>
-      <strong><%= message.user.full_name %></strong>
+      <strong class="<%= 'text-primary' if message.user.donator %>">
+        <%= message.user.full_name %>
+      </strong>
     </a>
+    <% if message.user.donator %>
+      <span class="badge badge-primary"><%= I18n.t("users.donator_#{message.user.avatar[0]}") %></span>
+    <% end %>
     <span class="float-right"><%= message.created_at.strftime("%H:%M") %></span><br>
     <p><%= message.body %></p>
   </td>

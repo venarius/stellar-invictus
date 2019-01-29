@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/credits', to: 'static_pages#credits'
   get '/nojs', to: 'static_pages#nojs'
   get '/support', to: 'static_pages#support'
+  get '/donate', to: 'static_pages#donate'
   post '/support_ticket/create', to: 'static_pages#create_support_ticket', as: :create_support_ticket
   
   # Factions

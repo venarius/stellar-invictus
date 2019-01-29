@@ -18,4 +18,7 @@ class StaticPagesController < ApplicationController
     ApplicationMailer.with(category: params[:ticket][:category], subject: params[:ticket][:subject], description: params[:ticket][:description], name: current_user.full_name).support_ticket.deliver_now
     render json: {message: I18n.t('support.mail_sent_successfully')}, status: 200
   end
+  
+  def donate
+  end
 end

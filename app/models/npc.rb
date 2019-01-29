@@ -51,6 +51,20 @@ class Npc < ApplicationRecord
     
     player.give_units(value)
     
+    # Also give reputation
+    corporation = player.system.locations.where(location_type: :station).first&.faction.id rescue nil
+    if corporation
+      ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.gained_reputation', user: self.name, amount: 0.01))
+      case corporation
+        when 1
+          player.update_columns(reputation_1: player.reputation_1 + 0.01)
+        when 2
+          player.update_columns(reputation_2: player.reputation_2 + 0.01)
+        when 3
+          player.update_columns(reputation_3: player.reputation_3 + 0.01)
+      end
+    end
+    
     ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.name, amount: value))
     ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
   end

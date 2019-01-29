@@ -2,7 +2,7 @@ module ApplicationHelper
   def navbar_item(path, name, count=0)
     tmp = []
     tmp << "<li class='nav-item #{'active' if current_page?(path)}'>"
-    tmp << "  <a href='#{path}' class='nav-link'>"
+    tmp << "  <a href='#{path}' class='nav-link #{'color-gold' if path == donate_path}'>"
     if count > 0
       tmp << "    #{I18n.t(name)}" + " (#{count})"
     else
