@@ -17,10 +17,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
   </head>
 
-  <body>
+  <body class="<%= 'pt-70px' if current_user and !current_page?(root_path) %>">
     <%= render 'layouts/navbar' %>
   
-    <div class="<%= 'mt-1rem container mb-3' unless current_page?(root_path) %> <%= 'mt-5rem' if current_user %>" id="app-container">
+    <div class="<%= 'mt-1rem container mb-3' unless current_page?(root_path) %>" id="app-container">
       <%= render 'layouts/alerts' %>
       
       <%= yield %>

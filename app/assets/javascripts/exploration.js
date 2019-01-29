@@ -4,7 +4,7 @@ $( document ).on('turbolinks:load', function() {
   // Scan System Btn AJAX
   $('#app-container').on('click', '.scan-system-btn', function() {
     var text = $(this).text();
-    var button = $(this).button();
+    var button = $(this);
     
     loading_animation($(this));
     $.post('system/scan', function(data) {
@@ -52,6 +52,9 @@ $( document ).on('turbolinks:load', function() {
         button.closest('.modal').modal('hide');
         reload_players_card();
       }, 1000)
-    }).error(function() { button.closest('.modal').find('input').css('border', '1px solid red').css('box-shadow', '0 0 5px red'); });
+    }).error(function() { 
+      button.closest('.modal').find('input').css('border', '1px solid red').css('box-shadow', '0 0 5px red'); 
+      setTimeout(function() {button.closest('.modal').modal('hide');}, 1000)
+    });
   });
 });

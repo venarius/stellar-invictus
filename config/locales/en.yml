@@ -15,6 +15,8 @@ en:
     admin_dashboard: "Admin Dashboard"
     forum: "Forum"
     polls: "Polls"
+    guide: "Guide"
+    donate: "Donate"
   devise:
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
@@ -132,6 +134,10 @@ en:
     play_for_free: "Play For Free"
     more: "More"
     support: "Support"
+    donate: "Donate"
+    donate_text: "Hey there!<br><br>I am happy you made it to this page. My name is Tim and I am the sole developer behind this game.<br><br>At the age of 13 I started to play spacegames like EVE Online and Elite Dangerous and always dreamed about a similar game but for on the go.<br><br>After several years, I am happy to say that I finally realised my dream. Since I don't want to spoil the game for anyone and pay to win is hated everywhere, I wanted to never take a cent for the game.<br><br>But servers and email services still cost a lot and I can't afford the playerbase the game currently has.<br><br>That's why I need the help of this awesome community behind my game!"
+    list_awesome_donators: "List of awesome donators:"
+    donate_alert: "If you want to have the donator badge, please also enter your username in the donation page."
   modal:
     got_disconnected: "Lost connection to server"
     got_disconnected_text: "It seems you have lost connection to the server. Reconnecting..."
@@ -363,6 +369,8 @@ en:
     current_ship: "Current Spaceship"
     corporation: "Corporation"
     admin: "Admin"
+    donator_M: "Awesome Dude"
+    donator_F: "Awesome Dudette"
   crafting:
     craft: "Craft"
     ressources: "Required Resources"
@@ -425,6 +433,7 @@ en:
     placed_bounty: "%{user} placed a bounty of %{amount} Cr on your head"
     received_friend_request: "%{user} has sent you a friend request"
     received_bounty: "You received %{amount} Cr bounty for the destruction of %{user}"
+    gained_reputation: "You received %{amount} reputation for the local authority"
   routing:
     get_route: "Get Route"
     route: "Route"

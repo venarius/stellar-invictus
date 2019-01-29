@@ -29,24 +29,26 @@ class StructuresController < ApplicationController
           call_police(current_user) if structure.user != current_user and structure.structure_type != 'wreck' and !structure.user.in_same_fleet_as(current_user.id) and structure.created_at > (DateTime.now.to_time - 10.minutes).to_datetime
           
           # Check if player has enough space
-          weight = 0
           free_weight = current_user.active_spaceship.get_free_weight
           item_count = items.count
-          items.each do |item|
-            weight = weight + item.get_attribute('weight')
-          end
-          if weight > free_weight
-            if free_weight > 0
-              items.each do |item|
-                if item.get_attribute('weight') <= free_weight
-                  item.update_columns(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
-                  free_weight = free_weight - item.get_attribute('weight')
-                end
+          
+          if free_weight > 0
+            items.each do |item|
+              if item.get_attribute('weight') <= free_weight
+                item.update_columns(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
+                free_weight = free_weight - item.get_attribute('weight')
               end
-              render json: {amount: item_count - free_weight}, status: 200 and return
-            else
-              render json: {error_message: I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
             end
+            
+            # Destroy Structure if items gone and tell players to update players
+            if Item.where(structure: params[:id]).empty?
+              structure.destroy
+              ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_appeared')
+            end
+            
+            render json: {amount: item_count - free_weight}, status: 200 and return
+          else
+            render json: {error_message: I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
           end
           
           # Update all items to spaceship
@@ -92,6 +94,10 @@ class StructuresController < ApplicationController
             new_structure = Structure.create(location: current_user.location, structure_type: 'wreck')
             structure.items.update_all(structure_id: new_structure.id)
             render json: {}, status: 200 and return
+          else
+            rand(2..4).times do
+              EnemyWorker.perform_async(nil, current_user.location.id)
+            end
           end
         else
           render partial: 'structures/abandoned_ship', locals: {structure: structure} and return

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark <%= 'fixed-top' if current_user %>">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark <%= 'fixed-top' if current_user and !current_page?(root_path) %>">
     <a class="navbar-brand" href="/<%= 'game' if current_user %>"><%= image_tag('logo.png') %></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -12,15 +12,7 @@
           <%= navbar_item(main_app.game_mails_path, 'navbar.mails', GameMail.where(recipient_id: current_user.id, read: false).count) %>
           <%= navbar_item(main_app.map_path, 'navbar.map') %>
           <%= link_to I18n.t('navbar.forum'), 'https://forums.stellar-invictus.com/', target: '_blank', class: 'nav-link' %>
-          <div class="mobile-ml-0 mobile-mb-1" style="margin-top:7px;margin-left:5px">
-            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-              <input type="hidden" name="cmd" value="_s-xclick" />
-              <input type="hidden" name="hosted_button_id" value="PTXZHALEG5QAY" />
-              <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-              <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-            </form>
-
-          </div>
+          <%= navbar_item(main_app.donate_path, 'navbar.donate') %>
         <% else %>
           <%= navbar_item(main_app.root_path, 'navbar.home') %>
         <% end %>
@@ -39,6 +31,7 @@
               <%= link_to I18n.t('navbar.assets'), main_app.assets_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.friends'), main_app.friends_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.polls'), main_app.community_path, class: 'dropdown-item' %>
+              <%= link_to I18n.t('navbar.guide'), 'https://forums.stellar-invictus.com/t/piloting-101-a-guide-for-new-players/266', target: '_blank', class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.logout'), main_app.destroy_user_session_path, method: :delete, class: 'dropdown-item', style: 'color: #CC0000', id: 'logout-btn' %>
             </div>
           </div>

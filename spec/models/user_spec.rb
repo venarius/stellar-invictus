@@ -33,6 +33,8 @@ describe User do
       it { should respond_to :banreason }
       it { should respond_to :admin }
       it { should respond_to :equipment_worker }
+      it { should respond_to :logout_timer }
+      it { should respond_to :donator }
     end
    
     describe 'Relations' do
