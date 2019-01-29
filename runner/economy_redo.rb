@@ -32,19 +32,19 @@ Location.where(location_type: 'station').order(Arel.sql("RANDOM()")).limit((Loca
     # Customization
     if location.industrial_station?
       location.market_listings.where("loader ilike ?", "equipment.").each do |listing|
-        listing.update_columns(price: (listing.price * rand(0.95..0.98)).round, amount: listing.amount * 2)
+        listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
     
     if location.warfare_plant?
       location.market_listings.where("loader ilike ?", "equipment.weapons").each do |listing|
-        listing.update_columns(price: (listing.price * rand(0.95..0.98)).round, amount: listing.amount * 2)
+        listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
     
     if location.mining_station?
       location.market_listings.where("loader ilike ?", "asteroid.").each do |listing|
-        listing.update_columns(price: (listing.price * rand(0.95..0.98)).round, amount: listing.amount * 2)
+        listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
   end
