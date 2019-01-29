@@ -117,7 +117,7 @@ class MarketController < ApplicationController
       if fill_listing
         fill_listing.update_columns(amount: fill_listing.amount + quantity)
       else
-        rabat = rand(0.8..1.2)
+        rabat = rand(1.0..1.2)
         if params[:type] == "item"
           MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (get_item_attribute(params[:loader], 'price') * rabat * rand(0.98..1.02)).round, amount: quantity)
         elsif params[:type] == "ship"
