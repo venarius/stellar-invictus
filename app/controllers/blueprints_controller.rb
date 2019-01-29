@@ -16,7 +16,7 @@ class BlueprintsController < ApplicationController
         render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.units >= price
         
         # Give Blueprint to User
-        Blueprint.create(user: current_user, loader: params[:loader])
+        Blueprint.create(user: current_user, loader: params[:loader], efficiency: 1.5)
         
         # Deduct units
         current_user.reduce_units(price)
