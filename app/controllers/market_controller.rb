@@ -139,7 +139,7 @@ class MarketController < ApplicationController
         math = 0
         if type == "item"
           
-          price = get_item_attribute(loader, 'price') rescue 0 * 0.95
+          price = get_item_attribute(loader, 'price') rescue 0 * 0.8
           
           # Customization
           location = current_user.location
@@ -152,7 +152,7 @@ class MarketController < ApplicationController
           end
           
         else
-          price = SHIP_VARIABLES[loader]['price'] rescue 0 * 0.95
+          price = SHIP_VARIABLES[loader]['price'] rescue 0 * 0.8
         end
         listings = 1 if listings == 0
         price = price * quantity.to_i if price
