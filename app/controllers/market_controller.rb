@@ -136,10 +136,9 @@ class MarketController < ApplicationController
     if loader and type
       listings = MarketListing.where(loader: loader, location: current_user.location).count
       if quantity and quantity.to_i > 0
-        math = 0
         if type == "item"
           
-          price = get_item_attribute(loader, 'price') rescue 0 * 0.8
+          price = (get_item_attribute(loader, 'price') rescue 0) * 0.9
           
           # Customization
           location = current_user.location
@@ -152,12 +151,12 @@ class MarketController < ApplicationController
           end
           
         else
-          price = SHIP_VARIABLES[loader]['price'] rescue 0 * 0.8
+          price = (SHIP_VARIABLES[loader]['price'] rescue 0) * 0.9
         end
         listings = 1 if listings == 0
         price = price * quantity.to_i if price
-        math = math + (price rescue nil / (1.05 ** listings)).round rescue nil
-        return math rescue nil
+        price = (price rescue nil / (1.05 ** listings)).round rescue nil
+        return price
       end
     end
   end
