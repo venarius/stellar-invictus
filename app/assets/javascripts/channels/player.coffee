@@ -67,3 +67,5 @@ $(document).on "turbolinks:load", ->
             clear_jump(data.local)
         else if (data.method == 'reload_page')
           reload_page()
+        else if (data.method == 'warp_disrupted')
+          warp_disrupted()

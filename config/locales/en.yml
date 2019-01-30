@@ -369,8 +369,6 @@ en:
     current_ship: "Current Spaceship"
     corporation: "Corporation"
     admin: "Admin"
-    donator_M: "Awesome Dude"
-    donator_F: "Awesome Dudette"
   crafting:
     craft: "Craft"
     ressources: "Required Resources"
