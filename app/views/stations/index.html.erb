@@ -76,7 +76,13 @@
         </button>
       </div>
       <div class="modal-body" id="died-modal-body">
+        
       </div>
+      <% if current_user.full_name == "Thorq Blackwood" %>
+        <div class="mt-3">
+          <%= image_tag("deaths/thorq-death.gif", style: "width:100%") %>
+        </div>
+      <% end %>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
       </div>
