@@ -10,7 +10,7 @@
       </strong>
     </a>
     <% if message.user.donator %>
-      <span class="badge badge-primary"><%= I18n.t("users.donator_#{message.user.avatar[0]}") %></span>
+      <%= image_tag('badges/donator.svg', style: 'height: 13px;margin-top: 2px;') %>
     <% end %>
     <span class="float-right"><%= message.created_at.strftime("%H:%M") %></span><br>
     <p><%= message.body %></p>

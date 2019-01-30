@@ -2,7 +2,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><%= image_tag("avatars/#{user.avatar}.jpg", style: 'height: 50px') %> <%= user.full_name %></h5>
+        <h5 class="modal-title">
+          <%= image_tag("avatars/#{user.avatar}.jpg", style: 'height: 50px') %>
+          <%= user.full_name %>
+          <% if user.donator %>
+            <%= image_tag('badges/donator.svg', style: 'height: 18px') %>
+          <% end %>
+        </h5>
         <button type="button" class="close" data-dismiss="modal" id="player-show-modal-close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -27,7 +27,14 @@ class WarpWorker
       user = user.reload
       ship = ship.reload rescue nil
       
-      return if !ship || !user.can_be_attacked || ship.is_warp_disrupted || ship.warp_target_id != location_id
+      if !ship || !user.can_be_attacked || ship.is_warp_disrupted || ship.warp_target_id != location_id
+        if ship.is_warp_disrupted
+          ship.update_columns(warp_target_id: nil)
+          ac_server.broadcast("player_#{user.id}", method: 'warp_disrupted')
+        end
+        return  
+      end
+      
       WarpWorker.perform_in(1.second, player_id, location_id, align_current + 1, align_time) and return
     
     elsif !in_warp

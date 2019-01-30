@@ -138,3 +138,9 @@ function clear_jump(local) {
     reload_location_info(); 
   }
 }
+
+// Warp Disrupted
+function warp_disrupted() {
+  clearInterval(align_interval);
+  $('.warp-btn').each(function() { $(this).empty().append("<i class='fa fa-angle-double-right'></i>"); })
+}
