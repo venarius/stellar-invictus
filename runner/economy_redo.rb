@@ -17,13 +17,6 @@ Location.where(location_type: 'station').order(Arel.sql("RANDOM()")).limit((Loca
   i = 0 if i >= noise_level.size
     
   MarketListing.where(location: location).each do |ml|
-    # Update Prices
-    if ml.listing_type == "item"
-      ml.update_columns(price: (get_item_attribute(ml.loader, 'price') * rabat * rand(0.98..1.02)).round)
-    else
-      ml.update_columns(price: (SHIP_VARIABLES[ml.loader]['price'] * rabat * rand(0.98..1.02)).round)
-    end
-    
     # Restock
     while ml.reload.amount < rand(5..10)
       ml.update_columns(amount: ml.amount + rand(3..5))
