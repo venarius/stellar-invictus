@@ -1,15 +1,15 @@
 <table class="table table-bordered table-striped table-sm mb-0">
   <thead>
     <tr>
-      <th scope="col" class="mobile-display-none"><%= I18n.t('corporations.rank') %></th>
-      <th scope="col"><%= I18n.t('corporations.name') %></th>
+      <th scope="col" class="mobile-display-none"><a href="#" class="sort-btn" data-column="corporation_role" data-direction="asc" data-url="corporation/sort_roster"><%= I18n.t('corporations.rank') %></a></th>
+      <th scope="col"><a href="#" class="sort-btn" data-column="full_name" data-direction="asc" data-url="corporation/sort_roster"><%= I18n.t('corporations.name') %></a></th>
       <th scope="col"><%= I18n.t('corporations.location') %></th>
-      <th scope="col" class="mobile-display-none"><%= I18n.t('corporations.online') %></th>
+      <th scope="col" class="mobile-display-none"><a href="#" class="sort-btn" data-column="last_action" data-direction="asc" data-url="corporation/sort_roster"><%= I18n.t('corporations.online') %></a></th>
       <th class="btn-th" style="width:60px;"></th>
     </tr>
   </thead>
   <tbody>
-    <% @corporation.users.each do |user| %>
+    <% corporation_users.each do |user| %>
       <tr>
         <td class="mobile-display-none"><%= I18n.t("corporations.rank_#{user.corporation_role}") %></td>
         <td><a class="player-modal" href="#" data-id="<%= user.id %>"><%= user.full_name %></a></td>

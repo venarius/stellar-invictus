@@ -10,7 +10,7 @@ System.all.each do |system|
     rand(2..4).times do
       location = Location.create(system: system, location_type: 'exploration_site', hidden: true)
       
-      case rand(1..5)
+      case rand(1..6)
         when 1
           # Enemies with loot
           amount = rand(2..5)
@@ -36,7 +36,7 @@ System.all.each do |system|
         when 3
           # Abandoned Ship with Riddle
           loader = ASTEROIDS + MATERIALS
-          structure = Structure.create(location: location, structure_type: 'abandoned_ship', riddle: rand(1..23))
+          structure = Structure.create(location: location, structure_type: 'abandoned_ship', riddle: rand(1..30))
           amount = rand(3..4)
           amount = amount * 3 if location.system_security_status == 'low'
           amount.times do
@@ -49,7 +49,7 @@ System.all.each do |system|
                 Item.create(loader: (loader + EQUIPMENT_HARD).sample, structure: structure, equipped: false)
             end
           end
-          location.update_columns(name: I18n.t('exploration.emergency_beacon'))
+          location.update_columns(name: I18n.t('exploration.lost_wreck'))
         when 4
           # Asteroids
           rand(3..5).times do 
@@ -60,6 +60,14 @@ System.all.each do |system|
           # Hard to kill NPC with lots of bounty
           location.update_columns(enemy_amount: 1)
           location.update_columns(name: I18n.t('exploration.outlaw_hideout'))
+        when 6
+          # Wreck with Passengers
+          location.update_columns(enemy_amount: rand(4..6))
+          structure = Structure.create(location: location, structure_type: 'wreck')
+          rand(1..5).times do
+            Item.create(structure: structure, loader: "delivery.passenger")
+          end
+          location.update_columns(name: I18n.t('exploration.emergency_beacon'))
       end
       
     end

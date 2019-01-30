@@ -145,13 +145,17 @@ $( document ).on('turbolinks:load', function() {
   $('.station-card').on('click', '.load-all-btn', function(e) {
     var button = $(this)
     
-    var jqxhr = $.post("/stations/load", {loader: $(this).data('loader'), amount: $(this).data('amount')}, function() {
+    var jqxhr = $.post("/stations/load", {loader: $(this).data('loader')}, function(data) {
       button.tooltip('dispose');
       
-      if (button.closest('tbody').find('tr').length == 1) {
-        button.closest('table').replaceWith("<h2 class='text-center'>...</h2>")
+      if (data.amount) {
+        button.closest('tr').find('td:first-child').html(data.amount + "x");
       } else {
-        button.parent().parent().remove();
+        if (button.closest('tbody').find('tr').length == 1) {
+          button.closest('table').replaceWith("<h2 class='text-center'>...</h2>")
+        } else {
+          button.parent().parent().remove();
+        }
       }
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });

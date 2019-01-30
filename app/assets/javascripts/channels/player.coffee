@@ -53,7 +53,12 @@ $(document).on "turbolinks:load", ->
         else if (data.method == 'show_error' && data.text)
           show_error(data.text)
         else if (data.method == 'notify_alert' && data.text)
-          $.notify(data.text, {style: 'alert'})
+          if (data.delay)
+            setTimeout ->
+              $.notify(data.text, {style: 'alert'})
+            , data.delay
+          else
+            $.notify(data.text, {style: 'alert'})
         else if (data.method == 'notify_info' && data.text)
           $.notify(data.text, {style: 'info'})
         else if (data.method == 'reload_chat')

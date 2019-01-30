@@ -9,7 +9,7 @@ class CorporationsController < ApplicationController
       when 'info'
         render partial: 'corporations/about'
       when 'roster'
-        render partial: 'corporations/roster'
+        render partial: 'corporations/roster', locals: {corporation_users: @corporation.users}
       when 'finances'
         render partial: 'corporations/finances' if current_user.founder? || current_user.admiral?
       when 'applications'
@@ -19,6 +19,10 @@ class CorporationsController < ApplicationController
       end
       return
     end
+  end
+  
+  def sort_roster
+    render partial: 'corporations/roster', locals: {corporation_users: current_user.corporation.users.order("#{sort_column} #{sort_direction}")}
   end
   
   def new
@@ -247,5 +251,17 @@ class CorporationsController < ApplicationController
   
   def corporation_params
     params.require(:corporation).permit(:name, :ticker, :bio, :tax)
+  end
+  
+  def sortable_columns
+    ["corporation_role", "full_name", "last_action"]
+  end
+
+  def sort_column
+    sortable_columns.include?(params[:column]) ? params[:column] : "id"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

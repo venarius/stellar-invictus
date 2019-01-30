@@ -9,7 +9,9 @@ RSpec.describe CorporationsController, type: :controller do
     
     describe 'GET index' do
       before(:each) do
-        @user.update_columns(corporation_role: :founder)  
+        @user.update_columns(corporation_role: :founder)
+        corporation = FactoryBot.create(:corporation)
+        corporation.users << @user
       end
       
       it 'should render index' do
