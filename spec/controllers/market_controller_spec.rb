@@ -85,7 +85,7 @@ RSpec.describe MarketController, type: :controller do
       
       it 'should not response with price if shit given' do
         post :appraisal, params: {loader: 'noot.noot', quantity: "10", type: "noot"}
-        expect(response.status).to eq(400)
+        expect(response.status).to eq(200)
       end
     end
     
@@ -176,7 +176,7 @@ RSpec.describe MarketController, type: :controller do
       it 'should sell item' do
         post :sell, params: {loader: 'asteroid.nickel_ore', type: 'item', quantity: '1'}
         expect(response.status).to eq(200)
-        expect(@user.reload.units).to eq(19)
+        expect(@user.reload.units).to eq(18)
         expect(Item.count).to eq(0)
       end
       
@@ -196,11 +196,11 @@ RSpec.describe MarketController, type: :controller do
         expect(Item.count).to eq(1)
       end
       
-      it 'should sell item on price of listing' do
+      it 'should sell item on price of item' do
         MarketListing.create(location: @user.location, loader: 'asteroid.nickel_ore', listing_type: 'item', price: 1000, amount: 1)  
         post :sell, params: {loader: 'asteroid.nickel_ore', type: 'item', quantity: '1'}
         expect(response.status).to eq(200)
-        expect(@user.reload.units).to eq(990)
+        expect(@user.reload.units).to eq(18)
         expect(Item.count).to eq(0)
       end
       

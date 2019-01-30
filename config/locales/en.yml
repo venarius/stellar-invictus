@@ -433,6 +433,7 @@ en:
     received_friend_request: "%{user} has sent you a friend request"
     received_bounty: "You received %{amount} Cr bounty for the destruction of %{user}"
     gained_reputation: "You received %{amount} reputation for the local authority"
+    received_reputation_passengers: "You received %{amount} reputation for bringing passengers home"
   routing:
     get_route: "Get Route"
     route: "Route"
@@ -498,6 +499,7 @@ en:
     emergency_beacon: "Emergency Beacon"
     mining_site: "Mining Site"
     outlaw_hideout: "Outlaw Hideout"
+    lost_wreck: "Lost Wreck"
   locations:
     jumpgate: ""
     asteroid_field: "Asteroid Field"

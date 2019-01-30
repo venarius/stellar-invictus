@@ -25,12 +25,13 @@ $( document ).on('turbolinks:load', function() {
   // Load item from cargo container AJAX
   $('#app-container').on('click', '.cargocontainer-pickup-cargo-btn', function(e) {
     e.preventDefault();
-    var button = $(this)
+    var button = $(this);
     var loader = $(this).data('loader');
     var id = $(this).data('id');
+    
     $.post('structure/pickup_cargo', {id: id, loader: loader}, function(data) {
       if (data.amount) {
-        button.parent().parent().find('.amount').empty().append(data.amount + "&times;")
+        button.parent().parent().find('.amount').empty().append(data.amount + "&times;");
       } else {
         button.parent().parent().remove(); 
       }

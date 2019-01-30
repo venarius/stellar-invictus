@@ -32,21 +32,27 @@ class StructuresController < ApplicationController
           free_weight = current_user.active_spaceship.get_free_weight
           item_count = items.count
           
-          if free_weight > 0
-            items.each do |item|
-              if item.get_attribute('weight') <= free_weight
-                item.update_columns(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
-                free_weight = free_weight - item.get_attribute('weight')
-              end
+          count = 0
+          items.each do |item|
+            if item.get_attribute('weight') <= free_weight
+              item.update_columns(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
+              free_weight = free_weight - item.get_attribute('weight')
+              count = count + 1
             end
-            
-            # Destroy Structure if items gone and tell players to update players
-            if Item.where(structure: params[:id]).empty?
-              structure.destroy
-              ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_appeared')
+          end
+          
+          # Destroy Structure if items gone and tell players to update players
+          if Item.where(structure: params[:id]).empty?
+            structure.destroy
+            ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_appeared')
+          end
+          
+          if count > 0
+            if params[:loader] and item_count == count
+              render json: {}, status: 200 and return
+            else
+              render json: {amount: item_count - free_weight}, status: 200 and return
             end
-            
-            render json: {amount: item_count - free_weight}, status: 200 and return
           else
             render json: {error_message: I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
           end
