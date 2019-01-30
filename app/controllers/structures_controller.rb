@@ -98,6 +98,12 @@ class StructuresController < ApplicationController
             rand(2..4).times do
               EnemyWorker.perform_async(nil, current_user.location.id)
             end
+            structure.update_columns(attempts: structure.attempts + 1)
+            if structure.attempts > 5
+              structure.destroy
+              ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_appeared')
+              ActionCable.server.broadcast("player_#{current_user.id}", method: 'notify_alert', text: I18n.t('structures.abandoned_ship_selfdestruction') )
+            end
           end
         else
           render partial: 'structures/abandoned_ship', locals: {structure: structure} and return

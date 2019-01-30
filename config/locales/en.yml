@@ -348,6 +348,7 @@ en:
     abandoned: "Abandoned"
     structure: "Structure"
     container_police_warning: "Warning! Looting this container will result in the police attacking you"
+    abandoned_ship_selfdestruction: "The abandoned ship destroyed itself"
   friends:
     friends: "Friends"
     pending: "Pending"

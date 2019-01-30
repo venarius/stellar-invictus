@@ -7,6 +7,7 @@ describe Structure do
       it { should respond_to :items }
       it { should respond_to :location }
       it { should respond_to :user }
+      it { should respond_to :attempts }
     end
    
     describe 'Relations' do
