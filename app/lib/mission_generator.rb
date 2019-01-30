@@ -149,7 +149,7 @@ class MissionGenerator
       mission.mission_amount = ((difficulty + 1) * rand(5..10))
       
       # Set Reward
-      mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(1.2..1.25)).round
+      mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(1.05..1.10)).round
     elsif mission.mission_type == 'vip'
       mission.enemy_amount = 3
       m_location = Location.where.not(faction_id: mission.faction_id).where("faction_id IS NOT NULL").order(Arel.sql("RANDOM()")).first
