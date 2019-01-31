@@ -150,6 +150,7 @@ $( document ).on('turbolinks:load', function() {
       
       if (data.amount) {
         button.closest('tr').find('td:first-child').html(data.amount + "x");
+        button.closest('td').children('.btn').each(function() { $(this).data('amount', data.amount); });
       } else {
         if (button.closest('tbody').find('tr').length == 1) {
           button.closest('table').replaceWith("<h2 class='text-center'>...</h2>")

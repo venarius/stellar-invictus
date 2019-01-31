@@ -291,6 +291,7 @@ en:
     type: "Type"
     name: "Name"
     eject_cargo: "Eject Cargo"
+    price: "Price"
   tooltips:
     target: "Target"
     info: "Info"

@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-4 text-center">
                   <h5 class="<%= 'color-sec-low' if current_user["reputation_#{faction.id}"] < 0 %> <%= 'color-sec-high' if current_user["reputation_#{faction.id}"] >= 0 %>">
-                    <%= current_user["reputation_#{faction.id}"] %>
+                    <%= current_user["reputation_#{faction.id}"].round(1) %>
                   </h5>
                 </div>
                 <div class="col-4 text-center">

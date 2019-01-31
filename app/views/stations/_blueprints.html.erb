@@ -12,6 +12,7 @@
       <thead>
         <tr>
           <th scope="col"><%= I18n.t('items.name') %></th>
+          <th scope="col"><%= I18n.t('items.price') %></th>
           <th style="width:1px"></th>
         </tr>
       </thead>
@@ -19,6 +20,7 @@
         <% SHIP_VARIABLES.sort.each do |key, value| %>
           <tr>
             <td><%= key %></td>
+            <td class="color-highgreen"><%= value['price'] * 20 %> Cr</td>
             <td><button class="btn btn-outline-success btn-sm blueprint-modal-btn" data-loader="<%= key %>" data-type="ship"><i class="fa fa-dollar-sign"></i></button></td>
           </tr>
         <% end %>
@@ -31,6 +33,7 @@
         <tr>
           <th scope="col"><%= I18n.t('items.name') %></th>
           <th scope="col"><%= I18n.t('items.type') %></th>
+          <th scope="col"><%= I18n.t('items.price') %></th>
           <th style="width:1px"></th>
         </tr>
       </thead>
@@ -39,6 +42,7 @@
           <tr>
             <td><%= get_item_attribute(item, 'name') %></td>
             <td><%= get_item_attribute(item, 'type') %></td>
+            <td class="color-highgreen"><%= get_item_attribute(item, 'price') * 20 %> Cr</td>
             <td><button class="btn btn-outline-success btn-sm blueprint-modal-btn" data-loader="<%= item %>" data-type="item"><i class="fa fa-dollar-sign"></i></button></td>
           </tr>
         <% end %>
