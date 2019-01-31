@@ -46,3 +46,36 @@
     </div>
   </div>
 </div>
+
+<!-- Tutorial Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="tutorial-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('tutorial.before_you_continue') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%= I18n.t('tutorial.before_you_continue_text') %></p>
+        
+        <div class="row">
+          <div class="col-6">
+            <a href="https://forums.stellar-invictus.com/t/piloting-101-a-guide-for-new-players" target="_blank" class="btn btn-outline-primary w-100"><%= I18n.t('tutorial.quickstart_guide') %></a>
+          </div>
+          <div class="col-6">
+            <a href="https://docs.google.com/document/d/1Mzvsfaoa441PyiGiXHhMaeeeiN8szPiWNDvZ3wAeREM" target="_blank" class="btn btn-outline-primary w-100"><%= I18n.t('tutorial.advanced_guide') %></a>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#tutorial-modal').modal('show');
+</script>
