@@ -634,3 +634,8 @@ en:
     description: "Description"
     category: "Category"
     mail_sent_successfully: "We successfully received your ticket! If we have any questions we will contact you via ingame mails."
+  tutorial:
+    before_you_continue: "Before you continue"
+    before_you_continue_text: "Stellar Invictus is a hardcore game with lots of complexity. Reading either the quickstart guide or the advanced guide is a good start to get to know the game. You have been warned."
+    quickstart_guide: "Quickstart Guide"
+    advanced_guide: "Advanced Guide"
