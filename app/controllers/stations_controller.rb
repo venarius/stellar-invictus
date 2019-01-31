@@ -82,7 +82,7 @@ class StationsController < ApplicationController
         end
         passenger.destroy
       end
-      ActionCable.server.broadcast("player_#{current_user.id}", method: 'notify_alert', text: I18n.t('notification.received_reputation_passengers', amount: 0.05 * count), delay: 1000)
+      ActionCable.server.broadcast("player_#{current_user.id}", method: 'notify_alert', text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * count).round), delay: 1000)
     end
     
   end
