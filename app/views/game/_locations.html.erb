@@ -2,13 +2,14 @@
   <h5 class="card-header">
     <%= I18n.t('game.locations') %>
     <% if current_user.active_spaceship.get_scanner_range > 0 %>
-      <button class="btn btn-sm btn-outline-primary float-right scan-system-btn progress-btn" style="padding: 0 1rem;">
+      <button class="btn btn-sm btn-outline-primary float-right scan-system-btn progress-btn" style="padding: 0 1rem;margin-left:5px;">
         <span class="content"><%= I18n.t('equipment.scan') %></span>
         <span class="loader">
           <span class="loader-inner"></span>
         </span>
       </button>
     <% end %>
+    <%= link_to I18n.t('navbar.map'), map_path, class: "btn btn-sm btn-outline-primary float-right", style: "padding: 0 1rem;" %>
   </h5>
   <div class="card-body">
     <%= render partial: 'game/locations_table', locals: {locations: current_user.system.locations.where(hidden: false).includes(mission: :user)} %>

@@ -54,7 +54,7 @@ $( document ).on('turbolinks:load', function() {
       var button = $(this);
       
       if (id) {
-        $.post('chat/join', {id: id}, function(data) {
+        $.post('/chat/join', {id: id}, function(data) {
           Cookies.set('chat_tab', '#chatroom-' + data.id)
           Turbolinks.visit(window.location);
         }).error(function(data) {
@@ -82,7 +82,7 @@ $( document ).on('turbolinks:load', function() {
       if (confirm('Close this chat?')) {
         var button = $(this)
         var id = $(this).data('id')
-        $.post('chat/leave', {id: id}, function(data) {
+        $.post('/chat/leave', {id: id}, function(data) {
           App['chatroom-' + id].unsubscribe();
           $(button.parent().data('target')).remove();
           button.parent().parent().remove();
@@ -98,7 +98,7 @@ $( document ).on('turbolinks:load', function() {
       var button = $(this);
       
       if (title) {
-        $.post('chat/create', {title: title}, function(data) {
+        $.post('/chat/create', {title: title}, function(data) {
           Cookies.set('chat_tab', '#chatroom-' + data.id)
           Turbolinks.visit(window.location);
         }).error(function(data) {
@@ -130,7 +130,7 @@ $( document ).on('turbolinks:load', function() {
     $('body').on('click', '.chat-player-btn', function(e) {
       e.preventDefault();
       var id = $(this).data('id');
-      $.post('chat/start_conversation', {id: id}, function(data) {
+      $.post('/chat/start_conversation', {id: id}, function(data) {
         Cookies.set('chat_tab', '#chatroom-' + data.id)
         Cookies.set('collapse-chat', 'shown')
         Turbolinks.visit(window.location);
@@ -140,7 +140,7 @@ $( document ).on('turbolinks:load', function() {
     // Chat Invite Accept Button AJAX
     $('#app-container').on('click', '.accept-chat-invite-btn', function(e) {
       var id = $(this).data('id');
-      $.post('chat/join', {id: id}, function(data) {
+      $.post('/chat/join', {id: id}, function(data) {
         Cookies.set('chat_tab', '#chatroom-' + id)
         Cookies.set('collapse-chat', 'shown')
         Turbolinks.visit(window.location);
@@ -164,7 +164,7 @@ $( document ).on('turbolinks:load', function() {
       if ($('#add-to-chat-modal-input').val()) {
           $('#add-to-chat-modal-input').css("border", "1px solid grey");
           $('#add-to-chat-modal-result').empty().append("<div class='text-center spinner-modal'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
-        $.post('chat/search', {name: $('#add-to-chat-modal-input').val(), identifier: $(this).data('identifier')}, function(data) {
+        $.post('/chat/search', {name: $('#add-to-chat-modal-input').val(), identifier: $(this).data('identifier')}, function(data) {
           $('#add-to-chat-modal-body').find('.spinner-modal').remove();
           $('#add-to-chat-modal-result').empty().append(data);
         })
@@ -179,7 +179,7 @@ $( document ).on('turbolinks:load', function() {
       var identifier = $(this).data('identifier');
       var button = $(this);
       
-      $.post('chat/start_conversation', {id: id, identifier: identifier}, function() {
+      $.post('/chat/start_conversation', {id: id, identifier: identifier}, function() {
         button.closest('.modal').modal('hide');
       });
     });
@@ -272,7 +272,7 @@ function invited_to_conversation(data) {
 // Reload Chat
 function reload_chat() {
   if ($('.chat-card').length) {
-    $.get('game/chat', function(data) {
+    $.get('/game/chat', function(data) {
       $('.chat-card').find('.card-body').html(data);
     });
   }
@@ -281,7 +281,7 @@ function reload_chat() {
 // Reload local Chat
 function reload_local_chat() {
   if ($('.chat-card').length) {
-    $.get('game/chat', function(data) {
+    $.get('/game/chat', function(data) {
       $('.chat-card').find('#system-player-count').html($(data).find('#system-player-count').html());
       $('.chat-card').find('#local-chat').html($(data).find('#local-chat').html());
     });

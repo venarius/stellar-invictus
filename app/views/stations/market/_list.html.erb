@@ -11,14 +11,15 @@
       </tr>
     </thead>
     <tbody>
+      <% loaders = market_listings.map(&:loader).uniq %>
       <% market_listings.sort_by{ |ml| ml.price }.each do |ml| %>
         <% if ml.item? %>
           <tr>
             <td><%= ml.amount %>&times;</td>
             <% if ml.loader.include? "equipment" %>
-              <td><a href="#" class="equipment-info" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
+              <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
             <% else %> 
-              <td><%= get_item_attribute(ml.loader, 'name') %></td>
+              <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= get_item_attribute(ml.loader, 'name') %></span></td>
             <% end %>
             <td><%= get_item_attribute(ml.loader, 'type') %></td>
             <td class="color-highgreen"><%= ml.price %> Cr</td>

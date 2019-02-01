@@ -30,6 +30,9 @@ class Npc < ApplicationRecord
     rand(1..3).times do
       Item.create(loader: loader.sample, structure: structure, equipped: false)
     end
+    rand(1..3).times do
+      Item.create(loader: MATERIALS.sample, structure: structure, equipped: false)
+    end
   end
   
   # Remove the npc from being targeted
