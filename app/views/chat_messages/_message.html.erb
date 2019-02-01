@@ -5,12 +5,12 @@
       <% if message.user.corporation %>
         <strong>[<%= message.user.corporation&.ticker %>]</strong>
       <% end %>
-      <strong class="<%= 'text-primary' if message.user.donator %>">
+      <strong class="<%= 'text-primary' if message.user.full_name == "Gerno Utrigas" %>">
         <%= message.user.full_name %>
       </strong>
     </a>
-    <% if message.user.donator %>
-      <%= image_tag('badges/donator.svg', style: 'height: 13px;margin-top: 2px;') %>
+    <% if message.user.full_name == "Gerno Utrigas" %>
+      <%= image_tag('badges/donator-old.svg', style: 'height: 13px;margin-top: 2px;') %>
     <% end %>
     <span class="float-right"><%= message.created_at.strftime("%H:%M") %></span><br>
     <p><%= message.body %></p>
