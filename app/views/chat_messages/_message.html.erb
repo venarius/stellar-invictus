@@ -5,7 +5,7 @@
       <% if message.user.corporation %>
         <strong>[<%= message.user.corporation&.ticker %>]</strong>
       <% end %>
-      <strong class="<%= 'text-primary' if message.user.full_name == "Gerno Utrigas" %>">
+      <strong class="<%= 'text-primary' if message.user.full_name == "Gerno Utrigas" || message.user.donator %>">
         <%= message.user.full_name %>
       </strong>
     </a>
