@@ -72,6 +72,13 @@ html {
 .bg-grey { background-color: grey; }
 .bt-0 { border-top: 0 !important; }
 .w-20px { width: 20px; }
+.tier_0 { color: #42f4e8; }
+.tier_1 { color: #41f4a6; }
+.tier_2 { color: #43f441; }
+.tier_3 { color: #c4f441; }
+.tier_4 { color: #f4d641; }
+.tier_5 { color: #f47f41; }
+.tier_6 { color: #f44641; }
 .outline-primary { border: 1px solid #2A9FD6; }
 .outline-danger { border: 1px solid #CC0000 !important; }
 .table-fleet { background-color: #3b1d4c !important; }
@@ -287,6 +294,18 @@ a {
 // ###############
 // Chat
 // ############### 
+.chat-card.popup .card-body .tab-content {
+  tbody, .outer {
+    height: calc(100vh - 154px) !important; 
+  }
+  
+  .custom-chat {
+    .outer {
+      height: calc(100vh - 178px) !important; 
+    }
+  }
+}
+
 .chat-card {
   .card-body {
     padding: 5px;

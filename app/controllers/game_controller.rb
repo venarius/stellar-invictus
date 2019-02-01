@@ -81,7 +81,12 @@ class GameController < ApplicationController
     @system_users = User.where("online > 0").where(system: current_user.system)
     @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(system: current_user.system)).last(10)
     @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
-    render partial: 'game/chat', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages}
+    
+    if params[:popup]
+      render partial: 'game/chat_popup', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages}
+    else
+      render partial: 'game/chat', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages}
+    end
   end
   
   def system_card

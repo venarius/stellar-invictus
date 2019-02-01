@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stellar Invictus Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="pragma" content="no-cache" />
+    <link rel="icon"type="image/png" href="/favicon.png">
+    
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-permanent': 'reload' %>
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+  </head>
+
+  <body style="padding-bottom:0px;">
+  
+    <div id="app-container">
+      
+      <div class="card black-card chat-card popup">
+        <h5 class="card-header">
+          <%= I18n.t('game.chat') %>
+        </h5>
+        <div class="card-body">
+          <%= render partial: 'game/chat', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages} %>
+        </div>
+      </div>
+      
+      <%= render 'layouts/modals' %>
+    </div>
+    
+  </body>
+  
+  <script>
+    var logged_in = <%= !current_user.nil? and !current_user.faction.nil? %>
+  </script>
+</html>
