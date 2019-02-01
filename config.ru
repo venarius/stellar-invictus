@@ -29,3 +29,6 @@ Item.update_all(active: false)
 
 # Mission Scunk
 Location.where(location_type: 'mission', mission: nil).destroy_all
+
+# Lore
+Npc.create(name: "Zonia Lowe", hp: 1000000, location: System.find_by(name: "Finid").locations.where(location_type: :asteroid_field).first.id)

@@ -87,13 +87,13 @@ systemctl enable redis-server
 
 $rvm.io install
 source /home/deploy/.rvm/scripts/rvm
-rvm install ruby
+rvm install ruby-2.5.3
 sudo apt install nodejs
 sudo apt install libpq-dev
 
 $yarn install
 
-sudo apt install nginx
+sudo apt install nginx ufw
 sudo ufw allow 'Nginx Full'
 
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -> GitHub
@@ -110,7 +110,7 @@ sudo apt install postgresql postgresql-contrib
 
 $rvm.io install
 source /home/deploy/.rvm/scripts/rvm
-rvm install ruby
+rvm install ruby-2.5.3
 sudo apt install nodejs
 sudo apt install libpq-dev
 
