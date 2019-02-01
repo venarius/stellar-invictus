@@ -3,7 +3,8 @@ class RegistrationsController < Devise::RegistrationsController
 
   private
     def check_captcha
-      unless verify_recaptcha
+      # TODO: Temporary fix - 01.02.2019
+      unless true#verify_recaptcha
         self.resource = resource_class.new sign_up_params
         resource.validate # Look for any other validation errors besides Recaptcha
         set_minimum_password_length
