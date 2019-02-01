@@ -3,7 +3,7 @@ $( document ).on('turbolinks:load', function() {
   $('#app-container').on('click', '.player-modal' ,function(e){
     e.preventDefault(); 
     if ($(this).data( "id" )) {
-      $.get( "user/info/" + $(this).data( "id" ), function( data ) {
+      $.get( "/user/info/" + $(this).data( "id" ), function( data ) {
         $('body').append(data);
         // Enable Popovers
         $('[data-toggle="popover"]').popover();
