@@ -139,7 +139,6 @@ class User < ApplicationRecord
       user.active_spaceship.deactivate_equipment if user.is_attacking
       ActionCable.server.broadcast("player_#{user.id}", method: 'remove_target')
     end
-    Npc.where(target: self.id).update_all(target: nil)
   end
   
   # Docks the player

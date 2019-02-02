@@ -5,7 +5,10 @@ class PlayerDiedWorker
   sidekiq_options :retry => false
 
   def perform(player_id, show_modal=false)
-    user = User.find(player_id)
+    user = User.find(player_id) rescue nil
+    
+    return unless user
+    
     old_system = user.system
     
     # Get ActionCable Server
