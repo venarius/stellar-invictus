@@ -138,7 +138,7 @@ Leviathan:
   reputation_requirement: 7
   type: "Combat"
   trait:
-    damage_amplifier: 1.75
+    damage_amplifier: 1.10
     septarium_usage_amplifier: 0.6
 
 Behemoth:
@@ -184,7 +184,7 @@ Intervention:
   thruster-image: intervention-thrusters.png
   storage: 25
   hp: 400
-  defense: 5
+  defense: 10
   price: 13500
   main_equipment_slots: 4
   utility_equipment_slots: 1
@@ -206,7 +206,7 @@ Escorial:
   thruster-image: escorial-thrusters.png
   storage: 1000
   hp: 2500
-  defense: 50
+  defense: 40
   price: 60000
   main_equipment_slots: 4
   utility_equipment_slots: 6
@@ -286,8 +286,8 @@ Spectrum:
   hp: 2500
   defense: 55
   price: 60000
-  main_equipment_slots: 6
-  utility_equipment_slots: 6
+  main_equipment_slots: 5
+  utility_equipment_slots: 5
   align_time: 25
   target_time: 20
   crafting: {"materials.laser_diodes": 1000, "materials.antimatter": 250, "asteroid.tryon_ore": 500}
@@ -296,7 +296,6 @@ Spectrum:
   reputation_requirement: 7
   type: "Logistics"
   trait:
-    damage_amplifier: 0.5
     remote_repair_amplifier: 2.5
 
 Yucatan:

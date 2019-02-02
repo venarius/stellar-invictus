@@ -282,11 +282,11 @@ en:
     trait_vanguard: "Damage increased by 25%"
     trait_intervention: "Warp disruptors and Hulls are 200% effective"
     trait_behemoth: "Repair bots are 300% effective"
-    trait_leviathan: "Damage increased by 75% and Septarium use reduced by 40%"
+    trait_leviathan: "Damage increased by 10% and Septarium use reduced by 40%"
     trait_analyzer: "Initial warp stabilization +6, Initial scanning range +4"
     trait_cromwell: "Shields are 200% effective"
     trait_yucatan: "Remote repair is 200% effective"
-    trait_spectrum: "Damage reduced by 50% and Remote repair is 150% effective"
+    trait_spectrum: "Remote repair is 150% effective"
   items:
     type: "Type"
     name: "Name"
