@@ -189,7 +189,11 @@ $( document ).on('turbolinks:load', function() {
 function scrollChats() {
   if ($('.chat-card').length) {
     $('.chat-card .tab-content').children('.tab-pane').each(function() {
-      $(this).find('tbody').scrollTop($(this).find('tbody').get(0).scrollHeight);
+      var body = $(this).find('tbody');
+      
+      if(body.scrollTop() + body.innerHeight() >= body.get(0).scrollHeight - 100) {
+        body.scrollTop(body.get(0).scrollHeight);
+      }
     })
   }
 }

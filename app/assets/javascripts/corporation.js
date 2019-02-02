@@ -164,7 +164,7 @@ $( document ).on('turbolinks:load', function() {
   $('body').on('click', '.corporation-modal' , function(e){
     e.preventDefault(); 
     if ($(this).data( "id" )) {
-      $.get( "corporation/info", {id: $(this).data( "id" )}, function( data ) {
+      $.get( "/corporation/info", {id: $(this).data( "id" )}, function( data ) {
         $('body').append(data);
         // Enable Popovers
         $('[data-toggle="popover"]').popover();
@@ -182,7 +182,7 @@ $( document ).on('turbolinks:load', function() {
   $('body').on('click', '.corporation-apply-modal-btn' , function(e){
     e.preventDefault(); 
     if ($(this).data( "id" )) {
-      $.get( "corporation/apply_modal", {id: $(this).data( "id" )}, function( data ) {
+      $.get( "/corporation/apply_modal", {id: $(this).data( "id" )}, function( data ) {
         $('body').append(data);
         // Enable Popovers
         $('[data-toggle="popover"]').popover();
@@ -202,7 +202,7 @@ $( document ).on('turbolinks:load', function() {
     var id = $(this).data('id');
     var button = $(this);
     
-    $.post('corporation/apply', {id: id, text: text}, function(data) {
+    $.post('/corporation/apply', {id: id, text: text}, function(data) {
       button.closest('.modal').modal('hide');
       $.notify(data.message, {style: 'success'});
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
