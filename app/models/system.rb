@@ -1,8 +1,9 @@
 class System < ApplicationRecord
   has_many :users
   has_many :locations, dependent: :destroy
+  has_many :chat_rooms, dependent: :destroy
   
-  enum security_status: [:high, :medium, :low]
+  enum security_status: [:high, :medium, :low, :wormhole]
   
   after_create do
     ChatRoom.create(chatroom_type: 'local', title: self.name, system: self)

@@ -22,6 +22,7 @@ namespace :economy do
       i = 0 if i >= noise_level.size
       
       ITEMS.each do |item|
+        next if item == "asteroid.lunarium_ore"
         rand(0..1).times do
           rand(3..15).times do
             MarketListing.create(loader: item, location: location, listing_type: 'item', price: (get_item_attribute(item, 'price') * rabat * rand(0.98..1.02)).round, amount: rand(10..30))

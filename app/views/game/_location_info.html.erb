@@ -1,4 +1,4 @@
-<% if current_user.location.location_type == 'jumpgate' %>
+<% if current_user.location.jumpgate? || current_user.location.wormhole? %>
   <tr class="<%= 'color-yellow' if current_user.route.include?(current_user.location.jumpgate.id.to_s) %>">
     <td><%= image_tag('icons/jumpgate.png') %></td>
     <td class="name"><%= current_user.location.get_name %></td>
@@ -24,7 +24,7 @@
       </td>
     </tr>
   <% end %>
-<% elsif current_user.location.location_type == 'station' %>
+<% elsif current_user.location.station? %>
   <tr>
     <td><%= image_tag('icons/station.png') %></td>
     <td class="name"><%= current_user.location.get_name %></td>
