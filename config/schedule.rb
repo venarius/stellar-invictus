@@ -48,6 +48,6 @@ every 2.hours do
 end
 
 # Wormholes
-every 10.minutes do
+every 5.minutes, roles: [:app] do
   runner "runner/wormholes.rb"
 end
