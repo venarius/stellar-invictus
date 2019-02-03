@@ -28,7 +28,7 @@ describe Location do
     end
     
     describe 'Enums' do
-       it { should define_enum_for(:location_type).with([:station, :asteroid_field, :jumpgate, :mission, :exploration_site]) } 
+       it { should define_enum_for(:location_type).with([:station, :asteroid_field, :jumpgate, :mission, :exploration_site, :wormhole]) } 
        it { should define_enum_for(:station_type).with([:industrial_station, :warfare_plant, :mining_station, :research_station]) }
     end
     
