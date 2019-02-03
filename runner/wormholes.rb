@@ -98,7 +98,7 @@ end
 
 # Junk Cleaner
 Location.where(location_type: :wormhole).each do |loc|
-  if loc.jumpgate&.destination == nil || loc.jumpgate&.origin == nil || !loc.jumpgate
+  if !loc.jumpgate || loc.jumpgate.destination == nil || loc.jumpgate.origin == nil
     loc.destroy if loc.users.empty? and Spaceship.where(warp_target_id: loc.id).empty?
   end
 end
