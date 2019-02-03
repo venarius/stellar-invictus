@@ -1,5 +1,8 @@
 System.all.each do |system|
   
+  # Wormholes have their own locations
+  next if system.wormhole?
+  
   # Clear all hidden locations
   system.locations.where(hidden: true).each do |loc|
     loc.destroy if loc.users.empty? and Spaceship.where(warp_target_id: loc.id).empty?

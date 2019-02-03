@@ -46,3 +46,8 @@ end
 every 2.hours do
   runner "runner/asteroids_redo.rb"
 end
+
+# Wormholes
+every 10.minutes do
+  runner "runner/wormholes.rb"
+end

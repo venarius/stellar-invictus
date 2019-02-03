@@ -14,7 +14,7 @@ class Location < ApplicationRecord
   
   has_one :chat_room, dependent: :destroy
   
-  enum location_type: [:station, :asteroid_field, :jumpgate, :mission, :exploration_site]
+  enum location_type: [:station, :asteroid_field, :jumpgate, :mission, :exploration_site, :wormhole]
   enum station_type: [:industrial_station, :warfare_plant, :mining_station, :research_station]
   
   delegate :security_status, :name, :to => :system, :prefix => true

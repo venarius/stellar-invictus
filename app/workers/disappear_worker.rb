@@ -43,7 +43,7 @@ class DisappearWorker
           user.update_columns(target_id: nil, mining_target_id: nil, npc_target_id: nil, is_attacking: false)
           
           # Tell everyone in system to update their local players
-          system.update_local_players
+          system.update_local_players unless system.wormhole?
           
           # Tell all users in custom chat channels to update
           user.chat_rooms.where(chatroom_type: 'custom').each do |room|
