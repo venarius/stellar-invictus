@@ -55,7 +55,7 @@ class GameController < ApplicationController
   end
   
   def jump
-    if !current_user.in_warp and (current_user.location.jumpgate || current_user.location.wormhole)
+    if !current_user.in_warp and (current_user.location.jumpgate || current_user.location.wormhole?)
       JumpWorker.perform_async(current_user.id)
       render json: {}, status: 200
     else
