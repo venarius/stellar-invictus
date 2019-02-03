@@ -20,7 +20,7 @@ class AppearWorker
       end
       
       # Tell everyone in system to update their local players
-      user.system.update_local_players
+      user.system.update_local_players unless user.system.wormhole?
       
       # Tell all users in custom chat channels to update
       user.chat_rooms.where(chatroom_type: 'custom').each do |room|

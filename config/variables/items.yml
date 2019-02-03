@@ -52,6 +52,11 @@ asteroid:
     type: "Ore"
     weight: 1
     price: 40
+  lunarium_ore:
+    name: "Lunarium Ore"
+    type: "Ore"
+    weight: 1
+    price: 200
 
 # Equipment
 equipment:
@@ -162,6 +167,16 @@ equipment:
       crafting: {"asteroid.iron_ore": 90, "asteroid.cobalt_ore": 50, "materials.sensor_electronics": 65, "asteroid.titanium_ore": 10}
       crafting_duration: 150
       price: 3300
+    deepspace_scanner:
+      name: "Deepspace Scanner"
+      type: "Scanner"
+      weight: 10
+      scanner_range: 10
+      septarium_usage: 0
+      slot_type: "main"
+      crafting: {"asteroid.iron_ore": 900, "asteroid.cobalt_ore": 500, "materials.sensor_electronics": 650, "asteroid.titanium_ore": 100}
+      crafting_duration: 1500
+      price: 33000
       
   # Warp Disruptors
   warp_disruptors:

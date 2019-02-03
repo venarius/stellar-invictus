@@ -187,6 +187,7 @@ en:
     asteroid_field: "Asteroid Belt"
     mission: "Mission"
     exploration_site: "Site"
+    wormhole: "Wormhole"
   actions:
     jump: "Jump"
     dock: "Dock"
@@ -287,6 +288,9 @@ en:
     trait_cromwell: "Shields are 200% effective"
     trait_yucatan: "Remote repair is 200% effective"
     trait_spectrum: "Remote repair is 150% effective"
+    trait_clipper: "Hull modules are 200% effective and remote repair is 200% effective"
+    trait_galleon: "Initial scanning range +3 and damage increased by 10%"
+    trait_bilander: "Damage increased by 25%"
   items:
     type: "Type"
     name: "Name"
@@ -511,6 +515,7 @@ en:
     warfare_plant: "Warfare Plant"
     mining_station: "Mining Station"
     research_station: "Research Station"
+    wormhole: ""
   blueprints:
     buy_blueprint: "Buy Blueprint"
     price: "Price"

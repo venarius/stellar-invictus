@@ -8,7 +8,11 @@ class GameController < ApplicationController
       redirect_to station_path and return
     end
     @current_user = User.includes(:system).find(current_user.id)
-    @system_users = User.where("online > 0").where(system: current_user.system)
+    if current_user.system.wormhole?
+      @system_users = []
+    else
+      @system_users = User.where("online > 0").where(system: current_user.system)
+    end
     @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
     @ship_vars = SHIP_VARIABLES[current_user.active_spaceship.name]
   end
@@ -51,7 +55,7 @@ class GameController < ApplicationController
   end
   
   def jump
-    if !current_user.in_warp && current_user.location.location_type == 'jumpgate'
+    if !current_user.in_warp and (current_user.location.jumpgate || current_user.location.wormhole?)
       JumpWorker.perform_async(current_user.id)
       render json: {}, status: 200
     else
