@@ -129,8 +129,8 @@ Clipper:
   utility_equipment_slots: 1
   align_time: 4
   target_time: 3
-  crafting: {"asteroid.lunarium_ore": 100, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 3000
+  crafting: {"asteroid.lunarium_ore": 200, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting_duration: 60000
   type: "Hunter"
   trait:
     align_amplifier: 0.5
@@ -148,8 +148,8 @@ Galleon:
   utility_equipment_slots: 2
   align_time: 10
   target_time: 7
-  crafting: {"asteroid.lunarium_ore": 120, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 3500
+  crafting: {"asteroid.lunarium_ore": 240, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting_duration: 70000
   type: "Combat"
   trait:
     scanner_range: 3
@@ -167,8 +167,8 @@ Bilander:
   utility_equipment_slots: 4
   align_time: 30
   target_time: 25
-  crafting: {"asteroid.lunarium_ore": 1200, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 35000
+  crafting: {"asteroid.lunarium_ore": 2400, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting_duration: 700000
   type: "Combat"
   trait:
     damage_amplifier: 1.25
