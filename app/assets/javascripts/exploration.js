@@ -8,6 +8,11 @@ $( document ).on('turbolinks:load', function() {
     
     loading_animation($(this));
     $.post('system/scan', function(data) {
+      
+      $('.overview-card').find('tr.hidden-site').each(function() {
+        $(this).remove();
+      });
+      
       $(data).find('.warp-btn').each(function() {
         var id = $(this).data('id');
         var button = $(this);
