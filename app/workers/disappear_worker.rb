@@ -10,7 +10,7 @@ class DisappearWorker
     if user
       system = user.system
       
-      if system.low? and user.online == 1 and !user.logout_timer
+      if (system.low? || system.wormhole?) and user.online == 1 and !user.logout_timer
         user.update_columns(logout_timer: true)
         DisappearWorker.perform_in(2.minutes, user.id, true)
       else

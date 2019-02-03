@@ -1,3 +1,5 @@
+ac_server = ActionCable.server
+
 if System.where(security_status: :wormhole).count < 15
   
   systems = []
@@ -62,10 +64,22 @@ System.where(security_status: :wormhole).each do |sys|
   if rand(1..2) == 2 and sys.locations.where(location_type: 5).present?
     sys.locations.where(location_type: 5).each do |loc|
       if loc.jumpgate
+        origin = loc.jumpgate.origin_id
         loc.jumpgate.destroy
+        
+        # Tell players
+        ac_server.broadcast("location_#{loc.id}", method: 'player_appeared')
+        ac_server.broadcast("location_#{origin}", method: 'player_appeared') if origin
       else
-        a = Location.find_or_create_by(name: sys.name, system: System.find_by(name: loc.name), location_type: 5, hidden: true)
+        s = System.where(security_status: :low).order(Arel.sql("RANDOM()")).first
+        
+        a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
         Jumpgate.find_or_create_by(origin: a, destination: loc, traveltime: 5)
+        loc.update_columns(name: s.name)
+        
+        # Tell players
+        ac_server.broadcast("location_#{loc.id}", method: 'player_appeared')
+        ac_server.broadcast("location_#{a.id}", method: 'player_appeared')
       end
     end
   elsif sys.locations.where(location_type: 5).empty?
@@ -75,6 +89,10 @@ System.where(security_status: :wormhole).each do |sys|
     a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
     b = Location.find_or_create_by(name: s.name, system: sys, location_type: 5, hidden: true)
     Jumpgate.find_or_create_by(origin: a, destination: b, traveltime: 5)
+    
+    # Tell players
+    ac_server.broadcast("location_#{a.id}", method: 'player_appeared')
+    ac_server.broadcast("location_#{b.id}", method: 'player_appeared')
   end
 end
 
