@@ -61,7 +61,12 @@ end
 System.where(security_status: :wormhole).each do |sys|
   if rand(1..2) == 2 and sys.locations.where(location_type: 5).present?
     sys.locations.where(location_type: 5).each do |loc|
-      loc.jumpgate.destroy
+      if loc.jumpgate
+        loc.jumpgate.destroy
+      else
+        a = Location.find_or_create_by(name: sys.name, system: System.find_by(name: loc.name), location_type: 5, hidden: true)
+        Jumpgate.find_or_create_by(origin: a, destination: loc, traveltime: 5)
+      end
     end
   elsif sys.locations.where(location_type: 5).empty?
     s = System.where(security_status: :low).order(Arel.sql("RANDOM()")).first
