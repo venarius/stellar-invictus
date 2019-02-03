@@ -124,13 +124,13 @@ Clipper:
   storage: 20
   hp: 300
   defense: 5
-  price: 25000
+  price: 50000
   main_equipment_slots: 2
   utility_equipment_slots: 1
   align_time: 4
   target_time: 3
   crafting: {"asteroid.lunarium_ore": 200, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 60000
+  crafting_duration: 6000
   type: "Hunter"
   trait:
     align_amplifier: 0.5
@@ -143,13 +143,13 @@ Galleon:
   storage: 70
   hp: 600
   defense: 10
-  price: 25000
+  price: 60000
   main_equipment_slots: 4
   utility_equipment_slots: 2
   align_time: 10
   target_time: 7
   crafting: {"asteroid.lunarium_ore": 240, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 70000
+  crafting_duration: 7000
   type: "Combat"
   trait:
     scanner_range: 3
@@ -162,13 +162,13 @@ Bilander:
   storage: 100
   hp: 1200
   defense: 40
-  price: 250000
+  price: 500000
   main_equipment_slots: 5
   utility_equipment_slots: 4
   align_time: 30
   target_time: 25
   crafting: {"asteroid.lunarium_ore": 2400, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 700000
+  crafting_duration: 70000
   type: "Combat"
   trait:
     damage_amplifier: 1.25
