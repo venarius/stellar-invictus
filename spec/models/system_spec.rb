@@ -15,7 +15,7 @@ describe System do
     end
     
     describe 'Enums' do
-       it { should define_enum_for(:security_status).with([:high, :medium, :low]) } 
+       it { should define_enum_for(:security_status).with([:high, :medium, :low, :wormhole]) } 
     end
     
     describe 'Functions' do

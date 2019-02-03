@@ -116,6 +116,63 @@ Atlas:
   crafting_duration: 1000
   type: "Freighter"
   
+# Pirates
+
+Clipper:
+  image: clipper.png
+  thruster-image: clipper-thrusters.png
+  storage: 20
+  hp: 300
+  defense: 5
+  price: 25000
+  main_equipment_slots: 2
+  utility_equipment_slots: 1
+  align_time: 4
+  target_time: 3
+  crafting: {"asteroid.lunarium_ore": 100, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting_duration: 3000
+  type: "Hunter"
+  trait:
+    align_amplifier: 0.5
+    remote_repair_amplifier: 2
+    
+  
+Galleon:
+  image: galleon.png
+  thruster-image: galleon-thrusters.png
+  storage: 70
+  hp: 600
+  defense: 10
+  price: 25000
+  main_equipment_slots: 4
+  utility_equipment_slots: 2
+  align_time: 10
+  target_time: 7
+  crafting: {"asteroid.lunarium_ore": 120, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting_duration: 3500
+  type: "Combat"
+  trait:
+    scanner_range: 3
+    damage_amplifier: 1.10
+    
+  
+Bilander:
+  image: bilander.png
+  thruster-image: bilander-thrusters.png
+  storage: 100
+  hp: 1200
+  defense: 40
+  price: 250000
+  main_equipment_slots: 5
+  utility_equipment_slots: 4
+  align_time: 30
+  target_time: 25
+  crafting: {"asteroid.lunarium_ore": 1200, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting_duration: 35000
+  type: "Combat"
+  trait:
+    damage_amplifier: 1.25
+  
 
 # Faction Ships
 

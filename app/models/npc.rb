@@ -14,7 +14,8 @@ class Npc < ApplicationRecord
   # Lets the npc drop loot
   def drop_loot
     if self.location.location_type == 'exploration_site'
-      loader = ASTEROIDS + MATERIALS
+      loader = MATERIALS
+      loader = loader + ["asteroid.lunarium_ore"] if self.location.system.wormhole?
       case rand(1..100)
         when 1..75
           loader = EQUIPMENT_EASY + loader
@@ -24,7 +25,7 @@ class Npc < ApplicationRecord
           loader = EQUIPMENT_HARD + loader
       end
     else
-      loader = ASTEROIDS + MATERIALS
+      loader = MATERIALS
     end
     structure = Structure.create(location: self.location, structure_type: 'wreck')
     rand(1..3).times do
@@ -51,6 +52,8 @@ class Npc < ApplicationRecord
     value = value * 3 if self.location.system.security_status == 'low' || self.location.location_type == 'exploration_site' || self.politician?
     
     value = value * 50 if self.wanted_enemy?
+    
+    value = value * 100 if self.location.system.wormhole?
     
     player.give_units(value)
     

@@ -13,7 +13,7 @@ class SystemsController < ApplicationController
   def route
     if params[:id]
       system = System.find(params[:id]) rescue nil
-      if system
+      if system and !current_user.system.wormhole?
         old_route = current_user.route
         path = Pathfinder.find_path(current_user.system.id, system.id)
         

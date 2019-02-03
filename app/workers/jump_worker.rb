@@ -34,11 +34,16 @@ class JumpWorker
       end
       
       # Set user system to new system
-      to_system = System.find_by(name: user.location.get_name) rescue nil
-      new_loc = Location.find_by(location_type: 'jumpgate', name: old_system.name, system_id: to_system.id) rescue nil
+      if user.location == user.location.jumpgate.origin
+        to_system = System.find(user.location.jumpgate.destination.system_id) rescue nil
+      else
+        to_system = System.find(user.location.jumpgate.origin.system_id) rescue nil
+      end
+      
+      new_loc = Location.find_by(name: old_system.name, system_id: to_system.id) rescue nil
       
       # Check for to_system
-      user.update_columns(in_warp: false) and return unless to_system and new_loc
+      user.update_columns(in_warp: false) and ac_server.broadcast("player_#{user.id}", method: 'warp_finish', local: false) and return unless to_system and new_loc
       
       user.update_columns(system_id: to_system.id, 
                           location_id: new_loc.id,
@@ -51,10 +56,10 @@ class JumpWorker
       ac_server.broadcast("location_#{user.reload.location_id}", method: 'player_appeared')
       
       # Tell everyone in old system to update their local players
-      old_system.update_local_players
+      old_system.update_local_players unless old_system.wormhole?
       
       # Tell everyone in new system to update their local players
-      user_system.update_local_players
+      user_system.update_local_players unless user_system.wormhole?
       
       # Tell user to reload page
       ac_server.broadcast("player_#{user.id}", method: 'warp_finish', local: false)
