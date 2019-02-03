@@ -49,3 +49,6 @@ namespace :deploy do
     end
   end
 end
+
+# Whenever
+set :whenever_roles, ["app", "db"]
