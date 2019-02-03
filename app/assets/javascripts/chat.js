@@ -1,6 +1,6 @@
 $( document ).on('turbolinks:load', function() {
     // Scroll to bottom
-    setTimeout(function() {scrollChats();}, 250);
+    setTimeout(function() {scrollChats(true);}, 250);
     
     // Get flash Chats
     getFlashChats();
@@ -186,12 +186,12 @@ $( document ).on('turbolinks:load', function() {
 });
 
 // Scroll to bottom of each chat
-function scrollChats() {
+function scrollChats(hard) {
   if ($('.chat-card').length) {
     $('.chat-card .tab-content').children('.tab-pane').each(function() {
       var body = $(this).find('tbody');
       
-      if(body.scrollTop() + body.innerHeight() >= body.get(0).scrollHeight - 100) {
+      if(body.scrollTop() + body.innerHeight() >= body.get(0).scrollHeight - 100 || hard) {
         body.scrollTop(body.get(0).scrollHeight);
       }
     })

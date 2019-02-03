@@ -9,7 +9,7 @@ class PlayerDiedWorker
     
     return unless user
     
-    old_system = user.system
+    old_system = System.find(user.system_id)
     
     # Get ActionCable Server
     ac_server = ActionCable.server
