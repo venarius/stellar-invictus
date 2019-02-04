@@ -1,4 +1,7 @@
 class StructuresController < ApplicationController
+  
+  include ApplicationHelper
+  
   def open_container
     if params[:id]
       container = Structure.find_by(id: params[:id]) rescue nil
@@ -33,8 +36,17 @@ class StructuresController < ApplicationController
           item_count = items.count
           
           count = 0
+          
+          # Weight 0 bridge
+          items.map(&:loader).uniq.each do |loader|
+            if get_item_attribute(loader, 'weight') == 0
+              Item.where(structure: structure, loader: loader).limit(item_count).update_all(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
+              count = count + item_count
+            end
+          end
+          
           items.each do |item|
-            if item.get_attribute('weight') <= free_weight
+            if item.get_attribute('weight') > 0 and item.get_attribute('weight') <= free_weight
               item.update_columns(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
               free_weight = free_weight - item.get_attribute('weight')
               count = count + 1

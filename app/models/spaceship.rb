@@ -109,9 +109,8 @@ class Spaceship < ApplicationRecord
     if items.present?
       structure = Structure.create(location: self.user.location, structure_type: 'wreck')
       items.each do |key, value|
-        rand(0..value).times do
-          item = Item.where(loader: key, spaceship: self).first rescue nil
-          item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false) if item
+        if Item.where(loader: key, spaceship: self).present?
+          Item.where(loader: key, spaceship: self).limit(rand(0..value)).update_all(structure_id: structure.id, spaceship_id: nil, equipped: false)
         end
       end
     end

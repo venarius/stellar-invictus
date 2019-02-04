@@ -117,7 +117,40 @@ class User < ApplicationRecord
   
   # Lets the player die
   def die
-    PlayerDiedWorker.perform_async(self.id)
+    # Get old System
+    old_system = System.find(self.system_id)
+    
+    # Get ActionCable Server
+    ac_server = ActionCable.server
+    
+    # Tell others in system that player "warped out"
+    ac_server.broadcast("location_#{self.location.id}", method: 'player_warp_out', name: self.full_name)
+    ac_server.broadcast("location_#{self.location.id}", method: 'log', text: I18n.t('log.got_killed', name: self.full_name) )
+    
+    # Create Wreck and fill with random loot
+    self.active_spaceship.deactivate_equipment and self.active_spaceship.drop_loot if self.active_spaceship
+    ac_server.broadcast("location_#{self.location.id}", method: 'player_appeared')
+    
+    # Destroy current spaceship of user and give him a nano if not insured
+    old_ship = self.active_spaceship.destroy if self.active_spaceship
+    if old_ship&.insured
+      spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: SHIP_VARIABLES[old_ship.name]['hp'])
+      self.update_columns(active_spaceship_id: spaceship.id)
+    else
+      self.give_nano
+    end
+    
+    # Make User docked at his factions station
+    rand_location = self.faction.locations.where(location_type: :station).order(Arel.sql("RANDOM()")).first rescue nil
+    self.update_columns(in_warp: false, docked: true, location_id: rand_location.id, system_id: rand_location.system.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
+    
+    # Tell user to reload page
+    ac_server.broadcast("player_#{self.id}", method: 'reload_page')
+    
+    # Tell everyone in new system to update their local players
+    old_system.update_local_players
+    
+    PlayerDiedWorker.perform_in(1.second, self.id, true)
   end
   
   # Returns if user is in same fleet with given id
