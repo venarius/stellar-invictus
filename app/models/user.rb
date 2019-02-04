@@ -150,7 +150,7 @@ class User < ApplicationRecord
     # Tell everyone in new system to update their local players
     old_system.update_local_players
     
-    PlayerDiedWorker.perform_in(1.second, self.id, true)
+    PlayerDiedWorker.perform_in(1.second, self.id)
   end
   
   # Returns if user is in same fleet with given id
