@@ -3,11 +3,11 @@
     <div class="row">
       <div class="col-md-6 field">
         <label><strong><%= I18n.t('mails.sender') %>:</strong></label>
-        <%= mail.sender.full_name %>
+        <%= mail.sender.full_name rescue "-" %>
       </div>
       <div class="col-md-6 field">
         <label><strong><%= I18n.t('mails.recipient') %>:</strong></label>
-        <%= mail.recipient.full_name %>
+        <%= mail.recipient.full_name rescue "-" %>
       </div>
       <div class="col-md-6 field">
         <label><strong><%= I18n.t('mails.header') %>:</strong></label>
@@ -19,6 +19,11 @@
           <%= mail.units.to_s %>
         </div>
       <% end %>
+    </div>
+    <div class="row">
+      <div class="col-md-6 field">
+        <%= link_to "<i class='fa fa-reply'></i> #{I18n.t('mails.reply')}".html_safe, new_game_mail_path(to: mail.sender.full_name, header: "RE: #{mail.header}"), class: 'btn btn-outline-primary btn-sm mb-1' %> 
+      </div>
     </div>
   </div>
   <div class="card-body">

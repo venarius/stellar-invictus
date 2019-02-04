@@ -1346,3 +1346,37 @@ body {
     }
   }
 }
+
+// ####################
+// Autocomplete
+// ####################
+.autocomplete {
+  position: relative;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #545454;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #313131;
+  border-bottom: 1px solid #545454;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #656565; 
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}

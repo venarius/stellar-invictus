@@ -2,11 +2,11 @@
   <h4 class="card-header"><%= I18n.t('mails.new_mail') %></h4>
   <div class="card-body">
     <%= form_for(@mail, url: game_mails_path, validate: true) do |f| %>
-      <div class="field mb-3">
+      <div class="field mb-3 autocomplete">
         <%= f.text_field :recipient_name, placeholder: I18n.t('mails.recipient'), value: params[:to], class: 'form-control' %>
       </div>
       <div class="field mb-3">
-        <%= f.text_field :header, placeholder: I18n.t('mails.header'), class: 'form-control' %>
+        <%= f.text_field :header, placeholder: I18n.t('mails.header'), value: params[:header], class: 'form-control' %>
       </div>
       <div class="field mb-3">
         <%= f.text_area :body, placeholder: I18n.t('mails.body'), class: 'form-control', style: 'height:200px' %>
@@ -21,3 +21,12 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  var users = [
+    <% (current_user.friends.map(&:full_name) + current_user.corporation&.users.map(&:full_name)).uniq.each do |ent| %>
+      "<%= ent %>",
+    <% end %>
+  ]
+  autocomplete(document.getElementById("game_mail_recipient_name"), users);
+</script>
