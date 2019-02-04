@@ -71,17 +71,18 @@ class EnemyWorker
   # Wait for new target
   # ################
   def wait_for_new_target
-    if @enemy.waiting?
+    if @enemy.reload.waiting?
       # Find first User in system and target
       @target = User.where(location: @enemy.location, docked: false).where('online > 0').sample rescue nil
       
       if @target and can_attack
+        @enemy.created!
         attack
       else
         @enemy.destroy and return
       end
     else
-      @enemy.update_columns(npc_state: :waiting)
+      @enemy.waiting!
       EnemyWorker.perform_in(10.second, @enemy.id, @location.id) and return
     end
   end
