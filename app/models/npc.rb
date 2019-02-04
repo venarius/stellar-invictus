@@ -6,6 +6,8 @@ class Npc < ApplicationRecord
   
   delegate :location_type, :enemy_amount, :to => :location, :prefix => true
   
+  include ApplicationHelper
+  
   # Lets the npc die
   def die
     NpcDiedWorker.perform_async(self.id)
@@ -31,8 +33,26 @@ class Npc < ApplicationRecord
     rand(1..3).times do
       Item.create(loader: loader.sample, structure: structure, equipped: false)
     end
-    rand(1..3).times do
+    rand(3..6).times do
       Item.create(loader: MATERIALS.sample, structure: structure, equipped: false)
+    end
+    
+  end
+  
+  # Give randbom Blueprint
+  def drop_blueprint(user)
+    if rand(1..2) == 1
+      @loader = EQUIPMENT.sample
+      if Blueprint.where(loader: @loader, user: user).empty?
+        Blueprint.create(user: user, loader: @loader, efficiency: 1)
+        ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: get_item_attribute(@loader, 'name'), npc: self.name))
+      end
+    else
+      @loader = SHIP_VARIABLES.keys.sample
+      if Blueprint.where(loader: @loader, user: user).empty?
+        Blueprint.create(user: user, loader: SHIP_VARIABLES.keys.sample, efficiency: 1)
+        ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: @loader.titleize, npc: self.name))
+      end
     end
   end
   
@@ -60,14 +80,16 @@ class Npc < ApplicationRecord
     # Also give reputation
     corporation = player.system.locations.where(location_type: :station).first&.faction.id rescue nil
     if corporation
-      ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.gained_reputation', user: self.name, amount: 0.01))
+      amount = 0.01
+      amount = amount * 3 if self.wanted_enemy?
+      ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.gained_reputation', user: self.name, amount: amount))
       case corporation
         when 1
-          player.update_columns(reputation_1: player.reputation_1 + 0.01)
+          player.update_columns(reputation_1: player.reputation_1 + amount)
         when 2
-          player.update_columns(reputation_2: player.reputation_2 + 0.01)
+          player.update_columns(reputation_2: player.reputation_2 + amount)
         when 3
-          player.update_columns(reputation_3: player.reputation_3 + 0.01)
+          player.update_columns(reputation_3: player.reputation_3 + amount)
       end
     end
     
