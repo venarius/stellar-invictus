@@ -3,6 +3,10 @@
   <div class="card-body">
     <%= form_tag create_support_ticket_path do %>
     
+      <div class="card card-body text-white bg-secondary mb-3">
+        <span>Need to upload a screenshot? Use <a href="https://puush.me/" target="_blank" class="color-sec-medium">Puush</a></span>  
+      </div>
+    
       <div class="field mb-3">
         <label><%= I18n.t('support.category') %></label>
         <%= select_tag 'ticket[category]', options_for_select(["Account", "Gameplay", "Technical", "Player Report"], "Account"), class: 'form-control' %>

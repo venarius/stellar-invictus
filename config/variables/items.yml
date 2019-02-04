@@ -79,7 +79,7 @@ equipment:
       weight: 5
       damage: 10
       slot_type: "main"
-      septarium_usage: 2
+      septarium_usage: 1
       crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 35, "materials.laser_diodes": 15}
       crafting_duration: 40
       price: 1200
@@ -89,7 +89,7 @@ equipment:
       weight: 10
       damage: 20
       slot_type: "main"
-      septarium_usage: 5
+      septarium_usage: 2
       crafting: {"asteroid.nickel_ore": 50, "asteroid.cobalt_ore": 80, "materials.laser_diodes": 30, "asteroid.titanium_ore": 10}
       crafting_duration: 120
       price: 2550
@@ -206,7 +206,7 @@ equipment:
       weight: 10
       disrupt_strength: 3
       slot_type: "main"
-      septarium_usage: 5
+      septarium_usage: 3
       crafting: {"asteroid.iron_ore": 90, "materials.sensor_electronics": 30, "materials.fusion_electronics": 30, "asteroid.titanium_ore": 10}
       crafting_duration: 100
       price: 2700
@@ -292,7 +292,7 @@ equipment:
       weight: 5
       repair_amount: 5
       slot_type: "main"
-      septarium_usage: 2
+      septarium_usage: 1
       crafting: {"asteroid.cobalt_ore": 25, "asteroid.iron_ore": 45, "materials.ai_components": 20}
       crafting_duration: 35
       price: 1050
@@ -302,7 +302,7 @@ equipment:
       weight: 10
       repair_amount: 8
       slot_type: "main"
-      septarium_usage: 5
+      septarium_usage: 2
       crafting: {"asteroid.cobalt_ore": 65, "asteroid.iron_ore": 50, "materials.ai_components": 30, "asteroid.titanium_ore": 10}
       crafting_duration: 50
       price: 1650
@@ -325,7 +325,7 @@ equipment:
       weight: 5
       repair_amount: 5
       slot_type: "main"
-      septarium_usage: 2
+      septarium_usage: 1
       crafting: {"asteroid.cobalt_ore": 25, "asteroid.iron_ore": 45, "materials.ai_components": 20}
       crafting_duration: 35
       price: 1050
@@ -335,7 +335,7 @@ equipment:
       weight: 10
       repair_amount: 8
       slot_type: "main"
-      septarium_usage: 5
+      septarium_usage: 2
       crafting: {"asteroid.cobalt_ore": 65, "asteroid.iron_ore": 50, "materials.ai_components": 30, "asteroid.titanium_ore": 10}
       crafting_duration: 50
       price: 1650

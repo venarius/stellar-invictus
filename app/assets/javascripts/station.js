@@ -105,6 +105,8 @@ $( document ).on('turbolinks:load', function() {
       } else {
         button.parent().parent().remove();
       }
+      
+      refresh_player_info();
     });
   });
   
@@ -158,6 +160,8 @@ $( document ).on('turbolinks:load', function() {
           button.parent().parent().remove();
         }
       }
+      
+      refresh_player_info();
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
