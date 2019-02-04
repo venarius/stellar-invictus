@@ -61,7 +61,7 @@ class EnemyWorker
     @target = @target.reload rescue nil
     
     if @enemy and @target
-      @target.can_be_attacked and @target.location == @enemy.location and @enemy.hp > 0
+      @target.can_be_attacked and @target.location == @enemy.location and @enemy.hp > 0 and @target.reload.active_spaceship.hp > 0
     else
       false
     end
@@ -150,6 +150,8 @@ class EnemyWorker
       # If target hp is below 0 -> die
       if target_spaceship.hp <= 0
         target_spaceship.update_columns(hp: 0)
+        # Remove user from being targeted by others
+        @target.remove_being_targeted
         @target.die
         wait_for_new_target if (@enemy.reload.hp rescue 0) > 0
       end
