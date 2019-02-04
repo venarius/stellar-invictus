@@ -6,9 +6,9 @@
           <%= image_tag("avatars/#{user.avatar}.jpg", style: 'height: 50px') %>
           <%= user.full_name %>
           <% if user.donator %>
-            <%= image_tag('badges/donator.svg', style: 'height: 35px;margin-top:-12px;margin-left:5px;') %>
+            <%= image_tag('badges/donator.svg', style: 'height: 35px;margin-top:-12px;margin-left:5px;', class: 'mobile-display-none') %>
           <% elsif user.full_name == "Gerno Utrigas" %>
-            <%= image_tag('badges/developer.svg', style: 'height: 25px;margin-top:-2px;margin-left:5px;') %>
+            <%= image_tag('badges/developer.svg', style: 'height: 25px;margin-top:-2px;margin-left:5px;', class: 'mobile-display-none') %>
           <% end %>
         </h5>
         <button type="button" class="close" data-dismiss="modal" id="player-show-modal-close">
