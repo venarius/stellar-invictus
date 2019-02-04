@@ -135,9 +135,13 @@ class EquipmentWorker
             target_ship.update_columns(hp: 0)
             if player.target
               player.target.give_bounty(player)
+              # Remove user from being targeted by others
+              player.target.remove_being_targeted
               player.target.die and player.active_spaceship.deactivate_weapons
             else
               player.npc_target.give_bounty(player)
+              # Remove user from being targeted by others
+              player.npc_target.remove_being_targeted
               player.npc_target.die if player.npc_target
               player.active_spaceship.deactivate_weapons
             end

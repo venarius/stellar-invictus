@@ -134,6 +134,7 @@ class User < ApplicationRecord
   
   # Gets the user remove being a target of other players
   def remove_being_targeted
+    Npc.where(target: self.id).update_all(target: nil)
     User.where(target_id: self.id).each do |user|
       user.update_columns(target_id: nil)
       user.active_spaceship.deactivate_equipment if user.is_attacking

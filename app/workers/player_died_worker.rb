@@ -15,9 +15,6 @@ class PlayerDiedWorker
     ac_server = ActionCable.server
     
     if !show_modal
-      
-      # Remove user from being targeted by others
-      user.remove_being_targeted
     
       # Tell others in system that player "warped out"
       ac_server.broadcast("location_#{user.location.id}", method: 'player_warp_out', name: user.full_name)

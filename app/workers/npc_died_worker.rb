@@ -8,8 +8,6 @@ class NpcDiedWorker
     npc = Npc.find(npc_id) rescue nil
     
     if npc
-      # Remove npc from being targeted by others
-      npc.remove_being_targeted
       
       # Tell others in system that npc "warped out" and log
       ActionCable.server.broadcast("location_#{npc.location.id}", method: 'player_warp_out', name: npc.name)

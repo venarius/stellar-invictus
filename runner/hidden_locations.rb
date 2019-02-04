@@ -5,7 +5,7 @@ System.all.each do |system|
   
   # Clear all hidden locations
   system.locations.where(hidden: true).each do |loc|
-    loc.destroy if loc.users.empty? and Spaceship.where(warp_target_id: loc.id).empty?
+    loc.destroy if loc.users.empty? and Spaceship.where(warp_target_id: loc.id).empty? and !loc.wormhole?
   end
   
   # Add new hidden locations (50%)
