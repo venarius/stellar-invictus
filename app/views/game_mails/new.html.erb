@@ -24,7 +24,9 @@
 
 <script>
   var users = [
-    <% (current_user.friends.map(&:full_name) + current_user.corporation&.users.map(&:full_name)).uniq.each do |ent| %>
+    <% users = current_user.friends.map(&:full_name) %>
+    <% users = users + current_user.corporation.users.map(&:full_name) if current_user.corporation %>
+    <% users.uniq.each do |ent| %>
       "<%= ent %>",
     <% end %>
   ]
