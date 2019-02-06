@@ -1,17 +1,22 @@
 <div class="card black-card overview-card">
   <h5 class="card-header">
     <%= I18n.t('game.locations') %>
+    <a data-toggle="collapse" data-target="#collapse-locations" href="#0" class="float-right">
+      <div class="btn btn-xs btn-outline-primary p-0-5 ml-1"><i class="fa fa-arrow-down"></i></div>
+    </a>
     <% if current_user.active_spaceship.get_scanner_range > 0 %>
       <button class="btn btn-sm btn-outline-primary float-right scan-system-btn progress-btn" style="padding: 0 1rem;margin-left:5px;">
-        <span class="content"><%= I18n.t('equipment.scan') %></span>
+        <span class="content" style="font-size: 14px;"><%= I18n.t('equipment.scan') %></span>
         <span class="loader">
           <span class="loader-inner"></span>
         </span>
       </button>
     <% end %>
-    <%= link_to I18n.t('navbar.map'), map_path, class: "btn btn-sm btn-outline-primary float-right", style: "padding: 0 1rem;" %>
+    <%= link_to I18n.t('navbar.map'), map_path, class: "btn btn-sm btn-outline-primary float-right mr-5px", style: "padding: 0 1rem;font-size: 14px;" %>
   </h5>
-  <div class="card-body">
-    <%= render partial: 'game/locations_table', locals: {locations: current_user.system.locations.where(hidden: false).includes(mission: :user)} %>
+  <div class="collapse show" id="collapse-locations">
+    <div class="card-body">
+      <%= render partial: 'game/locations_table', locals: {locations: current_user.system.locations.where(hidden: false).includes(mission: :user)} %>
+    </div>
   </div>
 </div>
