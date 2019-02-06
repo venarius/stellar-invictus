@@ -10,7 +10,7 @@ class PlayerDiedWorker
     return unless user
     
     # Tell user to show died modal
-    ac_server.broadcast("player_#{user.id}", method: 'died_modal', text: I18n.t('modal.died_text', location: "#{user.location.get_name} - #{user.system_name}") )
+    ActionCable.server.broadcast("player_#{user.id}", method: 'died_modal', text: I18n.t('modal.died_text', location: "#{user.location.get_name} - #{user.system_name}") )
     
   end
 end
