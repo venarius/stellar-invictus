@@ -3,7 +3,7 @@
   <% ships = Spaceship.where(user: current_user, location: location) %>
   <% items = location.get_items(current_user.id) %>
   
-  <div class="card black-card">
+  <div class="card black-card mt-5px">
     <h5 class="card-header">
       <%= location.system_name %> - <%= location.get_name %> (<%= ships.count + items.count %>)
       <div class="float-right">

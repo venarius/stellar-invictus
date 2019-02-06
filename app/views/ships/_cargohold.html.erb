@@ -5,6 +5,9 @@
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" data-target="#cargohold-equipment" href="#0" role="tab"><%= I18n.t('ships.equipment') %></a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" data-target="#cargohold-assets" href="#0" role="tab"><%= I18n.t('navbar.assets') %></a>
+  </li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane fade show active" id="cargohold-storage" role="tabpanel">
@@ -72,5 +75,42 @@
         </div>
       </div>
     </div>
+  </div>
+  
+  <div class="tab-pane fade" id="cargohold-assets" role="tabpanel">
+    <% locations.each do |loc| %>
+      <% location = Location.find(loc) %>
+      <% ships = Spaceship.where(user: current_user, location: location) %>
+      <% items = location.get_items(current_user.id) %>
+      
+      <div class="card black-card mt-5px">
+        <h5 class="card-header">
+          <%= location.system_name %> - <%= location.get_name %> (<%= ships.count + items.count %>)
+          <div class="float-right">
+            <button class="btn btn-outline-primary plot-route-btn p-0-5" data-id="<%= location.system_id %>"><%= I18n.t('game.route') %></button>
+            <a data-toggle="collapse" data-target="#collapse-asset-<%= loc %>" href="#0">
+              <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-right"></i></div>
+            </a>
+          </div>
+        </h5>
+        <div class="collapse" id="collapse-asset-<%= loc %>">
+          <div class="card-body">
+            <% if ships.count > 0 %>
+              <h5>Ships</h5>
+              <% ships.each do |ship| %>
+                <%= ship.name %><br>
+              <% end %>
+            <% end %>
+            
+            <% if items.count > 0 %>
+              <h5>Items</h5>
+              <% items.each do |key, value| %>
+                <%= value %>&times; <%= get_item_attribute(key, 'name') %><br>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

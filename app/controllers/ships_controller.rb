@@ -35,7 +35,10 @@ class ShipsController < ApplicationController
   end
   
   def cargohold
-    render partial: 'ships/cargohold', locals: {items: current_user.active_spaceship.get_items(true)}
+    var1 = Item.where(user: current_user, spaceship: nil, structure: nil).pluck(:location_id)
+    var2 = Spaceship.where(user: current_user).pluck(:location_id)
+    locations = (var1 + var2).uniq.compact
+    render partial: 'ships/cargohold', locals: {items: current_user.active_spaceship.get_items(true), locations: locations}
   end
   
   def info
