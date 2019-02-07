@@ -368,7 +368,7 @@ Galeas:
   target_time: 5
   crafting: {"materials.metal_plates": 20, "asteroid.iron_ore": 100}
   crafting_duration: 20
-  faction: 1
+  faction: 2
   reputation_requirement: 4
   type: "Miner"
   trait:
@@ -466,7 +466,7 @@ Skipjack:
   target_time: 7
   crafting: {"materials.metal_plates": 20, "asteroid.iron_ore": 100}
   crafting_duration: 20
-  faction: 1
+  faction: 3
   reputation_requirement: 4
   type: "Miner"
   trait:
