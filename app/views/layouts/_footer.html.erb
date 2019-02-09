@@ -1,14 +1,14 @@
 <footer id="footer" data-turbolinks-permanent>
   <div class="container">
     <div class="row">
-      <div class="col-md-4 col-6 text-md-left">
+      <div class="col-md-4 col-8 text-left">
         <%= link_to I18n.t('game.more'), main_app.credits_path %> / <a href="https://soundcloud.com/stellardrone" target="_blank"><%= I18n.t('game.music') %></a> / <%= link_to I18n.t('game.support'), main_app.support_path %> / <a class="sound-toggle-btn" href="#"><i class="fa fa-volume-mute color-white"></i></a>
 
       </div>
-      <div class="col-md-4 col-6 text-md-center text-right">
-        <span id="server_time"><%= I18n.t('chat.server_time') %> </span>
+      <div class="col-md-4 col-4 text-md-center text-right">
+        <span class="mobile-display-none"><%= I18n.t('chat.server_time') %></span><span class="server-time"></span>
       </div>
-      <div class="col-md-4 text-md-right mobile-display-none">
+      <div class="col-md-4 text-right mobile-display-none">
         Made with <i class="fa fa-heart fa-xs"></i> by <a href="http://timlange.me" target="_blank">Tim Lange</a>
       </div>
     </div>

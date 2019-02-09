@@ -134,6 +134,7 @@ html {
   .mobile-mb-1 { margin-bottom: 1rem !important; }
   .mobile-ml-0 { margin-left: 0 !important; }
   .mobile-mb-5px { margin-bottom: 5px !important; }
+  .mobile-pt-0 { padding-top: 0 !important; }
 }
 
 // Dropdown - Submenu
@@ -189,6 +190,86 @@ html {
   border-left: 0 !important;
   border-bottom: 1px solid #282828 !important;
 }
+.navbar .move-in-navbar {
+  display: none;
+}
+
+// Mobile Navbar
+@media (max-width: 767px) {
+  .navbar.main-navbar.fixed-top {
+    display: none;
+    position: relative;
+    text-align: center;
+    min-height: 100vh;
+    padding-bottom: 8em;
+    .navbar-toggler { display: none; }
+    .navbar-brand img { height: 70px; margin-bottom: 15px; }
+    .navbar-collapse {
+      display: block !important;
+      .navbar-nav {
+        display: block;
+        .nav-item, .nav-link {
+          font-size: 20px;
+        }
+        &.avatar-menu {
+          margin-left: 10px;
+          margin-top: 15px;
+          .navbar-avatar { max-height: 35px; }
+          .fa.fa-caret-down {
+            font-size: 1.5em;
+            vertical-align: -3px;
+          }
+          .dropdown-menu { margin-top: 5px; }
+        }
+      }
+    }
+    .move-in-navbar {
+      display: block;
+      width: 100%;
+      height: 45px;
+      background: #1f1f1f;
+      position: absolute;
+      bottom: 32px;
+      left: 0;
+    }
+  }
+}
+
+.mobile-nav {
+  padding: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #6493cd !important;
+  padding-bottom: 2px;
+  background-color: black !important;
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+    .col-4.active { color: #d29797 !important; }
+    .col-4 .fa { margin-top: 12px; }
+    .col-4:first-child { border-right: 1px solid #6493cd; padding-left: 15px; }
+    .col-4:last-child { border-left: 1px solid #6493cd; padding-right: 15px; }
+  }
+}
+
+.mobile-player-info {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  background-color: black !important;
+  border-bottom: 1px solid #6493cd !important;
+  h5 { font-size: 15px !important; }
+}
+
+@media (max-width: 767px) {
+  #app-container.container {
+    padding-top: 35px;
+  }
+}
 
 // ###############
 // Footer
@@ -199,9 +280,12 @@ body {
   background-color: transparent;
   position: relative;
 }
-@media (max-width: 345px) {
+@media (max-width: 767px) {
   body {
-    padding-bottom: 50px;
+    padding-bottom: 32px;
+    &.pt-70px {
+      padding-bottom: 50px;
+    }
   }
 }
 #footer {
@@ -258,6 +342,13 @@ a {
     margin-bottom: 0px;
   }
 }
+
+@media (max-width: 767px) {
+  .system-card {
+    padding: 10px 10px;
+  }
+}
+
 .black-card {
   color: white;
   background: rgba(0,0,0,0.75);

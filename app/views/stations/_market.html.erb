@@ -36,22 +36,25 @@
           <%= I18n.t('market.ships') %>
         </a>
         <div class="dropdown-menu">
+          <% things = [] %>
           <% SHIP_VARIABLES.each do |key, value| %>
-            <% if !value['faction'] %>
-              <a href="#" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
-            <% end %>
+            <% things << value['type'] %>
           <% end %>
-          <% faction = current_user.location.faction rescue nil %>
-          <% if faction %>
+          <% things.uniq.each do |key| %>
             <div class="dropdown-submenu">
               <a class="dropdown-item dropdown-toggle" role="button" data-toggle="dropdown">
-                <%= faction.name.titleize %>
+                <%= key.capitalize %>
               </a>
               <div class="dropdown-menu">
-                <% SHIP_VARIABLES.each do |key, value| %>
-                  <% if value['faction'] and value['faction'] == faction.id %>
-                    <a href="#" class="dropdown-item market-loader-btn" data-loader="<%= key %>"><%= key.capitalize %> (<%= market_listings.count { |element| element.include? key } %>)</a>
+                <% count = 0 %>
+                <% SHIP_VARIABLES.each do |subkey, subvalue| %>
+                  <% if subvalue['type'] == key and (subvalue['faction'] ? subvalue['faction'] == current_user.faction_id : true) %>
+                    <% count = count + 1 %>
+                    <a href="#0" class="dropdown-item market-loader-btn" data-loader="<%= subkey %>"><%= subkey.titleize %> (<%= market_listings.count { |element| element.include? subkey } %>)</a>
                   <% end %>
+                <% end %>
+                <% if count == 0 %>
+                  <h5 class="text-center">...</h2>
                 <% end %>
               </div>
             </div>

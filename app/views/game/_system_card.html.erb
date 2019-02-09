@@ -5,8 +5,9 @@
         
         <% if current_user.system.locations.where(location_type: :station).first&.faction %>
         - <%= current_user.system.locations.where(location_type: :station).first.faction.get_ticker %>
+        <span class="mobile-display-block display-none color-sec-<%= current_user.system.security_status %>"><%= current_user.system.security_status.upcase %></span>
         <% end %>
     </span>
 </h4>
 
-<h4 class="text-white"><span class="bg-black text-span"><%= I18n.t('game.current_sec_level') %> <span class="color-sec-<%= current_user.system.security_status %>"><%= current_user.system.security_status.upcase %></span></span></h4>
+<h4 class="text-white mobile-display-none"><span class="bg-black text-span"><%= I18n.t('game.current_sec_level') %> <span class="color-sec-<%= current_user.system.security_status %>"><%= current_user.system.security_status.upcase %></span></span></h4>

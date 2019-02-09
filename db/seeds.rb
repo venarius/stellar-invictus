@@ -100,7 +100,7 @@ jumpgates = [
     ["Perseus", "Latos"], ["Chanoun", "Aunia"]
   ]
   
-travels = [5, 10, 15, 20, 25, 30]
+travels = [5, 10, 15, 20]
   
 jumpgates.each do |jgs|
   a = Location.find_or_create_by(name: jgs.last, system: System.find_by(name: jgs.first), location_type: 2)

@@ -11,7 +11,7 @@ class Pathfinder
     distances = {}
     previouses = {}
     
-    systems = System.all.pluck(:name)
+    systems = System.where.not(security_status: :wormhole).pluck(:name)
     
     systems.each do |sys|
       distances[sys] = nil

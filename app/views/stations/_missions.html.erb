@@ -3,7 +3,7 @@
     <a class="nav-link active" data-toggle="tab" data-target="#available-missions" href="#0" role="tab"><%= I18n.t('missions.available_missions') %> (<%= current_user.location.missions.where(mission_status: 'offered').count %>)</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" data-target="#active-missions" href="#0" role="tab"><%= I18n.t('missions.active_missions') %> (<%= current_user.missions.count %>)</a>
+    <a class="nav-link" data-toggle="tab" data-target="#active-missions" href="#0" role="tab"><%= I18n.t('missions.active_missions') %> (<span id="current-mission-counter"><%= current_user.missions.count %></span>)</a>
   </li>
 </ul>
 <div class="tab-content">
