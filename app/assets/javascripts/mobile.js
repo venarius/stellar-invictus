@@ -34,10 +34,10 @@ $( document ).on('turbolinks:load', function() {
 
 var mobile = false;
 function gameLayoutResize(hard) {
-  if ($(window).width() <= 767 && mobile == false || hard) {
+  if (($(window).width() <= 767 && mobile == false) || ($(window).width() <= 767 && hard)) {
     gameLayoutMobile();
     mobile = true;
-  } else if ($(window).width() > 767 && mobile == true || hard) {
+  } else if (($(window).width() > 767 && mobile == true) || ($(window).width() > 767 && hard)) {
     gameLayoutDesktop();
     mobile = false;
   }
