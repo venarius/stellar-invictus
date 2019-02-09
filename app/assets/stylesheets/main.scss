@@ -127,6 +127,7 @@ html {
 @media (max-width: 767px) {
   .mobile-display-none { display: none !important; }
   .mobile-display-block { display: block !important; }
+  .mobile-display-inline { display: inline !important; }
   .mobile-mb-10 { margin-bottom: 10px !important; }
   .mobile-mb-10px { margin-bottom: 10px !important; }
   .mobile-mt-0 { margin-top: 0 !important; }
@@ -297,6 +298,7 @@ body {
   background-color: #060606 !important;
   width: 100%;
   border-top: 1px solid #282828;
+  border-bottom: 0;
 }
 a {
   color: white;
