@@ -1,0 +1,18 @@
+<div class="card black-card card-body mobile-nav">
+  <div class="row">
+    <div class="col-4 text-center mobile-menu-nav-btn <%= 'active' if current_page?(game_path) || current_page?(station_path) %>" data-path="<%= game_path %>">
+      <i class="fa fa-home fa-lg"></i><br>
+      Home
+    </div>
+    
+    <div class="col-4 text-center mobile-menu-nav-btn <%= 'active' if current_page?(map_path) %>" data-path="<%= map_path %>">
+      <i class="fa fa-compass fa-lg"></i><br>
+      Map
+    </div>
+    
+    <div class="col-4 text-center mobile-menu-open-btn">
+      <i class="fa fa-bars fa-lg"></i><br>
+      Menu
+    </div>
+  </div>
+</div>

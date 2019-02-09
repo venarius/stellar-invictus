@@ -61,12 +61,10 @@ $( document ).on('turbolinks:load', function() {
     });
     
     // Show Server Time
-    if ($('#server_time').length > 0) {
+    setServerTime();
+    setInterval(function() {
       setServerTime();
-      setInterval(function() {
-        setServerTime();
-      },1000);
-    }
+    },1000);
     
     // Enable tooltips
     var isMobile = false; //initiate as false
@@ -172,7 +170,7 @@ function addZero(i) {
 function setServerTime() {
   var dt = calcTime('0');
   var time = addZero(dt.getHours()) + ":" + addZero(dt.getMinutes()) + ":" + addZero(dt.getSeconds());
-  $('#server_time').html("Server Time: " + time);
+  $('body').find('.server-time').html(" " + time);
 }
 
 // Refresh player info

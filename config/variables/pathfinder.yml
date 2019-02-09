@@ -6,13 +6,13 @@ RE-FII:
   ZU-6TT: TZ-877
   TZ-877: SR-378
   VB-233: RE-FII
-  KE-35F: VB-233
+  KE-35F: CR-181
   SR-378: KI-233
   KQ-43R: SR-378
   TK-63R: Nodens
   ZZ-23F: TK-63R
   FH-232: Draconis
-  WQ-F65: FH-232
+  WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
@@ -20,17 +20,17 @@ RE-FII:
   Decon: Komo
   Urus: KE-35F
   Zimse: Urus
-  Dresi: KQ-43R
+  Dresi: Zimse
   Latos: Zimse
   Alba: Dresi
-  Odin: Alba
+  Odin: Latos
   Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
-  Hyperion: Aulin
+  Hyperion: Zenais
   Komo: Talos
   Zenais: Komo
   Perseus: Latos
@@ -39,23 +39,66 @@ RE-FII:
   Inari: Alba
   Chanoun: Dau
   Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Joamma
   Joamma: Inari
-  Belinara: Joamma
+  Belinara: Finid
 CR-181:
   RE-FII: CR-181
   CR-181: 
   KI-233: CR-181
   ZU-6TT: TZ-877
   TZ-877: SR-378
-  VB-233: RE-FII
+  VB-233: KE-35F
   KE-35F: CR-181
   SR-378: KI-233
   KQ-43R: SR-378
   TK-63R: Nodens
   ZZ-23F: TK-63R
   FH-232: Draconis
-  WQ-F65: FH-232
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: VB-233
+  Decon: Aulin
+  Urus: KE-35F
+  Zimse: Urus
+  Dresi: Zimse
+  Latos: Zimse
+  Alba: Dresi
+  Odin: Latos
+  Foves: Odin
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Urus
+  Hyperion: Aulin
+  Komo: Talos
+  Zenais: Komo
+  Perseus: Latos
+  Pherona: Perseus
+  Dau: Dresi
+  Inari: Alba
+  Chanoun: Dau
+  Minin: Chanoun
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Finid
+KI-233:
+  RE-FII: CR-181
+  CR-181: KI-233
+  KI-233: 
+  ZU-6TT: TZ-877
+  TZ-877: SR-378
+  VB-233: KE-35F
+  KE-35F: CR-181
+  SR-378: KI-233
+  KQ-43R: SR-378
+  TK-63R: Nodens
+  ZZ-23F: TK-63R
+  FH-232: Draconis
+  WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
@@ -70,62 +113,19 @@ CR-181:
   Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
   Hyperion: Aulin
   Komo: Talos
-  Zenais: Hyperion
+  Zenais: Komo
   Perseus: Latos
-  Pherona: Zenais
+  Pherona: Perseus
   Dau: Dresi
   Inari: Alba
   Chanoun: Dau
   Minin: Chanoun
-  Aunia: Chanoun
-  Joamma: Inari
-  Belinara: Joamma
-KI-233:
-  RE-FII: CR-181
-  CR-181: KI-233
-  KI-233: 
-  ZU-6TT: TZ-877
-  TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
-  SR-378: KI-233
-  KQ-43R: SR-378
-  TK-63R: Nodens
-  ZZ-23F: TK-63R
-  FH-232: Draconis
-  WQ-F65: FH-232
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: VB-233
-  Decon: Aulin
-  Urus: KE-35F
-  Zimse: Dresi
-  Dresi: KQ-43R
-  Latos: Zimse
-  Alba: Dresi
-  Odin: Alba
-  Foves: Odin
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Urus
-  Hyperion: Aulin
-  Komo: Talos
-  Zenais: Hyperion
-  Perseus: Latos
-  Pherona: Foves
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Joamma
   Joamma: Inari
   Belinara: Joamma
 ZU-6TT:
@@ -134,229 +134,14 @@ ZU-6TT:
   KI-233: SR-378
   ZU-6TT: 
   TZ-877: ZU-6TT
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: TZ-877
   KQ-43R: ZU-6TT
   TK-63R: Nodens
   ZZ-23F: TK-63R
   FH-232: Draconis
-  WQ-F65: FH-232
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: VB-233
-  Decon: Aulin
-  Urus: KE-35F
-  Zimse: Dresi
-  Dresi: KQ-43R
-  Latos: Zimse
-  Alba: Dresi
-  Odin: Alba
-  Foves: Odin
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Urus
-  Hyperion: Aulin
-  Komo: Talos
-  Zenais: Pherona
-  Perseus: Latos
-  Pherona: Foves
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Chanoun
-  Joamma: Inari
-  Belinara: Joamma
-TZ-877:
-  RE-FII: CR-181
-  CR-181: KI-233
-  KI-233: SR-378
-  ZU-6TT: TZ-877
-  TZ-877: 
-  VB-233: RE-FII
-  KE-35F: CR-181
-  SR-378: TZ-877
-  KQ-43R: SR-378
-  TK-63R: Nodens
-  ZZ-23F: TK-63R
-  FH-232: Draconis
-  WQ-F65: FH-232
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: VB-233
-  Decon: Aulin
-  Urus: KE-35F
-  Zimse: Dresi
-  Dresi: KQ-43R
-  Latos: Zimse
-  Alba: Dresi
-  Odin: Alba
-  Foves: Odin
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Urus
-  Hyperion: Aulin
-  Komo: Talos
-  Zenais: Pherona
-  Perseus: Latos
-  Pherona: Foves
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Chanoun
-  Joamma: Inari
-  Belinara: Joamma
-VB-233:
-  RE-FII: VB-233
-  CR-181: RE-FII
-  KI-233: CR-181
-  ZU-6TT: TZ-877
-  TZ-877: SR-378
-  VB-233: 
-  KE-35F: VB-233
-  SR-378: KI-233
-  KQ-43R: SR-378
-  TK-63R: Nodens
-  ZZ-23F: TK-63R
-  FH-232: Draconis
   WQ-F65: FT-R3T
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: VB-233
-  Decon: Komo
-  Urus: KE-35F
-  Zimse: Urus
-  Dresi: KQ-43R
-  Latos: Zimse
-  Alba: Dresi
-  Odin: Alba
-  Foves: Pherona
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Urus
-  Hyperion: Aulin
-  Komo: Talos
-  Zenais: Komo
-  Perseus: Latos
-  Pherona: Zenais
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Chanoun
-  Joamma: Inari
-  Belinara: Joamma
-KE-35F:
-  RE-FII: VB-233
-  CR-181: KE-35F
-  KI-233: CR-181
-  ZU-6TT: TZ-877
-  TZ-877: SR-378
-  VB-233: KE-35F
-  KE-35F: 
-  SR-378: KI-233
-  KQ-43R: SR-378
-  TK-63R: Nodens
-  ZZ-23F: TK-63R
-  FH-232: Draconis
-  WQ-F65: FT-R3T
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: VB-233
-  Decon: Aulin
-  Urus: KE-35F
-  Zimse: Urus
-  Dresi: KQ-43R
-  Latos: Zimse
-  Alba: Dresi
-  Odin: Alba
-  Foves: Pherona
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Urus
-  Hyperion: Aulin
-  Komo: Talos
-  Zenais: Hyperion
-  Perseus: Latos
-  Pherona: Zenais
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Chanoun
-  Joamma: Inari
-  Belinara: Joamma
-SR-378:
-  RE-FII: CR-181
-  CR-181: KI-233
-  KI-233: SR-378
-  ZU-6TT: TZ-877
-  TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
-  SR-378: 
-  KQ-43R: SR-378
-  TK-63R: Nodens
-  ZZ-23F: TK-63R
-  FH-232: Draconis
-  WQ-F65: FH-232
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: VB-233
-  Decon: Aulin
-  Urus: KE-35F
-  Zimse: Dresi
-  Dresi: KQ-43R
-  Latos: Zimse
-  Alba: Dresi
-  Odin: Alba
-  Foves: Odin
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Urus
-  Hyperion: Aulin
-  Komo: Talos
-  Zenais: Pherona
-  Perseus: Latos
-  Pherona: Foves
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Chanoun
-  Joamma: Inari
-  Belinara: Joamma
-KQ-43R:
-  RE-FII: CR-181
-  CR-181: KI-233
-  KI-233: SR-378
-  ZU-6TT: KQ-43R
-  TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
-  SR-378: KQ-43R
-  KQ-43R: 
-  TK-63R: Nodens
-  ZZ-23F: TK-63R
-  FH-232: Draconis
-  WQ-F65: FH-232
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
@@ -371,11 +156,11 @@ KQ-43R:
   Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
   Hyperion: Aulin
-  Komo: Zenais
+  Komo: Talos
   Zenais: Pherona
   Perseus: Latos
   Pherona: Foves
@@ -383,17 +168,232 @@ KQ-43R:
   Inari: Alba
   Chanoun: Dau
   Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Joamma
   Joamma: Inari
   Belinara: Joamma
-TK-63R:
+TZ-877:
+  RE-FII: CR-181
+  CR-181: KI-233
+  KI-233: SR-378
+  ZU-6TT: TZ-877
+  TZ-877: 
+  VB-233: KE-35F
+  KE-35F: CR-181
+  SR-378: TZ-877
+  KQ-43R: SR-378
+  TK-63R: Nodens
+  ZZ-23F: TK-63R
+  FH-232: Draconis
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: VB-233
+  Decon: Aulin
+  Urus: Zimse
+  Zimse: Dresi
+  Dresi: KQ-43R
+  Latos: Zimse
+  Alba: Dresi
+  Odin: Alba
+  Foves: Odin
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Urus
+  Hyperion: Aulin
+  Komo: Talos
+  Zenais: Pherona
+  Perseus: Latos
+  Pherona: Foves
+  Dau: Dresi
+  Inari: Alba
+  Chanoun: Dau
+  Minin: Chanoun
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Joamma
+VB-233:
+  RE-FII: VB-233
+  CR-181: KE-35F
+  KI-233: CR-181
+  ZU-6TT: KQ-43R
+  TZ-877: SR-378
+  VB-233: 
+  KE-35F: VB-233
+  SR-378: KI-233
+  KQ-43R: Dresi
+  TK-63R: Nodens
+  ZZ-23F: TK-63R
+  FH-232: Draconis
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: VB-233
+  Decon: Komo
+  Urus: KE-35F
+  Zimse: Urus
+  Dresi: Zimse
+  Latos: Zimse
+  Alba: Dresi
+  Odin: Latos
+  Foves: Pherona
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Urus
+  Hyperion: Zenais
+  Komo: Talos
+  Zenais: Komo
+  Perseus: Latos
+  Pherona: Zenais
+  Dau: Dresi
+  Inari: Alba
+  Chanoun: Dau
+  Minin: Chanoun
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Finid
+KE-35F:
+  RE-FII: CR-181
+  CR-181: KE-35F
+  KI-233: CR-181
+  ZU-6TT: KQ-43R
+  TZ-877: SR-378
+  VB-233: KE-35F
+  KE-35F: 
+  SR-378: KI-233
+  KQ-43R: Dresi
+  TK-63R: Nodens
+  ZZ-23F: TK-63R
+  FH-232: Draconis
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: VB-233
+  Decon: Aulin
+  Urus: KE-35F
+  Zimse: Urus
+  Dresi: Zimse
+  Latos: Zimse
+  Alba: Dresi
+  Odin: Latos
+  Foves: Odin
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Urus
+  Hyperion: Aulin
+  Komo: Talos
+  Zenais: Komo
+  Perseus: Latos
+  Pherona: Perseus
+  Dau: Dresi
+  Inari: Alba
+  Chanoun: Dau
+  Minin: Chanoun
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Finid
+SR-378:
+  RE-FII: CR-181
+  CR-181: KI-233
+  KI-233: SR-378
+  ZU-6TT: TZ-877
+  TZ-877: SR-378
+  VB-233: KE-35F
+  KE-35F: CR-181
+  SR-378: 
+  KQ-43R: SR-378
+  TK-63R: Nodens
+  ZZ-23F: TK-63R
+  FH-232: Draconis
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: VB-233
+  Decon: Aulin
+  Urus: Zimse
+  Zimse: Dresi
+  Dresi: KQ-43R
+  Latos: Zimse
+  Alba: Dresi
+  Odin: Alba
+  Foves: Odin
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Urus
+  Hyperion: Aulin
+  Komo: Talos
+  Zenais: Pherona
+  Perseus: Latos
+  Pherona: Foves
+  Dau: Dresi
+  Inari: Alba
+  Chanoun: Dau
+  Minin: Chanoun
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Joamma
+KQ-43R:
   RE-FII: CR-181
   CR-181: KI-233
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
+  SR-378: KQ-43R
+  KQ-43R: 
+  TK-63R: Nodens
+  ZZ-23F: TK-63R
+  FH-232: Draconis
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: VB-233
+  Decon: Aulin
+  Urus: Zimse
+  Zimse: Dresi
+  Dresi: KQ-43R
+  Latos: Zimse
+  Alba: Dresi
+  Odin: Alba
+  Foves: Odin
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Urus
+  Hyperion: Aulin
+  Komo: Talos
+  Zenais: Pherona
+  Perseus: Latos
+  Pherona: Foves
+  Dau: Dresi
+  Inari: Alba
+  Chanoun: Dau
+  Minin: Chanoun
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Joamma
+TK-63R:
+  RE-FII: CR-181
+  CR-181: KE-35F
+  KI-233: SR-378
+  ZU-6TT: KQ-43R
+  TZ-877: SR-378
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: 
@@ -403,8 +403,8 @@ TK-63R:
   FT-R3T: WQ-F65
   NF-Z66: FT-R3T
   UC-233: FT-R3T
-  Talos: Komo
-  Decon: Aulin
+  Talos: VB-233
+  Decon: Komo
   Urus: Zimse
   Zimse: Dresi
   Dresi: Alba
@@ -413,30 +413,30 @@ TK-63R:
   Odin: Alba
   Foves: Finid
   Finid: Belinara
-  Draconis: Belinara
+  Draconis: FH-232
   Nodens: TK-63R
   Nordar: Nodens
-  Aulin: Hyperion
+  Aulin: Urus
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
-  Dau: Inari
+  Dau: Chanoun
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Nordar
-  Joamma: Nodens
-  Belinara: Joamma
+  Joamma: Aunia
+  Belinara: Draconis
 ZZ-23F:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: ZZ-23F
@@ -447,15 +447,15 @@ ZZ-23F:
   NF-Z66: FT-R3T
   UC-233: FT-R3T
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Dresi
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Inari
-  Odin: Alba
+  Odin: Foves
   Foves: Finid
-  Finid: NF-Z66
+  Finid: Belinara
   Draconis: FH-232
   Nodens: TK-63R
   Nordar: Nodens
@@ -463,23 +463,23 @@ ZZ-23F:
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
-  Dau: Inari
+  Dau: Chanoun
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Nordar
-  Joamma: Nodens
+  Joamma: Aunia
   Belinara: Draconis
 FH-232:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: ZZ-23F
@@ -490,15 +490,15 @@ FH-232:
   NF-Z66: FT-R3T
   UC-233: FT-R3T
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Inari
   Odin: Foves
   Foves: Finid
-  Finid: NF-Z66
+  Finid: Belinara
   Draconis: FH-232
   Nodens: TK-63R
   Nordar: Nodens
@@ -506,22 +506,22 @@ FH-232:
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
-  Aunia: Joamma
+  Aunia: Nordar
   Joamma: Belinara
   Belinara: Draconis
 WQ-F65:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: Talos
+  VB-233: KE-35F
   KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
@@ -533,11 +533,11 @@ WQ-F65:
   NF-Z66: FT-R3T
   UC-233: FT-R3T
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Inari
   Odin: Foves
   Foves: Finid
@@ -549,22 +549,22 @@ WQ-F65:
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
-  Aunia: Joamma
+  Aunia: Nordar
   Joamma: Belinara
   Belinara: Draconis
 FT-R3T:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: Talos
+  VB-233: KE-35F
   KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
@@ -576,11 +576,11 @@ FT-R3T:
   NF-Z66: FT-R3T
   UC-233: FT-R3T
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Odin
   Odin: Foves
   Foves: Finid
@@ -592,22 +592,22 @@ FT-R3T:
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
-  Aunia: Joamma
+  Aunia: Nordar
   Joamma: Belinara
   Belinara: Draconis
 NF-Z66:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: Talos
+  VB-233: KE-35F
   KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
@@ -619,38 +619,38 @@ NF-Z66:
   NF-Z66: 
   UC-233: NF-Z66
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Odin
   Odin: Foves
   Foves: Finid
   Finid: NF-Z66
   Draconis: FH-232
-  Nodens: Joamma
+  Nodens: TK-63R
   Nordar: Aunia
   Aulin: Hyperion
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
-  Inari: Joamma
-  Chanoun: Aunia
+  Inari: Alba
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Joamma
   Joamma: Belinara
   Belinara: Finid
 UC-233:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: Talos
+  VB-233: KE-35F
   KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
@@ -662,44 +662,44 @@ UC-233:
   NF-Z66: UC-233
   UC-233: 
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Odin
   Odin: Foves
   Foves: Finid
   Finid: NF-Z66
   Draconis: FH-232
-  Nodens: Joamma
-  Nordar: Aunia
+  Nodens: TK-63R
+  Nordar: Nodens
   Aulin: Hyperion
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
-  Inari: Joamma
-  Chanoun: Aunia
+  Inari: Alba
+  Chanoun: Minin
   Minin: Aunia
-  Aunia: Joamma
+  Aunia: Nordar
   Joamma: Belinara
   Belinara: Finid
 Talos:
   RE-FII: VB-233
-  CR-181: RE-FII
+  CR-181: KE-35F
   KI-233: CR-181
-  ZU-6TT: TZ-877
+  ZU-6TT: KQ-43R
   TZ-877: SR-378
   VB-233: Talos
   KE-35F: VB-233
   SR-378: KI-233
-  KQ-43R: SR-378
+  KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: FH-232
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
@@ -708,41 +708,41 @@ Talos:
   Decon: Komo
   Urus: KE-35F
   Zimse: Urus
-  Dresi: KQ-43R
-  Latos: Perseus
+  Dresi: Zimse
+  Latos: Zimse
   Alba: Dresi
-  Odin: Foves
+  Odin: Latos
   Foves: Pherona
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
-  Aulin: Decon
+  Aulin: Urus
   Hyperion: Zenais
   Komo: Talos
   Zenais: Komo
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Zenais
   Dau: Dresi
   Inari: Alba
   Chanoun: Dau
   Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Joamma
   Joamma: Inari
   Belinara: Finid
 Decon:
   RE-FII: VB-233
   CR-181: KE-35F
   KI-233: CR-181
-  ZU-6TT: TZ-877
+  ZU-6TT: KQ-43R
   TZ-877: SR-378
   VB-233: Talos
   KE-35F: Urus
-  SR-378: KI-233
+  SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: FH-232
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
@@ -752,40 +752,40 @@ Decon:
   Urus: Aulin
   Zimse: Urus
   Dresi: Zimse
-  Latos: Zimse
-  Alba: Dresi
-  Odin: Latos
+  Latos: Perseus
+  Alba: Odin
+  Odin: Foves
   Foves: Pherona
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Decon
-  Hyperion: Aulin
+  Hyperion: Zenais
   Komo: Decon
-  Zenais: Hyperion
+  Zenais: Komo
   Perseus: Pherona
   Pherona: Zenais
   Dau: Dresi
   Inari: Alba
   Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Chanoun
-  Joamma: Belinara
+  Minin: Aunia
+  Aunia: Joamma
+  Joamma: Inari
   Belinara: Finid
 Urus:
-  RE-FII: VB-233
+  RE-FII: CR-181
   CR-181: KE-35F
   KI-233: CR-181
-  ZU-6TT: TZ-877
+  ZU-6TT: KQ-43R
   TZ-877: SR-378
   VB-233: KE-35F
   KE-35F: Urus
-  SR-378: KI-233
+  SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: TK-63R
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
@@ -798,28 +798,28 @@ Urus:
   Latos: Zimse
   Alba: Dresi
   Odin: Latos
-  Foves: Pherona
+  Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
   Hyperion: Aulin
-  Komo: Decon
+  Komo: Talos
   Zenais: Hyperion
   Perseus: Latos
-  Pherona: Zenais
+  Pherona: Perseus
   Dau: Dresi
   Inari: Alba
   Chanoun: Dau
   Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Joamma
   Joamma: Inari
-  Belinara: Joamma
+  Belinara: Finid
 Zimse:
-  RE-FII: VB-233
+  RE-FII: CR-181
   CR-181: KE-35F
-  KI-233: SR-378
+  KI-233: CR-181
   ZU-6TT: KQ-43R
   TZ-877: SR-378
   VB-233: KE-35F
@@ -828,7 +828,7 @@ Zimse:
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: TK-63R
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
@@ -841,14 +841,14 @@ Zimse:
   Latos: Zimse
   Alba: Dresi
   Odin: Latos
-  Foves: Pherona
+  Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
   Hyperion: Aulin
-  Komo: Decon
+  Komo: Talos
   Zenais: Pherona
   Perseus: Latos
   Pherona: Perseus
@@ -856,23 +856,23 @@ Zimse:
   Inari: Alba
   Chanoun: Dau
   Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Joamma
   Joamma: Inari
-  Belinara: Joamma
+  Belinara: Finid
 Dresi:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: TK-63R
   FH-232: Draconis
-  WQ-F65: FH-232
+  WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
@@ -887,11 +887,11 @@ Dresi:
   Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
   Hyperion: Aulin
-  Komo: Zenais
+  Komo: Talos
   Zenais: Pherona
   Perseus: Latos
   Pherona: Foves
@@ -899,13 +899,13 @@ Dresi:
   Inari: Alba
   Chanoun: Dau
   Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Joamma
   Joamma: Inari
   Belinara: Joamma
 Latos:
-  RE-FII: VB-233
+  RE-FII: CR-181
   CR-181: KE-35F
-  KI-233: SR-378
+  KI-233: CR-181
   ZU-6TT: KQ-43R
   TZ-877: SR-378
   VB-233: KE-35F
@@ -914,23 +914,23 @@ Latos:
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: FH-232
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
-  Talos: Komo
-  Decon: Aulin
+  Talos: VB-233
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Zimse
   Latos: 
   Alba: Odin
   Odin: Latos
-  Foves: Pherona
+  Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
   Hyperion: Zenais
@@ -940,30 +940,30 @@ Latos:
   Pherona: Perseus
   Dau: Dresi
   Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
+  Chanoun: Minin
+  Minin: Aunia
   Aunia: Joamma
   Joamma: Inari
   Belinara: Finid
 Alba:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: TK-63R
   FH-232: Draconis
-  WQ-F65: FH-232
+  WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
   Talos: VB-233
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Dresi
   Dresi: Alba
@@ -973,7 +973,7 @@ Alba:
   Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
   Hyperion: Zenais
@@ -981,32 +981,32 @@ Alba:
   Zenais: Pherona
   Perseus: Latos
   Pherona: Foves
-  Dau: Dresi
+  Dau: Inari
   Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
+  Chanoun: Minin
+  Minin: Aunia
   Aunia: Joamma
   Joamma: Inari
   Belinara: Joamma
 Odin:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
-  ZZ-23F: TK-63R
-  FH-232: WQ-F65
+  ZZ-23F: FH-232
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Alba
@@ -1016,7 +1016,7 @@ Odin:
   Foves: Odin
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Hyperion
   Hyperion: Zenais
@@ -1024,110 +1024,110 @@ Odin:
   Zenais: Pherona
   Perseus: Latos
   Pherona: Foves
-  Dau: Dresi
+  Dau: Inari
   Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
+  Chanoun: Minin
+  Minin: Aunia
   Aunia: Joamma
   Joamma: Inari
-  Belinara: Joamma
+  Belinara: Finid
 Foves:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: Talos
+  VB-233: KE-35F
   KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: FH-232
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Odin
   Odin: Foves
   Foves: 
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Hyperion
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
-  Dau: Dresi
+  Dau: Inari
   Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
+  Chanoun: Minin
+  Minin: Aunia
   Aunia: Joamma
-  Joamma: Belinara
+  Joamma: Inari
   Belinara: Finid
 Finid:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: Talos
+  VB-233: KE-35F
   KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
-  TK-63R: Nodens
+  TK-63R: ZZ-23F
   ZZ-23F: FH-232
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Odin
   Odin: Foves
   Foves: Finid
   Finid: 
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Hyperion
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
-  Inari: Joamma
-  Chanoun: Aunia
+  Inari: Alba
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Joamma
   Joamma: Belinara
   Belinara: Finid
 Draconis:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
-  TK-63R: Nodens
+  TK-63R: ZZ-23F
   ZZ-23F: FH-232
   FH-232: Draconis
   WQ-F65: FH-232
@@ -1135,39 +1135,39 @@ Draconis:
   NF-Z66: FT-R3T
   UC-233: FT-R3T
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
-  Zimse: Dresi
+  Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Inari
-  Odin: Alba
+  Odin: Foves
   Foves: Finid
   Finid: Belinara
   Draconis: 
-  Nodens: Joamma
+  Nodens: TK-63R
   Nordar: Aunia
   Aulin: Hyperion
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Joamma
   Joamma: Belinara
   Belinara: Draconis
 Nodens:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
@@ -1175,42 +1175,42 @@ Nodens:
   FH-232: ZZ-23F
   WQ-F65: FH-232
   FT-R3T: WQ-F65
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: Komo
-  Decon: Aulin
+  NF-Z66: FT-R3T
+  UC-233: FT-R3T
+  Talos: VB-233
+  Decon: Komo
   Urus: Zimse
   Zimse: Dresi
   Dresi: Alba
   Latos: Odin
   Alba: Inari
   Odin: Alba
-  Foves: Finid
+  Foves: Odin
   Finid: Belinara
-  Draconis: Belinara
+  Draconis: FH-232
   Nodens: 
   Nordar: Nodens
-  Aulin: Hyperion
+  Aulin: Urus
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
-  Dau: Inari
+  Dau: Chanoun
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Nordar
-  Joamma: Nodens
+  Joamma: Aunia
   Belinara: Joamma
 Nordar:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
@@ -1219,16 +1219,16 @@ Nordar:
   WQ-F65: FH-232
   FT-R3T: WQ-F65
   NF-Z66: Finid
-  UC-233: NF-Z66
+  UC-233: FT-R3T
   Talos: VB-233
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Dresi
-  Dresi: Dau
+  Dresi: Alba
   Latos: Odin
   Alba: Inari
   Odin: Alba
-  Foves: Finid
+  Foves: Odin
   Finid: Belinara
   Draconis: Belinara
   Nodens: Nordar
@@ -1237,33 +1237,33 @@ Nordar:
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Chanoun
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Nordar
   Joamma: Aunia
   Belinara: Joamma
 Aulin:
-  RE-FII: VB-233
+  RE-FII: CR-181
   CR-181: KE-35F
   KI-233: CR-181
-  ZU-6TT: TZ-877
+  ZU-6TT: KQ-43R
   TZ-877: SR-378
   VB-233: KE-35F
   KE-35F: Urus
-  SR-378: KI-233
+  SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: FH-232
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
-  Talos: Komo
+  Talos: VB-233
   Decon: Aulin
   Urus: Aulin
   Zimse: Urus
@@ -1274,77 +1274,34 @@ Aulin:
   Foves: Pherona
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: 
   Hyperion: Aulin
   Komo: Decon
   Zenais: Hyperion
-  Perseus: Pherona
-  Pherona: Zenais
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Chanoun
-  Joamma: Belinara
-  Belinara: Finid
-Hyperion:
-  RE-FII: VB-233
-  CR-181: KE-35F
-  KI-233: CR-181
-  ZU-6TT: TZ-877
-  TZ-877: SR-378
-  VB-233: KE-35F
-  KE-35F: Urus
-  SR-378: KI-233
-  KQ-43R: Dresi
-  TK-63R: Nodens
-  ZZ-23F: FH-232
-  FH-232: WQ-F65
-  WQ-F65: FT-R3T
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: Komo
-  Decon: Aulin
-  Urus: Aulin
-  Zimse: Urus
-  Dresi: Zimse
-  Latos: Perseus
-  Alba: Odin
-  Odin: Foves
-  Foves: Pherona
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Hyperion
-  Hyperion: 
-  Komo: Zenais
-  Zenais: Hyperion
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Zenais
   Dau: Dresi
   Inari: Alba
   Chanoun: Dau
   Minin: Chanoun
   Aunia: Joamma
-  Joamma: Belinara
+  Joamma: Inari
   Belinara: Finid
-Komo:
+Hyperion:
   RE-FII: VB-233
-  CR-181: RE-FII
+  CR-181: KE-35F
   KI-233: CR-181
-  ZU-6TT: TZ-877
+  ZU-6TT: KQ-43R
   TZ-877: SR-378
   VB-233: Talos
-  KE-35F: VB-233
-  SR-378: KI-233
-  KQ-43R: SR-378
+  KE-35F: Urus
+  SR-378: KQ-43R
+  KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: FH-232
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
@@ -1360,7 +1317,50 @@ Komo:
   Foves: Pherona
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Hyperion
+  Hyperion: 
+  Komo: Zenais
+  Zenais: Hyperion
+  Perseus: Pherona
+  Pherona: Zenais
+  Dau: Inari
+  Inari: Alba
+  Chanoun: Minin
+  Minin: Aunia
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Finid
+Komo:
+  RE-FII: VB-233
+  CR-181: KE-35F
+  KI-233: CR-181
+  ZU-6TT: KQ-43R
+  TZ-877: SR-378
+  VB-233: Talos
+  KE-35F: VB-233
+  SR-378: KI-233
+  KQ-43R: Dresi
+  TK-63R: Nodens
+  ZZ-23F: FH-232
+  FH-232: Draconis
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: Komo
+  Decon: Komo
+  Urus: KE-35F
+  Zimse: Urus
+  Dresi: Zimse
+  Latos: Perseus
+  Alba: Odin
+  Odin: Foves
+  Foves: Pherona
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Decon
   Hyperion: Zenais
@@ -1368,14 +1368,100 @@ Komo:
   Zenais: Komo
   Perseus: Pherona
   Pherona: Zenais
-  Dau: Dresi
+  Dau: Inari
   Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
+  Chanoun: Minin
+  Minin: Aunia
   Aunia: Joamma
-  Joamma: Belinara
+  Joamma: Inari
   Belinara: Finid
 Zenais:
+  RE-FII: VB-233
+  CR-181: KE-35F
+  KI-233: CR-181
+  ZU-6TT: KQ-43R
+  TZ-877: SR-378
+  VB-233: Talos
+  KE-35F: VB-233
+  SR-378: KQ-43R
+  KQ-43R: Dresi
+  TK-63R: Nodens
+  ZZ-23F: FH-232
+  FH-232: Draconis
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: Komo
+  Decon: Komo
+  Urus: Aulin
+  Zimse: Latos
+  Dresi: Alba
+  Latos: Perseus
+  Alba: Odin
+  Odin: Foves
+  Foves: Pherona
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Hyperion
+  Hyperion: Zenais
+  Komo: Zenais
+  Zenais: 
+  Perseus: Pherona
+  Pherona: Zenais
+  Dau: Inari
+  Inari: Alba
+  Chanoun: Minin
+  Minin: Aunia
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Finid
+Perseus:
+  RE-FII: CR-181
+  CR-181: KE-35F
+  KI-233: CR-181
+  ZU-6TT: KQ-43R
+  TZ-877: SR-378
+  VB-233: KE-35F
+  KE-35F: Urus
+  SR-378: KQ-43R
+  KQ-43R: Dresi
+  TK-63R: Nodens
+  ZZ-23F: FH-232
+  FH-232: Draconis
+  WQ-F65: FT-R3T
+  FT-R3T: NF-Z66
+  NF-Z66: Finid
+  UC-233: NF-Z66
+  Talos: VB-233
+  Decon: Komo
+  Urus: Zimse
+  Zimse: Latos
+  Dresi: Zimse
+  Latos: Perseus
+  Alba: Odin
+  Odin: Latos
+  Foves: Odin
+  Finid: Foves
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Urus
+  Hyperion: Zenais
+  Komo: Zenais
+  Zenais: Pherona
+  Perseus: 
+  Pherona: Perseus
+  Dau: Dresi
+  Inari: Alba
+  Chanoun: Minin
+  Minin: Aunia
+  Aunia: Joamma
+  Joamma: Inari
+  Belinara: Finid
+Pherona:
   RE-FII: VB-233
   CR-181: KE-35F
   KI-233: CR-181
@@ -1387,14 +1473,14 @@ Zenais:
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: FH-232
-  FH-232: WQ-F65
+  FH-232: Draconis
   WQ-F65: FT-R3T
   FT-R3T: NF-Z66
   NF-Z66: Finid
   UC-233: NF-Z66
   Talos: Komo
-  Decon: Aulin
-  Urus: Aulin
+  Decon: Komo
+  Urus: Zimse
   Zimse: Latos
   Dresi: Alba
   Latos: Perseus
@@ -1403,23 +1489,23 @@ Zenais:
   Foves: Pherona
   Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Hyperion
   Hyperion: Zenais
   Komo: Zenais
-  Zenais: 
+  Zenais: Pherona
   Perseus: Pherona
-  Pherona: Zenais
-  Dau: Dresi
+  Pherona: 
+  Dau: Inari
   Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
+  Chanoun: Minin
+  Minin: Aunia
   Aunia: Joamma
-  Joamma: Belinara
+  Joamma: Inari
   Belinara: Finid
-Perseus:
-  RE-FII: VB-233
+Dau:
+  RE-FII: CR-181
   CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
@@ -1429,92 +1515,6 @@ Perseus:
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
-  ZZ-23F: FH-232
-  FH-232: WQ-F65
-  WQ-F65: FT-R3T
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: Komo
-  Decon: Aulin
-  Urus: Zimse
-  Zimse: Latos
-  Dresi: Zimse
-  Latos: Perseus
-  Alba: Odin
-  Odin: Latos
-  Foves: Pherona
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Hyperion
-  Hyperion: Zenais
-  Komo: Zenais
-  Zenais: Pherona
-  Perseus: 
-  Pherona: Perseus
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Joamma
-  Joamma: Inari
-  Belinara: Finid
-Pherona:
-  RE-FII: VB-233
-  CR-181: KE-35F
-  KI-233: SR-378
-  ZU-6TT: KQ-43R
-  TZ-877: SR-378
-  VB-233: Talos
-  KE-35F: Urus
-  SR-378: KQ-43R
-  KQ-43R: Dresi
-  TK-63R: Nodens
-  ZZ-23F: FH-232
-  FH-232: WQ-F65
-  WQ-F65: FT-R3T
-  FT-R3T: NF-Z66
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: Komo
-  Decon: Aulin
-  Urus: Zimse
-  Zimse: Latos
-  Dresi: Alba
-  Latos: Perseus
-  Alba: Odin
-  Odin: Foves
-  Foves: Pherona
-  Finid: Foves
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Hyperion
-  Hyperion: Zenais
-  Komo: Zenais
-  Zenais: Pherona
-  Perseus: Pherona
-  Pherona: 
-  Dau: Dresi
-  Inari: Alba
-  Chanoun: Dau
-  Minin: Chanoun
-  Aunia: Joamma
-  Joamma: Belinara
-  Belinara: Finid
-Dau:
-  RE-FII: CR-181
-  CR-181: KI-233
-  KI-233: SR-378
-  ZU-6TT: KQ-43R
-  TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
-  SR-378: KQ-43R
-  KQ-43R: Dresi
-  TK-63R: Nodens
   ZZ-23F: TK-63R
   FH-232: Draconis
   WQ-F65: FH-232
@@ -1526,16 +1526,16 @@ Dau:
   Urus: Zimse
   Zimse: Dresi
   Dresi: Dau
-  Latos: Zimse
-  Alba: Dresi
+  Latos: Odin
+  Alba: Inari
   Odin: Alba
   Foves: Odin
-  Finid: Belinara
+  Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
-  Hyperion: Aulin
+  Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
   Perseus: Latos
@@ -1544,17 +1544,17 @@ Dau:
   Inari: Dau
   Chanoun: Dau
   Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Minin
   Joamma: Inari
   Belinara: Joamma
 Inari:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
@@ -1565,7 +1565,7 @@ Inari:
   NF-Z66: Finid
   UC-233: NF-Z66
   Talos: VB-233
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Dresi
   Dresi: Alba
@@ -1573,9 +1573,9 @@ Inari:
   Alba: Inari
   Odin: Alba
   Foves: Odin
-  Finid: Belinara
+  Finid: Foves
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
   Hyperion: Zenais
@@ -1585,35 +1585,35 @@ Inari:
   Pherona: Foves
   Dau: Inari
   Inari: 
-  Chanoun: Dau
-  Minin: Chanoun
+  Chanoun: Minin
+  Minin: Aunia
   Aunia: Joamma
   Joamma: Inari
   Belinara: Joamma
 Chanoun:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: TK-63R
-  FH-232: Draconis
+  FH-232: ZZ-23F
   WQ-F65: FH-232
   FT-R3T: WQ-F65
   NF-Z66: Finid
-  UC-233: NF-Z66
+  UC-233: FT-R3T
   Talos: VB-233
   Decon: Aulin
   Urus: Zimse
   Zimse: Dresi
   Dresi: Dau
-  Latos: Zimse
-  Alba: Dresi
+  Latos: Odin
+  Alba: Inari
   Odin: Alba
   Foves: Odin
   Finid: Belinara
@@ -1621,42 +1621,42 @@ Chanoun:
   Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
-  Hyperion: Aulin
+  Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
   Perseus: Latos
   Pherona: Foves
   Dau: Chanoun
-  Inari: Dau
+  Inari: Joamma
   Chanoun: 
   Minin: Chanoun
-  Aunia: Chanoun
+  Aunia: Minin
   Joamma: Aunia
   Belinara: Joamma
 Minin:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
   ZZ-23F: TK-63R
-  FH-232: Draconis
+  FH-232: ZZ-23F
   WQ-F65: FH-232
   FT-R3T: WQ-F65
   NF-Z66: Finid
-  UC-233: NF-Z66
+  UC-233: FT-R3T
   Talos: VB-233
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Dresi
   Dresi: Dau
-  Latos: Zimse
-  Alba: Dresi
+  Latos: Odin
+  Alba: Inari
   Odin: Alba
   Foves: Odin
   Finid: Belinara
@@ -1664,13 +1664,13 @@ Minin:
   Nodens: Nordar
   Nordar: Aunia
   Aulin: Urus
-  Hyperion: Aulin
+  Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
   Perseus: Latos
   Pherona: Foves
   Dau: Chanoun
-  Inari: Dau
+  Inari: Joamma
   Chanoun: Minin
   Minin: 
   Aunia: Minin
@@ -1678,12 +1678,55 @@ Minin:
   Belinara: Joamma
 Aunia:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
+  SR-378: KQ-43R
+  KQ-43R: Dresi
+  TK-63R: Nodens
+  ZZ-23F: TK-63R
+  FH-232: ZZ-23F
+  WQ-F65: FH-232
+  FT-R3T: WQ-F65
+  NF-Z66: Finid
+  UC-233: FT-R3T
+  Talos: VB-233
+  Decon: Komo
+  Urus: Zimse
+  Zimse: Dresi
+  Dresi: Alba
+  Latos: Odin
+  Alba: Inari
+  Odin: Alba
+  Foves: Odin
+  Finid: Belinara
+  Draconis: Belinara
+  Nodens: Nordar
+  Nordar: Aunia
+  Aulin: Urus
+  Hyperion: Zenais
+  Komo: Zenais
+  Zenais: Pherona
+  Perseus: Latos
+  Pherona: Foves
+  Dau: Chanoun
+  Inari: Joamma
+  Chanoun: Minin
+  Minin: Aunia
+  Aunia: 
+  Joamma: Aunia
+  Belinara: Joamma
+Joamma:
+  RE-FII: CR-181
+  CR-181: KE-35F
+  KI-233: SR-378
+  ZU-6TT: KQ-43R
+  TZ-877: SR-378
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
   TK-63R: Nodens
@@ -1694,14 +1737,14 @@ Aunia:
   NF-Z66: Finid
   UC-233: NF-Z66
   Talos: VB-233
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
   Zimse: Dresi
-  Dresi: Dau
+  Dresi: Alba
   Latos: Odin
   Alba: Inari
   Odin: Alba
-  Foves: Finid
+  Foves: Odin
   Finid: Belinara
   Draconis: Belinara
   Nodens: Nordar
@@ -1710,97 +1753,54 @@ Aunia:
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
-  Pherona: Foves
-  Dau: Chanoun
-  Inari: Joamma
-  Chanoun: Aunia
-  Minin: Aunia
-  Aunia: 
-  Joamma: Aunia
-  Belinara: Joamma
-Joamma:
-  RE-FII: CR-181
-  CR-181: KI-233
-  KI-233: SR-378
-  ZU-6TT: KQ-43R
-  TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
-  SR-378: KQ-43R
-  KQ-43R: Dresi
-  TK-63R: Nodens
-  ZZ-23F: TK-63R
-  FH-232: Draconis
-  WQ-F65: FH-232
-  FT-R3T: WQ-F65
-  NF-Z66: Finid
-  UC-233: NF-Z66
-  Talos: Komo
-  Decon: Aulin
-  Urus: Zimse
-  Zimse: Dresi
-  Dresi: Alba
-  Latos: Odin
-  Alba: Inari
-  Odin: Alba
-  Foves: Finid
-  Finid: Belinara
-  Draconis: Belinara
-  Nodens: Joamma
-  Nordar: Aunia
-  Aulin: Hyperion
-  Hyperion: Zenais
-  Komo: Zenais
-  Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Joamma
   Joamma: 
   Belinara: Joamma
 Belinara:
   RE-FII: CR-181
-  CR-181: KI-233
+  CR-181: KE-35F
   KI-233: SR-378
   ZU-6TT: KQ-43R
   TZ-877: SR-378
-  VB-233: RE-FII
-  KE-35F: CR-181
+  VB-233: KE-35F
+  KE-35F: Urus
   SR-378: KQ-43R
   KQ-43R: Dresi
-  TK-63R: Nodens
-  ZZ-23F: TK-63R
+  TK-63R: ZZ-23F
+  ZZ-23F: FH-232
   FH-232: Draconis
   WQ-F65: FH-232
   FT-R3T: WQ-F65
   NF-Z66: Finid
   UC-233: NF-Z66
   Talos: Komo
-  Decon: Aulin
+  Decon: Komo
   Urus: Zimse
-  Zimse: Dresi
+  Zimse: Latos
   Dresi: Alba
-  Latos: Perseus
+  Latos: Odin
   Alba: Inari
-  Odin: Alba
+  Odin: Foves
   Foves: Finid
   Finid: Belinara
   Draconis: Belinara
-  Nodens: Joamma
+  Nodens: Nordar
   Nordar: Aunia
   Aulin: Hyperion
   Hyperion: Zenais
   Komo: Zenais
   Zenais: Pherona
-  Perseus: Pherona
+  Perseus: Latos
   Pherona: Foves
   Dau: Inari
   Inari: Joamma
-  Chanoun: Aunia
+  Chanoun: Minin
   Minin: Aunia
   Aunia: Joamma
   Joamma: Belinara

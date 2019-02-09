@@ -5,7 +5,7 @@ namespace :pathfinder do
   desc "Generate Paths for Pathfinder.yml"
   task :generate_paths => :environment do
     d = {}
-    System.all.each do |sys|
+    System.where.not(security_status: :wormhole).each do |sys|
       d[sys.name] = Pathfinder.dijkstra(sys, dst = nil)
       
     end

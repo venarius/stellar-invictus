@@ -18,10 +18,19 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-53473075-6"></script>
   </head>
 
-  <body class="<%= 'pt-70px' if current_user and !current_page?(root_path) %>">
+  <body class="<%= 'pt-70px mobile-pt-0' if current_user and !current_page?(root_path) %>">
     <%= render 'layouts/navbar' %>
   
     <div class="<%= 'mt-1rem container mb-3' unless current_page?(root_path) %>" id="app-container">
+      
+      <% unless current_page?(root_path) || !current_user %>
+        <div class="display-none mobile-display-block">
+          <div class="card black-card player-info-card mobile-player-info">
+            <%= render 'game/player_info' %>
+          </div>
+        </div>
+      <% end %>
+      
       <%= render 'layouts/alerts' %>
       
       <%= yield %>
@@ -29,7 +38,15 @@
       <%= render 'layouts/modals' %>
     </div>
     
-    <%= render 'layouts/footer' %>
+    <div class="<%= 'mobile-display-none' unless current_page?(root_path) || !current_user %>">
+      <%= render 'layouts/footer' %>
+    </div>
+    
+    <% unless current_page?(root_path) || !current_user %>
+      <div class="display-none mobile-display-block">
+        <%= render 'layouts/mobile_nav' %>
+      </div>
+    <% end %>
     
     <!-- Sounds -->
     <audio id="audio" src="https://stellar-invictus.com/sounds/beep.mp3" type="audio/mp3"></audio>

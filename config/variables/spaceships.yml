@@ -315,7 +315,7 @@ Aurora:
   type: "Miner"
   trait:
     damage_amplifier: 0
-    mining_amount_amplifier: 3
+    mining_amount_amplifier: 2
 
 Aquila:
   image: aquila.png
