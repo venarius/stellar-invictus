@@ -1,11 +1,11 @@
-<h4 class="text-white">
+<h4 class="text-white mobile-mb-0">
     <span class="bg-black text-span">
         <%= I18n.t('game.current_system') %>
         <%= current_user.system.name.upcase %>
         
         <% if current_user.system.locations.where(location_type: :station).first&.faction %>
         - <%= current_user.system.locations.where(location_type: :station).first.faction.get_ticker %>
-        <span class="mobile-display-block display-none color-sec-<%= current_user.system.security_status %>"><%= current_user.system.security_status.upcase %></span>
+        <span class="mobile-display-inline display-none color-sec-<%= current_user.system.security_status %>"><%= current_user.system.security_status.upcase %></span>
         <% end %>
     </span>
 </h4>
