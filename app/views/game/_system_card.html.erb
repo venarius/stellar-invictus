@@ -5,8 +5,8 @@
         
         <% if current_user.system.locations.where(location_type: :station).first&.faction %>
         - <%= current_user.system.locations.where(location_type: :station).first.faction.get_ticker %>
-        <span class="mobile-display-inline display-none color-sec-<%= current_user.system.security_status %>"><%= current_user.system.security_status.upcase %></span>
         <% end %>
+        <span class="mobile-display-inline display-none color-sec-<%= current_user.system.security_status %>"><%= current_user.system.security_status.upcase %></span>
     </span>
 </h4>
 

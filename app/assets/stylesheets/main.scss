@@ -230,7 +230,7 @@ html {
       height: 45px;
       background: #1f1f1f;
       position: absolute;
-      bottom: 32px;
+      bottom: 30px;
       left: 0;
     }
   }
@@ -239,7 +239,7 @@ html {
 .mobile-nav {
   padding: 0;
   position: fixed;
-  bottom: 0;
+  bottom: -1px;
   left: 0;
   width: 100%;
   border-top: 1px solid #6493cd !important;
@@ -260,7 +260,7 @@ html {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 1024;
   background-color: black !important;
   border-bottom: 1px solid #6493cd !important;
   h5 { font-size: 15px !important; }
@@ -268,7 +268,7 @@ html {
 
 @media (max-width: 767px) {
   #app-container.container {
-    padding-top: 35px;
+    padding-top: 60px;
   }
 }
 
@@ -292,7 +292,7 @@ body {
 #footer {
   padding: 5px;
   left: 0;
-  bottom: 0;
+  bottom: -1px;
   max-height: 75px;
   position: absolute;
   background-color: #060606 !important;
