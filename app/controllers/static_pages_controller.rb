@@ -3,6 +3,7 @@ class StaticPagesController < ApplicationController
   skip_before_action :redirect_if_no_faction, only: [:home, :credits, :nojs, :create_support_ticket]
   
   def home
+    redirect_to game_path if current_user
   end
   
   def credits
