@@ -2,7 +2,7 @@ $( document ).on('turbolinks:load', function() {
 
   if (window.location.pathname == "/game") {
     
-    gameLayoutResize();
+    gameLayoutResize(true);
     
     $(window).resize(function(){
       gameLayoutResize();
@@ -32,11 +32,14 @@ $( document ).on('turbolinks:load', function() {
   
 });
 
-function gameLayoutResize() {
-  if ($(window).width() <= 767) {
+var mobile = false;
+function gameLayoutResize(hard) {
+  if ($(window).width() <= 767 && mobile == false || hard) {
     gameLayoutMobile();
-  } else if ($(window).width() > 767) {
+    mobile = true;
+  } else if ($(window).width() > 767 && mobile == true || hard) {
     gameLayoutDesktop();
+    mobile = false;
   }
 }
 
