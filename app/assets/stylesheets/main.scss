@@ -63,6 +63,7 @@ html {
 .mb-5px { margin-bottom: 5px; }
 .mb-10px { margin-bottom: 10px; }
 .mt-10 { margin-top: 10rem; }
+.mt-3px { margin-top: 3px; }
 .pt-2px { padding-top: 2px; }
 .pt-70px { padding-top: 70px; }
 .p-5px { padding: 5px; }
@@ -258,7 +259,7 @@ html {
 
 .mobile-player-info {
   position: fixed;
-  top: 0;
+  top: -1px;
   left: 0;
   width: 100%;
   z-index: 1024;
@@ -823,7 +824,7 @@ body {
           }
         }
       }
-      .my-ships-table .btn-th { width: 130px; }
+      .my-ships-table .btn-th { width: 102px; }
     }
   }
 }

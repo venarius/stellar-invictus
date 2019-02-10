@@ -17,16 +17,14 @@
   </div>
   
   <% if current_user.active_spaceship and current_user.faction %>
-    <div class="display-none mobile-display-block">
-      <div class="row mt-5px">
-        <% Faction.all.each do |faction| %>
-          <% rank = faction.get_rank(current_user) %>
-          <div class="col-4 text-center">
-            <%= image_tag("factions/#{faction.name.downcase.gsub(' ', '_')}.svg", style: 'height:20px') %>
-            &nbsp;<%= current_user["reputation_#{faction.id}"].round(2) %>
-          </div>
-        <% end %>
-      </div>
+    <div class="row mt-5px">
+      <% Faction.all.each do |faction| %>
+        <% rank = faction.get_rank(current_user) %>
+        <div class="col-4 text-center">
+          <%= image_tag("factions/#{faction.name.downcase.gsub(' ', '_')}.svg", style: 'height:20px') %>
+          &nbsp;<%= current_user["reputation_#{faction.id}"].round(2) %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </h5>

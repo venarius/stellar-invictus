@@ -66,10 +66,6 @@ System.all.each do |system|
         when 6
           # Wreck with Passengers
           location.update_columns(enemy_amount: rand(4..6))
-          structure = Structure.create(location: location, structure_type: 'wreck')
-          rand(1..5).times do
-            Item.create(structure: structure, loader: "delivery.passenger")
-          end
           location.update_columns(name: I18n.t('exploration.emergency_beacon'))
       end
       
