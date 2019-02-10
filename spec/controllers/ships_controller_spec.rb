@@ -199,5 +199,32 @@ RSpec.describe ShipsController, type: :controller do
         expect(@user.active_spaceship.reload.insured).to be_truthy
       end
     end
+    
+    describe 'POST custom_name' do
+      before(:each) do
+        @spaceship = FactoryBot.create(:spaceship, name: "Valadria", hp: "500", user: @user)
+        @user.update_columns(active_spaceship_id: @spaceship.id)
+      end
+      
+      it 'should rename ship' do
+        post :custom_name, params: {name: "Test", id: @spaceship.id}
+        expect(response.status).to eq(200)
+        expect(@spaceship.reload.custom_name).to eq("Test")
+      end
+      
+      it 'should not rename ship to longer name than 15' do
+        post :custom_name, params: {name: "Testtttttttttttttttttttttttttttttttttt", id: @spaceship.id}
+        expect(response.status).to eq(400)
+        expect(@spaceship.reload.custom_name).to eq(nil)
+      end
+      
+      it 'should not rename ship of another user' do
+        user2 = FactoryBot.create(:user_with_faction)
+        @spaceship.update_columns(user_id: user2.id)
+        post :custom_name, params: {name: "Test", id: @spaceship.id}
+        expect(response.status).to eq(400)
+        expect(@spaceship.reload.custom_name).to eq(nil)
+      end
+    end
   end
 end

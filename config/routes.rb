@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     post 'eject_cargo', to: 'ships#eject_cargo'
     get 'info', to: 'ships#info'
     post 'insure', to: 'ships#insure'
+    post 'custom_name', to: 'ships#custom_name'
   end
   
   # Asteroids

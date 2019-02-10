@@ -86,4 +86,16 @@ class ShipsController < ApplicationController
     render json: {}, status: 400
   end
   
+  def custom_name
+    if params[:name] and params[:id]
+      ship = Spaceship.find(params[:id]) rescue nil
+      
+      if ship and ship.user == current_user and params[:name].length <= 15
+        ship.update_columns(custom_name: params[:name])
+        render json: {}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
 end

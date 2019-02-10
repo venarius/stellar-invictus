@@ -3,15 +3,16 @@ $( document ).on('turbolinks:load', function() {
   
   // Scan System Btn AJAX
   $('#app-container').on('click', '.scan-system-btn', function() {
-    var text = $(this).text();
+    var html = $(this).html();
     var button = $(this);
     
     loading_animation($(this));
+    
+    $('.overview-card').find('tr.hidden-site').each(function() {
+      $(this).remove();
+    });
+    
     $.post('system/scan', function(data) {
-      
-      $('.overview-card').find('tr.hidden-site').each(function() {
-        $(this).remove();
-      });
       
       $(data).find('.warp-btn').each(function() {
         var id = $(this).data('id');
@@ -26,8 +27,8 @@ $( document ).on('turbolinks:load', function() {
           button.closest('tr').hide().appendTo('.overview-card .card-body table tbody').fadeIn();
         }
       });
-      button.html(text);
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(text); });
+      button.html(html);
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
   
   // Abandoned Ship Btn AJAX
