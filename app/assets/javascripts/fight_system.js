@@ -176,7 +176,8 @@ function update_health(hp) {
       attackBorderTimeout = setTimeout(function() {$('.ship-card').removeClass('outline-danger');}, 2500);
       if (!$('#own-ship-health').parent().hasClass('success-flash') && !$('#own-ship-health').parent().hasClass('attack-flash')) {
         $('#own-ship-health').parent().addClass('attack-flash');
-        play_beep();
+        play_hit();
+        player_got_hit();
         setTimeout(function() {$('#own-ship-health').parent().removeClass('attack-flash');}, 1000);
       }
     }
@@ -196,6 +197,11 @@ function update_target_health(hp) {
     } else {
       if (!$('#target-ship-health').parent().hasClass('success-flash') && !$('#target-ship-health').parent().hasClass('attack-flash')) {
         $('#target-ship-health').parent().addClass('attack-flash');
+        play_hit();
+        enemy_got_hit();
+        if (hp <= 0) {
+          play_explosion(); 
+        }
         setTimeout(function() {$('#target-ship-health').parent().removeClass('attack-flash');}, 1000)
       }
     }
@@ -225,6 +231,7 @@ function remove_target() {
   }
   if (typeof animation_remove_target !== 'undefined') {
     animation_remove_target(); 
+    stop_mining();
   };
 }
 

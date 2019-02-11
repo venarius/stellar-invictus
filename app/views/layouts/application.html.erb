@@ -13,7 +13,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-permanent': 'reload' %>
     
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.5/pixi.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-53473075-6"></script>
   </head>
@@ -47,9 +47,6 @@
         <%= render 'layouts/mobile_nav' %>
       </div>
     <% end %>
-    
-    <!-- Sounds -->
-    <audio id="audio" src="https://stellar-invictus.com/sounds/beep.mp3" type="audio/mp3"></audio>
     
     <script>
       var logged_in = <%= !current_user.nil? and !current_user.faction.nil? %>
