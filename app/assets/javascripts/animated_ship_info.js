@@ -21,9 +21,9 @@ function app_player_ship() {
   $('.player-space-ship').empty().append(app.view);
   
   // create a texture from an image path
-  var bg = PIXI.Texture.fromImage('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless.png');
-  var f1 = PIXI.Texture.fromImage('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless_fl1.png');
-  var f2 = PIXI.Texture.fromImage('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless_fl2.png');
+  var bg = PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless.png');
+  var f1 = PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless_fl1.png');
+  var f2 = PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless_fl2.png');
   
   // Background Layer 0
   var tilingSprite = new PIXI.extras.TilingSprite(
@@ -41,9 +41,21 @@ function app_player_ship() {
   );
   app.stage.addChild(layer1);
   
+  // Mining Laser
+  if ($('.enemy-space-ship').data("asteroid-image")) {
+    var mining_laser = PIXI.Sprite.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/mining/mining-laser-ship.png');
+    mining_laser.anchor.set(0.5);
+    mining_laser.x = app.screen.width / 1.15;
+    mining_laser.y = app.screen.height / 2;
+    mining_laser.scale.y = 3;
+    mining_laser.alpha = 1;
+    app.stage.addChild(mining_laser);
+    mining_laser.rotation += 1.5708;
+  }
+  
   // Ship
   if ($('.player-space-ship').data("ship-image")) {
-    var ship = PIXI.Sprite.fromImage($('.player-space-ship').data("ship-image"));
+    var ship = PIXI.Sprite.from($('.player-space-ship').data("ship-image"));
     ship.anchor.set(0.5);
     ship.x = app.screen.width / 2;
     ship.y = app.screen.height / 2;
@@ -60,6 +72,12 @@ function app_player_ship() {
   );
   app.stage.addChild(layer2);
   
+  // Explosion
+  var frames = [];
+  for (var i = 0; i < 6; i++) {
+      frames.push(PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/explosion/explosion-' + i + '.png'));
+  }
+
   // Moving Background
   app.ticker.add(function() {
     tilingSprite.tilePosition.x -= pixi_background_speed / 4;
@@ -68,8 +86,6 @@ function app_player_ship() {
   });
   
   // Resize
-  // Listen for window resize events
-  window.addEventListener('resize', resize);
   
   // Resize function window
   function resize() {
@@ -85,6 +101,27 @@ function app_player_ship() {
   }
   
   resize();
+  
+  // Functions
+  this.player_got_hit = function() {
+    let explosion = new PIXI.extras.AnimatedSprite(frames);
+    explosion.x = app.screen.width / (1.5 + Math.random()); 
+    explosion.y = app.screen.height / (1.5 + Math.random());
+    explosion.anchor.set(0.5);
+    explosion.animationSpeed = 0.25;
+    explosion.loop = false;
+    explosion.scale.x = explosion.scale.y = 1.5;
+    explosion.gotoAndPlay(0);
+    app.stage.addChild(explosion);
+    
+    setTimeout(function() { app.stage.removeChild(explosion); }, 380)
+  }
+  
+  this.stop_mining = function() {
+    if (mining_laser) {
+      mining_laser.alpha = 0; 
+    }
+  }
 }
 
 function enemy_player_ship() {
@@ -97,9 +134,15 @@ function enemy_player_ship() {
   $('.enemy-space-ship').empty().append(app.view);
   
   // create a texture from an image path
-  var bg = PIXI.Texture.fromImage('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless.png');
-  var f1 = PIXI.Texture.fromImage('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless_fl1.png');
-  var f2 = PIXI.Texture.fromImage('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless_fl2.png');
+  var bg = PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless.png');
+  var f1 = PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless_fl1.png');
+  var f2 = PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/bg_space_seamless_fl2.png');
+  
+  // Explosion
+  var frames = [];
+  for (var i = 0; i < 6; i++) {
+      frames.push(PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/explosion/explosion-' + i + '.png'));
+  }
   
   // Background Layer 0
   var tilingSprite = new PIXI.extras.TilingSprite(
@@ -119,7 +162,7 @@ function enemy_player_ship() {
   
   // Ship
   if ($('.enemy-space-ship').data("ship-image")) {
-    var ship = PIXI.Sprite.fromImage($('.enemy-space-ship').data("ship-image"));
+    var ship = PIXI.Sprite.from($('.enemy-space-ship').data("ship-image"));
     ship.anchor.set(0.5);
     ship.x = app.screen.width / 2;
     ship.y = app.screen.height / 2;
@@ -128,9 +171,17 @@ function enemy_player_ship() {
     ship.rotation += 1.5708; 
   }
   
-  // Asteroid
+  // Asteroid + Mining Laser
   if ($('.enemy-space-ship').data("asteroid-image")) {
-    var asteroid = PIXI.Sprite.fromImage($('.enemy-space-ship').data("asteroid-image"));
+    var mining_laser = PIXI.Sprite.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/mining/mining-laser-ship.png');
+    mining_laser.anchor.set(0.5);
+    mining_laser.x = app.screen.width / 5;
+    mining_laser.y = app.screen.height / 2;
+    mining_laser.scale.y = 3;
+    app.stage.addChild(mining_laser);
+    mining_laser.rotation += 1.5708;
+    
+    var asteroid = PIXI.Sprite.from($('.enemy-space-ship').data("asteroid-image"));
     asteroid.anchor.set(0.5);
     asteroid.x = app.screen.width / 2;
     asteroid.y = app.screen.height / 2;
@@ -157,8 +208,6 @@ function enemy_player_ship() {
   });
   
   // Resize
-  // Listen for window resize events
-  window.addEventListener('resize', resize);
   
   // Resize function window
   function resize() {
@@ -194,6 +243,9 @@ function enemy_player_ship() {
     if (asteroid) {
       app.stage.removeChild(asteroid);
     }
+    if (mining_laser) {
+      app.stage.removeChild(mining_laser);
+    }
   }
   
   this.animation_target_counter = function(time) {
@@ -211,6 +263,20 @@ function enemy_player_ship() {
         clearInterval(target_interval);
       }
     }, 1000);
+  }
+  
+  this.enemy_got_hit = function() {
+    let explosion = new PIXI.extras.AnimatedSprite(frames);
+    explosion.x = app.screen.width / (1.5 + Math.random()); 
+    explosion.y = app.screen.height / (1.5 + Math.random());
+    explosion.anchor.set(0.5);
+    explosion.animationSpeed = 0.25;
+    explosion.loop = false;
+    explosion.scale.x = explosion.scale.y = 1.5;
+    explosion.gotoAndPlay(0);
+    app.stage.addChild(explosion);
+    
+    setTimeout(function() { app.stage.removeChild(explosion); }, 380)
   }
   
   // Clear Target

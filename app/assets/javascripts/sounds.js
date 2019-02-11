@@ -28,12 +28,24 @@ $( document ).on('turbolinks:load', function() {
   
 });
 
-// Play Beep
-function play_beep() {
+// Play Hit
+function play_hit() {
   var mute = Cookies.get('sound_muted');
   if (mute && mute == "n") {
-    var sound = document.getElementById("audio");
-    sound.volume = 0.05;
-    sound.play();
+    var audio = document.createElement("audio");
+    audio.src = window.location.origin + "/sounds/hit.mp3";
+    audio.volume = 0.035;
+    audio.play();
+  }
+}
+
+// Play Explosion
+function play_explosion() {
+  var mute = Cookies.get('sound_muted');
+  if (mute && mute == "n") {
+    var audio = document.createElement("audio");
+    audio.src = window.location.origin + "/sounds/explosion.mp3";
+    audio.volume = 0.05;
+    audio.play();
   }
 }

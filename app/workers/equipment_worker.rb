@@ -130,6 +130,26 @@ class EquipmentWorker
           
           target_hp = target_ship.hp
           
+          # Tell both parties to update their hp and log
+          if player.target
+            ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_hp)
+            ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player_name, hp: attack.round))
+            ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.target.full_name, hp: attack.round))
+          elsif player.npc_target
+            ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.npc_target.name, hp: attack.round))
+          end
+          
+          # Tell other users who targeted target to also update hp
+          if player.target
+            User.where(target_id: target_id).where("online > 0").each do |u|
+              ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
+            end
+          elsif player.npc_target
+            User.where(npc_target_id: target_id).where("online > 0").each do |u|
+              ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
+            end
+          end
+          
           # If target hp is below 0 -> die
           if target_hp <= 0
             target_ship.update_columns(hp: 0)
@@ -148,28 +168,8 @@ class EquipmentWorker
             end
           end
           
-          # Tell both parties to update their hp and log
-          if player.target
-            ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_hp)
-            ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player_name, hp: attack.round))
-            ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.target.full_name, hp: attack.round))
-          elsif player.npc_target
-            ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.npc_target.name, hp: attack.round))
-          end
-          
           # Refresh for Septarium
           ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info') if player.active_spaceship.get_septarium_usage > 0
-          
-          # Tell other users who targeted target to also update hp
-          if player.target
-            User.where(target_id: target_id).where("online > 0").each do |u|
-              ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
-            end
-          elsif player.npc_target
-            User.where(npc_target_id: target_id).where("online > 0").each do |u|
-              ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
-            end
-          end
           
         else 
         
