@@ -92,7 +92,7 @@ class MarketController < ApplicationController
     # check if player market -> else generate price
     player_market = current_user.location.player_market 
     if player_market 
-      price = (params[:price].to_i * params[:quantity].to_i) rescue nil
+      price = params[:price].to_i rescue nil
     else
       price = generate_price(params[:loader], params[:type], params[:quantity])
     end

@@ -51,7 +51,7 @@ describe Spaceship do
       describe 'drop_loot' do
         it 'should not create structure when no items' do
           @ship.drop_loot
-          expect(Structure.count).to eq(0)
+          expect(Structure.count).to eq(1)
         end
         
         it 'should create strcture with items when ship has items in it' do
@@ -59,7 +59,7 @@ describe Spaceship do
             Item.create(loader: 'test', spaceship: @ship)
           end
           @ship.drop_loot
-          expect(Structure.count).to eq(1)
+          expect(Structure.count).to eq(2)
           expect(Structure.first.get_items.count).to be >= 0
         end
       end

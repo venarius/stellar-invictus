@@ -34,8 +34,8 @@ describe Npc do
       describe 'drop_loot' do
         it 'should create structure and put random loot in it' do
           @npc.drop_loot
-          expect(Structure.count).to eq(1)
-          expect(Structure.first.get_items.count).to be > 0
+          expect(Structure.count).to eq(2)
+          expect(Structure.last.get_items.count).to be > 0
         end
       end
       

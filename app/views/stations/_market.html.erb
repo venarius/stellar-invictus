@@ -48,7 +48,7 @@
               <div class="dropdown-menu">
                 <% count = 0 %>
                 <% SHIP_VARIABLES.each do |subkey, subvalue| %>
-                  <% if subvalue['type'] == key and (subvalue['faction'] ? subvalue['faction'] == current_user.location.faction_id : true) %>
+                  <% if subvalue['type'] == key and ((subvalue['faction'] and !current_user.location.player_market) ? subvalue['faction'] == current_user.location.faction_id : true) %>
                     <% count = count + 1 %>
                     <a href="#0" class="dropdown-item market-loader-btn" data-loader="<%= subkey %>"><%= subkey.titleize %> (<%= market_listings.count { |element| element.include? subkey } %>)</a>
                   <% end %>
