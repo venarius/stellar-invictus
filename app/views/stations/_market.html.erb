@@ -62,9 +62,11 @@
         </div>
       </li>
       
-      <li class="nav-item">
-        <a class="nav-link get-own-listings-btn" href="#"><%= I18n.t('station.my_listings') %></a>
-      </li>
+      <% if current_user.location.player_market %>
+        <li class="nav-item">
+          <a class="nav-link get-own-listings-btn" href="#"><%= I18n.t('station.my_listings') %></a>
+        </li>
+      <% end %>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" id="market-search-input" type="search" placeholder="Search">
