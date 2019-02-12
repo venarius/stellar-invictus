@@ -18,6 +18,13 @@ en:
     guide: "Guide"
     donate: "Donate"
   devise:
+    social: "Social"
+    social_google: "Sign in with Google"
+    social_facebook: "Sign in with Facebook"
+    or: "OR"
+    almost_done: "You are almost done!"
+    cancel_registration: "Cancel registration"
+    register: "Register"
     connect_to_game: "Connect to Stellar Invictus"
     password: "Password"
     password_confirmation: "Password confirmation"
@@ -106,6 +113,7 @@ en:
     account_suspended_permanently: "Your Account has been suspended permanently for the following reason: %{reason}"
     need_1000_credits_to_be_eligible_to_vote: "Need 1000 Cr to be eligible to vote"
     clear_storage_first: "Can only unequip storage expansions if cargohold is empty"
+    cant_more_than_100_factory_runs: "Can't have more than 100 concurrent factory runs"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
@@ -234,6 +242,7 @@ en:
     statistics: "Statistics"
     blueprints: "Blueprints"
     dont_have_blueprint: "You don't have the required blueprint (from research station)"
+    my_listings: "My Listings"
   ships:
     insurance: "Insurance"
     insurance_text: "Purchase Insurance for this ship? Once purchased, your ship will get replaced in case of destruction."
@@ -427,6 +436,7 @@ en:
     ship: "Ship"
     confirm_purchase: "Confirm purchase"
     price: "Price"
+    price_of_each: "Price of each"
     confirm_sell: "Confirm sale"
     single: "Single"
     total: "Total"
@@ -446,6 +456,7 @@ en:
     received_reputation_passengers: "You received %{amount} reputation for bringing passengers home"
     received_blueprint: "You received a blueprint for %{name}"
     received_blueprint_destruction: "You received a blueprint for %{name} for the destruction of %{npc}"
+    someone_bought: "Someone just bought %{amount} of %{name} from you!"
   routing:
     get_route: "Get Route"
     route: "Route"

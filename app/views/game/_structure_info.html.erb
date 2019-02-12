@@ -44,4 +44,17 @@
       </td>
     </tr>
   <% end %>
+  <% if structure.structure_type == 'monument' %>
+    <tr>
+      <td><%= image_tag('icons/monument.png') %></td>
+      <td class="players-card-name-td name"><%= structure.name %></td>
+      <td><%= I18n.t('structures.structure') %></td>
+      <td class="mobile-display-none"><%= I18n.t('alliances.unknown') %></td>
+      <td>
+        <button class="btn btn-outline-primary w-100 monument-info" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.info') %>" data-id="<%= structure.id %>">
+          <i class="fa fa-info"></i>
+        </button>
+      </td>
+    </tr>
+  <% end %>
 <% end %>

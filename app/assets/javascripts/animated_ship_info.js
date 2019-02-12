@@ -44,10 +44,7 @@ function app_player_ship() {
   // Mining Laser
   if ($('.enemy-space-ship').data("asteroid-image")) {
     var mining_laser = PIXI.Sprite.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/mining/mining-laser-ship.png');
-    mining_laser.anchor.set(0.5);
-    mining_laser.x = app.screen.width / 1.15;
-    mining_laser.y = app.screen.height / 2;
-    mining_laser.scale.y = 3;
+    mining_laser.anchor.set(0.5, 0.9);
     mining_laser.alpha = 1;
     app.stage.addChild(mining_laser);
     mining_laser.rotation += 1.5708;
@@ -98,6 +95,12 @@ function app_player_ship() {
   	
   	// Resize ship
   	ship.x = app.screen.width / 2;
+  	
+  	// Recenter Mininglaser
+  	if (mining_laser) {
+  	  mining_laser.x = app.screen.width / 2;
+      mining_laser.y = app.screen.height / 2; 
+  	}
   }
   
   resize();
@@ -174,10 +177,7 @@ function enemy_player_ship() {
   // Asteroid + Mining Laser
   if ($('.enemy-space-ship').data("asteroid-image")) {
     var mining_laser = PIXI.Sprite.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/mining/mining-laser-ship.png');
-    mining_laser.anchor.set(0.5);
-    mining_laser.x = app.screen.width / 5;
-    mining_laser.y = app.screen.height / 2;
-    mining_laser.scale.y = 3;
+    mining_laser.anchor.set(0.5, 0);
     app.stage.addChild(mining_laser);
     mining_laser.rotation += 1.5708;
     
@@ -228,6 +228,12 @@ function enemy_player_ship() {
     if (asteroid) {
       asteroid.x = app.screen.width / 2; 
     }
+    
+    // Recenter Mininglaser
+  	if (mining_laser) {
+  	  mining_laser.x = app.screen.width / 2;
+      mining_laser.y = app.screen.height / 2; 
+  	}
   }
   
   resize();

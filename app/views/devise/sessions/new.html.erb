@@ -1,5 +1,18 @@
 <% if $allow_login %>
 
+  <div class="col-md-6 offset-md-3 mb-3">
+    <div class="card black-card">
+      <h5 class="card-header"><%= I18n.t('devise.social') %></h5>
+      <div class="card-body text-center">
+        <%= link_to "<i class='fab fa-facebook'></i>#{I18n.t('devise.social_facebook')}".html_safe, user_facebook_omniauth_authorize_path, class: 'btn btn-block btn-social btn-facebook' %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-12 mb-3">
+    <h5 class="text-center text-white mb-0"><%= I18n.t('devise.or') %></h5>
+  </div>
+
   <div class="row">
     <div class="col-md-6 offset-md-3">
       <div class="card black-card">

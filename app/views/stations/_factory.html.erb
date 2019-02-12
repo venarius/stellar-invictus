@@ -20,7 +20,7 @@
       </thead>
       <tbody>
         <% SHIP_VARIABLES.sort.each do |key, value| %>
-          <tr class="<%= 'color-sec-high' if Blueprint.where(loader: key, user: current_user).present? %> <%= 'color-sec-high' if Blueprint.where(loader: key, efficiency: 0.5, user: current_user).present? %>">
+          <tr class="<%= 'color-sec-high' if Blueprint.where(loader: key, user: current_user).present? %> <%= 'color-highgreen' if Blueprint.where(loader: key, efficiency: 0.5, user: current_user).present? %>">
             <td><%= key %></td>
             <td><button class="btn btn-outline-primary btn-sm factory-modal-btn" data-loader="<%= key %>" data-type="ship"><i class="fa fa-cogs"></i></button></td>
           </tr>
@@ -39,7 +39,7 @@
       </thead>
       <tbody>
         <% EQUIPMENT.sort.each_with_index do |item, index| %>
-          <tr class="<%= 'color-sec-high' if Blueprint.where(loader: item, user: current_user).present? %> <%= 'color-sec-high' if Blueprint.where(loader: item, efficiency: 0.5, user: current_user).present? %>">
+          <tr class="<%= 'color-sec-high' if Blueprint.where(loader: item, user: current_user).present? %> <%= 'color-highgreen' if Blueprint.where(loader: item, efficiency: 0.5, user: current_user).present? %>">
             <td><%= get_item_attribute(item, 'name') %></td>
             <td><%= get_item_attribute(item, 'type') %></td>
             <td><button class="btn btn-outline-primary btn-sm factory-modal-btn" data-loader="<%= item %>" data-type="item"><i class="fa fa-cogs"></i></button></td>

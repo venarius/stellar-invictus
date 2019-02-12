@@ -43,7 +43,7 @@ class Location < ApplicationRecord
     if I18n.t("locations.#{self.location_type}") != ""
       "#{I18n.t("locations.#{self.location_type}")} #{self.name}"
     else
-      if self.station?
+      if self.station? and !self.name
         I18n.t("locations.#{self.station_type}")
       else
         self.name

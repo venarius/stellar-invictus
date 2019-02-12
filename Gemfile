@@ -70,3 +70,6 @@ gem 'recaptcha'
 gem 'bugsnag'
 # Activerecord-Import for fast transactions
 gem 'activerecord-import'
+# Social Logins
+gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'

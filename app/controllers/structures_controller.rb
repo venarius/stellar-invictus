@@ -130,4 +130,15 @@ class StructuresController < ApplicationController
     end
     render json: {}, status: 400
   end
+  
+  def monument_info
+    if params[:id]
+      structure = Structure.find(params[:id]) rescue nil
+      if structure and structure.location == current_user.location and current_user.can_be_attacked
+        render partial: 'structures/monument', locals: {structure: structure} and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
 end

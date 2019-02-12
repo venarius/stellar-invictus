@@ -1,0 +1,48 @@
+<% if market_listings.present? %>
+  <table class="table table-bordered table-hover table-striped table-sm table-fixed station-market-table">
+    <thead>
+      <tr>
+        <th scope="col">Qty.</th>
+        <th scope="col"><%= I18n.t('items.name') %></th>
+        <th scope="col"><%= I18n.t('items.type') %></th>
+        <th scope="col"><%= I18n.t('market.single') %></th>
+        <th scope="col" class="mobile-display-none"><%= I18n.t('market.total') %></th>
+        <th scope="col" style="width: 1px;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% loaders = market_listings.map(&:loader).uniq %>
+      <% market_listings.sort_by{ |ml| ml.price }.each do |ml| %>
+        <% if ml.item? %>
+          <tr>
+            <td><%= ml.amount %>&times;</td>
+            <% if ml.loader.include? "equipment" %>
+              <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
+            <% else %> 
+              <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= get_item_attribute(ml.loader, 'name') %></span></td>
+            <% end %>
+            <td><%= get_item_attribute(ml.loader, 'type') %></td>
+            <td class="color-highgreen"><%= ml.price %> Cr</td>
+            <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
+            <td>
+              <button class="btn btn-outline-danger delete-market-listing-btn" role="button" data-id="<%= ml.id %>" ><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        <% else %>
+          <tr>
+            <td><%= ml.amount %>&times;</td>
+            <td><a href="#" class="ship-info" data-name="<%= ml.loader.capitalize %>"><%= ml.loader.capitalize %></a></td>
+            <td><%= I18n.t('market.ship') %></td>
+            <td class="color-highgreen"><%= ml.price %> Cr</td>
+            <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
+            <td>
+              <button class="btn btn-outline-danger delete-market-listing-btn" role="button" data-id="<%= ml.id %>" ><i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h2 class="text-center">...</h2>
+<% end %>

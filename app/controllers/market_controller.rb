@@ -56,6 +56,17 @@ class MarketController < ApplicationController
         # Deduct units
         current_user.reduce_units(listing.price * amount)
         
+        # If listing belonged to user -> give 95% of price to user and inform
+        if listing.user
+          listing.user.give_units(listing.price * amount * 0.95)
+          if listing.item?
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: get_item_attribute(listing.loader, "name")))
+          else
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: listing.loader))
+          end
+          ActionCable.server.broadcast("player_#{listing.user_id}", method: 'refresh_player_info')
+        end
+        
         # Destroy Listing
         new_amount = listing.amount - amount
         listing.update_columns(amount: new_amount)
@@ -77,7 +88,15 @@ class MarketController < ApplicationController
   end
   
   def sell
-    price = generate_price(params[:loader], params[:type], params[:quantity])
+    
+    # check if player market -> else generate price
+    player_market = current_user.location.player_market 
+    if player_market 
+      price = (params[:price].to_i * params[:quantity].to_i) rescue nil
+    else
+      price = generate_price(params[:loader], params[:type], params[:quantity])
+    end
+    
     quantity = params[:quantity].to_i
     if price != nil
       
@@ -110,22 +129,62 @@ class MarketController < ApplicationController
       end
       
       # Deduct Units
-      current_user.give_units(price)
+      current_user.give_units(price) unless player_market
       
       # Generate Listing
       fill_listing = MarketListing.where(loader: params[:loader], location: current_user.location).where("amount < 20").first rescue nil
-      if fill_listing
+      if fill_listing and !player_market
         fill_listing.update_columns(amount: fill_listing.amount + quantity)
       else
-        rabat = rand(1.0..1.2)
+        rabat = (rand(1.0..1.2) * rand(0.98..1.02)) unless player_market
         if params[:type] == "item"
-          MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (get_item_attribute(params[:loader], 'price') * rabat * rand(0.98..1.02)).round, amount: quantity)
+          if player_market
+            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: price, amount: quantity, user: current_user)
+          else
+            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (get_item_attribute(params[:loader], 'price') * rabat).round, amount: quantity)
+          end
         elsif params[:type] == "ship"
-          MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: (SHIP_VARIABLES[params[:loader]]['price'] * rabat * rand(0.98..1.02)).round, amount: quantity)
+          if player_market
+            MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: price, amount: quantity, user: current_user)
+          else
+            MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: (SHIP_VARIABLES[params[:loader]]['price'] * rabat).round, amount: quantity)
+          end
         end
       end
       
       render json: {}, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
+  
+  def my_listings
+    listings = MarketListing.where(location: current_user.location).where(user: current_user)
+    render partial: 'stations/market/my_listings', locals: {market_listings: listings} and return
+  end
+  
+  def delete_listing
+    if params[:id]
+      listing = MarketListing.find(params[:id]) rescue nil
+      
+      if listing and listing.user == current_user and listing.location == current_user.location
+        
+        # If listing is item -> else..
+        if listing.item?
+          items = []
+          listing.amount.times do
+            items << Item.new(location: current_user.location, user: current_user, loader: listing.loader, equipped: false)
+          end
+          Item.import items
+        else
+          listing.amount.times do
+            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: SHIP_VARIABLES[listing.loader]['hp'])
+          end
+        end
+        
+        listing.destroy
+        
+        render json: {}, status: 200 and return
+      end
     end
     render json: {}, status: 400
   end

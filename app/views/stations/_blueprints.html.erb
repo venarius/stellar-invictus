@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <% SHIP_VARIABLES.sort.each do |key, value| %>
-          <tr>
+          <tr class="<%= 'color-sec-high' if Blueprint.where(loader: key, user: current_user).present? %>">
             <td><%= key %></td>
             <td class="color-highgreen"><%= value['price'] * 20 %> Cr</td>
             <td><button class="btn btn-outline-success btn-sm blueprint-modal-btn" data-loader="<%= key %>" data-type="ship"><i class="fa fa-dollar-sign"></i></button></td>
@@ -39,7 +39,7 @@
       </thead>
       <tbody>
         <% EQUIPMENT.sort.each do |item| %>
-          <tr>
+          <tr class="<%= 'color-sec-high' if Blueprint.where(loader: item, user: current_user).present? %>">
             <td><%= get_item_attribute(item, 'name') %></td>
             <td><%= get_item_attribute(item, 'type') %></td>
             <td class="color-highgreen"><%= get_item_attribute(item, 'price') * 20 %> Cr</td>

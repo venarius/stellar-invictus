@@ -32,3 +32,11 @@ Location.where(location_type: 'mission', mission: nil).destroy_all
 
 # Lore
 Npc.create(name: "Zonia Lowe", hp: 1000000, location: System.find_by(name: "Finid").locations.where(location_type: :asteroid_field).first, npc_type: :enemy)
+
+# Corp Chat Room Cleaner
+User.where(corporation_role: :founder).each do |user|
+    room = user.corporation.chat_room
+    room.users.each do |u|
+        room.users.destroy(u) if u.corporation_id != user.corporation_id
+    end
+end
