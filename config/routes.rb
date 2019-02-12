@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist', edit: 'pilot' }, controllers: { registrations: "registrations" }
+  devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist', edit: 'pilot' }, controllers: { registrations: "registrations", omniauth_callbacks: 'users/omniauth_callbacks' }
   
   # Static Pages
   root 'static_pages#home'
@@ -84,6 +84,7 @@ Rails.application.routes.draw do
     post 'pickup_cargo', to: 'structures#pickup_cargo'
     post 'attack', to: 'structures#attack'
     post 'abandoned_ship', to: 'structures#abandoned_ship'
+    get 'monument_info', to: 'structures#monument_info'
   end
   
   # Friends
@@ -125,6 +126,8 @@ Rails.application.routes.draw do
     post 'buy', to: 'market#buy'
     post 'appraisal', to: 'market#appraisal'
     post 'sell', to: 'market#sell'
+    get 'my_listings', to: 'market#my_listings'
+    post 'delete_listing', to: 'market#delete_listing'
   end
   
   # Systems

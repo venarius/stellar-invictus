@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :craft_jobs, dependent: :destroy
   has_many :missions, dependent: :destroy
   has_many :blueprints, dependent: :destroy
+  has_many :market_listings, dependent: :destroy
   
   has_and_belongs_to_many :chat_rooms
   
@@ -28,7 +29,7 @@ class User < ApplicationRecord
   delegate :name, :ticker, :to => :corporation, :prefix => true
   
   # Validations
-  validates :name, :family_name, :email, :password, :password_confirmation, :avatar, presence: true
+  validates :name, :family_name, :avatar, presence: true
   validates :name, uniqueness: { scope: :family_name }
   validates :email, uniqueness: true
   validates_format_of :name, :family_name, :with => /\A[a-zA-Z]+\z/i, message: I18n.t('validations.can_only_contain_letters')
@@ -39,7 +40,7 @@ class User < ApplicationRecord
   
   # Devise
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: %i[facebook]
   
   # Sets full name after create       
   after_create do
@@ -239,4 +240,25 @@ class User < ApplicationRecord
       ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
     end
   end
+  
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.skip_confirmation!
+    end
+  end
+    
+  def self.new_with_session(params, session)
+    super.tap do |user|
+      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
+        user.email = data["email"] if user.email.blank?
+        user.password = Devise.friendly_token[0, 20]
+        user.uid = session["devise.facebook_data"]["uid"]
+        user.provider = session["devise.facebook_data"]["provider"]
+        user.skip_confirmation!
+      end
+    end
+  end
+  
 end

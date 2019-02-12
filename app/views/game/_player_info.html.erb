@@ -5,7 +5,7 @@
     </div>
     <div class="col-4 text-center">
       <% if current_user.active_spaceship %>
-        <i class="fa fa-boxes"></i>&nbsp;&nbsp;<%= current_user.active_spaceship.get_weight %> / <%= current_user.active_spaceship.get_storage_capacity %>
+        <i class="fa fa-boxes"></i>&nbsp;&nbsp;<%= current_user.active_spaceship.get_weight %> <span class="mobile-display-none">/ <%= current_user.active_spaceship.get_storage_capacity %></span>
       <% end %>
     </div>
     <div class="col-4 text-center">

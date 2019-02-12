@@ -181,6 +181,8 @@ function update_health(hp) {
         setTimeout(function() {$('#own-ship-health').parent().removeClass('attack-flash');}, 1000);
       }
     }
+  } else {
+    play_hit();
   }
 }
 

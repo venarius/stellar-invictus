@@ -61,7 +61,8 @@ class Pathfinder
   
   def self.get_traveltime_between(start_sys, end_sys)
     System.find_by(name: start_sys).locations.where(name: end_sys, location_type: "jumpgate").each do |loc|
-      return loc.jumpgate.traveltime
+      # plus 20 because of align and warping to jumpgate
+      return loc.jumpgate.traveltime + 20
     end
   end
   

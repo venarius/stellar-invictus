@@ -28,6 +28,7 @@ $( document ).on('turbolinks:load', function() {
     
     $.post('mission/finish', {id: id}, function(data) {
       $.notify(data.message, {style: 'success'});
+      refresh_player_info();
       button.closest('.result').empty();
       $('#current-mission-counter').html(parseInt($('#current-mission-counter').html()) - 1);
       $('#active-missions table').find('.mission-info-btn').each(function() {

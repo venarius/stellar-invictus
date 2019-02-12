@@ -148,8 +148,7 @@ Location.find_or_create_by(station_type: 3, system: zimse, location_type: 0, fac
 Location.find_or_create_by(station_type: 1, system: latos, location_type: 0, faction: faction1)
 Location.find_or_create_by(station_type: 0, system: latos, location_type: 0, faction: faction1)
 Location.find_or_create_by(station_type: 2, system: urus, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 3, system: odin, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 2, system: odin, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: 0, system: odin, location_type: 0, faction: nil, name: "The Lithium Exchange", player_market: true)
 Location.find_or_create_by(station_type: 0, system: alba, location_type: 0, faction: faction1)
 
 # Random Stations
@@ -170,3 +169,15 @@ ChatRoom.create(chatroom_type: 'custom', title: 'Rookies', identifier: 'ROOKIES'
 
 # Recruitment Room
 ChatRoom.create(chatroom_type: 'custom', title: 'Recruiting', identifier: 'RECRUIT')
+
+# Thomas French Monument
+thomas_french_description = "<p><strong>THOMAS FRENCH - INTREPID TRADE PIONEER</strong></p><br>
+
+<p>For as long as anyone could remember, the computers ran the stations.  Every purchase and every sale was initiated and fulfilled by trade AI that collaborated and cooperated, setting the prices for the entire galaxy.  But wild price fluctuations and artificial scarcity gave rise to risky bartering over an ad hoc gray market called The Lithium Exchange.  One party would jettison the requested cargo, and the other would wire credits directly to the other's account, both risking everything and operating solely on an honor system.  This was not a stable foundation.  Thomas French changed all that.</p>
+
+<p>After using his wealth to amass a sizable fleet, French and his associates commandeered an industrial station in Odin - a region of space then controlled by the Helix Collective - with the intent to convert it into the galaxy's first free market station.  He succeeded in liberating this outpost, but did not expect their retaliation.  The Collective struck back with all their might.  Sudden, overwhelming force poured forth from Alba and Latos, eliminating the flagship French was aboard, believing it would end the endeavor.</p>
+
+<p>It did not.  The galactic community rallied behind his cause, galvanized by his loss, and drove the Collective's fleets back from where they came.  Odin would become the galaxy's new trade hub, a neutral zone where the people chose what to sell and what to pay.  And it all sprang forth by the vision and boldness of one man.</p>
+
+<p>The galaxy honors the memory of Thomas French with this monument.</p>"
+Structure.find_or_create_by(location: Location.find_by(name: "The Lithium Exchange"), structure_type: :monument, name: "Thomas French Monument", description: thomas_french_description)

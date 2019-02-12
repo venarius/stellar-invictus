@@ -26,6 +26,27 @@ $( document ).on('turbolinks:load', function() {
     }
   });
   
+  // Get Own Listings AJAX
+  $('.station-card').on('click', '.get-own-listings-btn', function(e) {
+    e.preventDefault();
+    $('.results').empty().append("<br><div class='text-center'><i class='fa fa-spinner fa-spin fa-2x'></i></div>");
+    $.get('market/my_listings', function(data) {
+      $('.results').empty().append(data);
+    });
+  });
+  
+  // Delete Listing AJAX
+  $('.station-card').on('click', '.delete-market-listing-btn', function() {
+    var id = $(this).data('id');
+    var button = $(this);
+    
+    if (id) {
+     $.post('/market/delete_listing', {id: id}, function() {
+       button.closest('tr').remove();
+     }); 
+    }
+  });
+  
   // Market Buy AJAX
   $('.station-card').on('click', '.market-buy-btn', function(e) {
     var id = $(this).data('id');
@@ -80,13 +101,14 @@ $( document ).on('turbolinks:load', function() {
     
     $.post('market/appraisal', {loader: loader, type: type, quantity: 1}, function(data) {
       $('#selling-price').text(data.price + " Cr");
+      $('.custom-sell-price').val(data.price);
     });
   });
   
   // Sell Max Button click
   $('.station-card').on('click', '#market-sell .max-btn', function(e) {
     e.preventDefault();
-    $('#market-sell').find('input').val($(this).data("amount"));
+    $('#market-sell').find('.custom-quantity').val($(this).data("amount"));
     $('#market-sell').find('.market-sell-btn').data("amount", $(this).data("amount"));
     var loader = $(this).data("loader")
     var type = $(this).data('type')
@@ -97,7 +119,7 @@ $( document ).on('turbolinks:load', function() {
   });
   
   // Change Input Sell AJAX
-  $('.station-card').on('change', '#market-sell input', function(e) {
+  $('.station-card').on('change', '#market-sell .custom-quantity', function(e) {
     if (parseInt($(this).val()) < 1) {
       $(this).val("1")
     }
@@ -122,8 +144,14 @@ $( document ).on('turbolinks:load', function() {
     var button = $(this)
     var html = button.html();
     
+    if (button.closest('.modal').find('.custom-sell-price').length) {
+      var price = button.closest('.modal').find('.custom-sell-price').val();
+    } else {
+      var price = 0;
+    }
+    
     loading_animation(button);
-    $.post('market/sell', {loader: loader, type: type, quantity: amount, id: id}, function(data) {
+    $.post('market/sell', {loader: loader, type: type, quantity: amount, id: id, price: price}, function(data) {
       button.closest('.modal').modal('hide');
       button = $('#app-container').find('.market-appraise-btn[data-loader="'+loader+'"]');
       

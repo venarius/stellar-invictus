@@ -27,6 +27,9 @@ class FactoriesController < ApplicationController
       
       if ressources and current_user.blueprints.where(loader: params[:loader]).present?
         
+        # Check max concurrent factory runs (100)
+        render json: {'error_message': I18n.t('errors.cant_more_than_100_factory_runs')}, status: 400 and return if (CraftJob.where(user: current_user).count + params[:amount].to_i) > 100
+        
         # Check if has ressources
         ressources.each do |key, value|
           items = Item.where(loader: key, user: current_user, location: current_user.location)

@@ -56,6 +56,12 @@ RSpec.describe FactoriesController, type: :controller do
         expect(response.status).to eq(400)
       end
       
+      it 'should not craft more than 100 at the same time' do
+        post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 101}
+        expect(response.status).to eq(400)
+        expect(CraftJob.all.count).to eq(0)
+      end
+      
       it 'should not start crafting if user doesnt have blueprint' do
         10.times do
           Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false)

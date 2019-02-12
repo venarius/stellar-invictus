@@ -16,12 +16,12 @@ namespace :economy do
     noise_level = [0, 1, 2, 3, 4, 5, 6, 7, 8 , 9, 8, 7, 6, 5, 4, 3, 2, 1]
     i = 0
     
-    Location.where(location_type: 'station').each_with_index do |location, index|
+    Location.where(location_type: 'station', player_market: false).each_with_index do |location, index|
       rabat = ((noise[(noise_level[i] + 1.0) / 10.0] + 1) - 0.5).clamp(0.98, 1.02)
       i = i + 1
       i = 0 if i >= noise_level.size
       
-      ITEMS.each do |item|
+      (EQUIPMENT_EASY + EQUIPMENT_MEDIUM).each do |item|
         next if item == "asteroid.lunarium_ore"
         rand(0..1).times do
           rand(3..15).times do

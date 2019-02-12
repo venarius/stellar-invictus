@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_10_133437) do
+ActiveRecord::Schema.define(version: 2019_02_12_133711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 2019_02_10_133437) do
     t.boolean "hidden", default: false
     t.integer "enemy_amount", default: 0
     t.integer "station_type"
+    t.boolean "player_market", default: false
     t.index ["faction_id"], name: "index_locations_on_faction_id"
     t.index ["mission_id"], name: "index_locations_on_mission_id"
     t.index ["system_id"], name: "index_locations_on_system_id"
@@ -193,7 +194,9 @@ ActiveRecord::Schema.define(version: 2019_02_10_133437) do
     t.bigint "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["location_id"], name: "index_market_listings_on_location_id"
+    t.index ["user_id"], name: "index_market_listings_on_user_id"
   end
 
   create_table "missions", force: :cascade do |t|
@@ -271,6 +274,8 @@ ActiveRecord::Schema.define(version: 2019_02_10_133437) do
     t.datetime "updated_at", null: false
     t.integer "riddle"
     t.integer "attempts", default: 0
+    t.string "name"
+    t.text "description"
     t.index ["location_id"], name: "index_structures_on_location_id"
     t.index ["user_id"], name: "index_structures_on_user_id"
   end
@@ -329,6 +334,8 @@ ActiveRecord::Schema.define(version: 2019_02_10_133437) do
     t.boolean "chat_mod", default: false
     t.boolean "logout_timer", default: false
     t.boolean "donator", default: false
+    t.string "provider"
+    t.string "uid"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["corporation_id"], name: "index_users_on_corporation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -377,6 +384,7 @@ ActiveRecord::Schema.define(version: 2019_02_10_133437) do
   add_foreign_key "locations", "missions"
   add_foreign_key "locations", "systems"
   add_foreign_key "market_listings", "locations"
+  add_foreign_key "market_listings", "users"
   add_foreign_key "missions", "factions"
   add_foreign_key "missions", "locations"
   add_foreign_key "missions", "users"

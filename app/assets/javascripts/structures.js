@@ -48,4 +48,18 @@ $( document ).on('turbolinks:load', function() {
       refresh_player_info();
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
+  
+  // Monument Info Btn AJAX
+  $('#app-container').on('click', '.monument-info', function(e) {
+    var id = $(this).data('id');
+    
+    $.get('structure/monument_info', {id: id}, function(data) {
+        var element = $(data)
+        $('#app-container').append(element);
+        element.modal('show');
+    });
+  });
+  
+  // Remove on Modal Close
+  $('#monument-info-modal').on('hidden.bs.modal', function() { $(this).remove(); })
 });
