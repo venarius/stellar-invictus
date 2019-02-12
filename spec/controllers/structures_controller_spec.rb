@@ -83,7 +83,7 @@ RSpec.describe StructuresController, type: :controller do
         expect(response.status).to eq(200)
         expect(@user.reload.active_spaceship.get_weight).to eq(5)
         expect(PoliceWorker.jobs.size).to eq(0)
-        expect(Structure.count).to eq(0)
+        expect(Structure.count).to eq(1)
       end
       
       it 'should pickup all cargo and not call police if same user' do
@@ -91,7 +91,7 @@ RSpec.describe StructuresController, type: :controller do
         expect(response.status).to eq(200)
         expect(@user.reload.active_spaceship.get_weight).to eq(5)
         expect(PoliceWorker.jobs.size).to eq(0)
-        expect(Structure.count).to eq(0)
+        expect(Structure.count).to eq(1)
       end
       
       it 'should pickup_cargo and call police if not same user' do
@@ -100,21 +100,21 @@ RSpec.describe StructuresController, type: :controller do
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(200)
         expect(user2.reload.active_spaceship.get_weight).to eq(5)
-        expect(Structure.count).to eq(0)
+        expect(Structure.count).to eq(1)
       end
       
       it 'should not pickup_cargo if docked' do
         @user.update_columns(docked: true)
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(400)
-        expect(Structure.count).to eq(1)
+        expect(Structure.count).to eq(2)
       end
       
       it 'should not pickup_cargo user in other location' do
         @user.update_columns(location_id: Location.last.id)
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(400)
-        expect(Structure.count).to eq(1)
+        expect(Structure.count).to eq(2)
       end
       
       it 'should not pickup_cargo if user full' do
@@ -123,7 +123,7 @@ RSpec.describe StructuresController, type: :controller do
         end
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(400)
-        expect(Structure.count).to eq(1)
+        expect(Structure.count).to eq(2)
       end
       
       it 'should only pickup cargo until user is full' do
@@ -133,7 +133,7 @@ RSpec.describe StructuresController, type: :controller do
         post :pickup_cargo, params: {id: @container.id, loader: 'test'}
         expect(response.status).to eq(200)
         expect(@user.reload.active_spaceship.get_weight).to eq(10)
-        expect(Structure.count).to eq(1)
+        expect(Structure.count).to eq(2)
       end
     end
     
@@ -141,7 +141,7 @@ RSpec.describe StructuresController, type: :controller do
       it 'should destroy and not call police if own container' do
         post :attack, params: {id: @container.id}
         expect(response.status).to eq(200)
-        expect(Structure.count).to eq(0)
+        expect(Structure.count).to eq(1)
         expect(PoliceWorker.jobs.size).to eq(0)
       end
       
@@ -150,14 +150,14 @@ RSpec.describe StructuresController, type: :controller do
         sign_in user2
         post :attack, params: {id: @container.id}
         expect(response.status).to eq(200)
-        expect(Structure.count).to eq(0)
+        expect(Structure.count).to eq(1)
       end
       
       it 'should not destroy if user in other location' do
         @container.update_columns(location_id: Location.last.id)
         post :attack, params: {id: @container.id}
         expect(response.status).to eq(400)
-        expect(Structure.count).to eq(1)
+        expect(Structure.count).to eq(2)
       end
     end
     

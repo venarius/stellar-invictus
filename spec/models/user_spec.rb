@@ -35,6 +35,7 @@ describe User do
       it { should respond_to :equipment_worker }
       it { should respond_to :logout_timer }
       it { should respond_to :donator }
+      it { should respond_to :market_listings }
     end
    
     describe 'Relations' do
@@ -48,6 +49,7 @@ describe User do
       it { should have_many :missions }
       it { should have_many :blueprints }
       it { should have_and_belong_to_many :chat_rooms }
+      it { should have_many :market_listings }
     end
     
     describe 'Validations' do

@@ -17,7 +17,7 @@ describe Structure do
     end
     
     describe 'Enum' do
-      it { should define_enum_for(:structure_type).with([:container, :wreck, :abandoned_ship]) } 
+      it { should define_enum_for(:structure_type).with([:container, :wreck, :abandoned_ship, :monument]) } 
     end
     
     describe 'Functions' do
