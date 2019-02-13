@@ -46,7 +46,7 @@ class PoliceWorker
     
     if !idle
       # Let user die
-      player.die
+      player.die(true)
     
       PoliceWorker.perform_in(3.second, player_id, seconds, police.id, true) and return
     end

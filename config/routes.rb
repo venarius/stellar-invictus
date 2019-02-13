@@ -136,6 +136,7 @@ Rails.application.routes.draw do
     post 'route', to: 'systems#route'
     post 'clear_route', to: 'systems#clear_route'
     post 'scan', to: 'systems#scan'
+    post 'directional_scan', to: 'systems#directional_scan'
   end
   
   # Missions

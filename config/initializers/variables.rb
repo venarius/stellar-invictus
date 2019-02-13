@@ -8,11 +8,14 @@ begin
     PATHFINDER = YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml") unless defined? PATHFINDER
     MAPDATA = YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml") unless defined? MAPDATA
     
+    STACK_PENALTIES = [1, 0.87, 0.57, 0.28, 0.10, 0.03, 0, 0, 0] unless defined? STACK_PENALTIES
+    
     # Equipment
     EQUIPMENT = ["equipment.weapons.laser_gatling", "equipment.weapons.try_pyon_laser", "equipment.weapons.military_laser",
                  "equipment.hulls.light_hull", "equipment.hulls.ultralight_hull",
                  "equipment.sensors.small_sensor", "equipment.sensors.try_pyon_sensor",
                  "equipment.scanner.basic_scanner", "equipment.scanner.advanced_scanner", "equipment.scanner.military_scanner", "equipment.scanner.deepspace_scanner",
+                 "equipment.directional_scanners.directional_scanner",
                  "equipment.warp_disruptors.basic_warp_disruptor", "equipment.warp_disruptors.try_pyon_warp_disruptor", "equipment.warp_disruptors.military_warp_disruptor",
                  "equipment.warp_core_stabilizers.basic_warp_core_stabilizer", "equipment.warp_core_stabilizers.try_pyon_warp_core_stabilizer", "equipment.warp_core_stabilizers.military_warp_core_stabilizer",
                  "equipment.miner.basic_miner", "equipment.miner.advanced_miner", "equipment.miner.core_miner",
@@ -46,6 +49,7 @@ begin
                  "equipment.hulls.ultralight_hull",
                  "equipment.sensors.try_pyon_sensor",
                  "equipment.scanner.military_scanner",
+                 "equipment.directional_scanners.directional_scanner",
                  "equipment.warp_disruptors.military_warp_disruptor",
                  "equipment.warp_core_stabilizers.military_warp_core_stabilizer",
                  "equipment.miner.core_miner",

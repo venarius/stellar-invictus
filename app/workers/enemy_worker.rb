@@ -148,6 +148,10 @@ class EnemyWorker
       ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_spaceship.hp)
       ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: @enemy.name, hp: @attack.round) )
       
+      if @target.fleet
+        ChatChannel.broadcast_to(@target.fleet.chat_room, method: 'update_hp_color', color: @target.active_spaceship.get_hp_color, id: @target.id)
+      end
+      
       # If target hp is below 0 -> die
       if target_spaceship.hp <= 0
         target_spaceship.update_columns(hp: 0)

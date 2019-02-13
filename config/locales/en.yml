@@ -424,8 +424,9 @@ en:
     mining_laser_text: "Required in order to mine asteroids. More advanced mining laser can mine multiple ores at once."
     repair_bot_text: "A little helper who can repair your ship whilst in space. BUT be careful: More advanced repair bots will need a constant supply of Septarium Ore in order to function properly."
     repair_beam_text: "This one also shoots laserbeams but unlike the 'Gatling Laser' these beams are not deadly but instead repair the target they hit. Can't use on self."
-    defense_text: "Increases the defense of your ship by a certain percentage. E.g. A defense amplifier of 1.1 means 10% more defense. Note: Defense can't be higher than 70%."
+    defense_text: "Increases the defense of your ship by a certain percentage. E.g. A defense amplifier of 10 means 10% more defense. Note: Defense can't be higher than 70%."
     storage_text: "Increases your ships storage on some unconventional ways. Some of them have been reported to swallow items. Don't say I didn't warn you!"
+    directional_scanner_text: "Scans locations and shows the amount of signatures it can find. Good for finding players to gank!"
     reputation_requirement: "You need to have the rank '%{rank}' of the faction '%{faction}' to be able to buy this ship or its blueprint"
   links:
     go_to_game: "Already logged in. Go to the game&nbsp;&nbsp;<i class='fa fa-arrow-right'></i>"

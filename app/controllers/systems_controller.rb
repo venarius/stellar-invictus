@@ -47,4 +47,24 @@ class SystemsController < ApplicationController
       render json: {}, status: 400
     end
   end
+  
+  def directional_scan
+    scanner_range = current_user.active_spaceship.get_scanner_range
+    
+    if current_user.can_be_attacked
+      locations = {}
+      current_user.system.locations.where(hidden: false).each do |loc|
+        locations[loc.id] = loc.users.where.not(online: 0).count + loc.npcs.count
+      end
+      
+      if scanner_range
+        current_user.system.locations.where(hidden: true).limit(scanner_range).each do |loc|
+          locations[loc.id] = loc.users.where.not(online: 0).count + loc.npcs.count
+        end
+      end
+      
+      render json: {locations: locations}, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
 end

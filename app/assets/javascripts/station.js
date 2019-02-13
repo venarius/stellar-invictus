@@ -79,6 +79,7 @@ $( document ).on('turbolinks:load', function() {
     
     if (id) {
       $.post("/ship/insure", {id: id}, function() {
+        refresh_player_info();
         button.closest('.modal').modal('hide');
         setTimeout(function() {load_station_tab("#my_ships");}, 250);
       }); 

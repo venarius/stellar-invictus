@@ -13,49 +13,49 @@
   <% if get_item_attribute(item, 'slot_type') == "main" %>
     <tr>
       <th><%= I18n.t('equipment.septarium_usage') %></th>
-      <td><%= get_item_attribute(item, 'septarium_usage').to_f %></td>
+      <td><%= get_item_attribute(item, 'septarium_usage') %></td>
     </tr>
   <% end %>
   <% case get_item_attribute(item, 'type') %>
   <% when "Weapon" %>
     <tr>
       <th><%= I18n.t('equipment.damage') %></th>
-      <td><%= get_item_attribute(item, 'damage').to_f %></td>
+      <td><%= get_item_attribute(item, 'damage') %></td>
     </tr>
   <% when "Defense" %>
     <tr>
       <th><%= I18n.t('equipment.defense_amplifier') %></th>
-      <td><%= get_item_attribute(item, 'defense_amplifier').to_f %></td>
+      <td><%= get_item_attribute(item, 'defense_amplifier') %></td>
     </tr>
   <% when "Storage" %>
     <tr>
       <th><%= I18n.t('equipment.storage_amplifier') %></th>
-      <td><%= get_item_attribute(item, 'storage_amplifier').to_f %></td>
+      <td><%= get_item_attribute(item, 'storage_amplifier') %></td>
     </tr>
   <% when "Mining Laser" %>
     <tr>
       <th><%= I18n.t('equipment.mining_amount') %></th>
-      <td><%= get_item_attribute(item, 'mining_amount').to_f %></td>
+      <td><%= get_item_attribute(item, 'mining_amount') %></td>
     </tr>
   <% when "Hull" %>
     <tr>
       <th><%= I18n.t('equipment.align_amplifier') %></th>
-      <td><%= get_item_attribute(item, 'align_amplifier').to_f %></td>
+      <td><%= get_item_attribute(item, 'align_amplifier') %></td>
     </tr>
   <% when "Sensor" %>
     <tr>
       <th><%= I18n.t('equipment.target_amplifier') %></th>
-      <td><%= get_item_attribute(item, 'target_amplifier').to_f %></td>
+      <td><%= get_item_attribute(item, 'target_amplifier') %></td>
     </tr>
   <% when "Scanner" %>
     <tr>
       <th><%= I18n.t('equipment.scanner_range') %></th>
-      <td><%= get_item_attribute(item, 'scanner_range').to_f %></td>
+      <td><%= get_item_attribute(item, 'scanner_range') %></td>
     </tr>
   <% when "Repair Bot", "Repair Beam" %>
     <tr>
       <th><%= I18n.t('equipment.repair_amount') %></th>
-      <td><%= get_item_attribute(item, 'repair_amount').to_f %></td>
+      <td><%= get_item_attribute(item, 'repair_amount') %></td>
     </tr>
   <% when "Warp Disruptor" %>
     <tr>

@@ -119,11 +119,16 @@ class Spaceship < ApplicationRecord
   # Get Storage Capacity of Ship
   def get_storage_capacity
     storage = self.get_attribute('storage')
+    stack = 0
     self.get_utility_equipment.each do |item|
-      item_attr = item.get_attribute('storage_amplifier') if item.get_attribute('type') == "Storage" and item.equipped
-      item_attr = (item_attr - 1) * SHIP_VARIABLES[name]['trait']['storage_amplifier'] + 1 if (SHIP_VARIABLES[name]['trait']['storage_amplifier'] rescue nil) and item_attr
-      item_attr = 1 unless item_attr
-      storage = storage * item_attr
+      if item.get_attribute('type') == "Storage" and item.equipped
+        item_attr = item.get_attribute('storage_amplifier') * STACK_PENALTIES[stack]
+        stack = stack + 1
+      end
+      
+      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['storage_amplifier'] if (SHIP_VARIABLES[name]['trait']['storage_amplifier'] rescue nil) and item_attr
+      item_attr = 0 unless item_attr
+      storage = storage + storage * (item_attr / 100)
     end
     storage = storage * self.user.faction.get_attribute('storage_amplifier')
     storage.round
@@ -169,11 +174,16 @@ class Spaceship < ApplicationRecord
   # Get Defense of ship
   def get_defense
     defense = self.get_attribute('defense')
+    stack = 0
     self.get_utility_equipment.each do |item|
-      item_attr = item.get_attribute('defense_amplifier') if item.get_attribute('type') == "Defense" and item.equipped
-      item_attr = (item_attr - 1) * SHIP_VARIABLES[name]['trait']['defense_amplifier'] + 1 if (SHIP_VARIABLES[name]['trait']['defense_amplifier'] rescue nil) and item_attr
-      item_attr = 1 unless item_attr
-      defense = defense * item_attr
+      if item.get_attribute('type') == "Defense" and item.equipped
+        item_attr = item.get_attribute('defense_amplifier') * STACK_PENALTIES[stack]
+        stack = stack + 1
+      end
+      
+      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['defense_amplifier'] if (SHIP_VARIABLES[name]['trait']['defense_amplifier'] rescue nil) and item_attr
+      item_attr = 0 unless item_attr
+      defense = defense + defense * (item_attr / 100)
     end
     defense = defense * self.user.faction.get_attribute('defense_amplifier')
     # cap to 70 max
@@ -214,11 +224,16 @@ class Spaceship < ApplicationRecord
   # Get align time
   def get_align_time
     align_time = self.get_attribute('align_time')
+    stack = 0
     self.get_equipment.each do |item|
-      item_attr = item.get_attribute('align_amplifier') if item.get_attribute('type') == "Hull" and item.equipped
+      if item.get_attribute('type') == "Hull" and item.equipped
+        item_attr = item.get_attribute('align_amplifier') * STACK_PENALTIES[stack]
+        stack = stack + 1
+      end
+      
       item_attr = item_attr * SHIP_VARIABLES[name]['trait']['align_amplifier'] if (SHIP_VARIABLES[name]['trait']['align_amplifier'] rescue nil) and item_attr
-      item_attr = 1 unless item_attr
-      align_time = align_time * item_attr
+      item_attr = 0 unless item_attr
+      align_time = align_time - align_time * (item_attr / 100)
     end
     align_time.round
   end
@@ -226,11 +241,16 @@ class Spaceship < ApplicationRecord
   # Get target time
   def get_target_time
     target_time = self.get_attribute('target_time')
+    stack = 0
     self.get_equipment.each do |item|
-      item_attr = item.get_attribute('target_amplifier') if item.get_attribute('type') == "Sensor" and item.equipped
+      if item.get_attribute('type') == "Sensor" and item.equipped
+        item_attr = item.get_attribute('target_amplifier') * STACK_PENALTIES[stack]
+        stack = stack + 1
+      end
+      
       item_attr = item_attr * SHIP_VARIABLES[name]['trait']['target_amplifier'] if (SHIP_VARIABLES[name]['trait']['target_amplifier'] rescue nil) and item_attr
-      item_attr = 1 unless item_attr
-      target_time = target_time * item_attr
+      item_attr = 0 unless item_attr
+      target_time = target_time - target_time * (item_attr / 100)
     end
     target_time.round
   end
@@ -306,5 +326,26 @@ class Spaceship < ApplicationRecord
     end
     attribute = attribute + SHIP_VARIABLES[name]['trait']['scanner_range'] if (SHIP_VARIABLES[name]['trait']['scanner_range'] rescue nil)
     return attribute
+  end
+  
+  # Get HP Color Value
+  def get_hp_color
+    percentage = self.hp / (SHIP_VARIABLES[name]['hp'] / 100.0)
+    case percentage
+      when 0..29
+        'color-red'
+      when 30..74
+        'color-sec-medium'
+      when 75..100
+        'color-highgreen'
+    end
+  end
+  
+  # Check if has directional_scanner
+  def get_directional_scanner
+    self.get_main_equipment().each do |item|
+      return true if item.get_attribute('type') == 'Directional Scanner'
+    end
+    false
   end
 end

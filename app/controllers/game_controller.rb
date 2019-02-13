@@ -26,9 +26,9 @@ class GameController < ApplicationController
           
           # Fleet Warp
           if params[:fleet] and current_user.fleet
-            align = current_user.fleet.users.map{|p| p.active_spaceship.get_align_time}.sort.reverse.first
-            current_user.fleet.users.each do |user|
-              if user.system == current_user.system and !user.in_warp
+            align = current_user.fleet.users.where(system: current_user.system).map{|p| p.active_spaceship.get_align_time}.sort.reverse.first
+            current_user.fleet.users.where(system: current_user.system).each do |user|
+              unless user.in_warp
                 WarpWorker.perform_async(user.id, location.id, 0, 0, false, align)
                 if user.active_spaceship.warp_target_id == location.id
                   ActionCable.server.broadcast("player_#{user.id}", method: 'fleet_warp', location: location.id, align_time: 0) if user != current_user
