@@ -1,3 +1,5 @@
+after 'deploy:published', 'clean:restart'
+
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.11.0"
 
@@ -50,7 +52,18 @@ namespace :deploy do
   end
 end
 
-after 'deploy:published', 'clean:restart'
+namespace :clean do
+  desc 'Cleans up for restart'
+  task :restart do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'clean:restart'
+        end
+      end
+    end
+  end
+end
 
 # Whenever
 set :whenever_roles, ["app", "db"]
