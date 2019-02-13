@@ -73,3 +73,5 @@ gem 'activerecord-import'
 # Social Logins
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
+# Turnout for maintenance mode
+gem 'turnout'

@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   before_action :redirect_if_no_faction
   before_action :update_last_action
   before_action :check_banned
-  before_action :check_maintenance
   
   include ApplicationHelper
   
@@ -78,9 +77,5 @@ class ApplicationController < ActionController::Base
         redirect_to root_path
       end
     end
-  end
-  
-  def check_maintenance
-    sign_out current_user and redirect_to root_path unless $allow_login
   end
 end

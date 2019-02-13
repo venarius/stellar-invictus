@@ -65,13 +65,6 @@ $( document ).on('turbolinks:load', function() {
     });
   });
   
-  // Admin Activate Maintenance Mode Btn
-  $('.admin-activate-maintenance-mode-btn').on('click', function() {
-    if (confirm('Are you sure?')) {
-      $.post('admin/activate_maintenance', function() {});
-    }
-  });
-  
   // Admin Send Server Message Btn
   $('.admin-send-server-message-btn').on('click', function() {
     var message = $('#admin-server-message-input').val();
