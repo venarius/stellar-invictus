@@ -55,6 +55,4 @@ set :whenever_roles, ["app", "db"]
 
 # Puma
 set :puma_init_active_record, true
-set :puma_workers, 5
-set :puma_preload_app, true
-set :puma_daemonize, true
+set :puma_workers, 3
