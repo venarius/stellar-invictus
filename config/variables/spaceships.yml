@@ -82,7 +82,7 @@ Chronos:
   crafting_duration: 250
   type: "Freighter"
   trait:
-    align_amplifier: 0.5
+    align_amplifier: 2
   
 Revenant:
   image: revenant.png
@@ -133,7 +133,7 @@ Clipper:
   crafting_duration: 800
   type: "Hunter"
   trait:
-    align_amplifier: 0.5
+    align_amplifier: 2
     remote_repair_amplifier: 2
     
   
@@ -254,7 +254,7 @@ Intervention:
   type: "Hunter"
   trait:
     warp_disrupt_amplifier: 2
-    align_amplifier: 0.5
+    align_amplifier: 2
 
 Cutter:
   image: micro.png

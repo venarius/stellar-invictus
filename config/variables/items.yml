@@ -100,7 +100,7 @@ equipment:
       name: "Light Hull"
       type: "Hull"
       weight: 2
-      align_amplifier: 80
+      align_amplifier: 20
       slot_type: "utility"
       crafting: {"asteroid.nickel_ore": 15, "asteroid.cobalt_ore": 20, "materials.metal_plates": 15}
       crafting_duration: 25
@@ -109,7 +109,7 @@ equipment:
       name: "Ultralight Hull"
       type: "Hull"
       weight: 1
-      align_amplifier: 70
+      align_amplifier: 30
       slot_type: "utility"
       crafting: {"asteroid.nickel_ore": 25, "asteroid.cobalt_ore": 30, "materials.metal_plates": 30}
       crafting_duration: 40
@@ -121,7 +121,7 @@ equipment:
       name: "Small Sensor"
       type: "Sensor"
       weight: 2
-      target_amplifier: 80
+      target_amplifier: 20
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 25, "asteroid.cobalt_ore": 10, "materials.sensor_electronics": 30}
       crafting_duration: 40
@@ -130,7 +130,7 @@ equipment:
       name: "Try Pyon Sensor"
       type: "Sensor"
       weight: 2
-      target_amplifier: 70
+      target_amplifier: 30
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 50, "asteroid.cobalt_ore": 15, "materials.sensor_electronics": 50}
       crafting_duration: 70
