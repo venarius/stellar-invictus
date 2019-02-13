@@ -19,7 +19,7 @@ namespace :clean do
     end
   end
   
-  descr "Clean after restart of Server"
+  desc "Clean after restart of Server"
   task :restart => :environment do
     # User
     User.update_all(online: 0, in_warp: false, target_id: nil, mining_target_id: nil, npc_target_id: nil, is_attacking: false, equipment_worker: false, logout_timer: false)
