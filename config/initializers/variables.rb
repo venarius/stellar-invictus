@@ -8,7 +8,7 @@ begin
     PATHFINDER = YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml") unless defined? PATHFINDER
     MAPDATA = YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml") unless defined? MAPDATA
     
-    STACK_PENALTIES = [1, 0.87, 0.57, 0.28, 0.10, 0.03, 0, 0, 0] unless defined? STACK_PENALTIES
+    STACK_PENALTIES = [1.0, 0.87, 0.57, 0.28, 0.10, 0.03, 0.0, 0.0, 0.0] unless defined? STACK_PENALTIES
     
     # Equipment
     EQUIPMENT = ["equipment.weapons.laser_gatling", "equipment.weapons.try_pyon_laser", "equipment.weapons.military_laser",
