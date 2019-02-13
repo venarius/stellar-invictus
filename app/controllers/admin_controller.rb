@@ -71,13 +71,6 @@ class AdminController < ApplicationController
     render json: {}, status: 400
   end
   
-  def activate_maintenance
-    $allow_login = false
-    User.where("online > 0").each do |user|
-      ActionCable.server.broadcast("player_#{user.id}", method: 'reload_page')
-    end
-  end
-  
   def server_message
     if params[:text]
       ActionCable.server.broadcast("appearance", method: 'server_message', text: params[:text])

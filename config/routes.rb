@@ -196,7 +196,6 @@ Rails.application.routes.draw do
     post 'set_credits', to: 'admin#set_credits'
     post 'ban', to: 'admin#ban'
     post 'unban', to: 'admin#unban'
-    post 'activate_maintenance', to: 'admin#activate_maintenance'
     post 'server_message', to: 'admin#server_message'
     post 'mute', to: 'admin#mute'
     post 'unmute', to: 'admin#unmute'

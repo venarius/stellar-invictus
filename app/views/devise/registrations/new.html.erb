@@ -1,135 +1,121 @@
-<% if $allow_login %>
+<div class="mb-1rem">
+  <%= devise_error_messages! %>
+  <% if flash[:recaptcha_error] %>
+    <div class="alert alert-danger">
+      <%= flash[:recaptcha_error] %>
+    </div>
+  <% end %>
+</div>
 
-  <div class="mb-1rem">
-    <%= devise_error_messages! %>
-    <% if flash[:recaptcha_error] %>
-      <div class="alert alert-danger">
-        <%= flash[:recaptcha_error] %>
-      </div>
-    <% end %>
-  </div>
+<div class="row">
   
-  <div class="row">
-    
-    <% if session["devise.facebook_data"] %>
-      <div class="col-md-12 mb-5 mt-5">
-        <h5 class="text-center text-white mb-0"><%= I18n.t('devise.almost_done') %></h5>
-      </div>
-    <% else %>
-      <div class="col-md-6 offset-md-3 mb-3">
-        <div class="card black-card">
-          <h5 class="card-header"><%= I18n.t('devise.social') %></h5>
-          <div class="card-body text-center">
-            <%= link_to "<i class='fab fa-facebook'></i>#{I18n.t('devise.social_facebook')}".html_safe, user_facebook_omniauth_authorize_path, class: 'btn btn-block btn-social btn-facebook' %>
-          </div>
+  <% if session["devise.facebook_data"] %>
+    <div class="col-md-12 mb-5 mt-5">
+      <h5 class="text-center text-white mb-0"><%= I18n.t('devise.almost_done') %></h5>
+    </div>
+  <% else %>
+    <div class="col-md-6 offset-md-3 mb-3">
+      <div class="card black-card">
+        <h5 class="card-header"><%= I18n.t('devise.social') %></h5>
+        <div class="card-body text-center">
+          <%= link_to "<i class='fab fa-facebook'></i>#{I18n.t('devise.social_facebook')}".html_safe, user_facebook_omniauth_authorize_path, class: 'btn btn-block btn-social btn-facebook' %>
         </div>
       </div>
-      
-      <div class="col-md-12 mb-3">
-        <h5 class="text-center text-white mb-0"><%= I18n.t('devise.or') %></h5>
-      </div>
-    <% end %>
+    </div>
     
-    <div class="col-md-6 offset-md-3">
-      <div class="card black-card">
-        <h5 class="card-header"><%= I18n.t('devise.register') %></h5>
-        <div class="card-body">
-          <%= form_for(@user, url: registration_path(resource_name), validate: true) do |f| %>
+    <div class="col-md-12 mb-3">
+      <h5 class="text-center text-white mb-0"><%= I18n.t('devise.or') %></h5>
+    </div>
+  <% end %>
+  
+  <div class="col-md-6 offset-md-3">
+    <div class="card black-card">
+      <h5 class="card-header"><%= I18n.t('devise.register') %></h5>
+      <div class="card-body">
+        <%= form_for(@user, url: registration_path(resource_name), validate: true) do |f| %>
+        
+          <% unless session["devise.facebook_data"] %>
+            <h5 class="mb-3">Account</h5>
+            
+            <div class="card card-body text-white bg-secondary mb-3">
+              <span>Don't want to enter your real email? Use <a href="https://10minutemail.com/10MinuteMail/index.html" target="_blank" class="color-sec-medium">10MinuteMail</a> - You can still change your email later!</span>  
+            </div>
+            
+            <div class="field mb-3">
+              <%= f.email_field :email, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>
+            </div>
           
-            <% unless session["devise.facebook_data"] %>
-              <h5 class="mb-3">Account</h5>
-              
-              <div class="card card-body text-white bg-secondary mb-3">
-                <span>Don't want to enter your real email? Use <a href="https://10minutemail.com/10MinuteMail/index.html" target="_blank" class="color-sec-medium">10MinuteMail</a> - You can still change your email later!</span>  
-              </div>
-              
-              <div class="field mb-3">
-                <%= f.email_field :email, autocomplete: "email", placeholder: I18n.t('devise.email'), class: 'form-control' %>
-              </div>
+            <div class="field mb-3">
+              <%= f.password_field :password, autocomplete: "new-password", placeholder: I18n.t('devise.password'), class: 'form-control' %>
+            </div>
+          
+            <div class="field mb-5">
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: I18n.t('devise.password_confirmation'), class: 'form-control' %>
+            </div>
             
-              <div class="field mb-3">
-                <%= f.password_field :password, autocomplete: "new-password", placeholder: I18n.t('devise.password'), class: 'form-control' %>
-              </div>
-            
-              <div class="field mb-5">
-                <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: I18n.t('devise.password_confirmation'), class: 'form-control' %>
-              </div>
-              
-            <% end %>
-            
-            <h5 class="mb-3">Pilot</h5>
-            
-            <div class="field mb-3 card black-card card-body">
-              <%= f.hidden_field :avatar %>
-              <div class="row">
-                <div class="col-10 offset-1">
-                  <div class="avatar-selector">
-                    <% 17.times do |i| %>
-                      <div><%= image_tag("avatars/M_#{i+1}.jpg", id: "M_#{i+1}") %></div>
-                    <% end %>
-                    <% 15.times do |i| %>
-                      <div><%= image_tag("avatars/F_#{i+1}.jpg", id: "F_#{i+1}") %></div>
-                    <% end %>
-                  </div>
+          <% end %>
+          
+          <h5 class="mb-3">Pilot</h5>
+          
+          <div class="field mb-3 card black-card card-body">
+            <%= f.hidden_field :avatar %>
+            <div class="row">
+              <div class="col-10 offset-1">
+                <div class="avatar-selector">
+                  <% 17.times do |i| %>
+                    <div><%= image_tag("avatars/M_#{i+1}.jpg", id: "M_#{i+1}") %></div>
+                  <% end %>
+                  <% 15.times do |i| %>
+                    <div><%= image_tag("avatars/F_#{i+1}.jpg", id: "F_#{i+1}") %></div>
+                  <% end %>
                 </div>
               </div>
             </div>
-            
-            <div class="field mb-3">
-              <%= f.text_field :name, placeholder: 'Name', class: 'form-control' %>
-            </div>
-            
-            <div class="field mb-3">
-              <%= f.text_field :family_name, placeholder: I18n.t('devise.family_name'), class: 'form-control' %>
-            </div>
-            
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="privpolCheck">
-              <label class="form-check-label" for="privpolCheck">
-                I have read and agree to the <%= link_to 'Privacy Policy', credits_path %>
-              </label>
-            </div>
-            
-            <div class="form-check mb-1">
-              <input class="form-check-input" type="checkbox" value="" id="tosCheck">
-              <label class="form-check-label" for="tosCheck">
-                I have read and agree to the <%= link_to 'Terms of Services', credits_path %>
-              </label>
-            </div>
-            
-            <%= recaptcha_tags callback: 'recaptcha_callback' %>
+          </div>
           
-            <div class="actions float-right mt-3">
-              <%= button_tag( class: 'btn btn-primary btn-load enlist-btn', disabled: true) do %>
-                <span><%= I18n.t('devise.enlist_now') %></span>
-                &nbsp;<i class="fas fa-arrow-right"></i>
-              <% end %>
-            </div>
-          <% end %>
+          <div class="field mb-3">
+            <%= f.text_field :name, placeholder: 'Name', class: 'form-control' %>
+          </div>
           
-          <% if session["devise.facebook_data"] %>
-            <%= link_to I18n.t('devise.cancel_registration'), cancel_user_registration_path, class: 'btn btn-danger mt-3' %>
-          <% else %>
-            <div class="mt-3">
-              <%- if controller_name != 'sessions' %>
-                <%= link_to "<i class='fa fa-arrow-circle-right'></i> #{I18n.t('navbar.connect')}".html_safe, new_session_path(resource_name), class: 'display-inline-block' %>
-              <% end -%>
-            </div>
-          <% end %>
+          <div class="field mb-3">
+            <%= f.text_field :family_name, placeholder: I18n.t('devise.family_name'), class: 'form-control' %>
+          </div>
           
-        </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="privpolCheck">
+            <label class="form-check-label" for="privpolCheck">
+              I have read and agree to the <%= link_to 'Privacy Policy', credits_path %>
+            </label>
+          </div>
+          
+          <div class="form-check mb-1">
+            <input class="form-check-input" type="checkbox" value="" id="tosCheck">
+            <label class="form-check-label" for="tosCheck">
+              I have read and agree to the <%= link_to 'Terms of Services', credits_path %>
+            </label>
+          </div>
+          
+          <%= recaptcha_tags callback: 'recaptcha_callback' %>
+        
+          <div class="actions float-right mt-3">
+            <%= button_tag( class: 'btn btn-primary btn-load enlist-btn', disabled: true) do %>
+              <span><%= I18n.t('devise.enlist_now') %></span>
+              &nbsp;<i class="fas fa-arrow-right"></i>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <% if session["devise.facebook_data"] %>
+          <%= link_to I18n.t('devise.cancel_registration'), cancel_user_registration_path, class: 'btn btn-danger mt-3' %>
+        <% else %>
+          <div class="mt-3">
+            <%- if controller_name != 'sessions' %>
+              <%= link_to "<i class='fa fa-arrow-circle-right'></i> #{I18n.t('navbar.connect')}".html_safe, new_session_path(resource_name), class: 'display-inline-block' %>
+            <% end -%>
+          </div>
+        <% end %>
+        
       </div>
     </div>
   </div>
-  
-<% else %>
-
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="card black-card card-body">
-        <%= I18n.t('server.maintenance') %>
-      </div>
-    </div>
-  </div>
-
-<% end %>
+</div>
