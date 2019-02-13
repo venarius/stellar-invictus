@@ -175,7 +175,7 @@ equipment:
       septarium_usage: 0
       slot_type: "main"
       crafting: {"asteroid.iron_ore": 900, "asteroid.cobalt_ore": 500, "materials.sensor_electronics": 650, "asteroid.titanium_ore": 100}
-      crafting_duration: 1500
+      crafting_duration: 1000
       price: 33000
       
   # Warp Disruptors
@@ -360,13 +360,14 @@ equipment:
       crafting: {"asteroid.cobalt_ore": 40, "asteroid.nickel_ore": 25, "materials.fusion_electronics": 22}
       crafting_duration: 40
       price: 1200
-      
+  
+  # Storage
   storage:
     small_black_hole:
       name: "Small Black Hole"
       type: "Storage"
       weight: 5
-      storage_amplifier: 1.2
+      storage_amplifier: 1.1
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 10, "asteroid.nickel_ore": 25, "materials.antimatter": 4}
       crafting_duration: 10
@@ -375,7 +376,7 @@ equipment:
       name: "Medium Black Hole"
       type: "Storage"
       weight: 10
-      storage_amplifier: 1.4
+      storage_amplifier: 1.2
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 20, "asteroid.nickel_ore": 45, "materials.antimatter": 10}
       crafting_duration: 30
@@ -384,7 +385,7 @@ equipment:
       name: "Large Black Hole"
       type: "Storage"
       weight: 20
-      storage_amplifier: 1.6
+      storage_amplifier: 1.3
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 20, "asteroid.nickel_ore": 40, "materials.antimatter": 50, "asteroid.titanium_ore": 10}
       crafting_duration: 70

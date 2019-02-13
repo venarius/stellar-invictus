@@ -23,11 +23,29 @@ class GameController < ApplicationController
       if params[:id]
         location = Location.find(params[:id]) rescue nil
         if location and location.system_id == current_user.system_id
-          WarpWorker.perform_async(current_user.id, location.id)
+          
+          # Fleet Warp
+          if params[:fleet] and current_user.fleet
+            align = current_user.fleet.users.map{|p| p.active_spaceship.get_align_time}.sort.reverse.first
+            current_user.fleet.users.each do |user|
+              if user.system == current_user.system and !user.in_warp
+                WarpWorker.perform_async(user.id, location.id, 0, 0, false, align)
+                if user.active_spaceship.warp_target_id == location.id
+                  ActionCable.server.broadcast("player_#{user.id}", method: 'fleet_warp', location: location.id, align_time: 0) if user != current_user
+                else
+                  ActionCable.server.broadcast("player_#{user.id}", method: 'fleet_warp', location: location.id, align_time: align) if user != current_user
+                end
+              end
+            end
+          else
+            WarpWorker.perform_async(current_user.id, location.id)
+          end
+          
+          
           if current_user.active_spaceship.warp_target_id == location.id
             render json: {align_time: 0}, status: 200
           else
-            render json: {align_time: current_user.active_spaceship.get_align_time}, status: 200
+            render json: {align_time: align ? align : current_user.active_spaceship.get_align_time}, status: 200
           end
         else
           render json: {}, status: 400
@@ -40,6 +58,7 @@ class GameController < ApplicationController
           render json: {"error_message": I18n.t('errors.already_at_location')}, status: 400 and return if user.location == current_user.location
           
           WarpWorker.perform_async(current_user.id, user.location.id)
+          
           if current_user.active_spaceship.warp_target_id == user.location.id
             render json: {align_time: 0}, status: 200
           else

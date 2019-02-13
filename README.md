@@ -138,6 +138,7 @@ After that:
 ```
 rake economy:redo
 rake pathfinder:generate_paths
+rake pathfinder:generate_mapdata
 ```
 
 ## Help

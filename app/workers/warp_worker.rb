@@ -4,7 +4,7 @@ class WarpWorker
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
-  def perform(player_id, location_id, align_current=0, align_time=0, in_warp=false)
+  def perform(player_id, location_id, align_current=0, align_time=0, in_warp=false, custom_align=0)
     user = User.find(player_id)
     ship = user.active_spaceship
     
@@ -13,7 +13,7 @@ class WarpWorker
     
     if align_time == 0
       # Get alignment time
-      align_time = ship.get_align_time
+      custom_align == 0 ? align_time = ship.get_align_time : align_time = custom_align
       
       # Remove warp target if same target
       ship.update_columns(warp_target_id: nil) and return if ship.warp_target_id == location_id

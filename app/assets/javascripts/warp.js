@@ -12,8 +12,10 @@ $( document ).on('turbolinks:load', function() {
     
     var button = $(this)
     var html = $(this).html();
+    var fleet = button.data('fleet');
+    
     loading_animation($(this));
-    var xhr = $.post( "game/warp", { id: button.data("id"), uid: button.data("uid") }, function( data ) {
+    var xhr = $.post( "game/warp", { id: button.data("id"), uid: button.data("uid"), fleet: fleet }, function( data ) {
       if (data.align_time) {
         var align_time = data.align_time;
         
@@ -143,4 +145,33 @@ function clear_jump(local) {
 function warp_disrupted() {
   clearInterval(align_interval);
   $('.warp-btn').each(function() { $(this).empty().append("<i class='fa fa-angle-double-right'></i>"); })
+}
+
+// Fleet Warp
+function fleet_warp(location_id, align_time) {
+  var button;
+  
+  // Give all warp buttons fa-icon
+  clearInterval(align_interval);
+  
+  $('.warp-btn').each(function() {
+    if ($(this).data('id') == location_id && $(this).data('fleet')) {
+      button = $(this);
+    } else {
+      $(this).empty().append("<i class='fa fa-angle-double-right'></i>");  
+    }
+  });
+  
+  if (button) {
+    var width = button.width();
+    if (align_time) {
+      button.empty().append(align_time);
+      button.width(width);
+      align_interval = setInterval(function(){ align_time = align_time - 1; button.empty().append(align_time); if (align_time <= 0) {clearInterval(align_interval); button.empty().append("<i class='fa fa-angle-double-right'></i>"); doWarp(10, "WARPING");}}, 1000)  
+    } else {
+      clearInterval(align_interval);
+      button.width(width);
+      button.empty().append("<i class='fa fa-angle-double-right'></i>");
+    }
+  }
 }

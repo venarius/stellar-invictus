@@ -44,20 +44,15 @@
 <script>
   // create an array with nodes
     var nodes = new vis.DataSet([
-      <% System.all.each do |sys| %>
-        <% next if sys.wormhole? %>
-        <% color = ["rgba(81, 203, 238, 1)", "#FF8C00", "red"] %>
-        {id: <%= sys.id %>, label: "<%= sys.get_faction.get_ticker if sys.get_faction %> <%= sys.name %>", image: "<%= image_url("planets/star_#{sys.security_status}.png") %>", font: {<%= "size: 20, color: 'yellow'".html_safe if current_user.system == sys %>} },
+      <% MAPDATA['systems'].each do |key, val| %>
+        {id: <%= key %>, label: "<%= val['faction'] %> <%= val['name'] %>", image: "<%= image_url("planets/star_#{val['security']}.png") %>", font: {<%= "size: 20, color: 'yellow'".html_safe if current_user.system_id == key %>} },
       <% end %>
     ]);
 
     // create an array with edges
     var edges = new vis.DataSet([
-      <% cache Jumpgate do %>
-        <% Jumpgate.includes(:origin, :destination).all.each do |jg| %>
-          <% next if jg.origin&.wormhole? || jg.destination&.wormhole? || !jg.destination || !jg.origin %>
-          {id: <%= jg.id %>, from: <%= jg.origin.system_id %>, to: <%= jg.destination.system_id %>},
-        <% end %>
+      <% MAPDATA['jumpgates'].each do |key, val| %>
+          {id: <%= key %>, from: <%= val['from'] %>, to: <%= val['to'] %>},
       <% end %>
     ]);
 

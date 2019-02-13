@@ -23,7 +23,7 @@
           <td>
             <a class="btn btn-outline-primary" role="button" data-toggle="modal" data-target="#insurance-<%= ship.id %>"><i class="fa fa-file-contract"></i></a>
             <a class="btn btn-outline-success activate-ship-btn" role="button" data-id="<%= ship.id %>"><i class="fa fa-check-square"></i></a>
-            <a class="btn btn-outline-success market-appraise-btn" role="button" data-toggle="modal" data-target="#market-sell" data-loader="<%= ship.name %>" data-amount="1" data-type="ship" data-id="<%= ship.id %>"><i class="fa fa-dollar-sign"></i></a>
+            <a class="btn btn-outline-success market-appraise-btn" role="button" data-toggle="modal" data-target="#market-sell" data-loader="<%= ship.name %>" data-amount="1" data-type="ship" data-not-empty="<%= Item.where(spaceship: ship).present? %>"><i class="fa fa-dollar-sign"></i></a>
           </td>
         </tr>
       <% end %>
@@ -65,4 +65,4 @@
   <% end %>
 </div>
 
-<%= render partial: 'stations/market/sell_modal', locals: {show_quantity: false} %>
+<%= render partial: 'stations/market/sell_modal' %>

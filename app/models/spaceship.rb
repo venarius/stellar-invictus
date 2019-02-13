@@ -27,13 +27,13 @@ class Spaceship < ApplicationRecord
   # Get Items in ship storage
   def get_items(equipped_switch=false)
     if equipped_switch
-      items = Item.where(spaceship: self, equipped: false)
+      items = Item.where(spaceship: self, equipped: false).pluck(:loader)
     else
-      items = Item.where(spaceship: self)
+      items = Item.where(spaceship: self).pluck(:loader)
     end
     storage = Hash.new(0)
     items.each do |value|
-      storage[value.loader] += 1
+      storage[value] += 1
     end
     storage
   end

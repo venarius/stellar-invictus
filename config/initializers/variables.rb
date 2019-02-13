@@ -6,6 +6,7 @@ begin
     FACTION_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml") unless defined? FACTION_VARIABLES
     RIDDLE_VARIABLES = YAML.load_file("#{Rails.root.to_s}/config/variables/riddles.yml") unless defined? RIDDLE_VARIABLES
     PATHFINDER = YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml") unless defined? PATHFINDER
+    MAPDATA = YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml") unless defined? MAPDATA
     
     # Equipment
     EQUIPMENT = ["equipment.weapons.laser_gatling", "equipment.weapons.try_pyon_laser", "equipment.weapons.military_laser",

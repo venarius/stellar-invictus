@@ -8,4 +8,15 @@ namespace :clean do
       end
     end
   end
+  
+  desc "Remove unwanted people from corp chats"
+  task :corporation_chats => :environment do
+    User.where(corporation_role: :founder).each do |user|
+      room = user.corporation.chat_room
+      room.users.each do |u|
+          room.users.destroy(u) if u.corporation_id != user.corporation_id
+      end
+    end
+  end
+  
 end

@@ -2,5 +2,10 @@
   <td><%= image_tag("icons/#{location.location_type}.png") %></td>
   <td class="name"><%= location.get_name %></td>
   <td><%= I18n.t("types.#{location.location_type}") %></td>
-  <td><%= link_to "<i class='fa fa-angle-double-right'></i>".html_safe, '#', class: 'btn btn-outline-primary btn-sm warp-btn', data: {id: location.id} %></td>
+  <td>
+    <%= link_to "<i class='fa fa-angle-double-right'></i>".html_safe, '#', class: 'btn btn-outline-primary btn-sm warp-btn', data: {id: location.id} %>
+    <% if current_user.fleet %>
+      <%= link_to "<i class='fa fa-angle-double-right'></i>".html_safe, '#', class: 'btn btn-outline-info btn-sm warp-btn', data: {id: location.id, fleet: true} %>
+    <% end %>
+  </td>
 </tr>

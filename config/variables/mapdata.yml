@@ -1,0 +1,435 @@
+---
+systems:
+  1:
+    faction: 
+    name: RE-FII
+    security: low
+  2:
+    faction: 
+    name: CR-181
+    security: low
+  3:
+    faction: 
+    name: KI-233
+    security: low
+  4:
+    faction: 
+    name: ZU-6TT
+    security: low
+  5:
+    faction: 
+    name: TZ-877
+    security: low
+  6:
+    faction: 
+    name: VB-233
+    security: low
+  7:
+    faction: 
+    name: KE-35F
+    security: low
+  8:
+    faction: 
+    name: SR-378
+    security: low
+  9:
+    faction: 
+    name: KQ-43R
+    security: low
+  10:
+    faction: 
+    name: TK-63R
+    security: low
+  11:
+    faction: 
+    name: ZZ-23F
+    security: low
+  12:
+    faction: 
+    name: FH-232
+    security: low
+  13:
+    faction: 
+    name: WQ-F65
+    security: low
+  14:
+    faction: 
+    name: FT-R3T
+    security: low
+  15:
+    faction: 
+    name: NF-Z66
+    security: low
+  16:
+    faction: 
+    name: UC-233
+    security: low
+  17:
+    faction: 
+    name: Talos
+    security: medium
+  18:
+    faction: 
+    name: Decon
+    security: medium
+  19:
+    faction: "[HEL]"
+    name: Urus
+    security: medium
+  20:
+    faction: "[HEL]"
+    name: Zimse
+    security: medium
+  21:
+    faction: "[HEL]"
+    name: Dresi
+    security: medium
+  22:
+    faction: "[HEL]"
+    name: Latos
+    security: medium
+  23:
+    faction: "[HEL]"
+    name: Alba
+    security: medium
+  24:
+    faction: 
+    name: Odin
+    security: medium
+  25:
+    faction: 
+    name: Foves
+    security: medium
+  26:
+    faction: 
+    name: Finid
+    security: medium
+  27:
+    faction: 
+    name: Draconis
+    security: medium
+  28:
+    faction: 
+    name: Nodens
+    security: medium
+  29:
+    faction: 
+    name: Nordar
+    security: medium
+  30:
+    faction: "[CAL]"
+    name: Aulin
+    security: high
+  31:
+    faction: "[CAL]"
+    name: Hyperion
+    security: high
+  32:
+    faction: "[CAL]"
+    name: Komo
+    security: high
+  33:
+    faction: "[CAL]"
+    name: Zenais
+    security: high
+  34:
+    faction: "[CAL]"
+    name: Perseus
+    security: high
+  35:
+    faction: "[CAL]"
+    name: Pherona
+    security: high
+  36:
+    faction: "[COR]"
+    name: Dau
+    security: high
+  37:
+    faction: "[COR]"
+    name: Inari
+    security: high
+  38:
+    faction: "[COR]"
+    name: Chanoun
+    security: high
+  39:
+    faction: "[COR]"
+    name: Minin
+    security: high
+  40:
+    faction: "[COR]"
+    name: Aunia
+    security: high
+  41:
+    faction: "[COR]"
+    name: Joamma
+    security: high
+  42:
+    faction: "[COR]"
+    name: Belinara
+    security: high
+jumpgates:
+  1:
+    from: 1
+    to: 2
+  2:
+    from: 1
+    to: 6
+  3:
+    from: 2
+    to: 3
+  4:
+    from: 2
+    to: 7
+  5:
+    from: 7
+    to: 6
+  6:
+    from: 3
+    to: 8
+  7:
+    from: 8
+    to: 5
+  8:
+    from: 5
+    to: 4
+  9:
+    from: 4
+    to: 9
+  10:
+    from: 8
+    to: 9
+  11:
+    from: 6
+    to: 17
+  12:
+    from: 7
+    to: 19
+  13:
+    from: 9
+    to: 21
+  14:
+    from: 17
+    to: 32
+  15:
+    from: 32
+    to: 18
+  16:
+    from: 18
+    to: 30
+  17:
+    from: 30
+    to: 19
+  18:
+    from: 19
+    to: 20
+  19:
+    from: 20
+    to: 22
+  20:
+    from: 21
+    to: 20
+  21:
+    from: 21
+    to: 36
+  22:
+    from: 23
+    to: 21
+  23:
+    from: 32
+    to: 33
+  24:
+    from: 33
+    to: 31
+  25:
+    from: 31
+    to: 30
+  26:
+    from: 34
+    to: 35
+  27:
+    from: 33
+    to: 35
+  28:
+    from: 35
+    to: 25
+  30:
+    from: 25
+    to: 26
+  31:
+    from: 24
+    to: 22
+  32:
+    from: 23
+    to: 24
+  33:
+    from: 23
+    to: 21
+  34:
+    from: 36
+    to: 37
+  37:
+    from: 41
+    to: 42
+  38:
+    from: 41
+    to: 28
+  42:
+    from: 16
+    to: 15
+  53:
+    from: 40
+    to: 39
+  55:
+    from: 36
+    to: 38
+  58:
+    from: 38
+    to: 40
+  139:
+    from: 1
+    to: 2
+  140:
+    from: 1
+    to: 6
+  141:
+    from: 2
+    to: 3
+  142:
+    from: 7
+    to: 6
+  143:
+    from: 8
+    to: 5
+  144:
+    from: 5
+    to: 4
+  145:
+    from: 4
+    to: 9
+  146:
+    from: 8
+    to: 9
+  147:
+    from: 6
+    to: 17
+  148:
+    from: 7
+    to: 19
+  149:
+    from: 9
+    to: 21
+  150:
+    from: 17
+    to: 32
+  151:
+    from: 18
+    to: 30
+  152:
+    from: 30
+    to: 19
+  153:
+    from: 19
+    to: 20
+  154:
+    from: 20
+    to: 22
+  155:
+    from: 21
+    to: 20
+  156:
+    from: 32
+    to: 33
+  157:
+    from: 33
+    to: 31
+  158:
+    from: 31
+    to: 30
+  159:
+    from: 34
+    to: 35
+  160:
+    from: 35
+    to: 25
+  161:
+    from: 25
+    to: 24
+  162:
+    from: 25
+    to: 26
+  163:
+    from: 24
+    to: 22
+  164:
+    from: 23
+    to: 24
+  165:
+    from: 23
+    to: 21
+  166:
+    from: 36
+    to: 37
+  167:
+    from: 23
+    to: 37
+  168:
+    from: 37
+    to: 41
+  169:
+    from: 41
+    to: 28
+  170:
+    from: 42
+    to: 26
+  171:
+    from: 26
+    to: 15
+  172:
+    from: 15
+    to: 14
+  173:
+    from: 16
+    to: 14
+  174:
+    from: 14
+    to: 13
+  175:
+    from: 12
+    to: 13
+  176:
+    from: 11
+    to: 12
+  177:
+    from: 10
+    to: 11
+  178:
+    from: 27
+    to: 42
+  179:
+    from: 27
+    to: 12
+  180:
+    from: 28
+    to: 10
+  181:
+    from: 28
+    to: 29
+  182:
+    from: 29
+    to: 40
+  183:
+    from: 38
+    to: 39
+  184:
+    from: 36
+    to: 38
+  185:
+    from: 40
+    to: 41
+  186:
+    from: 34
+    to: 22
+  187:
+    from: 38
+    to: 40
