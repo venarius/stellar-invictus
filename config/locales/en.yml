@@ -440,6 +440,7 @@ en:
     confirm_sell: "Confirm sale"
     single: "Single"
     total: "Total"
+    ship_not_empty: "Warning: The Spaceship still has items on it"
   bounty:
     bounty: "Bounty"
     bounty_placeholder: "Amount (min. 1000 Credits)"

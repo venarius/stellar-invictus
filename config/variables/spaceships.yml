@@ -28,7 +28,7 @@ Cerux:
   align_time: 10
   target_time: 10
   crafting: {"asteroid.nickel_ore": 275, "asteroid.cobalt_ore": 400, "materials.laser_diodes": 450, "asteroid.titanium_ore": 100}
-  crafting_duration: 700
+  crafting_duration: 350
   type: "Explorer"
   trait:
     scanner_range: 3
@@ -45,7 +45,7 @@ Valadria:
   align_time: 10
   target_time: 10
   crafting: {"asteroid.iron_ore": 190, "asteroid.cobalt_ore": 300, "materials.metal_plates": 250, "asteroid.titanium_ore": 100}
-  crafting_duration: 500
+  crafting_duration: 250
   type: "Logistics"
   trait:
     remote_repair_amplifier: 2
@@ -62,7 +62,7 @@ Crasher:
   align_time: 5
   target_time: 3
   crafting: {"asteroid.nickel_ore": 140, "asteroid.cobalt_ore": 200, "materials.antimatter": 175, "asteroid.titanium_ore": 50}
-  crafting_duration: 350
+  crafting_duration: 175
   type: "Hunter"
   trait:
     disrupt_strength_amplifier: 1.33
@@ -79,7 +79,7 @@ Chronos:
   align_time: 10
   target_time: 10
   crafting: {"asteroid.nickel_ore": 275, "asteroid.iron_ore": 400, "materials.laser_diodes": 250, "asteroid.titanium_ore": 100}
-  crafting_duration: 500
+  crafting_duration: 250
   type: "Freighter"
   trait:
     align_amplifier: 0.5
@@ -96,7 +96,7 @@ Revenant:
   align_time: 10
   target_time: 10
   crafting: {"asteroid.iron_ore": 140, "asteroid.cobalt_ore": 400, "materials.fusion_electronics": 75, "materials.antimatter": 25}
-  crafting_duration: 300
+  crafting_duration: 150
   type: "Miner"
   trait:
     mining_amount_amplifier: 2
@@ -113,7 +113,7 @@ Atlas:
   align_time: 20
   target_time: 20
   crafting: {"asteroid.nickel_ore": 80, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 1000
+  crafting_duration: 500
   type: "Freighter"
   
 # Pirates
@@ -130,7 +130,7 @@ Clipper:
   align_time: 4
   target_time: 3
   crafting: {"asteroid.lunarium_ore": 200, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 6000
+  crafting_duration: 800
   type: "Hunter"
   trait:
     align_amplifier: 0.5
@@ -149,7 +149,7 @@ Galleon:
   align_time: 10
   target_time: 7
   crafting: {"asteroid.lunarium_ore": 240, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 7000
+  crafting_duration: 1000
   type: "Combat"
   trait:
     scanner_range: 3
@@ -168,7 +168,7 @@ Bilander:
   align_time: 25
   target_time: 25
   crafting: {"asteroid.lunarium_ore": 2400, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
-  crafting_duration: 70000
+  crafting_duration: 1200
   type: "Combat"
   trait:
     damage_amplifier: 1.25
@@ -190,7 +190,7 @@ Leviathan:
   align_time: 30
   target_time: 30
   crafting: {"materials.ai_components": 1000, "materials.metal_plates": 200, "asteroid.tryon_ore": 500}
-  crafting_duration: 2000
+  crafting_duration: 1000
   faction: 1
   reputation_requirement: 7
   type: "Combat"
@@ -210,7 +210,7 @@ Behemoth:
   align_time: 15
   target_time: 15
   crafting: {"materials.ai_components": 500, "materials.metal_plates": 200, "asteroid.tryon_ore": 500}
-  crafting_duration: 1500
+  crafting_duration: 750
   faction: 1
   reputation_requirement: 6
   type: "Multipurpose"
@@ -229,7 +229,7 @@ Vanguard:
   align_time: 10
   target_time: 8
   crafting: {"materials.ai_components": 500, "materials.metal_plates": 450, "asteroid.titanium_ore": 500}
-  crafting_duration: 1200
+  crafting_duration: 600
   faction: 1
   reputation_requirement: 5
   type: "Combat"
@@ -248,7 +248,7 @@ Intervention:
   align_time: 5
   target_time: 3
   crafting: {"materials.ai_components": 200, "materials.metal_plates": 100, "asteroid.titanium_ore": 100}
-  crafting_duration: 500
+  crafting_duration: 250
   faction: 1
   reputation_requirement: 5
   type: "Hunter"
@@ -289,7 +289,7 @@ Escorial:
   align_time: 35
   target_time: 35
   crafting: {"materials.sensor_electronics": 900, "materials.fusion_electronics": 300, "asteroid.tryon_ore": 500}
-  crafting_duration: 2000
+  crafting_duration: 1000
   faction: 3
   reputation_requirement: 7
   type: "Miner"
@@ -309,7 +309,7 @@ Aurora:
   align_time: 25
   target_time: 25
   crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 250, "asteroid.tryon_ore": 500}
-  crafting_duration: 1500
+  crafting_duration: 750
   faction: 3
   reputation_requirement: 6
   type: "Miner"
@@ -329,7 +329,7 @@ Aquila:
   align_time: 30
   target_time: 20
   crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 450, "asteroid.titanium_ore": 500}
-  crafting_duration: 1200
+  crafting_duration: 600
   faction: 3
   reputation_requirement: 6
   type: "Multipurpose"
@@ -348,7 +348,7 @@ Lupus:
   align_time: 15
   target_time: 15
   crafting: {"materials.sensor_electronics": 200, "materials.fusion_electronics": 100, "asteroid.titanium_ore": 100}
-  crafting_duration: 500
+  crafting_duration: 250
   faction: 3
   reputation_requirement: 5
   type: "Miner"
@@ -388,7 +388,7 @@ Spectrum:
   align_time: 25
   target_time: 30
   crafting: {"materials.laser_diodes": 1000, "materials.antimatter": 250, "asteroid.tryon_ore": 500}
-  crafting_duration: 2000
+  crafting_duration: 1000
   faction: 2
   reputation_requirement: 7
   type: "Logistics"
@@ -407,7 +407,7 @@ Yucatan:
   align_time: 20
   target_time: 20
   crafting: {"materials.laser_diodes": 500, "materials.antimatter": 250, "asteroid.tryon_ore": 500}
-  crafting_duration: 1500
+  crafting_duration: 750
   faction: 2
   reputation_requirement: 6
   type: "Logistics"
@@ -426,7 +426,7 @@ Cromwell:
   align_time: 20
   target_time: 20
   crafting: {"materials.laser_diodes": 500, "materials.antimatter": 450, "asteroid.titanium_ore": 500}
-  crafting_duration: 1200
+  crafting_duration: 600
   faction: 2
   reputation_requirement: 6
   type: "Defense"
@@ -445,7 +445,7 @@ Analyzer:
   align_time: 15
   target_time: 15
   crafting: {"materials.laser_diodes": 200, "materials.antimatter": 100, "asteroid.titanium_ore": 100}
-  crafting_duration: 500
+  crafting_duration: 250
   faction: 2
   reputation_requirement: 5
   type: "Scout"

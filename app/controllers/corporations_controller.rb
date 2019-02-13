@@ -79,6 +79,7 @@ class CorporationsController < ApplicationController
         
         user.update_columns(corporation_id: nil, corporation_role: :recruit)
         ActionCable.server.broadcast("player_#{params[:id]}", method: 'reload_corporation')
+        current_user.corporation.chat_room.users.destroy(user)
         
         if corporation.users.count == 0
           corporation.destroy

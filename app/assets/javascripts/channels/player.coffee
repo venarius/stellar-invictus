@@ -74,3 +74,5 @@ $(document).on "turbolinks:load", ->
           reload_page()
         else if (data.method == 'warp_disrupted')
           warp_disrupted()
+        else if (data.method == 'fleet_warp' && data.location)
+          fleet_warp(data.location, data.align_time)

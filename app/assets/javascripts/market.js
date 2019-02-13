@@ -93,9 +93,15 @@ $( document ).on('turbolinks:load', function() {
     $('#market-sell').find('.max-btn').data("loader", $(this).data("loader"));
     $('#market-sell').find('.max-btn').data("type", $(this).data("type"));
     $('#market-sell').find('.market-sell-btn').data("loader", $(this).data("loader"));
-    $('#market-sell').find('.market-sell-btn').data("id", $(this).data("id"));
     $('#market-sell').find('.market-sell-btn').data("type", $(this).data("type"));
     $('#market-sell').find('.market-sell-btn').data("amount", "1");
+    
+    
+    // Show warning if ship not empty
+    if ($(this).data('not-empty')) {
+       $('#market-sell').find('.ship-not-empty').removeClass('display-none');
+    }
+    
     var loader = $(this).data('loader');
     var type = $(this).data('type');
     
@@ -140,7 +146,6 @@ $( document ).on('turbolinks:load', function() {
     var amount = $(this).data('amount');
     var loader = $(this).data('loader');
     var type = $(this).data('type')
-    var id = $(this).data('id')
     var button = $(this)
     var html = button.html();
     
@@ -151,7 +156,7 @@ $( document ).on('turbolinks:load', function() {
     }
     
     loading_animation(button);
-    $.post('market/sell', {loader: loader, type: type, quantity: amount, id: id, price: price}, function(data) {
+    $.post('market/sell', {loader: loader, type: type, quantity: amount, price: price}, function(data) {
       button.closest('.modal').modal('hide');
       button = $('#app-container').find('.market-appraise-btn[data-loader="'+loader+'"]');
       

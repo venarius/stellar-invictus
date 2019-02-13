@@ -108,18 +108,19 @@ class MarketController < ApplicationController
         # Destroy items
         Item.where(loader: params[:loader], user: current_user, location: current_user.location).limit(quantity).delete_all
         
-      elsif params[:type] == "ship" and params[:id] and quantity == 1
+      elsif params[:type] == "ship" and params[:loader]
       
-        ship = Spaceship.find(params[:id].to_i) rescue nil
-        if ship and ship.user == current_user
-          # Check if active ship
-          render json: {'error_message': I18n.t('errors.you_cant_sell_active_ship')}, status: 400 and return if ship == current_user.active_spaceship
-          
-          # Check if ship is in current location
-          if ship.location == current_user.location
+        # Check if user tries to sell more
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).count < quantity
+      
+        ships = Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).limit(quantity) rescue nil
+        
+        if ships
+          ships.each do |ship|
+            # Check if active ship
+            render json: {'error_message': I18n.t('errors.you_cant_sell_active_ship')}, status: 400 and return if ship == current_user.active_spaceship
+            
             ship.destroy
-          else
-            render json: {}, status: 400 and return
           end
         else
           render json: {}, status: 400 and return

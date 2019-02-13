@@ -24,6 +24,10 @@
               <th><%= I18n.t('missions.reward') %></th>
               <td><%= mission.reward %> Cr</td>
             </tr>
+            <tr>
+              <th><%= I18n.t('missions.difficulty') %></th>
+              <td><%= mission.difficulty.capitalize %></td>
+            </tr>
               <% if mission.mining? or mission.market? %>
                 <tr>
                   <th><%= I18n.t('missions.item') %></th>
