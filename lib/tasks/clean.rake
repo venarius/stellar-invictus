@@ -33,10 +33,10 @@ namespace :clean do
     Structure.where(structure_type: 'wreck').where("created_at > ?", 1.day.ago).destroy_all
     
     # Ships
-    Spaceship.update_all(warp_scrambled: false, warp_target_id: nil)
+    Spaceship.where(warp_scrambled: true).update_all(warp_scrambled: false, warp_target_id: nil)
     
     # Items
-    Item.update_all(active: false)
+    Item.where(active: true).update_all(active: false)
     
     # Mission Scunk
     Location.where(location_type: 'mission', mission: nil).destroy_all

@@ -127,22 +127,12 @@ class StationsController < ApplicationController
         
         count = 0
         
-        # Weight 0 bridge
-        if items.first.get_attribute('weight') == 0
-          
-          items.limit(item_count).update_all(spaceship_id: current_user.active_spaceship_id, location_id: nil, user_id: nil)
-          count = count + item_count
-          
-        else
-        
-          items.each do |item|
-            if item.get_attribute('weight') <= free_weight
-              item.update_columns(spaceship_id: current_user.active_spaceship_id, location_id: nil, user_id: nil)
-              free_weight = free_weight - item.get_attribute('weight')
-              count = count + 1
-            end
+        items.each do |item|
+          if item.get_attribute('weight') <= free_weight
+            item.update_columns(spaceship_id: current_user.active_spaceship_id, location_id: nil, user_id: nil)
+            free_weight = free_weight - item.get_attribute('weight')
+            count = count + 1
           end
-          
         end
         
         if count > 0

@@ -50,19 +50,12 @@ class MiningWorker
       
       # Add Items to player
       item = Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
-      if asteroid.asteroid_type != 'septarium' and player.active_spaceship.get_free_weight < (mining_amount - 1)
+      if player.active_spaceship.get_free_weight < (mining_amount - 1)
         (player.active_spaceship.get_free_weight).times do
           Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
         end
       else
         (mining_amount-1).times do
-          Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
-        end
-      end
-        
-      # 3 septarium per mine
-      if asteroid.asteroid_type == "septarium"
-        (mining_amount * 3 - mining_amount).times do
           Item.create(spaceship_id: player.active_spaceship.id, loader: "asteroid.#{asteroid.asteroid_type}_ore")
         end
       end
@@ -79,17 +72,12 @@ class MiningWorker
       # Add to mission if user has active mission
       mission = player.missions.where(mission_loader: "asteroid.#{asteroid.asteroid_type}_ore", mission_status: 'active', mission_type: 'mining').where("mission_amount > 0").first rescue nil
       if mission
-        mining_amount = mining_amount * 3 if asteroid.asteroid_type == 'septarium'
         mission.update_columns(mission_amount: mission.mission_amount - mining_amount)
         mission.update_columns(mission_amount: 0) if mission.mission_amount < 0
       end
       
       # Log
-      if asteroid.asteroid_type == 'septarium'
-        ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount * 3, ore: item.get_attribute('name').downcase) )   
-      else
-        ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: item.get_attribute('name').downcase) )
-      end
+      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: item.get_attribute('name').downcase) )
       
       # Get enemy
       EnemyWorker.perform_async(nil, player.location.id) if rand(10) == 9
@@ -128,7 +116,7 @@ class MiningWorker
     end
     
     # Stop mining if player's ship is full
-    if player.active_spaceship.get_free_weight <= 0 and asteroid.asteroid_type != 'septarium'
+    if player.active_spaceship.get_free_weight <= 0
       ActionCable.server.broadcast("player_#{player_id}", method: 'asteroid_depleted')
       player.update_columns(mining_target_id: nil)
       return false
