@@ -114,7 +114,7 @@
                 <% map_and_sort(room.users.where("online > 0")).each do |key, value| %>
                   <div class="pt-2px">
                     <a class='player-modal' href="#" data-id="<%= value %>">
-                      <%= key %>
+                      <span class="<%= User.find(value).active_spaceship.get_hp_color if room.fleet %>"><%= key %></span>
                       <% if room.fleet %>
                         <a class="btn btn-outline-primary btn-xs warp-btn float-right p-0-5 text-primary" data-uid="<%= value %>"><i class='fa fa-angle-double-right'></i></a>
                       <% end %>
@@ -219,10 +219,13 @@
               }
             }
             else if (data.method == 'update_players' && data.names) {
-              update_players_in_custom_chat("chatroom-<%= room.identifier %>",data.names,data.fleet);
+              update_players_in_custom_chat("chatroom-<%= room.identifier %>",data.names,data.fleet,data.color);
             }
             else if (data.method == 'player_appeared' && ('.players-card').length) {
               reload_players_card();
+            }
+            else if (data.method == 'update_hp_color' && data.color && data.id) {
+              update_hp_color("chatroom-<%= room.identifier %>",data.color,data.id)
             }
           },
           send_message: function(message) {

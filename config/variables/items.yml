@@ -100,7 +100,7 @@ equipment:
       name: "Light Hull"
       type: "Hull"
       weight: 2
-      align_amplifier: 0.8
+      align_amplifier: 80
       slot_type: "utility"
       crafting: {"asteroid.nickel_ore": 15, "asteroid.cobalt_ore": 20, "materials.metal_plates": 15}
       crafting_duration: 25
@@ -109,7 +109,7 @@ equipment:
       name: "Ultralight Hull"
       type: "Hull"
       weight: 1
-      align_amplifier: 0.7
+      align_amplifier: 70
       slot_type: "utility"
       crafting: {"asteroid.nickel_ore": 25, "asteroid.cobalt_ore": 30, "materials.metal_plates": 30}
       crafting_duration: 40
@@ -121,7 +121,7 @@ equipment:
       name: "Small Sensor"
       type: "Sensor"
       weight: 2
-      target_amplifier: 0.8
+      target_amplifier: 80
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 25, "asteroid.cobalt_ore": 10, "materials.sensor_electronics": 30}
       crafting_duration: 40
@@ -130,7 +130,7 @@ equipment:
       name: "Try Pyon Sensor"
       type: "Sensor"
       weight: 2
-      target_amplifier: 0.7
+      target_amplifier: 70
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 50, "asteroid.cobalt_ore": 15, "materials.sensor_electronics": 50}
       crafting_duration: 70
@@ -177,6 +177,18 @@ equipment:
       crafting: {"asteroid.iron_ore": 900, "asteroid.cobalt_ore": 500, "materials.sensor_electronics": 650, "asteroid.titanium_ore": 100}
       crafting_duration: 1000
       price: 33000
+      
+  # Directional Scanners
+  directional_scanners:
+    directional_scanner:
+      name: "Directional Scanner"
+      type: "Directional Scanner"
+      weight: 2
+      slot_type: "main"
+      septarium_usage: 0
+      crafting: {"asteroid.iron_ore": 2500, "materials.sensor_electronics": 1500}
+      crafting_duration: 250
+      price: 75000
       
   # Warp Disruptors
   warp_disruptors:
@@ -346,7 +358,7 @@ equipment:
       name: "Ion Shield"
       type: "Defense"
       weight: 4
-      defense_amplifier: 1.05
+      defense_amplifier: 5
       slot_type: "utility"
       crafting: {"asteroid.cobalt_ore": 15, "asteroid.nickel_ore": 15, "materials.fusion_electronics": 6}
       crafting_duration: 10
@@ -355,7 +367,7 @@ equipment:
       name: "Try Pyon Shield"
       type: "Defense"
       weight: 5
-      defense_amplifier: 1.1
+      defense_amplifier: 10
       slot_type: "utility"
       crafting: {"asteroid.cobalt_ore": 40, "asteroid.nickel_ore": 25, "materials.fusion_electronics": 22}
       crafting_duration: 40
@@ -367,7 +379,7 @@ equipment:
       name: "Small Black Hole"
       type: "Storage"
       weight: 5
-      storage_amplifier: 1.1
+      storage_amplifier: 10
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 10, "asteroid.nickel_ore": 25, "materials.antimatter": 4}
       crafting_duration: 10
@@ -376,7 +388,7 @@ equipment:
       name: "Medium Black Hole"
       type: "Storage"
       weight: 10
-      storage_amplifier: 1.2
+      storage_amplifier: 20
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 20, "asteroid.nickel_ore": 45, "materials.antimatter": 10}
       crafting_duration: 30
@@ -385,7 +397,7 @@ equipment:
       name: "Large Black Hole"
       type: "Storage"
       weight: 20
-      storage_amplifier: 1.3
+      storage_amplifier: 30
       slot_type: "utility"
       crafting: {"asteroid.iron_ore": 20, "asteroid.nickel_ore": 40, "materials.antimatter": 50, "asteroid.titanium_ore": 10}
       crafting_duration: 70

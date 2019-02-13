@@ -117,7 +117,7 @@ class User < ApplicationRecord
   end
   
   # Lets the player die
-  def die
+  def die(police=false)
     # Get old System
     old_system = System.find(self.system_id)
     
@@ -134,7 +134,7 @@ class User < ApplicationRecord
     
     # Destroy current spaceship of user and give him a nano if not insured
     old_ship = self.active_spaceship.destroy if self.active_spaceship
-    if old_ship&.insured
+    if old_ship&.insured and !police
       spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: SHIP_VARIABLES[old_ship.name]['hp'])
       self.update_columns(active_spaceship_id: spaceship.id)
     else

@@ -31,6 +31,16 @@ $( document ).on('turbolinks:load', function() {
     }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
   
+  // Directional Scan Btn AJAX
+  $('#app-container').on('click', '.directional-scan-btn', function() {
+    $('.directional-scan').remove();
+    $.post('/system/directional_scan', function(data) {
+      $('.overview-card').find('tr').each(function() {
+        $(this).find('.name').append(" <span class='directional-scan'>(" + data.locations[$(this).find('.warp-btn').data('id')] + ")<span>");
+      });
+    });
+  });
+  
   // Abandoned Ship Btn AJAX
   $('#app-container').on('click', '.open-abandoned-ship-btn', function(e) {
     var id = $(this).data('id');

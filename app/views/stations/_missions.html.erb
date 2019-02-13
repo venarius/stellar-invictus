@@ -22,7 +22,7 @@
         <tbody>
           <% current_user.location.missions.where(mission_status: 'offered').order("difficulty ASC").each do |mission| %>
             <tr>
-              <td><%= mission.mission_type.capitalize %></td>
+              <td><%= mission.mission_type.capitalize %> <%= "<i class='fa fa-plus color-highgreen'></i>".html_safe if mission.faction_bonus %> <%= "<i class='fa fa-minus color-red'></i>".html_safe if mission.faction_malus > 0 %></td>
               <td><%= mission.faction.get_ticker %></td>
               <td><%= mission.reward %> Cr</td>
               <td><%= mission.difficulty.capitalize %></td>

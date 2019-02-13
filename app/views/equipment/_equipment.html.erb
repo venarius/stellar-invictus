@@ -6,25 +6,25 @@
           <span><i class="fa fa-cube"></i> <%= item.get_attribute('slot_type')[0,1].upcase %></span>
         <% case item.get_attribute('type') %>
         <% when "Weapon" %>
-          <span><i class="fa fa-crosshairs"></i> <%= item.get_attribute('damage').to_f %></span>
+          <span><i class="fa fa-crosshairs"></i> <%= item.get_attribute('damage') %></span>
         <% when "Defense" %>
-          <span><i class="fa fa-shield-alt"></i> <%= item.get_attribute('defense_amplifier').to_f %></span>
+          <span><i class="fa fa-shield-alt"></i> <%= item.get_attribute('defense_amplifier') %></span>
         <% when "Storage" %>
-          <span><i class="fa fa-boxes"></i> <%= item.get_attribute('storage_amplifier').to_f %></span>
+          <span><i class="fa fa-boxes"></i> <%= item.get_attribute('storage_amplifier') %></span>
         <% when "Mining Laser" %>
-          <span><i class="fab fa-galactic-senate"></i> <%= item.get_attribute('mining_amount').to_f %></span>
+          <span><i class="fab fa-galactic-senate"></i> <%= item.get_attribute('mining_amount') %></span>
         <% when "Hull" %>
-          <span><i class="fa fa-forward"></i> <%= item.get_attribute('align_amplifier').to_f %></span>
+          <span><i class="fa fa-forward"></i> <%= item.get_attribute('align_amplifier') %></span>
         <% when "Sensor" %>
-          <span><i class="fa fa-circle-notch"></i> <%= item.get_attribute('target_amplifier').to_f %></span>
+          <span><i class="fa fa-circle-notch"></i> <%= item.get_attribute('target_amplifier') %></span>
         <% when "Scanner" %>
-          <span><i class="fa fa-wifi"></i> <%= item.get_attribute('scanner_range').to_f %></span>
+          <span><i class="fa fa-wifi"></i> <%= item.get_attribute('scanner_range') %></span>
         <% when "Repair Bot", "Repair Beam" %>
-          <span><i class="fa fa-wrench"></i> <%= item.get_attribute('repair_amount').to_f %></span>
+          <span><i class="fa fa-wrench"></i> <%= item.get_attribute('repair_amount') %></span>
         <% when "Warp Disruptor" %>
-          <span><i class="fa fa-broadcast-tower"></i> <%= item.get_attribute('disrupt_strength').to_f %></span>
+          <span><i class="fa fa-broadcast-tower"></i> <%= item.get_attribute('disrupt_strength') %></span>
         <% when "Warp Core Stabilizer" %>
-          <span><i class="fa fa-broadcast-tower"></i> <%= item.get_attribute('disrupt_immunity').to_f %></span>
+          <span><i class="fa fa-broadcast-tower"></i> <%= item.get_attribute('disrupt_immunity') %></span>
         <% end %>
       </div>
     </div>

@@ -12,6 +12,9 @@
         </span>
       </button>
     <% end %>
+    <% if current_user.active_spaceship.get_directional_scanner %>
+      <button class="btn btn-sm btn-outline-primary float-right directional-scan-btn" style="padding: 0 1rem;margin-left:5px;"><span style="font-size: 14px;">D</span></button>
+    <% end %>
     <%= link_to I18n.t('navbar.map'), map_path, class: "btn btn-sm btn-outline-primary float-right mr-5px", style: "padding: 0 1rem;font-size: 14px;" %>
   </h5>
   <div class="collapse show" id="collapse-locations">

@@ -246,15 +246,17 @@ function update_players_in_system(count, names) {
 }
 
 // Update players in system
-function update_players_in_custom_chat(id, names, fleet) {
+function update_players_in_custom_chat(id, names, fleet, colors) {
   if ($('#' + id).length) {
     $('#' + id + '-players').empty();
+    var index = 0
     $.each(names, function(key, value) {
       if (fleet == true) {
-        $('#' + id + '-players').append("<div><a class='player-modal' href='#' data-id='"+value+"'>"+key+"</a> <a class='btn btn-outline-primary btn-xs warp-btn float-right text-primary p-0-5' data-uid='"+value+"'><i class='fa fa-angle-double-right'></i></a></div>") 
+        $('#' + id + '-players').append("<div><a class='player-modal' href='#' data-id='"+value+"'><span class='"+colors[index]+"'>"+key+"</span></a> <a class='btn btn-outline-primary btn-xs warp-btn float-right text-primary p-0-5' data-uid='"+value+"'><i class='fa fa-angle-double-right'></i></a></div>") 
       } else {
         $('#' + id + '-players').append("<div><a class='player-modal' href='#' data-id='"+value+"'>"+key+"</a>")
       }
+      index = index + 1;
     });
   }
 }
@@ -288,6 +290,17 @@ function reload_local_chat() {
     $.get('/game/chat', function(data) {
       $('.chat-card').find('#system-player-count').html($(data).find('#system-player-count').html());
       $('.chat-card').find('#local-chat').html($(data).find('#local-chat').html());
+    });
+  }
+}
+
+// Update HP Color
+function update_hp_color(room, color, id) {
+  if ($('#' + room).length) {
+    $('#' + room).find('.outer div').each(function() {
+      if ($(this).find('.player-modal').data('id') == id) {
+        $(this).find('span').removeClass().addClass(color);
+      }
     });
   }
 }
