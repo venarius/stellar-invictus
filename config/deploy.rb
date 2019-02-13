@@ -48,6 +48,14 @@ namespace :deploy do
       execute "cd #{current_path}; ~/.rvm/bin/rvm default do bundle exec rails db:seed RAILS_ENV=production"
     end
   end
+  
+  after :restart do
+    on roles(:app) do
+      within release_path do
+         execute :rake, 'clean:restart'
+      end
+    end
+  end
 end
 
 # Whenever
