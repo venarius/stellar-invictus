@@ -1,6 +1,6 @@
 <div class="h-100 overflow-scroll">
   <table class="table table-bordered table-hover table-sm table-striped station-storage-table mt-5px">
-    <% if current_user.location.get_items(current_user.id).size > 0 %>
+    <% if current_user.location.get_items(current_user.id).count > 0 %>
       <thead>
         <tr>
           <th scope="col">Qty.</th>
@@ -10,19 +10,19 @@
         </tr>
       </thead>
       <tbody>
-        <% current_user.location.get_items(current_user.id).sort.each do |loader, times| %>
+        <% current_user.location.get_items(current_user.id).sort_by{|p| p.get_attribute('type')}.each do |item| %>
           <tr>
-            <td><%= times %>&times;</td>
-            <% if loader.include? "equipment" %>
-              <td><a href="#" class="equipment-info item-name" data-loader="<%= loader %>"><%= get_item_attribute(loader, 'name') %></a></td>
+            <td><%= item.count %>&times;</td>
+            <% if item.loader.include? "equipment" %>
+              <td><a href="#" class="equipment-info item-name" data-loader="<%= item.loader %>"><%= item.get_attribute('name') %></a></td>
             <% else %>
-              <td class="item-name"><%= get_item_attribute(loader, 'name') %></td>
+              <td class="item-name"><%= item.get_attribute('name') %></td>
             <% end %>
-            <td><%= get_item_attribute(loader, 'type') %></td>
+            <td><%= item.get_attribute('type') %></td>
             <td>
-              <a class="btn btn-outline-primary btn-sm load-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-down"></i></a>
-              <a class="btn btn-outline-primary btn-sm load-all-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load_all') %>" data-loader="<%= loader %>"><i class="fa fa-angle-double-down"></i></a>
-              <a class="btn btn-outline-success btn-sm market-appraise-btn" role="button" data-toggle="modal" data-target="#market-sell" data-loader="<%= loader %>" data-amount="<%= times %>" data-type="item"><i class="fa fa-dollar-sign"></i></a>
+              <a class="btn btn-outline-primary btn-sm load-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load') %>" data-loader="<%= item.loader %>" data-amount="<%= item.count %>"><i class="fa fa-arrow-down"></i></a>
+              <a class="btn btn-outline-primary btn-sm load-all-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.load_all') %>" data-loader="<%= item.loader %>"><i class="fa fa-angle-double-down"></i></a>
+              <a class="btn btn-outline-success btn-sm market-appraise-btn" role="button" data-toggle="modal" data-target="#market-sell" data-loader="<%= item.loader %>" data-amount="<%= item.count %>" data-type="item"><i class="fa fa-dollar-sign"></i></a>
             </td>
           </tr>
         <% end %>

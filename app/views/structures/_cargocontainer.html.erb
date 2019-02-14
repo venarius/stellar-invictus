@@ -22,14 +22,13 @@
             </tr>
           </thead>
           <tbody>
-            <% items.each do |loader, times| %>
-              <% item = Item.find_by(loader: loader) %>
+            <% items.each do |item| %>
               <tr>
-                <td class="amount"><%= times %>&times;</td>
+                <td class="amount"><%= item.count %>&times;</td>
                 <td><%= item.get_attribute('name') %></td>
                 <td><%= item.get_attribute('type') %></td>
                 <td>
-                  <button class="btn btn-outline-primary cargocontainer-pickup-cargo-btn" data-loader="<%= loader %>" data-id="<%= container_id %>" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.take') %>">
+                  <button class="btn btn-outline-primary cargocontainer-pickup-cargo-btn" data-loader="<%= item.loader %>" data-id="<%= container_id %>" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.take') %>">
                     <i class="fa fa-angle-double-up"></i>
                   </button>
                 </td>

@@ -11,20 +11,25 @@ class EquipmentController < ApplicationController
     
     if params[:ids]
       params[:ids].each do |key, value|
-        value.each do |id|
+        value.each do |loader|
           
           # Find item with id
-          item = Item.find(id) rescue nil
+          item = Item.find_by(loader: loader, spaceship: current_user.active_spaceship) rescue nil
           
           # Item and item belongs to spaceship and item's spaceship is ship of user
-          if item and item.spaceship and item.spaceship == ship
+          if item
               
             # Equip item
             if key == "main"
               if item.get_attribute('slot_type') == "main"
                 if !item.equipped
                   if ship.get_free_main_slots > 0
-                    item.update_columns(equipped: true)
+                    if item.count > 1
+                      item.update_columns(count: item.count - 1)
+                      Item.create(loader: item.loader, spaceship: item.spaceship, equipped: true)
+                    else
+                      item.update_columns(equipped: true)
+                    end
                   else 
                     render json: {}, status: 400 and return
                   end
@@ -36,7 +41,12 @@ class EquipmentController < ApplicationController
               if item.get_attribute('slot_type') == "utility"
                 if !item.equipped
                   if ship.get_free_utility_slots > 0
-                    item.update_columns(equipped: true)
+                    if item.count > 1
+                      item.update_columns(count: item.count - 1)
+                      Item.create(loader: item.loader, spaceship: item.spaceship, equipped: true)
+                    else
+                      item.update_columns(equipped: true)
+                    end
                   else 
                     render json: {}, status: 400 and return
                   end
@@ -65,11 +75,14 @@ class EquipmentController < ApplicationController
       ids = ids + params[:ids][:utility] if params[:ids][:utility]
     end
     ship.get_equipped_equipment.each do |item|
-      if !ids or !ids.include? item.id.to_s
+      if !ids or !ids.include? item.loader.to_s
         # check black hole
         render json: {error_message: I18n.t('errors.clear_storage_first')}, status: 400 and return if item.loader.include?("equipment.storage") and current_user.active_spaceship.get_weight > 0
         
-        item.update_columns(equipped: false)
+        Item.give_to_user({loader: item.loader, user: current_user, amount: 1})
+        item.destroy
+      else
+        ids = ids - [item.loader.to_s]
       end
     end
     
@@ -86,7 +99,7 @@ class EquipmentController < ApplicationController
           EquipmentWorker.perform_async(current_user.id)
         end
         
-        render json: {type: item.get_attribute('type'), usage: current_user.active_spaceship.get_septarium_usage}, status: 200 and return
+        render json: {type: item.get_attribute('type')}, status: 200 and return
       end
     end
     render json: {}, status: 400

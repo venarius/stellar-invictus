@@ -19,18 +19,18 @@
           </tr>
         </thead>
         <tbody>
-          <% active_spaceship.get_items(true).each do |loader, times| %>
+          <% active_spaceship.get_items(true).each do |item| %>
             <tr>
-              <td><%= times %>&times;</td>
-              <% if loader.include? "equipment" %>
-                <td><a href="#" class="equipment-info item-name" data-loader="<%= loader %>"><%= get_item_attribute(loader, 'name') %></a></td>
+              <td><%= item.count %>&times;</td>
+              <% if item.loader.include? "equipment" %>
+                <td><a href="#" class="equipment-info item-name" data-loader="<%= item.loader %>"><%= item.get_attribute('name') %></a></td>
               <% else %>
-                <td class="item-name"><%= get_item_attribute(loader, 'name') %></td>
+                <td class="item-name"><%= item.get_attribute('name') %></td>
               <% end %>
-              <td><%= get_item_attribute(loader, 'type') %></td>
+              <td><%= item.get_attribute('type') %></td>
               <td>
-                <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-arrow-up"></i></a>
-                <a class="btn btn-outline-primary btn-sm store-all-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store_all') %>" data-loader="<%= loader %>" data-amount="<%= times %>"><i class="fa fa-angle-double-up"></i></a>
+                <a class="btn btn-outline-primary btn-sm store-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store') %>" data-loader="<%= item.loader %>" data-amount="<%= item.count %>"><i class="fa fa-arrow-up"></i></a>
+                <a class="btn btn-outline-primary btn-sm store-all-btn" role="button" data-toggle="tooltip" data-placement="top" data-title="<%= I18n.t('tooltips.store_all') %>" data-loader="<%= item.loader %>" data-amount="<%= item.count %>"><i class="fa fa-angle-double-up"></i></a>
               </td>
             </tr>
           <% end %>
@@ -95,7 +95,9 @@
       <div class="card-body">
         <div class="row" id="list-equipment-sortable">
           <% active_spaceship.get_unequipped_equipment.each do |item| %>
-            <%= render partial: 'equipment/equipment', locals: {item: item} %>
+            <% item.count.times do %>
+              <%= render partial: 'equipment/equipment', locals: {item: item} %>
+            <% end %>
           <% end %>
         </div>
       </div>

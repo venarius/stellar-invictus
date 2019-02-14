@@ -14,14 +14,10 @@ require "capistrano/rvm"
 require "capistrano/bundler"
 require 'capistrano/sidekiq'
 require 'capistrano/postgresql'
+require 'capistrano/passenger'
 
 # Whenever
 require "whenever/capistrano"
-
-# Puma
-require 'capistrano/puma'
-install_plugin Capistrano::Puma  # Default puma tasks
-install_plugin Capistrano::Puma::Nginx
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

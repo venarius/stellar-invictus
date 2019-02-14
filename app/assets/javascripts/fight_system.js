@@ -31,7 +31,6 @@ $( document ).on('turbolinks:load', function() {
     id = $(this).data("id");
     $.post( "equipment/switch", {id: id}, function(data) {
       button.tooltip('dispose');
-      $('#septarium-usage').text(data.usage);
       if (data && (data.type == "Weapon" || data.type == "Warp Disruptor")) {
         if (button.hasClass('btn-outline-secondary')) {
           if (data.type == "Weapon") {

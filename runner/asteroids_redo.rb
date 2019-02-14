@@ -14,7 +14,7 @@ Location.where(location_type: 'asteroid_field').each do |loc|
       end
     else
       rand(2..5).times do 
-        Asteroid.create(location: loc, asteroid_type: rand(3), resources: 35000)
+        Asteroid.create(location: loc, asteroid_type: rand(4), resources: 35000)
       end
     end
   end

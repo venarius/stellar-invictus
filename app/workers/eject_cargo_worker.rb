@@ -8,16 +8,15 @@ class EjectCargoWorker
     user = User.find(user_id)
     
     
-    items = Item.where(loader: loader, spaceship: user.active_spaceship, equipped: false, active: false)
-    if items.present? and amount
+    item = Item.find_by(loader: loader, spaceship: user.active_spaceship, equipped: false, active: false)
+    if item and amount
       structure = Structure.create(structure_type: 'container', location: user.location, user: user)
       
-      if amount == items.count
-        items.update_all(structure_id: structure.id, user_id: nil, spaceship_id: nil, equipped: false)
+      if amount == item.count
+        item.update_columns(structure_id: structure.id, user_id: nil, spaceship_id: nil, equipped: false)
       else
-        items.first(amount).each do |item|
-          item.update_columns(structure_id: structure.id, user_id: nil, spaceship_id: nil, equipped: false)
-        end
+        item.update_columns(count: item.count - amount)
+        Item.create(structure: structure, loader: item.loader, count: amount)
       end
       
       # Tell everyone at location to refresh players and log the eject

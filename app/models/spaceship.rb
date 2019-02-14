@@ -3,13 +3,11 @@ class Spaceship < ApplicationRecord
   belongs_to :location, optional: true
   has_many :items, dependent: :destroy
   
-  include ApplicationHelper
-  
   # Get Weight of all Items in Ship
   def get_weight
     weight = 0
     Item.where(spaceship: self, equipped: false).each do |item|
-      weight = weight + item.get_attribute('weight')
+      weight = weight + item.get_attribute('weight') * item.count
     end
     weight
   end
@@ -26,16 +24,7 @@ class Spaceship < ApplicationRecord
   
   # Get Items in ship storage
   def get_items(equipped_switch=false)
-    if equipped_switch
-      items = Item.where(spaceship: self, equipped: false).pluck(:loader)
-    else
-      items = Item.where(spaceship: self).pluck(:loader)
-    end
-    storage = Hash.new(0)
-    items.each do |value|
-      storage[value] += 1
-    end
-    storage
+    equipped_switch ? Item.where(spaceship: self, equipped: false) : Item.where(spaceship: self)
   end
   
   # Get all Equipment in Ship
@@ -57,11 +46,7 @@ class Spaceship < ApplicationRecord
   def get_main_equipment(active=false)
     items = []
     self.get_equipped_equipment.each do |item|
-      if !active
-        items << item if item.get_attribute('slot_type') == "main"
-      else
-        items << item if item.get_attribute('slot_type') == "main" and item.active
-      end
+      active ? (items << item if item.get_attribute('slot_type') == "main" and item.active) : (items << item if item.get_attribute('slot_type') == "main")
     end
     items
   end
@@ -108,10 +93,8 @@ class Spaceship < ApplicationRecord
     items = self.get_items
     if items.present?
       structure = Structure.create(location: self.user.location, structure_type: 'wreck')
-      items.each do |key, value|
-        if Item.where(loader: key, spaceship: self).present?
-          Item.where(loader: key, spaceship: self).limit(rand(0..value)).update_all(structure_id: structure.id, spaceship_id: nil, equipped: false)
-        end
+      items.each do |item|
+        Item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false, count: rand(1..item.count)) if rand(0..1) == 1
       end
     end
   end
@@ -255,26 +238,6 @@ class Spaceship < ApplicationRecord
     target_time.round
   end
   
-  # Get septarium in storage
-  def get_septarium
-   Item.where(spaceship: self, loader: 'asteroid.septarium_ore').count
-  end
-  
-  # Get septarium usage
-  def get_septarium_usage
-    septarium_usage = 0
-    self.get_main_equipment(true).each do |item|
-      septarium_usage = septarium_usage + item.get_attribute('septarium_usage') if item.get_attribute('slot_type') == "main"
-    end
-    septarium_usage = septarium_usage * SHIP_VARIABLES[name]['trait']['septarium_usage_amplifier'] if (SHIP_VARIABLES[name]['trait']['septarium_usage_amplifier'] rescue nil)
-    septarium_usage.round
-  end
-  
-  # Use septarium
-  def use_septarium
-    Item.where(spaceship: self, loader: 'asteroid.septarium_ore').limit(self.get_septarium_usage).destroy_all
-  end
-  
   # If is warp disrupted
   def is_warp_disrupted
     weight = 0
@@ -311,8 +274,8 @@ class Spaceship < ApplicationRecord
     value = self.get_attribute('price')
     
     # Add for items / equipment
-    self.get_items.each do |key, val|
-      value = value + get_item_attribute(key, 'price') * val
+    self.get_items.each do |item|
+      value = value + item.get_attribute('price') * item.count
     end
     
     value

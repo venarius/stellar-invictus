@@ -30,19 +30,19 @@ class FactoriesController < ApplicationController
         # Check max concurrent factory runs (100)
         render json: {'error_message': I18n.t('errors.cant_more_than_100_factory_runs')}, status: 400 and return if (CraftJob.where(user: current_user).count + params[:amount].to_i) > 100
         
-        # Check if has ressources
-        ressources.each do |key, value|
-          items = Item.where(loader: key, user: current_user, location: current_user.location)
-          value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
-          render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !items.present? || items.count < value.round * params[:amount].to_i
-        end
+        ## Check if has ressources
+        #ressources.each do |key, value|
+        #  item = Item.where(loader: key, user: current_user, location: current_user.location)
+        #  value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
+        #  render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !items.present? || item.count < value.round * params[:amount].to_i
+        #end
         
         params[:amount].to_i.times do
           # Delete ressources
-          ressources.each do |key, value|
-            value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
-            Item.where(loader: key, user: current_user, location: current_user.location).limit(value.round).destroy_all
-          end
+          #ressources.each do |key, value|
+          #  value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
+          #  Item.remove_from_user({loader: key, user: current_user, location: current_user.location, amount: value.round})
+          #end
           
            # Create CraftJob
           if params[:type] == 'ship'

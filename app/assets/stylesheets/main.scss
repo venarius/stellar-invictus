@@ -32,7 +32,7 @@ strong, th {
 }
 
 html {
-  background: image-url('space-background-grid.png') repeat center top, image-url('space-background-blur-tiled2.jpg') repeat center top;
+  background: image-url('space-background-grid.png') repeat center top, image-url('space-background-blur-tiled.jpg') repeat center top;
 }
 
 // ###############
@@ -871,7 +871,7 @@ body {
     border: 1px solid grey;
     background-color: #101010;
     img { 
-      max-height: 125%; 
+      max-height: 225px; 
       position: relative;
       top: 50%;
       transform: translateY(-50%);

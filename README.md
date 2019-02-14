@@ -131,7 +131,6 @@ After that:
 2. Copy .env.sample in project root to .env in /app/stellar/shared and fill out informations
 2. Change IP of Server in Deploy Config to deployment_machine
 3. Run cap production setup
-4. Run cap production puma:nginx_config
 5. Run cap production deploy
 
 ## After every new thing
@@ -165,3 +164,20 @@ OR
 ~/.rvm/bin/rvm default do bundle exec sidekiq --index 0 --pidfile /home/deploy/app/stellar/shared/tmp/pids/sidekiq-0.pid --environment production --logfile /home/deploy/app/stellar/shared/log/sidekiq.log --daemon
 ```
 
+
+# Nginx Config
+```
+server { 
+  listen 443;
+  ssl on;
+  ssl_certificate /home/deploy/app/stellar/shared/certificates/stellar-invictus_com.crt;
+  ssl_certificate_key /home/deploy/app/stellar/shared/certificates/stellar-invictus_com.key;
+  server_name localhost www.stellar-invictus.com stellar-invictus.com;
+  
+  root /home/deploy/app/stellar/current/public;
+
+  # Turn on Passenger
+  passenger_enabled on;
+  passenger_ruby /path-to-ruby;
+}
+```

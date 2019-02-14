@@ -71,21 +71,18 @@ class StationsController < ApplicationController
     end
     
     # Receive Passengers
-    if current_user.location.faction and Item.where(loader: "delivery.passenger", spaceship: current_user.active_spaceship).present?
-      count = 0
-      Item.where(loader: "delivery.passenger", spaceship: current_user.active_spaceship).each do |passenger|
-        count = count + 1
-        case current_user.location.faction_id
-          when 1
-            current_user.update_columns(reputation_1: current_user.reputation_1 + 0.05)
-          when 2
-            current_user.update_columns(reputation_2: current_user.reputation_2 + 0.05)
-          when 3
-            current_user.update_columns(reputation_3: current_user.reputation_3 + 0.05)
-        end
-        passenger.destroy
+    if current_user.location.faction and Item.find_by(loader: "delivery.passenger", spaceship: current_user.active_spaceship).present?
+      item = Item.find_by(loader: "delivery.passenger", spaceship: current_user.active_spaceship)
+      case current_user.location.faction_id
+        when 1
+          current_user.update_columns(reputation_1: current_user.reputation_1 + 0.05 * item.count)
+        when 2
+          current_user.update_columns(reputation_2: current_user.reputation_2 + 0.05 * item.count)
+        when 3
+          current_user.update_columns(reputation_3: current_user.reputation_3 + 0.05 * item.count)
       end
-      ActionCable.server.broadcast("player_#{current_user.id}", method: 'notify_alert', text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * count).round(2)), delay: 1000)
+      ActionCable.server.broadcast("player_#{current_user.id}", method: 'notify_alert', text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * item.count).round(2)), delay: 1000)
+      item.destroy
     end
     
   end
@@ -94,9 +91,9 @@ class StationsController < ApplicationController
   def store
     if params[:loader] and params[:amount] and current_user.docked
       amount = params[:amount].to_i
-      items = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false)
-      if items and amount <= items.count and amount > 0
-        items.limit(amount).update_all(spaceship_id: nil, location_id: current_user.location_id, user_id: current_user.id)
+      item = Item.find_by(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false)
+      if item and amount <= item.count and amount > 0
+        Item.store_in_station({loader: params[:loader], user: current_user, amount: amount})
         render json: {}, status: 200 and return
       end
     end
@@ -108,31 +105,31 @@ class StationsController < ApplicationController
     if params[:loader] and current_user.docked
       amount = params[:amount].to_i if params[:amount]
       
-      items = Item.where(user: current_user, location: current_user.location, loader: params[:loader])
+      item = Item.find_by(user: current_user, location: current_user.location, loader: params[:loader])
       
-      render json: {}, status: 400 and return unless items
+      render json: {}, status: 400 and return unless item
       
       if amount
-        if (get_item_attribute(items.first.loader, 'weight') rescue 0) * amount > current_user.active_spaceship.get_free_weight
+        if (item.get_attribute('weight') rescue 0) * amount > current_user.active_spaceship.get_free_weight
           render json: {'error_message': I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
         end
-        if items and amount <= items.count and amount > 0
-          items.limit(amount).update_all(spaceship_id: current_user.active_spaceship_id, location_id: nil, user_id: nil)
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if item.count < amount
+        if item and amount <= item.count and amount > 0
+          Item.store_in_ship({user: current_user, loader: params[:loader], amount: amount})
           render json: {}, status: 200 and return
         end
       else
         # Check if player has enough space
         free_weight = current_user.active_spaceship.get_free_weight
-        item_count = items.count
+        item_count = item.count
         
         count = 0
         
-        items.each do |item|
-          if item.get_attribute('weight') <= free_weight
-            item.update_columns(spaceship_id: current_user.active_spaceship_id, location_id: nil, user_id: nil)
-            free_weight = free_weight - item.get_attribute('weight')
-            count = count + 1
-          end
+        if (item.get_attribute('weight') * item.count) <= free_weight
+          count = (free_weight / item.get_attribute('weight')).round
+          count = item.count if count > item.count
+          Item.store_in_ship({ user: current_user, loader: params[:loader], amount: count })
+          free_weight = free_weight - item.get_attribute('weight') * count 
         end
         
         if count > 0

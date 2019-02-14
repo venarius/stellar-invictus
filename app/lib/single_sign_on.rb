@@ -1,3 +1,4 @@
+# Required for Discourse SSO
 class SingleSignOn
 
   class ParseError < RuntimeError; end

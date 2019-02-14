@@ -1,4 +1,5 @@
 <h5 class="card-header">
+  
   <div class="row">
     <div class="col-4 text-center">
       <i class="fa fa-dollar-sign"></i>&nbsp;&nbsp;<%= current_user.units %>
@@ -8,12 +9,6 @@
         <i class="fa fa-boxes"></i>&nbsp;&nbsp;<%= current_user.active_spaceship.get_weight %> / <%= current_user.active_spaceship.get_storage_capacity %>
       <% end %>
     </div>
-    <div class="col-4 text-center">
-      <% if current_user.active_spaceship %>
-        <i class="fa fa-gem"></i>&nbsp;&nbsp;<%= current_user.active_spaceship.get_septarium %>
-      <% end %>
-    </div>
-    
   </div>
   
   <% if current_user.active_spaceship and current_user.faction %>
@@ -27,4 +22,5 @@
       <% end %>
     </div>
   <% end %>
+  
 </h5>

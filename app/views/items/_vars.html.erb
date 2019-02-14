@@ -10,12 +10,6 @@
     <th><%= I18n.t('equipment.slot_type') %></th>
     <td><%= get_item_attribute(item, 'slot_type').capitalize %></td>
   </tr>
-  <% if get_item_attribute(item, 'slot_type') == "main" %>
-    <tr>
-      <th><%= I18n.t('equipment.septarium_usage') %></th>
-      <td><%= get_item_attribute(item, 'septarium_usage') %></td>
-    </tr>
-  <% end %>
   <% case get_item_attribute(item, 'type') %>
   <% when "Weapon" %>
     <tr>

@@ -8,7 +8,7 @@ while time < 50 do
   CraftJob.all.each do |job|
     if job.completion.utc < DateTime.now.utc
       if job.loader.include? "equipment."
-        Item.create(loader: job.loader, user: job.user, location: job.location, active: false, equipped: false)
+        Item.give_to_user({loader: job.loader, user: job.user, location: job.location, amount: 1})
       else
         Spaceship.create(user_id: job.user.id, name: job.loader, hp: SHIP_VARIABLES[job.loader]['hp'], location: job.location)
       end

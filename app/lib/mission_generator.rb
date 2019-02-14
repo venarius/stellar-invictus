@@ -26,14 +26,14 @@ class MissionGenerator
         # check location
         return I18n.t('errors.this_isnt_the_right_station') if mission.deliver_to != mission.user.location.id
         
-         # check amount
-        amount = Location.find(mission.deliver_to).get_items(mission.user.id)[mission.mission_loader] rescue nil
-        if !amount || amount < mission.mission_amount
+        # check amount
+        item = Item.find_by(user: mission.user, location: Location.find(mission.deliver_to), loader: mission.mission_loader) rescue nil
+        if !item || item.count < mission.mission_amount
           return I18n.t('errors.you_dont_have_the_required_amount_in_storage') 
         end
         
         # remove items
-        Item.where(user: mission.user, location: mission.mission_location, loader: mission.mission_loader).limit(mission.mission_amount).destroy_all
+        Item.remove_from_user({user: mission.user, location: Location.find(mission.deliver_to), loader: mission.mission_loader, amount: mission.mission_amount})
       when 'combat', 'vip'
         # check enemy_amound
         return I18n.t('errors.you_didnt_kill_all_enemies') if mission.enemy_amount > 0
@@ -42,13 +42,13 @@ class MissionGenerator
         return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.mission_location.id).present?
       when 'market'
         # check amount
-        amount = mission.location.get_items(mission.user.id)[mission.mission_loader] rescue nil
-        if !amount || amount < mission.mission_amount
+        item = Item.where(user: mission.user, location: mission.location, loader: mission_loader) rescue nil
+        if !item || item.count < mission.mission_amount
           return I18n.t('errors.you_dont_have_the_required_amount_in_storage') 
         end
         
         # remove items
-        Item.where(user: mission.user, location: mission.location, loader: mission.mission_loader).limit(mission.mission_amount).destroy_all
+        Item.remove_from_user({user: mission.user, location: mission.location, loader: mission.mission_loader, amount: mission.mission_amount})
       when 'mining'
         # check amount
         return I18n.t('errors.you_didnt_mine_enough_ore') if mission.mission_amount > 0
@@ -129,9 +129,7 @@ class MissionGenerator
       loader = DELIVERY.sample
       mission.mission_loader = loader
       amount = rand(2..5)
-      amount.times do
-        mission.items << Item.create(loader: loader)
-      end
+      mission.items << Item.create(loader: loader, count: amount)
       mission.mission_amount = amount
     elsif mission.mission_type == 'combat'
       mission.enemy_amount = rand(2..5) * (difficulty + 1)

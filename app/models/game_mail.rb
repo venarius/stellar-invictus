@@ -12,8 +12,8 @@ class GameMail < ApplicationRecord
   
   after_create do
     if units and units > 0 and units <= sender.units
-      sender.update_columns(units: sender.reload.units - units)
-      recipient.update_columns(units: recipient.reload.units + units)
+      sender.reduce_units(units)
+      recipient.give_units(units)
     end
   end
   

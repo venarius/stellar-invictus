@@ -16,11 +16,7 @@ class ApplicationController < ActionController::Base
   end
   
   def after_sign_in_path_for(resource)
-    if current_user.faction
-      game_path 
-    else
-      factions_path  
-    end
+    current_user.faction ? game_path : factions_path
   end
   
   def redirect_if_no_faction
@@ -30,20 +26,18 @@ class ApplicationController < ActionController::Base
   end
   
   def call_police(player)
-    player_id = player.id
-    
-    if !player.system.low? and !player.system.wormhole? and Npc.where(npc_type: 'police', target: player_id).empty?
-      if player.system.security_status == 'high'
-        PoliceWorker.perform_async(player_id, 2)
-      else
-        PoliceWorker.perform_async(player_id, 10)
+    if Npc.where(npc_type: 'police', target: player.id).empty?
+      if player.system.high?
+        PoliceWorker.perform_async(player.id, 2)
+      elsif player.system.medium?
+        PoliceWorker.perform_async(player.id, 10)
       end
     end
   end
   
   def update_last_action
-    if (current_user and current_user.last_action and current_user.last_action < 5.minutes.ago) || (current_user and current_user.last_action == nil)
-      current_user.update_columns(last_action: DateTime.now)
+    if current_user
+      current_user.update_columns(last_action: DateTime.now) if (current_user&.last_action and current_user&.last_action < 5.minutes.ago) || current_user&.last_action == nil
     end
   end
   
@@ -64,17 +58,13 @@ class ApplicationController < ActionController::Base
       if current_user.banned_until
         if current_user.banned_until > DateTime.now
           flash[:notice] = I18n.t('errors.account_suspended_until', time: current_user.banned_until.strftime("%F %H:%M"), reason: current_user.banreason)
-          current_user.disappear
-          sign_out current_user
-          redirect_to root_path
+          sign_out current_user and redirect_to root_path
         else
           current_user.update_columns(banned: false, banned_until: nil, banreason: nil)
         end
       else
         flash[:notice] = I18n.t('errors.account_suspended_permanently', reason: current_user.banreason)
-        current_user.disappear
-        sign_out current_user
-        redirect_to root_path
+        sign_out current_user and redirect_to root_path
       end
     end
   end

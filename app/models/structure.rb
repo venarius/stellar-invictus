@@ -6,11 +6,7 @@ class Structure < ApplicationRecord
   enum structure_type: [:container, :wreck, :abandoned_ship, :monument]
   
   def get_items
-    items = Item.where(structure_id: self.id)
-    storage = Hash.new(0)
-    items.each do |value|
-      storage[value.loader] += 1
-    end
-    storage
+    Item.where(structure_id: self.id)
   end
+  
 end
