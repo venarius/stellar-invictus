@@ -40,15 +40,21 @@ end
 raise "blub" if Item.where.not(location: Location.where(location_type: :station).first).present?
 
 # Stacking
-Item.all.each do |item|
-    items =  Item.where(location: item.location, loader: item.loader, user: item.user).where.not(id: item.id)
-    if items.present?
-        counter = 0
-        items.each do |i|
-           counter = counter + i.count
-           i.delete
+User.all.each do |user|
+    loaders = Item.where(location: Location.where(location_type: :station).first.id, user: user).map(&:loader).uniq
+    
+    next unless loaders
+    
+    loaders.each do |loader|
+        items =  Item.where(location: Location.where(location_type: :station).first.id, loader: loader, user: user)
+        if items.present?
+            counter = 0
+            items.each do |i|
+               counter = counter + i.count
+            end
+            items.delete_all
+            Item.create(location: Location.where(location_type: :station).first, loader: loader, user: user, count: counter)
+            puts Item.count
         end
-        item.update_columns(count: item.count + counter)
-        puts Item.count
     end
 end

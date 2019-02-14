@@ -50,9 +50,9 @@ class MiningWorker
       
       # Add Items to player
       if player.active_spaceship.get_free_weight < (mining_amount - 1)
-        Item.give_to_user({loader: "asteroid.#{asteroid.asteroid_type}_ore", count: player.active_spaceship.get_free_weight, user: current_user})
+        Item.give_to_user({loader: "asteroid.#{asteroid.asteroid_type}_ore", count: player.active_spaceship.get_free_weight, user: player})
       else
-        Item.give_to_user({loader: "asteroid.#{asteroid.asteroid_type}_ore", count: mining_amount-1, user: current_user})
+        Item.give_to_user({loader: "asteroid.#{asteroid.asteroid_type}_ore", count: mining_amount-1, user: player})
       end
       
       # Log
