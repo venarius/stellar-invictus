@@ -43,7 +43,12 @@ raise "blub" if Item.where.not(location: Location.where(location_type: :station)
 Item.all.each do |item|
     items =  Item.where(location: item.location, loader: item.loader, user: item.user).where.not(id: item.id)
     if items.present?
-        items.first.update_columns(count: items.first.count + item.count)
-        item.destroy and next
+        counter = 0
+        items.each do |i|
+           counter = counter + i.count
+           i.delete
+        end
+        item.update_columns(count: item.count + counter)
+        puts Item.count
     end
 end
