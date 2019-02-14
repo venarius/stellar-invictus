@@ -34,11 +34,7 @@ class MarketController < ApplicationController
         
         # If listing is item -> else..
         if listing.item?
-          items = []
-          amount.times do
-            items << Item.new(location: current_user.location, user: current_user, loader: listing.loader, equipped: false)
-          end
-          Item.import items
+          Item.give_to_user({location: current_user.location, user: current_user, loader: listing.loader, amount: amount})
         else
           
           # Check if met requirements
@@ -103,10 +99,10 @@ class MarketController < ApplicationController
       # If type == item -> else..
       if params[:type] == "item"
         # Check if user tries to sell more
-        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if Item.where(loader: params[:loader], user: current_user, location: current_user.location).count < quantity
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if Item.find_by(loader: params[:loader], user: current_user, location: current_user.location).count < quantity
         
         # Destroy items
-        Item.where(loader: params[:loader], user: current_user, location: current_user.location).limit(quantity).delete_all
+        Item.remove_from_user({loader: params[:loader], user: current_user, location: current_user.location, amount: quantity})
         
       elsif params[:type] == "ship" and params[:loader]
       
@@ -171,11 +167,7 @@ class MarketController < ApplicationController
         
         # If listing is item -> else..
         if listing.item?
-          items = []
-          listing.amount.times do
-            items << Item.new(location: current_user.location, user: current_user, loader: listing.loader, equipped: false)
-          end
-          Item.import items
+          Item.give_to_user({location: current_user.location, user: current_user, loader: listing.loader, amount: listing.amount})
         else
           listing.amount.times do
             Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: SHIP_VARIABLES[listing.loader]['hp'])

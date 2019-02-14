@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_12_133711) do
+ActiveRecord::Schema.define(version: 2019_02_14_093951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 2019_02_12_133711) do
     t.boolean "equipped", default: false
     t.boolean "active", default: false
     t.bigint "mission_id"
+    t.integer "count", default: 1
     t.index ["location_id"], name: "index_items_on_location_id"
     t.index ["mission_id"], name: "index_items_on_mission_id"
     t.index ["spaceship_id"], name: "index_items_on_spaceship_id"

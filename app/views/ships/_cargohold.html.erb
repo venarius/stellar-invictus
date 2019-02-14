@@ -22,10 +22,9 @@
           </tr>
         </thead>
         <tbody>
-          <% items.each do |loader, times| %>
-            <% item = Item.find_by(loader: loader) %>
+          <% items.each do |item| %>
             <tr>
-              <td><%= times %>&times;</td>
+              <td><%= item.count %>&times;</td>
               <% if item.loader.include? "equipment" %>
                 <td><a href="#" class="equipment-info" data-loader="<%= item.loader %>"><%= item.get_attribute('name') %></a></td>
               <% else %>
@@ -34,9 +33,9 @@
               <td class="mobile-display-none"><%= item.get_attribute('type') %></td>
               <td>
                 <div class="input-group">
-                  <input type="number" class="form-control eject-input" placeholder="Amount" value="1">
+                  <input type="number" class="form-control eject-input" placeholder="Amount" value="<%= item.count %>">
                   <div class="input-group-append">
-                    <button class="btn btn-outline-warning eject-cargo-btn" type="button" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.eject_cargo') %>" data-loader="<%= loader %>">
+                    <button class="btn btn-outline-warning eject-cargo-btn" type="button" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.eject_cargo') %>" data-loader="<%= item.loader %>">
                       <i class="fa fa-angle-double-up"></i>
                     </button>
                   </div>
@@ -104,8 +103,8 @@
             
             <% if items.count > 0 %>
               <h5>Items</h5>
-              <% items.each do |key, value| %>
-                <%= value %>&times; <%= get_item_attribute(key, 'name') %><br>
+              <% items.each do |item| %>
+                <%= item.count %>&times; <%= item.get_attribute('name') %><br>
               <% end %>
             <% end %>
           </div>

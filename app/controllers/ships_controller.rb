@@ -54,7 +54,7 @@ class ShipsController < ApplicationController
       
       if amount and amount > 0
         # check amount
-        render json: {error_message: I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if Item.where(loader: params[:loader], spaceship: current_user.active_spaceship, equipped: false, active: false).count < amount
+        render json: {error_message: I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if Item.find_by(loader: params[:loader], spaceship: current_user.active_spaceship, equipped: false).count < amount
         
         EjectCargoWorker.perform_async(current_user.id, params[:loader], amount)
         render json: {}, status: 200 and return

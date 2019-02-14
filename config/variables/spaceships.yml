@@ -196,7 +196,6 @@ Leviathan:
   type: "Combat"
   trait:
     damage_amplifier: 1.15
-    septarium_usage_amplifier: 0.6
 
 Behemoth:
   image: behemoth.png

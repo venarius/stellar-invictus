@@ -30,20 +30,15 @@ class Npc < ApplicationRecord
       # Drop Passengers if last NPC or wanted enemy
       if (self.location.name == I18n.t('exploration.emergency_beacon') and self.location.npcs.count == 1) || (self.wanted_enemy? and rand(1..5) == 5)
         structure = Structure.create(location: self.location, structure_type: 'wreck')
-        rand(1..5).times do
-          Item.create(structure: structure, loader: "delivery.passenger")
-        end
+        Item.create(structure: structure, loader: "delivery.passenger", count: rand(1..5))
       end
     else
       loader = MATERIALS
     end
+    
     structure = Structure.create(location: self.location, structure_type: 'wreck')
-    rand(1..3).times do
-      Item.create(loader: loader.sample, structure: structure, equipped: false)
-    end
-    rand(3..6).times do
-      Item.create(loader: MATERIALS.sample, structure: structure, equipped: false)
-    end
+    Item.create(loader: loader.sample, structure: structure, equipped: false, count: rand(1..3))
+    Item.create(loader: MATERIALS.sample, structure: structure, equipped: false, count: rand(3..6))
     
   end
   

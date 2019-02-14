@@ -55,28 +55,10 @@ class User < ApplicationRecord
     end
   end
   
-  # Remove friendships
   before_destroy do
-    # fleet
-    if self.fleet
-      self.fleet.chat_room.delete(User.find(self.id))
-      self.update_columns(fleet_id: nil)
-    end
-    # corporation
-    if self.founder? and self.corporation
-      corp = self.corporation
-      
-      corp.users.each do |user|
-        user.update_columns(corporation_id: nil, corporation_role: :recruit)
-        ActionCable.server.broadcast("player_#{user.id}", method: 'reload_corporation')
-      end
-      
-      corp.destroy if corp.users.count == 0
-    end
-    # friendships
-    Friendship.where(friend_id: self.id).destroy_all
-    # game mails
-    GameMail.where(sender_id: self.id).destroy_all
+    self.corporation.destroy if self.founder? and self.corporation # corporation
+    Friendship.where(friend_id: self.id).destroy_all # friendships
+    GameMail.where(sender_id: self.id).destroy_all # game mails
   end
   
   # Will be called when a user loggs in
@@ -86,8 +68,7 @@ class User < ApplicationRecord
   
   # Will be called when a user loggs off
   def disappear
-    self.update_columns(target_id: nil)
-    DisappearWorker.perform_async(self.id)
+    self.update_columns(target_id: nil) and DisappearWorker.perform_async(self.id)
   end
   
   # Gets active spaceship of user
@@ -97,8 +78,7 @@ class User < ApplicationRecord
   
   # Returns if player can be attacked
   def can_be_attacked
-    ship_hp = self.active_spaceship.hp rescue 0
-    !docked and !in_warp and online > 0 and ship_hp > 0
+    !docked and !in_warp and online > 0 and (self.active_spaceship.hp rescue 0) > 0
   end
   
   # Returns target of player

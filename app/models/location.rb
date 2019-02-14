@@ -31,12 +31,7 @@ class Location < ApplicationRecord
   end
   
   def get_items(id)
-    items = Item.where(user: User.find(id), location: self)
-    storage = Hash.new(0)
-    items.each do |value|
-      storage[value.loader] += 1
-    end
-    storage
+    Item.where(user: User.find(id), location: self)
   end
   
   def get_name

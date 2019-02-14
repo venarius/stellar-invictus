@@ -225,19 +225,10 @@ class CorporationsController < ApplicationController
   
   def disband
     if current_user.founder? and current_user.corporation
-      corporation = current_user.corporation
-      
-      corporation.users.each do |user|
-        user.update_columns(corporation_id: nil, corporation_role: :recruit)
-        ActionCable.server.broadcast("player_#{user.id}", method: 'reload_corporation')
-      end
-      
-      if corporation.users.count == 0
-        corporation.destroy
-      end
-      render json: {}, status: 200 and return
+      current_user.corporation.destroy and render json: {}, status: 200
+    else
+      render json: {}, status: 400
     end
-    render json: {}, status: 400
   end
   
   def search

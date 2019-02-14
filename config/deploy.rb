@@ -1,7 +1,6 @@
 after 'deploy:published', 'clean:restart'
-
-# config valid for current version and patch releases of Capistrano
-lock "~> 3.11.0"
+after 'deploy:published', 'pathfinder:generate_paths'
+after 'deploy:published', 'pathfinder:generate_mapdata'
 
 set :application, "stellar"
 set :repo_url, "git@github.com:venarius/stellarInvictusRails.git"
@@ -65,9 +64,29 @@ namespace :clean do
   end
 end
 
+namespace :pathfinder do
+  desc 'Generates Paths'
+  task :generate_paths do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'pathfinder:generate_paths'
+        end
+      end
+    end
+  end
+  
+  desc 'Generates Mapdata'
+  task :generate_mapdata do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'pathfinder:generate_mapdata'
+        end
+      end
+    end
+  end
+end
+
 # Whenever
 set :whenever_roles, ["app", "db"]
-
-# Puma
-set :puma_init_active_record, true
-set :puma_workers, 3

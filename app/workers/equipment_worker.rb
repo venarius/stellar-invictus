@@ -23,9 +23,6 @@ class EquipmentWorker
       target_id = player.npc_target.id
     end
     
-    # Check Septarium
-    return if !check_septarium(player)
-    
     # Set ActionCable Server
     ac_server = ActionCable.server
     
@@ -80,12 +77,6 @@ class EquipmentWorker
       # If Repair -> repair
       if self_repair > 0
         if player_ship.hp < player_ship.get_attribute('hp')
-          
-          # Septarium Check
-          return if !check_septarium(player)
-          
-          # Remove septarium
-          player.active_spaceship.use_septarium
             
           if player_ship.hp + self_repair > player_ship.get_attribute('hp')
             player_ship.update_columns(hp: player_ship.get_attribute('hp'))
@@ -95,7 +86,6 @@ class EquipmentWorker
           
           # Broadcast
           ac_server.broadcast("player_#{player_id}", method: 'update_health', hp: player_ship.hp)
-          ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info') if player.active_spaceship.get_septarium_usage > 0
           
           User.where(target_id: player_id).where("online > 0").each do |u|
             ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: player_ship.hp)
@@ -111,9 +101,6 @@ class EquipmentWorker
       if (power > 0 and target_ship) || (remote_repair > 0 and target_ship)
         
         if can_attack(player)
-          
-          # Remove septarium
-          player.active_spaceship.use_septarium
           
           # The attack
           if player.target
@@ -171,9 +158,6 @@ class EquipmentWorker
             end
           end
           
-          # Refresh for Septarium
-          ac_server.broadcast("player_#{player_id}", method: 'refresh_player_info') if player.active_spaceship.get_septarium_usage > 0
-          
         else 
         
           ActionCable.server.broadcast("player_#{player.id}", method: 'disable_equipment')
@@ -196,27 +180,6 @@ class EquipmentWorker
       
     end
     
-  end
-  
-  # Septarium Check
-  def check_septarium(player)
-    # Shutdown on rescue
-    shutdown(player) and return false unless player.active_spaceship
-      
-    # If player Septarium Usage is greater than what he has in Storage -> stop
-    if player.active_spaceship.get_septarium_usage > player.active_spaceship.get_septarium 
-      
-      # If player is currently attacking -> stop
-      ActionCable.server.broadcast("player_#{player.target.id}", method: 'stopping_attack', name: player.full_name) if player.is_attacking and player.target
-      
-      # Broadcast
-      ActionCable.server.broadcast("player_#{player.id}", method: 'disable_equipment')
-      ActionCable.server.broadcast("player_#{player.id}", method: 'show_error', text: I18n.t('errors.not_enough_septarium'))
-      
-      # Shutdown
-      shutdown(player) and return false
-    end
-    true
   end
   
   # Shutdown Method
@@ -246,12 +209,12 @@ class EquipmentWorker
       # Get Target
       target = player.target
       # Return true if both can be attacked, are in the same location and player has target locked on
-      target.can_be_attacked and player.can_be_attacked and target.location == player.location and player.target == target and check_septarium(player)
+      target.can_be_attacked and player.can_be_attacked and target.location == player.location and player.target == target
     elsif player.npc_target
       # Get Target
       target = player.npc_target
       # Return true if both can be attacked, are in the same location and player has target locked on
-      player.can_be_attacked and target.hp > 0 and target.location == player.location and player.npc_target == target and check_septarium(player)
+      player.can_be_attacked and target.hp > 0 and target.location == player.location and player.npc_target == target
     else
       false
     end

@@ -23,8 +23,8 @@
         
         <% if items.count > 0 %>
           <h5>Items</h5>
-          <% items.each do |key, value| %>
-            <%= value %>&times; <%= get_item_attribute(key, 'name') %><br>
+          <% items.each do |item| %>
+            <%= item.count %>&times; <%= item.get_attribute('name') %><br>
           <% end %>
         <% end %>
       </div>

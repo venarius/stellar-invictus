@@ -70,8 +70,3 @@ set :pg_generate_random_password, true
 set :pg_extensions, ['citext','hstore']
 set :pg_encoding, 'UTF-8'
 set :pg_pool, '100'
-
-# Nginx
-set :nginx_use_ssl, true
-set :nginx_ssl_certificate, '/home/deploy/app/stellar/shared/certificates/stellar-invictus_com.crt'
-set :nginx_ssl_certificate_key, '/home/deploy/app/stellar/shared/certificates/stellar-invictus_com.key'

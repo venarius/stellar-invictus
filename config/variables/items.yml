@@ -69,7 +69,6 @@ equipment:
       weight: 4
       damage: 5
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.nickel_ore": 5, "asteroid.cobalt_ore": 10, "materials.laser_diodes": 1}
       crafting_duration: 10
       price: 120
@@ -79,7 +78,6 @@ equipment:
       weight: 5
       damage: 10
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.nickel_ore": 30, "asteroid.cobalt_ore": 35, "materials.laser_diodes": 15}
       crafting_duration: 40
       price: 1200
@@ -89,7 +87,6 @@ equipment:
       weight: 10
       damage: 20
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.nickel_ore": 50, "asteroid.cobalt_ore": 80, "materials.laser_diodes": 30, "asteroid.titanium_ore": 10}
       crafting_duration: 120
       price: 2550
@@ -142,7 +139,6 @@ equipment:
       type: "Scanner"
       weight: 2
       scanner_range: 1
-      septarium_usage: 0
       slot_type: "main"
       crafting: {"asteroid.iron_ore": 25, "asteroid.cobalt_ore": 10, "materials.sensor_electronics": 30}
       crafting_duration: 50
@@ -152,7 +148,6 @@ equipment:
       type: "Scanner"
       weight: 2
       scanner_range: 2
-      septarium_usage: 0
       slot_type: "main"
       crafting: {"asteroid.iron_ore": 50, "asteroid.cobalt_ore": 25, "materials.sensor_electronics": 40}
       crafting_duration: 75
@@ -162,7 +157,6 @@ equipment:
       type: "Scanner"
       weight: 4
       scanner_range: 4
-      septarium_usage: 0
       slot_type: "main"
       crafting: {"asteroid.iron_ore": 90, "asteroid.cobalt_ore": 50, "materials.sensor_electronics": 65, "asteroid.titanium_ore": 10}
       crafting_duration: 150
@@ -172,7 +166,6 @@ equipment:
       type: "Scanner"
       weight: 10
       scanner_range: 10
-      septarium_usage: 0
       slot_type: "main"
       crafting: {"asteroid.iron_ore": 900, "asteroid.cobalt_ore": 500, "materials.sensor_electronics": 650, "asteroid.titanium_ore": 100}
       crafting_duration: 1000
@@ -185,7 +178,6 @@ equipment:
       type: "Directional Scanner"
       weight: 2
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.iron_ore": 2500, "materials.sensor_electronics": 1500}
       crafting_duration: 250
       price: 75000
@@ -198,7 +190,6 @@ equipment:
       weight: 2
       disrupt_strength: 1
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.iron_ore": 25, "materials.sensor_electronics": 15}
       crafting_duration: 25
       price: 750
@@ -208,7 +199,6 @@ equipment:
       weight: 4
       disrupt_strength: 2
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.iron_ore": 50, "materials.sensor_electronics": 30}
       crafting_duration: 45
       price: 1350
@@ -218,7 +208,6 @@ equipment:
       weight: 10
       disrupt_strength: 3
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.iron_ore": 90, "materials.sensor_electronics": 30, "materials.fusion_electronics": 30, "asteroid.titanium_ore": 10}
       crafting_duration: 100
       price: 2700
@@ -261,7 +250,6 @@ equipment:
       weight: 2
       mining_amount: 1
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.nickel_ore": 5, "asteroid.iron_ore": 10, "asteroid.septarium_ore": 5}
       crafting_duration: 5
       price: 105
@@ -271,7 +259,6 @@ equipment:
       weight: 2
       mining_amount: 2
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.nickel_ore": 25, "asteroid.iron_ore": 30, "asteroid.septarium_ore": 30}
       crafting_duration: 20
       price: 450
@@ -281,7 +268,6 @@ equipment:
       weight: 5
       mining_amount: 3
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.nickel_ore": 90, "asteroid.iron_ore": 100, "asteroid.titanium_ore": 50}
       crafting_duration: 75
       price: 2100
@@ -294,7 +280,6 @@ equipment:
       weight: 3
       repair_amount: 3
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.cobalt_ore": 15, "asteroid.iron_ore": 15, "materials.ai_components": 10}
       crafting_duration: 20
       price: 540
@@ -304,7 +289,6 @@ equipment:
       weight: 5
       repair_amount: 5
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.cobalt_ore": 25, "asteroid.iron_ore": 45, "materials.ai_components": 20}
       crafting_duration: 35
       price: 1050
@@ -314,7 +298,6 @@ equipment:
       weight: 10
       repair_amount: 8
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.cobalt_ore": 65, "asteroid.iron_ore": 50, "materials.ai_components": 30, "asteroid.titanium_ore": 10}
       crafting_duration: 50
       price: 1650
@@ -327,7 +310,6 @@ equipment:
       weight: 3
       repair_amount: 3
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.cobalt_ore": 15, "asteroid.iron_ore": 15, "materials.ai_components": 10}
       crafting_duration: 20
       price: 540
@@ -337,7 +319,6 @@ equipment:
       weight: 5
       repair_amount: 5
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.cobalt_ore": 25, "asteroid.iron_ore": 45, "materials.ai_components": 20}
       crafting_duration: 35
       price: 1050
@@ -347,7 +328,6 @@ equipment:
       weight: 10
       repair_amount: 8
       slot_type: "main"
-      septarium_usage: 0
       crafting: {"asteroid.cobalt_ore": 65, "asteroid.iron_ore": 50, "materials.ai_components": 30, "asteroid.titanium_ore": 10}
       crafting_duration: 50
       price: 1650

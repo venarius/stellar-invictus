@@ -67,6 +67,8 @@ GEM
       sshkit (>= 1.9.0)
     capistrano-bundler (1.5.0)
       capistrano (~> 3.1)
+    capistrano-passenger (0.2.0)
+      capistrano (~> 3.0)
     capistrano-postgresql (6.2.0)
       capistrano (>= 3.0)
       sshkit (>= 1.17.0)
@@ -79,10 +81,6 @@ GEM
     capistrano-sidekiq (1.0.2)
       capistrano (>= 3.9.0)
       sidekiq (>= 3.4)
-    capistrano3-puma (3.1.1)
-      capistrano (~> 3.7)
-      capistrano-bundler
-      puma (~> 3.4)
     character_set (1.1.2)
     chronic (0.10.2)
     client_side_validations (12.1.0)
@@ -340,11 +338,11 @@ DEPENDENCIES
   bugsnag
   bullet
   capistrano
+  capistrano-passenger (>= 0.1.1)
   capistrano-postgresql
   capistrano-rails
   capistrano-rvm
   capistrano-sidekiq
-  capistrano3-puma
   client_side_validations
   coffee-rails (~> 4.2)
   database_cleaner

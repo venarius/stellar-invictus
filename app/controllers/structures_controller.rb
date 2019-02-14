@@ -33,15 +33,19 @@ class StructuresController < ApplicationController
           
           # Check if player has enough space
           free_weight = current_user.active_spaceship.get_free_weight
-          item_count = items.count
+          item_count = 0
           
           count = 0
           
           items.each do |item|
-            if item.get_attribute('weight') > 0 and item.get_attribute('weight') <= free_weight
-              item.update_columns(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
-              free_weight = free_weight - item.get_attribute('weight')
-              count = count + 1
+            item_count = item_count + item.count
+            if (item.get_attribute('weight') * item.count) <= free_weight
+              amount = (free_weight / item.get_attribute('weight')).round
+              amount = item.count if amount > item.count
+              Item.give_to_user({loader: item.loader, user: current_user, amount: amount})
+              amount >= item.count ? item.destroy : item.update_columns(count: item.count - amount)
+              free_weight = free_weight - item.get_attribute('weight') * amount
+              count = count + amount
             end
           end
           
@@ -52,22 +56,13 @@ class StructuresController < ApplicationController
           end
           
           if count > 0
-            if params[:loader] and item_count == count
+            if params[:loader] and count == item_count
               render json: {}, status: 200 and return
             else
               render json: {amount: item_count - free_weight}, status: 200 and return
             end
           else
             render json: {error_message: I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
-          end
-          
-          # Update all items to spaceship
-          items.update_all(structure_id: nil, spaceship_id: current_user.active_spaceship.id)
-          
-          # Destroy Structure if items gone and tell players to update players
-          if Item.where(structure: params[:id]).empty?
-            structure.destroy
-            ActionCable.server.broadcast("location_#{current_user.location.id}", method: 'player_appeared')
           end
           
           render json: {}, status: 200 and return
