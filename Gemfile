@@ -40,6 +40,10 @@ group :production, :development do
   gem 'pg'
 end
 
+group :production do
+  gem "passenger"
+end
+
 
 # Authentication through devise
 gem 'devise'
