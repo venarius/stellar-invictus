@@ -1,1 +1,1 @@
-web: bundle exec rake clean:restart & bundle exec sidekiq -c 2 & ./passenger-status-service-agent & bundle exec passenger start -p $PORT
+web: bundle exec rake clean:restart &  bundle exec rake pathfinder:generate_paths &  bundle exec rake pathfinder:generate_mapdata & bundle exec sidekiq -c 2 & bundle exec puma -C config/puma.rb
