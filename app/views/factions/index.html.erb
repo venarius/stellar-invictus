@@ -24,7 +24,7 @@
       <% @factions.each_with_index do |faction, index| %>
         <div class="col-md-4 mb-3" style="position:relative">
           <div class="display mb-3 text-center">
-            <%= image_tag("ships/#{FACTION_VARIABLES[faction.id]['placeholder']}") %>
+            <%= image_tag("ships/#{Faction.faction_variables[faction.id]['placeholder']}") %>
           </div>
           
           <h5><%= faction.name %></h5>
