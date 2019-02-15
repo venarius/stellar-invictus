@@ -125,7 +125,7 @@ class StationsController < ApplicationController
         
         count = 0
         
-        if (item.get_attribute('weight') * item.count) <= free_weight
+        if item.get_attribute('weight') <= free_weight
           count = (free_weight / item.get_attribute('weight')).round
           count = item.count if count > item.count
           Item.store_in_ship({ user: current_user, loader: params[:loader], amount: count })
