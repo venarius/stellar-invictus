@@ -5,7 +5,7 @@
       <i class="fa fa-dollar-sign"></i>&nbsp;&nbsp;<%= current_user.units %>
     </div>
     <div class="col-4 text-center">
-      <% if current_user.active_spaceship %>
+      <% if current_user.active_spaceship and current_user.faction %>
         <i class="fa fa-boxes"></i>&nbsp;&nbsp;<%= current_user.active_spaceship.get_weight %> / <%= current_user.active_spaceship.get_storage_capacity %>
       <% end %>
     </div>
