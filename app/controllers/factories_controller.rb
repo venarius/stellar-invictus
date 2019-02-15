@@ -32,9 +32,9 @@ class FactoriesController < ApplicationController
         
         ## Check if has ressources
         ressources.each do |key, value|
-          item = Item.where(loader: key, user: current_user, location: current_user.location)
+          item = Item.find_by(loader: key, user: current_user, location: current_user.location) rescue nil
           value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
-          render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !items.present? || item.count < value.round * params[:amount].to_i
+          render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !item || item.count < value.round * params[:amount].to_i
         end
         
         params[:amount].to_i.times do

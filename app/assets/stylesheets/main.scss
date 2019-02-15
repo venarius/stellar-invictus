@@ -181,9 +181,9 @@ html {
   padding: 0;
 }
 .navbar-brand img {
-  margin-left: -20px;
+  margin-left: 0px;
   margin-top: -5px;
-  height: 45px;
+  height: 35px;
 }
 .navbar-avatar {
   margin-bottom: 2px;
@@ -209,7 +209,7 @@ html {
     min-height: 100vh;
     padding-bottom: 8em;
     .navbar-toggler { display: none; }
-    .navbar-brand img { height: 70px; margin-bottom: 15px; }
+    .navbar-brand img { width: 70%;  margin-top: 15px; height: auto; margin-bottom: 15px; }
     .navbar-collapse {
       display: block !important;
       .navbar-nav {
