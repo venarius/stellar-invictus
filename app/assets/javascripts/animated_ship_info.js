@@ -42,6 +42,7 @@ function app_player_ship() {
     uvs: true,
     alpha: true
   });
+  app.stage.addChild(stars_back);
 
   var stars_01 = [],
       stars_02 = [],
@@ -54,54 +55,6 @@ function app_player_ship() {
       // You could also use these variables to adjust the star density as the player gets further out from
       // the primary systems. If you felt so inclined, you could even have it gradually change each frame to
       // cause a huge rush of stars flying by your ship when you go into warp. Stuff like that.
-
-  function createStars(img, minScale, maxScale, minSpeed, maxSpeed, starArray, count, s = stars_back){
-    for(var i = 0; i < count; i++) {
-      var star = PIXI.Sprite.fromImage(img);
-      star.anchor.set(0.5);
-      var scale = randomBetween(minScale, maxScale);
-      star.scale.set(scale, scale);
-      star.rotation = randomBetween(0, Math.PI * 2);
-      star.x = Math.random() * app.screen.width;
-      star.y = Math.random() * app.screen.height;
-      var tints = ['0x637a9a', '0xdee1f2', '0xffe8bf', '0xffffff'];
-      star.tint = tints[Math.floor(Math.random()*tints.length)];
-      star.speed = randomBetween(minSpeed, maxSpeed);
-      starArray.push(star);
-      s.addChild(star);
-    }
-  }
-
-  createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
-              star_min_scale,
-              star_max_scale,
-              star_min_speed,
-              star_max_speed,
-              stars_01,
-              stars_back_count);
-
-  createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
-              star_min_scale,
-              star_max_scale / 2,
-              star_min_speed,
-              star_max_speed * 4,
-              stars_02,
-              stars_front_count,
-              stars_front);
-
-  var tick = 0;
-  function addStarTickers (s) {
-    for (var i = 0; i < s.length; i++){
-      var star = s[i];
-      star.x -= star.speed;
-      if (star.x < 0) {
-        star.y = Math.random() * app.screen.height;
-        star.x = app.screen.width;
-        star.speed = randomBetween(star_min_speed, star_max_speed) * pixi_background_speed;
-        star.rotation = randomBetween(0, Math.PI * 2);
-      }
-    }
-  }
   
   // Mining Laser
   if ($('.enemy-space-ship').data("asteroid-image")) {
@@ -136,7 +89,58 @@ function app_player_ship() {
     uvs: true,
     alpha: true
   });
-  app.stage.addChild(stars_back);
+  app.stage.addChild(stars_front);
+
+  // Stars Stuff
+  function createStars(img, minScale, maxScale, minSpeed, maxSpeed, starArray, count, s){
+    for(var i = 0; i < count; i++) {
+      var star = PIXI.Sprite.fromImage(img);
+      star.anchor.set(0.5);
+      var scale = randomBetween(minScale, maxScale);
+      star.scale.x = star.scale.y = scale
+      star.rotation = randomBetween(0, Math.PI * 2);
+      star.x = Math.random() * app.screen.width;
+      star.y = Math.random() * app.screen.height;
+      var tints = ['0x637a9a', '0xdee1f2', '0xffe8bf', '0xffffff'];
+      star.tint = tints[Math.floor(Math.random()*tints.length)];
+      star.speed = randomBetween(minSpeed, maxSpeed);
+      starArray.push(star);
+      s.addChild(star);
+    }
+  }
+
+  createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
+              star_min_scale,
+              star_max_scale,
+              star_min_speed / 2,
+              star_max_speed / 2,
+              stars_01,
+              stars_back_count,
+              stars_back);
+              
+  createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
+              star_min_scale / 2,
+              star_max_scale / 2,
+              star_min_speed * 2,
+              star_max_speed * 2,
+              stars_02,
+              stars_back_count,
+              stars_front);
+
+  
+              
+  var tick = 0;
+  function addStarTickers (s) {
+    for (var i = 0; i < s.length; i++){
+      var star = s[i];
+      star.x -= star.speed;
+      if (star.x < 0) {
+        star.y = Math.random() * app.screen.height;
+        star.x = app.screen.width;
+        star.rotation = randomBetween(0, Math.PI * 2);
+      }
+    }
+  }
 
   // Moving Background
   app.ticker.add(function() {
@@ -227,6 +231,7 @@ function enemy_player_ship() {
     uvs: true,
     alpha: true
   });
+  app.stage.addChild(stars_back);
 
   var stars_01 = [],
       stars_02 = [],
@@ -239,54 +244,6 @@ function enemy_player_ship() {
       // You could also use these variables to adjust the star density as the player gets further out from
       // the primary systems. If you felt so inclined, you could even have it gradually change each frame to
       // cause a huge rush of stars flying by your ship when you go into warp. Stuff like that.
-
-  function createStars(img, minScale, maxScale, minSpeed, maxSpeed, starArray, count, s = stars_back){
-    for(var i = 0; i < count; i++) {
-      var star = PIXI.Sprite.fromImage(img);
-      star.anchor.set(0.5);
-      var scale = randomBetween(minScale, maxScale);
-      star.scale.set(scale, scale);
-      star.rotation = randomBetween(0, Math.PI * 2);
-      star.x = Math.random() * app.screen.width;
-      star.y = Math.random() * app.screen.height;
-      var tints = ['0x637a9a', '0xdee1f2', '0xffe8bf', '0xffffff'];
-      star.tint = tints[Math.floor(Math.random()*tints.length)];
-      star.speed = randomBetween(minSpeed, maxSpeed);
-      starArray.push(star);
-      s.addChild(star);
-    }
-  }
-
-  createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
-              star_min_scale,
-              star_max_scale,
-              star_min_speed,
-              star_max_speed,
-              stars_01,
-              stars_back_count);
-
-  createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
-              star_min_scale,
-              star_max_scale / 2,
-              star_min_speed,
-              star_max_speed * 4,
-              stars_02,
-              stars_front_count,
-              stars_front);
-
-  var tick = 0;
-  function addStarTickers (s) {
-    for (var i = 0; i < s.length; i++){
-      var star = s[i];
-      star.x -= star.speed;
-      if (star.x < 0) {
-        star.y = Math.random() * app.screen.height;
-        star.x = app.screen.width;
-        star.speed = randomBetween(star_min_speed, star_max_speed) * pixi_background_speed;
-        star.rotation = randomBetween(0, Math.PI * 2);
-      }
-    }
-  }
   
   // Ship
   if ($('.enemy-space-ship').data("ship-image")) {
@@ -321,7 +278,58 @@ function enemy_player_ship() {
     uvs: true,
     alpha: true
   });
-  app.stage.addChild(stars_back);
+  app.stage.addChild(stars_front);
+  
+  // Stars Stuff
+  function createStars(img, minScale, maxScale, minSpeed, maxSpeed, starArray, count, s){
+    for(var i = 0; i < count; i++) {
+      var star = PIXI.Sprite.fromImage(img);
+      star.anchor.set(0.5);
+      var scale = randomBetween(minScale, maxScale);
+      star.scale.x = star.scale.y = scale
+      star.rotation = randomBetween(0, Math.PI * 2);
+      star.x = Math.random() * app.screen.width;
+      star.y = Math.random() * app.screen.height;
+      var tints = ['0x637a9a', '0xdee1f2', '0xffe8bf', '0xffffff'];
+      star.tint = tints[Math.floor(Math.random()*tints.length)];
+      star.speed = randomBetween(minSpeed, maxSpeed);
+      starArray.push(star);
+      s.addChild(star);
+    }
+  }
+
+  createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
+              star_min_scale,
+              star_max_scale,
+              star_min_speed / 2,
+              star_max_speed / 2,
+              stars_01,
+              stars_back_count,
+              stars_back);
+              
+  createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
+              star_min_scale / 2,
+              star_max_scale / 2,
+              star_min_speed * 2,
+              star_max_speed * 2,
+              stars_02,
+              stars_back_count,
+              stars_front);
+
+  
+              
+  var tick = 0;
+  function addStarTickers (s) {
+    for (var i = 0; i < s.length; i++){
+      var star = s[i];
+      star.x -= star.speed;
+      if (star.x < 0) {
+        star.y = Math.random() * app.screen.height;
+        star.x = app.screen.width;
+        star.rotation = randomBetween(0, Math.PI * 2);
+      }
+    }
+  }
 
   // Moving Background
   app.ticker.add(function() {
