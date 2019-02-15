@@ -50,5 +50,4 @@ node_modules/
 /config/database.yml
 
 # Custom yml
-/config/variables/mapdata.yml
 /config/variables/pathfinder.yml
