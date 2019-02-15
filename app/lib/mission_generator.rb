@@ -42,7 +42,7 @@ class MissionGenerator
         return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.mission_location.id).present?
       when 'market'
         # check amount
-        item = Item.where(user: mission.user, location: mission.location, loader: mission_loader) rescue nil
+        item = Item.find_by(user: mission.user, location: mission.location, loader: mission.mission_loader) rescue nil
         if !item || item.count < mission.mission_amount
           return I18n.t('errors.you_dont_have_the_required_amount_in_storage') 
         end

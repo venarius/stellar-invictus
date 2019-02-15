@@ -94,7 +94,7 @@ class Spaceship < ApplicationRecord
     if items.present?
       structure = Structure.create(location: self.user.location, structure_type: 'wreck')
       items.each do |item|
-        Item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false, count: rand(1..item.count)) if rand(0..1) == 1
+        item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false, count: rand(1..item.count)) if rand(0..1) == 1
       end
     end
   end
