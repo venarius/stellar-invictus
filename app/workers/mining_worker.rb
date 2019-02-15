@@ -3,6 +3,7 @@ class MiningWorker
   
   include Sidekiq::Worker
   sidekiq_options :retry => false
+  include ApplicationHelper
 
   def perform(player_id, asteroid_id, is_mining=false, check_count=0)
     player = User.find(player_id) rescue nil
@@ -49,10 +50,10 @@ class MiningWorker
       
       
       # Add Items to player
-      if player.active_spaceship.get_free_weight < (mining_amount - 1)
-        Item.give_to_user({loader: "asteroid.#{asteroid.asteroid_type}_ore", count: player.active_spaceship.get_free_weight, user: player})
+      if player.active_spaceship.get_free_weight < mining_amount
+        Item.give_to_user({loader: "asteroid.#{asteroid.asteroid_type}_ore", amount: player.active_spaceship.get_free_weight, user: player})
       else
-        Item.give_to_user({loader: "asteroid.#{asteroid.asteroid_type}_ore", count: mining_amount-1, user: player})
+        Item.give_to_user({loader: "asteroid.#{asteroid.asteroid_type}_ore", amount: mining_amount, user: player})
       end
       
       # Log
@@ -72,7 +73,7 @@ class MiningWorker
       end
       
       # Log
-      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: item.get_attribute('name').downcase) )
+      ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_mined_from_asteroid', amount: mining_amount, ore: get_item_attribute("asteroid.#{asteroid.asteroid_type}_ore", 'name').downcase) )
       
       # Get enemy
       EnemyWorker.perform_async(nil, player.location.id) if rand(10) == 9
