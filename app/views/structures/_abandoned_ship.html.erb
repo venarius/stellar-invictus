@@ -12,7 +12,7 @@
         <div class="computer-screen mb-3">
           <% if structure.items.present? %>
             <p class="glow"><%= I18n.t('riddles.question') %>:</p>
-            <p class="glow"><%= RIDDLE_VARIABLES[structure.riddle]['question'].html_safe %></p>
+            <p class="glow"><%= Structure.riddles[structure.riddle]['question'].html_safe %></p>
             <div class="row">
               <div class="col-8">
                 <input type="text" class="form-control" />

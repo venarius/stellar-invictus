@@ -1,5 +1,6 @@
 <nav class="navbar main-navbar navbar-expand-lg navbar-dark bg-dark <%= 'fixed-top' if current_user and !current_page?(root_path) %>">
     <a class="navbar-brand" href="/<%= 'game' if current_user %>"><%= image_tag('logo.png') %></a>
+    
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,6 +18,7 @@
           <%= navbar_item(main_app.root_path, 'navbar.home') %>
         <% end %>
       </ul>
+      
       <ul class="navbar-nav avatar-menu">
         <% if current_user %>
           <div class="dropdown">

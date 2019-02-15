@@ -4,7 +4,7 @@ namespace :economy do
   task :redo => :environment do
     def get_item_attribute(loader, attribute)
       atty = loader.split(".")
-      out = ITEM_VARIABLES[atty[0]]
+      out = Item.item_variables[atty[0]]
       loader.count('.').times do |i|
         out = out[atty[i+1]]
       end
@@ -21,7 +21,7 @@ namespace :economy do
       i = i + 1
       i = 0 if i >= noise_level.size
       
-      (EQUIPMENT_EASY + EQUIPMENT_MEDIUM).each do |item|
+      (Item.equipment_easy + Item.equipment_medium).each do |item|
         next if item == "asteroid.lunarium_ore"
         rand(0..1).times do
           rand(3..15).times do
@@ -29,7 +29,7 @@ namespace :economy do
           end
         end
       end
-      SHIP_VARIABLES.each do |key, value|
+      Spaceship.ship_variables.each do |key, value|
         if !value['faction']
           rand(0..10).times do
             MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.98..1.02)).round, amount: rand(1..3))

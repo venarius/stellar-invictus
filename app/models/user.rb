@@ -115,7 +115,7 @@ class User < ApplicationRecord
     # Destroy current spaceship of user and give him a nano if not insured
     old_ship = self.active_spaceship.destroy if self.active_spaceship
     if old_ship&.insured and !police
-      spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: SHIP_VARIABLES[old_ship.name]['hp'])
+      spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: Spaceship.ship_variables[old_ship.name]['hp'])
       self.update_columns(active_spaceship_id: spaceship.id)
     else
       self.give_nano
@@ -173,7 +173,7 @@ class User < ApplicationRecord
   
   # Returns if player can buy a ship
   def can_buy_ship(name)
-    ship_vars = SHIP_VARIABLES[name]
+    ship_vars = Spaceship.ship_variables[name]
     ship_vars and self.units >= ship_vars['price'] and self.location.get_ships_for_sale.has_key?(name)
   end
   

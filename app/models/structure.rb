@@ -9,4 +9,8 @@ class Structure < ApplicationRecord
     Item.where(structure_id: self.id)
   end
   
+  # Riddles
+  def self.riddles
+    YAML.load_file("#{Rails.root.to_s}/config/variables/riddles.yml")
+  end
 end

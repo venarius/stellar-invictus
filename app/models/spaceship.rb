@@ -19,7 +19,7 @@ class Spaceship < ApplicationRecord
   
   # Get Attribute of ship
   def get_attribute(attribute=nil)
-    SHIP_VARIABLES[self.name][attribute] rescue nil
+    Spaceship.ship_variables[self.name][attribute] rescue nil
   end
   
   # Get Items in ship storage
@@ -105,11 +105,11 @@ class Spaceship < ApplicationRecord
     stack = 0
     self.get_utility_equipment.each do |item|
       if item.get_attribute('type') == "Storage" and item.equipped
-        item_attr = item.get_attribute('storage_amplifier') * STACK_PENALTIES[stack]
+        item_attr = item.get_attribute('storage_amplifier') * Item.stack_penalties[stack]
         stack = stack + 1
       end
       
-      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['storage_amplifier'] if (SHIP_VARIABLES[name]['trait']['storage_amplifier'] rescue nil) and item_attr
+      item_attr = item_attr * Spaceship.ship_variables[name]['trait']['storage_amplifier'] if (Spaceship.ship_variables[name]['trait']['storage_amplifier'] rescue nil) and item_attr
       item_attr = 0 unless item_attr
       storage = storage + storage * (item_attr / 100)
     end
@@ -122,7 +122,7 @@ class Spaceship < ApplicationRecord
     power = 0
     self.get_main_equipment.each do |item|
       item_attr = item.get_attribute('damage') if item.get_attribute('type') == "Weapon" and item.equipped and item.active
-      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['damage_amplifier'] if (SHIP_VARIABLES[name]['trait']['damage_amplifier'] rescue nil) and item_attr
+      item_attr = item_attr * Spaceship.ship_variables[name]['trait']['damage_amplifier'] if (Spaceship.ship_variables[name]['trait']['damage_amplifier'] rescue nil) and item_attr
       item_attr = 0 unless item_attr
       power = power + item_attr
     end
@@ -135,7 +135,7 @@ class Spaceship < ApplicationRecord
     repair = 0
     self.get_main_equipment.each do |item|
       item_attr = item.get_attribute('repair_amount') if item.get_attribute('type') == "Repair Bot" and item.equipped and item.active
-      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['repair_amount_amplifier'] if (SHIP_VARIABLES[name]['trait']['repair_amount_amplifier'] rescue nil) and item_attr
+      item_attr = item_attr * Spaceship.ship_variables[name]['trait']['repair_amount_amplifier'] if (Spaceship.ship_variables[name]['trait']['repair_amount_amplifier'] rescue nil) and item_attr
       item_attr = 0 unless item_attr
       repair = repair + item_attr
     end
@@ -147,7 +147,7 @@ class Spaceship < ApplicationRecord
     repair = 0
     self.get_main_equipment.each do |item|
       item_attr = item.get_attribute('repair_amount') if item.get_attribute('type') == "Repair Beam" and item.equipped and item.active
-      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['remote_repair_amplifier'] if (SHIP_VARIABLES[name]['trait']['remote_repair_amplifier'] rescue nil) and item_attr
+      item_attr = item_attr * Spaceship.ship_variables[name]['trait']['remote_repair_amplifier'] if (Spaceship.ship_variables[name]['trait']['remote_repair_amplifier'] rescue nil) and item_attr
       item_attr = 0 unless item_attr
       repair = repair + item_attr
     end
@@ -160,11 +160,11 @@ class Spaceship < ApplicationRecord
     stack = 0
     self.get_utility_equipment.each do |item|
       if item.get_attribute('type') == "Defense" and item.equipped
-        item_attr = item.get_attribute('defense_amplifier') * STACK_PENALTIES[stack]
+        item_attr = item.get_attribute('defense_amplifier') * Item.stack_penalties[stack]
         stack = stack + 1
       end
       
-      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['defense_amplifier'] if (SHIP_VARIABLES[name]['trait']['defense_amplifier'] rescue nil) and item_attr
+      item_attr = item_attr * Spaceship.ship_variables[name]['trait']['defense_amplifier'] if (Spaceship.ship_variables[name]['trait']['defense_amplifier'] rescue nil) and item_attr
       item_attr = 0 unless item_attr
       defense = defense + defense * (item_attr / 100)
     end
@@ -179,7 +179,7 @@ class Spaceship < ApplicationRecord
     mining_amount = 0
     self.get_main_equipment.each do |item|
       item_attr = item.get_attribute('mining_amount') if item.get_attribute('type') == "Mining Laser" and item.equipped
-      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['mining_amount_amplifier'] if (SHIP_VARIABLES[name]['trait']['mining_amount_amplifier'] rescue nil) and item_attr
+      item_attr = item_attr * Spaceship.ship_variables[name]['trait']['mining_amount_amplifier'] if (Spaceship.ship_variables[name]['trait']['mining_amount_amplifier'] rescue nil) and item_attr
       item_attr = 0 unless item_attr
       mining_amount = mining_amount + item_attr
     end
@@ -210,11 +210,11 @@ class Spaceship < ApplicationRecord
     stack = 0
     self.get_equipment.each do |item|
       if item.get_attribute('type') == "Hull" and item.equipped
-        item_attr = item.get_attribute('align_amplifier') * STACK_PENALTIES[stack]
+        item_attr = item.get_attribute('align_amplifier') * Item.stack_penalties[stack]
         stack = stack + 1
       end
       
-      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['align_amplifier'] if (SHIP_VARIABLES[name]['trait']['align_amplifier'] rescue nil) and item_attr
+      item_attr = item_attr * Spaceship.ship_variables[name]['trait']['align_amplifier'] if (Spaceship.ship_variables[name]['trait']['align_amplifier'] rescue nil) and item_attr
       item_attr = 0 unless item_attr
       align_time = align_time - align_time * (item_attr / 100)
     end
@@ -227,11 +227,11 @@ class Spaceship < ApplicationRecord
     stack = 0
     self.get_equipment.each do |item|
       if item.get_attribute('type') == "Sensor" and item.equipped
-        item_attr = item.get_attribute('target_amplifier') * STACK_PENALTIES[stack]
+        item_attr = item.get_attribute('target_amplifier') * Item.stack_penalties[stack]
         stack = stack + 1
       end
       
-      item_attr = item_attr * SHIP_VARIABLES[name]['trait']['target_amplifier'] if (SHIP_VARIABLES[name]['trait']['target_amplifier'] rescue nil) and item_attr
+      item_attr = item_attr * Spaceship.ship_variables[name]['trait']['target_amplifier'] if (Spaceship.ship_variables[name]['trait']['target_amplifier'] rescue nil) and item_attr
       item_attr = 0 unless item_attr
       target_time = target_time - target_time * (item_attr / 100)
     end
@@ -245,7 +245,7 @@ class Spaceship < ApplicationRecord
       if user.active_spaceship.has_active_warp_disruptor
         user.active_spaceship.get_main_equipment(true).each do |item|
           item_attr = item.get_attribute('disrupt_strength') if item.get_attribute('type') == "Warp Disruptor" and item.active and item.equipped
-          item_attr = item_attr * SHIP_VARIABLES[name]['trait']['warp_disrupt_amplifier'] if (SHIP_VARIABLES[name]['trait']['warp_disrupt_amplifier'] rescue nil) and item_attr
+          item_attr = item_attr * Spaceship.ship_variables[name]['trait']['warp_disrupt_amplifier'] if (Spaceship.ship_variables[name]['trait']['warp_disrupt_amplifier'] rescue nil) and item_attr
           item_attr = 0 unless item_attr
           weight = weight + (item_attr.round rescue 0)
         end
@@ -253,7 +253,7 @@ class Spaceship < ApplicationRecord
     end
     self.get_utility_equipment.each do |item|
       weight = weight - item.get_attribute('disrupt_immunity') if item.get_attribute('type') == "Warp Core Stabilizer" and item.equipped
-      weight = weight - SHIP_VARIABLES[name]['trait']['disrupt_immunity'] if (SHIP_VARIABLES[name]['trait']['disrupt_immunity'] rescue nil)
+      weight = weight - Spaceship.ship_variables[name]['trait']['disrupt_immunity'] if (Spaceship.ship_variables[name]['trait']['disrupt_immunity'] rescue nil)
     end
     weight > 0? true : false
   end
@@ -287,13 +287,13 @@ class Spaceship < ApplicationRecord
     self.get_main_equipment.each do |item|
       attribute = attribute + item.get_attribute('scanner_range') if item.get_attribute('type') == "Scanner"
     end
-    attribute = attribute + SHIP_VARIABLES[name]['trait']['scanner_range'] if (SHIP_VARIABLES[name]['trait']['scanner_range'] rescue nil)
+    attribute = attribute + Spaceship.ship_variables[name]['trait']['scanner_range'] if (Spaceship.ship_variables[name]['trait']['scanner_range'] rescue nil)
     return attribute
   end
   
   # Get HP Color Value
   def get_hp_color
-    percentage = self.hp / (SHIP_VARIABLES[name]['hp'] / 100.0)
+    percentage = self.hp / (Spaceship.ship_variables[name]['hp'] / 100.0)
     case percentage
       when 0..29
         'color-red'
@@ -310,5 +310,10 @@ class Spaceship < ApplicationRecord
       return true if item.get_attribute('type') == 'Directional Scanner'
     end
     false
+  end
+  
+  # Ship Variables
+  def Spaceship.ship_variables
+    YAML.load_file("#{Rails.root.to_s}/config/variables/spaceships.yml")
   end
 end

@@ -133,7 +133,7 @@ function app_player_ship() {
   function addStarTickers (s) {
     for (var i = 0; i < s.length; i++){
       var star = s[i];
-      star.x -= star.speed;
+      star.x -= star.speed * pixi_background_speed;
       if (star.x < 0) {
         star.y = Math.random() * app.screen.height;
         star.x = app.screen.width;
@@ -322,7 +322,7 @@ function enemy_player_ship() {
   function addStarTickers (s) {
     for (var i = 0; i < s.length; i++){
       var star = s[i];
-      star.x -= star.speed;
+      star.x -= star.speed * pixi_background_speed;
       if (star.x < 0) {
         star.y = Math.random() * app.screen.height;
         star.x = app.screen.width;
