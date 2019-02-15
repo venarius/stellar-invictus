@@ -9,7 +9,7 @@
     </thead>
     <tbody>
       <% user_ships.each do |ship| %>
-        <% ship_vars = SHIP_VARIABLES[ship.name] %>
+        <% ship_vars = Spaceship.ship_variables[ship.name] %>
         <tr class="<%= 'table-light' if current_user.active_spaceship == ship %>">
           <td>
             <% if ship.custom_name %>
@@ -31,7 +31,7 @@
   </table>
   
   <% user_ships.each do |ship| %>
-    <% value = SHIP_VARIABLES[ship.name] %>
+    <% value = Spaceship.ship_variables[ship.name] %>
     
     <div class="modal fade" id="insurance-<%= ship.id %>" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">

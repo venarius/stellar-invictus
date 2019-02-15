@@ -14,7 +14,7 @@ class GameController < ApplicationController
       @system_users = User.where("online > 0").where(system: current_user.system)
     end
     @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
-    @ship_vars = SHIP_VARIABLES[current_user.active_spaceship.name]
+    @ship_vars = Spaceship.ship_variables[current_user.active_spaceship.name]
   end
   
   def warp
@@ -87,7 +87,7 @@ class GameController < ApplicationController
   end
   
   def ship_info
-    render partial: 'ship_info', locals: {ship_vars: SHIP_VARIABLES[current_user.active_spaceship.name]}
+    render partial: 'ship_info', locals: {ship_vars: Spaceship.ship_variables[current_user.active_spaceship.name]}
   end
   
   def player_info

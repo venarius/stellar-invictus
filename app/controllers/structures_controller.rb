@@ -95,7 +95,7 @@ class StructuresController < ApplicationController
       structure = Structure.find(params[:id]) rescue nil
       if structure and structure.location == current_user.location and current_user.can_be_attacked
         if params[:text] and structure.items.present?
-          if params[:text].downcase.include? RIDDLE_VARIABLES[structure.riddle]['answer']
+          if params[:text].downcase.include? Structure.riddles[structure.riddle]['answer']
             new_structure = Structure.create(location: current_user.location, structure_type: 'wreck')
             structure.items.update_all(structure_id: new_structure.id)
             render json: {}, status: 200 and return

@@ -46,7 +46,7 @@
     <tbody>
       <tr>
         <td class="text-center">
-          <%= I18n.t('equipment.reputation_requirement', rank: FACTION_VARIABLES['reputation'][value['reputation_requirement']]['name'], faction: Faction.find(value['faction']).name) %>
+          <%= I18n.t('equipment.reputation_requirement', rank: Faction.faction_variables['reputation'][value['reputation_requirement']]['name'], faction: Faction.find(value['faction']).name) %>
         </td>
       </tr>
     </tbody>

@@ -22,4 +22,14 @@ class System < ApplicationRecord
   def get_faction
     self.locations.where(location_type: 'station').first.faction rescue nil
   end
+  
+  # Mapdata
+  def self.mapdata
+    YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml")
+  end
+  
+  # Pathfinder
+  def self.pathfinder
+    YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml")
+  end
 end

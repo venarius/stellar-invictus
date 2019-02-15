@@ -44,14 +44,14 @@
 <script>
   // create an array with nodes
     var nodes = new vis.DataSet([
-      <% MAPDATA['systems'].each do |key, val| %>
+      <% System.mapdata['systems'].each do |key, val| %>
         {id: <%= key %>, label: "<%= val['faction'] %> <%= val['name'] %>", image: "<%= image_url("planets/star_#{val['security']}.png") %>", font: {<%= "size: 20, color: 'yellow'".html_safe if current_user.system_id == key %>} },
       <% end %>
     ]);
 
     // create an array with edges
     var edges = new vis.DataSet([
-      <% MAPDATA['jumpgates'].each do |key, val| %>
+      <% System.mapdata['jumpgates'].each do |key, val| %>
           {id: <%= key %>, from: <%= val['from'] %>, to: <%= val['to'] %>},
       <% end %>
     ]);

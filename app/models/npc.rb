@@ -16,15 +16,15 @@ class Npc < ApplicationRecord
   # Lets the npc drop loot
   def drop_loot
     if self.location.location_type == 'exploration_site'
-      loader = MATERIALS
+      loader = Item.materials
       loader = loader + ["asteroid.lunarium_ore"] if self.location.system.wormhole?
       case rand(1..100)
         when 1..75
-          loader = EQUIPMENT_EASY + loader
+          loader = Item.equipment_easy + loader
         when 76..95
-          loader = EQUIPMENT_MEDIUM + loader
+          loader = Item.equipment_medium + loader
         when 96..100
-          loader = EQUIPMENT_HARD + loader
+          loader = Item.equipment_hard + loader
       end
       
       # Drop Passengers if last NPC or wanted enemy
@@ -33,27 +33,27 @@ class Npc < ApplicationRecord
         Item.create(structure: structure, loader: "delivery.passenger", count: rand(1..5))
       end
     else
-      loader = MATERIALS
+      loader = Item.materials
     end
     
     structure = Structure.create(location: self.location, structure_type: 'wreck')
     Item.create(loader: loader.sample, structure: structure, equipped: false, count: rand(1..3))
-    Item.create(loader: MATERIALS.sample, structure: structure, equipped: false, count: rand(3..6))
+    Item.create(loader: Item.materials.sample, structure: structure, equipped: false, count: rand(3..6))
     
   end
   
   # Give randbom Blueprint
   def drop_blueprint(user)
     if rand(1..2) == 1
-      @loader = EQUIPMENT.sample
+      @loader = Item.equipment.sample
       if Blueprint.where(loader: @loader, user: user).empty?
         Blueprint.create(user: user, loader: @loader, efficiency: 1)
         ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: get_item_attribute(@loader, 'name'), npc: self.name))
       end
     else
-      @loader = SHIP_VARIABLES.keys.sample
+      @loader = Spaceship.ship_variables.keys.sample
       if Blueprint.where(loader: @loader, user: user).empty?
-        Blueprint.create(user: user, loader: SHIP_VARIABLES.keys.sample, efficiency: 1)
+        Blueprint.create(user: user, loader: Spaceship.ship_variables.keys.sample, efficiency: 1)
         ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: @loader.titleize, npc: self.name))
       end
     end

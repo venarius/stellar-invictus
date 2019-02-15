@@ -139,6 +139,10 @@ html {
   .mobile-pt-0 { padding-top: 0 !important; }
 }
 
+@media (max-width: 997px) {
+  .lg-display-none { display: none !important; }
+}
+
 // Dropdown - Submenu
 .nav-item.dropdown a { color: white; &:hover { color: white; } }
 
@@ -629,7 +633,7 @@ body {
   }
 }
 .players-card .card-body table thead #btn-td {
-  width: 106px;
+  width: 107px;
 }
 .location-info-card, .chat-card, .player-info-card {
   .card-header {

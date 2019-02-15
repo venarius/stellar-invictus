@@ -10,7 +10,7 @@ while time < 50 do
       if job.loader.include? "equipment."
         Item.give_to_user({loader: job.loader, user: job.user, location: job.location, amount: 1})
       else
-        Spaceship.create(user_id: job.user.id, name: job.loader, hp: SHIP_VARIABLES[job.loader]['hp'], location: job.location)
+        Spaceship.create(user_id: job.user.id, name: job.loader, hp: Spaceship.ship_variables[job.loader]['hp'], location: job.location)
       end
       
       # Increase Effiency

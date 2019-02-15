@@ -34,7 +34,7 @@ module ApplicationHelper
   def get_item_attribute(loader, attribute)
     begin
       atty = loader.split(".")
-      out = ITEM_VARIABLES[atty[0]]
+      out = Item.item_variables[atty[0]]
       loader.count('.').times do |i|
         out = out[atty[i+1]]
       end

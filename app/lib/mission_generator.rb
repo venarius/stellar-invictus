@@ -126,7 +126,7 @@ class MissionGenerator
       mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system_security_status == 'low'
       
       # Generate Items
-      loader = DELIVERY.sample
+      loader = Item.delivery.sample
       mission.mission_loader = loader
       amount = rand(2..5)
       mission.items << Item.create(loader: loader, count: amount)
@@ -140,9 +140,9 @@ class MissionGenerator
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
     elsif mission.mission_type == 'mining' || mission.mission_type == 'market'
       if mission.mission_type == 'market'
-        mission.mission_loader = EQUIPMENT_EASY.sample
+        mission.mission_loader = Item.equipment_easy.sample
       else
-        mission.mission_loader = (ASTEROIDS - ["asteroid.tryon_ore", "asteroid.lunarium_ore"]).sample
+        mission.mission_loader = (Item.asteroids - ["asteroid.tryon_ore", "asteroid.lunarium_ore"]).sample
       end
       mission.mission_amount = ((difficulty + 1) * rand(5..10))
       
@@ -179,7 +179,7 @@ class MissionGenerator
   
   def self.get_item_attribute(loader, attribute)
     atty = loader.split(".")
-    out = ITEM_VARIABLES[atty[0]]
+    out = Item.item_variables[atty[0]]
     loader.count('.').times do |i|
       out = out[atty[i+1]]
     end
