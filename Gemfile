@@ -13,6 +13,8 @@ gem 'redis'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'puma'
+
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
@@ -24,7 +26,6 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-sidekiq'
   gem 'capistrano-passenger', '>= 0.1.1'
-  gem 'puma'
 end
 
 group :development, :test do
@@ -41,7 +42,7 @@ group :production, :development do
 end
 
 group :production do
-  gem "passenger"
+  # gem "passenger"
 end
 
 
