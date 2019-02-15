@@ -10,7 +10,6 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 gem 'jquery-rails'
 gem 'redis'
-gem 'puma'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
@@ -25,6 +24,7 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-sidekiq'
   gem 'capistrano-passenger', '>= 0.1.1'
+  gem 'puma'
 end
 
 group :development, :test do
@@ -41,7 +41,7 @@ group :production, :development do
 end
 
 group :production do
-  # gem "passenger"
+  gem "passenger"
 end
 
 
