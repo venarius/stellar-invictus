@@ -15,12 +15,12 @@
 <div class="col-12 mt-3 pl-0 enemy-space-ship-btns">
   <% current_user.active_spaceship.get_main_equipment.each do |equipment| %>
     <% if equipment.get_attribute('type') == 'Weapon' || equipment.get_attribute('type') == 'Warp Disruptor'  %>
-      <button class="btn <%= 'btn-outline-secondary' if !equipment.active %> <%= 'btn-outline-danger' if equipment.active %> use-equipment-btn" data-id="<%= equipment.id %>" data-toggle="tooltip" data-placement="top" title="<%= equipment.get_attribute('name') %>">
+      <button class="btn <%= equipment.active ? 'btn-outline-danger' : 'btn-outline-secondary' %> use-equipment-btn" data-id="<%= equipment.id %>" data-toggle="tooltip" data-placement="top" title="<%= equipment.get_attribute('name') %>">
         <i class="fa fa-crosshairs"></i>
       </button>
     <% end %>
     <% if equipment.get_attribute('type') == 'Repair Beam' %>
-      <button class="btn <%= 'btn-outline-secondary' if !equipment.active %> <%= 'btn-outline-success' if equipment.active %> use-equipment-btn" data-id="<%= equipment.id %>" data-toggle="tooltip" data-placement="top" title="<%= equipment.get_attribute('name') %>">
+      <button class="btn <%= equipment.active ? 'btn-outline-success' : 'btn-outline-secondary' %> use-equipment-btn" data-id="<%= equipment.id %>" data-toggle="tooltip" data-placement="top" title="<%= equipment.get_attribute('name') %>">
         <i class="fa fa-wrench"></i>
       </button>
     <% end %>

@@ -19,7 +19,7 @@ Nano:
 Cerux:
   image: cerux.png
   thruster-image: cerux-thrusters.png
-  storage: 45
+  storage: 50
   hp: 750
   defense: 15
   price: 19500
@@ -53,7 +53,7 @@ Valadria:
 Crasher:
   image: crasher.png
   thruster-image: crasher-thrusters.png
-  storage: 15
+  storage: 20
   hp: 300
   defense: 0
   price: 9000
@@ -70,7 +70,7 @@ Crasher:
 Chronos:
   image: chronos.png
   thruster-image: chronos-thrusters.png
-  storage: 100
+  storage: 150
   hp: 300
   defense: 15
   price: 13500
@@ -87,7 +87,7 @@ Chronos:
 Revenant:
   image: revenant.png
   thruster-image: revenant-thrusters.png
-  storage: 80
+  storage: 100
   hp: 250
   defense: 0
   price: 7500
@@ -104,17 +104,19 @@ Revenant:
 Atlas:
   image: atlas.png
   thruster-image: atlas-thrusters.png
-  storage: 150
+  storage: 300
   hp: 1250
   defense: 25
   price: 9500
   main_equipment_slots: 1
   utility_equipment_slots: 4
-  align_time: 20
-  target_time: 20
+  align_time: 15
+  target_time: 15
   crafting: {"asteroid.nickel_ore": 80, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
   crafting_duration: 500
   type: "Freighter"
+  trait:
+    storage_amplifier: 1.50
   
 # Pirates
 
@@ -125,7 +127,7 @@ Clipper:
   hp: 250
   defense: 5
   price: 50000
-  main_equipment_slots: 2
+  main_equipment_slots: 1
   utility_equipment_slots: 1
   align_time: 4
   target_time: 3
@@ -135,19 +137,20 @@ Clipper:
   trait:
     align_amplifier: 2
     remote_repair_amplifier: 2
+    scanner_range: 10
     
   
 Galleon:
   image: galleon.png
   thruster-image: galleon-thrusters.png
-  storage: 60
+  storage: 125
   hp: 600
   defense: 10
   price: 60000
   main_equipment_slots: 4
   utility_equipment_slots: 2
   align_time: 10
-  target_time: 7
+  target_time: 10
   crafting: {"asteroid.lunarium_ore": 240, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
   crafting_duration: 1000
   type: "Combat"
@@ -155,23 +158,41 @@ Galleon:
     scanner_range: 3
     damage_amplifier: 1.10
     
+Brigand:
+  image: brigand.png
+  thruster-image: brigand-thrusters.png
+  storage: 50
+  hp: 800
+  defense: 15
+  price: 80000
+  main_equipment_slots: 3
+  utility_equipment_slots: 2
+  align_time: 17
+  target_time: 10
+  crafting: {"asteroid.lunarium_ore": 270, "asteroid.cobalt_ore": 160, "materials.ai_components": 600, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting_duration: 1100
+  type: "Combat"
+  trait:
+    directional_scanner: true
+    
   
 Bilander:
   image: bilander.png
   thruster-image: bilander-thrusters.png
-  storage: 100
-  hp: 1500
+  storage: 200
+  hp: 1600
   defense: 30
   price: 500000
   main_equipment_slots: 5
-  utility_equipment_slots: 4
-  align_time: 25
-  target_time: 25
+  utility_equipment_slots: 3
+  align_time: 20
+  target_time: 20
   crafting: {"asteroid.lunarium_ore": 2400, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
   crafting_duration: 1200
   type: "Combat"
   trait:
     damage_amplifier: 1.25
+    scanner_range: 10
   
 
 # Faction Ships
@@ -181,13 +202,13 @@ Bilander:
 Leviathan:
   image: leviathan.png
   thruster-image: leviathan-thrusters.png
-  storage: 250
+  storage: 500
   hp: 2500
   defense: 25
   price: 60000
   main_equipment_slots: 6
   utility_equipment_slots: 4
-  align_time: 30
+  align_time: 25
   target_time: 30
   crafting: {"materials.ai_components": 1000, "materials.metal_plates": 200, "asteroid.tryon_ore": 500}
   crafting_duration: 1000
@@ -195,7 +216,7 @@ Leviathan:
   reputation_requirement: 7
   type: "Combat"
   trait:
-    damage_amplifier: 1.15
+    damage_amplifier: 1.25
 
 Behemoth:
   image: behemoth.png
@@ -206,8 +227,8 @@ Behemoth:
   price: 45000
   main_equipment_slots: 4
   utility_equipment_slots: 4
-  align_time: 15
-  target_time: 15
+  align_time: 12
+  target_time: 12
   crafting: {"materials.ai_components": 500, "materials.metal_plates": 200, "asteroid.tryon_ore": 500}
   crafting_duration: 750
   faction: 1
@@ -219,13 +240,13 @@ Behemoth:
 Vanguard:
   image: vanguard.png
   thruster-image: vanguard-thrusters.png
-  storage: 75
+  storage: 80
   hp: 800
   defense: 15
   price: 36000
   main_equipment_slots: 3
   utility_equipment_slots: 3
-  align_time: 10
+  align_time: 12
   target_time: 8
   crafting: {"materials.ai_components": 500, "materials.metal_plates": 450, "asteroid.titanium_ore": 500}
   crafting_duration: 600
@@ -270,7 +291,7 @@ Cutter:
   crafting_duration: 20
   faction: 1
   reputation_requirement: 4
-  type: "Miner"
+  type: "Combat"
   trait:
     damage_amplifier: 1.15
   
@@ -279,14 +300,14 @@ Cutter:
 Escorial:
   image: escorial.png
   thruster-image: escorial-thrusters.png
-  storage: 1000
+  storage: 1500
   hp: 2500
   defense: 35
   price: 60000
-  main_equipment_slots: 5
-  utility_equipment_slots: 5
-  align_time: 35
-  target_time: 35
+  main_equipment_slots: 4
+  utility_equipment_slots: 6
+  align_time: 30
+  target_time: 30
   crafting: {"materials.sensor_electronics": 900, "materials.fusion_electronics": 300, "asteroid.tryon_ore": 500}
   crafting_duration: 1000
   faction: 3
@@ -299,14 +320,14 @@ Escorial:
 Aurora:
   image: aurora.png
   thruster-image: aurora-thrusters.png
-  storage: 400
+  storage: 600
   hp: 850
   defense: 15
   price: 45000
   main_equipment_slots: 4
   utility_equipment_slots: 2
-  align_time: 25
-  target_time: 25
+  align_time: 20
+  target_time: 20
   crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 250, "asteroid.tryon_ore": 500}
   crafting_duration: 750
   faction: 3
@@ -319,14 +340,14 @@ Aurora:
 Aquila:
   image: aquila.png
   thruster-image: aquila-thrusters.png
-  storage: 600
+  storage: 800
   hp: 1000
   defense: 20
   price: 36000
   main_equipment_slots: 0
-  utility_equipment_slots: 4
-  align_time: 30
-  target_time: 20
+  utility_equipment_slots: 5
+  align_time: 25
+  target_time: 15
   crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 450, "asteroid.titanium_ore": 500}
   crafting_duration: 600
   faction: 3
@@ -338,14 +359,14 @@ Aquila:
 Lupus:
   image: lupus.png
   thruster-image: lupus-thrusters.png
-  storage: 200
+  storage: 400
   hp: 400
   defense: 15
   price: 13500
-  main_equipment_slots: 2
-  utility_equipment_slots: 4
-  align_time: 15
-  target_time: 15
+  main_equipment_slots: 4
+  utility_equipment_slots: 2
+  align_time: 12
+  target_time: 12
   crafting: {"materials.sensor_electronics": 200, "materials.fusion_electronics": 100, "asteroid.titanium_ore": 100}
   crafting_duration: 250
   faction: 3
@@ -378,12 +399,12 @@ Galeas:
 Spectrum:
   image: spectrum.png
   thruster-image: spectrum-thrusters.png
-  storage: 250
+  storage: 500
   hp: 2500
   defense: 45
   price: 60000
-  main_equipment_slots: 4
-  utility_equipment_slots: 6
+  main_equipment_slots: 5
+  utility_equipment_slots: 5
   align_time: 25
   target_time: 30
   crafting: {"materials.laser_diodes": 1000, "materials.antimatter": 250, "asteroid.tryon_ore": 500}
@@ -393,6 +414,8 @@ Spectrum:
   type: "Logistics"
   trait:
     remote_repair_amplifier: 2
+    repair_amount_amplifier: 2
+    damage_amplifier: 0.90
 
 Yucatan:
   image: yucatan.png
@@ -403,8 +426,8 @@ Yucatan:
   price: 45000
   main_equipment_slots: 4
   utility_equipment_slots: 4
-  align_time: 20
-  target_time: 20
+  align_time: 15
+  target_time: 15
   crafting: {"materials.laser_diodes": 500, "materials.antimatter": 250, "asteroid.tryon_ore": 500}
   crafting_duration: 750
   faction: 2
@@ -416,14 +439,14 @@ Yucatan:
 Cromwell:
   image: cromwell.png
   thruster-image: cromwell-thrusters.png
-  storage: 100
-  hp: 1250
+  storage: 200
+  hp: 1700
   defense: 25
   price: 36000
-  main_equipment_slots: 3
+  main_equipment_slots: 4
   utility_equipment_slots: 3
-  align_time: 20
-  target_time: 20
+  align_time: 15
+  target_time: 10
   crafting: {"materials.laser_diodes": 500, "materials.antimatter": 450, "asteroid.titanium_ore": 500}
   crafting_duration: 600
   faction: 2
@@ -431,25 +454,26 @@ Cromwell:
   type: "Defense"
   trait:
     defense_amplifier: 2
+    damage_amplifier: 0.90
   
 Analyzer:
   image: analyzer.png
   thruster-image: analyzer-thrusters.png
-  storage: 20
+  storage: 100
   hp: 1000
   defense: 20
   price: 13500
   main_equipment_slots: 3
   utility_equipment_slots: 3
-  align_time: 15
-  target_time: 15
+  align_time: 12
+  target_time: 12
   crafting: {"materials.laser_diodes": 200, "materials.antimatter": 100, "asteroid.titanium_ore": 100}
   crafting_duration: 250
   faction: 2
   reputation_requirement: 5
   type: "Scout"
   trait:
-    disrupt_immunity: 6
+    repair_amount_amplifier: 1.50
     scanner_range: 4
     
 Skipjack:
@@ -467,6 +491,6 @@ Skipjack:
   crafting_duration: 20
   faction: 3
   reputation_requirement: 4
-  type: "Miner"
+  type: "Logistics"
   trait:
     repair_amount_amplifier: 1.15

@@ -306,6 +306,7 @@ class Spaceship < ApplicationRecord
   
   # Check if has directional_scanner
   def get_directional_scanner
+    return true if (Spaceship.ship_variables[name]['trait']['directional_scanner'] rescue false)
     self.get_main_equipment().each do |item|
       return true if item.get_attribute('type') == 'Directional Scanner'
     end

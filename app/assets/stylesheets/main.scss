@@ -467,7 +467,7 @@ a {
 #local-chat, .custom-chat, .corporation-chat {
   .row { 
     padding: 0; 
-    .col-md-2 { 
+    .col-lg-2 { 
       .outer { 
         margin-top: 5px;
         overflow: auto;
@@ -486,12 +486,12 @@ a {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 991px) {
   #local-chat, .corporation-chat {
     .row { 
       padding: 0; 
-      .col-md-10 { padding-right: 5px; margin-top: 5px; }
-      .col-md-2 { 
+      .col-lg-10 { padding-right: 5px; margin-top: 5px; }
+      .col-lg-2 { 
         border-left: 1px solid grey;
         padding-left: 5px; 
         .outer { 
@@ -503,8 +503,8 @@ a {
   .custom-chat {
     .row { 
       padding: 0; 
-      .col-md-10 { padding-right: 5px; margin-top: 5px; }
-      .col-md-2 { 
+      .col-lg-10 { padding-right: 5px; margin-top: 5px; }
+      .col-lg-2 { 
         border-left: 1px solid grey;
         padding-left: 5px; 
         .outer { 
@@ -516,11 +516,11 @@ a {
   } 
 }
 
-@media (max-width: 767px) {
+@media (max-width: 990px) {
   #local-chat, .custom-chat, .corporation-chat {
     .row { 
-      .col-md-10 { margin-top: 5px; }
-      .col-md-2 { 
+      .col-lg-10 { margin-top: 5px; }
+      .col-lg-2 { 
         margin-bottom: 5px;
         .outer { margin-top: 0; }
       }
