@@ -22,6 +22,9 @@ class JumpWorker
       
       # Remove user from being targeted by others
       user.remove_being_targeted
+      
+      # Disable Equipment of user
+      user.active_spaceship.deactivate_equipment
     
       # Sleep for the given traveltime by the jumpgate
       JumpWorker.perform_in(user.location.jumpgate.traveltime.second, player_id, true)

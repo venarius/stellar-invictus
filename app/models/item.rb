@@ -3,7 +3,6 @@ class Item < ApplicationRecord
   belongs_to :location, optional: true
   belongs_to :spaceship, optional: true
   belongs_to :structure, optional: true
-  belongs_to :mission, optional: true
   
   def get_attribute(attribute)
     atty = self.loader.split(".")
@@ -126,7 +125,6 @@ class Item < ApplicationRecord
      "equipment.hulls.ultralight_hull",
      "equipment.sensors.try_pyon_sensor",
      "equipment.scanner.military_scanner",
-     "equipment.directional_scanners.directional_scanner",
      "equipment.warp_disruptors.military_warp_disruptor",
      "equipment.warp_core_stabilizers.military_warp_core_stabilizer",
      "equipment.miner.core_miner",

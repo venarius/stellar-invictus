@@ -126,11 +126,8 @@ class MissionGenerator
       mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system_security_status == 'low'
       
       # Generate Items
-      loader = Item.delivery.sample
-      mission.mission_loader = loader
-      amount = rand(2..5)
-      mission.items << Item.create(loader: loader, count: amount)
-      mission.mission_amount = amount
+      mission.mission_loader = Item.delivery.sample
+      mission.mission_amount = rand(2..5)
     elsif mission.mission_type == 'combat'
       mission.enemy_amount = rand(2..5) * (difficulty + 1)
       mission.mission_location = Location.create(location_type: 'mission', system_id: System.find_by(name: location.system.locations.where(location_type: 'jumpgate').order(Arel.sql("RANDOM()")).first.name).id)
@@ -192,7 +189,7 @@ class MissionGenerator
     
     case mission.mission_type
       when 'delivery'
-        mission.items.delete_all
+        Item.where(mission_id: mission.id).destroy_all
       when 'combat'
         # check if user is onsite
         return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.location.id).present?

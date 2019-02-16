@@ -35,7 +35,7 @@ function app_player_ship() {
   );
   app.stage.addChild(tilingSprite);
 
-  var stars_back = new PIXI.particles.ParticleContainer(10000, {
+  var stars_back = new PIXI.particles.ParticleContainer(40, {
     scale: true,
     position: true,
     rotation: true,
@@ -82,7 +82,7 @@ function app_player_ship() {
       frames.push(PIXI.Texture.from('https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/explosion/explosion-' + i + '.png'));
   }
   
-  var stars_front = new PIXI.particles.ParticleContainer(10000, {
+  var stars_front = new PIXI.particles.ParticleContainer(40, {
     scale: true,
     position: true,
     rotation: true,
@@ -112,8 +112,8 @@ function app_player_ship() {
   createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
               star_min_scale,
               star_max_scale,
-              star_min_speed / 2,
-              star_max_speed / 2,
+              star_min_speed / 4,
+              star_max_speed / 4,
               stars_01,
               stars_back_count,
               stars_back);
@@ -224,7 +224,7 @@ function enemy_player_ship() {
   );
   app.stage.addChild(tilingSprite);
 
-  var stars_back = new PIXI.particles.ParticleContainer(10000, {
+  var stars_back = new PIXI.particles.ParticleContainer(40, {
     scale: true,
     position: true,
     rotation: true,
@@ -271,7 +271,7 @@ function enemy_player_ship() {
     app.stage.addChild(asteroid);
   }
   
-  var stars_front = new PIXI.particles.ParticleContainer(10000, {
+  var stars_front = new PIXI.particles.ParticleContainer(40, {
     scale: true,
     position: true,
     rotation: true,
@@ -301,8 +301,8 @@ function enemy_player_ship() {
   createStars("https://s3-eu-west-1.amazonaws.com/static.stellar-invictus.com/assets/animations/star-big.png",
               star_min_scale,
               star_max_scale,
-              star_min_speed / 2,
-              star_max_speed / 2,
+              star_min_speed / 4,
+              star_max_speed / 4,
               stars_01,
               stars_back_count,
               stars_back);

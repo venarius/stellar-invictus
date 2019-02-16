@@ -39,7 +39,7 @@ class StructuresController < ApplicationController
           
           items.each do |item|
             item_count = item_count + item.count
-            if (item.get_attribute('weight') * item.count) <= free_weight
+            if item.get_attribute('weight') <= free_weight
               amount = (free_weight / item.get_attribute('weight')).round
               amount = item.count if amount > item.count
               Item.give_to_user({loader: item.loader, user: current_user, amount: amount})

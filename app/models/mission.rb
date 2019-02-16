@@ -7,7 +7,6 @@ class Mission < ApplicationRecord
     Location.where(mission_id: self.id, location_type: :mission).destroy_all if self.mission_location
   end
   
-  has_many :items, dependent: :destroy
   has_one  :mission_location, :class_name => "Location", dependent: :destroy
   
   enum mission_type: [:tutorial, :delivery, :combat, :mining, :market, :vip]

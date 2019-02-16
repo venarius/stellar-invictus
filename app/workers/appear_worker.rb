@@ -36,7 +36,7 @@ class AppearWorker
       end
       
       # Spawn Enemies if User at Expedtion Site with Enemies
-      if user.location_location_type == 'exploration_site' and user.location_enemy_amount > 0
+      if user.location_location_type == 'exploration_site' and user.location_enemy_amount > 0 and user.location.npcs.count == 0
         (user.location_enemy_amount).times do
           EnemyWorker.perform_async(nil, user.location.id)
         end
