@@ -314,7 +314,7 @@ Escorial:
   reputation_requirement: 7
   type: "Miner"
   trait:
-    mining_amount_amplifier: 2
+    mining_amount_amplifier: 3
     damage_amplifier: 0.6
   
 Aurora:
@@ -363,8 +363,8 @@ Lupus:
   hp: 400
   defense: 15
   price: 13500
-  main_equipment_slots: 4
-  utility_equipment_slots: 2
+  main_equipment_slots: 2
+  utility_equipment_slots: 4
   align_time: 12
   target_time: 12
   crafting: {"materials.sensor_electronics": 200, "materials.fusion_electronics": 100, "asteroid.titanium_ore": 100}
