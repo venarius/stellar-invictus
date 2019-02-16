@@ -336,6 +336,10 @@ function enemy_player_ship() {
     addStarTickers(stars_01);
     addStarTickers(stars_02);
     tick += 0.1;
+    
+    if (asteroid) {
+      asteroid.rotation += 0.002; 
+    }
   });
   
   // Resize
