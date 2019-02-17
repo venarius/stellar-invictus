@@ -69,10 +69,20 @@ class SystemsController < ApplicationController
   end
   
   def jump_drive
-    if params[:id] and current_user.active_spaceship.get_jump_drive and !current_user.in_warp
+    if params[:id] and current_user.active_spaceship.get_jump_drive and current_user.can_be_attacked
       system = System.find(params[:id]) rescue nil
       
-      if system and !system.low? and !system.wormhole?
+      # Check Warp Disrupt
+      if current_user.active_spaceship.is_warp_disrupted
+        render json: {'error_message' => I18n.t('errors.warp_disrupted')}, status: 400 and return
+      end
+      
+      # Check in combat
+      if User.where(target_id: current_user.id, is_attacking: true).count > 0 || Npc.where(target: current_user.id).count > 0
+        render json: {'error_message' => I18n.t('errors.cant_do_that_whilst_in_combat')}, status: 400 and return
+      end
+      
+      if system and (system.medium? || system.high?) and (current_user.system.medium? || current_user.system.high?)
         ship_align = current_user.active_spaceship.get_align_time
         traveltime = 0
         

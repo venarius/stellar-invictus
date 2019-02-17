@@ -315,9 +315,7 @@ class Spaceship < ApplicationRecord
   
   # Check if has jump drive
   def get_jump_drive
-    self.get_main_equipment().each do |item|
-      return true if item.get_attribute('type') == 'Jump Drive'
-    end
+    return true if (Spaceship.ship_variables[name]['trait']['jump_drive'] rescue false)
     false
   end
   

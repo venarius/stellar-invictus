@@ -107,16 +107,17 @@ Atlas:
   storage: 300
   hp: 1250
   defense: 25
-  price: 9500
+  price: 10500
   main_equipment_slots: 1
   utility_equipment_slots: 4
   align_time: 15
   target_time: 15
-  crafting: {"asteroid.nickel_ore": 80, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting: {"asteroid.nickel_ore": 100, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
   crafting_duration: 500
   type: "Freighter"
   trait:
     storage_amplifier: 1.50
+    jump_drive: true
   
 # Pirates
 
@@ -314,7 +315,8 @@ Escorial:
   reputation_requirement: 7
   type: "Miner"
   trait:
-    mining_amount_amplifier: 3
+    mining_amount_amplifier: 2
+    jump_drive: true
     damage_amplifier: 0.6
   
 Aurora:
