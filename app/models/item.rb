@@ -44,7 +44,7 @@ class Item < ApplicationRecord
     if item
       if item.count > attr[:amount]
         item.update_columns(count: item.count - attr[:amount])
-        Item.create(user: user, location: user.location, loader: attr[:loader], count: attr[:amount], equipped: false)
+        Item.give_to_user({user: user, loader: attr[:loader], location: user.location, amount: attr[:amount]})
       else
         station_item = Item.find_by(user: user, location: user.location, loader: item.loader, equipped: false) rescue nil
         station_item ? (station_item.update_columns(count: station_item.count + item.count) and item.destroy) : item.update_columns(user_id: user.id, location_id: user.location.id, spaceship_id: nil, equipped: false, active: false)
@@ -58,7 +58,7 @@ class Item < ApplicationRecord
     if item
       if item.count > attr[:amount]
         item.update_columns(count: item.count - attr[:amount])
-        Item.create(spaceship: user.active_spaceship, loader: attr[:loader], count: attr[:amount], equipped: false)
+        Item.give_to_user({user: user, loader: attr[:loader], amount: attr[:amount]})
       else
         ship_item = Item.find_by(spaceship: user.active_spaceship, loader: item.loader, equipped: false) rescue nil
         ship_item ? (ship_item.update_columns(count: ship_item.count + item.count) and item.destroy) : item.update_columns(user_id: nil, location_id: nil, spaceship_id: user.active_spaceship.id, equipped: false, active: false)
