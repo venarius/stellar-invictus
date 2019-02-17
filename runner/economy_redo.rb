@@ -45,6 +45,7 @@ Location.where(location_type: 'station', player_market: false).order(Arel.sql("R
   # Add new Listings
   if MarketListing.where(location: location, listing_type: 'ship').count < 10
     Spaceship.ship_variables.each do |key, value|
+      next if %w{Clipper Galleon Brigand Bilander}.include? key
       if !value['faction']
         rand(0..10).times do
           MarketListing.create(loader: key, location: location, listing_type: 'ship', price: (value['price'] * rabat * rand(0.98..1.02)).round, amount: rand(1..3))

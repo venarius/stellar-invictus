@@ -313,6 +313,14 @@ class Spaceship < ApplicationRecord
     false
   end
   
+  # Check if has jump drive
+  def get_jump_drive
+    self.get_main_equipment().each do |item|
+      return true if item.get_attribute('type') == 'Jump Drive'
+    end
+    false
+  end
+  
   # Ship Variables
   def Spaceship.ship_variables
     YAML.load_file("#{Rails.root.to_s}/config/variables/spaceships.yml")

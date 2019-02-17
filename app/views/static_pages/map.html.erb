@@ -149,6 +149,30 @@
       }).error(function(data) { button.html(html); });
     });
     
+    // Jump Drive Btn
+    var jump_drive_btn_interval;
+    $('.speech-bubble').on('click', '.jump-drive-btn', function() {
+      var id = $(this).data('id');
+      var button = $(this);
+      var html = $(this).html();
+      
+      loading_animation($(this));
+      
+      $.post('system/jump_drive', {id: id}, function(data) {
+        if (data.traveltime) {
+          traveltime = data.traveltime
+          button.html(traveltime);
+          jump_drive_btn_interval = setInterval(function() {
+            traveltime = traveltime - 1
+            button.html(traveltime)
+            if (traveltime == 0) {
+              clearInterval(jump_drive_btn_interval);
+            }
+          }, 1000)
+        }
+      }).error(function(data) { button.html(html); });
+    });
+    
     // remove route button
     $('#app-container').on('click', '.remove-route-btn', function(){
       loading_animation($(this));

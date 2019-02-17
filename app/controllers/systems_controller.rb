@@ -67,4 +67,28 @@ class SystemsController < ApplicationController
     end
     render json: {}, status: 400
   end
+  
+  def jump_drive
+    if params[:id] and current_user.active_spaceship.get_jump_drive and !current_user.in_warp
+      system = System.find(params[:id]) rescue nil
+      
+      if system and !system.low? and !system.wormhole?
+        ship_align = current_user.active_spaceship.get_align_time
+        traveltime = 0
+        
+        path = Pathfinder.find_path(current_user.system.id, system.id)
+        path.each_with_index do |step, index|
+          location = System.find_by(name: step).locations.where("name ilike ?", path[index+1]).first
+          traveltime = traveltime + location.jumpgate.traveltime if location
+          traveltime = traveltime + ship_align + 10
+        end
+        
+        JumpWorker.perform_async(current_user.id, false, (traveltime * 1.5).round, system.id)
+        render json: {traveltime: (traveltime * 1.5).round}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
+  
 end
