@@ -93,8 +93,8 @@ class SystemsController < ApplicationController
           traveltime = traveltime + ship_align + 10
         end
         
-        JumpWorker.perform_async(current_user.id, false, (traveltime * 1.5).round, system.id)
-        render json: {traveltime: (traveltime * 1.5).round}, status: 200 and return
+        JumpWorker.perform_async(current_user.id, false, (traveltime * 0.75).round, system.id)
+        render json: {traveltime: (traveltime * 0.75).round}, status: 200 and return
       end
     end
     render json: {}, status: 400
