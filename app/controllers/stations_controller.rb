@@ -5,7 +5,7 @@ class StationsController < ApplicationController
   
   def dock
     # If user is at station and not docked
-    if current_user.location.location_type == 'station' and !current_user.docked
+    if current_user.location.location_type == 'station' and current_user.can_be_attacked
       
       # Refuse if standing below -10
       if current_user.location.faction and current_user["reputation_#{current_user.location.faction_id}"] <= -10
