@@ -4,7 +4,7 @@ class JumpWorker
   include Sidekiq::Worker
   sidekiq_options :retry => false
 
-  def perform(player_id, in_jump=false)
+  def perform(player_id, in_jump=false, custom_traveltime=nil, custom_system=nil)
     user = User.find(player_id)
     old_system = user.system
     
@@ -27,23 +27,27 @@ class JumpWorker
       user.active_spaceship.deactivate_equipment
     
       # Sleep for the given traveltime by the jumpgate
-      JumpWorker.perform_in(user.location.jumpgate.traveltime.second, player_id, true)
+      custom_traveltime ? JumpWorker.perform_in(custom_traveltime, player_id, true, nil, custom_system) : JumpWorker.perform_in(user.location.jumpgate.traveltime.second, player_id, true)
       
     else
     
       # Routing Stuff
-      if user.route
+      if user.route and !custom_traveltime
         user.update_columns(route: user.route - [user.location.jumpgate.id.to_s]) rescue true
       end
       
       # Set user system to new system
-      if user.location == user.location.jumpgate.origin
-        to_system = System.find(user.location.jumpgate.destination.system_id) rescue nil
+      if custom_system
+        to_system = System.find(custom_system) rescue nil
+        new_loc = to_system.locations.where(location_type: :jumpgate).first rescue nil
       else
-        to_system = System.find(user.location.jumpgate.origin.system_id) rescue nil
+        if user.location == user.location.jumpgate.origin
+          to_system = System.find(user.location.jumpgate.destination.system_id) rescue nil
+        else
+          to_system = System.find(user.location.jumpgate.origin.system_id) rescue nil
+        end
+        new_loc = Location.find_by(name: old_system.name, system_id: to_system.id) rescue nil
       end
-      
-      new_loc = Location.find_by(name: old_system.name, system_id: to_system.id) rescue nil
       
       # Check for to_system
       user.update_columns(in_warp: false) and ac_server.broadcast("player_#{user.id}", method: 'warp_finish', local: false) and return unless to_system and new_loc

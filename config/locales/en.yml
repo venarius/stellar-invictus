@@ -425,6 +425,7 @@ en:
     defense_text: "Increases the defense of your ship by a certain percentage. E.g. A defense amplifier of 10 means 10% more defense. Note: Defense can't be higher than 70%."
     storage_text: "Increases your ships storage on some unconventional ways. Some of them have been reported to swallow items. Don't say I didn't warn you!"
     directional_scanner_text: "Scans locations and shows the amount of signatures it can find. Good for finding players to gank!"
+    jump_drive_text: "Enables you to directly jump to any medium or high security system. But takes 50% longer than traveling manually."
     reputation_requirement: "You need to have the rank '%{rank}' of the faction '%{faction}' to be able to buy this ship or its blueprint"
   links:
     go_to_game: "Already logged in. Go to the game&nbsp;&nbsp;<i class='fa fa-arrow-right'></i>"
@@ -461,6 +462,7 @@ en:
     get_route: "Get Route"
     route: "Route"
     remove_route: "Remove Route"
+    jump: "Jump"
   systems:
     security_status: "Security Status"
     stations: "Stations"

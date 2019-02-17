@@ -89,7 +89,8 @@ class Item < ApplicationRecord
      "equipment.repair_bots.simple_repair_bot", "equipment.repair_bots.advanced_repair_bot", "equipment.repair_bots.colton_repair_bot",
      "equipment.remote_repair.simple_repair_beam", "equipment.remote_repair.advanced_repair_beam", "equipment.remote_repair.colton_repair_beam",
      "equipment.defense.ion_shield", "equipment.defense.try_pyon_shield",
-     "equipment.storage.small_black_hole", "equipment.storage.medium_black_hole", "equipment.storage.large_black_hole"]
+     "equipment.storage.small_black_hole", "equipment.storage.medium_black_hole", "equipment.storage.large_black_hole",
+     "equipment.jump_drives.jump_drive"]
   end
   
   # Equipment Easy
@@ -116,7 +117,8 @@ class Item < ApplicationRecord
      "equipment.miner.advanced_miner",
      "equipment.repair_bots.advanced_repair_bot",
      "equipment.remote_repair.advanced_repair_beam",
-     "equipment.storage.medium_black_hole"]
+     "equipment.storage.medium_black_hole",
+     "equipment.jump_drives.jump_drive"]
   end
   
   # Equipment Hard

@@ -7,11 +7,14 @@ $( document ).on('turbolinks:load', function() {
   // Target player if clicked AJAX
   $('#app-container').on('click', '.target-player-btn', function(e) {
     e.preventDefault();
-    id = $(this).data("id");
+    var id = $(this).data("id");
+    var button = $(this);
+    
     $.post( "ship/target", {id: id}, function(data) {
       if ($('.enemy-space-ship').length) {
         remove_target();
         animation_target_counter(data.time);
+        button_target_counter(button, data.time);
       }
     });
   });
@@ -240,4 +243,27 @@ function remove_target() {
 function show_died_modal(text_message) {
   $('#died-modal-body').empty().append(text_message);
   $('#died-modal').modal('show');
+}
+
+// Button Target Counter
+var button_target_counter_interval;
+function button_target_counter(button, time) {
+  clearInterval(button_target_counter_interval);
+  
+  $('.players-card').find('.target-player-btn').each(function() {
+    $(this).html("<i class='fa fa-crosshairs'></i>");
+  });
+  $('.players-card').find('.target-npc-btn').each(function() {
+    $(this).html("<i class='fa fa-crosshairs'></i>");
+  });
+  
+  button.html(time);
+  button_target_counter_interval = setInterval(function() {
+    time = time - 1
+    button.html(time);
+    if (time == 0) {
+      clearInterval(button_target_counter_interval);
+      button.html("<i class='fa fa-crosshairs'></i>");
+    }
+  }, 1000);
 }

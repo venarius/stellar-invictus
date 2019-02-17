@@ -383,6 +383,17 @@ equipment:
       crafting_duration: 70
       price: 2175
       
+  # Jump Drives
+  jump_drives:
+    jump_drive:
+      name: "Jump Drive"
+      type: "Jump Drive"
+      weight: 5
+      slot_type: "main"
+      crafting: {"asteroid.nickel_ore": 90, "asteroid.iron_ore": 100, "asteroid.titanium_ore": 50}
+      crafting_duration: 75
+      price: 2100
+      
 # Materials for Crafting
 materials:
   sensor_electronics:

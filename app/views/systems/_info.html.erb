@@ -17,5 +17,9 @@
     </table>
     
     <button class="btn btn-outline-primary get-route-btn" data-id="<%= sys.id %>" <%= 'disabled' if sys == current_user.system %>><%= I18n.t('routing.get_route') %></button>
+    
+    <% if current_user&.active_spaceship&.get_jump_drive and !sys.low? %>
+      <button class="btn btn-outline-info jump-drive-btn" data-id="<%= sys.id %>" <%= 'disabled' if sys == current_user.system %>><%= I18n.t('routing.jump') %></button>
+    <% end %>
   </div>
 </div>

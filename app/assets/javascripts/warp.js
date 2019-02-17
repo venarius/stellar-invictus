@@ -48,25 +48,33 @@ function doWarp(warpTime, name) {
   if (jump_interval == null || jump_interval == false) {
     remove_target();
     cards = $('.game-card-row').html();
-    $('.game-card-row').empty().append(
-      "<div class='col-md-12'><div class='card black-card card-body warp-card mb-3'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
-    );
+    if (warpTime) {
+      $('.game-card-row').empty().append(
+        "<div class='col-md-12'><div class='card black-card card-body warp-card mb-3'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+warpTime+"</h4></div></div>"
+      ); 
+    } else {
+      $('.game-card-row').empty().append(
+        "<div class='col-md-12'><div class='card black-card card-body warp-card mb-3'><h2 class='flexbox-vert-center mt-3 mb-3' style='margin-bottom:0'>"+name+"</h2></div></div>"
+      );
+    }
     pixi_background_speed = 10;
-    jump_interval = setInterval(function() {
-      warpTime = warpTime - 0.25;
-      if ($('.warp-card').length) {
-        $('.game-card-row .warp-card h4').empty().append(
-          Math.round(warpTime)
-        ); 
-      } else {
-        $('.game-card-row').empty().append(
-          "<div class='col-md-12'><div class='card black-card card-body warp-card mb-3'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+Math.round(warpTime)+"</h4></div></div>"
-        );
-      }
-      if (warpTime <= 0) {
-        clearInterval(jump_interval);
-      }
-    },250); 
+    if (warpTime) {
+      jump_interval = setInterval(function() {
+        warpTime = warpTime - 0.25;
+        if ($('.warp-card').length) {
+          $('.game-card-row .warp-card h4').empty().append(
+            Math.round(warpTime)
+          ); 
+        } else {
+          $('.game-card-row').empty().append(
+            "<div class='col-md-12'><div class='card black-card card-body warp-card mb-3'><h2 class='flexbox-vert-center'>"+name+"</h2><h4 class='flexbox-vert-center'>"+Math.round(warpTime)+"</h4></div></div>"
+          );
+        }
+        if (warpTime <= 0) {
+          clearInterval(jump_interval);
+        }
+      },250);  
+    }
   }
 }
 
