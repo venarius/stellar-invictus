@@ -20,9 +20,6 @@ class StationsController < ApplicationController
       if current_user.fleet
         ChatChannel.broadcast_to(current_user.fleet.chat_room, method: 'update_hp_color', color: current_user.active_spaceship.get_hp_color, id: current_user.id)
       end
-      
-      # Give free nano if user doesnt have one
-      Spaceship.create(user: current_user, name: 'Nano', hp: 150, location: current_user.location) if Spaceship.where(name: "Nano", location: current_user.location, user: current_user).empty?
     end
   end
   
