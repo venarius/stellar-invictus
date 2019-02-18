@@ -180,6 +180,7 @@ function update_health(hp) {
         $('#own-ship-health').parent().addClass('attack-flash');
         play_hit();
         player_got_hit();
+        flashTitle("Under Attack!", 1);
         setTimeout(function() {$('#own-ship-health').parent().removeClass('attack-flash');}, 1000);
       }
     }
