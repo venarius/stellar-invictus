@@ -16,7 +16,7 @@ class StationsController < ApplicationController
       current_user.dock
       
       # Repair ship
-      current_user.active_spaceship.update_columns(hp: current_user.active_spaceship.get_attribute('hp'))
+      current_user.active_spaceship.repair
       if current_user.fleet
         ChatChannel.broadcast_to(current_user.fleet.chat_room, method: 'update_hp_color', color: current_user.active_spaceship.get_hp_color, id: current_user.id)
       end

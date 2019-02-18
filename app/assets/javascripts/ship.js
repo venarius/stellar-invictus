@@ -36,4 +36,28 @@ $( document ).on('turbolinks:load', function() {
       load_station_tab("#my_ships");
     });
   });
+  
+  // Upgrade Ship Btn AJAX
+  $('.station-card').on('click', '.upgrade-ship-modal-btn', function() {
+    $.get('/ship/upgrade_modal', function(data) {
+      $(data).appendTo('#app-container').modal('show');
+    });
+  });
+  
+  // Close Upgrade Ship Modal
+  $('#app-container').on('hidden.bs.modal', '#ship-upgrade-modal', function () {
+    $(this).remove();
+  })
+  
+  // Upgrade Ship Btn AJAX
+  $('#app-container').on('click', '.upgrade-ship-btn', function() {
+    var button = $(this);
+    var html = button.html();
+    
+    loading_animation(button);
+    $.post('/ship/upgrade', function(data) {
+      setTimeout(function() {button.closest('.modal').modal('hide');}, 250)
+      load_station_tab("#active_ship");
+    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+  });
 });
