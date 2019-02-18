@@ -179,7 +179,7 @@ class User < ApplicationRecord
   
   # Reduce the user's units
   def reduce_units(amount)
-    self.update_columns(units: self.units - amount)
+    self.update_columns(units: self.reload.units - amount)
   end
   
   # Give the user units
@@ -187,9 +187,9 @@ class User < ApplicationRecord
     if self.corporation and self.corporation.tax > 0
       new_amount = amount - amount * (self.corporation.tax / 100)
       self.corporation.update_columns(units: self.corporation.units + (amount - new_amount))
-      self.update_columns(units: self.units + new_amount)
+      self.update_columns(units: self.reload.units + new_amount)
     else
-      self.update_columns(units: self.units + amount)
+      self.update_columns(units: self.reload.units + amount)
     end
   end
   

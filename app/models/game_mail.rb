@@ -11,9 +11,9 @@ class GameMail < ApplicationRecord
   validates :header, length: { maximum: 100, too_long: I18n.t('validations.too_long_mail_header') }
   
   after_create do
-    if units and units > 0 and units <= sender.units
-      sender.reduce_units(units)
-      recipient.give_units(units)
+    if self.units and self.units > 0 and units <= sender.units
+      sender.reduce_units(self.units)
+      recipient.give_units(self.units)
     end
   end
   
