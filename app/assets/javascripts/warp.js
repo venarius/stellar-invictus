@@ -99,9 +99,11 @@ function reload_page() {
 }
 
 // Reload player card AJAX
-function reload_players_card() {
+function reload_players_card(do_load) {
   if ($('#players-card').length) {
-    $('#players-card').find('.card-body').html("<h5 class='text-center'><i class='fa fa-spinner fa-spin'></i></h5>");
+    if (do_load) {
+      $('#players-card').find('.card-body').html("<h5 class='text-center'><i class='fa fa-spinner fa-spin'></i></h5>"); 
+    }
     $.get("game/local_players", function(data) {
       $('#players-card').replaceWith(data);
     });
@@ -109,9 +111,11 @@ function reload_players_card() {
 }
 
 // Reload player card AJAX
-function reload_locations_card() {
+function reload_locations_card(do_load) {
   if ($('.overview-card').length) {
-    $('.overview-card').find('.card-body').html("<h5 class='text-center'><i class='fa fa-spinner fa-spin'></i></h5>");
+    if (do_load) {
+      $('.overview-card').find('.card-body').html("<h5 class='text-center'><i class='fa fa-spinner fa-spin'></i></h5>"); 
+    }
     $.get("game/locations_card", function(data) {
       $('.overview-card').replaceWith(data);
     });
@@ -145,8 +149,8 @@ function clear_jump(local) {
       check_chats();
       reload_local_chat();
     }
-    reload_players_card();
-    reload_locations_card();
+    reload_players_card(true);
+    reload_locations_card(true);
     reload_location_info(); 
   }
 }
