@@ -5,6 +5,9 @@
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" data-target="#ship-equipment" href="#0" role="tab"><%= I18n.t('ships.equipment') %></a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" data-target="#ship-stats" href="#0" role="tab"><%= I18n.t('ships.stats') %></a>
+  </li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane fade show active" id="ship-inventory" role="tabpanel">
@@ -75,7 +78,7 @@
       </div>
     </div>
     
-    <div class="row mb-3 text-center">
+    <div class="row mb-3 mt-5 text-center">
       <div class="col-md">
         <%= I18n.t('ships.defense').upcase %>: <span id="defense-display"><%= active_spaceship.get_defense %></span>
       </div>
@@ -102,6 +105,59 @@
         </div>
       </div>
     </div>
+  </div>
+  
+  <div class="tab-pane fade" id="ship-stats" role="tabpanel">
+    
+    <div class="card black-card card-body mt-5px">
+      <table class="table table-bordered table-sm table-striped mb-3">
+        <tbody>
+            <tr>
+              <th><%= I18n.t('ships.name') %></th>
+              <td><%= active_spaceship.name %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.upgrade_level') %></th>
+              <td><%= active_spaceship.level %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.type') %></th>
+              <td><%= active_spaceship.get_attribute('type') %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.hp') %></th>
+              <td><%= active_spaceship.get_max_hp %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.storage') %></th>
+              <td><%= active_spaceship.get_storage_capacity %> m²</td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.main_equipment_slots') %></th>
+              <td><%= active_spaceship.get_attribute('main_equipment_slots') %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.utility_equipment_slots') %></th>
+              <td><%= active_spaceship.get_attribute('utility_equipment_slots') %></td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.align_time') %></th>
+              <td><%= active_spaceship.get_align_time %> s</td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.target_time') %></th>
+              <td><%= active_spaceship.get_target_time %> s</td>
+            </tr>
+            <tr>
+              <th><%= I18n.t('ships.defense') %></th>
+              <td><%= active_spaceship.get_defense %></td>
+            </tr>
+        </tbody>
+      </table>
+      
+      <button class="btn btn-outline-primary upgrade-ship-modal-btn"><%= I18n.t('ships.upgrade') %></button>
+    </div>
+    
   </div>
 </div>
 

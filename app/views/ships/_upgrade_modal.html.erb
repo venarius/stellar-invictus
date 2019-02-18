@@ -1,0 +1,36 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="ship-upgrade-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= I18n.t('ships.upgrade_ship') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-white">
+        <% if Spaceship.ship_variables[ship.name]['upgrade'] and ship.level < 5 %>
+          <p><%= I18n.t("ships.upgrade_current_bonus_#{Spaceship.ship_variables[ship.name]['upgrade'].keys.first}") %>: <span class="color-highgreen"><%= ship.level == 0 ? 0.0 : (Spaceship.ship_variables[ship.name]['upgrade'][Spaceship.ship_variables[ship.name]['upgrade'].keys.first] ** ship.level).round.to_f %></span></p>
+          <p><%= I18n.t('ships.upgrade_value_after') %>: <span class="color-highgreen"><%= (Spaceship.ship_variables[ship.name]['upgrade'][Spaceship.ship_variables[ship.name]['upgrade'].keys.first] ** (ship.level + 1)).round.to_f %></span></p>
+          
+          <p><strong><%= I18n.t('crafting.ressources') %></strong></p>
+          <table class="table table-bordered table-striped table-sm mb-3">
+            <% Spaceship.ship_variables[ship.name]['upgrade']['ressources'].each do |k, v| %>
+              <tr>
+                <th><%= get_item_attribute(k, 'name') %></th>
+                <th><%= v %>&times;</th>
+              </tr>
+            <% end %>
+          </table>
+        <% else %>
+          <p class="text-center mt-10px"><%= I18n.t('ships.upgrade_cant_be_upgraded') %></p>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <% if Spaceship.ship_variables[ship.name]['upgrade'] and ship.level < 5 %>
+          <button class="btn btn-outline-primary upgrade-ship-btn"><%= I18n.t('ships.upgrade') %></button>
+        <% end %>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

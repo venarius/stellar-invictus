@@ -76,10 +76,10 @@ class EquipmentWorker
       
       # If Repair -> repair
       if self_repair > 0
-        if player_ship.hp < player_ship.get_attribute('hp')
+        if player_ship.hp < player_ship.get_max_hp
             
-          if player_ship.hp + self_repair > player_ship.get_attribute('hp')
-            player_ship.update_columns(hp: player_ship.get_attribute('hp'))
+          if player_ship.hp + self_repair > player_ship.get_max_hp
+            player_ship.update_columns(hp: player_ship.get_max_hp)
           else
             player_ship.update_columns(hp: player_ship.hp + self_repair)
           end
@@ -112,7 +112,7 @@ class EquipmentWorker
           target_ship.update_columns(hp: target_ship.reload.hp - attack.round + remote_repair)
           
           if player.target
-            target_ship.update_columns(hp: Spaceship.ship_variables[target_ship.name]['hp']) if target_ship.hp > Spaceship.ship_variables[target_ship.name]['hp']
+            target_ship.update_columns(hp: target_ship.get_max_hp) if target_ship.hp > target_ship.get_max_hp
           end
           
           target_hp = target_ship.hp

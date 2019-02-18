@@ -98,4 +98,28 @@ class ShipsController < ApplicationController
     render json: {}, status: 400
   end
   
+  def upgrade_modal
+    render partial: 'ships/upgrade_modal', locals: {ship: current_user.active_spaceship}
+  end
+  
+  def upgrade
+    if current_user.docked and current_user.active_spaceship and current_user.active_spaceship.level < 5
+      # Check required materials
+      Spaceship.ship_variables[current_user.active_spaceship.name]['upgrade']['ressources'].each do |key, value|
+        item = Item.find_by(loader: key, user: current_user, location: current_user.location) rescue nil
+        render json: {'error_message': I18n.t('errors.not_required_material')}, status: 400 and return if !item || item.count < value
+      end
+      
+      # Delete ressources
+      Spaceship.ship_variables[current_user.active_spaceship.name]['upgrade']['ressources'].each do |key, value|
+        Item.remove_from_user({loader: key, user: current_user, location: current_user.location, amount: value})
+      end
+      
+      current_user.active_spaceship.update_columns(level: current_user.active_spaceship.level + 1)
+      current_user.active_spaceship.repair
+      render json: {}, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
+  
 end

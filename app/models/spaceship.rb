@@ -102,6 +102,7 @@ class Spaceship < ApplicationRecord
   # Get Storage Capacity of Ship
   def get_storage_capacity
     storage = self.get_attribute('storage')
+    storage = storage + (Spaceship.ship_variables[name]['upgrade']['storage_amplifier'] ** self.level).round if Spaceship.ship_variables[name]['upgrade']['storage_amplifier'] and self.level > 0
     stack = 0
     self.get_utility_equipment.each do |item|
       if item.get_attribute('type') == "Storage" and item.equipped
@@ -157,6 +158,7 @@ class Spaceship < ApplicationRecord
   # Get Defense of ship
   def get_defense
     defense = self.get_attribute('defense')
+    defense = defense + (Spaceship.ship_variables[name]['upgrade']['defense_amplifier'] ** self.level).round if Spaceship.ship_variables[name]['upgrade']['defense_amplifier'] and self.level > 0
     stack = 0
     self.get_utility_equipment.each do |item|
       if item.get_attribute('type') == "Defense" and item.equipped
@@ -207,6 +209,7 @@ class Spaceship < ApplicationRecord
   # Get align time
   def get_align_time
     align_time = self.get_attribute('align_time')
+    align_time = align_time - (Spaceship.ship_variables[name]['upgrade']['align_amplifier'] ** self.level).round if Spaceship.ship_variables[name]['upgrade']['align_amplifier'] and self.level > 0
     stack = 0
     self.get_equipment.each do |item|
       if item.get_attribute('type') == "Hull" and item.equipped
@@ -224,6 +227,7 @@ class Spaceship < ApplicationRecord
   # Get target time
   def get_target_time
     target_time = self.get_attribute('target_time')
+    target_time = target_time - (Spaceship.ship_variables[name]['upgrade']['target_amplifier'] ** self.level).round if Spaceship.ship_variables[name]['upgrade']['target_amplifier'] and self.level > 0
     stack = 0
     self.get_equipment.each do |item|
       if item.get_attribute('type') == "Sensor" and item.equipped
@@ -317,6 +321,18 @@ class Spaceship < ApplicationRecord
   def get_jump_drive
     return true if (Spaceship.ship_variables[name]['trait']['jump_drive'] rescue false)
     false
+  end
+  
+  # Get max HP
+  def get_max_hp
+    hp = Spaceship.ship_variables[name]['hp']
+    hp = hp + (Spaceship.ship_variables[name]['upgrade']['hp_amplifier'] ** self.level).round if Spaceship.ship_variables[name]['upgrade']['hp_amplifier'] and self.level > 0
+    hp
+  end
+  
+  # Repair
+  def repair
+    self.update_columns(hp: self.get_max_hp)
   end
   
   # Ship Variables

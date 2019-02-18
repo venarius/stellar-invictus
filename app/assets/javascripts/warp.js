@@ -101,6 +101,7 @@ function reload_page() {
 // Reload player card AJAX
 function reload_players_card() {
   if ($('#players-card').length) {
+    $('#players-card').find('.card-body').html("<h5 class='text-center'><i class='fa fa-spinner fa-spin'></i></h5>");
     $.get("game/local_players", function(data) {
       $('#players-card').replaceWith(data);
     });
@@ -110,6 +111,7 @@ function reload_players_card() {
 // Reload player card AJAX
 function reload_locations_card() {
   if ($('.overview-card').length) {
+    $('.overview-card').find('.card-body').html("<h5 class='text-center'><i class='fa fa-spinner fa-spin'></i></h5>");
     $.get("game/locations_card", function(data) {
       $('.overview-card').replaceWith(data);
     });

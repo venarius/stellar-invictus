@@ -64,6 +64,8 @@ Rails.application.routes.draw do
     get 'info', to: 'ships#info'
     post 'insure', to: 'ships#insure'
     post 'custom_name', to: 'ships#custom_name'
+    get 'upgrade_modal', to: 'ships#upgrade_modal'
+    post 'upgrade', to: 'ships#upgrade'
   end
   
   # Asteroids
