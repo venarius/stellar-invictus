@@ -14,7 +14,7 @@ class System < ApplicationRecord
     users = User.where("online > 0").where(system: self)
     self.locations.each do |location|
       ActionCable.server.broadcast("location_#{location.id}", method: 'update_players_in_system', 
-        count: users.count, names: ApplicationController.helpers.map_and_sort(users))
+        count: users.count, names: ApplicationController.helpers.map_and_sort(users)) if location.users.count > 0
     end
   end
   
