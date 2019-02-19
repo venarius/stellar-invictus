@@ -93,9 +93,16 @@ class Spaceship < ApplicationRecord
     items = self.get_items
     if items.present?
       structure = Structure.create(location: self.user.location, structure_type: 'wreck')
+      hash = []
       items.each do |item|
-        item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false, count: rand(1..item.count)) if rand(0..1) == 1
+        if rand(0..1) == 1
+          item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false, count: rand(1..item.count))
+          hash << {name: item.get_attribute('name'), dropped: true, amount: item.count}
+        else
+          hash << {name: item.get_attribute('name'), dropped: false, amount: item.count}
+        end
       end
+      hash
     end
   end
   

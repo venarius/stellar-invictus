@@ -97,9 +97,15 @@ class User < ApplicationRecord
   end
   
   # Lets the player die
-  def die(police=false)
+  def die(police=false, attackers=nil)
     # Get old System
     old_system = System.find(self.system_id)
+    
+    loot = self.active_spaceship.drop_loot if self.active_spaceship
+    
+    # Run Killmail Worker
+    KillmailWorker.perform_async({id: self.id, full_name: self.full_name, avatar: self.avatar, ship_name: self.active_spaceship.name,
+                                  bounty: self.bounty, system_name: old_system.name, site_name: self.location.get_name}, attackers, loot)
     
     # Get ActionCable Server
     ac_server = ActionCable.server
@@ -109,7 +115,7 @@ class User < ApplicationRecord
     ac_server.broadcast("location_#{self.location.id}", method: 'log', text: I18n.t('log.got_killed', name: self.full_name) )
     
     # Create Wreck and fill with random loot
-    self.active_spaceship.deactivate_equipment and self.active_spaceship.drop_loot if self.active_spaceship
+    self.active_spaceship.deactivate_equipment
     ac_server.broadcast("location_#{self.location.id}", method: 'player_appeared')
     
     # Destroy current spaceship of user and give him a nano if not insured

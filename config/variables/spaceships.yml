@@ -362,8 +362,7 @@ Escorial:
   reputation_requirement: 7
   type: "Miner"
   trait:
-    mining_amount_amplifier: 2
-    jump_drive: true
+    mining_amount_amplifier: 3
     damage_amplifier: 0.6
   upgrade:
     align_amplifier: 1.4
@@ -409,7 +408,8 @@ Aquila:
   reputation_requirement: 6
   type: "Multipurpose"
   trait:
-    storage_amplifier: 2
+    storage_amplifier: 1.5
+    jump_drive: true
   upgrade:
     align_amplifier: 1.4
     ressources: {"asteroid.iron_ore": 422, "materials.laser_diodes": 79, "materials.ai_components": 39}
