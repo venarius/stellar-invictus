@@ -96,10 +96,10 @@ class Spaceship < ApplicationRecord
       hash = []
       items.each do |item|
         if rand(0..1) == 1
-          item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false, count: rand(1..item.count))
-          hash << {name: item.get_attribute('name'), dropped: true, amount: item.count}
+          hash << {name: item.get_attribute('name'), dropped: true, amount: item.count, equipped: item.equipped}
+          item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false, count: item.count)
         else
-          hash << {name: item.get_attribute('name'), dropped: false, amount: item.count}
+          hash << {name: item.get_attribute('name'), dropped: false, amount: item.count, equipped: item.equipped}
         end
       end
       hash

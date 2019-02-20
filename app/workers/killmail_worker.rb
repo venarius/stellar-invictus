@@ -12,13 +12,20 @@ class KillmailWorker
     
     if attackers and attackers != []
       temp = []
-      attackers.each do |attacker|
+      attackers.each do |at|
         hash = {}
+        attacker = User.find(at) rescue nil
+        next unless attacker
         hash['id'] = attacker.id
         hash['name'] = attacker.full_name
         hash['avatar'] = attacker.avatar
         hash['ship_name'] = attacker.active_spaceship.name
         hash['bounty'] = attacker.bounty
+        
+        if attacker.corporation
+          hash['corporation'] = {id: attacker.corporation.id, ticker: attacker.corporation.ticker, name: attacker.corporation.name}
+        end
+        
         temp << hash
       end
       body.reverse_merge!({killers: temp})

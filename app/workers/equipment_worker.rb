@@ -146,7 +146,7 @@ class EquipmentWorker
             if player.target
               player.target.give_bounty(player)
               # Remove user from being targeted by others
-              attackers = User.where(target_id: player.id, is_attacking: true)
+              attackers = User.where(target_id: player.target.id, is_attacking: true).pluck(:id)
               player.target.remove_being_targeted
               player.target.die(false, attackers) and player.active_spaceship.deactivate_weapons
             else
