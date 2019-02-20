@@ -104,8 +104,10 @@ class User < ApplicationRecord
     loot = self.active_spaceship.drop_loot if self.active_spaceship
     
     # Run Killmail Worker
-    KillmailWorker.perform_async({id: self.id, full_name: self.full_name, avatar: self.avatar, ship_name: self.active_spaceship.name,
-                                  bounty: self.bounty, system_name: old_system.name, site_name: self.location.get_name}, attackers, loot)
+    hash = {id: self.id, full_name: self.full_name, avatar: self.avatar, ship_name: self.active_spaceship.name,
+            bounty: self.bounty, system_name: old_system.name, site_name: self.location.get_name}
+    hash.reverse_merge!({corporation: {id: self.corporation.id, name: self.corporation.name, ticker: self.corporation.ticker}}) if self.corporation
+    KillmailWorker.perform_async(hash, attackers, loot)
     
     # Get ActionCable Server
     ac_server = ActionCable.server
