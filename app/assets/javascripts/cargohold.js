@@ -19,6 +19,6 @@ $( document ).on('turbolinks:load', function() {
     
     $.post('/ship/eject_cargo', {loader: loader, amount: amount}, function() {
       $('#inventory-modal').modal('hide');
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
 });

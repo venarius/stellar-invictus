@@ -36,7 +36,7 @@ $( document ).on('turbolinks:load', function() {
         button.parent().parent().remove(); 
       }
       refresh_player_info();
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Load all items from cargo container AJAX
@@ -46,7 +46,7 @@ $( document ).on('turbolinks:load', function() {
     $.post('structure/pickup_cargo', {id: id}, function(data) {
       $('#cargocontainer-modal').modal('hide');
       refresh_player_info();
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Monument Info Btn AJAX

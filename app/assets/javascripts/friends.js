@@ -11,7 +11,7 @@ $( document ).on('turbolinks:load', function() {
     $.post('friends/accept_request', {id: id}, function(data){
       Cookies.set('friends_tab', '#friends');
       Turbolinks.visit(window.location);
-    }).error(function(){Turbolinks.visit(window.location);});
+    }).fail(function(){Turbolinks.visit(window.location);});
   });
   
   // Remove friend AJAX

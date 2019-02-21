@@ -10,7 +10,7 @@ $( document ).on('turbolinks:load', function() {
         button.closest('.modal').modal('hide');
         refresh_player_info();
         setTimeout(function() {load_station_tab('#blueprints');}, 250);
-      }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+      }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
     }
   });
   
@@ -26,7 +26,7 @@ $( document ).on('turbolinks:load', function() {
       $.get('blueprint/modal', {loader: loader, type: type}, function(data) {
         $(data).appendTo('#blueprints').modal('show');
         button.html(html);
-      }).error(function(data) { if (data && data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+      }).fail(function(data) { if (data && data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
     }
   });
 });

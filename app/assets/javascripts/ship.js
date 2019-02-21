@@ -58,6 +58,6 @@ $( document ).on('turbolinks:load', function() {
     $.post('/ship/upgrade', function(data) {
       setTimeout(function() {button.closest('.modal').modal('hide');}, 250)
       load_station_tab("#active_ship");
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
 });

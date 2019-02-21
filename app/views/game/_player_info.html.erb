@@ -9,6 +9,9 @@
         <i class="fa fa-boxes"></i>&nbsp;&nbsp;<%= current_user.active_spaceship.get_weight %> / <%= current_user.active_spaceship.get_storage_capacity %>
       <% end %>
     </div>
+    <div class="col-4 text-center">
+      -
+    </div>
   </div>
   
   <% if current_user.active_spaceship and current_user.faction %>
@@ -22,5 +25,9 @@
       <% end %>
     </div>
   <% end %>
+  
+  <div class="display-none mobile-display-block system-card">
+    <%= render partial: 'game/system_card' if current_user&.system %>
+  </div>
   
 </h5>

@@ -28,7 +28,7 @@ $( document ).on('turbolinks:load', function() {
         }
       });
       button.html(html);
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
   
   // Directional Scan Btn AJAX
@@ -68,7 +68,7 @@ $( document ).on('turbolinks:load', function() {
         button.closest('.modal').modal('hide');
         reload_players_card();
       }, 1000)
-    }).error(function() { 
+    }).fail(function() { 
       button.closest('.modal').find('input').css('border', '1px solid red').css('box-shadow', '0 0 5px red'); 
       setTimeout(function() {button.closest('.modal').modal('hide');}, 1000)
     });

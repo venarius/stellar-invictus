@@ -63,7 +63,7 @@ $( document ).on('turbolinks:load', function() {
         $(".station-card").find(`[data-target='#`+button.closest('.modal').attr('id')+`']`).parent().parent().remove();
       }
       refresh_player_info();
-    }).error(function(data) {
+    }).fail(function(data) {
       button.html(html);
       if (!button.closest('.modal').find('.error').length) {
         button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
@@ -174,7 +174,7 @@ $( document ).on('turbolinks:load', function() {
       
       refresh_player_info();
       
-    }).error(function(data) {
+    }).fail(function(data) {
       button.html(html);
       $('#market-sell').find('input').addClass("outline-danger"); 
       if (!button.closest('.modal').find('.error').length) {
