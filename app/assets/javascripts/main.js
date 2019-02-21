@@ -7,6 +7,15 @@ document.addEventListener("turbolinks:before-cache", function() {
   $('.alert').remove();
   $('.speech-bubble').remove();
   $('.station-card').find('.tab-pane.fade.active.show').html("<div class='text-center mt-5px'><i class='fa fa-spinner fa-spin fa-2x'></i></div>");
+  if ($(window).width <= 767) {
+    $('body').css('padding-bottom', '50px');
+    $('#app-container').fadeIn("fast", function() {
+      $('.mobile-nav').fadeIn("fast");
+      $('.navbar.main-navbar').fadeOut("fast");
+    });
+    $('.chat-card').remove();
+    $('.mobile-player-info').css('top', '-55px');
+  }
 })
 
 

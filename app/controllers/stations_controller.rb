@@ -61,13 +61,6 @@ class StationsController < ApplicationController
         render partial: 'stations/active_ship', locals: {active_spaceship: current_user.active_spaceship}
       end
       return
-      
-    else
-      
-      # Set some variables for the view
-      @system_users = User.where("online > 0").where(system: current_user.system)
-      @current_user = User.includes(:system).find(current_user.id)
-      @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
     end
     
     # Receive Passengers

@@ -82,9 +82,9 @@ $( document ).on('turbolinks:load', function() {
         refresh_player_info();
         button.closest('.modal').modal('hide');
         setTimeout(function() {load_station_tab("#my_ships");}, 250);
-      }); 
+      }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); }); 
     }
-  }).error(function(data) { $.notify(data.responseJSON.error_message, {style: 'alert'}); });
+  });
   
   // Store items from ship on station
   $('.station-card').on('click', '.store-btn', function(e) {
