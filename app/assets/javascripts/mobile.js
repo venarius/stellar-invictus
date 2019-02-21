@@ -1,10 +1,12 @@
 $( document ).on('turbolinks:load', function() {
 
-  gameLayoutResize(true);
-  
-  $(window).resize(function(){
-    gameLayoutResize();
-  });
+   if (window.location.pathname == "/game") {
+      gameLayoutResize(true);
+      
+      $(window).resize(function(){
+        gameLayoutResize();
+      }); 
+   }
     
   
   $('.mobile-menu-open-btn').on('click', function() {
@@ -63,7 +65,7 @@ function gameLayoutResize(hard) {
 }
 
 function gameLayoutMobile() {
-  $('.chat-card').insertAfter('.system-card');
+  $('.chat-card').insertAfter('.system-card.mobile-display-none');
   $('.game-card-row .col-lg-4').insertAfter('.game-card-row .col-lg-8');
 }
 
