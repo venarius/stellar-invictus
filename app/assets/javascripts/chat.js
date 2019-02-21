@@ -62,7 +62,7 @@ $( document ).on('turbolinks:load', function() {
         $.post('/chat/join', {id: id}, function(data) {
           Cookies.set('chat_tab', '#chatroom-' + data.id)
           Turbolinks.visit(window.location);
-        }).error(function(data) {
+        }).fail(function(data) {
           $('#join-chatroom-modal-join-input').removeClass("outline-danger").addClass("outline-danger");
           if (!button.closest('.modal').find('.error').length) {
             button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
@@ -106,7 +106,7 @@ $( document ).on('turbolinks:load', function() {
         $.post('/chat/create', {title: title}, function(data) {
           Cookies.set('chat_tab', '#chatroom-' + data.id)
           Turbolinks.visit(window.location);
-        }).error(function(data) {
+        }).fail(function(data) {
           $('#join-chatroom-modal-create-input').removeClass("outline-danger").addClass("outline-danger");
           if (!button.closest('.modal').find('.error').length) {
             button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");

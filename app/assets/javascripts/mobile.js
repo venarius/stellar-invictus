@@ -33,14 +33,14 @@ $( document ).on('turbolinks:load', function() {
     }
   });
   
-  $('.toggle-mobile-info').on('click', function() {
+  $('#app-container').on('click', '.toggle-mobile-info', function() {
     if ($(window).width() <= 767) {
       if ($('.mobile-player-info').css('top') == "-55px") {
         $('.mobile-player-info').css('top', '-1px');
-        $('#app-container').css('padding-top', '90px');
+        $('#app-container').css('padding-top', '105px');
       } else {
         $('.mobile-player-info').css('top', '-55px');
-        $('#app-container').css('padding-top', '35px');
+        $('#app-container').css('padding-top', '50px');
       }
     }
   });
@@ -65,11 +65,9 @@ function gameLayoutResize(hard) {
 function gameLayoutMobile() {
   $('.chat-card').insertAfter('.system-card');
   $('.game-card-row .col-lg-4').insertAfter('.game-card-row .col-lg-8');
-  $('.system-card').appendTo('.mobile-player-info');
 }
 
 function gameLayoutDesktop() {
   $('.chat-card').insertAfter('.ship-card');
   $('.game-card-row .col-lg-8').insertAfter('.game-card-row .col-lg-4');
-  $('.system-card').prependTo('#app-container');
 }

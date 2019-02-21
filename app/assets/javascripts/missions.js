@@ -37,7 +37,7 @@ $( document ).on('turbolinks:load', function() {
         }
       });
       
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Missions Modal Popup AJAX
@@ -65,6 +65,6 @@ $( document ).on('turbolinks:load', function() {
       $.notify(data.message, {style: 'success'});
       $('#abort-mission-modal').modal('hide');
       setTimeout(function() {load_station_tab("#missions");}, 250)
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
 });

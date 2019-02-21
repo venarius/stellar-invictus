@@ -24,7 +24,7 @@ $( document ).on('turbolinks:load', function() {
       button.closest('.card').find('.progress-bar.bg-danger').css('width', data.downvotes + "%")
       button.closest('.card').find('.vote-size').html(data.votes);
       button.closest('div').remove();
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
   
   // Poll Downvote Btn
@@ -38,7 +38,7 @@ $( document ).on('turbolinks:load', function() {
       button.closest('.card').find('.progress-bar.bg-danger').css('width', data.downvotes + "%")
       button.closest('.card').find('.vote-size').html(data.votes);
       button.closest('div').remove();
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
   });
   
   // Poll Move Up Btn

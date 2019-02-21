@@ -40,26 +40,27 @@ class StationsController < ApplicationController
     # Render Tabs
     if params[:tab]
       case params[:tab]
-      when 'overview'
-        render partial: 'stations/overview'
-      when 'missions'
-        MissionGenerator.generate_missions(current_user.location_id)
-        render partial: 'stations/missions'
-      when 'bounty_office'
-        render partial: 'stations/bounty_office'
-      when 'storage'
-        render partial: 'stations/storage'
-      when 'factory'
-        render partial: 'stations/factory'
-      when 'blueprints'
-        render partial: 'stations/blueprints'
-      when 'market'
-        render partial: 'stations/market', locals: {market_listings: MarketListing.where(location: current_user.location).map(&:loader)}
-      when 'my_ships'
-        render partial: 'stations/my_ships', locals: {user_ships: get_user_ships}
-      when 'active_ship'
-        render partial: 'stations/active_ship', locals: {active_spaceship: current_user.active_spaceship}
+        when 'overview'
+          render partial: 'stations/overview'
+        when 'missions'
+          MissionGenerator.generate_missions(current_user.location_id)
+          render partial: 'stations/missions'
+        when 'bounty_office'
+          render partial: 'stations/bounty_office'
+        when 'storage'
+          render partial: 'stations/storage'
+        when 'factory'
+          render partial: 'stations/factory'
+        when 'blueprints'
+          render partial: 'stations/blueprints'
+        when 'market'
+          render partial: 'stations/market', locals: {market_listings: MarketListing.where(location: current_user.location).map(&:loader)}
+        when 'my_ships'
+          render partial: 'stations/my_ships', locals: {user_ships: get_user_ships}
+        when 'active_ship'
+          render partial: 'stations/active_ship', locals: {active_spaceship: current_user.active_spaceship}
       end
+      
       return
     end
     

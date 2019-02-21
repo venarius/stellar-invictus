@@ -123,7 +123,7 @@ $( document ).on('turbolinks:load', function() {
     $.post('corporation/change_rank', {id: button.data('id'), rank: rank}, function(data) {
       button.closest('.modal').modal('hide');
       setTimeout(function(){ load_station_tab('#roster'); }, 250)
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Deposit Credits Btn
@@ -134,7 +134,7 @@ $( document ).on('turbolinks:load', function() {
     $.post('corporation/deposit_credits', {amount: amount}, function(data) {
       button.closest('.modal').modal('hide');
       setTimeout(function(){ load_station_tab('#finances'); }, 250)
-    }).error(function(data) {
+    }).fail(function(data) {
       button.closest('.modal').find('input').addClass("outline-danger"); 
       if (!button.closest('.modal').find('.error').length) {
         button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
@@ -151,7 +151,7 @@ $( document ).on('turbolinks:load', function() {
     $.post('corporation/withdraw_credits', {amount: amount}, function(data) {
       button.closest('.modal').modal('hide');
       setTimeout(function(){ load_station_tab('#finances'); }, 250)
-    }).error(function(data) {
+    }).fail(function(data) {
       button.closest('.modal').find('input').addClass("outline-danger"); 
       if (!button.closest('.modal').find('.error').length) {
         button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
@@ -205,7 +205,7 @@ $( document ).on('turbolinks:load', function() {
     $.post('/corporation/apply', {id: id, text: text}, function(data) {
       button.closest('.modal').modal('hide');
       $.notify(data.message, {style: 'success'});
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Corporation Accept Application Btn
@@ -217,7 +217,7 @@ $( document ).on('turbolinks:load', function() {
       button.closest('.modal').modal('hide');
       $('#corporation-applications-count').html(parseInt($('#corporation-applications-count').html()) - 1);
       setTimeout(function(){ load_station_tab('#applications'); }, 250)
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Corporation Reject Application Btn
@@ -229,7 +229,7 @@ $( document ).on('turbolinks:load', function() {
       button.closest('.modal').modal('hide');
       $('#corporation-applications-count').html(parseInt($('#corporation-applications-count').html()) - 1);
       setTimeout(function(){ load_station_tab('#applications'); }, 250)
-    }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
   });
   
   // Corporation Disband Corporation Btn

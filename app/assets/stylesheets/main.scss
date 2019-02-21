@@ -271,13 +271,16 @@ html {
   h5 { font-size: 15px !important; }
   -webkit-transition: all 0.4s ease 0s; /* Safari */
   transition: all 0.4s ease 0s;
+  .card-header {
+    padding-bottom: 0 !important;
+  }
 }
 
 @media (max-width: 767px) {
   #app-container {
     -webkit-transition: padding-top 0.4s ease 0s; /* Safari */
     transition: padding-top 0.4s ease 0s;
-    padding-top: 35px;
+    padding-top: 50px;
     margin-bottom: 0 !important;
     overflow: auto;
   }
@@ -358,6 +361,7 @@ a {
 
 @media (max-width: 767px) {
   .system-card {
+    margin-top: 5px;
     background: none;
     padding: 0;
     margin-bottom: 0 !important;
@@ -551,6 +555,12 @@ a {
     margin-bottom: 0 !important;
     .card-header {
       display: none;
+    }
+    .collapse.show {
+      height: calc(100vh - 86px);
+      .card-body .tab-content table tbody {
+        height: calc(100vh - 270px);
+      }
     }
   }
 }

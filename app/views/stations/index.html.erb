@@ -1,22 +1,9 @@
-<div class="card black-card mb-3 player-info-card mobile-display-none">
-  <%= render 'game/player_info' %>
+<div class="card card-body system-card mb-3 mobile-display-none">
+  <%= render partial: 'game/system_card' %>
 </div>
 
-<div class="card black-card mb-3 chat-card">
-  <h5 class="card-header">
-    <%= I18n.t('game.chat') %>
-    <div class="float-right">
-      <a class="btn btn-xs btn-outline-primary p-0-5 text-primary mobile-display-none" onclick="window.open('/game/chat?popup=true',null,'height=500,width=800')"><i class="fa fa-expand-arrows-alt"></i></a>
-      <a data-toggle="collapse" data-target="#collapse-chat" href="#0">
-        <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-down"></i></div>
-      </a>
-    </div>
-  </h5>
-  <div class="collapse show" id="collapse-chat">
-    <div class="card-body">
-      <%= render partial: 'game/chat', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages} %>
-    </div>
-  </div>
+<div class="card black-card mb-3 player-info-card mobile-display-none">
+  <%= render 'game/player_info' %>
 </div>
 
 <div class="card black-card station-card mb-3">
@@ -29,7 +16,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-3">
-        <div class="nav flex-column nav-pills" role="tablist">
+        <div class="nav flex-column nav-pills text-center" role="tablist">
           <a class="nav-link active" data-toggle="pill" data-target="#overview" href="#0" role="tab"><%= I18n.t('station.overview') %></a>
           <a class="nav-link" data-toggle="pill" data-target="#missions" href="#0" role="tab"><%= I18n.t('station.missions') %></a>
           <a class="nav-link" data-toggle="pill" data-target="#bounty_office" href="#0" role="tab"><%= I18n.t('station.bounty_office') %></a>
