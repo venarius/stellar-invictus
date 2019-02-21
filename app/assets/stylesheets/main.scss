@@ -66,6 +66,8 @@ html {
 .mt-3px { margin-top: 3px; }
 .pt-2px { padding-top: 2px; }
 .pt-70px { padding-top: 70px; }
+.pt-55px { padding-top: 55px; }
+.pb-45px { padding-bottom: 45px; }
 .p-5px { padding: 5px; }
 .p-0-5 { padding: 0px 5px; }
 .w-46 { width: 46% !important; }
@@ -183,7 +185,7 @@ html {
 .navbar-brand img {
   margin-left: 0px;
   margin-top: -5px;
-  height: 35px;
+  height: 25px;
 }
 .navbar-avatar {
   margin-bottom: 2px;
@@ -280,7 +282,7 @@ html {
   #app-container {
     -webkit-transition: padding-top 0.4s ease 0s; /* Safari */
     transition: padding-top 0.4s ease 0s;
-    padding-top: 50px;
+    padding-top: 35px;
     margin-bottom: 0 !important;
     overflow: auto;
   }

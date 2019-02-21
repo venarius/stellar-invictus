@@ -18,10 +18,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-53473075-6"></script>
   </head>
 
-  <body class="<%= 'pt-70px mobile-pt-0' if current_user and !current_page?(root_path) %>">
+  <body class="<%= 'pt-55px mobile-pt-0' if current_user and !current_page?(root_path) %>">
     <%= render 'layouts/navbar' %>
   
-    <div class="<%= 'container mb-3' unless current_page?(root_path) %>" id="app-container">
+    <div class="<%= 'container mb-3 mt-1rem pb-45px' unless current_page?(root_path) %> <%= 'pt-0' if !current_user %>" id="app-container">
       
       <% unless current_page?(root_path) || !current_user %>
         <div class="display-none mobile-display-block">
