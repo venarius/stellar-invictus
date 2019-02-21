@@ -560,8 +560,22 @@ a {
     }
     .collapse.show {
       height: calc(100vh - 86px);
-      .card-body .tab-content table tbody {
-        height: calc(100vh - 270px);
+      .card-body .tab-content {
+        #local-chat, .corporation-chat { 
+          table tbody {
+            height: calc(100vh - 270px);
+          }
+        }
+        #global-chat, #log { 
+          table tbody {
+            height: calc(100vh - 185px);
+          }
+        }
+        .custom-chat {
+          table tbody {
+            height: calc(100vh - 295px);
+          }
+        }
       }
     }
   }

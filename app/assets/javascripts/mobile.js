@@ -1,12 +1,10 @@
 $( document ).on('turbolinks:load', function() {
 
-   if (window.location.pathname == "/game") {
-      gameLayoutResize(true);
-      
-      $(window).resize(function(){
-        gameLayoutResize();
-      }); 
-   }
+    gameLayoutResize(true);
+    
+    $(window).resize(function(){
+      gameLayoutResize();
+    }); 
     
   
   $('.mobile-menu-open-btn').on('click', function() {
@@ -67,9 +65,13 @@ function gameLayoutResize(hard) {
 function gameLayoutMobile() {
   $('.chat-card').insertAfter('.system-card.mobile-display-none');
   $('.game-card-row .col-lg-4').insertAfter('.game-card-row .col-lg-8');
+  $('#chat_msg').parent().prependTo('#collapse-chat .tab-content');
+  $('#chat_msg').parent().addClass('mt-5px');
 }
 
 function gameLayoutDesktop() {
   $('.chat-card').insertAfter('.ship-card');
   $('.game-card-row .col-lg-8').insertAfter('.game-card-row .col-lg-4');
+  $('#chat_msg').parent().appendTo('#collapse-chat .tab-content');
+  $('#chat_msg').parent().removeClass('mt-5px');
 }
