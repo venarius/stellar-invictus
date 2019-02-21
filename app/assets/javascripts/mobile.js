@@ -37,10 +37,10 @@ $( document ).on('turbolinks:load', function() {
     if ($(window).width() <= 767) {
       if ($('.mobile-player-info').css('top') == "-55px") {
         $('.mobile-player-info').css('top', '-1px');
-        $('#app-container').css('padding-top', '105px');
+        $('#app-container').css('padding-top', '90px');
       } else {
         $('.mobile-player-info').css('top', '-55px');
-        $('#app-container').css('padding-top', '50px');
+        $('#app-container').css('padding-top', '35px');
       }
     }
   });
