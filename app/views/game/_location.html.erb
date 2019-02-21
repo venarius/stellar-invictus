@@ -3,9 +3,9 @@
   <td class="name"><%= location.get_name %></td>
   <td><%= I18n.t("types.#{location.location_type}") %></td>
   <td>
-    <%= link_to "<i class='fa fa-angle-double-right'></i>".html_safe, '#', class: 'btn btn-outline-primary btn-sm warp-btn', data: {id: location.id} %>
+    <button class="btn btn-outline-primary btn-sm warp-btn", data-id="<%= location.id %>"><i class='fa fa-angle-double-right'></i></button>
     <% if current_user.fleet %>
-      <%= link_to "<i class='fa fa-angle-double-right'></i>".html_safe, '#', class: 'btn btn-outline-info btn-sm warp-btn', data: {id: location.id, fleet: true} %>
+      <button class="btn btn-outline-info btn-sm warp-btn" data-id="<%= location.id %>" data-fleet="true"><i class='fa fa-angle-double-right'></i></button>
     <% end %>
   </td>
 </tr>

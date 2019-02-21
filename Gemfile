@@ -80,3 +80,5 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 # Turnout for maintenance mode
 gem 'turnout'
+# Hoverintent for faster page loads
+gem 'rails-assets-jquery-hoverintent', source: 'https://rails-assets.org'

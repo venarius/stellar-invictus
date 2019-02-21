@@ -33,6 +33,29 @@
       
       <%= render 'layouts/alerts' %>
       
+      <div class="card card-body system-card mb-3 <%= 'mobile-display-block display-none' unless current_page?(game_path) || current_page?(station_path) %>">
+        <%= render partial: 'game/system_card' %>
+      </div>
+      
+      <% if !current_page?(game_path) and !current_page?(station_path) and current_user&.system %>
+        <div class="card black-card mb-3 chat-card mobile-display-block display-none">
+          <h5 class="card-header">
+            <%= I18n.t('game.chat') %>
+            <div class="float-right">
+              <a class="btn btn-xs btn-outline-primary p-0-5 text-primary mobile-display-none" onclick="window.open('/game/chat?popup=true',null,'height=500,width=800')"><i class="fa fa-expand-arrows-alt"></i></a>
+              <a data-toggle="collapse" data-target="#collapse-chat" href="#0">
+                <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-down"></i></div>
+              </a>
+            </div>
+          </h5>
+          <div class="collapse show" id="collapse-chat">
+            <div class="card-body">
+              <%= render partial: 'game/chat', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages} %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
       <%= yield %>
       
       <%= render 'layouts/modals' %>

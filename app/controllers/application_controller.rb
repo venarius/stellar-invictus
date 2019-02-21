@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :redirect_if_no_faction
   before_action :update_last_action
   before_action :check_banned
+  before_action :set_chat
   
   include ApplicationHelper
   
@@ -68,4 +69,16 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  
+  def set_chat
+    if current_user and current_user.system
+      if current_user.system.wormhole?
+        @system_users = []
+      else
+        @system_users = User.where("online > 0").where(system: current_user.system)
+      end
+      @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
+    end
+  end
+  
 end

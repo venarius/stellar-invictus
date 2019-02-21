@@ -30,8 +30,13 @@ $( document ).on('turbolinks:load', function() {
     
      // Cookie getter Chat collapse
     if ($('#collapse-chat').length) {
-      var type = Cookies.get('collapse-chat');
-      if (type == 'hidden') {
+      if ($(window).width() > 767) {
+        var type = Cookies.get('collapse-chat');
+        if (type == 'hidden') {
+          $('#collapse-chat').removeClass('show');
+          $('#collapse-chat').prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
+        }
+      } else {
         $('#collapse-chat').removeClass('show');
         $('#collapse-chat').prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
       }
