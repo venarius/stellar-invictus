@@ -42,7 +42,7 @@
 </style>
 
 <script>
-  // create an array with nodes
+    // create an array with nodes
     var nodes = new vis.DataSet([
       <% System.mapdata['systems'].each do |key, val| %>
         {id: <%= key %>, label: "<%= val['faction'] %> <%= val['name'] %>", image: "<%= image_url("planets/star_#{val['security']}.png") %>", font: {<%= "size: 20, color: 'yellow'".html_safe if current_user.system_id == key %>} },
@@ -97,8 +97,12 @@
         
         $.get('system/info', {id: id}, function(data) {
           $('.speech-bubble').html(data);
-          setTimeout(function() { 
-            $('.speech-bubble').css({position: 'absolute', top: position.y-$('.speech-bubble').height()+10, left: position.x-($('.speech-bubble').width() / 2)}); 
+          setTimeout(function() {
+            if ($(window).width() <= 767) {
+              $('.speech-bubble').css({position: 'absolute', top: position.y-$('.speech-bubble').height()-30, left: position.x-($('.speech-bubble').width() / 2)}); 
+            } else {
+              $('.speech-bubble').css({position: 'absolute', top: position.y-$('.speech-bubble').height()+10, left: position.x-($('.speech-bubble').width() / 2)});   
+            }
           }, 10)
         }); 
       }
@@ -146,7 +150,7 @@
         });
         button.html(html);
         $('.speech-bubble').css({position: 'absolute', top: -1000, left: -1000, display: 'block'}); 
-      }).error(function(data) { button.html(html); });
+      }).fail(function(data) { button.html(html); });
     });
     
     // Jump Drive Btn
@@ -170,7 +174,7 @@
             }
           }, 1000)
         }
-      }).error(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+      }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
     });
     
     // remove route button
