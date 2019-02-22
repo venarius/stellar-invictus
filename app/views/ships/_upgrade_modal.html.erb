@@ -17,7 +17,7 @@
             <% Spaceship.ship_variables[ship.name]['upgrade']['ressources'].each do |k, v| %>
               <tr>
                 <th><%= get_item_attribute(k, 'name') %></th>
-                <th><%= v %>&times;</th>
+                <th><%= Item.find_by(user: current_user, location: current_user.location, loader: k).count rescue 0 %> /  <%= v %>&times;</th>
               </tr>
             <% end %>
           </table>

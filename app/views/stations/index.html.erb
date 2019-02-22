@@ -16,14 +16,14 @@
       </a>
     </div>
   </h5>
-  <div class="collapse" id="collapse-chat">
+  <div class="collapse show" id="collapse-chat">
     <div class="card-body">
       <%= render partial: 'game/chat', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages} %>
     </div>
   </div>
 </div>
 
-<div class="card black-card station-card mb-3">
+<div class="card black-card station-card">
   <h4 class="card-header" style="font-size:30px">
     <span class="station-name"><%= @current_user.location.get_name %></span>
     <div class="float-right">

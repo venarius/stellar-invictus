@@ -271,8 +271,10 @@ html {
   background-color: black !important;
   border-bottom: 1px solid #6493cd !important;
   h5 { font-size: 15px !important; }
-  -webkit-transition: all 0.4s ease 0s; /* Safari */
-  transition: all 0.4s ease 0s;
+  &.transition {
+    -webkit-transition: all 0.4s ease 0s; /* Safari */
+    transition: all 0.4s ease 0s;
+  }
   .card-header {
     padding-bottom: 0 !important;
   }
@@ -280,8 +282,10 @@ html {
 
 @media (max-width: 767px) {
   #app-container {
-    -webkit-transition: padding-top 0.4s ease 0s; /* Safari */
-    transition: padding-top 0.4s ease 0s;
+    &.transition {
+      -webkit-transition: padding-top 0.4s ease 0s; /* Safari */
+      transition: padding-top 0.4s ease 0s;
+    }
     padding-top: 35px;
     margin-bottom: 0 !important;
     overflow: auto;

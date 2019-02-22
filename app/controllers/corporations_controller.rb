@@ -6,16 +6,16 @@ class CorporationsController < ApplicationController
     # Render Tabs
     if params[:tab]
       case params[:tab]
-      when 'info'
-        render partial: 'corporations/about'
-      when 'roster'
-        render partial: 'corporations/roster', locals: {corporation_users: @corporation.users}
-      when 'finances'
-        render partial: 'corporations/finances' if current_user.founder? || current_user.admiral?
-      when 'applications'
-        render partial: 'corporations/applications' if current_user.founder? || current_user.admiral? || current_user.commodore?
-      when 'help'
-        render partial: 'corporations/help'
+        when 'info'
+          render partial: 'corporations/about'
+        when 'roster'
+          render partial: 'corporations/roster', locals: {corporation_users: @corporation.users}
+        when 'finances'
+          render partial: 'corporations/finances' if current_user.founder? || current_user.admiral?
+        when 'applications'
+          render partial: 'corporations/applications' if current_user.founder? || current_user.admiral? || current_user.commodore?
+        when 'help'
+          render partial: 'corporations/help'
       end
       return
     end

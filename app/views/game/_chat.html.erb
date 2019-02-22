@@ -215,6 +215,7 @@
                   $('a[data-target="#chatroom-<%= room.identifier %>"]').addClass('chat-flash');
                   setFlashChats();
                 }
+                addToMobileChatNotification();
                 return scrollChats();
               }
             }

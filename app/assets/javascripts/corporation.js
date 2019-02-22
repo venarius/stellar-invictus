@@ -13,7 +13,7 @@ $( document ).on('turbolinks:load', function() {
     $('.corporation-card a[data-toggle="tab"]').each(function() {
       $($(this).data('target')).empty();
     });
-    load_station_tab($(this).data('target'));
+    load_corporation_tab($(this).data('target'));
   });
   
   // Cookie getter
@@ -253,7 +253,7 @@ $( document ).on('turbolinks:load', function() {
 function load_corporation_tab(href) {
   element = $(href);
   element.empty().append("<div class='text-center mt-5px'><i class='fa fa-spinner fa-spin fa-2x'></i></div>")
-  $.get('?tab=' + href.substring(1), function(data) {
+  $.get('/corporation?tab=' + href.substring(1), function(data) {
     element.empty().append(data);
   });
 }

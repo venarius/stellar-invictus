@@ -1,6 +1,7 @@
 $( document ).on('turbolinks:load', function() {
 
     gameLayoutResize(true);
+    getMobileInfo();
     
     $(window).resize(function(){
       gameLayoutResize();
@@ -24,6 +25,8 @@ $( document ).on('turbolinks:load', function() {
   });
   
   $('.mobile-menu-chat-btn').on('click', function() {
+    $(this).find('.chat-notification').remove();
+    Cookies.set('chat_counter', 0);
     if ($(this).hasClass('active')) {
       $('.chat-card .collapse').collapse('hide');
       $(this).removeClass('active');
@@ -36,9 +39,11 @@ $( document ).on('turbolinks:load', function() {
   $('#app-container').on('click', '.toggle-mobile-info', function() {
     if ($(window).width() <= 767) {
       if ($('.mobile-player-info').css('top') == "-55px") {
+        Cookies.set("mobile_info", "shown");
         $('.mobile-player-info').css('top', '-1px');
         $('#app-container').css('padding-top', '90px');
       } else {
+        Cookies.set("mobile_info", "hidden");
         $('.mobile-player-info').css('top', '-55px');
         $('#app-container').css('padding-top', '35px');
       }
@@ -74,4 +79,20 @@ function gameLayoutDesktop() {
   $('.game-card-row .col-lg-8').insertAfter('.game-card-row .col-lg-4');
   $('#chat_msg').parent().appendTo('#collapse-chat .tab-content');
   $('#chat_msg').parent().removeClass('mt-5px');
+}
+
+function getMobileInfo() {
+  if ($(window).width() <= 767) {
+    var state = Cookies.get('mobile_info')
+    if (state && state == 'shown') {
+      $('.mobile-player-info').removeClass('transition');
+      $('#app-container').removeClass('transition');
+      $('.mobile-player-info').css('top', '-1px');
+      $('#app-container').css('padding-top', '90px');
+      setTimeout(function() {
+        $('.mobile-player-info').addClass('transition');
+        $('#app-container').addClass('transition');
+      }, 400)
+    }
+  }
 }
