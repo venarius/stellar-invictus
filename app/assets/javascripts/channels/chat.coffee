@@ -10,6 +10,7 @@ window.check_chats = ->
           if (!$('a[data-target="#local-chat"]').hasClass('active'))
             $('a[data-target="#local-chat"]').addClass('chat-flash')
             setFlashChats()
+          addToMobileChatNotification()
           scrollChats()
           
       send_message: (message) ->
@@ -24,6 +25,7 @@ window.check_chats = ->
           if (!$('a[data-target="#global-chat"]').hasClass('active'))
             $('a[data-target="#global-chat"]').addClass('chat-flash')
             setFlashChats()
+          addToMobileChatNotification()
           scrollChats()
           
       send_message: (message) ->

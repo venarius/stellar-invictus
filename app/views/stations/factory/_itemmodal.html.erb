@@ -16,7 +16,7 @@
             <% get_item_attribute(item, 'crafting').each do |key, value| %>
               <tr>
                 <th><%= get_item_attribute(key, 'name') %></th>
-                <th><%= (value * current_user.blueprints.find_by(loader: item).efficiency).round %>&times;</th>
+                <th><%= Item.find_by(user: current_user, location: current_user.location, loader: key).count rescue 0 %> / <%= (value * current_user.blueprints.find_by(loader: item).efficiency).round %>&times;</th>
               </tr>
             <% end %>
           </table>

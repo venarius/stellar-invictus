@@ -21,11 +21,11 @@
   <body class="<%= 'pt-55px mobile-pt-0' if current_user and !current_page?(root_path) %>">
     <%= render 'layouts/navbar' %>
   
-    <div class="<%= 'container mb-3 mt-1rem pb-45px' unless current_page?(root_path) %> <%= 'pt-0' if !current_user %>" id="app-container">
+    <div class="<%= 'container mb-3 mt-1rem pb-45px transition' unless current_page?(root_path) %> <%= 'pt-0' if !current_user %>" id="app-container">
       
       <% unless current_page?(root_path) || !current_user %>
         <div class="display-none mobile-display-block">
-          <div class="card black-card player-info-card mobile-player-info">
+          <div class="card black-card player-info-card mobile-player-info transition">
             <%= render 'game/player_info' %>
           </div>
         </div>
@@ -33,18 +33,18 @@
       
       <%= render 'layouts/alerts' %>
       
-      <% if current_user&.system and !current_page?(station_path) %>
-        <div class="card black-card mb-3 chat-card">
+      <% if current_user&.system and !current_page?(station_path) and !current_page?(game_path) %>
+        <div class="card black-card mb-3 chat-card display-none mobile-display-block">
           <h5 class="card-header">
             <%= I18n.t('game.chat') %>
             <div class="float-right">
               <a class="btn btn-xs btn-outline-primary p-0-5 text-primary mobile-display-none" onclick="window.open('/game/chat?popup=true',null,'height=500,width=800')"><i class="fa fa-expand-arrows-alt"></i></a>
               <a data-toggle="collapse" data-target="#collapse-chat" href="#0">
-                <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-right"></i></div>
+                <div class="btn btn-xs btn-outline-primary p-0-5"><i class="fa fa-arrow-down"></i></div>
               </a>
             </div>
           </h5>
-          <div class="collapse" id="collapse-chat">
+          <div class="collapse show" id="collapse-chat">
             <div class="card-body">
               <%= render partial: 'game/chat', locals: {local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages} %>
             </div>
