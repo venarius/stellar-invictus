@@ -30,8 +30,7 @@
                 <%= link_to I18n.t('navbar.admin_dashboard'), main_app.admin_path, class: 'dropdown-item' %>
               <% end %>
               <%= link_to I18n.t('navbar.profile'), main_app.edit_user_registration_path, class: 'dropdown-item' %>
-              <!-- Asset Page: Caching Problem -->
-              <!-- <%= link_to I18n.t('navbar.assets'), main_app.assets_path, class: 'dropdown-item' %> -->
+              <%= link_to I18n.t('navbar.assets'), main_app.assets_path, class: 'dropdown-item', data: {turbolinks: false} %>
               <%= link_to I18n.t('navbar.friends'), main_app.friends_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.polls'), main_app.community_path, class: 'dropdown-item' %>
               <%= link_to I18n.t('navbar.guide'), 'https://forums.stellar-invictus.com/t/piloting-101-a-guide-for-new-players/266', target: '_blank', class: 'dropdown-item' %>
