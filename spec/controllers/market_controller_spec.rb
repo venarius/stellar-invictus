@@ -233,11 +233,11 @@ RSpec.describe MarketController, type: :controller do
         expect(Spaceship.count).to eq(2)
       end
       
-      it 'should not sell active spaceship' do
+      it 'should not sell active spaceship but may sell other ship' do
         post :sell, params: {loader: @user.active_spaceship.name, id: @user.active_spaceship.id, type: 'ship', quantity: '1'}
-        expect(response.status).to eq(400)
+        expect(response.status).to eq(200)
         expect(@user.reload.units).to eq(10)
-        expect(Spaceship.count).to eq(2)
+        expect(Spaceship.count).to eq(1)
       end
       
       it 'should not sell shit' do

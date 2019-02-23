@@ -27,13 +27,11 @@ describe Structure do
       
       describe 'get_items' do
         before(:each) do
-          2.times do
-            Item.create(loader: 'test', structure: @structure)
-          end
+          Item.create(loader: 'test', structure: @structure, count: 2)
         end
         
         it 'should return items in storage of ship' do
-          expect(@structure.get_items['test']).to eq(2)
+          expect(@structure.get_items.first.count).to eq(2)
         end
       end
     end

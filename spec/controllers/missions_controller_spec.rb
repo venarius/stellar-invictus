@@ -143,6 +143,7 @@ RSpec.describe MissionsController, type: :controller do
         
         if @mission.mission_type == 'delivery'
           @user.update_columns(location_id: @mission.deliver_to)
+          Item.give_to_user(amount: @mission.mission_amount, loader: @mission.loader, user: @user, location: @user.location)
         end
         
         post :finish, params: {id: @mission.id}

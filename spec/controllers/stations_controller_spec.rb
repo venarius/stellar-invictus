@@ -182,9 +182,7 @@ RSpec.describe StationsController, type: :controller do
     describe 'POST store' do
       before(:each) do
         @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
-        3.times do
-          Item.create(loader: 'test', spaceship: @user.active_spaceship, equipped: false)
-        end
+        Item.create(loader: 'test', spaceship: @user.active_spaceship, equipped: false, count: 3)
       end
       
       it 'should store items in station' do
@@ -192,7 +190,8 @@ RSpec.describe StationsController, type: :controller do
         post :store, params: {loader: 'test', amount: 3}
         expect(response.code).to eq('200')
         expect(@user.active_spaceship.get_weight).to eq(0)
-        expect(@user.location.items.count).to eq(3)
+        expect(@user.location.items.count).to eq(1)
+        expect(@user.location.items.first.count).to eq(3)
       end
       
       it 'should not store more items in station than player has' do
@@ -215,13 +214,11 @@ RSpec.describe StationsController, type: :controller do
     describe 'POST load' do
       before(:each) do
         @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
-        3.times do
-          Item.create(loader: 'test', user: @user, location: @user.location, equipped: false)
-        end
+        Item.create(loader: 'test', user: @user, location: @user.location, equipped: false, count: 3)
       end
       
       it 'should store items in ship' do
-        expect(@user.location.items.count).to eq(3)
+        expect(@user.location.items.count).to eq(1)
         post :load, params: {loader: 'test', amount: 3}
         expect(response.code).to eq('200')
         expect(@user.active_spaceship.get_weight).to eq(3)
@@ -229,30 +226,28 @@ RSpec.describe StationsController, type: :controller do
       end
       
       it 'should not store more items in ship than player has' do
-        expect(@user.location.items.count).to eq(3)
+        expect(@user.location.items.count).to eq(1)
         post :load, params: {loader: 'test', amount: 4}
         expect(response.code).to eq('400')
         expect(@user.active_spaceship.get_weight).to eq(0)
-        expect(@user.location.items.count).to eq(3)
+        expect(@user.location.items.count).to eq(1)
       end
       
       it 'should not store less items in ship than 0' do
-        expect(@user.location.items.count).to eq(3)
+        expect(@user.location.items.count).to eq(1)
         post :load, params: {loader: 'test', amount: -1}
         expect(response.code).to eq('400')
         expect(@user.active_spaceship.get_weight).to eq(0)
-        expect(@user.location.items.count).to eq(3)
+        expect(@user.location.items.count).to eq(1)
       end
       
       it 'should not store more items in ship than ship can carry' do
-        10.times do
-          Item.create(loader: 'test', user: @user, location: @user.location)
-        end
-        expect(@user.location.items.count).to eq(13)
+        Item.create(loader: 'test', user: @user, location: @user.location, count: 10)
+        expect(@user.location.items.count).to eq(2)
         post :load, params: {loader: 'test', amount: 13}
         expect(response.code).to eq('400')
         expect(@user.active_spaceship.get_weight).to eq(0)
-        expect(@user.location.items.count).to eq(13)
+        expect(@user.location.items.count).to eq(2)
       end
     end
   end

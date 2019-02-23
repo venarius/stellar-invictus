@@ -86,6 +86,7 @@ en:
     you_dont_have_enough_credits: "You don't have enough Credits"
     you_cant_sell_active_ship: "You can't sell your active spaceship"
     you_dont_have_enough_of_this: "You don't have enough of this"
+    you_dont_have_enough_of_this_or_trying_to_sell_active_ship: "You don't have enough of this or trying to sell active spaceship"
     you_cant_buy_that_much: "You can't buy that much"
     minimum_amount_is_1k_credits: "Minimum amount is 1000 Credits"
     you_didnt_kill_all_enemies: "You didn't kill all enemies"

@@ -38,13 +38,11 @@ describe Spaceship do
       
       describe 'get_items' do
         before(:each) do
-          2.times do
-            Item.create(loader: 'test', spaceship: @ship)
-          end
+          Item.create(loader: 'test', spaceship: @ship, count: 2)
         end
         
         it 'should return items in storage of ship' do
-          expect(@ship.get_items['test']).to eq(2)
+          expect(@ship.get_items.first.count).to eq(2)
         end
       end
       
