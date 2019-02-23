@@ -64,8 +64,6 @@ class StructuresController < ApplicationController
           else
             render json: {error_message: I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
           end
-          
-          render json: {}, status: 200 and return
         end
       end
     end

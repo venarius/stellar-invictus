@@ -196,6 +196,15 @@ RSpec.describe StructuresController, type: :controller do
         expect(response.status).to eq(400)
       end
       
+      it 'should destroy itself if false answer given for the sixth time' do
+        old_count = Structure.count
+        6.times do
+          post :abandoned_ship, params: {id: @abandoned_ship.id, text: "Glub"}
+          expect(response.status).to eq(400)
+        end
+        expect(Structure.count).to eq(old_count - 1)
+      end
+      
       it 'should succeed if right answer given' do
         post :abandoned_ship, params: {id: @abandoned_ship.id, text: "9"}
         expect(response.status).to eq(200)
@@ -209,5 +218,20 @@ RSpec.describe StructuresController, type: :controller do
         expect(@abandoned_ship.location.structures.count).to eq(2)
       end
     end
+    
+    describe 'GET monument_info' do
+      it 'should show modal for monument' do
+        monument = FactoryBot.create(:monument)
+        get :monument_info, params: {id: monument.id}
+        expect(response.status).to eq(200)
+        expect(response).to render_template('structures/_monument')
+      end
+      
+      it 'should not show modal if no params given' do
+        get :monument_info, params: {}
+        expect(response.status).to eq(400)
+      end
+    end
+    
   end
 end

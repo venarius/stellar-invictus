@@ -29,6 +29,23 @@ describe System do
           @system.update_local_players
         end
       end
+      
+      describe 'get_faction' do
+        it 'should not return faction of first station if station has no faction' do
+          expect(System.first.get_faction).to eq(nil)
+        end
+        
+        it 'should return faction of first station' do
+          System.where(security_status: :high).first.locations.where(location_type: :station).first.update_columns(faction_id: 1)
+          expect(System.where(security_status: :high).first.get_faction).to eq(Faction.first)
+        end
+      end
+      
+      describe 'mapdata' do
+        it 'should return yml file' do
+          expect(System.mapdata).to eq(YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml"))
+        end
+      end
     end
   end
 end
