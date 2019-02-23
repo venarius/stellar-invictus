@@ -51,6 +51,21 @@ RSpec.describe CorporationsController, type: :controller do
       end
     end
     
+    
+    describe 'GET sort_roster' do
+      before(:each) do
+        @user.update_columns(corporation_role: :founder)
+        corporation = FactoryBot.create(:corporation)
+        corporation.users << @user
+      end
+      
+      it 'should render sorted roster' do
+        get :sort_roster, params: {columns: 'full_name', direction: 'asc'}
+        expect(response.status).to eq(200)
+        expect(response).to render_template('corporations/_roster')
+      end
+    end
+    
     describe 'GET new' do
       it 'should render new' do
         get :new
@@ -132,9 +147,14 @@ RSpec.describe CorporationsController, type: :controller do
       end
       
       it 'should not update corporation if has not right ranks' do
-        post :update_motd, params: {tax: 3, about: ""}
+        post :update_corporation, params: {tax: 3, about: ""}
         expect(response.status).to eq(400)
         expect(Corporation.first.tax).to eq(1.5)
+      end
+      
+      it 'should not update corporation if no params given' do
+        post :update_corporation, params: {}
+        expect(response.status).to eq(400)
       end
     end
     
@@ -378,6 +398,11 @@ RSpec.describe CorporationsController, type: :controller do
         post :apply, params: {id: @corp.id, text: ""}
         expect(response.status).to eq(400)
         expect(CorpApplication.count).to eq(0)
+      end
+      
+      it 'should not apply if no params given' do
+        post :apply, params: {}
+        expect(response.status).to eq(400)
       end
     end
     

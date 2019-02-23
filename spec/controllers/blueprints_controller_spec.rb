@@ -38,12 +38,24 @@ RSpec.describe BlueprintsController, type: :controller do
         expect(response.status).to eq(200)
         expect(response).to render_template('stations/blueprints/_itemmodal')
       end
+      
+      it 'should not render modal if no params given' do
+        get :modal, params: {}
+        expect(response.status).to eq(400)
+      end
     end
     
     describe 'POST buy' do
       it 'should buy blueprint if enough credits' do
         @user.update_columns(units: 1000)
         post :buy, params: {loader: 'Nano', type: 'ship'}
+        expect(response.status).to eq(200)
+        expect(Blueprint.count).to eq(1)
+      end
+      
+      it 'should buy item blueprint if enough credits' do
+        @user.update_columns(units: 100000)
+        post :buy, params: {loader: Item.equipment.sample, type: 'item'}
         expect(response.status).to eq(200)
         expect(Blueprint.count).to eq(1)
       end

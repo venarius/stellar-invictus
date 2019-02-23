@@ -37,6 +37,11 @@ RSpec.describe FactoriesController, type: :controller do
         expect(response.status).to eq(200)
         expect(response).to render_template('stations/factory/_itemmodal')
       end
+      
+      it 'should not render modal if no params given' do
+        get :modal, params: {}
+        expect(response.status).to eq(400)
+      end
     end
       
     describe 'POST craft' do

@@ -175,5 +175,19 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect(ChatRoom.count).to eq(@count)
       end
     end
+    
+    describe 'POST search' do
+      it 'should render template if name given' do
+        post :search, params: {name: @user.name, identifier: ChatRoom.first.identifier}
+        expect(response.status).to eq(200)
+        expect(response).to render_template('game/chat/_search')
+      end
+      
+      it 'should render nothing if no name given' do
+        post :search
+        expect(response.status).to eq(400)
+      end
+    end
+    
   end
 end

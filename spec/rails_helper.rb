@@ -5,6 +5,8 @@ SimpleCov.start do
   add_filter "/app/helpers/devise_helper.rb"
   add_filter "/app/channels"
   add_filter "/app/lib"
+  add_filter "/spec"
+  add_filter "/app/helpers/application_helper.rb"
 end
 require 'database_cleaner'
 require 'sidekiq/testing'

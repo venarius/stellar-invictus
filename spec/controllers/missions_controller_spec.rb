@@ -126,6 +126,14 @@ RSpec.describe MissionsController, type: :controller do
         expect(response.status).to eq(400)
         expect(user2.reload.missions.count).to eq(1)
       end
+      
+      it 'should not abort mission if users still on mission site' do
+        FactoryBot.create(:user_with_faction, location: Mission.where(mission_type: :combat).first.mission_location)
+        Mission.where(mission_type: :combat).first.update_columns(mission_status: 1, user_id: @user.id)
+        get :abort, params: {id: Mission.where(mission_type: :combat).first.id}
+        expect(response.status).to eq(400)
+        expect(@user.reload.missions.count).to eq(1)
+      end
     end
     
     describe 'POST finish' do
@@ -141,9 +149,11 @@ RSpec.describe MissionsController, type: :controller do
         
         @mission.update_columns(mission_amount: 0, enemy_amount: 0)
         
-        if @mission.mission_type == 'delivery'
+        if @mission.delivery?
           @user.update_columns(location_id: @mission.deliver_to)
-          Item.give_to_user(amount: @mission.mission_amount, loader: @mission.loader, user: @user, location: @user.location)
+          Item.give_to_user(amount: @mission.mission_amount, loader: @mission.mission_loader, user: @user, location: @user.location)
+        elsif @mission.market?
+          Item.give_to_user(amount: @mission.mission_amount, loader: @mission.mission_loader, user: @user, location: @user.location)
         end
         
         post :finish, params: {id: @mission.id}
