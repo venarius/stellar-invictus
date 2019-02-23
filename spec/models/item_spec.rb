@@ -9,7 +9,6 @@ describe Item do
       it { should respond_to :location }
       it { should respond_to :structure }
       it { should respond_to :equipped }
-      it { should respond_to :mission }
     end
    
     describe 'Relations' do
@@ -17,7 +16,6 @@ describe Item do
       it { should belong_to :spaceship }
       it { should belong_to :location }
       it { should belong_to :structure }
-      it { should belong_to :mission }
     end
     
     describe 'Functions' do

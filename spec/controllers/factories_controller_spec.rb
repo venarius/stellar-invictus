@@ -63,15 +63,9 @@ RSpec.describe FactoriesController, type: :controller do
       end
       
       it 'should not start crafting if user doesnt have blueprint' do
-        10.times do
-          Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false)
-        end
-        20.times do
-          Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false)
-        end
-        2.times do
-          Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
-        end
+        Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false, count: 10)
+        Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false, count: 20)
+        Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
         
         post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 1}
         expect(response.status).to eq(400)
@@ -80,15 +74,10 @@ RSpec.describe FactoriesController, type: :controller do
       
       it 'should start crafting if has enough material' do
         Blueprint.create(loader: 'equipment.weapons.laser_gatling', user: @user)
-        10.times do
-          Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false)
-        end
-        20.times do
-          Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false)
-        end
-        2.times do
-          Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
-        end
+        
+        Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false, count: 10)
+        Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false, count: 20)
+        Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
         
         post :craft, params: {loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 1}
         expect(response.status).to eq(200)
@@ -98,15 +87,9 @@ RSpec.describe FactoriesController, type: :controller do
       it 'should start crafting if has enough material' do
         Blueprint.create(loader: 'Nano', user: @user)
         @user.update_columns(location_id: Location.where(station_type: 0).first.id, docked: true)
-        10.times do
-          Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false)
-        end
-        20.times do
-          Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false)
-        end
-        2.times do
-          Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
-        end
+        Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false, count: 10)
+        Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false, count: 20)
+        Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
         
         post :craft, params: {loader: 'Nano', type: 'ship', amount: 1}
         expect(response.status).to eq(200)
@@ -115,15 +98,9 @@ RSpec.describe FactoriesController, type: :controller do
       
       it 'should not start crafting if has enough material but no blueprint' do
         @user.update_columns(location_id: Location.where(station_type: 0).first.id, docked: true)
-        10.times do
-          Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false)
-        end
-        20.times do
-          Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false)
-        end
-        2.times do
-          Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false)
-        end
+        Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false, count: 10)
+        Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false, count: 20)
+        Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
         
         post :craft, params: {loader: 'Nano', type: 'ship', amount: 1}
         expect(response.status).to eq(400)

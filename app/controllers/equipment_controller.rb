@@ -64,6 +64,8 @@ class EquipmentController < ApplicationController
           render json: {}, status: 400 and return
         end
         
+      else
+        render json: {}, status: 400 and return
       end
     end
     

@@ -1,55 +1,55 @@
 <nav class="navbar main-navbar navbar-expand-lg navbar-dark bg-dark <%= 'fixed-top' if current_user and !current_page?(root_path) %>">
-    <a class="navbar-brand" href="/<%= 'game' if current_user %>"><%= image_tag('logo2.svg') %></a>
+  <a class="navbar-brand" href="/<%= 'game' if current_user %>"><%= image_tag('stellar_tiny.png') %></a>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <% if current_user %>
+        <%= navbar_item(main_app.game_path, 'navbar.game') %>
+        <%= navbar_item(main_app.corporations_path, 'navbar.corporation', CorpApplication.where(corporation: current_user.corporation).count ) %>
+        <%= navbar_item(main_app.game_mails_path, 'navbar.mails', GameMail.where(recipient_id: current_user.id, read: false).count) %>
+        <%= navbar_item(main_app.map_path, 'navbar.map') %>
+        <%= link_to I18n.t('navbar.forum'), 'https://forums.stellar-invictus.com/', target: '_blank', class: 'nav-link' %>
+        <%= navbar_item(main_app.donate_path, 'navbar.donate') %>
+      <% else %>
+        <%= navbar_item(main_app.root_path, 'navbar.home') %>
+      <% end %>
+    </ul>
     
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav mr-auto">
-        <% if current_user %>
-          <%= navbar_item(main_app.game_path, 'navbar.game') %>
-          <%= navbar_item(main_app.corporations_path, 'navbar.corporation', CorpApplication.where(corporation: current_user.corporation).count ) %>
-          <%= navbar_item(main_app.game_mails_path, 'navbar.mails', GameMail.where(recipient_id: current_user.id, read: false).count) %>
-          <%= navbar_item(main_app.map_path, 'navbar.map') %>
-          <%= link_to I18n.t('navbar.forum'), 'https://forums.stellar-invictus.com/', target: '_blank', class: 'nav-link' %>
-          <%= navbar_item(main_app.donate_path, 'navbar.donate') %>
-        <% else %>
-          <%= navbar_item(main_app.root_path, 'navbar.home') %>
-        <% end %>
-      </ul>
-      
-      <ul class="navbar-nav avatar-menu">
-        <% if current_user %>
-          <div class="dropdown">
-            <a data-toggle="dropdown"><%= image_tag("avatars/#{current_user.avatar}.jpg", class: 'navbar-avatar') %> <i class="fa fa-caret-down fa-lg"></i></a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <p class="dropdown-item mb-0"><%= current_user.full_name.truncate(20) %></p>
-              <div class="dropdown-divider"></div>
-              <% if current_user.admin %>
-                <%= link_to I18n.t('navbar.admin_dashboard'), main_app.admin_path, class: 'dropdown-item' %>
-              <% end %>
-              <%= link_to I18n.t('navbar.profile'), main_app.edit_user_registration_path, class: 'dropdown-item' %>
-              <%= link_to I18n.t('navbar.assets'), main_app.assets_path, class: 'dropdown-item', data: {turbolinks: false} %>
-              <%= link_to I18n.t('navbar.friends'), main_app.friends_path, class: 'dropdown-item' %>
-              <%= link_to I18n.t('navbar.polls'), main_app.community_path, class: 'dropdown-item' %>
-              <%= link_to I18n.t('navbar.guide'), 'https://forums.stellar-invictus.com/t/piloting-101-a-guide-for-new-players/266', target: '_blank', class: 'dropdown-item' %>
-              <%= link_to I18n.t('navbar.logout'), main_app.destroy_user_session_path, method: :delete, class: 'dropdown-item', style: 'color: #CC0000', id: 'logout-btn' %>
-            </div>
+    <ul class="navbar-nav avatar-menu">
+      <% if current_user %>
+        <div class="dropdown">
+          <a data-toggle="dropdown"><%= image_tag("avatars/#{current_user.avatar}.jpg", class: 'navbar-avatar') %> <i class="fa fa-caret-down fa-lg"></i></a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <p class="dropdown-item mb-0"><%= current_user.full_name.truncate(20) %></p>
+            <div class="dropdown-divider"></div>
+            <% if current_user.admin %>
+              <%= link_to I18n.t('navbar.admin_dashboard'), main_app.admin_path, class: 'dropdown-item' %>
+            <% end %>
+            <%= link_to I18n.t('navbar.profile'), main_app.edit_user_registration_path, class: 'dropdown-item' %>
+            <%= link_to I18n.t('navbar.assets'), main_app.assets_path, class: 'dropdown-item', data: {turbolinks: false} %>
+            <%= link_to I18n.t('navbar.friends'), main_app.friends_path, class: 'dropdown-item' %>
+            <%= link_to I18n.t('navbar.polls'), main_app.community_path, class: 'dropdown-item' %>
+            <%= link_to I18n.t('navbar.guide'), 'https://forums.stellar-invictus.com/t/piloting-101-a-guide-for-new-players/266', target: '_blank', class: 'dropdown-item' %>
+            <%= link_to I18n.t('navbar.logout'), main_app.destroy_user_session_path, method: :delete, class: 'dropdown-item', style: 'color: #CC0000', id: 'logout-btn' %>
           </div>
-        <% else %>
-          <%= navbar_item(main_app.nojs_path, 'navbar.connect') %>
-        <% end %>
-      </ul>
+        </div>
+      <% else %>
+        <%= navbar_item(main_app.nojs_path, 'navbar.connect') %>
+      <% end %>
+    </ul>
+  </div>
+  
+  <% unless current_page?(root_path) || !current_user %>
+    <div class="move-in-navbar mobile-menu-close-btn">
+        <i class="fa fa-angle-double-left fa-3x"></i><i class="fa fa-angle-double-left fa-3x"></i>
     </div>
     
-    <% unless current_page?(root_path) || !current_user %>
-      <div class="move-in-navbar mobile-menu-close-btn">
-          <i class="fa fa-angle-double-left fa-3x"></i><i class="fa fa-angle-double-left fa-3x"></i>
-      </div>
-      
-      <div class="display-none mobile-display-block">
-        <%= render 'layouts/footer' %>
-      </div>
-    <% end %>
+    <div class="display-none mobile-display-block">
+      <%= render 'layouts/footer' %>
+    </div>
+  <% end %>
 </nav>

@@ -99,7 +99,7 @@ class MarketController < ApplicationController
       # If type == item -> else..
       if params[:type] == "item"
         # Check if user tries to sell more
-        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if Item.find_by(loader: params[:loader], user: current_user, location: current_user.location).count < quantity
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if (Item.find_by(loader: params[:loader], user: current_user, location: current_user.location).count rescue 0) < quantity
         
         # Destroy items
         Item.remove_from_user({loader: params[:loader], user: current_user, location: current_user.location, amount: quantity})
@@ -107,13 +107,13 @@ class MarketController < ApplicationController
       elsif params[:type] == "ship" and params[:loader]
       
         # Check if user tries to sell more
-        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).count < quantity
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this_or_trying_to_sell_active_ship')}, status: 400 and return if Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).count < quantity
       
         ships = Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).limit(quantity) rescue nil
         
         if ships
           ships.each do |ship|
-            # Check if active ship
+            # Check if active ship - Fallback
             render json: {'error_message': I18n.t('errors.you_cant_sell_active_ship')}, status: 400 and return if ship == current_user.active_spaceship
             
             ship.destroy

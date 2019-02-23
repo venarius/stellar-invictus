@@ -165,23 +165,6 @@ RSpec.describe AdminController, type: :controller do
       end
     end
     
-    describe 'POST activate_maintenance' do
-      it 'should activate maintenance' do
-        post :activate_maintenance
-        expect(response.status).to eq(204)
-        $allow_login = true
-      end
-      
-      describe 'after maintenance' do
-        it 'should redirect_to root_path' do
-          $allow_login = false
-          post :activate_maintenance
-          expect(response.status).to eq(302)
-          $allow_login = true
-        end
-      end
-    end
-    
   end
   
   context 'with ban' do
