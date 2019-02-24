@@ -249,4 +249,32 @@ class User < ApplicationRecord
     end
   end
   
+  # Teleports to another user
+  def teleport(user)
+    ActionCable.server.broadcast("location_#{location_id}", method: 'player_warp_out', name: full_name)
+    old_system = self.system
+    self.update_columns(location_id: user.location_id, system_id: user.system_id, docked: user.docked, in_warp: false)
+    # Tell everyone in old system to update their local players
+    old_system.update_local_players
+    # Tell everyone in new system to update their local players
+    self.reload.system.update_local_players
+    ActionCable.server.broadcast("location_#{location_id}", method: 'player_appeared')
+    ActionCable.server.broadcast("player_#{id}", method: 'warp_finish')
+  end
+  
+  # Ban User
+  def ban(duration, reason)
+    if duration.to_i == 0
+      self.update_columns(banned: true, banned_until: nil, banreason: reason)
+    else
+      self.update_columns(banned: true, banned_until: (DateTime.now.to_time + duration.to_i.hours).to_datetime , banreason: reason)
+    end
+    ActionCable.server.broadcast("player_#{id}", method: 'reload_page')
+  end
+  
+  # Unban User
+  def unban
+    self.update_columns(banned: false, banned_until: nil, banreason: nil) if banned
+  end
+  
 end
