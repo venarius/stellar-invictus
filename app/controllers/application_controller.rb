@@ -72,13 +72,14 @@ class ApplicationController < ActionController::Base
   
   def set_chat
     if current_user and current_user.system
-      if current_user.system.wormhole?
-        @system_users = []
-      else
-        @system_users = User.where("online > 0").where(system: current_user.system)
-      end
-      @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
+      current_user.system.wormhole? ? @system_users = [] : @system_users = User.where("online > 0").where(system: current_user.system)
+      @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(20)
     end
+  end
+  
+  def find_user
+    @user = User.find(params[:id]) rescue nil if params[:id]
+    render json: {}, status: 400 and return unless @user
   end
   
 end

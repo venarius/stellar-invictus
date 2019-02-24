@@ -128,9 +128,10 @@ RSpec.describe MissionsController, type: :controller do
       end
       
       it 'should not abort mission if users still on mission site' do
-        FactoryBot.create(:user_with_faction, location: Mission.where(mission_type: :combat).first.mission_location)
-        Mission.where(mission_type: :combat).first.update_columns(mission_status: 1, user_id: @user.id)
-        get :abort, params: {id: Mission.where(mission_type: :combat).first.id}
+        mission = FactoryBot.create(:combat_mission)
+        FactoryBot.create(:user_with_faction, location: mission.mission_location)
+        mission.update_columns(mission_status: 1, user_id: @user.id)
+        get :abort, params: {id: mission.id}
         expect(response.status).to eq(400)
         expect(@user.reload.missions.count).to eq(1)
       end
