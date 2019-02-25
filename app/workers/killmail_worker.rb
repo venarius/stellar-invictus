@@ -5,7 +5,7 @@ class KillmailWorker
   sidekiq_options :retry => false
 
   def perform(attr, attackers=nil, loot=nil)
-    uri = URI(ENV.fetch("KILLBOARD_URL") { "http://killboard.mdotshell.com:8080/submit" })
+    uri = URI(ENV.fetch("KILLBOARD_URL") { "https://killboard.stellar-invictus.com/submit" })
     req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
     
     body = attr

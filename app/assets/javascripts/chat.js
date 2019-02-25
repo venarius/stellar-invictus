@@ -197,7 +197,7 @@ function scrollChats(hard) {
     $('.chat-card .tab-content').children('.tab-pane').each(function() {
       var body = $(this).find('tbody');
       
-      if(body.scrollTop() + body.innerHeight() >= body.get(0).scrollHeight - 100 || hard) {
+      if(body.scrollTop() + body.innerHeight() >= body.get(0).scrollHeight - 200 || hard) {
         body.scrollTop(body.get(0).scrollHeight);
       }
     })
