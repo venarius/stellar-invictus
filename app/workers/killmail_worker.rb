@@ -5,7 +5,7 @@ class KillmailWorker
   sidekiq_options :retry => false
 
   def perform(attr, attackers=nil, loot=nil)
-    uri = URI(ENV.fetch("KILLBOARD_URL") { "https://killboard.stellar-invictus.com/submit" })
+    uri = URI(ENV.fetch("KILLBOARD_URL", "https://killboard.stellar-invictus.com/"))
     req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
     
     body = attr
@@ -37,10 +37,8 @@ class KillmailWorker
       body.reverse_merge!({loot: loot})
     end
     
-    #logger.info({kill: body}.to_json)
-    
     req.body = {kill: body}.to_json
-    Net::HTTP.start(uri.hostname, uri.port, :read_timeout => 10) do |http|
+    Net::HTTP.start(uri.hostname, uri.port, :read_timeout => 10, :use_ssl => true) do |http|
       http.request(req)
     end
   end
