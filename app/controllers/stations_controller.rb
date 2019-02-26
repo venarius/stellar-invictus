@@ -53,6 +53,8 @@ class StationsController < ApplicationController
           render partial: 'stations/factory'
         when 'blueprints'
           render partial: 'stations/blueprints'
+        when 'casino'
+          render partial: 'stations/casino'
         when 'market'
           render partial: 'stations/market', locals: {market_listings: MarketListing.where(location: current_user.location).map(&:loader)}
         when 'my_ships'
@@ -134,6 +136,29 @@ class StationsController < ApplicationController
           end
         else
           render json: {error_message: I18n.t('errors.your_ship_cant_carry_that_much')}, status: 400 and return
+        end
+      end
+    end
+    render json: {}, status: 400
+  end
+  
+  def dice_roll
+    if params[:bet] and params[:roll_under]
+      bet = params[:bet].to_i rescue 0
+      roll_under = params[:roll_under].to_i rescue 0
+      
+      # Check Bet Amount
+      render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.units >= bet
+      
+      if bet >= 10 and roll_under >= 5 and roll_under <= 95
+        current_user.reduce_units(bet)
+        roll = rand(0..100)
+        
+        if roll < roll_under
+          current_user.give_units((bet * (95.0 / roll_under)).round)
+          render json: {win: true, time: DateTime.now().strftime("%H:%M"), roll: roll, bet: bet, payout: (bet * (95.0 / roll_under)).round, units: current_user.reload.units, message: I18n.t('casino.won_credits', credits: (bet * (95.0 / roll_under)).round) }, status: 200 and return
+        else
+          render json: {win: false, time: DateTime.now().strftime("%H:%M"), roll: roll, bet: bet, payout: 0, units: current_user.reload.units, message: I18n.t('casino.lost_credits', credits: bet)}, status: 200 and return
         end
       end
     end

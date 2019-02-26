@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="card black-card card-body mt-3 border-primary p-3">
+      <h5 class="text-center mt-3"><i class="fa fa-dice fa-lg"></i></h5>
+      
+      <div class="row mt-3">
+        <div class="col-md-6 mt-5px">
+          <label><%= I18n.t('casino.bet_amount') %></label>
+          <div class="input-group">
+            <input type="number" class="form-control" min=10 value="10" id="diceBet">
+            <div class="input-group-append" id="button-addon4">
+              <button class="btn btn-outline-primary" type="button" id="diceDouble">2x</button>
+              <button class="btn btn-outline-primary" type="button" data-max="<%= current_user.units %>" id="diceMax">Max</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-5px">
+          <label><%= I18n.t('casino.profit_on_win') %></label>
+          <input type="number" class="form-control" value="19" disabled id="diceProfit">
+        </div>
+      </div>
+      
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <label><%= I18n.t('casino.roll_under_to_win') %></label>
+          <h5 id="diceRollOver">50</h5>
+        </div>
+        <div class="col-md-6">
+          <label><%= I18n.t('casino.payout') %></label>
+          <h5 id="dicePayout">1.95x</h5>
+        </div>
+      </div>
+      
+      <div class="slidecontainer mt-3">
+        <input type="range" min="5" max="95" value="50" class="slider" id="diceRange">
+      </div>
+      
+      <button class="mt-3 btn btn-primary w-100" id="diceRoll"><%= I18n.t('casino.roll_dice') %></button>
+      
+      <h5 class="mt-5"><%= I18n.t('casino.history') %></h5>
+      <div class="diceHistoryDiv">
+        <table class="table table-sm table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="row"><%= I18n.t('casino.time') %></th>
+              <th scope="row"><%= I18n.t('casino.bet') %></th>
+              <th scope="row"><%= I18n.t('casino.roll') %></th>
+              <th scope="row"><%= I18n.t('casino.payout') %></th>
+            </tr>
+          </thead>
+          <tbody id="diceHistory">
+            
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+</div>
