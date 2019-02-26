@@ -10,11 +10,11 @@ class GameMailsController < ApplicationController
   
   def create
     recipient = User.find_by(full_name: mail_params[:recipient_name])
-    if recipient && GameMail.create(sender: current_user, recipient: recipient, body: mail_params[:body], header: mail_params[:header], units: mail_params[:units])
+    if recipient && (mail_params[:units].to_i < current_user.units) && GameMail.create(sender: current_user, recipient: recipient, body: mail_params[:body], header: mail_params[:header], units: mail_params[:units])
       flash[:notice] = I18n.t('mails.successfully_sent')
       redirect_to game_mails_path
     else
-      flash[:alert] = I18n.t('errors.recipient_not_found')
+      flash[:alert] = I18n.t('errors.recipient_not_found_or_trying_to_send_too_much')
       @mail = GameMail.new(body: mail_params[:body], header: mail_params[:header])
       render :new
     end

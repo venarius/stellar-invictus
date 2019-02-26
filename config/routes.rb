@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     post 'buy', to: 'stations#buy'
     post 'store', to: 'stations#store'
     post 'load', to: 'stations#load'
+    post 'dice_roll', to: 'stations#dice_roll'
   end
   get '/station', to: 'stations#index'
   

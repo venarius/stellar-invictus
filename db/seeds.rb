@@ -148,8 +148,12 @@ Location.find_or_create_by(station_type: 3, system: zimse, location_type: 0, fac
 Location.find_or_create_by(station_type: 1, system: latos, location_type: 0, faction: faction1)
 Location.find_or_create_by(station_type: 0, system: latos, location_type: 0, faction: faction1)
 Location.find_or_create_by(station_type: 2, system: urus, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 0, system: odin, location_type: 0, faction: nil, name: "The Lithium Exchange", player_market: true)
 Location.find_or_create_by(station_type: 0, system: alba, location_type: 0, faction: faction1)
+
+# Lithex
+Location.find_or_create_by(station_type: 0, system: odin, location_type: 0, faction: nil, name: "The Lithium Exchange", player_market: true)
+# Trillium Casino
+Location.find_or_create_by(station_type: 4, system: foves, location_type: 0, faction: nil)
 
 # Random Stations
 System.all.each do |sys|
