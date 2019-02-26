@@ -10,10 +10,10 @@
       Map
     </a>
     
-    <div class="col-3 text-center mobile-menu-chat-btn">
-      <i class="fa fa-comment-alt fa-lg"></i><br>
-      Chat
-    </div>
+    <a class="col-3 text-center mobile-menu-nav-btn <%= 'active' if current_page?(game_mails_path) %>" href="<%= game_mails_path %>">
+      <i class="fa fa-envelope fa-lg"></i><br>
+      Mails<%= "&nbsp;<span class='badge badge-secondary' style='vertical-align:2px'>#{GameMail.where(recipient_id: current_user.id, read: false).count}</span>".html_safe if GameMail.where(recipient_id: current_user.id, read: false).present? %>
+    </a>
     
     <div class="col-3 text-center mobile-menu-open-btn">
       <i class="fa fa-bars fa-lg"></i><br>
