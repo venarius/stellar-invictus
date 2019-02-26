@@ -2,9 +2,8 @@ $( document ).on('turbolinks:load', function() {
     // Scroll to bottom
     setTimeout(function() {scrollChats(true);}, 250);
     
-    // Get flash Chats and mobile notifcation
+    // Get flash Chats
     getFlashChats();
-    getMobileChatNotification();
     
     // Send actioncable on button press
     $('#chat_send').on('click', function(e) {
@@ -27,17 +26,13 @@ $( document ).on('turbolinks:load', function() {
     $('.chat-card a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       Cookies.set('chat_tab', $(this).data('target'));
       removeChatFlash($(this).data('target'));
+      scrollChats(true);
     });
     
      // Cookie getter Chat collapse
     if ($('#collapse-chat').length) {
-      if ($(window).width() > 767) {
-        var type = Cookies.get('collapse-chat');
-        if (type == 'hidden') {
-          $('#collapse-chat').removeClass('show');
-          $('#collapse-chat').prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
-        }
-      } else {
+      var type = Cookies.get('collapse-chat');
+      if (type == 'hidden') {
         $('#collapse-chat').removeClass('show');
         $('#collapse-chat').prev('.card-header').find('.fa-arrow-down').removeClass('fa-arrow-down').addClass('fa-arrow-right');
       }
@@ -308,29 +303,5 @@ function update_hp_color(room, color, id) {
         $(this).find('span').removeClass().addClass(color);
       }
     });
-  }
-}
-
-// AddToMobileChatNotification
-function addToMobileChatNotification() {
-  if ($(window).width() <= 767 && $('.mobile-menu-chat-btn').length && !$('#collapse-chat').hasClass('show')) {
-    if ($('.mobile-menu-chat-btn').find('.chat-notification').length) {
-      var counter = parseInt($('.mobile-menu-chat-btn').find('.chat-notification').html())
-      $('.mobile-menu-chat-btn').find('.chat-notification').html(counter + 1);
-    } else {
-      var counter = 1
-      $('.mobile-menu-chat-btn').append("<span class='badge badge-secondary chat-notification' style='vertical-align:2px'>1</span>");
-    }
-    Cookies.set('chat_counter', counter);
-  } 
-}
-
-// Get MobileChatNotifcation
-function getMobileChatNotification() {
-  if ($(window).width() <= 767 && $('.mobile-menu-chat-btn').length) {
-    var counter = Cookies.get('chat_counter');
-    if (counter && counter > 0) {
-      $('.mobile-menu-chat-btn').append("<span class='badge badge-secondary chat-notification' style='vertical-align:2px'>"+counter+"</span>");
-    }
   }
 }

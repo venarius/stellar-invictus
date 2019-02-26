@@ -26,18 +26,6 @@ $( document ).on('turbolinks:load', function() {
     });
   });
   
-  $('.mobile-menu-chat-btn').on('click', function() {
-    $(this).find('.chat-notification').remove();
-    Cookies.set('chat_counter', 0);
-    if ($(this).hasClass('active')) {
-      $('.chat-card .collapse').collapse('hide');
-      $(this).removeClass('active');
-    } else {
-      $('.chat-card .collapse').collapse('show');
-      $(this).addClass('active');
-    }
-  });
-  
   $('#app-container').on('click', '.toggle-mobile-info', function() {
     if ($(window).width() <= 767) {
       if ($('.mobile-player-info').css('top') == "-55px") {
@@ -72,15 +60,11 @@ function gameLayoutResize(hard) {
 function gameLayoutMobile() {
   $('.chat-card').insertAfter('.system-card.mobile-display-none');
   $('.game-card-row .col-lg-4').insertAfter('.game-card-row .col-lg-8');
-  $('#chat_msg').parent().prependTo('#collapse-chat .tab-content');
-  $('#chat_msg').parent().addClass('mt-5px');
 }
 
 function gameLayoutDesktop() {
   $('.chat-card').insertAfter('.ship-card');
   $('.game-card-row .col-lg-8').insertAfter('.game-card-row .col-lg-4');
-  $('#chat_msg').parent().appendTo('#collapse-chat .tab-content');
-  $('#chat_msg').parent().removeClass('mt-5px');
 }
 
 function getMobileInfo() {

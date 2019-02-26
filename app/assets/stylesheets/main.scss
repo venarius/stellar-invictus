@@ -549,42 +549,6 @@ a {
   } 
 }
 
-@media (max-width: 767px) {
-  .chat-card {
-    position: fixed;
-    bottom: 52px;
-    left: 0;
-    width: 100vw;
-    background: black;
-    z-index: 1024;
-    border-top: 1px solid #6493cd;
-    margin-bottom: 0 !important;
-    .card-header {
-      display: none;
-    }
-    .collapse.show {
-      height: calc(100vh - 86px);
-      .card-body .tab-content {
-        #local-chat, .corporation-chat { 
-          table tbody {
-            height: calc(100vh - 270px);
-          }
-        }
-        #global-chat, #log { 
-          table tbody {
-            height: calc(100vh - 185px);
-          }
-        }
-        .custom-chat {
-          table tbody {
-            height: calc(100vh - 295px);
-          }
-        }
-      }
-    }
-  }
-}
-
 // ###############
 // Scrollbar
 // ############### 
