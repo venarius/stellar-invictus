@@ -40,7 +40,7 @@ $( document ).on('turbolinks:load', function() {
         
         $.notify(data.message, {style: 'info'});
         $('.player-info-card').find('.fa-dollar-sign').parent().html("<i class='fa fa-dollar-sign'></i>&nbsp;&nbsp;" + data.units);
-        $('#diceMax').html('max', data.units);
+        $('#diceMax').data('max', data.units);
         
         var body = $('.diceHistoryDiv');
         body.scrollTop(body.get(0).scrollHeight);
