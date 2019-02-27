@@ -157,20 +157,12 @@ $( document ).on('turbolinks:load', function() {
     
     loading_animation(button);
     $.post('market/sell', {loader: loader, type: type, quantity: amount, price: price}, function(data) {
+      button.html(html);
       button.closest('.modal').modal('hide');
       button = $('#app-container').find('.market-appraise-btn[data-loader="'+loader+'"]');
       
-      setTimeout(function() {
-        var type = Cookies.get('station_tab');
-        if (type) {
-          $('.station-card .nav-pills a').each(function() {
-            if ($(this).data('target') == type) { 
-              $(this).tab('show'); 
-              load_station_tab($('.station-card a.nav-link.active').data('target'));
-            }
-          });
-        }
-      }, 250);
+      
+      setTimeout(function() {load_station_tab($('.station-card a.nav-link.active').data('target'));}, 250);
       
       refresh_player_info();
       

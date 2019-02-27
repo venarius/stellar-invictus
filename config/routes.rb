@@ -162,6 +162,8 @@ Rails.application.routes.draw do
   scope :factory do
     get 'modal', to: 'factories#modal'
     post 'craft', to: 'factories#craft'
+    get 'dismantle_modal', to: 'factories#dismantle_modal'
+    post 'dismantle', to: 'factories#dismantle'
   end
   
   # Corporation

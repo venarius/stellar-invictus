@@ -143,7 +143,7 @@ class StationsController < ApplicationController
   end
   
   def dice_roll
-    if params[:bet] and params[:roll_under]
+    if params[:bet] and params[:roll_under] and current_user.docked and current_user.location.trillium_casino?
       bet = params[:bet].to_i rescue 0
       roll_under = params[:roll_under].to_i rescue 0
       
