@@ -22,6 +22,11 @@
     font-style: normal;
 }
 
+* {
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
 body {
   font-family: 'Shentox Medium';
 }
