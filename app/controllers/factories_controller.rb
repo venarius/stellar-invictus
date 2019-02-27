@@ -58,4 +58,33 @@ class FactoriesController < ApplicationController
     render json: {message: 'plub'}, status: 400
   end
   
+  def dismantle_modal
+    if params[:loader]
+      render partial: 'stations/factory/dismantlemodal', locals: {item: params[:loader]} and return
+    end
+    render json: {}, status: 400 and return
+  end
+  
+  def dismantle
+    if params[:loader] and params[:amount] and current_user.docked and current_user.location.industrial_station?
+      amount = params[:amount].to_i rescue 0
+      item = Item.find_by(loader: params[:loader], location: current_user.location, user: current_user) rescue nil
+      
+      if item
+        # Check if trying to dismantle more than has
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if amount > item.count
+        
+        # Get Crafting Materials and Destroy Items
+        materials = item.get_attribute('crafting')
+        Item.remove_from_user({loader: params[:loader], location: current_user.location, user: current_user, amount: amount})
+        materials.each do |key, value|
+          Item.give_to_user({loader: key, location: current_user.location, user: current_user, amount: (value * amount * rand(0.9..1.1) * 0.75).round})
+        end
+        
+        render json: {message: I18n.t('station.dismantling_successful')}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
 end

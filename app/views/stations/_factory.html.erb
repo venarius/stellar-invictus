@@ -8,6 +8,9 @@
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" data-target="#factory-active" href="#0" role="tab"><%= I18n.t('station.active') %></a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" data-target="#factory-dismantling" href="#0" role="tab"><%= I18n.t('station.dismantling') %></a>
+  </li>
 </ul>
 <div class="tab-content mt-5px">
   <div class="tab-pane fade show active" id="factory-ships" role="tabpanel">
@@ -77,6 +80,42 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+  <div class="tab-pane fade" id="factory-dismantling" role="tabpanel">
+    <div class="overflow-scroll" style="height:92%">
+      <table class="table table-bordered table-hover table-sm table-striped">
+        <% if current_user.location.get_items(current_user.id).count > 0 %>
+          <thead>
+            <tr>
+              <th scope="col">Qty.</th>
+              <th scope="col"><%= I18n.t('items.name') %></th>
+              <th scope="col"><%= I18n.t('items.type') %></th>
+              <th class="btn-th" style="width:1px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% current_user.location.items.where(user: current_user).where("loader ILIKE ?", "equipment.%").sort_by{|p| p.get_attribute('type')}.each do |item| %>
+              <tr>
+                <td class="amount" data-loader="<%= item.loader %>"><%= item.count %>&times;</td>
+                <% if item.loader.include? "equipment" %>
+                  <td><a href="#" class="equipment-info item-name" data-loader="<%= item.loader %>"><%= item.get_attribute('name') %></a></td>
+                <% else %>
+                  <td class="item-name"><%= item.get_attribute('name') %></td>
+                <% end %>
+                <td><%= item.get_attribute('type') %></td>
+                <td>
+                  <a class="btn btn-outline-primary btn-sm dismantle-modal-btn text-primary" role="button" data-loader="<%= item.loader %>"><i class="fa fa-cogs"></i></a>
+                </td>
+              </tr>
+            <% end %>
+          <tbody>
+        <% else %>
+          <tr>
+            <h2 class="text-center">...</h2>
+          </tr>
+        <% end %>
+      </table>
+    </div>
   </div>
 </div>
 

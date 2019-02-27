@@ -248,6 +248,12 @@ en:
     blueprints: "Blueprints"
     dont_have_blueprint: "You don't have the required blueprint (from research station)"
     my_listings: "My Listings"
+    dismantle: "Dismantle"
+    dismantling_item: "Dismantling %{item}"
+    average_amount_received: "Average amount received"
+    dismantling: "Dismantling"
+    how_much: "How much"
+    dismantling_successful: "Dismantling successful"
   ships:
     insurance: "Insurance"
     insurance_text: "Purchase Insurance for this ship? Once purchased, your ship will get replaced in case of destruction."

@@ -220,6 +220,61 @@ $( document ).on('turbolinks:load', function() {
       }).fail(function(data) { if (data && data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
     }
   });
+  
+  // Show modal Dismantling Btn AJAX
+  $('#factory').on('click', '.dismantle-modal-btn', function() {
+    var loader = $(this).data('loader');
+    
+    $.get('/factory/dismantle_modal', {loader: loader}, function(data) {
+      $(data).appendTo('#factory').modal('show');
+    }).fail(function(data) { if (data && data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
+  });
+  
+  // Dismantling Modal Close
+  $('#factory').on('hidden.bs.modal', '#dismantle-modal', function () {
+    $('#dismantle-modal').remove();
+  })
+  
+  // Dismantling Modal Input Change
+  $('#factory').on('keyup change', '#dismantleModalInput', function() {
+    $('#dismantle-modal').find('td.amount').each(function() {
+      $(this).html(parseInt($(this).data('amount')) * parseInt($('#dismantleModalInput').val()));
+    });
+  });
+  
+  // Dismantling Modal Max Button
+  $('#factory').on('click', '#dismantleModalMax', function() {
+    var amount = $(this).data('max')
+    
+    $('#dismantleModalInput').val(amount);
+    $('#dismantle-modal').find('td.amount').each(function() {
+      $(this).html(parseInt($(this).data('amount')) * parseInt(amount));
+    });
+  });
+  
+  // Dismantling Modal Dismantle Button AJAX
+  $('#factory').on('click', '#dismantleModalBtn', function() {
+    var amount = $('#dismantleModalInput').val();
+    var loader = $(this).data('loader');
+    var button = $(this);
+    var html = $(this).html();
+    
+    loading_animation(button);
+    $.post('/factory/dismantle', {amount: amount, loader: loader}, function(data) {
+      button.html(html);
+      $.notify(data.message, {style: 'info'});
+      button.closest('.modal').modal('hide');
+      $('#factory-dismantling').find('.amount').each(function() {
+        if ($(this).data('loader') == loader) {
+          if (parseInt($(this).html().replace("&times;", "")) == amount) {
+            $(this).parent().remove();
+          } else {
+            $(this).html(parseInt($(this).html().replace("&times;", "")) - amount).append("&times;")
+          }
+        }
+      });
+    }).fail(function(data) { if (data && data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } button.html(html); });
+  });
 });
 
 function load_station_tab(href) {
