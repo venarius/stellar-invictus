@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  DATABASE_HOST: database
+  FACEBOOK_APP_ID: "675235206228133"
+  FACEBOOK_APP_SECRET: ea05243174c0e72e5c2f4c0b2a159162
+  KILLBOARD_URL: https://killboard.stellar-invictus.com/submit
+  POSTGRES_DB: stellar
+  POSTGRES_PASSWORD: 123d128dz12du1298dhjd09adh
+  POSTGRES_USER: dawd1dcx12ed12ed1d21e
+  RAILS_LOG_TO_STDOUT: "true"
+  RAILS_SERVE_STATIC_FILES: "true"
+  RECAPTCHA_SECRET_KEY: 6LcXPYgUAAAAAJfQDEYmbCo1BTRhDcF62Hp8248l
+  RECAPTCHA_SITE_KEY: 6LcXPYgUAAAAAMyNxrwHBVJpkDZeYgZ6Z9LV3UjE
+  REDIS_URL: redis://redis:6379/1
+  SECRET_KEY_BASE: 9d6d05e1990f81bbba154b1fc54c23c6ffaafb081a07e5ac3731160a6126e711c2f1d7623b6d5240c03686462cda966344fe6f1b35fa44c14eaba50769692c74
+  SENDGRID_PASSWORD: 5vgUqdikhKmV
+  SENDGRID_USERNAME: Venarius
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sidekiq-env
+  name: sidekiq-env

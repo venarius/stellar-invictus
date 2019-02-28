@@ -1,0 +1,113 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.17.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sidekiq
+  name: sidekiq
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: sidekiq
+    spec:
+      containers:
+      - args:
+        - sidekiq
+        - -C
+        - config/sidekiq.yml
+        env:
+        - name: DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE_HOST
+              name: sidekiq-env
+        - name: FACEBOOK_APP_ID
+          valueFrom:
+            configMapKeyRef:
+              key: FACEBOOK_APP_ID
+              name: sidekiq-env
+        - name: FACEBOOK_APP_SECRET
+          valueFrom:
+            configMapKeyRef:
+              key: FACEBOOK_APP_SECRET
+              name: sidekiq-env
+        - name: KILLBOARD_URL
+          valueFrom:
+            configMapKeyRef:
+              key: KILLBOARD_URL
+              name: sidekiq-env
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: sidekiq-env
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: sidekiq-env
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: sidekiq-env
+        - name: RAILS_LOG_TO_STDOUT
+          valueFrom:
+            configMapKeyRef:
+              key: RAILS_LOG_TO_STDOUT
+              name: sidekiq-env
+        - name: RAILS_SERVE_STATIC_FILES
+          valueFrom:
+            configMapKeyRef:
+              key: RAILS_SERVE_STATIC_FILES
+              name: sidekiq-env
+        - name: RECAPTCHA_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: RECAPTCHA_SECRET_KEY
+              name: sidekiq-env
+        - name: RECAPTCHA_SITE_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: RECAPTCHA_SITE_KEY
+              name: sidekiq-env
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              key: REDIS_URL
+              name: sidekiq-env
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            configMapKeyRef:
+              key: SECRET_KEY_BASE
+              name: sidekiq-env
+        - name: SENDGRID_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: SENDGRID_PASSWORD
+              name: sidekiq-env
+        - name: SENDGRID_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: SENDGRID_USERNAME
+              name: sidekiq-env
+        image: sidekiq
+        name: sidekiq
+        resources: {}
+        volumeMounts:
+        - mountPath: /usr/src/app
+          name: sidekiq-claim0
+      restartPolicy: Always
+      volumes:
+      - name: sidekiq-claim0
+        persistentVolumeClaim:
+          claimName: sidekiq-claim0
+status: {}

@@ -1,30 +1,28 @@
-FROM phusion/passenger-ruby25:1.0.3
+FROM ruby:2.5.3-alpine
 
-# Set correct environment variables.
-ENV HOME /root
-
-# Use baseimage-docker's init process.
-CMD ["/sbin/my_init"]
-
-# Setting ENV
 ENV RAILS_ENV='production'
 ENV RACK_ENV='production'
 
-# Custom Lines
-COPY Gemfile* /home/app/webapp/
-WORKDIR /home/app/webapp
+RUN apk add --update --no-cache \
+      bash \
+      build-base \
+      nodejs \
+      sqlite-dev \
+      tzdata \
+      postgresql-dev
+
+RUN gem update bundler
+
+WORKDIR /usr/src/app
+
+COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs 20 --retry 5 --without development test
-COPY --chown=app:app . /home/app/webapp
 
-RUN bundle exec rake assets:precompile
+COPY . .
+RUN RAILS_ENV=production bundle exec rake assets:precompile
 
-# Set custom Nginx Config
-RUN rm /etc/nginx/sites-enabled/default
-ADD docker/webapp.conf /etc/nginx/sites-enabled/webapp.conf
-COPY certificates/* /etc/nginx/ssl/
+COPY docker/docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
-# Enable Nginx and Passenger
-RUN rm -f /etc/service/nginx/down
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
