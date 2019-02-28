@@ -3,23 +3,19 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.3'
 
-gem 'rails', '~> 5.2.1'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.2'
-gem 'turbolinks', '~> 5'
+gem 'rails'
+gem 'sassc-rails'
+gem 'uglifier'
+gem 'coffee-rails'
+gem 'turbolinks'
 gem 'jquery-rails'
 gem 'redis'
+gem 'puma'
 
 # Docker
 gem 'tzinfo-data'
-#gem 'net-ssh'
-#gem 'net-scp'
-#gem 'sshkit'
-#gem 'airbrussh'
-#gem 'uniform_notifier'
 
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', require: false
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'

@@ -5,13 +5,37 @@ services:
     build:
       context: .      
       dockerfile: docker/Dockerfile
-    ports:
-      - "443:443"
     volumes:
-      - .:/home/app/webapp
+      - .:/usr/src/app
+      - public:/usr/src/app/public
+    depends_on:
+      - database
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/NginxDockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - public:/usr/src/app/public
 
   redis:
     image: redis:5.0.3-alpine
+
+  sidekiq:
+    depends_on:
+      - database
+      - redis
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: sidekiq -C config/sidekiq.yml
+    volumes:
+      - .:/usr/src/app
+    env_file: .env
 
   database:
     image: postgres:11.2-alpine
@@ -21,3 +45,4 @@ services:
 
 volumes:
   db_data:
+  public:
