@@ -11,21 +11,21 @@ gem 'turbolinks', '~> 5'
 gem 'jquery-rails'
 gem 'redis'
 
-gem 'bootsnap', '>= 1.1.0', require: false
+# Docker
+gem 'tzinfo-data'
+#gem 'net-ssh'
+#gem 'net-scp'
+#gem 'sshkit'
+#gem 'airbrussh'
+#gem 'uniform_notifier'
 
-gem 'puma'
+gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'bullet'
-  gem 'capistrano'
-  gem 'capistrano-rails'
-  gem 'capistrano-postgresql'
-  gem 'capistrano-rvm'
-  gem 'capistrano-sidekiq'
-  gem 'capistrano-passenger', '>= 0.1.1'
 end
 
 group :development, :test do
@@ -39,10 +39,6 @@ end
 
 group :production, :development do
   gem 'pg'
-end
-
-group :production do
-  # gem "passenger"
 end
 
 
