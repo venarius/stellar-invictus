@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .      
+      dockerfile: docker/Dockerfile
+    ports:
+      - "443:443"
+    volumes:
+      - .:/home/app/webapp
+
+  redis:
+    image: redis:5.0.3-alpine
+
+  database:
+    image: postgres:11.2-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file: .env
+
+volumes:
+  db_data:
