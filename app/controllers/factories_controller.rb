@@ -78,7 +78,7 @@ class FactoriesController < ApplicationController
         materials = item.get_attribute('crafting')
         Item.remove_from_user({loader: params[:loader], location: current_user.location, user: current_user, amount: amount})
         materials.each do |key, value|
-          Item.give_to_user({loader: key, location: current_user.location, user: current_user, amount: (value * amount * rand(0.9..1.1) * 0.75).round})
+          Item.give_to_user({loader: key, location: current_user.location, user: current_user, amount: (value * amount * 0.4 * rand(0.9..1.1)).round})
         end
         
         render json: {message: I18n.t('station.dismantling_successful')}, status: 200 and return

@@ -24,7 +24,7 @@
             <% get_item_attribute(item, 'crafting').each do |key, value| %>
               <tr>
                 <td><%= get_item_attribute(key, 'name') %></td>
-                <td class="amount" data-amount="<%= (value * 0.75).round %>"><%= (value * 0.75).round %></td>
+                <td class="amount" data-amount="<%= (value * 0.4).round %>"><%= (value * 0.4).round %></td>
               </tr>
             <% end %>
           </tbody>
