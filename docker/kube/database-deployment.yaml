@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: database
+  name: database
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: database
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: env
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: env
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: env
+        image: postgres:11.2-alpine
+        name: database
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: db-data
+          subPath: postgres
+        ports:
+          - containerPort: 5432
+      restartPolicy: Always
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: db-data
+status: {}

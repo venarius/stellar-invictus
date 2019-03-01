@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: app
+  name: app
+spec:
+  replicas: 3
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        name: app
+    spec:
+      containers:
+      - image: venarius/stellar-app:latest
+        name: app
+        resources: {}
+        ports:
+          - containerPort: 443
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always
+status: {}

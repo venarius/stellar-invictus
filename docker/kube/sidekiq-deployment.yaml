@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: sidekiq
+  name: sidekiq
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        name: sidekiq
+    spec:
+      containers:
+      - args:
+        - rvm-exec
+        - 2.5.3
+        - bundle
+        - exec
+        - sidekiq
+        - -C
+        - config/sidekiq.yml
+        - -e
+        - production
+        image: venarius/stellar-app:latest
+        name: sidekiq
+        resources: {}
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always
+status: {}

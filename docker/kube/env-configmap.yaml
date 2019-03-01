@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  POSTGRES_DB: stellar
+  POSTGRES_PASSWORD: 123d128dz12du1298dhjd09adh
+  POSTGRES_USER: dawd1dcx12ed12ed1d21e
+kind: ConfigMap
+metadata:
+  labels:
+    name: env
+  name: env

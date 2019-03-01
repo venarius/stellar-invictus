@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: cron
+  name: cron
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        name: cron
+    spec:
+      containers:
+      - args:
+        - rvm-exec
+        - 2.5.3
+        - bundle
+        - exec
+        - whenever
+        - --update-crontab
+        image: venarius/stellar-app:latest
+        name: cron
+        resources: {}
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always
+status: {}
