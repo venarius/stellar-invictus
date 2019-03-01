@@ -1,14 +1,10 @@
 #!/bin/bash
 set -e
 
-cd /usr/src/app
+cd /home/app/webapp
 
 # Basic Rake Tasks
-rake pathfinder:generate_mapdata
-rake pathfinder:generate_paths
-rake clean:restart
-
-# Set Whenever
-whenever --update-crontab
+rvm-exec 2.5.3 bundle exec rake pathfinder:generate_mapdata RAILS_ENV=production
+rvm-exec 2.5.3 bundle exec rake pathfinder:generate_paths RAILS_ENV=production
 
 exec "$@"
