@@ -20,3 +20,17 @@ How to run docker
 ```
 docker-compose up -d
 ```
+
+## Kubernetes
+
+Files for Kubernetes can be found under
+```
+./docker/kube
+```
+
+Current cluster is running on Digital Ocean
+
+Test Url
+```
+https://test.stellar-invictus.com
+```
