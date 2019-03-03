@@ -150,7 +150,13 @@ class StationsController < ApplicationController
       # Check Bet Amount
       render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.units >= bet
       
-      if bet >= 10 and roll_under >= 5 and roll_under <= 95
+      # Check min Bet
+      render json: {'error_message': I18n.t('errors.minimum_bet_is_10')}, status: 400 and return unless bet >= 10
+      
+      # Check max bet
+      render json: {'error_message': I18n.t('errors.maximum_bet_is_100k')}, status: 400 and return unless bet <= 100000
+      
+      if roll_under >= 5 and roll_under <= 95
         current_user.reduce_units(bet)
         roll = rand(0..100)
         

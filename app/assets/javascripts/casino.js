@@ -13,6 +13,7 @@ $( document ).on('turbolinks:load', function() {
   
   $('#app-container').on('click', '#diceMax', function() {
     $('#diceBet').val(parseInt($(this).data('max')));
+    if (parseInt($('#diceBet').val()) > 100000) { $('#diceBet').val("100000") }
     $('#diceProfit').val(parseInt(parseFloat($('#diceBet').val()) * parseFloat($('#dicePayout').text().replace('x', ''))));
   });
   
@@ -23,6 +24,7 @@ $( document ).on('turbolinks:load', function() {
       $('#diceBet').val(parseInt($('#diceMax').data('max')));
     }
     
+    if (parseInt($('#diceBet').val()) > 100000) { $('#diceBet').val("100000") }
     $('#diceProfit').val(parseInt(parseFloat($('#diceBet').val()) * parseFloat($('#dicePayout').text().replace('x', ''))));
   });
   
