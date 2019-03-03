@@ -7,7 +7,7 @@
         <div class="col-md-6 mt-5px">
           <label><%= I18n.t('casino.bet_amount') %></label>
           <div class="input-group">
-            <input type="number" class="form-control" min=10 value="10" id="diceBet">
+            <input type="number" class="form-control" min=10 value="10" max=100000 id="diceBet">
             <div class="input-group-append" id="button-addon4">
               <button class="btn btn-outline-primary" type="button" id="diceDouble">2x</button>
               <button class="btn btn-outline-primary" type="button" data-max="<%= current_user.units %>" id="diceMax">Max</button>

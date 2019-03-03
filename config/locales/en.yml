@@ -117,6 +117,8 @@ en:
     cant_more_than_100_factory_runs: "Can't have more than 100 concurrent factory runs"
     cant_do_that_whilst_in_combat: "Can't do that whilst in combat"
     recipient_not_found_or_trying_to_send_too_much: "Recipient not found or trying to send more credits than available"
+    minimum_bet_is_10: "Minimum bet is 10 Cr"
+    maximum_bet_is_100k: "Maximum bet is 100k Cr"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"
