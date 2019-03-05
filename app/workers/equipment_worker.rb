@@ -150,12 +150,16 @@ class EquipmentWorker
               player.target.remove_being_targeted
               player.target.die(false, attackers) and player.active_spaceship.deactivate_weapons
             else
-              player.npc_target.give_bounty(player)
-              # Remove user from being targeted by others
-              player.npc_target.remove_being_targeted
-              player.npc_target.drop_blueprint if player.system.wormhole? and rand(1..100) == 100
-              player.npc_target.die if player.npc_target
-              player.active_spaceship.deactivate_weapons
+              begin
+                player.npc_target.give_bounty(player)
+                # Remove user from being targeted by others
+                player.npc_target.remove_being_targeted
+                player.npc_target.drop_blueprint if player.system.wormhole? and rand(1..100) == 100
+                player.npc_target.die if player.npc_target
+                player.active_spaceship.deactivate_weapons
+              rescue
+                shutdown(player) and return
+              end
             end
           end
           
