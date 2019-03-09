@@ -13,7 +13,7 @@
         <%= navbar_item(main_app.game_mails_path, 'navbar.mails', GameMail.where(recipient_id: current_user.id, read: false).count) %>
         <%= navbar_item(main_app.map_path, 'navbar.map') %>
         <%= link_to I18n.t('navbar.forum'), 'https://forums.stellar-invictus.com/', target: '_blank', class: 'nav-link' %>
-        <%= link_to I18n.t('navbar.killboard'), 'https://killboard.stellar-invictus.com/', target: '_blank', class: 'nav-link' %>
+        <%= link_to I18n.t('navbar.killboard'), 'https://killboard.mdotshell.com/', target: '_blank', class: 'nav-link' %>
         <%= navbar_item(main_app.donate_path, 'navbar.donate') %>
       <% else %>
         <%= navbar_item(main_app.root_path, 'navbar.home') %>
