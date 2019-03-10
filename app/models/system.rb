@@ -3,6 +3,9 @@ class System < ApplicationRecord
   has_many :locations, dependent: :destroy
   has_many :chat_rooms, dependent: :destroy
   
+  @mapdata = YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml")
+  @pathfinder = YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml")
+  
   enum security_status: [:high, :medium, :low, :wormhole]
   
   after_create do
@@ -25,11 +28,11 @@ class System < ApplicationRecord
   
   # Mapdata
   def self.mapdata
-    YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml")
+    @mapdata
   end
   
   # Pathfinder
   def self.pathfinder
-    YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml")
+    @pathfinder
   end
 end

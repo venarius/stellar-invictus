@@ -3,6 +3,8 @@ class Faction < ApplicationRecord
   has_many :missions, dependent: :destroy
   has_many :locations
   
+  @faction_variables = YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml")
+  
   # Get Attribute of faction
   def get_attribute(attribute=nil)
     Faction.faction_variables[self.id][attribute] rescue nil
@@ -29,6 +31,6 @@ class Faction < ApplicationRecord
   
   # Factions
   def self.faction_variables
-    YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml")
+    @faction_variables
   end
 end

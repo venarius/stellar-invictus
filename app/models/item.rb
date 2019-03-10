@@ -4,6 +4,8 @@ class Item < ApplicationRecord
   belongs_to :spaceship, optional: true
   belongs_to :structure, optional: true
   
+  @item_variables = YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml")
+  
   def get_attribute(attribute)
     atty = self.loader.split(".")
     out = Item.item_variables[atty[0]]
@@ -68,7 +70,7 @@ class Item < ApplicationRecord
   
   # Item Variables
   def self.item_variables
-    YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml")
+    @item_variables
   end
   
   # Stack Penalties

@@ -131,6 +131,8 @@ Rails.application.routes.draw do
     post 'sell', to: 'market#sell'
     get 'my_listings', to: 'market#my_listings'
     post 'delete_listing', to: 'market#delete_listing'
+    post 'create_buy', to: 'market#create_buy'
+    post 'fulfill_buy', to: 'market#fulfill_buy'
   end
   
   # Systems

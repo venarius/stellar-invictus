@@ -42,6 +42,7 @@ $( document ).on('turbolinks:load', function() {
     
     if (id) {
      $.post('/market/delete_listing', {id: id}, function() {
+       refresh_player_info();
        button.closest('tr').remove();
      }); 
     }
@@ -55,8 +56,35 @@ $( document ).on('turbolinks:load', function() {
     var html = button.html();
 
     loading_animation(button);
-    $.post('market/buy', {id: id, amount: amount}, function(data) {
+    $.post('/market/buy', {id: id, amount: amount}, function(data) {
       button.closest('.modal').modal('hide');
+      button.html(html);
+      if (data.new_amount && data.new_amount != 0) {
+        $(".station-card").find(`[data-target='#`+button.closest('.modal').attr('id')+`']`).parent().parent().children().first().text(data.new_amount + "×");
+      } else {
+        $(".station-card").find(`[data-target='#`+button.closest('.modal').attr('id')+`']`).parent().parent().remove();
+      }
+      refresh_player_info();
+    }).fail(function(data) {
+      button.html(html);
+      if (!button.closest('.modal').find('.error').length) {
+        button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
+        setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
+      }
+    });
+  });
+  
+  // Market Fulfill Buyorder AJAX
+  $('.station-card').on('click', '.market-fulfill-buy-btn', function(e) {
+    var id = $(this).data('id');
+    var button = $(this);
+    var amount = $(this).closest('.modal').find('.market-buy-input').val();
+    var html = button.html();
+
+    loading_animation(button);
+    $.post('/market/fulfill_buy', {id: id, amount: amount}, function(data) {
+      button.closest('.modal').modal('hide');
+      button.html(html);
       if (data.new_amount && data.new_amount != 0) {
         $(".station-card").find(`[data-target='#`+button.closest('.modal').attr('id')+`']`).parent().parent().children().first().text(data.new_amount + "×");
       } else {
@@ -169,6 +197,29 @@ $( document ).on('turbolinks:load', function() {
     }).fail(function(data) {
       button.html(html);
       $('#market-sell').find('input').addClass("outline-danger"); 
+      if (!button.closest('.modal').find('.error').length) {
+        button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
+        setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
+      }
+    });
+  });
+  
+  // Create Buyorder AJAX
+  $('.station-card').on('click', '.market-buyorder-btn', function() {
+    var button = $(this);
+    var html = button.html();
+    var name = $(this).closest('.modal').find('.market-buyorder-loader').val();
+    var amount = $(this).closest('.modal').find('.market-buyorder-amount').val();
+    var price = $(this).closest('.modal').find('.market-buyorder-price').val();
+    
+    loading_animation(button);
+    $.post('/market/create_buy', {name: name, amount: amount, price: price}, function(data) {
+      button.html(html);
+      refresh_player_info();
+      button.closest('.modal').modal('hide');
+      setTimeout(function() { load_station_tab('#market') }, 250)
+    }).fail(function(data) {
+      button.html(html);
       if (!button.closest('.modal').find('.error').length) {
         button.closest('.modal').find('.modal-body').after("<span class='color-red text-center mb-3 error'>"+data.responseJSON.error_message+"</span>");
         setTimeout(function() {button.closest('.modal').find('.error').fadeOut("fast", function() {$(this).remove();});}, 1000) 
