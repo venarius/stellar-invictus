@@ -3,6 +3,8 @@ class Spaceship < ApplicationRecord
   belongs_to :location, optional: true
   has_many :items, dependent: :destroy
   
+  @ship_variables = YAML.load_file("#{Rails.root.to_s}/config/variables/spaceships.yml")
+  
   # Get Weight of all Items in Ship
   def get_weight
     weight = 0
@@ -344,6 +346,6 @@ class Spaceship < ApplicationRecord
   
   # Ship Variables
   def Spaceship.ship_variables
-    YAML.load_file("#{Rails.root.to_s}/config/variables/spaceships.yml")
+    @ship_variables
   end
 end

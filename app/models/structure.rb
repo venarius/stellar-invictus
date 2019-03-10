@@ -3,6 +3,8 @@ class Structure < ApplicationRecord
   belongs_to :user, optional: true
   has_many :items, dependent: :destroy
   
+  @riddles = YAML.load_file("#{Rails.root.to_s}/config/variables/riddles.yml")
+  
   enum structure_type: [:container, :wreck, :abandoned_ship, :monument]
   
   def get_items
@@ -11,6 +13,6 @@ class Structure < ApplicationRecord
   
   # Riddles
   def self.riddles
-    YAML.load_file("#{Rails.root.to_s}/config/variables/riddles.yml")
+    @riddles
   end
 end

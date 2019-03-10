@@ -15,6 +15,14 @@ class WarpWorker
       # Get alignment time
       custom_align == 0 ? align_time = ship.get_align_time : align_time = custom_align
       
+      # Temporary Fix for desync with longer align times due to redis queue querys # 10.03.2019
+      case align_time
+        when 15..19
+          align_time -= 1
+        when 20..100
+          align_time -= 2
+      end
+      
       # Remove warp target if same target
       ship.update_columns(warp_target_id: nil) and return if ship.warp_target_id == location_id
       

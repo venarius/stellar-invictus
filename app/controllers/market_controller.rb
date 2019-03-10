@@ -6,7 +6,7 @@ class MarketController < ApplicationController
   def list
     if params[:loader]
       listings = MarketListing.where(location: current_user.location).where("loader ilike ?", "%#{params[:loader]}%")
-      render partial: 'stations/market/list', locals: {market_listings: listings} and return
+      render partial: 'stations/market/list', locals: {market_listings: listings, can_create_buy_order: current_user.location.player_market} and return
     end
     render json: {}, status: 400
   end
@@ -15,7 +15,7 @@ class MarketController < ApplicationController
     if params[:search]
       
       listings = MarketListing.where(location: current_user.location).where("loader ilike ?", "%#{params[:search].gsub(' ', '_')}%")
-      render partial: 'stations/market/list', locals: {market_listings: listings} and return
+      render partial: 'stations/market/list', locals: {market_listings: listings, can_create_buy_order: false} and return
     end
     render json: {}, status: 400
   end
@@ -154,6 +154,64 @@ class MarketController < ApplicationController
     render json: {}, status: 400
   end
   
+  def create_buy
+    if params[:name] and params[:amount] and params[:price]
+      name = params[:name]
+      amount = params[:amount].to_i
+      price = params[:price].to_i
+      
+      # Check Balance
+      render json: {'error_message': I18n.t('errors.you_dont_have_enough_credits')}, status: 400 and return unless current_user.reload.units >= amount * price
+      current_user.reduce_units(amount * price)
+      
+      # Find Loader
+      if Spaceship.ship_variables.keys.include?(name)
+        type = "ship"
+      elsif get_item_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), "name")
+        type = "item"
+        name = name[/\(.*?\)/].gsub("(", "").gsub(")", "")
+      else
+        render json: {'error_message': I18n.t('errors.name_not_found')}, status: 400 and return
+      end
+      
+      MarketListing.create(loader: name, listing_type: type, location: current_user.location, price: price, amount: amount, user: current_user, order_type: :buy)
+      
+      render json: {}, status: 200 and return
+    end
+    render json: {}, status: 400
+  end
+  
+  def fulfill_buy
+    if params[:id] and params[:amount]
+      amount = params[:amount].to_i rescue nil
+      listing = MarketListing.find(params[:id]) rescue nil
+      if amount and listing and listing.location == current_user.location and amount >= 1
+        # Check Amount
+        render json: {'error_message': I18n.t('errors.you_dont_have_enough_of_this')}, status: 400 and return if (Item.find_by(loader: listing.loader, location: current_user.location, user: current_user).count rescue 0) < amount
+        render json: {'error_message': I18n.t('errors.buyer_doesnt_want_that_much')}, status: 400 and return if amount > listing.amount
+        # Remove Items and give credits
+        Item.remove_from_user({loader: listing.loader, amount: amount, location: current_user.location, user: current_user})
+        current_user.give_units(listing.price * amount * 0.95)
+        # Give Items to Buyer and reduce listing
+        Item.give_to_user({loader: listing.loader, amount: amount, location: current_user.location, user: listing.user})
+        new_amount = listing.amount - amount
+        listing.update_columns(amount: new_amount)
+        listing.destroy if new_amount == 0
+        # If listing belonged to user -> notify
+        if listing.user
+          if listing.item?
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: get_item_attribute(listing.loader, "name")))
+          else
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: listing.loader))
+          end
+          ActionCable.server.broadcast("player_#{listing.user_id}", method: 'refresh_player_info')
+        end
+        render json: {new_amount: new_amount}, status: 200 and return
+      end
+    end
+    render json: {}, status: 400
+  end
+  
   def my_listings
     listings = MarketListing.where(location: current_user.location).where(user: current_user)
     render partial: 'stations/market/my_listings', locals: {market_listings: listings} and return
@@ -164,6 +222,9 @@ class MarketController < ApplicationController
       listing = MarketListing.find(params[:id]) rescue nil
       
       if listing and listing.user == current_user and listing.location == current_user.location
+        
+        # Is listing is buy -> return money
+        current_user.give_units(listing.amount * listing.price) if listing.buy?
         
         # If listing is item -> else..
         if listing.item?

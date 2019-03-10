@@ -3,6 +3,7 @@
     <thead>
       <tr>
         <th scope="col">Qty.</th>
+        <th scope="col"><%= I18n.t('market.type') %></th>
         <th scope="col"><%= I18n.t('items.name') %></th>
         <th scope="col"><%= I18n.t('items.type') %></th>
         <th scope="col"><%= I18n.t('market.single') %></th>
@@ -15,6 +16,7 @@
       <% market_listings.sort_by{ |ml| ml.price }.each do |ml| %>
         <% if ml.item? %>
           <tr>
+            <td><%= ml.sell? ? I18n.t('market.sell') : I18n.t('market.buy') %></td>
             <td><%= ml.amount %>&times;</td>
             <% if ml.loader.include? "equipment" %>
               <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
@@ -30,6 +32,7 @@
           </tr>
         <% else %>
           <tr>
+            <td><%= ml.sell? ? I18n.t('market.sell') : I18n.t('market.buy') %></td>
             <td><%= ml.amount %>&times;</td>
             <td><a href="#" class="ship-info" data-name="<%= ml.loader.capitalize %>"><%= ml.loader.capitalize %></a></td>
             <td><%= I18n.t('market.ship') %></td>

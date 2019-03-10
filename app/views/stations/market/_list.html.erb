@@ -1,51 +1,121 @@
-<% if market_listings.present? %>
-  <table class="table table-bordered table-hover table-striped table-sm table-fixed station-market-table">
-    <thead>
-      <tr>
-        <th scope="col">Qty.</th>
-        <th scope="col"><%= I18n.t('items.name') %></th>
-        <th scope="col"><%= I18n.t('items.type') %></th>
-        <th scope="col"><%= I18n.t('market.single') %></th>
-        <th scope="col" class="mobile-display-none"><%= I18n.t('market.total') %></th>
-        <th scope="col" style="width: 1px;"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% loaders = market_listings.map(&:loader).uniq %>
-      <% market_listings.sort_by{ |ml| ml.price }.each do |ml| %>
-        <% if ml.item? %>
+<ul class="nav nav-tabs mt-5px" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" data-target="#market-sell" href="#0" role="tab"><%= I18n.t('market.sell_orders') %></a>
+  </li>
+  <% if can_create_buy_order %>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" data-target="#market-buy" href="#0" role="tab"><%= I18n.t('market.buy_orders') %>&nbsp;&nbsp;<span class="btn btn-outline-primary p-0-5 btn-sm" data-toggle="modal" data-target="#market-create-buy"><i class="fa fa-plus"></i></span></a>
+    </li>
+  <% end %>
+</ul>
+<div class="tab-content mt-5px">
+  <div class="tab-pane fade show active" id="market-sell" role="tabpanel">
+    
+    <% if market_listings.where(order_type: :sell).present? %>
+      <table class="table table-bordered table-hover table-striped table-sm table-fixed station-market-table">
+        <thead>
           <tr>
-            <td><%= ml.amount %>&times;</td>
-            <% if ml.loader.include? "equipment" %>
-              <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
-            <% else %> 
-              <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= get_item_attribute(ml.loader, 'name') %></span></td>
+            <th scope="col">Qty.</th>
+            <th scope="col"><%= I18n.t('items.name') %></th>
+            <th scope="col"><%= I18n.t('items.type') %></th>
+            <th scope="col"><%= I18n.t('market.single') %></th>
+            <th scope="col" class="mobile-display-none"><%= I18n.t('market.total') %></th>
+            <th scope="col" style="width: 1px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% loaders = market_listings.where(order_type: :sell).map(&:loader).uniq %>
+          <% market_listings.where(order_type: :sell).sort_by{ |ml| ml.price }.each do |ml| %>
+            <% if ml.item? %>
+              <tr>
+                <td><%= ml.amount %>&times;</td>
+                <% if ml.loader.include? "equipment" %>
+                  <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
+                <% else %> 
+                  <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= get_item_attribute(ml.loader, 'name') %></span></td>
+                <% end %>
+                <td><%= get_item_attribute(ml.loader, 'type') %></td>
+                <td class="color-highgreen"><%= ml.price %> Cr</td>
+                <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
+                <td>
+                  <button class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></button>
+                </td>
+              </tr>
+            <% else %>
+              <tr>
+                <td><%= ml.amount %>&times;</td>
+                <td><a href="#" class="ship-info" data-name="<%= ml.loader.capitalize %>"><%= ml.loader.capitalize %></a></td>
+                <td><%= I18n.t('market.ship') %></td>
+                <td class="color-highgreen"><%= ml.price %> Cr</td>
+                <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
+                <td>
+                  <a class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></a>
+                </td>
+              </tr>
             <% end %>
-            <td><%= get_item_attribute(ml.loader, 'type') %></td>
-            <td class="color-highgreen"><%= ml.price %> Cr</td>
-            <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
-            <td>
-              <button class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></button>
-            </td>
-          </tr>
-        <% else %>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <h2 class="text-center">...</h2>
+    <% end %>
+    
+  </div>
+  <% if can_create_buy_order %>
+    <div class="tab-pane fade" id="market-buy" role="tabpanel">
+      
+      <% if market_listings.where(order_type: :buy).present? %>
+        <table class="table table-bordered table-hover table-striped table-sm table-fixed station-market-table">
+        <thead>
           <tr>
-            <td><%= ml.amount %>&times;</td>
-            <td><a href="#" class="ship-info" data-name="<%= ml.loader.capitalize %>"><%= ml.loader.capitalize %></a></td>
-            <td><%= I18n.t('market.ship') %></td>
-            <td class="color-highgreen"><%= ml.price %> Cr</td>
-            <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
-            <td>
-              <a class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></a>
-            </td>
+            <th scope="col">Qty.</th>
+            <th scope="col"><%= I18n.t('items.name') %></th>
+            <th scope="col"><%= I18n.t('items.type') %></th>
+            <th scope="col"><%= I18n.t('market.single') %></th>
+            <th scope="col" class="mobile-display-none"><%= I18n.t('market.total') %></th>
+            <th scope="col" style="width: 1px;"></th>
           </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <h2 class="text-center">...</h2>
-<% end %>
+        </thead>
+        <tbody>
+          <% loaders = market_listings.where(order_type: :buy).map(&:loader).uniq %>
+          <% market_listings.where(order_type: :buy).sort_by{ |ml| ml.price }.reverse.each do |ml| %>
+            <% if ml.item? %>
+              <tr>
+                <td><%= ml.amount %>&times;</td>
+                <% if ml.loader.include? "equipment" %>
+                  <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
+                <% else %> 
+                  <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= get_item_attribute(ml.loader, 'name') %></span></td>
+                <% end %>
+                <td><%= get_item_attribute(ml.loader, 'type') %></td>
+                <td class="color-highgreen"><%= ml.price %> Cr</td>
+                <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
+                <td>
+                  <button class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></button>
+                </td>
+              </tr>
+            <% else %>
+              <tr>
+                <td><%= ml.amount %>&times;</td>
+                <td><a href="#" class="ship-info" data-name="<%= ml.loader.capitalize %>"><%= ml.loader.capitalize %></a></td>
+                <td><%= I18n.t('market.ship') %></td>
+                <td class="color-highgreen"><%= ml.price %> Cr</td>
+                <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
+                <td>
+                  <a class="btn btn-outline-success" role="button" data-toggle="modal" data-target="#market-buy-<%= ml.id %>"><i class="fa fa-dollar-sign"></i></a>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <h2 class="text-center">...</h2>
+    <% end %>
+      
+    </div>
+  <% end %>
+</div>
 
 <!-- MODALS -->
 <% market_listings.each do |ml| %>
@@ -53,13 +123,13 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title"><%= I18n.t('market.confirm_purchase') %></h5>
+          <h5 class="modal-title"><%= ml.sell? ? I18n.t('market.confirm_purchase') : I18n.t('market.confirm_sale') %></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
-          <p><%= I18n.t('modal.how_much_buy') %></p>
+          <p><%= ml.sell? ? I18n.t('modal.how_much_buy') : I18n.t('modal.how_much_sell') %></p>
           <div class="input-group mb-3">
             <input type="number" class="form-control market-buy-input" value="1">
             <div class="input-group-append">
@@ -69,16 +139,57 @@
         
           <h5><%= I18n.t('market.price') %>: <span class="color-highgreen"><%= ml.price %> Cr</span></h5>
           <% if ml.ship? %>
-            <%= I18n.t('modal.sure_buy', name: ml.loader) %>
+            <%= ml.sell? ? I18n.t('modal.sure_buy', name: ml.loader) : I18n.t('modal.sure_sell_of', name: ml.loader) %>
           <% else %>
-            <%= I18n.t('modal.sure_buy', name: get_item_attribute(ml.loader, 'name')) %>
+            <%= ml.sell? ? I18n.t('modal.sure_buy', name: get_item_attribute(ml.loader, 'name')) : I18n.t('modal.sure_sell_of', name: get_item_attribute(ml.loader, 'name')) %>
           <% end %>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary market-buy-btn" data-id="<%= ml.id %>"><%= I18n.t('modal.buy') %></button>
+          <button type="button" class="btn btn-primary <%= ml.sell? ? 'market-buy-btn' : 'market-fulfill-buy-btn' %>" data-id="<%= ml.id %>"><%= ml.sell? ? I18n.t('modal.buy') : I18n.t('modal.sell') %></button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
         </div>
       </div>
     </div>
   </div>
+<% end %>
+
+<% if can_create_buy_order %>
+  <div class="modal fade" id="market-create-buy" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= I18n.t('market.create_buy_order') %></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><%= I18n.t('market.name') %></p>
+          <div class="autocomplete">
+            <input type="text" class="form-control market-buyorder-loader mb-3" id="buyorder-loaders">
+          </div>
+          <p><%= I18n.t('modal.how_much_buy') %></p>
+          <input type="number" class="form-control market-buyorder-amount mb-3" value="0">
+          <p><%= I18n.t('market.price_of_each') %></p>
+          <input type="number" class="form-control market-buyorder-price" value="0">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary market-buyorder-btn"><%= I18n.t('modal.create') %></button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    var things = [
+      <% Item.items.each do |item| %>
+        "<%= get_item_attribute(item, 'name') %> (<%= item %>)",
+      <% end %>
+      <% Spaceship.ship_variables.keys.each do |ship| %>
+        "<%= ship %>",
+      <% end %>
+    ]
+    autocomplete(document.getElementById("buyorder-loaders"), things);
+  </script>
 <% end %>
