@@ -36,7 +36,7 @@ class User < ApplicationRecord
   validates :name, :family_name, length: { minimum: 2, maximum: 20,
             too_short: I18n.t('validations.too_short_2'), too_long: I18n.t('validations.too_long_name') }
             
-  validate :check_avatar
+  validate :check_avatar, on: :create
   
   # Devise
   devise :database_authenticatable, :registerable, :confirmable,
