@@ -228,7 +228,7 @@ class MarketController < ApplicationController
           current_user.give_units(listing.amount * listing.price)
         elsif listing.sell && listing.item
           Item.give_to_user({location: current_user.location, user: current_user, loader: listing.loader, amount: listing.amount})
-        else
+        elsif listing.sell && listing.ship
           listing.amount.times do
             Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.ship_variables[listing.loader]['hp'])
           end
