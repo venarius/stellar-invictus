@@ -247,5 +247,59 @@ RSpec.describe MarketController, type: :controller do
         expect(Spaceship.count).to eq(2)
       end
     end
+    
+    describe 'POST delete_listing' do
+      it 'should remove buy order' do
+        listing = MarketListing.create(order_type: :buy, user: @user, listing_type: :ship,
+                  loader: "Nano", amount: 2, price: 100, location: @user.location)
+                  
+        post :delete_listing, params: {id: listing.id}
+        expect(response.status).to eq(200)
+        expect(@user.reload.units).to eq(210)
+        expect(@user.location.spaceships.count).to eq(0)
+      end
+      
+      it 'should remove sell order' do
+        listing = MarketListing.create(order_type: :sell, user: @user, listing_type: :ship,
+                  loader: "Nano", amount: 2, price: 100, location: @user.location)
+                  
+        post :delete_listing, params: {id: listing.id}
+        expect(response.status).to eq(200)
+        expect(@user.reload.units).to eq(10)
+        expect(@user.location.spaceships.count).to eq(2)
+      end
+      
+      it 'should not be able to remove another players listing' do
+        user2 = FactoryBot.create(:user_with_faction)
+        listing = MarketListing.create(order_type: :sell, user: user2, listing_type: :ship,
+                  loader: "Nano", amount: 2, price: 100, location: @user.location)
+                  
+        post :delete_listing, params: {id: listing.id}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(10)
+        expect(@user.location.spaceships.count).to eq(0)
+      end
+      
+      it 'should not be able to delete listing while in space' do
+        @user.update_columns(docked: false)
+        listing = MarketListing.create(order_type: :sell, user: @user, listing_type: :ship,
+                  loader: "Nano", amount: 2, price: 100, location: @user.location)
+                  
+        post :delete_listing, params: {id: listing.id}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(10)
+        expect(@user.location.spaceships.count).to eq(0)
+      end
+      
+      it 'should not be able to delete listing while docked at another station' do
+        listing = MarketListing.create(order_type: :sell, user: @user, listing_type: :ship, 
+                  loader: "Nano", amount: 2, price: 100, location: Location.where(location_type: :station).last)
+                  
+        post :delete_listing, params: {id: listing.id}
+        expect(response.status).to eq(400)
+        expect(@user.reload.units).to eq(10)
+        expect(@user.location.spaceships.count).to eq(0)
+      end
+    end
   end
 end
