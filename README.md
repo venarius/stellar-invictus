@@ -8,8 +8,6 @@ https://forums.stellar-invictus.com
 
 2 x Upcloud VPS using Hatchbox for Main App
 
-1 x Upcloud VPS using Hatchbox for Killboard
-
 1 x Upcloud VPS for Forums
 
 ## Installation
