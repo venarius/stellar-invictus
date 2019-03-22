@@ -12,29 +12,52 @@
 }
 
 @keyframes target-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(255,136,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 136, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-webkit-keyframes target-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(255,136,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 136, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-moz-keyframes target-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(255,136,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 136, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-ms-keyframes target-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(255,136,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 136, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
-
 
 // ATTACK
 
@@ -50,27 +73,51 @@
 }
 
 @keyframes attack-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(255,0,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-webkit-keyframes attack-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(255,0,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-moz-keyframes attack-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(255,0,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-ms-keyframes attack-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(255,0,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 // HELP
@@ -87,27 +134,51 @@
 }
 
 @keyframes help-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(0,0,148,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 0, 148, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-webkit-keyframes help-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(0,0,148,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 0, 148, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-moz-keyframes help-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(0,0,148,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 0, 148, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-ms-keyframes help-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(0,0,148,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 0, 148, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 // Flash Danger Outline
@@ -115,7 +186,7 @@
 .btn-outline-flash-danger {
   background-color: transparent;
   border: 1px solid grey;
-  
+
   -moz-animation: attack-outline-flash 1s ease-out;
   -moz-animation-iteration-count: infinite;
 
@@ -127,27 +198,63 @@
 }
 
 @keyframes attack-outline-flash {
-    0% { border-color: grey; color: grey; }
-    50% { border-color: red; color: red; }
-    100% { border-color: grey; color: grey; }
+  0% {
+    border-color: grey;
+    color: grey;
+  }
+  50% {
+    border-color: red;
+    color: red;
+  }
+  100% {
+    border-color: grey;
+    color: grey;
+  }
 }
 
 @-webkit-keyframes attack-outline-flash {
-    0% { border-color: grey; color: grey; }
-    50% { border-color: red; color: red; }
-    100% { border-color: grey; color: grey; }
+  0% {
+    border-color: grey;
+    color: grey;
+  }
+  50% {
+    border-color: red;
+    color: red;
+  }
+  100% {
+    border-color: grey;
+    color: grey;
+  }
 }
 
 @-moz-keyframes attack-outline-flash {
-    0% { border-color: grey; color: grey; }
-    50% { border-color: red; color: red; }
-    100% { border-color: grey; color: grey; }
+  0% {
+    border-color: grey;
+    color: grey;
+  }
+  50% {
+    border-color: red;
+    color: red;
+  }
+  100% {
+    border-color: grey;
+    color: grey;
+  }
 }
 
 @-ms-keyframes attack-outline-flash {
-    0% { border-color: grey; color: grey; }
-    50% { border-color: red; color: red; }
-    100% { border-color: grey; color: grey; }
+  0% {
+    border-color: grey;
+    color: grey;
+  }
+  50% {
+    border-color: red;
+    color: red;
+  }
+  100% {
+    border-color: grey;
+    color: grey;
+  }
 }
 
 // SUCCESS FLASH
@@ -164,27 +271,51 @@
 }
 
 @keyframes success-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(0,255,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-webkit-keyframes success-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(0,255,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-moz-keyframes success-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(0,255,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-ms-keyframes success-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(0,255,0,0.5); }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 // Flash Success Outline
@@ -192,7 +323,7 @@
 .btn-outline-flash-success {
   background-color: transparent;
   border: 1px solid grey;
-  
+
   -moz-animation: outline-flash-success 1s ease-out;
   -moz-animation-iteration-count: infinite;
 
@@ -204,27 +335,63 @@
 }
 
 @keyframes outline-flash-success {
-    0% { border-color: grey; color: grey; }
-    50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
-    100% { border-color: grey; color: grey; }
+  0% {
+    border-color: grey;
+    color: grey;
+  }
+  50% {
+    border-color: rgba(0, 255, 0, 0.5);
+    color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    border-color: grey;
+    color: grey;
+  }
 }
 
 @-webkit-keyframes outline-flash-success {
-    0% { border-color: grey; color: grey; }
-    50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
-    100% { border-color: grey; color: grey; }
+  0% {
+    border-color: grey;
+    color: grey;
+  }
+  50% {
+    border-color: rgba(0, 255, 0, 0.5);
+    color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    border-color: grey;
+    color: grey;
+  }
 }
 
 @-moz-keyframes outline-flash-success {
-    0% { border-color: grey; color: grey; }
-    50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
-    100% { border-color: grey; color: grey; }
+  0% {
+    border-color: grey;
+    color: grey;
+  }
+  50% {
+    border-color: rgba(0, 255, 0, 0.5);
+    color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    border-color: grey;
+    color: grey;
+  }
 }
 
 @-ms-keyframes outline-flash-success {
-    0% { border-color: grey; color: grey; }
-    50% { border-color: rgba(0,255,0,0.5); color: rgba(0,255,0,0.5); }
-    100% { border-color: grey; color: grey; }
+  0% {
+    border-color: grey;
+    color: grey;
+  }
+  50% {
+    border-color: rgba(0, 255, 0, 0.5);
+    color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    border-color: grey;
+    color: grey;
+  }
 }
 
 // Chat Flash
@@ -241,25 +408,49 @@
 }
 
 @keyframes chat-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(105, 105, 105, 0.5);; }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(105, 105, 105, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-webkit-keyframes chat-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(105, 105, 105, 0.5);; }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(105, 105, 105, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-moz-keyframes chat-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(105, 105, 105, 0.5);; }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(105, 105, 105, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @-ms-keyframes chat-flash {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(105, 105, 105, 0.5);; }
-    100% { background-color: transparent; }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(105, 105, 105, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
 }

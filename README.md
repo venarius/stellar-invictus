@@ -12,6 +12,7 @@
 Welcome to the [stellar-invictus.com](https://stellar-invictus.com) codebase. We are so excited to have you. With your help, we can build out Stellar Invictus to be more stable and better serve our community.
 
 ## What is Stellar Invictus?
+
 Stellar Invictus is a sandbox browsergame to be played right in the browser where players fly spaceships, fight each other and trade. The game offers many ways to explore its universe.
 
 ## Contributing
@@ -82,6 +83,7 @@ This section provides a high-level requirement & quick start guide.
 ## Core team
 
 - [@venarius](https://github.com/venarius)
+
 ## License
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. Please see the [LICENSE](./LICENSE.md) file in our repository for the full text.

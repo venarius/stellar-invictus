@@ -1,75 +1,75 @@
 ---
 systems:
   1:
-    faction: 
+    faction:
     name: RE-FII
     security: low
   2:
-    faction: 
+    faction:
     name: CR-181
     security: low
   3:
-    faction: 
+    faction:
     name: KI-233
     security: low
   4:
-    faction: 
+    faction:
     name: ZU-6TT
     security: low
   5:
-    faction: 
+    faction:
     name: TZ-877
     security: low
   6:
-    faction: 
+    faction:
     name: VB-233
     security: low
   7:
-    faction: 
+    faction:
     name: KE-35F
     security: low
   8:
-    faction: 
+    faction:
     name: SR-378
     security: low
   9:
-    faction: 
+    faction:
     name: KQ-43R
     security: low
   10:
-    faction: 
+    faction:
     name: TK-63R
     security: low
   11:
-    faction: 
+    faction:
     name: ZZ-23F
     security: low
   12:
-    faction: 
+    faction:
     name: FH-232
     security: low
   13:
-    faction: 
+    faction:
     name: WQ-F65
     security: low
   14:
-    faction: 
+    faction:
     name: FT-R3T
     security: low
   15:
-    faction: 
+    faction:
     name: NF-Z66
     security: low
   16:
-    faction: 
+    faction:
     name: UC-233
     security: low
   17:
-    faction: 
+    faction:
     name: Talos
     security: medium
   18:
-    faction: 
+    faction:
     name: Decon
     security: medium
   19:
@@ -93,27 +93,27 @@ systems:
     name: Alba
     security: medium
   24:
-    faction: 
+    faction:
     name: Odin
     security: medium
   25:
-    faction: 
+    faction:
     name: Foves
     security: medium
   26:
-    faction: 
+    faction:
     name: Finid
     security: medium
   27:
-    faction: 
+    faction:
     name: Draconis
     security: medium
   28:
-    faction: 
+    faction:
     name: Nodens
     security: medium
   29:
-    faction: 
+    faction:
     name: Nordar
     security: medium
   30:

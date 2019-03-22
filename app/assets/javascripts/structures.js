@@ -1,65 +1,95 @@
-$( document ).on('turbolinks:load', function() {
+$(document).on("turbolinks:load", function() {
   // Ajax for cargo inventory
-  $('#app-container').on('click', '.open-container-btn', function(e) {
+  $("#app-container").on("click", ".open-container-btn", function(e) {
     e.preventDefault();
-    var id = $(this).data('id');
-    $.post('structure/open_container', {id: id}, function(data) {
-      $('#app-container').append(data);
-      $('#cargocontainer-modal').modal('show');
+    var id = $(this).data("id");
+    $.post("structure/open_container", { id: id }, function(data) {
+      $("#app-container").append(data);
+      $("#cargocontainer-modal").modal("show");
     });
   });
-  
+
   // Ajax for cargo attack
-  $('#app-container').on('click', '.attack-container-btn', function(e) {
+  $("#app-container").on("click", ".attack-container-btn", function(e) {
     e.preventDefault();
-    var id = $(this).data('id');
-    var button = $(this)
-    $.post('structure/attack', {id: id}, function(data) {button.tooltip('dispose');});
+    var id = $(this).data("id");
+    var button = $(this);
+    $.post("structure/attack", { id: id }, function(data) {
+      button.tooltip("dispose");
+    });
   });
-  
+
   // Remove cargocontainer modal if close button is clicked
-  $('#app-container').on('hidden.bs.modal', '#cargocontainer-modal', function () {
-    $(this).remove();
-  });
-  
+  $("#app-container").on(
+    "hidden.bs.modal",
+    "#cargocontainer-modal",
+    function() {
+      $(this).remove();
+    }
+  );
+
   // Load item from cargo container AJAX
-  $('#app-container').on('click', '.cargocontainer-pickup-cargo-btn', function(e) {
+  $("#app-container").on("click", ".cargocontainer-pickup-cargo-btn", function(
+    e
+  ) {
     e.preventDefault();
     var button = $(this);
-    var loader = $(this).data('loader');
-    var id = $(this).data('id');
-    
-    $.post('structure/pickup_cargo', {id: id, loader: loader}, function(data) {
+    var loader = $(this).data("loader");
+    var id = $(this).data("id");
+
+    $.post("structure/pickup_cargo", { id: id, loader: loader }, function(
+      data
+    ) {
       if (data.amount) {
-        button.parent().parent().find('.amount').empty().append(data.amount + "&times;");
+        button
+          .parent()
+          .parent()
+          .find(".amount")
+          .empty()
+          .append(data.amount + "&times;");
       } else {
-        button.parent().parent().remove(); 
+        button
+          .parent()
+          .parent()
+          .remove();
       }
       refresh_player_info();
-    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
-  });
-  
-  // Load all items from cargo container AJAX
-  $('#app-container').on('click', '.cargocontainer-pickup-all-btn', function(e) {
-    e.preventDefault();
-    var id = $(this).data('id');
-    $.post('structure/pickup_cargo', {id: id}, function(data) {
-      $('#cargocontainer-modal').modal('hide');
-      refresh_player_info();
-    }).fail(function(data) { if (data.responseJSON.error_message) { $.notify(data.responseJSON.error_message, {style: 'alert'}); } });
-  });
-  
-  // Monument Info Btn AJAX
-  $('#app-container').on('click', '.monument-info', function(e) {
-    var id = $(this).data('id');
-    
-    $.get('structure/monument_info', {id: id}, function(data) {
-        var element = $(data)
-        $('#app-container').append(element);
-        element.modal('show');
+    }).fail(function(data) {
+      if (data.responseJSON.error_message) {
+        $.notify(data.responseJSON.error_message, { style: "alert" });
+      }
     });
   });
-  
+
+  // Load all items from cargo container AJAX
+  $("#app-container").on("click", ".cargocontainer-pickup-all-btn", function(
+    e
+  ) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.post("structure/pickup_cargo", { id: id }, function(data) {
+      $("#cargocontainer-modal").modal("hide");
+      refresh_player_info();
+    }).fail(function(data) {
+      if (data.responseJSON.error_message) {
+        $.notify(data.responseJSON.error_message, { style: "alert" });
+      }
+    });
+  });
+
+  // Monument Info Btn AJAX
+  $("#app-container").on("click", ".monument-info", function(e) {
+    var id = $(this).data("id");
+
+    $.get("structure/monument_info", { id: id }, function(data) {
+      var element = $(data);
+      $("#app-container").append(element);
+      element.modal("show");
+    });
+  });
+
   // Remove on Modal Close
-  $('#monument-info-modal').on('hidden.bs.modal', function() { $(this).remove(); })
+  $("#monument-info-modal").on("hidden.bs.modal", function() {
+    $(this).remove();
+  });
 });

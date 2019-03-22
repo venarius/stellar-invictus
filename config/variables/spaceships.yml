@@ -12,13 +12,23 @@ Nano:
   utility_equipment_slots: 0
   align_time: 5
   target_time: 5
-  crafting: {"asteroid.nickel_ore": 5, "asteroid.cobalt_ore": 10, "materials.laser_diodes": 1}
+  crafting:
+    {
+      "asteroid.nickel_ore": 5,
+      "asteroid.cobalt_ore": 10,
+      "materials.laser_diodes": 1,
+    }
   crafting_duration: 5
   type: "Multipurpose"
   upgrade:
     storage_amplifier: 2.1
-    ressources: {"asteroid.iron_ore": 23, "materials.metal_plates": 1, "materials.antimatter": 3}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 23,
+        "materials.metal_plates": 1,
+        "materials.antimatter": 3,
+      }
+
 Cerux:
   image: cerux.png
   thruster-image: cerux-thrusters.png
@@ -30,14 +40,25 @@ Cerux:
   utility_equipment_slots: 2
   align_time: 10
   target_time: 10
-  crafting: {"asteroid.nickel_ore": 275, "asteroid.cobalt_ore": 400, "materials.laser_diodes": 450, "asteroid.titanium_ore": 100}
+  crafting:
+    {
+      "asteroid.nickel_ore": 275,
+      "asteroid.cobalt_ore": 400,
+      "materials.laser_diodes": 450,
+      "asteroid.titanium_ore": 100,
+    }
   crafting_duration: 350
   type: "Explorer"
   trait:
     scanner_range: 3
   upgrade:
     defense_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 208, "materials.sensor_electronics": 36, "materials.metal_plates": 52}
+    ressources:
+      {
+        "asteroid.iron_ore": 208,
+        "materials.sensor_electronics": 36,
+        "materials.metal_plates": 52,
+      }
 
 Valadria:
   image: valadria.png
@@ -50,15 +71,26 @@ Valadria:
   utility_equipment_slots: 2
   align_time: 10
   target_time: 10
-  crafting: {"asteroid.iron_ore": 190, "asteroid.cobalt_ore": 300, "materials.metal_plates": 250, "asteroid.titanium_ore": 100}
+  crafting:
+    {
+      "asteroid.iron_ore": 190,
+      "asteroid.cobalt_ore": 300,
+      "materials.metal_plates": 250,
+      "asteroid.titanium_ore": 100,
+    }
   crafting_duration: 250
   type: "Logistics"
   trait:
     remote_repair_amplifier: 2
   upgrade:
     hp_amplifier: 2.7
-    ressources: {"asteroid.iron_ore": 180, "materials.ai_components": 52, "materials.metal_plates": 28}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 180,
+        "materials.ai_components": 52,
+        "materials.metal_plates": 28,
+      }
+
 Crasher:
   image: crasher.png
   thruster-image: crasher-thrusters.png
@@ -70,15 +102,26 @@ Crasher:
   utility_equipment_slots: 1
   align_time: 5
   target_time: 3
-  crafting: {"asteroid.nickel_ore": 140, "asteroid.cobalt_ore": 200, "materials.antimatter": 175, "asteroid.titanium_ore": 50}
+  crafting:
+    {
+      "asteroid.nickel_ore": 140,
+      "asteroid.cobalt_ore": 200,
+      "materials.antimatter": 175,
+      "asteroid.titanium_ore": 50,
+    }
   crafting_duration: 175
   type: "Hunter"
   trait:
     disrupt_strength_amplifier: 1.33
   upgrade:
     defense_amplifier: 1.6
-    ressources: {"asteroid.iron_ore": 113, "materials.sensor_electronics": 21, "materials.metal_plates": 10}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 113,
+        "materials.sensor_electronics": 21,
+        "materials.metal_plates": 10,
+      }
+
 Chronos:
   image: chronos.png
   thruster-image: chronos-thrusters.png
@@ -90,15 +133,26 @@ Chronos:
   utility_equipment_slots: 2
   align_time: 10
   target_time: 10
-  crafting: {"asteroid.nickel_ore": 275, "asteroid.iron_ore": 400, "materials.laser_diodes": 250, "asteroid.titanium_ore": 100}
+  crafting:
+    {
+      "asteroid.nickel_ore": 275,
+      "asteroid.iron_ore": 400,
+      "materials.laser_diodes": 250,
+      "asteroid.titanium_ore": 100,
+    }
   crafting_duration: 250
   type: "Freighter"
   trait:
     align_amplifier: 2
   upgrade:
     storage_amplifier: 2.5
-    ressources: {"asteroid.iron_ore": 208, "materials.antimatter": 28, "materials.metal_plates": 52}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 208,
+        "materials.antimatter": 28,
+        "materials.metal_plates": 52,
+      }
+
 Revenant:
   image: revenant.png
   thruster-image: revenant-thrusters.png
@@ -110,15 +164,26 @@ Revenant:
   utility_equipment_slots: 1
   align_time: 10
   target_time: 10
-  crafting: {"asteroid.iron_ore": 140, "asteroid.cobalt_ore": 400, "materials.fusion_electronics": 75, "materials.antimatter": 25}
+  crafting:
+    {
+      "asteroid.iron_ore": 140,
+      "asteroid.cobalt_ore": 400,
+      "materials.fusion_electronics": 75,
+      "materials.antimatter": 25,
+    }
   crafting_duration: 150
   type: "Miner"
   trait:
     mining_amount_amplifier: 2
   upgrade:
     storage_amplifier: 2.4
-    ressources: {"asteroid.iron_ore": 146, "materials.antimatter": 12, "materials.metal_plates": 20}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 146,
+        "materials.antimatter": 12,
+        "materials.metal_plates": 20,
+      }
+
 Atlas:
   image: atlas.png
   thruster-image: atlas-thrusters.png
@@ -130,7 +195,14 @@ Atlas:
   utility_equipment_slots: 4
   align_time: 15
   target_time: 15
-  crafting: {"asteroid.nickel_ore": 100, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting:
+    {
+      "asteroid.nickel_ore": 100,
+      "asteroid.cobalt_ore": 150,
+      "materials.ai_components": 500,
+      "materials.antimatter": 300,
+      "asteroid.titanium_ore": 150,
+    }
   crafting_duration: 500
   type: "Freighter"
   trait:
@@ -138,8 +210,13 @@ Atlas:
     jump_drive: true
   upgrade:
     align_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 236, "materials.laser_diodes": 68, "materials.ai_components": 34}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 236,
+        "materials.laser_diodes": 68,
+        "materials.ai_components": 34,
+      }
+
 # Pirates
 
 Clipper:
@@ -153,7 +230,14 @@ Clipper:
   utility_equipment_slots: 1
   align_time: 4
   target_time: 3
-  crafting: {"asteroid.lunarium_ore": 200, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting:
+    {
+      "asteroid.lunarium_ore": 200,
+      "asteroid.cobalt_ore": 150,
+      "materials.ai_components": 500,
+      "materials.antimatter": 300,
+      "asteroid.titanium_ore": 150,
+    }
   crafting_duration: 800
   type: "Hunter"
   trait:
@@ -162,9 +246,13 @@ Clipper:
     scanner_range: 10
   upgrade:
     storage_amplifier: 2.2
-    ressources: {"asteroid.iron_ore": 152, "materials.metal_plates": 26, "materials.antimatter": 20}
-    
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 152,
+        "materials.metal_plates": 26,
+        "materials.antimatter": 20,
+      }
+
 Galleon:
   image: galleon.png
   thruster-image: galleon-thrusters.png
@@ -176,7 +264,14 @@ Galleon:
   utility_equipment_slots: 2
   align_time: 10
   target_time: 10
-  crafting: {"asteroid.lunarium_ore": 240, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting:
+    {
+      "asteroid.lunarium_ore": 240,
+      "asteroid.cobalt_ore": 150,
+      "materials.ai_components": 500,
+      "materials.antimatter": 300,
+      "asteroid.titanium_ore": 150,
+    }
   crafting_duration: 1000
   type: "Combat"
   trait:
@@ -184,8 +279,13 @@ Galleon:
     damage_amplifier: 1.10
   upgrade:
     hp_amplifier: 2.6
-    ressources: {"asteroid.iron_ore": 191, "materials.ai_components": 62, "materials.metal_plates": 28}
-    
+    ressources:
+      {
+        "asteroid.iron_ore": 191,
+        "materials.ai_components": 62,
+        "materials.metal_plates": 28,
+      }
+
 Brigand:
   image: brigand.png
   thruster-image: brigand-thrusters.png
@@ -197,15 +297,27 @@ Brigand:
   utility_equipment_slots: 2
   align_time: 17
   target_time: 10
-  crafting: {"asteroid.lunarium_ore": 270, "asteroid.cobalt_ore": 160, "materials.ai_components": 600, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting:
+    {
+      "asteroid.lunarium_ore": 270,
+      "asteroid.cobalt_ore": 160,
+      "materials.ai_components": 600,
+      "materials.antimatter": 300,
+      "asteroid.titanium_ore": 150,
+    }
   crafting_duration: 1100
   type: "Combat"
   trait:
     directional_scanner: true
   upgrade:
     align_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 225, "materials.ai_components": 80, "materials.metal_plates": 33}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 225,
+        "materials.ai_components": 80,
+        "materials.metal_plates": 33,
+      }
+
 Bilander:
   image: bilander.png
   thruster-image: bilander-thrusters.png
@@ -217,7 +329,14 @@ Bilander:
   utility_equipment_slots: 3
   align_time: 20
   target_time: 20
-  crafting: {"asteroid.lunarium_ore": 2400, "asteroid.cobalt_ore": 150, "materials.ai_components": 500, "materials.antimatter": 300, "asteroid.titanium_ore": 150}
+  crafting:
+    {
+      "asteroid.lunarium_ore": 2400,
+      "asteroid.cobalt_ore": 150,
+      "materials.ai_components": 500,
+      "materials.antimatter": 300,
+      "asteroid.titanium_ore": 150,
+    }
   crafting_duration: 1200
   type: "Combat"
   trait:
@@ -225,8 +344,12 @@ Bilander:
     scanner_range: 10
   upgrade:
     hp_amplifier: 3
-    ressources: {"asteroid.iron_ore": 366, "materials.ai_components": 90, "materials.metal_plates": 45}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 366,
+        "materials.ai_components": 90,
+        "materials.metal_plates": 45,
+      }
 
 # Faction Ships
 
@@ -243,7 +366,12 @@ Leviathan:
   utility_equipment_slots: 4
   align_time: 25
   target_time: 30
-  crafting: {"materials.ai_components": 1000, "materials.metal_plates": 200, "asteroid.tryon_ore": 500}
+  crafting:
+    {
+      "materials.ai_components": 1000,
+      "materials.metal_plates": 200,
+      "asteroid.tryon_ore": 500,
+    }
   crafting_duration: 1000
   faction: 1
   reputation_requirement: 7
@@ -252,7 +380,12 @@ Leviathan:
     damage_amplifier: 1.25
   upgrade:
     target_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 563, "materials.sensor_electronics": 113, "materials.laser_diodes": 56}
+    ressources:
+      {
+        "asteroid.iron_ore": 563,
+        "materials.sensor_electronics": 113,
+        "materials.laser_diodes": 56,
+      }
 
 Behemoth:
   image: behemoth.png
@@ -265,7 +398,12 @@ Behemoth:
   utility_equipment_slots: 4
   align_time: 12
   target_time: 12
-  crafting: {"materials.ai_components": 500, "materials.metal_plates": 200, "asteroid.tryon_ore": 500}
+  crafting:
+    {
+      "materials.ai_components": 500,
+      "materials.metal_plates": 200,
+      "asteroid.tryon_ore": 500,
+    }
   crafting_duration: 750
   faction: 1
   reputation_requirement: 6
@@ -274,8 +412,13 @@ Behemoth:
     repair_amount_amplifier: 3
   upgrade:
     storage_amplifier: 2.6
-    ressources: {"asteroid.iron_ore": 422, "materials.metal_plates": 79, "materials.antimatter": 39}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 422,
+        "materials.metal_plates": 79,
+        "materials.antimatter": 39,
+      }
+
 Vanguard:
   image: vanguard.png
   thruster-image: vanguard-thrusters.png
@@ -287,7 +430,12 @@ Vanguard:
   utility_equipment_slots: 3
   align_time: 12
   target_time: 8
-  crafting: {"materials.ai_components": 500, "materials.metal_plates": 450, "asteroid.titanium_ore": 500}
+  crafting:
+    {
+      "materials.ai_components": 500,
+      "materials.metal_plates": 450,
+      "asteroid.titanium_ore": 500,
+    }
   crafting_duration: 600
   faction: 1
   reputation_requirement: 5
@@ -296,7 +444,12 @@ Vanguard:
     damage_amplifier: 1.25
   upgrade:
     hp_amplifier: 2.9
-    ressources: {"asteroid.iron_ore": 101, "materials.ai_components": 56, "materials.metal_plates": 28}
+    ressources:
+      {
+        "asteroid.iron_ore": 101,
+        "materials.ai_components": 56,
+        "materials.metal_plates": 28,
+      }
 
 Intervention:
   image: intervention.png
@@ -309,7 +462,12 @@ Intervention:
   utility_equipment_slots: 1
   align_time: 5
   target_time: 3
-  crafting: {"materials.ai_components": 200, "materials.metal_plates": 100, "asteroid.titanium_ore": 100}
+  crafting:
+    {
+      "materials.ai_components": 200,
+      "materials.metal_plates": 100,
+      "asteroid.titanium_ore": 100,
+    }
   crafting_duration: 250
   faction: 1
   reputation_requirement: 5
@@ -319,7 +477,12 @@ Intervention:
     align_amplifier: 2
   upgrade:
     defense_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 84, "materials.sensor_electronics": 39, "materials.metal_plates": 19}
+    ressources:
+      {
+        "asteroid.iron_ore": 84,
+        "materials.sensor_electronics": 39,
+        "materials.metal_plates": 19,
+      }
 
 Cutter:
   image: micro.png
@@ -332,7 +495,7 @@ Cutter:
   utility_equipment_slots: 1
   align_time: 7
   target_time: 4
-  crafting: {"materials.metal_plates": 20, "asteroid.iron_ore": 100}
+  crafting: { "materials.metal_plates": 20, "asteroid.iron_ore": 100 }
   crafting_duration: 20
   faction: 1
   reputation_requirement: 4
@@ -341,8 +504,13 @@ Cutter:
     damage_amplifier: 1.15
   upgrade:
     hp_amplifier: 2.4
-    ressources: {"asteroid.iron_ore": 51, "materials.ai_components": 5, "materials.metal_plates": 2}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 51,
+        "materials.ai_components": 5,
+        "materials.metal_plates": 2,
+      }
+
 # Core Republic
 
 Escorial:
@@ -356,7 +524,12 @@ Escorial:
   utility_equipment_slots: 6
   align_time: 30
   target_time: 30
-  crafting: {"materials.sensor_electronics": 900, "materials.fusion_electronics": 300, "asteroid.tryon_ore": 500}
+  crafting:
+    {
+      "materials.sensor_electronics": 900,
+      "materials.fusion_electronics": 300,
+      "asteroid.tryon_ore": 500,
+    }
   crafting_duration: 1000
   faction: 3
   reputation_requirement: 7
@@ -366,8 +539,13 @@ Escorial:
     damage_amplifier: 0.6
   upgrade:
     align_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 563, "materials.laser_diodes": 113, "materials.ai_components": 56}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 563,
+        "materials.laser_diodes": 113,
+        "materials.ai_components": 56,
+      }
+
 Aurora:
   image: aurora.png
   thruster-image: aurora-thrusters.png
@@ -379,7 +557,12 @@ Aurora:
   utility_equipment_slots: 2
   align_time: 20
   target_time: 20
-  crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 250, "asteroid.tryon_ore": 500}
+  crafting:
+    {
+      "materials.sensor_electronics": 500,
+      "materials.fusion_electronics": 250,
+      "asteroid.tryon_ore": 500,
+    }
   crafting_duration: 750
   faction: 3
   reputation_requirement: 6
@@ -389,7 +572,12 @@ Aurora:
     mining_amount_amplifier: 2
   upgrade:
     defense_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 422, "materials.sensor_electronics": 79, "materials.metal_plates": 39}
+    ressources:
+      {
+        "asteroid.iron_ore": 422,
+        "materials.sensor_electronics": 79,
+        "materials.metal_plates": 39,
+      }
 
 Aquila:
   image: aquila.png
@@ -402,7 +590,12 @@ Aquila:
   utility_equipment_slots: 5
   align_time: 25
   target_time: 15
-  crafting: {"materials.sensor_electronics": 500, "materials.fusion_electronics": 450, "asteroid.titanium_ore": 500}
+  crafting:
+    {
+      "materials.sensor_electronics": 500,
+      "materials.fusion_electronics": 450,
+      "asteroid.titanium_ore": 500,
+    }
   crafting_duration: 600
   faction: 3
   reputation_requirement: 6
@@ -412,7 +605,12 @@ Aquila:
     jump_drive: true
   upgrade:
     align_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 422, "materials.laser_diodes": 79, "materials.ai_components": 39}
+    ressources:
+      {
+        "asteroid.iron_ore": 422,
+        "materials.laser_diodes": 79,
+        "materials.ai_components": 39,
+      }
 
 Lupus:
   image: lupus.png
@@ -425,7 +623,12 @@ Lupus:
   utility_equipment_slots: 4
   align_time: 12
   target_time: 12
-  crafting: {"materials.sensor_electronics": 200, "materials.fusion_electronics": 100, "asteroid.titanium_ore": 100}
+  crafting:
+    {
+      "materials.sensor_electronics": 200,
+      "materials.fusion_electronics": 100,
+      "asteroid.titanium_ore": 100,
+    }
   crafting_duration: 250
   faction: 3
   reputation_requirement: 5
@@ -434,8 +637,13 @@ Lupus:
     mining_amount_amplifier: 2.5
   upgrade:
     defense_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 84, "materials.sensor_electronics": 39, "materials.metal_plates": 19}
-    
+    ressources:
+      {
+        "asteroid.iron_ore": 84,
+        "materials.sensor_electronics": 39,
+        "materials.metal_plates": 19,
+      }
+
 Galeas:
   image: micro.png
   thruster-image: micro-thrusters.png
@@ -447,7 +655,7 @@ Galeas:
   utility_equipment_slots: 1
   align_time: 7
   target_time: 5
-  crafting: {"materials.metal_plates": 20, "asteroid.iron_ore": 100}
+  crafting: { "materials.metal_plates": 20, "asteroid.iron_ore": 100 }
   crafting_duration: 20
   faction: 2
   reputation_requirement: 4
@@ -456,8 +664,13 @@ Galeas:
     mining_amount_amplifier: 1.5
   upgrade:
     storage_amplifier: 2
-    ressources: {"asteroid.iron_ore": 51, "materials.antimatter": 2, "materials.metal_plates": 5}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 51,
+        "materials.antimatter": 2,
+        "materials.metal_plates": 5,
+      }
+
 # Caldarius Federation
 
 Spectrum:
@@ -471,7 +684,12 @@ Spectrum:
   utility_equipment_slots: 5
   align_time: 25
   target_time: 30
-  crafting: {"materials.laser_diodes": 1000, "materials.antimatter": 250, "asteroid.tryon_ore": 500}
+  crafting:
+    {
+      "materials.laser_diodes": 1000,
+      "materials.antimatter": 250,
+      "asteroid.tryon_ore": 500,
+    }
   crafting_duration: 1000
   faction: 2
   reputation_requirement: 7
@@ -482,7 +700,12 @@ Spectrum:
     damage_amplifier: 0.90
   upgrade:
     target_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 563, "materials.sensor_electronics": 113, "materials.laser_diodes": 56}
+    ressources:
+      {
+        "asteroid.iron_ore": 563,
+        "materials.sensor_electronics": 113,
+        "materials.laser_diodes": 56,
+      }
 
 Yucatan:
   image: yucatan.png
@@ -495,7 +718,12 @@ Yucatan:
   utility_equipment_slots: 4
   align_time: 15
   target_time: 15
-  crafting: {"materials.laser_diodes": 500, "materials.antimatter": 250, "asteroid.tryon_ore": 500}
+  crafting:
+    {
+      "materials.laser_diodes": 500,
+      "materials.antimatter": 250,
+      "asteroid.tryon_ore": 500,
+    }
   crafting_duration: 750
   faction: 2
   reputation_requirement: 6
@@ -504,8 +732,13 @@ Yucatan:
     remote_repair_amplifier: 2
   upgrade:
     target_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 422, "materials.laser_diodes": 79, "materials.ai_components": 39}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 422,
+        "materials.laser_diodes": 79,
+        "materials.ai_components": 39,
+      }
+
 Cromwell:
   image: cromwell.png
   thruster-image: cromwell-thrusters.png
@@ -517,7 +750,12 @@ Cromwell:
   utility_equipment_slots: 3
   align_time: 15
   target_time: 10
-  crafting: {"materials.laser_diodes": 500, "materials.antimatter": 450, "asteroid.titanium_ore": 500}
+  crafting:
+    {
+      "materials.laser_diodes": 500,
+      "materials.antimatter": 450,
+      "asteroid.titanium_ore": 500,
+    }
   crafting_duration: 600
   faction: 2
   reputation_requirement: 6
@@ -527,8 +765,13 @@ Cromwell:
     damage_amplifier: 0.90
   upgrade:
     hp_amplifier: 3
-    ressources: {"asteroid.iron_ore": 422, "materials.ai_components": 79, "materials.metal_plates": 39}
-  
+    ressources:
+      {
+        "asteroid.iron_ore": 422,
+        "materials.ai_components": 79,
+        "materials.metal_plates": 39,
+      }
+
 Analyzer:
   image: analyzer.png
   thruster-image: analyzer-thrusters.png
@@ -540,7 +783,12 @@ Analyzer:
   utility_equipment_slots: 3
   align_time: 12
   target_time: 12
-  crafting: {"materials.laser_diodes": 200, "materials.antimatter": 100, "asteroid.titanium_ore": 100}
+  crafting:
+    {
+      "materials.laser_diodes": 200,
+      "materials.antimatter": 100,
+      "asteroid.titanium_ore": 100,
+    }
   crafting_duration: 250
   faction: 2
   reputation_requirement: 5
@@ -550,8 +798,13 @@ Analyzer:
     scanner_range: 4
   upgrade:
     defense_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 84, "materials.antimatter": 19, "materials.metal_plates": 39}
-    
+    ressources:
+      {
+        "asteroid.iron_ore": 84,
+        "materials.antimatter": 19,
+        "materials.metal_plates": 39,
+      }
+
 Skipjack:
   image: micro.png
   thruster-image: micro-thrusters.png
@@ -563,7 +816,7 @@ Skipjack:
   utility_equipment_slots: 1
   align_time: 4
   target_time: 7
-  crafting: {"materials.metal_plates": 20, "asteroid.iron_ore": 100}
+  crafting: { "materials.metal_plates": 20, "asteroid.iron_ore": 100 }
   crafting_duration: 20
   faction: 3
   reputation_requirement: 4
@@ -572,4 +825,9 @@ Skipjack:
     repair_amount_amplifier: 1.15
   upgrade:
     defense_amplifier: 1.4
-    ressources: {"asteroid.iron_ore": 51, "materials.sensor_electronics": 5, "materials.metal_plates": 2}
+    ressources:
+      {
+        "asteroid.iron_ore": 51,
+        "materials.sensor_electronics": 5,
+        "materials.metal_plates": 2,
+      }

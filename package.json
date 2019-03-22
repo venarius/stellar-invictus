@@ -1,5 +1,7 @@
 {
   "name": "stellar",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "prettier": "^1.16.4"
+  }
 }
