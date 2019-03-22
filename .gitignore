@@ -12,6 +12,9 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 .idea
+config/database.yml
+config/master.key
+.env
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
@@ -51,3 +54,10 @@ node_modules/
 
 # Custom yml
 /config/variables/pathfinder.yml
+
+# DS Store
+.DS_Store
+config/.DS_Store
+config/initializers/.DS_Store
+docker/.DS_Store
+public/.DS_Store

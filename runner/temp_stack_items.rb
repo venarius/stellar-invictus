@@ -11,7 +11,7 @@ Mission.where(mission_status: :offered).each do |mission|
   if mission.mission_location
     next unless mission.mission_location.users.empty? and Spaceship.where(warp_target_id: mission.mission_location.id).empty?
   end
-  
+
   mission.destroy
 end
 
@@ -37,14 +37,14 @@ Location.where(location_type: :station).each do |loc|
 end
 
 # Check for Items
-raise "blub" if Item.where.not(location: Location.where(location_type: :station).first).present?
+raise "error" if Item.where.not(location: Location.where(location_type: :station).first).present?
 
 # Stacking
 User.all.each do |user|
     loaders = Item.where(location: Location.where(location_type: :station).first.id, user: user).map(&:loader).uniq
-    
+
     next unless loaders
-    
+
     loaders.each do |loader|
         items =  Item.where(location: Location.where(location_type: :station).first.id, loader: loader, user: user)
         if items.present?

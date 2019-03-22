@@ -3,9 +3,8 @@ version: "3"
 services:
   app:
     build:
-      context: .      
+      context: .
       dockerfile: docker/Dockerfile
-    image: venarius/stellar-app:latest
     depends_on:
       - database
     ports:
@@ -21,7 +20,6 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    image: venarius/stellar-app:latest
     command: rvm-exec 2.5.3 bundle exec sidekiq -C config/sidekiq.yml -e production
 
   database:
