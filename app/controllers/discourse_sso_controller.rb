@@ -3,7 +3,7 @@ require 'single_sign_on'
 class DiscourseSsoController < ApplicationController
 
   def sso
-    secret = "B0cqKNtjhlXrS2J2BAB1gyIg5tjMUZwfdBfrScubAbYsOV1Zd1CisMD3dVXVScXmR5HZtuafJvn10kcC62JyNVC5bmBSGUzl2w0FfViY9tk63mtyCGsZZiTE29iRRm4C"
+    secret = ENV["DISCOURSE_SSO_SECRET"]
     sso = SingleSignOn.parse(request.query_string, secret)
     sso.email = current_user.email # from devise
     sso.name = current_user.full_name # this is a custom method on the User class
