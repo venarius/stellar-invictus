@@ -9,7 +9,7 @@ describe Poll do
     end
 
     describe 'Enums' do
-      it { should define_enum_for(:status).with([:active, :waiting, :in_progress, :finished]) }
+      it { should define_enum_for(:status).with_values([:active, :waiting, :in_progress, :finished]) }
     end
 
     describe 'Functions' do

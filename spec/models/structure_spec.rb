@@ -11,13 +11,12 @@ describe Structure do
     end
 
     describe 'Relations' do
-      it { should belong_to :user }
       it { should belong_to :location }
       it { should have_many :items }
     end
 
     describe 'Enum' do
-      it { should define_enum_for(:structure_type).with([:container, :wreck, :abandoned_ship, :monument]) }
+      it { should define_enum_for(:structure_type).with_values([:container, :wreck, :abandoned_ship, :monument]) }
     end
 
     describe 'Functions' do

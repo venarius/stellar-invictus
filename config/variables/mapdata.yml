@@ -266,77 +266,80 @@ jumpgates:
     from: 23
     to: 24
   33:
-    from: 36
-    to: 37
-  34:
     from: 23
+    to: 21
+  34:
+    from: 36
     to: 37
   35:
+    from: 23
+    to: 37
+  36:
     from: 37
     to: 41
-  36:
-    from: 41
-    to: 42
   37:
     from: 41
-    to: 28
+    to: 42
   38:
+    from: 41
+    to: 28
+  39:
     from: 42
     to: 26
-  39:
+  40:
     from: 26
     to: 15
-  40:
+  41:
     from: 15
     to: 14
-  41:
-    from: 16
-    to: 15
   42:
     from: 16
-    to: 14
+    to: 15
   43:
+    from: 16
+    to: 14
+  44:
     from: 14
     to: 13
-  44:
+  45:
     from: 12
     to: 13
-  45:
+  46:
     from: 11
     to: 12
-  46:
+  47:
     from: 10
     to: 11
-  47:
-    from: 27
-    to: 42
   48:
     from: 27
-    to: 12
+    to: 42
   49:
-    from: 28
-    to: 10
+    from: 27
+    to: 12
   50:
     from: 28
-    to: 29
+    to: 10
   51:
+    from: 28
+    to: 29
+  52:
     from: 29
     to: 40
-  52:
-    from: 40
-    to: 39
   53:
-    from: 38
+    from: 40
     to: 39
   54:
+    from: 38
+    to: 39
+  55:
     from: 36
     to: 38
-  55:
+  56:
     from: 40
     to: 41
-  56:
+  57:
     from: 34
     to: 22
-  57:
+  58:
     from: 38
     to: 40

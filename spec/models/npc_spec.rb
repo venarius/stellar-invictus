@@ -10,13 +10,9 @@ describe Npc do
       it { should respond_to :name }
     end
 
-    describe 'Relations' do
-      it { should belong_to :location }
-    end
-
     describe 'Enums' do
-      it { should define_enum_for(:npc_type).with([:enemy, :police, :politician, :bodyguard, :wanted_enemy]) }
-      it { should define_enum_for(:npc_state).with([:created, :targeting, :attacking, :waiting]) }
+      it { should define_enum_for(:npc_type).with_values([:enemy, :police, :politician, :bodyguard, :wanted_enemy]) }
+      it { should define_enum_for(:npc_state).with_values([:created, :targeting, :attacking, :waiting]) }
     end
 
     describe 'Functions' do

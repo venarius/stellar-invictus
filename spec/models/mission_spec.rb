@@ -25,15 +25,14 @@ describe Mission do
     describe 'Relations' do
       it { should belong_to :faction }
       it { should belong_to :location }
-      it { should belong_to :user }
 
       it { should have_one :mission_location }
     end
 
     describe 'Enums' do
-      it { should define_enum_for(:mission_type).with([:tutorial, :delivery, :combat, :mining, :market, :vip]) }
-       it { should define_enum_for(:mission_status).with([:offered, :active, :failed, :completed]) }
-       it { should define_enum_for(:difficulty).with([:easy, :medium, :hard]) }
+      it { should define_enum_for(:mission_type).with_values([:tutorial, :delivery, :combat, :mining, :market, :vip]) }
+       it { should define_enum_for(:mission_status).with_values([:offered, :active, :failed, :completed]) }
+       it { should define_enum_for(:difficulty).with_values([:easy, :medium, :hard]) }
     end
 
   end

@@ -11,11 +11,6 @@ describe Spaceship do
       it { should respond_to :insured }
     end
 
-    describe 'Relations' do
-      it { should belong_to :user }
-      it { should belong_to :location }
-    end
-
     describe 'Functions' do
       before(:each) do
         user = FactoryBot.create(:user_with_faction)

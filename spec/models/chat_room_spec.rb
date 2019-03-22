@@ -11,8 +11,6 @@ describe ChatRoom do
     end
 
     describe 'Relations' do
-      it { should belong_to :location }
-      it { should belong_to :system }
       it { should have_and_belong_to_many :users }
       it { should have_many :chat_messages }
     end
@@ -27,7 +25,7 @@ describe ChatRoom do
     end
 
     describe 'Enums' do
-      it { should define_enum_for(:chatroom_type).with([:global, :local, :custom, :corporation]) }
+      it { should define_enum_for(:chatroom_type).with_values([:global, :local, :custom, :corporation]) }
     end
 
     describe 'Functions' do

@@ -14,7 +14,7 @@ describe FinanceHistory do
     end
 
     describe 'Enums' do
-      it { should define_enum_for(:action).with([:deposit, :withdraw]) }
+      it { should define_enum_for(:action).with_values([:deposit, :withdraw]) }
     end
   end
 end

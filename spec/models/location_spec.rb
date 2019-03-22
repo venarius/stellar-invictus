@@ -18,7 +18,6 @@ describe Location do
 
     describe 'Relations' do
       it { should belong_to :system }
-      it { should belong_to :faction }
       it { should have_many :users }
       it { should have_many :asteroids }
       it { should have_many :structures }
@@ -28,8 +27,8 @@ describe Location do
     end
 
     describe 'Enums' do
-      it { should define_enum_for(:location_type).with([:station, :asteroid_field, :jumpgate, :mission, :exploration_site, :wormhole]) }
-       it { should define_enum_for(:station_type).with([:industrial_station, :warfare_plant, :mining_station, :research_station]) }
+      it { should define_enum_for(:location_type).with_values([:station, :asteroid_field, :jumpgate, :mission, :exploration_site, :wormhole]) }
+      it { should define_enum_for(:station_type).with_values([:industrial_station, :warfare_plant, :mining_station, :research_station, :trillium_casino]) }
     end
 
     describe 'Functions' do
