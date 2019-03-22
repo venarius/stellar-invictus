@@ -38,5 +38,8 @@ script:
   - |
     bash -c "
       bundle exec rubocop --parallel && \
+      bundle exec rails db:setup && \
+      bundle exec rake pathfinder:generate_mapdata && \
+      bundle exec rake pathfinder:generate_paths && \
       bundle exec rspec
     "
