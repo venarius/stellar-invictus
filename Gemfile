@@ -71,3 +71,6 @@ gem 'omniauth-facebook'
 gem 'turnout'
 # Hoverintent for faster page loads
 gem 'rails-assets-jquery-hoverintent', source: 'https://rails-assets.org'
+# Rubocop
+gem 'rubocop'
+gem 'rubocop-rspec'
