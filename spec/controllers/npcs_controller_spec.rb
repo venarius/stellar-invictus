@@ -10,42 +10,42 @@ RSpec.describe NpcsController, type: :controller do
       end
     end
   end
-  
+
   describe 'with login' do
     before(:each) do
       @user = FactoryBot.create(:user_with_faction)
       sign_in @user
       @enemy = FactoryBot.create(:npc, location: @user.location, hp: 100)
     end
-    
+
     describe 'POST target' do
       it 'should target npc if user is in same location and can be attacked' do
-        post :target, params: {id: @enemy.id}
+        post :target, params: { id: @enemy.id }
         expect(response.status).to eq(200)
         expect(TargetNpcWorker.jobs.size).to eq(1)
       end
-      
+
       it 'should not target npc if user is in warp' do
         @user.update_columns(in_warp: true)
-        post :target, params: {id: @enemy.id}
+        post :target, params: { id: @enemy.id }
         expect(response.status).to eq(400)
         expect(TargetNpcWorker.jobs.size).to eq(0)
       end
-      
+
       it 'should not target npc if npc is not found' do
-        post :target, params: {id: 2000}
+        post :target, params: { id: 2000 }
         expect(response.status).to eq(400)
         expect(TargetNpcWorker.jobs.size).to eq(0)
       end
-      
+
       it 'should not target npc if npc is in another location' do
         @enemy.update_columns(location_id: Location.last.id)
-        post :target, params: {id: @enemy.id}
+        post :target, params: { id: @enemy.id }
         expect(response.status).to eq(400)
         expect(TargetNpcWorker.jobs.size).to eq(0)
       end
     end
-    
+
     describe 'POST untarget' do
       it 'should remove npc_target_id and is_attacking' do
         @enemy.update_columns(location_id: Location.last.id)

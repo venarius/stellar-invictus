@@ -1,0 +1,42 @@
+language: ruby
+
+git:
+  depth: false
+
+branches:
+  only:
+    - master
+
+env:
+  global:
+    - TRAVIS_NODE_VERSION="10"
+    - RUBY_GLOBAL_METHOD_CACHE_SIZE=131072
+
+rvm:
+  - 2.5.3
+
+services:
+  - redis-server
+  - postgresql
+
+sudo: required
+dist: trusty
+
+cache:
+  apt: true
+  directories:
+    - vendor/bundle
+
+before_install:
+  - nvm install node
+  - node --version
+  - gem install bundler -v 1.17.3
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+
+script:
+  - |
+    bash -c "
+      bundle exec rubocop --parallel && \
+      bundle exec rspec
+    "

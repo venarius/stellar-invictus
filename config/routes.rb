@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist', edit: 'pilot' }, controllers: { registrations: "registrations", omniauth_callbacks: 'users/omniauth_callbacks' }
-  
+
   # Static Pages
   root 'static_pages#home'
   get '/credits', to: 'static_pages#credits'
@@ -8,13 +8,13 @@ Rails.application.routes.draw do
   get '/support', to: 'static_pages#support'
   get '/donate', to: 'static_pages#donate'
   post '/support_ticket/create', to: 'static_pages#create_support_ticket', as: :create_support_ticket
-  
+
   # Factions
   resources :factions, only: [:index]
   scope :factions do
     post 'choose', to: 'factions#choose_faction', as: :choose_faction
   end
-  
+
   # Game
   get '/game', to: 'game#index'
   scope :game do
@@ -27,17 +27,17 @@ Rails.application.routes.draw do
     get 'system_card', to: 'game#system_card'
     get 'locations_card', to: 'game#locations_card'
   end
-  
+
   # User
   scope :user do
     get 'info/:id', to: 'users#info'
     post 'update_bio', to: 'users#update_bio'
     post 'place_bounty', to: 'users#place_bounty'
   end
-  
+
   # Mails
   resources :game_mails, only: [:index, :new, :create, :show], path: 'mails'
-  
+
   # Station
   scope :stations do
     post 'dock', to: 'stations#dock'
@@ -48,13 +48,13 @@ Rails.application.routes.draw do
     post 'dice_roll', to: 'stations#dice_roll'
   end
   get '/station', to: 'stations#index'
-  
+
   # Map
   get '/map', to: 'static_pages#map'
-  
+
   # Assets
   get '/assets', to: 'game#assets'
-  
+
   # Ships
   scope :ship do
     post 'activate', to: 'ships#activate'
@@ -68,19 +68,19 @@ Rails.application.routes.draw do
     get 'upgrade_modal', to: 'ships#upgrade_modal'
     post 'upgrade', to: 'ships#upgrade'
   end
-  
+
   # Asteroids
   scope :asteroid do
     post 'mine', to: 'asteroids#mine'
     post 'stop_mine', to: 'asteroids#stop_mine'
   end
-  
+
   # NPCs
   scope :npc do
     post 'target', to: 'npcs#target'
     post 'untarget', to: 'npcs#untarget'
   end
-  
+
   # Structures
   scope :structure do
     post 'open_container', to: 'structures#open_container'
@@ -89,7 +89,7 @@ Rails.application.routes.draw do
     post 'abandoned_ship', to: 'structures#abandoned_ship'
     get 'monument_info', to: 'structures#monument_info'
   end
-  
+
   # Friends
   get 'friends', to: 'friends#index'
   scope :friends do
@@ -98,7 +98,7 @@ Rails.application.routes.draw do
     post 'remove_friend', to: 'friends#remove_friend'
     post 'search', to: 'friends#search'
   end
-  
+
   # Chat
   scope :chat do
     post 'join', to: 'chat_rooms#join'
@@ -107,21 +107,21 @@ Rails.application.routes.draw do
     post 'start_conversation', to: 'chat_rooms#start_conversation'
     post 'search', to: 'chat_rooms#search'
   end
-  
+
   # Fleets
   scope :fleet do
     post 'invite', to: 'fleets#invite'
     post 'accept_invite', to: 'fleets#accept_invite'
     post 'remove', to: 'fleets#remove'
   end
-  
+
   # Equipment
   scope :equipment do
     post 'update', to: 'equipment#update'
     post 'switch', to: 'equipment#switch'
     get 'info', to: 'equipment#info'
   end
-  
+
   # Market
   scope :market do
     get 'list', to: 'market#list'
@@ -134,7 +134,7 @@ Rails.application.routes.draw do
     post 'create_buy', to: 'market#create_buy'
     post 'fulfill_buy', to: 'market#fulfill_buy'
   end
-  
+
   # Systems
   scope :system do
     get 'info', to: 'systems#info'
@@ -144,7 +144,7 @@ Rails.application.routes.draw do
     post 'directional_scan', to: 'systems#directional_scan'
     post 'jump_drive', to: 'systems#jump_drive'
   end
-  
+
   # Missions
   scope :mission do
     get 'info', to: 'missions#info'
@@ -153,13 +153,13 @@ Rails.application.routes.draw do
     get 'popup', to: 'missions#popup'
     post 'abort', to: 'missions#abort'
   end
-  
+
   # Blueprints
   scope :blueprint do
     post 'buy', to: 'blueprints#buy'
     get 'modal', to: 'blueprints#modal'
   end
-  
+
   # Factory
   scope :factory do
     get 'modal', to: 'factories#modal'
@@ -167,7 +167,7 @@ Rails.application.routes.draw do
     get 'dismantle_modal', to: 'factories#dismantle_modal'
     post 'dismantle', to: 'factories#dismantle'
   end
-  
+
   # Corporation
   resources :corporations, only: [:index, :new, :create], path: 'corporation'
   scope :corporation do
@@ -187,15 +187,15 @@ Rails.application.routes.draw do
     post 'search', to: 'corporations#search'
     get 'sort_roster', to: 'corporations#sort_roster'
   end
-  
+
   # Community
   scope :community do
     get '/', to: 'communities#index', as: :community
   end
-  
+
   # Discourse
   get 'discourse/sso' => 'discourse_sso#sso'
-  
+
   # Admin
   scope :admin do
     get '/', to: 'admin#index', as: :admin
@@ -209,7 +209,7 @@ Rails.application.routes.draw do
     post 'unmute', to: 'admin#unmute'
     post 'delete_chat', to: 'admin#delete_chat'
   end
-  
+
   # Polls
   scope :poll do
     post 'create', to: 'polls#create'
@@ -218,8 +218,8 @@ Rails.application.routes.draw do
     post 'move_up', to: 'polls#move_up'
     post 'delete', to: 'polls#delete'
   end
-  
+
   # ActionCable
   mount ActionCable.server => '/cable'
-  
+
 end

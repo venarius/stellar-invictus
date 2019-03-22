@@ -72,34 +72,34 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  
+
   # Factory Bot
   config.include FactoryBot::Syntax::Methods
-  
+
   # Database Cleaner
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
-  
+
   # Seed Database
   config.before(:suite) do
     Rails.application.load_seed # loading seeds
   end
-  
+
   # Devise
   config.include Devise::Test::ControllerHelpers, type: :controller
-  
+
   # Sidekiq
   config.before(:each) do
     Sidekiq::Worker.clear_all
   end
-  
+
   # Asteroids
   config.before(:suite) do
     Asteroid.destroy_all
     Location.where(location_type: 'asteroid_field').each do |loc|
-      rand(5..10).times do 
+      rand(5..10).times do
         Asteroid.create(location: loc, asteroid_type: rand(3), resources: 35000)
       end
     end
@@ -111,7 +111,7 @@ Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     # Choose a test framework:
     with.test_framework :rspec
-    
+
     # Or, choose all of the above:
     with.library :rails
   end

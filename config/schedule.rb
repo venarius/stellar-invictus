@@ -24,7 +24,7 @@ end
 
 # Economy Redo
 every 10.minutes, roles: [:db] do
-  runner "runner/economy_redo.rb" 
+  runner "runner/economy_redo.rb"
 end
 
 # Hidden Locations

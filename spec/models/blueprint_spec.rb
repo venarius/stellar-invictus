@@ -7,7 +7,7 @@ describe Blueprint do
       it { should respond_to :loader }
       it { should respond_to :efficiency }
     end
-    
+
     describe 'Relations' do
       it { should belong_to :user }
     end

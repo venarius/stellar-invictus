@@ -7,7 +7,7 @@ describe CorpApplication do
       it { should respond_to :corporation }
       it { should respond_to :application_text }
     end
-    
+
     describe 'Relations' do
       it { should belong_to :user }
       it { should belong_to :corporation }

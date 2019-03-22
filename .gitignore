@@ -12,7 +12,6 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 .idea
-config/database.yml
 config/master.key
 .env
 

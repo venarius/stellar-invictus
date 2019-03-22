@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe ApplicationController, type: :controller do
   controller do
     def after_sign_in_path_for(resource)
-        super resource
+      super resource
     end
     def call_police(user)
-        super user
+      super user
     end
     def update_last_action
-        super
+      super
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe ApplicationController, type: :controller do
       expect(controller.after_sign_in_path_for(@user)).to eq(game_path)
     end
   end
-  
+
   describe 'Call Police' do
     it 'should call police on user in highsec' do
       system = System.where(security_status: 'high').first
@@ -49,7 +49,7 @@ RSpec.describe ApplicationController, type: :controller do
       expect(PoliceWorker.jobs.size).to eq(0)
     end
   end
-  
+
   describe 'update_last_action' do
     it 'should update last_action of user' do
       @user = FactoryBot.create(:user_with_faction)

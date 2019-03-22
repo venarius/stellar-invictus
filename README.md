@@ -74,9 +74,9 @@ This section provides a high-level requirement & quick start guide.
 
 1. Install `docker` and `docker-compose`
 1. `git clone the project`
-1. Set environment variables above as described in the "Basic Installation"
+1. `cp .env.sample .env` and set environment variables
 1. run `docker-compose build`
-1. run `docker-compose run app rails db:setup`
+1. run `docker-compose run --entrypoint "/bin/sh -c 'rails db:setup'" app`
 1. run `docker-compose up`
 1. That's it! Navigate to `localhost:3000`
 

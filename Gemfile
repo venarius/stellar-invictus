@@ -35,7 +35,6 @@ group :production, :development do
   gem 'pg'
 end
 
-
 # Authentication through devise
 gem 'devise'
 # Client-Side Validations

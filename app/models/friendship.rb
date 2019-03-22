@@ -4,14 +4,14 @@ class Friendship < ApplicationRecord
 
   belongs_to :user
   belongs_to :friend, class_name: 'User'
-  
-  delegate :avatar, :full_name, :to => :user, :prefix => true
-  delegate :avatar, :full_name, :to => :friend, :prefix => true
+
+  delegate :avatar, :full_name, to: :user, prefix: true
+  delegate :avatar, :full_name, to: :friend, prefix: true
 
   private
 
   def create_inverse_relationship
-    if self.accepted and friend.friendships.where(friend: user).empty?
+    if self.accepted && friend.friendships.where(friend: user).empty?
       friend.friendships.create(friend: user, accepted: false)
     end
   end

@@ -9,14 +9,14 @@ describe ChatRoom do
       it { should respond_to :location }
       it { should respond_to :system }
     end
-   
+
     describe 'Relations' do
       it { should belong_to :location }
       it { should belong_to :system }
       it { should have_and_belong_to_many :users }
       it { should have_many :chat_messages }
     end
-    
+
     describe 'Validations' do
       describe 'title' do
         it { should validate_presence_of :title }
@@ -25,11 +25,11 @@ describe ChatRoom do
         it { should_not allow_values('', nil, 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').for :title }
       end
     end
-    
+
     describe 'Enums' do
-       it { should define_enum_for(:chatroom_type).with([:global, :local, :custom, :corporation]) } 
+      it { should define_enum_for(:chatroom_type).with([:global, :local, :custom, :corporation]) }
     end
-    
+
     describe 'Functions' do
       describe 'update_local_players' do
         it 'should send actioncable' do

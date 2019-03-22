@@ -7,13 +7,13 @@ describe Fleet do
       it { should respond_to :users }
       it { should respond_to :chat_room }
     end
-   
+
     describe 'Relations' do
       it { should belong_to :chat_room }
       it { should belong_to :creator }
       it { should have_many :users }
     end
-    
+
     describe 'Functions' do
       describe 'before_destroy' do
         it 'should remove all active users from fleet' do

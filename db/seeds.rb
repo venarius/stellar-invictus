@@ -15,8 +15,8 @@ caldarius_lorem = "The Caldarius Federation consists of 21 self-governing territ
                     guiding principle always was impartiality. They have never been in a war with external parties. Due to their neutrality, the Caldarius Federation
                     steadily improved their defense capabilites in case of trouble. Their ships are primarily known for their especially reinforced hulls and their
                     massive shields that can stand a large enemy fleets."
-core_lorem = "Built from the ground up with freedom of speech in mind, the Core Republic is now a well known part of the universe we know. There have always 
-              been some civil wars due to different opinions about drugs and weapons in the past but the Core Republic always grows stronger with every one of them.<br>Since 
+core_lorem = "Built from the ground up with freedom of speech in mind, the Core Republic is now a well known part of the universe we know. There have always
+              been some civil wars due to different opinions about drugs and weapons in the past but the Core Republic always grows stronger with every one of them.<br>Since
               everyone is able to choose their own path of career, most people became Freighter-Pilots. After decades of researching on how to increase the storage capacity of ships even more,
               they have been able to celebrate their first breakthroughs not very long ago."
 
@@ -99,9 +99,9 @@ jumpgates = [
     ["Nodens", "Nordar"], ["Nordar", "Aunia"], ["Aunia", "Minin"], ["Chanoun", "Minin"], ["Dau", "Chanoun"], ["Aunia", "Joamma"],
     ["Perseus", "Latos"], ["Chanoun", "Aunia"]
   ]
-  
+
 travels = [5, 10, 15, 20]
-  
+
 jumpgates.each do |jgs|
   a = Location.find_or_create_by(name: jgs.last, system: System.find_by(name: jgs.first), location_type: 2)
   b = Location.find_or_create_by(name: jgs.first, system: System.find_by(name: jgs.last), location_type: 2)
@@ -157,7 +157,7 @@ Location.find_or_create_by(station_type: 4, system: foves, location_type: 0, fac
 
 # Random Stations
 System.all.each do |sys|
-  if sys.security_status == 'medium' and sys.locations.where(location_type: 'station').empty?
+  if (sys.security_status == 'medium') && sys.locations.where(location_type: 'station').empty?
     rand(1..2).times do
       type = rand(0..3)
       Location.find_or_create_by(station_type: type, system: sys, location_type: 0) if sys.locations.where(station_type: type).empty?

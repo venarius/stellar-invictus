@@ -7,14 +7,14 @@ describe FinanceHistory do
       it { should respond_to :corporation }
       it { should respond_to :action }
     end
-    
+
     describe 'Relations' do
       it { should belong_to :user }
       it { should belong_to :corporation }
     end
-    
+
     describe 'Enums' do
-       it { should define_enum_for(:action).with([:deposit, :withdraw]) } 
+      it { should define_enum_for(:action).with([:deposit, :withdraw]) }
     end
   end
 end

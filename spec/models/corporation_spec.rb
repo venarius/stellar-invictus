@@ -13,7 +13,7 @@ describe Corporation do
       it { should respond_to :name }
       it { should respond_to :ticker }
     end
-    
+
     describe 'Relations' do
       it { should have_many :users }
       it { should have_many :finance_histories }

@@ -1,8 +1,8 @@
 class GameMailWorker
   # This Worker will be run to tell another user that they got mail
-  
+
   include Sidekiq::Worker
-  sidekiq_options :retry => false
+  sidekiq_options retry: false
 
   def perform(recipient_id)
     user = User.find(recipient_id)

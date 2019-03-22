@@ -9,7 +9,7 @@ class ChatChannel < ApplicationCable::Channel
       stream_for ChatRoom.find_by(identifier: room_id)
     end
   end
-  
+
   def send_message(data)
     unless current_user.reload.muted
       if data['room'] == "local"

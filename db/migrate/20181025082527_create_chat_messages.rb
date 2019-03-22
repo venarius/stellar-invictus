@@ -7,7 +7,7 @@ class CreateChatMessages < ActiveRecord::Migration[5.2]
       t.text :body
 
       t.timestamps
-      
+
       t.index [:user_id, :system_id, :type]
     end
   end

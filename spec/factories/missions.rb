@@ -14,13 +14,13 @@ FactoryBot.define do
     mission_amount { 1 }
     faction_bonus { 1.5 }
     faction_malus { 1.5 }
-    
+
     factory :combat_mission do
       mission_type { 2 }
       mission_location { Location.first }
       faction { Faction.first }
       location { Location.first }
     end
-    
+
   end
 end

@@ -6,7 +6,7 @@ class CreateMails < ActiveRecord::Migration[5.2]
       t.string :header
       t.text :body
       t.integer :units
-      
+
       t.index :sender_id
       t.index :recipient_id
 

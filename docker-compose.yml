@@ -8,7 +8,15 @@ services:
     depends_on:
       - database
     ports:
-      - "443:443"
+      - "3000:3000"
+    environment:
+      - DATABASE_HOST=database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=stellar
+      - REDIS_URL=redis://redis:6379/1
+    volumes:
+      - ".:/myapp"
 
   redis:
     image: redis:5.0.3-alpine
@@ -20,12 +28,24 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    command: rvm-exec 2.5.3 bundle exec sidekiq -C config/sidekiq.yml -e production
+    command: sidekiq
+    volumes:
+      - ".:/myapp"
+    environment:
+      - DATABASE_HOST=database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=stellar
+      - REDIS_URL=redis://redis:6379/1
 
   database:
     image: postgres:11.2-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=stellar
 
 volumes:
   db_data:

@@ -7,13 +7,13 @@ describe Asteroid do
       it { should respond_to :asteroid_type }
       it { should respond_to :resources }
     end
-    
+
     describe 'Relations' do
       it { should belong_to :location }
     end
-    
+
     describe 'Enums' do
-       it { should define_enum_for(:asteroid_type).with([:nickel, :iron, :cobalt, :septarium, :titanium, :tryon, :lunarium]) } 
+      it { should define_enum_for(:asteroid_type).with([:nickel, :iron, :cobalt, :septarium, :titanium, :tryon, :lunarium]) }
     end
   end
 end

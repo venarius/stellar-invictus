@@ -21,20 +21,20 @@ describe Mission do
       it { should respond_to :faction_bonus }
       it { should respond_to :faction_malus }
     end
-    
+
     describe 'Relations' do
       it { should belong_to :faction }
       it { should belong_to :location }
       it { should belong_to :user }
-      
+
       it { should have_one :mission_location }
     end
-    
+
     describe 'Enums' do
-       it { should define_enum_for(:mission_type).with([:tutorial, :delivery, :combat, :mining, :market, :vip]) } 
-       it { should define_enum_for(:mission_status).with([:offered, :active, :failed, :completed]) } 
-       it { should define_enum_for(:difficulty).with([:easy, :medium, :hard]) } 
+      it { should define_enum_for(:mission_type).with([:tutorial, :delivery, :combat, :mining, :market, :vip]) }
+       it { should define_enum_for(:mission_status).with([:offered, :active, :failed, :completed]) }
+       it { should define_enum_for(:difficulty).with([:easy, :medium, :hard]) }
     end
-    
+
   end
 end

@@ -6,11 +6,11 @@ describe ChatMessage do
       it { should respond_to :user }
       it { should respond_to :body }
     end
-   
+
     describe 'Relations' do
       it { should belong_to :user }
     end
-    
+
     describe 'Validations' do
       describe 'body' do
         it { should validate_presence_of :body }

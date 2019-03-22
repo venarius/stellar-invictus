@@ -7,7 +7,7 @@ class GameMailsController < ApplicationController
   def new
     @mail = GameMail.new
   end
-  
+
   def create
     recipient = User.find_by(full_name: mail_params[:recipient_name])
     if recipient && (mail_params[:units].to_i <= current_user.units) && GameMail.create(sender: current_user, recipient: recipient, body: mail_params[:body], header: mail_params[:header], units: mail_params[:units])
@@ -19,13 +19,13 @@ class GameMailsController < ApplicationController
       render :new
     end
   end
-  
+
   def show
     mail = GameMail.find(params[:id]) rescue nil
     if mail
       if mail.recipient == current_user || mail.sender == current_user
         mail.update_columns(read: true)
-        render partial: 'game_mails/show', locals: {mail: mail}
+        render partial: 'game_mails/show', locals: { mail: mail }
       else
         redirect_to game_mails_path
       end
@@ -33,9 +33,9 @@ class GameMailsController < ApplicationController
       redirect_to game_mails_path
     end
   end
-  
+
   private
-  
+
   def mail_params
     params.require(:game_mail).permit(:recipient_name, :body, :header, :units)
   end

@@ -10,12 +10,12 @@ describe GameMail do
       it { should respond_to :units }
       it { should respond_to :read }
     end
-   
+
     describe 'Relations' do
       it { should belong_to :sender }
       it { should belong_to :recipient }
     end
-    
+
     describe 'Validations' do
       describe 'header' do
         it { should validate_presence_of :header }
@@ -23,7 +23,7 @@ describe GameMail do
         it { should allow_values('Test 123').for :header }
         it { should_not allow_values('', nil).for :header }
       end
-        
+
       describe 'body' do
         it { should validate_presence_of :body }
         it { should validate_length_of :body }

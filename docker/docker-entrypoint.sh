@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-cd /home/app/webapp
+cd /myapp
 
 # Basic Rake Tasks
-rvm-exec 2.5.3 bundle exec rake pathfinder:generate_mapdata RAILS_ENV=production
-rvm-exec 2.5.3 bundle exec rake pathfinder:generate_paths RAILS_ENV=production
+rake pathfinder:generate_mapdata
+rake pathfinder:generate_paths
 
 exec "$@"
