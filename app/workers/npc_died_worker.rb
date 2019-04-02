@@ -10,12 +10,12 @@ class NpcDiedWorker
     if npc
 
       # Tell others in system that npc "warped out" and log
-      ActionCable.server.broadcast("location_#{npc.location.id}", method: 'player_warp_out', name: npc.name)
-      ActionCable.server.broadcast("location_#{npc.location.id}", method: 'log', text: I18n.t('log.got_killed', name: npc.name))
+      ActionCable.server.broadcast(npc.location.channel_id, method: 'player_warp_out', name: npc.name)
+      ActionCable.server.broadcast(npc.location.channel_id, method: 'log', text: I18n.t('log.got_killed', name: npc.name))
 
       # Create Wreck and fill with random loot
       npc.drop_loot
-      ActionCable.server.broadcast("location_#{npc.location.id}", method: 'player_appeared')
+      ActionCable.server.broadcast(npc.location.channel_id, method: 'player_appeared')
 
       # If npc was in mission location -> credit kill
       if npc.location_location_type == 'mission'

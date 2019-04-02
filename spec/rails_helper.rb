@@ -1,6 +1,7 @@
 require 'simplecov'
 SimpleCov.start do
   add_filter "/app/workers"
+  add_filter "/app/services"
   add_filter "/config/initializers"
   add_filter "/app/helpers/devise_helper.rb"
   add_filter "/app/channels"
@@ -20,6 +21,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'devise'
 # Add additional requires below this line. Rails is not loaded until this point!
+require "action_cable/testing/rspec"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

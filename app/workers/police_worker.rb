@@ -21,7 +21,7 @@ class PoliceWorker
       police.update_columns(location_id: location.id, npc_state: 'created')
 
       # Tell everyone in the location that police has come
-      ActionCable.server.broadcast("location_#{location.id}", method: 'player_appeared')
+      ActionCable.server.broadcast(location.channel_id, method: 'player_appeared')
 
       PoliceWorker.perform_in(2.second, player_id, seconds, police.id) && (return)
     end
@@ -53,7 +53,7 @@ class PoliceWorker
 
     if !done
       # Let police warp out
-      ActionCable.server.broadcast("location_#{police.location.id}", method: 'player_warp_out', name: police.name)
+      ActionCable.server.broadcast(police.location.channel_id, method: 'player_warp_out', name: police.name)
       police.update_columns(location_id: nil)
 
       PoliceWorker.perform_in(3.second, player_id, seconds, police.id, true, true) && (return)

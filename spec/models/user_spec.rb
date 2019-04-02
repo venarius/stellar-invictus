@@ -86,110 +86,99 @@ describe User do
     end
 
     describe 'Functions' do
-      before(:each) do
-        @user = FactoryBot.create(:user_with_faction)
-      end
+      let!(:user) { create :user_with_faction }
 
       describe 'full_name' do
         it 'should return full_name of user' do
-          expect(@user.full_name).to eq("#{@user.name} #{@user.family_name}".downcase.titleize)
+          expect(user.full_name).to eq("#{user.name} #{user.family_name}".downcase.titleize)
         end
-      end
 
-      describe 'appear' do
-        it 'should set online to true' do
-          @user.appear
-          expect(AppearWorker.jobs.size).to eq(1)
-        end
-      end
-
-      describe 'disappear' do
-        it 'should set online to false' do
-          @user.disappear
-          expect(DisappearWorker.jobs.size).to eq(1)
+        it 'should update full_name when name or family_name changes' do
+          user.update(name: "Bob")
+          expect(user.full_name.split.first).to eq("Bob")
         end
       end
 
       describe 'active_spaceship' do
         it 'should return current active spaceship' do
-          expect(@user.reload.active_spaceship).to eq(Spaceship.find(@user.active_spaceship_id))
+          expect(user.reload.active_spaceship).to eq(Spaceship.find(user.active_spaceship_id))
         end
 
         it 'should return nil if no active spaceship' do
-          @user.update_columns(active_spaceship_id: nil)
-          expect(@user.reload.active_spaceship).to eq(nil)
+          user.update_columns(active_spaceship_id: nil)
+          expect(user.reload.active_spaceship).to eq(nil)
         end
       end
 
       describe 'can be attacked' do
         it 'should return false if player in warp' do
-          @user.in_warp = true
-          expect(@user.can_be_attacked).to eq(false)
+          user.in_warp = true
+          expect(user.can_be_attacked).to eq(false)
         end
 
         it 'should return false if player docked' do
-          @user.docked = true
-          expect(@user.can_be_attacked).to eq(false)
+          user.docked = true
+          expect(user.can_be_attacked).to eq(false)
         end
 
         it 'should return true if player in space and not in warp' do
-          expect(@user.can_be_attacked).to eq(true)
+          expect(user.can_be_attacked).to eq(true)
         end
 
         it 'should return false if player in space and not in warp but not online' do
-          @user.update_columns(online: 0)
-          expect(@user.can_be_attacked).to eq(false)
+          user.update_columns(online: 0)
+          expect(user.can_be_attacked).to eq(false)
         end
       end
 
       describe 'target' do
         it 'should return current target of user' do
           enemy = FactoryBot.create(:user_with_faction)
-          @user.update_columns(target_id: enemy.id)
-          expect(@user.reload.target).to eq(enemy)
+          user.update_columns(target_id: enemy.id)
+          expect(user.reload.target).to eq(enemy)
         end
       end
 
       describe 'npc_target' do
         it 'should return current npc_target of user' do
           enemy = FactoryBot.create(:npc)
-          @user.update_columns(npc_target_id: enemy.id)
-          expect(@user.reload.npc_target).to eq(enemy)
+          user.update_columns(npc_target_id: enemy.id)
+          expect(user.reload.npc_target).to eq(enemy)
         end
       end
 
       describe 'die' do
         it 'increase job size' do
-          @user.die
+          user.die
           expect(PlayerDiedWorker.jobs.size).to eq(1)
         end
       end
 
       describe 'mining_target' do
         it 'should return asteroid if mining_target_id' do
-          @user.update_columns(mining_target_id: Asteroid.first.id)
-          expect(@user.mining_target).to eq(Asteroid.first)
+          user.update_columns(mining_target_id: Asteroid.first.id)
+          expect(user.mining_target).to eq(Asteroid.first)
         end
 
         it 'should return nothing if mining_target_id not set' do
-          expect(@user.mining_target).to eq(nil)
+          expect(user.mining_target).to eq(nil)
         end
       end
 
       describe 'give_bounty' do
         it 'should give given user some bounty if user has bounty' do
           enemy = FactoryBot.create(:user_with_faction)
-          @user.active_spaceship.update_columns(name: 'Valadria')
-          @user.update_columns(bounty: 1000)
-          @user.give_bounty(enemy)
+          user.active_spaceship.update_columns(name: 'Valadria')
+          user.update_columns(bounty: 1000)
+          user.give_bounty(enemy)
           expect(enemy.units).not_to eq(10)
         end
 
         it 'should give given user some bounty if user has less bounty than worth bounty' do
           enemy = FactoryBot.create(:user_with_faction)
-          @user.active_spaceship.update_columns(name: 'Valadria')
-          @user.update_columns(bounty: 1)
-          @user.give_bounty(enemy)
+          user.active_spaceship.update_columns(name: 'Valadria')
+          user.update_columns(bounty: 1)
+          user.give_bounty(enemy)
           expect(enemy.units).to eq(11)
         end
       end

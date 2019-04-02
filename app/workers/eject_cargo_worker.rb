@@ -19,8 +19,8 @@ class EjectCargoWorker
       end
 
       # Tell everyone at location to refresh players and log the eject
-      ActionCable.server.broadcast("location_#{user.location.id}", method: 'player_appeared')
-      ActionCable.server.broadcast("location_#{user.location.id}", method: 'log', text: I18n.t('log.user_ejected_cargo', user: user.full_name))
+      ActionCable.server.broadcast(user.location.channel_id, method: 'player_appeared')
+      ActionCable.server.broadcast(user.location.channel_id, method: 'log', text: I18n.t('log.user_ejected_cargo', user: user.full_name))
 
       # Tell user to update player info
       ActionCable.server.broadcast("player_#{user.id}", method: 'refresh_player_info')
