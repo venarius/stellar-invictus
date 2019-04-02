@@ -104,7 +104,7 @@ class Spaceship < ApplicationRecord
 
   # Drop Loot
   def drop_loot
-    if self.items.size.positive?
+    if self.items.present?
       structure = Structure.create(location: self.user.location, structure_type: :wreck)
       hash = []
       self.items.each do |item|
@@ -122,7 +122,7 @@ class Spaceship < ApplicationRecord
   # Get Storage Capacity of Ship
   def get_storage_capacity
     storage = self.get_attribute('storage')
-    storage = storage + (self.get_attribute("upgrade.storage_amplifier", default: 1)**self.level).round if (self.level.positive?)
+    storage = storage + (self.get_attribute("upgrade.storage_amplifier", default: 1)**self.level).round if (self.level > 0)
     stack = 0
     self.get_utility_equipment.each do |item|
       if (item.get_attribute('type') == "Storage") && item.equipped
@@ -178,7 +178,7 @@ class Spaceship < ApplicationRecord
   # Get Defense of ship
   def get_defense
     defense = self.get_attribute('defense')
-    defense = defense + (self.get_attribute("upgrade.defense_amplifier", default: 1)**self.level).round if self.level.positive?
+    defense = defense + (self.get_attribute("upgrade.defense_amplifier", default: 1)**self.level).round if self.level > 0
     stack = 0
     self.get_utility_equipment.each do |item|
       if (item.get_attribute('type') == "Defense") && item.equipped
