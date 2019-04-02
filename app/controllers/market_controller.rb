@@ -56,7 +56,7 @@ class MarketController < ApplicationController
         if listing.user
           listing.user.give_units(listing.price * amount * 0.95)
           if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: Item.get_attribute(listing.loader, "name")))
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: Item.get_attribute(listing.loader, :name)))
           else
             ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: listing.loader))
           end
@@ -200,7 +200,7 @@ class MarketController < ApplicationController
         # If listing belonged to user -> notify
         if listing.user
           if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: Item.get_attribute(listing.loader, "name")))
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: Item.get_attribute(listing.loader, :name)))
           else
             ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: listing.loader))
           end
