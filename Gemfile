@@ -20,6 +20,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'bullet'
+  gem 'action-cable-testing' # remove when on Rails 6+
 end
 
 group :development, :test do
@@ -76,3 +77,5 @@ gem 'rails-assets-jquery-hoverintent', source: 'https://rails-assets.org'
 # Rubocop
 gem 'rubocop'
 gem 'rubocop-rspec'
+gem 'ensurance'             # better way to ensure you're dealing with a Model
+gem 'light_service_object'  # simple base service class

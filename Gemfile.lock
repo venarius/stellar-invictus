@@ -2,6 +2,8 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    action-cable-testing (0.5.0)
+      actioncable (>= 5.0)
     actioncable (5.2.3)
       actionpack (= 5.2.3)
       nio4r (~> 2.0)
@@ -88,6 +90,16 @@ GEM
     dotenv-rails (2.7.2)
       dotenv (= 2.7.2)
       railties (>= 3.2, < 6.1)
+    dry-core (0.4.7)
+      concurrent-ruby (~> 1.0)
+    dry-equalizer (0.2.2)
+    dry-initializer (2.5.0)
+    dry-monads (1.2.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.4, >= 0.4.4)
+      dry-equalizer
+    ensurance (0.1.19)
+      activesupport (>= 3, < 6)
     erubi (1.8.0)
     execjs (2.7.0)
     factory_bot (5.0.2)
@@ -133,6 +145,9 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
+    light_service_object (0.1.4)
+      dry-initializer (~> 2.0)
+      dry-monads (~> 1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -326,6 +341,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  action-cable-testing
   activerecord-import
   acts_as_votable
   awesome_print
@@ -337,12 +353,14 @@ DEPENDENCIES
   database_cleaner
   devise
   dotenv-rails
+  ensurance
   factory_bot_rails
   faker
   fuubar
   jquery-rails
   jquery-ui-rails
   kaminari
+  light_service_object
   listen (>= 3.0.5, < 3.2)
   omniauth-facebook
   omniauth-google-oauth2

@@ -26,6 +26,10 @@ class Location < ApplicationRecord
     self.users.update_all(location_id: location.id, system_id: location.system.id)
   end
 
+  def channel_id
+    "location_#{self.id}"
+  end
+
   def jumpgate
     Jumpgate.where("origin_id = ? OR destination_id = ?", self.id, self.id).first
   end

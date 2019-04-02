@@ -71,12 +71,20 @@ class User < ApplicationRecord
     record if record && record.authenticatable_salt == salt
   end
 
+  ## — INSTANCE METHODS
   # Verify Avatar
+  VALID_AVATARS = %w[
+    M_1 M_2 M_3 M_4 M_5 M_6 M_7 M_8 M_9 M_10 M_11 M_12 M_13 M_14 M_15 M_16 M_17
+    F_1 F_2 F_3 F_4 F_5 F_6 F_7 F_8 F_9 F_10 F_11 F_12 F_13 F_14 F_15
+  ].freeze
   def check_avatar
-    unless %w(M_1 M_2 M_3 M_4 M_5 M_6 M_7 M_8 M_9 M_10 M_11 M_12 M_13 M_14 M_15 M_16 M_17
-              F_1 F_2 F_3 F_4 F_5 F_6 F_7 F_8 F_9 F_10 F_11 F_12 F_13 F_14 F_15).include?(self.avatar)
+    unless VALID_AVATARS.include?(self.avatar)
       errors.add(:avatar, "has not a correct value")
     end
+  end
+
+  def channel_id
+    "player_#{self.id}"
   end
 
   # Will be called when a user loggs in
@@ -111,12 +119,12 @@ class User < ApplicationRecord
     ac_server = ActionCable.server
 
     # Tell others in system that player "warped out"
-    ac_server.broadcast("location_#{self.location.id}", method: 'player_warp_out', name: self.full_name)
-    ac_server.broadcast("location_#{self.location.id}", method: 'log', text: I18n.t('log.got_killed', name: self.full_name))
+    ac_server.broadcast(self.location.channel_id, method: 'player_warp_out', name: self.full_name)
+    ac_server.broadcast(self.location.channel_id, method: 'log', text: I18n.t('log.got_killed', name: self.full_name))
 
     # Create Wreck and fill with random loot
     self.active_spaceship.deactivate_equipment
-    ac_server.broadcast("location_#{self.location.id}", method: 'player_appeared')
+    ac_server.broadcast(self.location.channel_id, method: 'player_appeared')
 
     # Destroy current spaceship of user and give him a nano if not insured
     old_ship = self.active_spaceship.destroy if self.active_spaceship
@@ -163,7 +171,7 @@ class User < ApplicationRecord
   # Docks the player
   def dock
     self.update_columns(docked: true, target_id: nil)
-    ActionCable.server.broadcast("location_#{self.location.id}", method: 'player_warp_out', name: self.full_name)
+    ActionCable.server.broadcast(self.location.channel_id, method: 'player_warp_out', name: self.full_name)
     remove_being_targeted
   end
 
@@ -171,7 +179,7 @@ class User < ApplicationRecord
   def undock
     if self.docked
       self.update_columns(docked: false)
-      ActionCable.server.broadcast("location_#{self.location.id}", method: 'player_appeared')
+      ActionCable.server.broadcast(self.location.channel_id, method: 'player_appeared')
     end
   end
 
@@ -247,14 +255,14 @@ class User < ApplicationRecord
 
   # Teleports to another user
   def teleport(user)
-    ActionCable.server.broadcast("location_#{location_id}", method: 'player_warp_out', name: full_name)
+    ActionCable.server.broadcast(self.location.channel_id, method: 'player_warp_out', name: full_name)
     old_system = self.system
     self.update_columns(location_id: user.location_id, system_id: user.system_id, docked: user.docked, in_warp: false)
     # Tell everyone in old system to update their local players
     old_system.update_local_players
     # Tell everyone in new system to update their local players
     self.reload.system.update_local_players
-    ActionCable.server.broadcast("location_#{location_id}", method: 'player_appeared')
+    ActionCable.server.broadcast(self.location.channel_id, method: 'player_appeared')
     ActionCable.server.broadcast("player_#{id}", method: 'warp_finish')
   end
 

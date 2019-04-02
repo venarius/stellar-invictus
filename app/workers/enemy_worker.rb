@@ -37,7 +37,7 @@ class EnemyWorker
       end
 
       @enemy.created!
-      ActionCable.server.broadcast("location_#{@enemy.location.id}", method: 'player_appeared')
+      ActionCable.server.broadcast(@enemy.location.channel_id, method: 'player_appeared')
       EnemyWorker.perform_in(3.second, @enemy.id, @location.id) && (return)
     end
 
