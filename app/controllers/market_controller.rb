@@ -167,7 +167,7 @@ class MarketController < ApplicationController
       # Find Loader
       if Spaceship.ship_variables.keys.include?(name)
         type = "ship"
-      elsif Item.get_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), "name")
+      elsif Item.get_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), :name)
         type = "item"
         name = name[/\(.*?\)/].gsub("(", "").gsub(")", "")
       else
