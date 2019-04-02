@@ -15,6 +15,9 @@ gem 'puma'
 # Docker
 gem 'tzinfo-data'
 
+# Misc
+gem 'awesome_print'
+
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
@@ -29,6 +32,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'rails-controller-testing'
   gem 'simplecov'
+  gem 'fuubar'
 end
 
 group :production, :development do
