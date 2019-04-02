@@ -22,28 +22,28 @@
     <% if mission.offered? %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name'), weight: get_item_attribute(mission.mission_loader, 'weight'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
+        <li><%= I18n.t('missions.objective_delivery', amount: mission.mission_amount, name: Item.get_attribute(mission.mission_loader, :name), weight: Item.get_attribute(mission.mission_loader, :weight), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'vip' %>
         <li><%= I18n.t('missions.objective_vip', system: mission.mission_location.system.name, faction: mission.mission_location.faction_name) %></li>
       <% when 'mining' %>
-        <li><%= I18n.t('missions.objective_mining', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
+        <li><%= I18n.t('missions.objective_mining', amount: mission.mission_amount, name: Item.get_attribute(mission.mission_loader, :name)) %></li>
       <% when 'market' %>
-        <li><%= I18n.t('missions.objective_market', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
+        <li><%= I18n.t('missions.objective_market', amount: mission.mission_amount, name: Item.get_attribute(mission.mission_loader, :name)) %></li>
       <% end %>
     <% else %>
       <% case mission.mission_type %>
       <% when 'delivery' %>
-        <li><%= I18n.t('missions.objective_delivery_progress', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name'), weight: get_item_attribute(mission.mission_loader, 'weight'), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
+        <li><%= I18n.t('missions.objective_delivery_progress', amount: mission.mission_amount, name: Item.get_attribute(mission.mission_loader, :name), weight: Item.get_attribute(mission.mission_loader, :weight), station: Location.find(mission.deliver_to).get_name, system: Location.find(mission.deliver_to).system_name) %></li>
       <% when 'combat' %>
         <li><%= I18n.t('missions.objective_combat_progress', system: mission.mission_location.system.name, amount: mission.enemy_amount) %></li>
       <% when 'vip' %>
         <li><%= I18n.t('missions.objective_vip_progress', system: mission.mission_location.system.name, faction: mission.mission_location.faction_name) %></li>
       <% when 'mining' %>
-        <li><%= I18n.t('missions.objective_mining_progress', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
+        <li><%= I18n.t('missions.objective_mining_progress', amount: mission.mission_amount, name: Item.get_attribute(mission.mission_loader, :name)) %></li>
       <% when 'market' %>
-        <li><%= I18n.t('missions.objective_market', amount: mission.mission_amount, name: get_item_attribute(mission.mission_loader, 'name')) %></li>
+        <li><%= I18n.t('missions.objective_market', amount: mission.mission_amount, name: Item.get_attribute(mission.mission_loader, :name)) %></li>
       <% end %>
     <% end %>
   </ul>

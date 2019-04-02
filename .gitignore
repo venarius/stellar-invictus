@@ -60,3 +60,5 @@ config/.DS_Store
 config/initializers/.DS_Store
 docker/.DS_Store
 public/.DS_Store
+
+spec/examples.txt

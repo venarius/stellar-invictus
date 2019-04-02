@@ -1,65 +1,65 @@
-<p><%= I18n.t("equipment.#{get_item_attribute(item, 'type').downcase.gsub(' ', '_')}_text") %></p>
+<p><%= I18n.t("equipment.#{Item.get_attribute(item, :type).downcase.gsub(' ', '_')}_text") %></p>
 
 <p><strong><%= I18n.t('equipment.statistics') %></strong></p>
 <table class="table table-bordered table-sm table-striped">
   <tr>
     <th><%= I18n.t('equipment.weight') %></th>
-    <td><%= get_item_attribute(item, 'weight') %></td>
+    <td><%= Item.get_attribute(item, :weight) %></td>
   </tr>
   <tr>
     <th><%= I18n.t('equipment.slot_type') %></th>
-    <td><%= get_item_attribute(item, 'slot_type').capitalize %></td>
+    <td><%= Item.get_attribute(item, :slot_type).capitalize %></td>
   </tr>
-  <% case get_item_attribute(item, 'type') %>
+  <% case Item.get_attribute(item, :type) %>
   <% when "Weapon" %>
     <tr>
       <th><%= I18n.t('equipment.damage') %></th>
-      <td><%= get_item_attribute(item, 'damage') %></td>
+      <td><%= Item.get_attribute(item, :damage) %></td>
     </tr>
   <% when "Defense" %>
     <tr>
       <th><%= I18n.t('equipment.defense_amplifier') %></th>
-      <td><%= get_item_attribute(item, 'defense_amplifier') %></td>
+      <td><%= Item.get_attribute(item, :defense_amplifier) %></td>
     </tr>
   <% when "Storage" %>
     <tr>
       <th><%= I18n.t('equipment.storage_amplifier') %></th>
-      <td><%= get_item_attribute(item, 'storage_amplifier') %></td>
+      <td><%= Item.get_attribute(item, :storage_amplifier) %></td>
     </tr>
   <% when "Mining Laser" %>
     <tr>
       <th><%= I18n.t('equipment.mining_amount') %></th>
-      <td><%= get_item_attribute(item, 'mining_amount') %></td>
+      <td><%= Item.get_attribute(item, :mining_amount) %></td>
     </tr>
   <% when "Hull" %>
     <tr>
       <th><%= I18n.t('equipment.align_amplifier') %></th>
-      <td><%= get_item_attribute(item, 'align_amplifier') %></td>
+      <td><%= Item.get_attribute(item, :align_amplifier) %></td>
     </tr>
   <% when "Sensor" %>
     <tr>
       <th><%= I18n.t('equipment.target_amplifier') %></th>
-      <td><%= get_item_attribute(item, 'target_amplifier') %></td>
+      <td><%= Item.get_attribute(item, :target_amplifier) %></td>
     </tr>
   <% when "Scanner" %>
     <tr>
       <th><%= I18n.t('equipment.scanner_range') %></th>
-      <td><%= get_item_attribute(item, 'scanner_range') %></td>
+      <td><%= Item.get_attribute(item, :scanner_range) %></td>
     </tr>
   <% when "Repair Bot", "Repair Beam" %>
     <tr>
       <th><%= I18n.t('equipment.repair_amount') %></th>
-      <td><%= get_item_attribute(item, 'repair_amount') %></td>
+      <td><%= Item.get_attribute(item, :repair_amount) %></td>
     </tr>
   <% when "Warp Disruptor" %>
     <tr>
       <th><%= I18n.t('equipment.disrupt_strength') %></th>
-      <td><%= get_item_attribute(item, 'disrupt_strength') %></td>
+      <td><%= Item.get_attribute(item, :disrupt_strength) %></td>
     </tr>
   <% when "Warp Core Stabilizer" %>
     <tr>
       <th><%= I18n.t('equipment.disrupt_immunity') %></th>
-      <td><%= get_item_attribute(item, 'disrupt_immunity') %></td>
+      <td><%= Item.get_attribute(item, :disrupt_immunity) %></td>
     </tr>
   <% end %>
 </table>

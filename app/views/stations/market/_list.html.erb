@@ -30,11 +30,11 @@
               <tr>
                 <td><%= ml.amount %>&times;</td>
                 <% if ml.loader.include? "equipment" %>
-                  <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
+                  <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= Item.get_attribute(ml.loader, :name) %></a></td>
                 <% else %> 
-                  <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= get_item_attribute(ml.loader, 'name') %></span></td>
+                  <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= Item.get_attribute(ml.loader, :name) %></span></td>
                 <% end %>
-                <td><%= get_item_attribute(ml.loader, 'type') %></td>
+                <td><%= Item.get_attribute(ml.loader, :type) %></td>
                 <td class="color-highgreen"><%= ml.price %> Cr</td>
                 <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
                 <td>
@@ -83,11 +83,11 @@
               <tr>
                 <td><%= ml.amount %>&times;</td>
                 <% if ml.loader.include? "equipment" %>
-                  <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
+                  <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= Item.get_attribute(ml.loader, :name) %></a></td>
                 <% else %> 
-                  <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= get_item_attribute(ml.loader, 'name') %></span></td>
+                  <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= Item.get_attribute(ml.loader, :name) %></span></td>
                 <% end %>
-                <td><%= get_item_attribute(ml.loader, 'type') %></td>
+                <td><%= Item.get_attribute(ml.loader, :type) %></td>
                 <td class="color-highgreen"><%= ml.price %> Cr</td>
                 <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
                 <td>
@@ -141,7 +141,7 @@
           <% if ml.ship? %>
             <%= ml.sell? ? I18n.t('modal.sure_buy', name: ml.loader) : I18n.t('modal.sure_sell_of', name: ml.loader) %>
           <% else %>
-            <%= ml.sell? ? I18n.t('modal.sure_buy', name: get_item_attribute(ml.loader, 'name')) : I18n.t('modal.sure_sell_of', name: get_item_attribute(ml.loader, 'name')) %>
+            <%= ml.sell? ? I18n.t('modal.sure_buy', name: Item.get_attribute(ml.loader, :name)) : I18n.t('modal.sure_sell_of', name: Item.get_attribute(ml.loader, :name)) %>
           <% end %>
         </div>
         <div class="modal-footer">
@@ -184,7 +184,7 @@
   <script>
     var things = [
       <% Item.items.each do |item| %>
-        "<%= get_item_attribute(item, 'name') %> (<%= item %>)",
+        "<%= Item.get_attribute(item, :name) %> (<%= item %>)",
       <% end %>
       <% Spaceship.ship_variables.keys.each do |ship| %>
         "<%= ship %>",

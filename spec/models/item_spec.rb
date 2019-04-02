@@ -14,42 +14,51 @@ describe Item do
     describe 'Functions' do
       describe 'get_attribute' do
         it 'should return attribute of item' do
-          @item = Item.create(loader: 'asteroid.iron_ore', user: FactoryBot.create(:user_with_faction))
-          expect(@item.get_attribute('weight')).to eq(1)
+          expect(Item.get_attribute('test', :weight)).to eq(1)
+        end
+
+        it 'should return nil attribute of item' do
+          expect(Item.get_attribute('hudaf', :weight)).to eq(nil)
+        end
+
+        it 'should return default if attribute not defined' do
+          expect(Item.get_attribute('hudaf', 'weight', default: 10)).to eq(10)
+        end
+
+        it 'should return attribute of item' do
+          item = Item.new(loader: 'asteroid.iron_ore', user: FactoryBot.create(:user_with_faction))
+          expect(item.get_attribute('weight')).to eq(1)
         end
       end
 
       describe 'remove from user' do
-        before(:each) do
-          @user = FactoryBot.create(:user_with_faction)
-          @item = Item.create(loader: 'asteroid.iron_ore', user: @user, location: @user.location)
-        end
+        let(:user) { create :user_with_faction }
+        let!(:item) { create :item, loader: 'asteroid.iron_ore', user: user, location: user.location }
 
         it 'should remove item from users location' do
           expect {
-            Item.remove_from_user(user: @user, location: @user.location, loader: @item.loader, amount: 1)
+            Item.remove_from_user(user: user, location: user.location, loader: item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(-1)
         end
 
         it 'should remove item from users ship' do
-          @item.update_columns(location_id: nil, spaceship_id: @user.active_spaceship.id)
+          item.update_columns(location_id: nil, spaceship_id: user.active_spaceship.id)
           expect {
-            Item.remove_from_user(user: @user, loader: @item.loader, amount: 1)
+            Item.remove_from_user(user: user, loader: item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(-1)
         end
 
         it 'should remove item from counter if less than item amount' do
-          @item.update_columns(count: 2)
+          item.update_columns(count: 2)
           expect {
-            Item.remove_from_user(user: @user, loader: @item.loader, location: @user.location, amount: 1)
+            Item.remove_from_user(user: user, loader: item.loader, location: user.location, amount: 1)
           }.to change {
             Item.count
           }.by(0)
-          expect(@item.reload.count).to eq(1)
         end
       end
 

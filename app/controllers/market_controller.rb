@@ -38,14 +38,14 @@ class MarketController < ApplicationController
         else
 
           # Check if met requirements
-          ship = Spaceship.ship_variables[listing.loader]
+          ship = Spaceship.get_attributes(listing.loader)
           if ship['faction'] && ship['reputation_requirement']
             rank = Faction.find(ship['faction']).get_rank(current_user)
             render(json: { 'error_message': I18n.t('errors.you_dont_have_the_required_reputation') }, status: 400) && (return) unless rank && (rank['type'] >= ship['reputation_requirement'])
           end
 
           amount.times do
-            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.ship_variables[listing.loader]['hp'])
+            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))
           end
         end
 
@@ -56,7 +56,7 @@ class MarketController < ApplicationController
         if listing.user
           listing.user.give_units(listing.price * amount * 0.95)
           if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: get_item_attribute(listing.loader, "name")))
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: Item.get_attribute(listing.loader, :name)))
           else
             ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: listing.loader))
           end
@@ -138,13 +138,13 @@ class MarketController < ApplicationController
           if player_market
             MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: price, amount: quantity, user: current_user)
           else
-            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (get_item_attribute(params[:loader], 'price') * rabat).round, amount: quantity)
+            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (Item.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
           end
         elsif params[:type] == "ship"
           if player_market
             MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: price, amount: quantity, user: current_user)
           else
-            MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: (Spaceship.ship_variables[params[:loader]]['price'] * rabat).round, amount: quantity)
+            MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: (Spaceship.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
           end
         end
       end
@@ -167,7 +167,7 @@ class MarketController < ApplicationController
       # Find Loader
       if Spaceship.ship_variables.keys.include?(name)
         type = "ship"
-      elsif get_item_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), "name")
+      elsif Item.get_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), :name)
         type = "item"
         name = name[/\(.*?\)/].gsub("(", "").gsub(")", "")
       else
@@ -200,7 +200,7 @@ class MarketController < ApplicationController
         # If listing belonged to user -> notify
         if listing.user
           if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: get_item_attribute(listing.loader, "name")))
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: Item.get_attribute(listing.loader, :name)))
           else
             ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: listing.loader))
           end
@@ -230,7 +230,7 @@ class MarketController < ApplicationController
           Item.give_to_user(location: current_user.location, user: current_user, loader: listing.loader, amount: listing.amount)
         elsif listing.sell? && listing.ship?
           listing.amount.times do
-            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.ship_variables[listing.loader]['hp'])
+            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))
           end
         end
 
@@ -250,7 +250,7 @@ class MarketController < ApplicationController
       if quantity && (quantity.to_i > 0)
         if type == "item"
 
-          price = (get_item_attribute(loader, 'price') rescue 0) * 0.9
+          price = Item.get_attribute(loader, :price, default: 0) * 0.9
 
           # Customization
           location = current_user.location
@@ -263,7 +263,7 @@ class MarketController < ApplicationController
           end
 
         else
-          price = (Spaceship.ship_variables[loader]['price'] rescue 0) * 0.9
+          price = Spaceship.get_attribute(loader, :price, default: 0) * 0.9
         end
         listings = 1 if listings == 0
         price = price * quantity.to_i if price

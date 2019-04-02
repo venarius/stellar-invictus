@@ -11,7 +11,7 @@
     <% locations.each do |location| %>
       <% next if location == @current_user.location || (location.wormhole? and current_user.active_spaceship.get_scanner_range < 10) %>
       <% if location.mission.present? %>
-        <% next unless (location.mission.active? and location.mission.user == current_user) || (location.mission.user and location.mission.user.in_same_fleet_as(current_user.id)) %>
+        <% next unless (location.mission.active? and location.mission.user == current_user) || (location.mission.user and location.mission.user.in_same_fleet_as(current_user)) %>
       <% end %>
       <%= render partial: 'game/location', locals: {location: location} %>
     <% end %>

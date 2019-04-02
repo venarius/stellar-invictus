@@ -15,7 +15,7 @@
           <table class="table table-bordered table-striped table-sm mb-3">
             <% value['crafting'].each do |k, v| %>
               <tr>
-                <th><%= get_item_attribute(k, 'name') %></th>
+                <th><%= Item.get_attribute(k, :name) %></th>
                 <th><%= Item.find_by(user: current_user, location: current_user.location, loader: k).count rescue 0 %> / <%= (v * current_user.blueprints.find_by(loader: key).efficiency).round  %>&times;</th>
               </tr>
             <% end %>
@@ -25,7 +25,7 @@
           <table class="table table-bordered table-striped table-sm mb-3">
             <% value['crafting'].each do |k, v| %>
               <tr>
-                <th><%= get_item_attribute(k, 'name') %></th>
+                <th><%= Item.get_attribute(k, :name) %></th>
                 <th><%= v %>&times;</th>
               </tr>
             <% end %>

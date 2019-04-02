@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <% if owner_name != "" %>
+        <% if owner_name.present? %>
           <h5 class="modal-title"><%= I18n.t('structures.container') %> (<%= owner_name %>)</h5>
         <% else %>
           <h5 class="modal-title"><%= I18n.t('structures.container') %></h5>
@@ -36,9 +36,16 @@
             <% end %>
           </tbody>
         </table>
-        
+
         <% structure = Structure.find(container_id) %>
-        <% if structure.user != current_user and structure.structure_type != 'wreck' and !structure.user.in_same_fleet_as(current_user.id) and structure.created_at > (DateTime.now.to_time - 10.minutes).to_datetime and !current_user.system.low? and !current_user.system.wormhole? %>
+        <% police_warning = structure.user != current_user &&
+            structure.structure_type != 'wreck' &&
+            !structure.user.in_same_fleet_as(current_user) &&
+            structure.created_at > (DateTime.now.to_time - 10.minutes).to_datetime &&
+            !current_user.system.low? &&
+            !current_user.system.wormhole?
+        %>
+        <% if police_warning  %>
           <p class="color-red"><%= I18n.t('structures.container_police_warning') %></p>
         <% end %>
       </div>

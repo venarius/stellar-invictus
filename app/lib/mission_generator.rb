@@ -144,7 +144,7 @@ class MissionGenerator
       mission.mission_amount = ((difficulty + 1) * rand(5..10))
 
       # Set Reward
-      mission.reward = (get_item_attribute(mission.mission_loader, 'price') * mission.mission_amount * rand(1.05..1.10)).round
+      mission.reward = (Item.get_attribute(mission.mission_loader, :price) * mission.mission_amount * rand(1.05..1.10)).round
     elsif mission.mission_type == 'vip'
       mission.enemy_amount = 3
       m_location = Location.where.not(faction_id: mission.faction_id).where("faction_id IS NOT NULL").order(Arel.sql("RANDOM()")).first
@@ -172,15 +172,6 @@ class MissionGenerator
       Rails.logger.info mission.errors.full_messages
     end
 
-  end
-
-  def self.get_item_attribute(loader, attribute)
-    atty = loader.split(".")
-    out = Item.item_variables[atty[0]]
-    loader.count('.').times do |i|
-      out = out[atty[i + 1]]
-    end
-    out[attribute] rescue nil
   end
 
   # Abort Mission

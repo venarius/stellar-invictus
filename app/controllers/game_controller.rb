@@ -7,8 +7,7 @@ class GameController < ApplicationController
     if current_user.docked
       redirect_to(station_path) && (return)
     end
-    @current_user = User.includes(:system).find(current_user.id)
-    @ship_vars = Spaceship.ship_variables[current_user.active_spaceship.name]
+    @ship_vars = current_user.active_spaceship&.get_attributes
   end
 
   def warp
@@ -20,7 +19,7 @@ class GameController < ApplicationController
 
           # Fleet Warp
           if params[:fleet] && current_user.fleet
-            align = current_user.fleet.users.where(system: current_user.system).map { |p| p.active_spaceship.get_align_time }.sort.reverse.first
+            align = current_user.fleet.users.where(system: current_user.system).map { |p| p.active_spaceship&.get_align_time }.sort.reverse.first
             current_user.fleet.users.where(system: current_user.system).each do |user|
               unless user.in_warp
                 WarpWorker.perform_async(user.id, location.id, 0, 0, false, align)
@@ -35,27 +34,27 @@ class GameController < ApplicationController
             WarpWorker.perform_async(current_user.id, location.id)
           end
 
-          if current_user.active_spaceship.warp_target_id == location.id
+          if current_user.active_spaceship&.warp_target_id == location.id
             render json: { align_time: 0 }, status: 200
           else
-            render json: { align_time: align ? align : current_user.active_spaceship.get_align_time }, status: 200
+            render json: { align_time: align ? align : current_user.active_spaceship&.get_align_time }, status: 200
           end
         else
           render json: {}, status: 400
         end
       elsif params[:uid]
         user = User.find(params[:uid]) rescue nil
-        if user && user.in_same_fleet_as(current_user.id)
+        if user && user.in_same_fleet_as(current_user)
           # Check location
           render(json: { "error_message": I18n.t('errors.user_must_be_in_same_system') }, status: 400) && (return) unless user.system == current_user.system
           render(json: { "error_message": I18n.t('errors.already_at_location') }, status: 400) && (return) if user.location == current_user.location
 
           WarpWorker.perform_async(current_user.id, user.location.id)
 
-          if current_user.active_spaceship.warp_target_id == user.location.id
+          if current_user.active_spaceship&.warp_target_id == user.location.id
             render json: { align_time: 0 }, status: 200
           else
-            render json: { align_time: current_user.active_spaceship.get_align_time }, status: 200
+            render json: { align_time: current_user.active_spaceship&.get_align_time }, status: 200
           end
         else
           render json: {}, status: 400
@@ -80,7 +79,7 @@ class GameController < ApplicationController
   end
 
   def ship_info
-    render partial: 'ship_info', locals: { ship_vars: Spaceship.ship_variables[current_user.active_spaceship.name] }
+    render partial: 'ship_info', locals: { ship_vars: current_user.active_spaceship&.get_attributes }
   end
 
   def player_info
@@ -120,14 +119,13 @@ class GameController < ApplicationController
   end
 
   def check_police
-    police = Npc.where(target: current_user.id, npc_type: 'police') rescue nil
-    if police && (police.count > 0)
+    if Npc.police.targeting_user(current_user).exists?
       render(json: { 'error_message' => I18n.t('errors.police_inbound') }, status: 400) && (return)
     end
   end
 
   def check_warp_disrupt
-    if current_user.active_spaceship.is_warp_disrupted
+    if current_user.active_spaceship&.is_warp_disrupted
       render(json: { 'error_message' => I18n.t('errors.warp_disrupted') }, status: 400) && (return)
     end
   end

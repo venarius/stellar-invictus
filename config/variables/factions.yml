@@ -1,18 +1,18 @@
-1:
+"1":
   placeholder: leviathan.png
   ticker: HEL
   damage_amplifier: 1.1
   defense_amplifier: 1
   storage_amplifier: 1
 
-2:
+"2":
   placeholder: spectrum.png
   ticker: CAL
   damage_amplifier: 1
   defense_amplifier: 1.1
   storage_amplifier: 1
 
-3:
+"3":
   placeholder: escorial.png
   ticker: COR
   damage_amplifier: 1

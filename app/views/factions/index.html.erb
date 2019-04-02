@@ -24,18 +24,18 @@
       <% @factions.each_with_index do |faction, index| %>
         <div class="col-md-4 mb-3" style="position:relative">
           <div class="display mb-3 text-center">
-            <%= image_tag("ships/#{Faction.faction_variables[faction.id]['placeholder']}") %>
+            <%= image_tag("ships/#{faction.get_attribute(:placeholder)}") %>
           </div>
-          
+
           <h5><%= faction.name %></h5>
-          
+
           <p><%= faction.description %></p>
-          
+
           <div class="<%= 'grounded' if index > 0 %>">
             <h5><%= I18n.t('factions.bonus') %></h5>
-          
+
             <p class="color-green"><%= I18n.t("factions.#{faction.id}_bonus") %></p>
-            
+
             <%= button_to choose_faction_path(id: faction.id), class: 'btn btn-primary btn-load', method: :post do %>
               <span><%= I18n.t('factions.choose') %></span>
               &nbsp;<i class="fas fa-arrow-right"></i>
@@ -59,7 +59,7 @@
       </div>
       <div class="modal-body">
         <p><%= I18n.t('tutorial.before_you_continue_text') %></p>
-        
+
         <div class="row">
           <div class="col-6">
             <a href="https://forums.stellar-invictus.com/t/piloting-101-a-guide-for-new-players" target="_blank" class="btn btn-outline-primary w-100"><%= I18n.t('tutorial.quickstart_guide') %></a>

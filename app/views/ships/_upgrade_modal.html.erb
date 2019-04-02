@@ -1,3 +1,4 @@
+<%- upgrade_attrs = ship.get_attribute(:upgrade) %>
 <div class="modal fade" tabindex="-1" role="dialog" id="ship-upgrade-modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -8,15 +9,15 @@
         </button>
       </div>
       <div class="modal-body text-white">
-        <% if Spaceship.ship_variables[ship.name]['upgrade'] and ship.level < 5 %>
-          <p><%= I18n.t("ships.upgrade_current_bonus_#{Spaceship.ship_variables[ship.name]['upgrade'].keys.first}") %>: <span class="color-highgreen"><%= ship.level == 0 ? 0.0 : (Spaceship.ship_variables[ship.name]['upgrade'][Spaceship.ship_variables[ship.name]['upgrade'].keys.first] ** ship.level).round.to_f %></span></p>
-          <p><%= I18n.t('ships.upgrade_value_after') %>: <span class="color-highgreen"><%= (Spaceship.ship_variables[ship.name]['upgrade'][Spaceship.ship_variables[ship.name]['upgrade'].keys.first] ** (ship.level + 1)).round.to_f %></span></p>
-          
+        <% if upgrade_attrs && ship.level < 5 %>
+          <p><%= I18n.t("ships.upgrade_current_bonus_#{upgrade_attrs.keys.first}") %>: <span class="color-highgreen"><%= ship.level == 0 ? 0.0 : (upgrade_attrs[upgrade_attrs.keys.first] ** ship.level).round.to_f %></span></p>
+          <p><%= I18n.t('ships.upgrade_value_after') %>: <span class="color-highgreen"><%= (upgrade_attrs[upgrade_attrs.keys.first] ** (ship.level + 1)).round.to_f %></span></p>
+
           <p><strong><%= I18n.t('crafting.ressources') %></strong></p>
           <table class="table table-bordered table-striped table-sm mb-3">
-            <% Spaceship.ship_variables[ship.name]['upgrade']['ressources'].each do |k, v| %>
+            <% upgrade_attrs['ressources'].each do |k, v| %>
               <tr>
-                <th><%= get_item_attribute(k, 'name') %></th>
+                <th><%= Item.get_attribute(k, :name) %></th>
                 <th><%= Item.find_by(user: current_user, location: current_user.location, loader: k).count rescue 0 %> /  <%= v %>&times;</th>
               </tr>
             <% end %>
@@ -26,7 +27,7 @@
         <% end %>
       </div>
       <div class="modal-footer">
-        <% if Spaceship.ship_variables[ship.name]['upgrade'] and ship.level < 5 %>
+        <% if upgrade_attrs && ship.level < 5 %>
           <button class="btn btn-outline-primary upgrade-ship-btn"><%= I18n.t('ships.upgrade') %></button>
         <% end %>
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('modal.close') %></button>

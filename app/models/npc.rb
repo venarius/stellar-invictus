@@ -1,13 +1,20 @@
 class Npc < ApplicationRecord
-  belongs_to :location, optional: true
+  include ApplicationHelper
 
+  ## -- RELATIONSHIPS
+  belongs_to :location, optional: true
+  belongs_to :target_user, class_name: User.name, foreign_key: :target, optional: true
+
+  ## -- ATTRIBUTES
   enum npc_type: [:enemy, :police, :politician, :bodyguard, :wanted_enemy]
   enum npc_state: [:created, :targeting, :attacking, :waiting]
 
   delegate :location_type, :enemy_amount, to: :location, prefix: true
 
-  include ApplicationHelper
+  ## -- SCOPES
+  scope :targeting_user, ->(user) { where(target: user.id) }
 
+  ## — INSTANCE METHODS
   # Lets the npc die
   def die
     NpcDiedWorker.perform_async(self.id)
@@ -48,7 +55,7 @@ class Npc < ApplicationRecord
       @loader = Item.equipment.sample
       if Blueprint.where(loader: @loader, user: user).empty?
         Blueprint.create(user: user, loader: @loader, efficiency: 1)
-        ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: get_item_attribute(@loader, 'name'), npc: self.name))
+        ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, :name), npc: self.name))
       end
     else
       @loader = Spaceship.ship_variables.keys.sample

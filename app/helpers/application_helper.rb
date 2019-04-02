@@ -22,25 +22,12 @@ module ApplicationHelper
     end
   end
 
-  def map_and_sort(users)
-    users = users.map { |u| { u.full_name => u.id } }.reduce(:merge)
-    if users
-      users.sort.to_h
-    else
-      {}
-    end
-  end
-
-  def get_item_attribute(loader, attribute)
-    begin
-      atty = loader.split(".")
-      out = Item.item_variables[atty[0]]
-      loader.count('.').times do |i|
-        out = out[atty[i + 1]]
-      end
-      out[attribute] rescue nil
-    rescue
-      ""
-    end
+  # return a sorted map of users
+  # { <user.full_name> => <user.id> }
+  def map_and_sort(user_query)
+    user_query.
+      select(:id, :full_name).
+      order(:family_name, :name).
+      pluck(:full_name, :id).to_h
   end
 end

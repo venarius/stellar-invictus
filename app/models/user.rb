@@ -2,11 +2,17 @@ class User < ApplicationRecord
 
   acts_as_voter
 
+  ## -- RELATIONSHIPS
   belongs_to :faction, optional: true
   belongs_to :system, optional: true
   belongs_to :location, optional: true
   belongs_to :fleet, optional: true
   belongs_to :corporation, optional: true
+
+  belongs_to :target, class_name: User.name, foreign_key: :target_id, optional: true
+  belongs_to :active_spaceship, class_name: Spaceship.name, foreign_key: :active_spaceship_id, optional: true
+  belongs_to :mining_target, class_name: Asteroid.name, foreign_key: :mining_target_id, optional: true
+  belongs_to :npc_target, class_name: Npc.name, foreign_key: :npc_target_id, optional: true
 
   has_many :chat_messages, dependent: :destroy
   has_many :spaceships, dependent: :destroy
@@ -21,6 +27,7 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :chat_rooms
 
+  ## -- ATTRIBUTES
   enum corporation_role: [:recruit, :lieutenant, :commodore, :admiral, :founder]
 
   delegate :name, :security_status, to: :system, prefix: true
@@ -28,7 +35,7 @@ class User < ApplicationRecord
   delegate :name, to: :faction, prefix: true
   delegate :name, :ticker, to: :corporation, prefix: true
 
-  # Validations
+  ## -- VALIDATIONS
   validates :name, :family_name, :avatar, presence: true
   validates :name, uniqueness: { scope: :family_name }
   validates :email, uniqueness: true
@@ -42,9 +49,26 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: %i[facebook]
 
+  ## -- SCOPES
+  scope :targeting_user, ->(user) { where(target: user) }
+
+  ## -- CALLBACKS
   # Sets full name after create
-  after_create do
-    self.update_columns(full_name: "#{name} #{family_name}".downcase.titleize)
+  before_save do
+    self.full_name = "#{name} #{family_name}".downcase.titleize
+  end
+
+  before_destroy do
+    self.corporation.destroy if self.founder? && self.corporation # corporation
+    Friendship.where(friend_id: self.id).destroy_all # friendships
+    GameMail.where(sender_id: self.id).destroy_all # game mails
+  end
+
+  ## — CLASS METHODS
+  # Overridden from Devise to eager_load(:system, :active_spaceship)
+  def self.serialize_from_session(key, salt)
+    record = where(id: key).eager_load(:system, :active_spaceship).first
+    record if record && record.authenticatable_salt == salt
   end
 
   # Verify Avatar
@@ -53,12 +77,6 @@ class User < ApplicationRecord
               F_1 F_2 F_3 F_4 F_5 F_6 F_7 F_8 F_9 F_10 F_11 F_12 F_13 F_14 F_15).include?(self.avatar)
       errors.add(:avatar, "has not a correct value")
     end
-  end
-
-  before_destroy do
-    self.corporation.destroy if self.founder? && self.corporation # corporation
-    Friendship.where(friend_id: self.id).destroy_all # friendships
-    GameMail.where(sender_id: self.id).destroy_all # game mails
   end
 
   # Will be called when a user loggs in
@@ -71,29 +89,9 @@ class User < ApplicationRecord
     self.update_columns(target_id: nil) && DisappearWorker.perform_async(self.id)
   end
 
-  # Gets active spaceship of user
-  def active_spaceship
-    Spaceship.find(self.active_spaceship_id) rescue nil
-  end
-
   # Returns if player can be attacked
   def can_be_attacked
     !docked && !in_warp && (online > 0) && ((self.active_spaceship.hp rescue 0) > 0)
-  end
-
-  # Returns target of player
-  def target
-    User.find(target_id) rescue nil if target_id?
-  end
-
-  # Returns mining target of player
-  def mining_target
-    Asteroid.find(mining_target_id) rescue nil if mining_target_id?
-  end
-
-  # Returns npc target of player
-  def npc_target
-    Npc.find(npc_target_id) rescue nil if npc_target_id?
   end
 
   # Lets the player die
@@ -123,7 +121,7 @@ class User < ApplicationRecord
     # Destroy current spaceship of user and give him a nano if not insured
     old_ship = self.active_spaceship.destroy if self.active_spaceship
     if old_ship&.insured && !police
-      spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: Spaceship.ship_variables[old_ship.name]['hp'])
+      spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: Spaceship.get_attribute(old_ship.name, :hp))
       self.update_columns(active_spaceship_id: spaceship.id)
     else
       self.give_nano
@@ -143,23 +141,21 @@ class User < ApplicationRecord
   end
 
   # Returns if user is in same fleet with given id
-  def in_same_fleet_as(id)
-    f_id = self.fleet_id
-    (f_id != nil) && (f_id == User.find(id).fleet_id)
+  def in_same_fleet_as(other_user)
+    self.fleet_id && self.fleet_id == other_user.fleet_id
   end
 
   # Returns if user is in same fleet with given id
-  def in_same_corporation_as(id)
-    f_id = self.corporation_id
-    (f_id != nil) && (f_id == User.find(id).corporation_id)
+  def in_same_corporation_as(other_user)
+    self.corporation_id && self.corporation_id == other_user.corporation_id
   end
 
   # Gets the user remove being a target of other players
   def remove_being_targeted
-    Npc.where(target: self.id).update_all(target: nil)
-    User.where(target_id: self.id).each do |user|
+    Npc.targeting_user(self).update_all(target: nil)
+    User.targeting_user(self).each do |user|
       user.update_columns(target_id: nil)
-      user.active_spaceship.deactivate_equipment if user.is_attacking
+      user.active_spaceship.deactivate_equipment if user.is_attacking?
       ActionCable.server.broadcast("player_#{user.id}", method: 'remove_target')
     end
   end
@@ -181,7 +177,7 @@ class User < ApplicationRecord
 
   # Returns if player can buy a ship
   def can_buy_ship(name)
-    ship_vars = Spaceship.ship_variables[name]
+    ship_vars = Spaceship.get_attribute(name)
     ship_vars && (self.units >= ship_vars['price']) && self.location.get_ships_for_sale.has_key?(name)
   end
 

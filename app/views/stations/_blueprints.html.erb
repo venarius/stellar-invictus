@@ -40,9 +40,9 @@
       <tbody>
         <% Item.equipment.sort.each do |item| %>
           <tr class="<%= 'color-sec-high' if Blueprint.where(loader: item, user: current_user).present? %>">
-            <td><%= get_item_attribute(item, 'name') %></td>
-            <td><%= get_item_attribute(item, 'type') %></td>
-            <td class="color-highgreen"><%= get_item_attribute(item, 'price') * 20 %> Cr</td>
+            <td><%= Item.get_attribute(item, :name) %></td>
+            <td><%= Item.get_attribute(item, :type) %></td>
+            <td class="color-highgreen"><%= Item.get_attribute(item, :price) * 20 %> Cr</td>
             <td><button class="btn btn-outline-success btn-sm blueprint-modal-btn" data-loader="<%= item %>" data-type="item"><i class="fa fa-dollar-sign"></i></button></td>
           </tr>
         <% end %>

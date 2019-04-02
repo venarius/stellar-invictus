@@ -78,7 +78,7 @@ class SystemsController < ApplicationController
       end
 
       # Check in combat
-      if User.where(target_id: current_user.id, is_attacking: true).count > 0 || Npc.where(target: current_user.id).count > 0
+      if User.targeting_user(current_user).where(is_attacking: true).exists? || Npc.targeting_user(current_user).exists?
         render(json: { 'error_message' => I18n.t('errors.cant_do_that_whilst_in_combat') }, status: 400) && (return)
       end
 

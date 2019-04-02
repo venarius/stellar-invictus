@@ -19,11 +19,11 @@
             <td><%= ml.sell? ? I18n.t('market.sell') : I18n.t('market.buy') %></td>
             <td><%= ml.amount %>&times;</td>
             <% if ml.loader.include? "equipment" %>
-              <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= get_item_attribute(ml.loader, 'name') %></a></td>
+              <td><a href="#" class="equipment-info tier_<%= loaders.index(ml.loader) %>" data-loader="<%= ml.loader %>"><%= Item.get_attribute(ml.loader, :name) %></a></td>
             <% else %> 
-              <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= get_item_attribute(ml.loader, 'name') %></span></td>
+              <td><span class="tier_<%= loaders.index(ml.loader) %>"><%= Item.get_attribute(ml.loader, :name) %></span></td>
             <% end %>
-            <td><%= get_item_attribute(ml.loader, 'type') %></td>
+            <td><%= Item.get_attribute(ml.loader, :type) %></td>
             <td class="color-highgreen"><%= ml.price %> Cr</td>
             <td class="mobile-display-none"><%= ml.price * ml.amount %> Cr</td>
             <td>

@@ -12,47 +12,43 @@ describe Spaceship do
     end
 
     describe 'Functions' do
-      before(:each) do
-        user = FactoryBot.create(:user_with_faction)
-        @ship = FactoryBot.create(:spaceship, user: user)
-      end
+      let(:user) { create :user_with_faction }
+      let(:ship) { create :spaceship, user: user }
 
       describe 'get_attribute' do
         it 'should return attribute of spaceship from yml' do
-          expect(@ship.get_attribute('storage')).to eq(10)
+          expect(ship.get_attribute('storage')).to eq(10)
         end
 
         it 'should return attribute of spaceship from yml when nil' do
-          expect(@ship.get_attribute('noot')).to eq(nil)
+          expect(ship.get_attribute('noot')).to eq(nil)
         end
 
         it 'should return nil if nil given' do
-          expect(@ship.get_attribute()).to eq(nil)
+          expect(ship.get_attribute()).to eq(nil)
         end
       end
 
       describe 'get_items' do
-        before(:each) do
-          Item.create(loader: 'test', spaceship: @ship, count: 2)
-        end
-
         it 'should return items in storage of ship' do
-          expect(@ship.get_items.first.count).to eq(2)
+          create :item, loader: "test", spaceship: ship, count: 2
+          expect(ship.get_items.first.count).to eq(2)
         end
       end
 
       describe 'drop_loot' do
         it 'should not create structure when no items' do
-          @ship.drop_loot
-          expect(Structure.count).to eq(1)
+          expect {
+            ship.drop_loot
+          }.to change { Structure.count }.by(0)
         end
 
-        it 'should create strcture with items when ship has items in it' do
-          2.times do
-            Item.create(loader: 'test', spaceship: @ship)
-          end
-          @ship.drop_loot
-          expect(Structure.count).to eq(2)
+        it 'should create structure with items when ship has items in it' do
+          create_list :item, 2, loader: 'test', spaceship: ship
+
+          expect {
+            ship.drop_loot
+          }.to change { Structure.count }.by(1)
           expect(Structure.first.get_items.count).to be >= 0
         end
       end

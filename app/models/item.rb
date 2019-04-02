@@ -1,20 +1,16 @@
 class Item < ApplicationRecord
+  include HasLookupAttributes
+
+  ## -- RELATIONSHIPS
   belongs_to :user, optional: true
   belongs_to :location, optional: true
   belongs_to :spaceship, optional: true
   belongs_to :structure, optional: true
 
-  @item_variables = YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml")
+  @lookup_data = YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml")
+  @default_base = :loader
 
-  def get_attribute(attribute)
-    atty = self.loader.split(".")
-    out = Item.item_variables[atty[0]]
-    self.loader.count('.').times do |i|
-      out = out[atty[i + 1]]
-    end
-    out[attribute]
-  end
-
+  ## — CLASS METHODS
   def self.remove_from_user(attr)
     user = attr[:user]
     if attr[:location]
@@ -155,5 +151,14 @@ class Item < ApplicationRecord
   # Delivery
   def self.delivery
     ["delivery.data", "delivery.intelligence"]
+  end
+
+  ## — INSTANCE METHODS
+  def total_price
+    self.get_attribute(:price, default: 0) * self.count
+  end
+
+  def total_weight
+    self.get_attribute(:weight, default: 0) * self.count
   end
 end

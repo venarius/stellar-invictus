@@ -26,12 +26,12 @@ class ApplicationController < ActionController::Base
   end
 
   def call_police(player)
-    if Npc.where(npc_type: 'police', target: player.id).empty?
-      if player.system.high?
-        PoliceWorker.perform_async(player.id, 2)
-      elsif player.system.medium?
-        PoliceWorker.perform_async(player.id, 10)
-      end
+    return if Npc.police.targeting_user(player).exists?
+
+    if player.system.high?
+      PoliceWorker.perform_async(player.id, 2)
+    elsif player.system.medium?
+      PoliceWorker.perform_async(player.id, 10)
     end
   end
 

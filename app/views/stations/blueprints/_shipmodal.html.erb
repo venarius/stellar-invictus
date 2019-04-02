@@ -9,12 +9,12 @@
       </div>
       <div class="modal-body">
         <%= render partial: 'ships/vars', locals: {value: value, key: key} %>
-        
+
         <p><strong><%= I18n.t('crafting.ressources') %> (<%= I18n.t('crafting.at_100_efficiency') %>)</strong></p>
         <table class="table table-bordered table-striped table-sm mb-3">
           <% value['crafting'].each do |k, v| %>
             <tr>
-              <th><%= get_item_attribute(k, 'name') %></th>
+              <th><%= Item.get_attribute(k, :name) %></th>
               <th><%= v %>&times;</th>
             </tr>
           <% end %>
@@ -35,7 +35,7 @@
           <tbody>
             <tr>
               <td class="text-center color-highgreen">
-                <%= Spaceship.ship_variables[key]['price'] * 20 %> Cr
+                <%= Spaceship.get_attribute(key, :price) * 20 %> Cr
               </td>
             </tr>
           </tbody>

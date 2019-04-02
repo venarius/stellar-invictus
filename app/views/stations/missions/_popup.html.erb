@@ -31,7 +31,7 @@
               <% if mission.mining? or mission.market? %>
                 <tr>
                   <th><%= I18n.t('missions.item') %></th>
-                  <td><%= get_item_attribute(mission.mission_loader, 'name') rescue "" %></td>
+                  <td><%= Item.get_attribute(mission.mission_loader, :name) rescue "" %></td>
                 </tr>
                 <tr>
                   <th><%= I18n.t('missions.amount_left') %></th>
@@ -53,7 +53,7 @@
                 </tr>
                 <tr>
                   <th><%= I18n.t('missions.item') %></th>
-                  <td><%= get_item_attribute(mission.mission_loader, 'name') rescue "" %></td>
+                  <td><%= Item.get_attribute(mission.mission_loader, :name) rescue "" %></td>
                 </tr>
                 <tr>
                   <th><%= I18n.t('missions.amount_left') %></th>

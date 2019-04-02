@@ -43,8 +43,8 @@
       <tbody>
         <% Item.equipment.sort.each_with_index do |item, index| %>
           <tr class="<%= 'color-sec-high' if Blueprint.where(loader: item, user: current_user).present? %> <%= 'color-highgreen' if Blueprint.where(loader: item, efficiency: 0.5, user: current_user).present? %>">
-            <td><%= get_item_attribute(item, 'name') %></td>
-            <td><%= get_item_attribute(item, 'type') %></td>
+            <td><%= Item.get_attribute(item, :name) %></td>
+            <td><%= Item.get_attribute(item, :type) %></td>
             <td><button class="btn btn-outline-primary btn-sm factory-modal-btn" data-loader="<%= item %>" data-type="item"><i class="fa fa-cogs"></i></button></td>
           </tr>
         <% end %>
@@ -62,16 +62,16 @@
         <% CraftJob.where(user: current_user, location: current_user.location).each do |job| %>
           <tr>
             <% if job.loader.include? "equipment." %>
-              <th><%= get_item_attribute(job.loader, 'name') %></th>
+              <th><%= Item.get_attribute(job.loader, :name) %></th>
               <td class="w-50">
-                <div class="progress crafting-progress" style="height:21px" data-current="<%= (get_item_attribute(job.loader, 'crafting_duration') * 60 - (job.completion.to_time - Time.current) / 1.second).round %>" data-max="<%= get_item_attribute(job.loader, 'crafting_duration') %>">
+                <div class="progress crafting-progress" style="height:21px" data-current="<%= (Item.get_attribute(job.loader, :crafting_duration) * 60 - (job.completion.to_time - Time.current) / 1.second).round %>" data-max="<%= Item.get_attribute(job.loader, :crafting_duration) %>">
                   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
                 </div>
               </td>
             <% else %>
               <th><%= job.loader %></th>
               <td class="w-50">
-                <div class="progress crafting-progress" style="height:21px" data-current="<%= (Spaceship.ship_variables[job.loader]['crafting_duration'] * 60 - (job.completion.to_time - Time.current) / 1.second).round %>" data-max="<%= Spaceship.ship_variables[job.loader]['crafting_duration'] %>">
+                <div class="progress crafting-progress" style="height:21px" data-current="<%= (Spaceship.get_attribute(job.loader, :crafting_duration) * 60 - (job.completion.to_time - Time.current) / 1.second).round %>" data-max="<%= Spaceship.get_attribute(job.loader, :crafting_duration) %>">
                   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
                 </div>
               </td>
@@ -125,14 +125,14 @@
     var current = $(this).data("current");
     var max = $(this).data("max");
     var progressbar = $(this).children('div');
-    
-    
+
+
     var interval = setInterval(function() {
       current = current + 1
-      var width = current / ((max * 60) / 100) 
+      var width = current / ((max * 60) / 100)
       progressbar.html(Math.round( width * 10) / 10 + '%');
       progressbar.css('width', width + '%');
-      
+
       if (width >= 100) {
         clearInterval(interval);
         progressbar.closest('tr').remove();

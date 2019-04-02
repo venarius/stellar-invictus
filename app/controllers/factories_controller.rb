@@ -8,7 +8,7 @@ class FactoriesController < ApplicationController
       if params[:type] == 'item'
         render(partial: 'stations/factory/itemmodal', locals: { item: params[:loader] }) && (return)
       else
-        render(partial: 'stations/factory/shipmodal', locals: { key: params[:loader], value: Spaceship.ship_variables[params[:loader]] }) && (return)
+        render(partial: 'stations/factory/shipmodal', locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) }) && (return)
       end
     end
     render json: {}, status: 400
@@ -18,9 +18,9 @@ class FactoriesController < ApplicationController
     if params[:loader] && params[:type] && params[:amount] && current_user.location.industrial_station?
 
       if params[:type] == 'ship'
-        ressources = Spaceship.ship_variables[params[:loader]]['crafting'] rescue nil
+        ressources = Spaceship.get_attribute(params[:loader], :crafting) rescue nil
       elsif params[:loader].include?('equipment.')
-        ressources = get_item_attribute(params[:loader], 'crafting')
+        ressources = Item.get_attribute(params[:loader], :crafting)
       else
         render(json: {}, status: 400) && (return)
       end
@@ -46,9 +46,9 @@ class FactoriesController < ApplicationController
 
           # Create CraftJob
           if params[:type] == 'ship'
-            CraftJob.create(completion: DateTime.now + (Spaceship.ship_variables[params[:loader]]['crafting_duration'].to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
+            CraftJob.create(completion: DateTime.now + (Spaceship.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
           else
-            CraftJob.create(completion: DateTime.now + (get_item_attribute(params[:loader], 'crafting_duration').to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
+            CraftJob.create(completion: DateTime.now + (Item.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
           end
         end
 

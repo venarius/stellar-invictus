@@ -29,6 +29,8 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'rails-controller-testing'
   gem 'simplecov'
+  gem 'fuubar'
+  gem 'awesome_print'
 end
 
 group :production, :development do

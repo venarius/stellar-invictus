@@ -2,15 +2,6 @@ namespace :economy do
 
   desc "Redo the economy"
   task redo: :environment do
-    def get_item_attribute(loader, attribute)
-      atty = loader.split(".")
-      out = Item.item_variables[atty[0]]
-      loader.count('.').times do |i|
-        out = out[atty[i + 1]]
-      end
-      out[attribute] rescue nil
-    end
-
     MarketListing.where(user: nil).destroy_all
     noise = Perlin::Noise.new 1, seed: 1000
     noise_level = [0, 1, 2, 3, 4, 5, 6, 7, 8 , 9, 8, 7, 6, 5, 4, 3, 2, 1]
@@ -25,7 +16,7 @@ namespace :economy do
         next if item == "asteroid.lunarium_ore"
         rand(0..1).times do
           rand(3..15).times do
-            MarketListing.create(loader: item, location: location, listing_type: 'item', price: (get_item_attribute(item, 'price') * rabat * rand(0.98..1.02)).round, amount: rand(10..30))
+            MarketListing.create(loader: item, location: location, listing_type: 'item', price: (Item.get_attribute(item, :price) * rabat * rand(0.98..1.02)).round, amount: rand(10..30))
           end
         end
       end
