@@ -6,7 +6,7 @@ class BlueprintsController < ApplicationController
   def buy
     if params[:loader] && params[:type] && current_user.location.research_station?
       if params[:type] == 'item'
-        price = Item.get_attribute(params[:loader], 'price') * 20 rescue nil
+        price = Item.get_attribute(params[:loader], :price) * 20 rescue nil
       else
         price = Spaceship.get_attribute(params[:loader], :price) * 20 rescue nil
       end

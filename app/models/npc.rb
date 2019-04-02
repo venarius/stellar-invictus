@@ -55,7 +55,7 @@ class Npc < ApplicationRecord
       @loader = Item.equipment.sample
       if Blueprint.where(loader: @loader, user: user).empty?
         Blueprint.create(user: user, loader: @loader, efficiency: 1)
-        ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, 'name'), npc: self.name))
+        ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, :name), npc: self.name))
       end
     else
       @loader = Spaceship.ship_variables.keys.sample

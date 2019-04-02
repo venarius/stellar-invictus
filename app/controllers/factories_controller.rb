@@ -20,7 +20,7 @@ class FactoriesController < ApplicationController
       if params[:type] == 'ship'
         ressources = Spaceship.get_attribute(params[:loader], :crafting) rescue nil
       elsif params[:loader].include?('equipment.')
-        ressources = Item.get_attribute(params[:loader], 'crafting')
+        ressources = Item.get_attribute(params[:loader], :crafting)
       else
         render(json: {}, status: 400) && (return)
       end
@@ -48,7 +48,7 @@ class FactoriesController < ApplicationController
           if params[:type] == 'ship'
             CraftJob.create(completion: DateTime.now + (Spaceship.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
           else
-            CraftJob.create(completion: DateTime.now + (Item.get_attribute(params[:loader], 'crafting_duration').to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
+            CraftJob.create(completion: DateTime.now + (Item.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
           end
         end
 

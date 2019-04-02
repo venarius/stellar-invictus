@@ -138,7 +138,7 @@ class MarketController < ApplicationController
           if player_market
             MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: price, amount: quantity, user: current_user)
           else
-            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (Item.get_attribute(params[:loader], 'price') * rabat).round, amount: quantity)
+            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (Item.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
           end
         elsif params[:type] == "ship"
           if player_market

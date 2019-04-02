@@ -16,7 +16,7 @@ namespace :economy do
         next if item == "asteroid.lunarium_ore"
         rand(0..1).times do
           rand(3..15).times do
-            MarketListing.create(loader: item, location: location, listing_type: 'item', price: (Item.get_attribute(item, 'price') * rabat * rand(0.98..1.02)).round, amount: rand(10..30))
+            MarketListing.create(loader: item, location: location, listing_type: 'item', price: (Item.get_attribute(item, :price) * rabat * rand(0.98..1.02)).round, amount: rand(10..30))
           end
         end
       end

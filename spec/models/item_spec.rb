@@ -14,11 +14,11 @@ describe Item do
     describe 'Functions' do
       describe 'get_attribute' do
         it 'should return attribute of item' do
-          expect(Item.get_attribute('test', 'weight')).to eq(1)
+          expect(Item.get_attribute('test', :weight)).to eq(1)
         end
 
         it 'should return nil attribute of item' do
-          expect(Item.get_attribute('hudaf', 'weight')).to eq(nil)
+          expect(Item.get_attribute('hudaf', :weight)).to eq(nil)
         end
 
         it 'should return default if attribute not defined' do
