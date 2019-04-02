@@ -15,26 +15,32 @@ describe Faction do
     end
 
     describe 'Functions' do
+      let(:faction) { Faction.first }
+
       describe 'get_attribute' do
         it 'should return attribute' do
-          expect(Faction.first.get_attribute('ticker')).to eq('HEL')
+          expect(faction.get_attribute('ticker')).to eq('HEL')
         end
 
         it 'should return nil' do
-          expect(Faction.first.get_attribute('noot')).to eq(nil)
+          expect(faction.get_attribute('noot')).to eq(nil)
+        end
+
+        it 'should return default' do
+          expect(faction.get_attribute('noot', default: true)).to eq(true)
         end
       end
 
       describe 'get_ticker' do
         it 'should return ticker' do
-          expect(Faction.first.get_ticker).to eq('[HEL]')
+          expect(faction.get_ticker).to eq('[HEL]')
         end
       end
 
       describe 'get_rank' do
         it 'should return rank of particular user' do
           user = FactoryBot.create(:user_with_faction, reputation_1: -5, reputation_2: -5, reputation_3: -5)
-          expect(Faction.first.get_rank(user)).to eq("name" => "Shunned", "reputation" => -5.0, "type" => 3, "unlocks" => [])
+          expect(faction.get_rank(user)).to eq("name" => "Shunned", "reputation" => -5.0, "type" => 3, "unlocks" => [])
         end
       end
     end

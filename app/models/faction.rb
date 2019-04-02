@@ -1,18 +1,24 @@
 class Faction < ApplicationRecord
+  include HasLookupAttributes
+
   has_many :users
   has_many :missions, dependent: :destroy
   has_many :locations
 
-  @faction_variables = YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml")
+  @lookup_data = YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml")
+  @default_base = :id
 
-  # Get Attribute of faction
-  def get_attribute(attribute = nil)
-    Faction.faction_variables[self.id][attribute] rescue nil
+  ## — CLASS METHODS
+
+  def self.faction_variables
+    @lookup_data
   end
+
+  ## — INSTANCE METHODS
 
   # Get ticker of faction
   def get_ticker
-    "[#{Faction.faction_variables[self.id]['ticker']}]"
+    "[#{self.get_attribute(:ticker)}]"
   end
 
   # Get rank of user
@@ -29,8 +35,4 @@ class Faction < ApplicationRecord
     end
   end
 
-  # Factions
-  def self.faction_variables
-    @faction_variables
-  end
 end
