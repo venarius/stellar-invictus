@@ -6,13 +6,13 @@ class Item < ApplicationRecord
 
   @item_variables = YAML.load_file("#{Rails.root.to_s}/config/variables/items.yml")
 
+  def self.get_attribute(loader, attribute, default: nil)
+    parts = "#{loader}.#{attribute}".split('.')
+    @item_variables.dig(*parts) || default
+  end
+
   def get_attribute(attribute)
-    atty = self.loader.split(".")
-    out = Item.item_variables[atty[0]]
-    self.loader.count('.').times do |i|
-      out = out[atty[i + 1]]
-    end
-    out[attribute]
+    Item.get_attribute(self.loader, attribute)
   end
 
   def self.remove_from_user(attr)

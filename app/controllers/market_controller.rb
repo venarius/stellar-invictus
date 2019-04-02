@@ -56,7 +56,7 @@ class MarketController < ApplicationController
         if listing.user
           listing.user.give_units(listing.price * amount * 0.95)
           if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: get_item_attribute(listing.loader, "name")))
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: Item.get_attribute(listing.loader, "name")))
           else
             ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: listing.loader))
           end
@@ -138,7 +138,7 @@ class MarketController < ApplicationController
           if player_market
             MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: price, amount: quantity, user: current_user)
           else
-            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (get_item_attribute(params[:loader], 'price') * rabat).round, amount: quantity)
+            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (Item.get_attribute(params[:loader], 'price') * rabat).round, amount: quantity)
           end
         elsif params[:type] == "ship"
           if player_market
@@ -167,7 +167,7 @@ class MarketController < ApplicationController
       # Find Loader
       if Spaceship.ship_variables.keys.include?(name)
         type = "ship"
-      elsif get_item_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), "name")
+      elsif Item.get_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), "name")
         type = "item"
         name = name[/\(.*?\)/].gsub("(", "").gsub(")", "")
       else
@@ -200,7 +200,7 @@ class MarketController < ApplicationController
         # If listing belonged to user -> notify
         if listing.user
           if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: get_item_attribute(listing.loader, "name")))
+            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: Item.get_attribute(listing.loader, "name")))
           else
             ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: listing.loader))
           end
@@ -250,7 +250,7 @@ class MarketController < ApplicationController
       if quantity && (quantity.to_i > 0)
         if type == "item"
 
-          price = (get_item_attribute(loader, 'price') rescue 0) * 0.9
+          price = (Item.get_attribute(loader, 'price') rescue 0) * 0.9
 
           # Customization
           location = current_user.location

@@ -14,7 +14,7 @@
         <table class="table table-bordered table-striped table-sm mb-3">
           <% value['crafting'].each do |k, v| %>
             <tr>
-              <th><%= get_item_attribute(k, 'name') %></th>
+              <th><%= Item.get_attribute(k, 'name') %></th>
               <th><%= v %>&times;</th>
             </tr>
           <% end %>

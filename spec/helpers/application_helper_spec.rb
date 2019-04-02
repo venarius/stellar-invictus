@@ -18,14 +18,4 @@ describe ApplicationHelper do
       expect(online_status(user)).to include("ago")
     end
   end
-
-  describe 'get_item_attribute' do
-    it 'should return attribute of item' do
-      expect(get_item_attribute('test', 'weight')).to eq(1)
-    end
-
-    it 'should return nil attribute of item' do
-      expect(get_item_attribute('hudaf', 'weight')).to eq(nil)
-    end
-  end
 end
