@@ -10,7 +10,7 @@ module HasLookupAttributes
     # returns `default` if not found (which defaults to `nil`)
     # e.g. `equipment.storage.small_black_hole.type`
     def get_attribute(base, attribute = nil, default: nil)
-      path = [base,attribute].compact.map(&:to_s).join('.')
+      path = [base, attribute].compact.map(&:to_s).join('.')
       # ap "#{self.name}.get_attribute(#{path}, default: #{default ? default : 'nil'})"
       parts = path.split('.')
       @lookup_data.dig(*parts) || default

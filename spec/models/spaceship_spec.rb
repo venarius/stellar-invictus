@@ -40,7 +40,7 @@ describe Spaceship do
         it 'should not create structure when no items' do
           expect {
             ship.drop_loot
-          }.to change{Structure.count}.by(0)
+          }.to change { Structure.count }.by(0)
         end
 
         it 'should create structure with items when ship has items in it' do
@@ -48,7 +48,7 @@ describe Spaceship do
 
           expect {
             ship.drop_loot
-          }.to change{Structure.count}.by(1)
+          }.to change { Structure.count }.by(1)
           expect(Structure.first.get_items.count).to be >= 0
         end
       end

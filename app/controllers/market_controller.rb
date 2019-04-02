@@ -45,7 +45,7 @@ class MarketController < ApplicationController
           end
 
           amount.times do
-            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader,:hp))
+            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))
           end
         end
 
@@ -230,7 +230,7 @@ class MarketController < ApplicationController
           Item.give_to_user(location: current_user.location, user: current_user, loader: listing.loader, amount: listing.amount)
         elsif listing.sell? && listing.ship?
           listing.amount.times do
-            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader,:hp))
+            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))
           end
         end
 

@@ -40,7 +40,7 @@ RSpec.describe StationsController, type: :controller do
 
   context 'with login' do
     let(:station) { Location.where(location_type: :station).first }
-    let!(:user) { create :user_with_faction, location: station}
+    let!(:user) { create :user_with_faction, location: station }
 
     before(:each) do
       sign_in user

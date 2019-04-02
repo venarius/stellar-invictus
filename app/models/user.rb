@@ -121,7 +121,7 @@ class User < ApplicationRecord
     # Destroy current spaceship of user and give him a nano if not insured
     old_ship = self.active_spaceship.destroy if self.active_spaceship
     if old_ship&.insured && !police
-      spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: Spaceship.get_attribute(old_ship.name,:hp))
+      spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: Spaceship.get_attribute(old_ship.name, :hp))
       self.update_columns(active_spaceship_id: spaceship.id)
     else
       self.give_nano
