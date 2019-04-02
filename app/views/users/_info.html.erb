@@ -36,7 +36,7 @@
                 <%= link_to I18n.t('users.send_mail'), new_game_mail_path(to: user.full_name), class: 'dropdown-item' %>
               </div>
             </div>
-            <% if user.in_same_fleet_as(current_user.id) and current_user.fleet.creator == current_user %>
+            <% if user.in_same_fleet_as(current_user) and current_user.fleet.creator == current_user %>
               <button class="btn btn-outline-danger remove-from-fleet-btn w-33" data-toggle="tooltip" data-placement="top" title="<%= I18n.t('tooltips.remove_from_fleet') %>" data-id="<%= user.id %>">
                 <i class="fa fa-space-shuttle"></i>
               </button>
@@ -47,14 +47,14 @@
             <% end %>
           <% end %>
         </div>
-              
+
         <span class="mb-3">
           <%= I18n.t('bounty.bounty') %>: <span id="user-bounty"><%= user.bounty %></span> Cr&nbsp;&nbsp;
           <button type="button" class="btn btn-outline-primary btn-sm add-bounty-btn">
             <i class="fa fa-plus"></i>
           </button>
         </span>
-            
+
         <div class="bg-fade-light" style="display:none;" id="bountyModal">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="<%= I18n.t('bounty.bounty_placeholder') %>" id="bounty-input">
@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-        
+
         <ul class="nav nav-tabs mt-3" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" data-target="#bio-user-info" href="#0" role="tab"><%= I18n.t('users.bio') %></a>
@@ -101,7 +101,7 @@
           <% if current_user.admin || current_user.chat_mod %>
             <div class="tab-pane fade" id="about-user-ship" role="tabpanel">
               <div class="mt-5px">
-                <%= render partial: 'ships/vars', locals: {value: Spaceship.ship_variables[user.active_spaceship.name], key: user.active_spaceship.name} %>
+                <%= render partial: 'ships/vars', locals: {value: user.active_spaceship.get_attributes(), key: user.active_spaceship.name} %>
               </div>
             </div>
             <div class="tab-pane fade" id="admin" role="tabpanel">
@@ -114,7 +114,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="modal fade" id="bountyModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

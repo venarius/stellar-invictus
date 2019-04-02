@@ -174,8 +174,7 @@ class StationsController < ApplicationController
   private
 
   def check_police
-    police = Npc.where(target: current_user.id, npc_type: 'police') rescue nil
-    if police.count > 0
+    if Npc.police.targeting_user(current_user).exists?
       render(json: { 'error_message' => I18n.t('errors.police_inbound') }, status: 400) && (return)
     end
   end

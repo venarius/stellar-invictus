@@ -197,7 +197,7 @@ class EquipmentWorker
   def call_police(player)
     player_id = player.id
 
-    if !player.system.low? && !player.system.wormhole? && Npc.where(npc_type: 'police', target: player_id).empty? && !player.target.in_same_fleet_as(player_id)
+    if !player.system.low? && !player.system.wormhole? && !Npc.police.targeting_user(player).exists? && !player.target.in_same_fleet_as(player)
       if player.system.security_status == 'high'
         PoliceWorker.perform_async(player_id, 2)
       else

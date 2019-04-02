@@ -305,7 +305,7 @@ class Spaceship < ApplicationRecord
 
   # Get HP Color Value
   def get_hp_color
-    percentage = self.hp / (Spaceship.ship_variables[name]['hp'] / 100.0)
+    percentage = self.hp / (get_attribute(:hp) / 100.0)
     case percentage
     when 0..29
       'color-red'

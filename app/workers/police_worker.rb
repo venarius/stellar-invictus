@@ -12,7 +12,7 @@ class PoliceWorker
     return unless police if npc_id
 
     if npc_id == nil
-      police = Npc.create(npc_type: 'police', target: player.id, name: generate_name)
+      police = Npc.create(npc_type: :police, target_user: player, name: generate_name)
 
       PoliceWorker.perform_in(seconds.second, player_id, seconds, police.id) && (return)
     end

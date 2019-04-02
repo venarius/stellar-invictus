@@ -43,7 +43,7 @@ class ShipsController < ApplicationController
 
   def info
     if params[:name]
-      value = Spaceship.ship_variables[params[:name]]
+      value = Spaceship.get_attribute(params[:name])
       render partial: 'ships/info', locals: { value: value, key: params[:name] }
     end
   end
@@ -69,7 +69,7 @@ class ShipsController < ApplicationController
     if params[:id]
       ship = Spaceship.find(params[:id]) rescue nil
       if ship && (ship.user == current_user) && !ship.insured && current_user.docked
-        price = (Spaceship.ship_variables[ship.name]['price'] / 2).round
+        price = (Spaceship.get_attribute(ship.name, :price) / 2).round
 
         # check credits
         render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: 400) && (return) unless current_user.units >= price
@@ -105,13 +105,14 @@ class ShipsController < ApplicationController
   def upgrade
     if current_user.docked && current_user.active_spaceship && (current_user.active_spaceship.level < 5)
       # Check required materials
-      Spaceship.ship_variables[current_user.active_spaceship.name]['upgrade']['ressources'].each do |key, value|
+
+      current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
         item = Item.find_by(loader: key, user: current_user, location: current_user.location) rescue nil
         render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: 400) && (return) if !item || item.count < value
       end
 
       # Delete ressources
-      Spaceship.ship_variables[current_user.active_spaceship.name]['upgrade']['ressources'].each do |key, value|
+      current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
         Item.remove_from_user(loader: key, user: current_user, location: current_user.location, amount: value)
       end
 

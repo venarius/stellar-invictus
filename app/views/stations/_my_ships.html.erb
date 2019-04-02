@@ -9,7 +9,7 @@
     </thead>
     <tbody>
       <% user_ships.each do |ship| %>
-        <% ship_vars = Spaceship.ship_variables[ship.name] %>
+        <% ship_vars = ship.get_attributes %>
         <tr class="<%= 'table-light' if current_user.active_spaceship == ship %>">
           <td>
             <% if ship.custom_name %>
@@ -29,10 +29,10 @@
       <% end %>
     </tbody>
   </table>
-  
+
   <% user_ships.each do |ship| %>
-    <% value = Spaceship.ship_variables[ship.name] %>
-    
+    <% value = ship.get_attributes %>
+
     <div class="modal fade" id="insurance-<%= ship.id %>" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -44,7 +44,7 @@
           </div>
           <div class="modal-body">
             <p class="text-center"><%= I18n.t('ships.insurance_text') %></p>
-            
+
             <% if ship.insured %>
               <p class="text-center"><%= I18n.t('ships.ship_already_insured') %></p>
             <% else %>

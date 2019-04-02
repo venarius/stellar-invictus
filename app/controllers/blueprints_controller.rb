@@ -8,7 +8,7 @@ class BlueprintsController < ApplicationController
       if params[:type] == 'item'
         price = Item.get_attribute(params[:loader], 'price') * 20 rescue nil
       else
-        price = Spaceship.ship_variables[params[:loader]]['price'] * 20 rescue nil
+        price = Spaceship.get_attribute(params[:loader], :price) * 20 rescue nil
       end
 
       if price && current_user.blueprints.where(loader: params[:loader]).empty?
@@ -32,7 +32,7 @@ class BlueprintsController < ApplicationController
       if params[:type] == 'item'
         render(partial: 'stations/blueprints/itemmodal', locals: { item: params[:loader] }) && (return)
       else
-        render(partial: 'stations/blueprints/shipmodal', locals: { key: params[:loader], value: Spaceship.ship_variables[params[:loader]] }) && (return)
+        render(partial: 'stations/blueprints/shipmodal', locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) }) && (return)
       end
     end
     render json: {}, status: 400
