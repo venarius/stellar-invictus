@@ -32,18 +32,14 @@ class Npc < ApplicationRecord
   enum npc_type: [:enemy, :police, :politician, :bodyguard, :wanted_enemy]
   enum npc_state: [:created, :targeting, :attacking, :waiting]
 
-  delegate :location_type, :enemy_amount, to: :location, prefix: true
-
   ## -- SCOPES
   scope :targeting_user, ->(user) { where(target: user.id) }
 
   ## — INSTANCE METHODS
-  # Lets the npc die
   def die
     NpcDiedWorker.perform_async(self.id)
   end
 
-  # Lets the npc drop loot
   def drop_loot
     if self.location.location_type == 'exploration_site'
       loader = Item::MATERIALS
@@ -89,7 +85,6 @@ class Npc < ApplicationRecord
     end
   end
 
-  # Remove the npc from being targeted
   def remove_being_targeted
     User.where(npc_target_id: self.id).each do |user|
       user.update_columns(npc_target_id: nil, is_attacking: false)
@@ -97,7 +92,6 @@ class Npc < ApplicationRecord
     end
   end
 
-  # Give bounty to player
   def give_bounty(player)
 
     value = rand(5..15)

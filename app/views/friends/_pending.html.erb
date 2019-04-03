@@ -13,7 +13,7 @@
                 <i class="fa fa-times"></i>
               </button>
             </div>
-            <a href="#" class="player-modal" data-id=<%= friendship.user_id %>><strong><%= friendship.user_full_name %></strong></a><br>
+            <a href="#" class="player-modal" data-id=<%= friendship.user_id %>><strong><%= friendship.user.full_name %></strong></a><br>
             <%= online_status(friendship.user) %>
           </td>
         </tr>

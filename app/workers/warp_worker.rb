@@ -83,8 +83,8 @@ class WarpWorker
       end
 
       # Spawn Enemies if User at Expedtion Site with Enemies
-      if (user.location.location_type == 'exploration_site') && (user.location_enemy_amount > 0) && (user.location.npcs.count == 0)
-        (user.location_enemy_amount).times do
+      if (user.location.location_type == 'exploration_site') && (user.location.enemy_amount > 0) && (user.location.npcs.count == 0)
+        (user.location.enemy_amount).times do
           EnemyWorker.perform_async(nil, user.location.id)
         end
       end
