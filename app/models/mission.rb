@@ -50,5 +50,4 @@ class Mission < ApplicationRecord
   enum difficulty:     [:easy, :medium, :hard]
 
   delegate :reputation_1, :reputation_2, :reputation_3, to: :user, prefix: true
-  # delegate :name, to: :faction, prefix: true
 end

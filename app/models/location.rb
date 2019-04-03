@@ -47,12 +47,6 @@ class Location < ApplicationRecord
   enum location_type: %i[station asteroid_field jumpgate mission exploration_site wormhole]
   enum station_type:  %i[industrial_station warfare_plant mining_station research_station trillium_casino]
 
-  # NOTE: This don't help readability, in fact, they make it more difficult to
-  # follow the chain of methods in other objects
-  # delegate :security_status, :name, to: :system, prefix: true
-  # delegate :difficulty, :enemy_amount, to: :mission, prefix: true
-  # delegate :name, to: :faction, prefix: true
-
   before_destroy do
     location = Location.where.not(id: self.id).first
     self.users.update_all(location_id: location.id, system_id: location.system.id)
