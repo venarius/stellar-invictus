@@ -16,25 +16,33 @@
 #
 
 class Friendship < ApplicationRecord
-  after_create :create_inverse_relationship
-  after_destroy :destroy_inverse_relationship
-
+  ## -- RELATIONSHIPS
   belongs_to :user
   belongs_to :friend, class_name: 'User'
 
-  delegate :avatar, :full_name, to: :user, prefix: true
-  delegate :avatar, :full_name, to: :friend, prefix: true
+  ## -- CALLBACKS
+  after_create :create_inverse_relationship
+  after_destroy :destroy_inverse_relationship
+
+  ## — INSTANCE METHODS
+  def friend_avatar_url
+    "avatars/#{self.friend.avatar}.jpg"
+  end
+
+  def user_avatar_url
+    "avatars/#{self.user.avatar}.jpg"
+  end
 
   private
 
-  def create_inverse_relationship
-    if self.accepted && friend.friendships.where(friend: user).empty?
-      friend.friendships.create(friend: user, accepted: false)
+    def create_inverse_relationship
+      if self.accepted && friend.friendships.where(friend: user).empty?
+        friend.friendships.create(friend: user, accepted: false)
+      end
     end
-  end
 
-  def destroy_inverse_relationship
-    friendship = friend.friendships.find_by(friend: user)
-    friendship.destroy if friendship
-  end
+    def destroy_inverse_relationship
+      friendship = friend.friendships.find_by(friend: user)
+      friendship.destroy if friendship
+    end
 end
