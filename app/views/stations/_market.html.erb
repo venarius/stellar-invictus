@@ -30,7 +30,7 @@
           <% end %>
         </div>
       </li>
-      
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
           <%= I18n.t('market.ships') %>
@@ -54,14 +54,14 @@
                   <% end %>
                 <% end %>
                 <% if count == 0 %>
-                  <h5 class="text-center">...</h2>
+                  <h2 class="text-center">...</h2>
                 <% end %>
               </div>
             </div>
           <% end %>
         </div>
       </li>
-      
+
       <% if current_user.location.player_market %>
         <li class="nav-item">
           <a class="nav-link get-own-listings-btn" href="#"><%= I18n.t('station.my_listings') %></a>
@@ -76,5 +76,5 @@
 </nav>
 
 <div class="results h-100">
-  
+
 </div>

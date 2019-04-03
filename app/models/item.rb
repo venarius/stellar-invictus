@@ -66,7 +66,7 @@ class Item < ApplicationRecord
 
   # Item Variables
   def self.item_variables
-    @item_variables
+    @lookup_data
   end
 
   # Stack Penalties
