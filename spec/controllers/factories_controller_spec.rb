@@ -5,7 +5,6 @@ RSpec.describe FactoriesController, type: :controller do
     describe 'POST craft' do
       it 'should redirect_to new_user_session_path' do
         post :craft
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -13,7 +12,6 @@ RSpec.describe FactoriesController, type: :controller do
     describe 'GET modal' do
       it 'should redirect_to new_user_session_path' do
         get :modal
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -28,19 +26,19 @@ RSpec.describe FactoriesController, type: :controller do
     describe 'GET modal' do
       it 'should render modal' do
         get :modal, params: { type: 'ship', loader: 'Nano' }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/factory/_shipmodal')
       end
 
       it 'should render modal' do
         get :modal, params: { type: 'item', loader: 'equipment.weapons.laser_gatling' }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/factory/_itemmodal')
       end
 
       it 'should not render modal if no params given' do
         get :modal, params: {}
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
@@ -48,22 +46,22 @@ RSpec.describe FactoriesController, type: :controller do
       it 'should not craft if user not docked' do
         @user.update_columns(docked: false)
         post :craft
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not craft if user doesnt have enough material' do
         post :craft, params: { loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 1 }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not craft asteroid ore / else' do
         post :craft, params: { loader: 'asteroid.nickel', type: 'item', amount: 1 }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not craft more than 100 at the same time' do
         post :craft, params: { loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 101 }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(CraftJob.all.count).to eq(0)
       end
 
@@ -73,7 +71,7 @@ RSpec.describe FactoriesController, type: :controller do
         Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
 
         post :craft, params: { loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 1 }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(CraftJob.all.count).to eq(0)
       end
 
@@ -85,7 +83,7 @@ RSpec.describe FactoriesController, type: :controller do
         Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
 
         post :craft, params: { loader: 'equipment.weapons.laser_gatling', type: 'item', amount: 1 }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(CraftJob.all.count).to eq(1)
       end
 
@@ -97,7 +95,7 @@ RSpec.describe FactoriesController, type: :controller do
         Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
 
         post :craft, params: { loader: 'Nano', type: 'ship', amount: 1 }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(CraftJob.all.count).to eq(1)
       end
 
@@ -108,7 +106,7 @@ RSpec.describe FactoriesController, type: :controller do
         Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
 
         post :craft, params: { loader: 'Nano', type: 'ship', amount: 1 }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(CraftJob.all.count).to eq(0)
       end
     end

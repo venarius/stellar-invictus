@@ -103,8 +103,8 @@ jumpgates = [
 travels = [5, 10, 15, 20]
 
 jumpgates.each do |jgs|
-  a = Location.find_or_create_by(name: jgs.last, system: System.find_by(name: jgs.first), location_type: 2)
-  b = Location.find_or_create_by(name: jgs.first, system: System.find_by(name: jgs.last), location_type: 2)
+  a = Location.find_or_create_by(name: jgs.last, system: System.find_by(name: jgs.first), location_type: :jumpgate)
+  b = Location.find_or_create_by(name: jgs.first, system: System.find_by(name: jgs.last), location_type: :jumpgate)
   Jumpgate.find_or_create_by(origin: a, destination: b, traveltime: travels.sample)
 end
 
@@ -121,58 +121,60 @@ System.all.each do |sys|
 end
 
 # Locations - Stations ["Industrial Station", "Warfare Plant", "Mining Station", "Research Station"]
-Location.find_or_create_by(station_type: 0, system: aunia, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 2, system: aunia, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 3, system: minin, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 1, system: chanoun, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 0, system: dau, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 2, system: inari, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 3, system: inari, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 2, system: joamma, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 0, system: belinara, location_type: 0, faction: faction3)
-Location.find_or_create_by(station_type: 2, system: belinara, location_type: 0, faction: faction3)
+Location.find_or_create_by(station_type: :industrial_station, system: aunia,    location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :mining_station,     system: aunia,    location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :research_station,   system: minin,    location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :warfare_plant,      system: chanoun,  location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :industrial_station, system: dau,      location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :mining_station,     system: inari,    location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :research_station,   system: inari,    location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :mining_station,     system: joamma,   location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :industrial_station, system: belinara, location_type: :station, faction: faction3)
+Location.find_or_create_by(station_type: :mining_station,     system: belinara, location_type: :station, faction: faction3)
 
-Location.find_or_create_by(station_type: 0, system: perseus, location_type: 0, faction: faction2)
-Location.find_or_create_by(station_type: 2, system: pherona, location_type: 0, faction: faction2)
-Location.find_or_create_by(station_type: 3, system: pherona, location_type: 0, faction: faction2)
-Location.find_or_create_by(station_type: 1, system: zenais, location_type: 0, faction: faction2)
-Location.find_or_create_by(station_type: 0, system: hyperion, location_type: 0, faction: faction2)
-Location.find_or_create_by(station_type: 2, system: hyperion, location_type: 0, faction: faction2)
-Location.find_or_create_by(station_type: 3, system: aulin, location_type: 0, faction: faction2)
-Location.find_or_create_by(station_type: 2, system: aulin, location_type: 0, faction: faction2)
-Location.find_or_create_by(station_type: 0, system: komo, location_type: 0, faction: faction2)
+Location.find_or_create_by(station_type: :industrial_station, system: perseus,  location_type: :station, faction: faction2)
+Location.find_or_create_by(station_type: :mining_station,     system: pherona,  location_type: :station, faction: faction2)
+Location.find_or_create_by(station_type: :research_station,   system: pherona,  location_type: :station, faction: faction2)
+Location.find_or_create_by(station_type: :warfare_plant,      system: zenais,   location_type: :station, faction: faction2)
+Location.find_or_create_by(station_type: :industrial_station, system: hyperion, location_type: :station, faction: faction2)
+Location.find_or_create_by(station_type: :mining_station,     system: hyperion, location_type: :station, faction: faction2)
+Location.find_or_create_by(station_type: :research_station,   system: aulin,    location_type: :station, faction: faction2)
+Location.find_or_create_by(station_type: :mining_station,     system: aulin,    location_type: :station, faction: faction2)
+Location.find_or_create_by(station_type: :industrial_station, system: komo,     location_type: :station, faction: faction2)
 
-Location.find_or_create_by(station_type: 0, system: dresi, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 2, system: zimse, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 3, system: zimse, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 1, system: latos, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 0, system: latos, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 2, system: urus, location_type: 0, faction: faction1)
-Location.find_or_create_by(station_type: 0, system: alba, location_type: 0, faction: faction1)
+Location.find_or_create_by(station_type: :industrial_station, system: dresi,    location_type: :station, faction: faction1)
+Location.find_or_create_by(station_type: :mining_station,     system: zimse,    location_type: :station, faction: faction1)
+Location.find_or_create_by(station_type: :research_station,   system: zimse,    location_type: :station, faction: faction1)
+Location.find_or_create_by(station_type: :warfare_plant,      system: latos,    location_type: :station, faction: faction1)
+Location.find_or_create_by(station_type: :industrial_station, system: latos,    location_type: :station, faction: faction1)
+Location.find_or_create_by(station_type: :mining_station,     system: urus,     location_type: :station, faction: faction1)
+Location.find_or_create_by(station_type: :industrial_station, system: alba,     location_type: :station, faction: faction1)
 
 # Lithex
-Location.find_or_create_by(station_type: 0, system: odin, location_type: 0, faction: nil, name: "The Lithium Exchange", player_market: true)
+Location.find_or_create_by(station_type: :industrial_station, system: odin, location_type: :station, faction: nil, name: "The Lithium Exchange", player_market: true)
 # Trillium Casino
-Location.find_or_create_by(station_type: 4, system: foves, location_type: 0, faction: nil)
+Location.find_or_create_by(station_type: :trillium_casino, system: foves, location_type: :station, faction: nil)
 
 # Random Stations
 System.all.each do |sys|
   if (sys.security_status == 'medium') && sys.locations.where(location_type: 'station').empty?
     rand(1..2).times do
-      type = rand(0..3)
-      Location.find_or_create_by(station_type: type, system: sys, location_type: 0) if sys.locations.where(station_type: type).empty?
+      type = [:industrial_station, :warfare_plant, :mining_station, :research_station].sample
+      if sys.locations.where(station_type: type).empty?
+        Location.find_or_create_by(station_type: type, system: sys, location_type: :station)
+      end
     end
   end
 end
 
 # Chat Rooms for Global and Locations
-ChatRoom.create(chatroom_type: 'global', title: 'Global')
+ChatRoom.create(chatroom_type: :global, title: 'Global')
 
 # Newbie Room
-ChatRoom.create(chatroom_type: 'custom', title: 'Rookies', identifier: 'ROOKIES')
+ChatRoom.create(chatroom_type: :custom, title: 'Rookies', identifier: 'ROOKIES')
 
 # Recruitment Room
-ChatRoom.create(chatroom_type: 'custom', title: 'Recruiting', identifier: 'RECRUIT')
+ChatRoom.create(chatroom_type: :custom, title: 'Recruiting', identifier: 'RECRUIT')
 
 # Thomas French Monument
 thomas_french_description = "<p><strong>THOMAS FRENCH - INTREPID TRADE PIONEER</strong></p><br>

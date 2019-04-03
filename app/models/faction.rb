@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: factions
+#
+#  id          :bigint(8)        not null, primary key
+#  description :text
+#  name        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  location_id :bigint(8)
+#
+# Indexes
+#
+#  index_factions_on_location_id  (location_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (location_id => locations.id)
+#
+
 class Faction < ApplicationRecord
   include HasLookupAttributes
 
@@ -5,7 +25,7 @@ class Faction < ApplicationRecord
   has_many :missions, dependent: :destroy
   has_many :locations
 
-  @lookup_data = YAML.load_file("#{Rails.root.to_s}/config/variables/factions.yml")
+  @lookup_data = YAML.load_file("#{Rails.root}/config/variables/factions.yml")
   @default_base = :id
 
   ## — CLASS METHODS

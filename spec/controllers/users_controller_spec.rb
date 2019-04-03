@@ -36,13 +36,13 @@ RSpec.describe UsersController, type: :controller do
     describe 'GET info' do
       it 'should render partial with valid id given' do
         get :info, params: { id: @user.id }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response.body).to render_template(partial: '_info')
       end
 
       it 'should render nothing with invalid id given' do
         get :info, params: { id: 2020 }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response.body).to eq('')
       end
     end
@@ -50,13 +50,13 @@ RSpec.describe UsersController, type: :controller do
     describe 'POST update_bio' do
       it 'should update bio of user' do
         post :update_bio, params: { text: "Bla" }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.bio).to eq("Bla")
       end
 
       it 'should not update bio of user if no params' do
         post :update_bio
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
@@ -67,28 +67,28 @@ RSpec.describe UsersController, type: :controller do
 
       it 'should place bounty on user' do
         post :place_bounty, params: { amount: "1000", id: @user.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.units).to eq(0)
         expect(@user.reload.bounty).to eq(1000)
       end
 
       it 'should not place less than 1k bounty' do
         post :place_bounty, params: { amount: "500", id: @user.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.units).to eq(1000)
         expect(@user.reload.bounty).to eq(0)
       end
 
       it 'should not place invalid bounty' do
         post :place_bounty, params: { amount: "bla", id: 2000 }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.units).to eq(1000)
         expect(@user.reload.bounty).to eq(0)
       end
 
       it 'should not place more bounty than user has units' do
         post :place_bounty, params: { amount: "1500", id: @user.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.units).to eq(1000)
         expect(@user.reload.bounty).to eq(0)
       end

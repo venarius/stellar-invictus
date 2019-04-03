@@ -131,6 +131,8 @@ ActiveRecord::Schema.define(version: 2019_03_10_115551) do
     t.boolean "accepted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
   create_table "game_mails", force: :cascade do |t|
@@ -142,6 +144,8 @@ ActiveRecord::Schema.define(version: 2019_03_10_115551) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "read", default: false
+    t.index ["recipient_id"], name: "index_game_mails_on_recipient_id"
+    t.index ["sender_id"], name: "index_game_mails_on_sender_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -159,6 +163,7 @@ ActiveRecord::Schema.define(version: 2019_03_10_115551) do
     t.index ["location_id"], name: "index_items_on_location_id"
     t.index ["mission_id"], name: "index_items_on_mission_id"
     t.index ["spaceship_id"], name: "index_items_on_spaceship_id"
+    t.index ["structure_id"], name: "index_items_on_structure_id"
     t.index ["user_id"], name: "index_items_on_user_id"
   end
 
@@ -168,6 +173,8 @@ ActiveRecord::Schema.define(version: 2019_03_10_115551) do
     t.integer "traveltime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["destination_id"], name: "index_jumpgates_on_destination_id"
+    t.index ["origin_id"], name: "index_jumpgates_on_origin_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -223,6 +230,7 @@ ActiveRecord::Schema.define(version: 2019_03_10_115551) do
     t.datetime "updated_at", null: false
     t.index ["faction_id"], name: "index_missions_on_faction_id"
     t.index ["location_id"], name: "index_missions_on_location_id"
+    t.index ["mission_location_id"], name: "index_missions_on_mission_location_id"
     t.index ["user_id"], name: "index_missions_on_user_id"
   end
 

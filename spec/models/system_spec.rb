@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: systems
+#
+#  id              :bigint(8)        not null, primary key
+#  name            :string
+#  security_status :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 require 'rails_helper'
 
 describe System do
@@ -43,7 +54,7 @@ describe System do
 
       describe 'mapdata' do
         it 'should return yml file' do
-          expect(System.mapdata).to eq(YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml"))
+          expect(System.mapdata).to eq(YAML.load_file("#{Rails.root}/config/variables/mapdata.yml"))
         end
       end
     end

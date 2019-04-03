@@ -1,3 +1,31 @@
+# == Schema Information
+#
+# Table name: spaceships
+#
+#  id             :bigint(8)        not null, primary key
+#  custom_name    :string
+#  hp             :integer
+#  insured        :boolean          default(FALSE)
+#  level          :integer          default(0)
+#  name           :string
+#  warp_scrambled :boolean          default(FALSE)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  location_id    :bigint(8)
+#  user_id        :bigint(8)
+#  warp_target_id :integer
+#
+# Indexes
+#
+#  index_spaceships_on_location_id  (location_id)
+#  index_spaceships_on_user_id      (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (location_id => locations.id)
+#  fk_rails_...  (user_id => users.id)
+#
+
 class Spaceship < ApplicationRecord
   include HasLookupAttributes
 
@@ -6,7 +34,7 @@ class Spaceship < ApplicationRecord
   belongs_to :location, optional: true
   has_many :items, dependent: :destroy
 
-  @lookup_data = YAML.load_file("#{Rails.root.to_s}/config/variables/spaceships.yml")
+  @lookup_data = YAML.load_file("#{Rails.root}/config/variables/spaceships.yml")
   @default_base = :name
 
   ## — CLASS METHODS
@@ -126,7 +154,7 @@ class Spaceship < ApplicationRecord
     stack = 0
     self.get_utility_equipment.each do |item|
       if (item.get_attribute('type') == "Storage") && item.equipped
-        item_attr = item.get_attribute('storage_amplifier') * Item.stack_penalties[stack]
+        item_attr = item.get_attribute('storage_amplifier') * Item::STACK_PENALTIES[stack]
         stack = stack + 1
       end
 
@@ -182,7 +210,7 @@ class Spaceship < ApplicationRecord
     stack = 0
     self.get_utility_equipment.each do |item|
       if (item.get_attribute('type') == "Defense") && item.equipped
-        item_attr = item.get_attribute('defense_amplifier') * Item.stack_penalties[stack]
+        item_attr = item.get_attribute('defense_amplifier') * Item::STACK_PENALTIES[stack]
         stack = stack + 1
       end
 
@@ -225,7 +253,7 @@ class Spaceship < ApplicationRecord
     stack = 0
     self.get_equipment.each do |item|
       if (item.get_attribute('type') == "Hull") && item.equipped
-        item_attr = item.get_attribute('align_amplifier') * Item.stack_penalties[stack]
+        item_attr = item.get_attribute('align_amplifier') * Item::STACK_PENALTIES[stack]
         stack = stack + 1
       end
 
@@ -243,7 +271,7 @@ class Spaceship < ApplicationRecord
     stack = 0
     self.get_equipment.each do |item|
       if (item.get_attribute('type') == "Sensor") && item.equipped
-        item_attr = item.get_attribute('target_amplifier') * Item.stack_penalties[stack]
+        item_attr = item.get_attribute('target_amplifier') * Item::STACK_PENALTIES[stack]
         stack = stack + 1
       end
 

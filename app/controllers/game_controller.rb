@@ -24,9 +24,9 @@ class GameController < ApplicationController
               unless user.in_warp
                 WarpWorker.perform_async(user.id, location.id, 0, 0, false, align)
                 if user.active_spaceship.warp_target_id == location.id
-                  ActionCable.server.broadcast("player_#{user.id}", method: 'fleet_warp', location: location.id, align_time: 0) if user != current_user
+                  ActionCable.server.broadcast(user.channel_id, method: 'fleet_warp', location: location.id, align_time: 0) if user != current_user
                 else
-                  ActionCable.server.broadcast("player_#{user.id}", method: 'fleet_warp', location: location.id, align_time: align) if user != current_user
+                  ActionCable.server.broadcast(user.channel_id, method: 'fleet_warp', location: location.id, align_time: align) if user != current_user
                 end
               end
             end
@@ -93,9 +93,9 @@ class GameController < ApplicationController
   end
 
   def chat
-    @system_users = User.where("online > 0").where(system: current_user.system)
-    @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.find_by(system: current_user.system)).last(10)
-    @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.where(chatroom_type: :global).first).last(10)
+    @system_users = User.is_online.where(system: current_user.system)
+    @local_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.local.where(system: current_user.system).first).last(10)
+    @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.global.first).last(10)
 
     if params[:popup]
       render partial: 'game/chat_popup', locals: { local_messages: @local_messages, system_users: @system_users, global_messages: @global_messages }
@@ -115,7 +115,7 @@ class GameController < ApplicationController
   private
 
   def get_local_users
-    @local_users = User.includes(:faction).where(location: current_user.location, in_warp: false, docked: false).where("online > 0")
+    @local_users = User.includes(:faction).where(location: current_user.location, in_warp: false, docked: false).is_online
   end
 
   def check_police

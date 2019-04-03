@@ -41,7 +41,7 @@ class FactoriesController < ApplicationController
           # Delete ressources
           ressources.each do |key, value|
             value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
-            Item.remove_from_user(loader: key, user: current_user, location: current_user.location, amount: value.round)
+            Item::RemoveFromUser.(loader: key, user: current_user, location: current_user.location, amount: value.round)
           end
 
           # Create CraftJob
@@ -76,9 +76,9 @@ class FactoriesController < ApplicationController
 
         # Get Crafting Materials and Destroy Items
         materials = item.get_attribute('crafting')
-        Item.remove_from_user(loader: params[:loader], location: current_user.location, user: current_user, amount: amount)
+        Item::RemoveFromUser.(loader: params[:loader], location: current_user.location, user: current_user, amount: amount)
         materials.each do |key, value|
-          Item.give_to_user(loader: key, location: current_user.location, user: current_user, amount: (value * amount * 0.4 * rand(0.9..1.1)).round)
+          Item::GiveToUser.(item_id: key, location: current_user.location, user: current_user, amount: (value * amount * 0.4 * rand(0.9..1.1)).round)
         end
 
         render(json: { message: I18n.t('station.dismantling_successful') }, status: 200) && (return)

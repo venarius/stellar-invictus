@@ -28,7 +28,7 @@ class PoliceWorker
 
     if police.created?
       # Tell user he is getting targeted by police
-      ActionCable.server.broadcast("player_#{player.id}", method: 'getting_targeted', name: police.name)
+      ActionCable.server.broadcast(player.channel_id, method: 'getting_targeted', name: police.name)
 
       police.targeting!
 
@@ -37,7 +37,7 @@ class PoliceWorker
 
     if police.targeting?
       # Tell user he is getting attacked by police
-      ActionCable.server.broadcast("player_#{player.id}", method: 'getting_attacked', name: police.name)
+      ActionCable.server.broadcast(player.channel_id, method: 'getting_attacked', name: police.name)
 
       police.attacking!
 

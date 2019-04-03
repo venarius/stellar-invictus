@@ -5,7 +5,6 @@ RSpec.describe FactionsController, type: :controller do
     describe 'GET index' do
       it 'should redirect_to new_user_session_path' do
         get :index
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -13,7 +12,6 @@ RSpec.describe FactionsController, type: :controller do
     describe 'POST choose_faction' do
       it 'should redirect_to new_user_session_path' do
         post :choose_faction, params: { id: 1 }
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -28,7 +26,7 @@ RSpec.describe FactionsController, type: :controller do
     describe 'GET index' do
       it 'should render index' do
         get :index
-        expect(response.code).to eq("200")
+        expect(response).to have_http_status(:ok)
         expect(assigns[:factions].length).to eq(3)
       end
 
@@ -36,7 +34,6 @@ RSpec.describe FactionsController, type: :controller do
         sign_in FactoryBot.create(:user, faction: Faction.first)
 
         get :index
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(game_path)
       end
     end
@@ -44,7 +41,6 @@ RSpec.describe FactionsController, type: :controller do
     describe 'POST choose_faction' do
       it 'should redirect_to game_path' do
         post :choose_faction, params: { id: 1 }
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(game_path)
         expect(@user.reload.faction_id).to eq(1)
       end
@@ -54,7 +50,6 @@ RSpec.describe FactionsController, type: :controller do
         sign_in @user
 
         post :choose_faction, params: { id: 2 }
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(game_path)
         expect(@user.reload.faction_id).to eq(1)
       end
@@ -64,7 +59,6 @@ RSpec.describe FactionsController, type: :controller do
         sign_in @user
 
         post :choose_faction, params: { id: 5221 }
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(factions_path)
       end
     end

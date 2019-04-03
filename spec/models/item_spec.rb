@@ -1,3 +1,36 @@
+# == Schema Information
+#
+# Table name: items
+#
+#  id           :bigint(8)        not null, primary key
+#  active       :boolean          default(FALSE)
+#  count        :integer          default(1)
+#  equipped     :boolean          default(FALSE)
+#  loader       :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  location_id  :bigint(8)
+#  mission_id   :bigint(8)
+#  spaceship_id :bigint(8)
+#  structure_id :integer
+#  user_id      :bigint(8)
+#
+# Indexes
+#
+#  index_items_on_location_id   (location_id)
+#  index_items_on_mission_id    (mission_id)
+#  index_items_on_spaceship_id  (spaceship_id)
+#  index_items_on_structure_id  (structure_id)
+#  index_items_on_user_id       (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (location_id => locations.id)
+#  fk_rails_...  (mission_id => missions.id)
+#  fk_rails_...  (spaceship_id => spaceships.id)
+#  fk_rails_...  (user_id => users.id)
+#
+
 require 'rails_helper'
 
 describe Item do
@@ -37,7 +70,7 @@ describe Item do
 
         it 'should remove item from users location' do
           expect {
-            Item.remove_from_user(user: user, location: user.location, loader: item.loader, amount: 1)
+            Item::RemoveFromUser.(user: user, location: user.location, loader: item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(-1)
@@ -46,7 +79,7 @@ describe Item do
         it 'should remove item from users ship' do
           item.update_columns(location_id: nil, spaceship_id: user.active_spaceship.id)
           expect {
-            Item.remove_from_user(user: user, loader: item.loader, amount: 1)
+            Item::RemoveFromUser.(user: user, loader: item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(-1)
@@ -55,7 +88,7 @@ describe Item do
         it 'should remove item from counter if less than item amount' do
           item.update_columns(count: 2)
           expect {
-            Item.remove_from_user(user: user, loader: item.loader, location: user.location, amount: 1)
+            Item::RemoveFromUser.(user: user, loader: item.loader, location: user.location, amount: 1)
           }.to change {
             Item.count
           }.by(0)
@@ -70,7 +103,7 @@ describe Item do
 
         it 'should move to station and place' do
           expect {
-            Item.store_in_station(user: @user, loader: @item.loader, amount: 1)
+            Item::GiveToStation.(user: @user, loader: @item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(0)
@@ -79,7 +112,7 @@ describe Item do
         it 'should move to station and stack' do
           Item.create(loader: "asteroid.iron_ore", location: @user.location, user: @user)
           expect {
-            Item.store_in_station(user: @user, loader: @item.loader, amount: 1)
+            Item::GiveToStation.(user: @user, loader: @item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(-1)
@@ -90,7 +123,7 @@ describe Item do
         it 'should move to station and remove from counter of original if amount less than count' do
           @item.update_columns(count: 2)
           expect {
-            Item.store_in_station(user: @user, loader: @item.loader, amount: 1)
+            Item::GiveToStation.(user: @user, loader: @item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(1)
@@ -106,7 +139,7 @@ describe Item do
 
         it 'should move to ship and place' do
           expect {
-            Item.store_in_ship(user: @user, loader: @item.loader, amount: 1)
+            Item::GiveToShip.(user: @user, loader: @item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(0)
@@ -115,7 +148,7 @@ describe Item do
         it 'should move to ship and stack' do
           Item.create(loader: "asteroid.iron_ore", spaceship: @user.active_spaceship)
           expect {
-            Item.store_in_ship(user: @user, loader: @item.loader, amount: 1)
+            Item::GiveToShip.(user: @user, loader: @item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(-1)
@@ -126,7 +159,7 @@ describe Item do
         it 'should move to ship and remove from counter of original if amount less than count' do
           @item.update_columns(count: 2)
           expect {
-            Item.store_in_ship(user: @user, loader: @item.loader, amount: 1)
+            Item::GiveToShip.(user: @user, loader: @item.loader, amount: 1)
           }.to change {
             Item.count
           }.by(1)
@@ -136,19 +169,19 @@ describe Item do
 
       describe 'equipment_medium' do
         it 'should return array of medium items' do
-          expect(Item.equipment_medium.class).to eq(Array)
+          expect(Item::EQUIPMENT_MEDIUM).to be_an(Array)
         end
       end
 
       describe 'equipment_hard' do
         it 'should return array of hard items' do
-          expect(Item.equipment_hard.class).to eq(Array)
+          expect(Item::EQUIPMENT_HARD).to be_an(Array)
         end
       end
 
       describe 'items' do
         it 'should return array of items' do
-          expect(Item.items.class).to eq(Array)
+          expect(Item::ITEMS).to be_an(Array)
         end
       end
 

@@ -87,7 +87,7 @@ class EquipmentWorker
           # Broadcast
           ac_server.broadcast("player_#{player_id}", method: 'update_health', hp: player_ship.hp)
 
-          User.where(target_id: player_id).where("online > 0").each do |u|
+          User.where(target_id: player_id).is_online.each do |u|
             ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: player_ship.hp)
           end
         else
@@ -128,14 +128,14 @@ class EquipmentWorker
 
           # Tell other users who targeted target to also update hp
           if player.target
-            User.where(target_id: target_id).where("online > 0").each do |u|
+            User.where(target_id: target_id).is_online.each do |u|
               ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
             end
             if player.target.fleet
               ChatChannel.broadcast_to(player.target.fleet.chat_room, method: 'update_hp_color', color: target_ship.get_hp_color, id: player.target.id)
             end
           elsif player.npc_target
-            User.where(npc_target_id: target_id).where("online > 0").each do |u|
+            User.where(npc_target_id: target_id).is_online.each do |u|
               ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
             end
           end
@@ -165,7 +165,7 @@ class EquipmentWorker
 
         else
 
-          ActionCable.server.broadcast("player_#{player.id}", method: 'disable_equipment')
+          ActionCable.server.broadcast(player.channel_id, method: 'disable_equipment')
           shutdown(player) && (return)
 
         end
@@ -175,7 +175,7 @@ class EquipmentWorker
       # Rescue Global
       if (power == 0) && (self_repair == 0) && remote_repair == 0 && !player_ship.has_active_warp_disruptor || !player.can_be_attacked
         # Broadcast
-        ActionCable.server.broadcast("player_#{player.id}", method: 'disable_equipment')
+        ActionCable.server.broadcast(player.channel_id, method: 'disable_equipment')
 
         shutdown(player) && (return)
       end

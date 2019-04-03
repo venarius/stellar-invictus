@@ -10,13 +10,13 @@ RSpec.describe EquipmentController, type: :controller do
 
     describe 'POST update' do
       let!(:equipment1) { create :item,
-          loader: "equipment.weapons.laser_gatling",
           spaceship: user.active_spaceship,
+          loader: "equipment.weapons.laser_gatling",
           equipped: false
       }
       let!(:equipment2) { create :item,
-          loader: "equipment.storage.small_black_hole",
           spaceship: user.active_spaceship,
+          loader: "equipment.storage.small_black_hole",
           equipped: false
       }
 

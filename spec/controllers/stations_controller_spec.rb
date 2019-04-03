@@ -50,20 +50,20 @@ RSpec.describe StationsController, type: :controller do
       it 'should display index when user is docked' do
         user.update(docked: true)
         get :index
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'overview' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_overview')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'my_ships' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_my_ships')
         expect(assigns(:user_ships).count).to eq(0)
       end
@@ -71,42 +71,42 @@ RSpec.describe StationsController, type: :controller do
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'active_ship' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_active_ship')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'bounty_office' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_bounty_office')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'storage' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_storage')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'factory' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_factory')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'market' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_market')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'missions' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_missions')
         expect(Mission.count).to eq(6)
       end
@@ -183,7 +183,7 @@ RSpec.describe StationsController, type: :controller do
       it 'should store items in station' do
         expect(user.active_spaceship.get_weight).to eq(3)
         post :store, params: { loader: 'test', amount: 3 }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(user.active_spaceship.get_weight).to eq(0)
         expect(user.location.items.count).to eq(1)
         expect(user.location.items.first.count).to eq(3)
@@ -216,7 +216,7 @@ RSpec.describe StationsController, type: :controller do
       it 'should store items in ship' do
         expect(user.location.items.count).to eq(1)
         post :load, params: { loader: 'test', amount: 3 }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(user.active_spaceship.get_weight).to eq(3)
         expect(user.location.items.count).to eq(0)
       end

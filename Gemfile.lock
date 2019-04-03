@@ -48,6 +48,9 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     acts_as_votable (0.12.0)
+    annotate (2.7.4)
+      activerecord (>= 3.2, < 6.0)
+      rake (>= 10.4, < 13.0)
     arel (9.0.0)
     ast (2.4.0)
     awesome_print (1.8.0)
@@ -344,6 +347,7 @@ DEPENDENCIES
   action-cable-testing
   activerecord-import
   acts_as_votable
+  annotate
   awesome_print
   bootstrap4-kaminari-views
   bugsnag

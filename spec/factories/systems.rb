@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: systems
+#
+#  id              :bigint(8)        not null, primary key
+#  name            :string
+#  security_status :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 FactoryBot.define do
   factory :system do
     name { Faker::Space.galaxy }
