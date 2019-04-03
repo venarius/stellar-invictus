@@ -25,6 +25,7 @@ module ApplicationHelper
   # return a sorted map of users
   # { <user.full_name> => <user.id> }
   def map_and_sort(user_query)
+    return {} if user_query.blank?
     user_query.
       select(:id, :full_name).
       order(:family_name, :name).
