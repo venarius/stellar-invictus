@@ -52,7 +52,7 @@ RSpec.configure do |config|
   # Print the 4 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
-  config.profile_examples = 4
+  config.profile_examples = 0
 
   # Many RSpec users commonly either run the entire suite or an individual
   # file, and it's useful to allow more verbose output when running an
