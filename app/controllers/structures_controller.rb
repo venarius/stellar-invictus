@@ -30,9 +30,9 @@ class StructuresController < ApplicationController
         if items.present? && (structure.location == current_user.location)
           # Call police
           if (structure.user != current_user) &&
-             (structure.structure_type != 'wreck') &&
+             (structure.structure_type != 'wreck' &&
              !structure.user.in_same_fleet_as(current_user) &&
-             (structure.created_at > (DateTime.now.to_time - 10.minutes).to_datetime)
+             (structure.created_at > (DateTime.now.to_time - 10.minutes).to_datetime))
             call_police(current_user)
           end
           # Check if player has enough space

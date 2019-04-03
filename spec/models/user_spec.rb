@@ -207,7 +207,7 @@ describe User do
 
       describe 'target' do
         it 'should return current target of user' do
-          enemy = FactoryBot.create(:user_with_faction)
+          enemy = create(:user_with_faction)
           user.update_columns(target_id: enemy.id)
           expect(user.reload.target).to eq(enemy)
         end
@@ -215,7 +215,7 @@ describe User do
 
       describe 'npc_target' do
         it 'should return current npc_target of user' do
-          enemy = FactoryBot.create(:npc)
+          enemy = create(:npc)
           user.update_columns(npc_target_id: enemy.id)
           expect(user.reload.npc_target).to eq(enemy)
         end
@@ -241,7 +241,7 @@ describe User do
 
       describe 'give_bounty' do
         it 'should give given user some bounty if user has bounty' do
-          enemy = FactoryBot.create(:user_with_faction)
+          enemy = create(:user_with_faction)
           user.active_spaceship.update_columns(name: 'Valadria')
           user.update_columns(bounty: 1000)
           user.give_bounty(enemy)
@@ -249,7 +249,7 @@ describe User do
         end
 
         it 'should give given user some bounty if user has less bounty than worth bounty' do
-          enemy = FactoryBot.create(:user_with_faction)
+          enemy = create(:user_with_faction)
           user.active_spaceship.update_columns(name: 'Valadria')
           user.update_columns(bounty: 1)
           user.give_bounty(enemy)

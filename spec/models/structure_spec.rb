@@ -47,7 +47,7 @@ describe Structure do
 
     describe 'Functions' do
       before(:each) do
-        @structure = FactoryBot.create(:structure, location: Location.first, user: FactoryBot.create(:user_with_faction))
+        @structure = create(:structure, location: Location.first, user: create(:user_with_faction))
       end
 
       describe 'get_items' do

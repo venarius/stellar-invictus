@@ -29,7 +29,7 @@ RSpec.describe UsersController, type: :controller do
 
   context 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
     end
 

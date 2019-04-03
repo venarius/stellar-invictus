@@ -59,7 +59,7 @@ describe Item do
         end
 
         it 'should return attribute of item' do
-          item = Item.new(loader: 'asteroid.iron_ore', user: FactoryBot.create(:user_with_faction))
+          item = Item.new(loader: 'asteroid.iron_ore', user: create(:user_with_faction))
           expect(item.get_attribute('weight')).to eq(1)
         end
       end
@@ -97,7 +97,7 @@ describe Item do
 
       describe 'move_to_station' do
         before(:each) do
-          @user = FactoryBot.create(:user_with_faction)
+          @user = create(:user_with_faction)
           @item = Item.create(loader: 'asteroid.iron_ore', spaceship: @user.active_spaceship)
         end
 
@@ -133,7 +133,7 @@ describe Item do
 
       describe 'store_in_ship' do
         before(:each) do
-          @user = FactoryBot.create(:user_with_faction)
+          @user = create(:user_with_faction)
           @item = Item.create(loader: 'asteroid.iron_ore', location: @user.location, user: @user)
         end
 

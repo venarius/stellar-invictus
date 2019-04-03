@@ -19,7 +19,7 @@ RSpec.describe FactionsController, type: :controller do
 
   context 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user)
+      @user = create(:user)
       sign_in @user
     end
 
@@ -31,7 +31,7 @@ RSpec.describe FactionsController, type: :controller do
       end
 
       it 'should redirect_to game_path if already has faction' do
-        sign_in FactoryBot.create(:user, faction: Faction.first)
+        sign_in create(:user, faction: Faction.first)
 
         get :index
         expect(response).to redirect_to(game_path)
@@ -46,7 +46,7 @@ RSpec.describe FactionsController, type: :controller do
       end
 
       it 'should redirect_to game_path if already has faction' do
-        @user = FactoryBot.create(:user, faction: Faction.first)
+        @user = create(:user, faction: Faction.first)
         sign_in @user
 
         post :choose_faction, params: { id: 2 }
@@ -55,7 +55,7 @@ RSpec.describe FactionsController, type: :controller do
       end
 
       it 'should redirect_to game_path if faction doesnt exist' do
-        @user = FactoryBot.create(:user)
+        @user = create(:user)
         sign_in @user
 
         post :choose_faction, params: { id: 5221 }

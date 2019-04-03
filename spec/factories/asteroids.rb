@@ -20,8 +20,7 @@
 
 FactoryBot.define do
   factory :asteroid do
-    location { nil }
-    type { 1 }
+    type { :nickel }
     resources { 1 }
   end
 end

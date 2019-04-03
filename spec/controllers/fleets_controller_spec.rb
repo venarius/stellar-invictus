@@ -26,9 +26,9 @@ RSpec.describe FleetsController, type: :controller do
 
   context 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
-      @user2 = FactoryBot.create(:user_with_faction)
+      @user2 = create(:user_with_faction)
     end
 
     describe 'POST invite' do
@@ -47,7 +47,7 @@ RSpec.describe FleetsController, type: :controller do
       end
 
       it 'should not invite other player if player already in fleet' do
-        fleet2 = FactoryBot.create(:fleet, creator: @user2)
+        fleet2 = create(:fleet, creator: @user2)
         @user2.update_columns(fleet_id: fleet2.id)
         post :invite, params: { id: @user2.id }
         expect(response).to have_http_status(:bad_request)
@@ -56,7 +56,7 @@ RSpec.describe FleetsController, type: :controller do
       end
 
       it 'should invite other player but not create another fleet if already in fleet' do
-        fleet2 = FactoryBot.create(:fleet, creator: @user)
+        fleet2 = create(:fleet, creator: @user)
         @user.update_columns(fleet_id: fleet2.id)
         post :invite, params: { id: @user2.id }
         expect(response).to have_http_status(:ok)
@@ -67,7 +67,7 @@ RSpec.describe FleetsController, type: :controller do
 
     describe 'POST accept_invite' do
       before(:each) do
-        @fleet2 = FactoryBot.create(:fleet, creator: @user2)
+        @fleet2 = create(:fleet, creator: @user2)
         @user2.update_columns(fleet_id: @fleet2.id)
       end
 
@@ -86,7 +86,7 @@ RSpec.describe FleetsController, type: :controller do
 
     describe 'POST remove' do
       before(:each) do
-        @fleet = FactoryBot.create(:fleet, creator: @user)
+        @fleet = create(:fleet, creator: @user)
         @user.update_columns(fleet_id: @fleet.id)
         @user2.update_columns(fleet_id: @fleet.id)
       end
@@ -98,7 +98,7 @@ RSpec.describe FleetsController, type: :controller do
       end
 
       it 'should not be able to remove other user from fleet if not fleet creator' do
-        fleet = FactoryBot.create(:fleet, creator: @user2)
+        fleet = create(:fleet, creator: @user2)
         @user2.update_columns(fleet_id: fleet.id)
         @user.update_columns(fleet_id: fleet.id)
         post :remove, params: { id: @user2.id }
@@ -113,7 +113,7 @@ RSpec.describe FleetsController, type: :controller do
       end
 
       it 'should not bet able to remove user from other fleet' do
-        fleet = FactoryBot.create(:fleet, creator: @user2)
+        fleet = create(:fleet, creator: @user2)
         @user2.update_columns(fleet_id: fleet.id)
         post :remove, params: { id: @user2.id }
         expect(response).to have_http_status(:bad_request)

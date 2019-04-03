@@ -59,7 +59,7 @@ describe Faction do
 
       describe 'get_rank' do
         it 'should return rank of particular user' do
-          user = FactoryBot.create(:user_with_faction, reputation_1: -5, reputation_2: -5, reputation_3: -5)
+          user = create(:user_with_faction, reputation_1: -5, reputation_2: -5, reputation_3: -5)
           expect(faction.get_rank(user)).to eq("name" => "Shunned", "reputation" => -5.0, "type" => 3, "unlocks" => [])
         end
       end

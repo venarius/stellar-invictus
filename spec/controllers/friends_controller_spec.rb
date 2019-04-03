@@ -45,7 +45,7 @@ RSpec.describe FriendsController, type: :controller do
 
   context 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
     end
 
@@ -58,7 +58,7 @@ RSpec.describe FriendsController, type: :controller do
 
     describe 'POST add_friend' do
       it 'should add other user as friend' do
-        user = FactoryBot.create(:user_with_faction)
+        user = create(:user_with_faction)
         post :add_friend, params: { id: user.id }
         expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(1)
@@ -71,7 +71,7 @@ RSpec.describe FriendsController, type: :controller do
       end
 
       it 'should not add as friend twice' do
-        user = FactoryBot.create(:user_with_faction)
+        user = create(:user_with_faction)
         post :add_friend, params: { id: user.id }
         expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(1)
@@ -81,7 +81,7 @@ RSpec.describe FriendsController, type: :controller do
       end
 
       it 'should accept request if request open' do
-        user = FactoryBot.create(:user_with_faction)
+        user = create(:user_with_faction)
         sign_in user
         Friendship.create(user: @user, friend: user, accepted: false)
         post :add_friend, params: { id: @user.id }
@@ -92,7 +92,7 @@ RSpec.describe FriendsController, type: :controller do
 
     describe 'POST accept_request' do
       before(:each) do
-        @user2 = FactoryBot.create(:user_with_faction)
+        @user2 = create(:user_with_faction)
         @friendship = Friendship.create(user: @user, friend: @user2, accepted: false)
       end
 
@@ -112,7 +112,7 @@ RSpec.describe FriendsController, type: :controller do
       end
 
       it 'should be able to accept request of other friendship' do
-        user3 = FactoryBot.create(:user_with_faction)
+        user3 = create(:user_with_faction)
         sign_in user3
         post :accept_request, params: { id: @friendship.id }
         expect(response).to have_http_status(:bad_request)
@@ -123,7 +123,7 @@ RSpec.describe FriendsController, type: :controller do
 
     describe 'POST remove_friend' do
       before(:each) do
-        @user2 = FactoryBot.create(:user_with_faction)
+        @user2 = create(:user_with_faction)
         Friendship.create(user: @user, friend: @user2, accepted: true)
       end
 
@@ -141,7 +141,7 @@ RSpec.describe FriendsController, type: :controller do
       end
 
       it 'should not be able to remove friendship as third user' do
-        user3 = FactoryBot.create(:user_with_faction)
+        user3 = create(:user_with_faction)
         sign_in user3
         post :remove_friend, params: { id: @user.id }
         expect(response).to have_http_status(:ok)

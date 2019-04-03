@@ -55,17 +55,16 @@ class Npc < ApplicationRecord
 
       # Drop Passengers if last NPC or wanted enemy
       if ((self.location.name == I18n.t('exploration.emergency_beacon')) && (self.location.npcs.count == 1)) || (self.wanted_enemy? && (rand(1..5) == 5))
-        structure = Structure.create(location: self.location, structure_type: 'wreck')
+        structure = Structure.create(location: self.location, structure_type: :wreck)
         Item.create(structure: structure, loader: "delivery.passenger", count: rand(1..5))
       end
     else
       loader = Item::MATERIALS
     end
 
-    structure = Structure.create(location: self.location, structure_type: 'wreck')
+    structure = Structure.create(location: self.location, structure_type: :wreck)
     Item.create(loader: loader.sample, structure: structure, equipped: false, count: rand(1..3))
     Item.create(loader: Item::MATERIALS.sample, structure: structure, equipped: false, count: rand(3..6))
-
   end
 
   # Give randbom Blueprint

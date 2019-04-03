@@ -33,7 +33,7 @@ describe Poll do
 
     describe 'Functions' do
       before(:each) do
-        @poll = FactoryBot.create(:poll)
+        @poll = create(:poll)
       end
 
       describe 'move_up' do

@@ -28,6 +28,6 @@ FactoryBot.define do
     ticker { RandService.upcase_alpha(3) }
     tax { 1.5 }
     bio { "Blub" }
-    chat_room { FactoryBot.create(:chat_room, chatroom_type: :corporation) }
+    chat_room { create(:chat_room, chatroom_type: :corporation) }
   end
 end
