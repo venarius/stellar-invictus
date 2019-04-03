@@ -104,11 +104,6 @@ class User < ApplicationRecord
   ## -- ATTRIBUTES
   enum corporation_role: [:recruit, :lieutenant, :commodore, :admiral, :founder]
 
-  # delegate :name, :security_status, to: :system, prefix: true
-  delegate :location_type, :enemy_amount, to: :location, prefix: true
-  delegate :name, to: :faction, prefix: true
-  delegate :name, :ticker, to: :corporation, prefix: true
-
   ## -- VALIDATIONS
   validates :name, :family_name, :avatar, presence: true
   validates :name, uniqueness: { scope: :family_name }
