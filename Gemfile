@@ -32,6 +32,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'fuubar'
   gem 'awesome_print'
+  gem 'annotate', require: false  # annotate models with their schemas
 end
 
 group :production, :development do

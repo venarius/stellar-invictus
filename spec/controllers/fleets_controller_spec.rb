@@ -5,7 +5,6 @@ RSpec.describe FleetsController, type: :controller do
     describe 'POST invite' do
       it 'should redirect_to new_user_session_path' do
         post :invite
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -13,7 +12,6 @@ RSpec.describe FleetsController, type: :controller do
     describe 'POST accept_invite' do
       it 'should redirect_to new_user_session_path' do
         post :accept_invite
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -21,7 +19,6 @@ RSpec.describe FleetsController, type: :controller do
     describe 'POST remove' do
       it 'should redirect_to new_user_session_path' do
         post :remove
-        expect(response.code).to eq("302")
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -37,14 +34,14 @@ RSpec.describe FleetsController, type: :controller do
     describe 'POST invite' do
       it 'should invite other player if not in fleet' do
         post :invite, params: { id: @user2.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.fleet_id).to eq(Fleet.last.id)
         expect(Fleet.count).to eq(1)
       end
 
       it 'should not invite other player if no id given' do
         post :invite
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.fleet_id).to eq(nil)
         expect(Fleet.count).to eq(0)
       end
@@ -53,7 +50,7 @@ RSpec.describe FleetsController, type: :controller do
         fleet2 = FactoryBot.create(:fleet, creator: @user2)
         @user2.update_columns(fleet_id: fleet2.id)
         post :invite, params: { id: @user2.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.fleet_id).to eq(nil)
         expect(Fleet.count).to eq(1)
       end
@@ -62,7 +59,7 @@ RSpec.describe FleetsController, type: :controller do
         fleet2 = FactoryBot.create(:fleet, creator: @user)
         @user.update_columns(fleet_id: fleet2.id)
         post :invite, params: { id: @user2.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.fleet_id).to eq(fleet2.id)
         expect(Fleet.count).to eq(1)
       end
@@ -76,13 +73,13 @@ RSpec.describe FleetsController, type: :controller do
 
       it 'should join another fleet' do
         post :accept_invite, params: { id: @fleet2.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.fleet_id).to eq(@fleet2.id)
       end
 
       it 'should not join if no id given' do
         post :accept_invite
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.fleet_id).to eq(nil)
       end
     end
@@ -96,7 +93,7 @@ RSpec.describe FleetsController, type: :controller do
 
       it 'should be able to remove other user from fleet if fleet creator' do
         post :remove, params: { id: @user2.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user2.reload.fleet_id).to eq(nil)
       end
 
@@ -105,13 +102,13 @@ RSpec.describe FleetsController, type: :controller do
         @user2.update_columns(fleet_id: fleet.id)
         @user.update_columns(fleet_id: fleet.id)
         post :remove, params: { id: @user2.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user2.reload.fleet_id).to eq(fleet.id)
       end
 
       it 'should not bet able to remove self from fleet' do
         post :remove, params: { id: @user.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.fleet_id).to eq(@fleet.id)
       end
 
@@ -119,13 +116,13 @@ RSpec.describe FleetsController, type: :controller do
         fleet = FactoryBot.create(:fleet, creator: @user2)
         @user2.update_columns(fleet_id: fleet.id)
         post :remove, params: { id: @user2.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user2.reload.fleet_id).to eq(fleet.id)
       end
 
       it 'should not bet able to remove user with no params given' do
         post :remove
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.fleet_id).to eq(@fleet.id)
       end
     end

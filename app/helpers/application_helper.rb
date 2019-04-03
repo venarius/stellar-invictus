@@ -28,7 +28,7 @@ module ApplicationHelper
     return {} if user_query.blank?
     user_query.
       select(:id, :full_name).
-      order(:family_name, :name).
+      in_name_order.
       pluck(:full_name, :id).to_h
   end
 end

@@ -2,7 +2,7 @@ class ChatRoomsController < ApplicationController
   # Create a new ChatRoom
   def create
     if params[:title]
-      room = ChatRoom.new(title: params[:title], chatroom_type: 'custom')
+      room = ChatRoom.new(title: params[:title], chatroom_type: :custom)
       if room.save
         room.users << current_user
         render(json: { 'id': room.identifier }, status: 200) && (return)
@@ -103,7 +103,7 @@ class ChatRoomsController < ApplicationController
 
         if !params[:identifier]
           # Create a new ChatRoom
-          room = ChatRoom.create(title: I18n.t('chat.conversation'), chatroom_type: 'custom')
+          room = ChatRoom.create(title: I18n.t('chat.conversation'), chatroom_type: :custom)
 
           # Add User to ChatRoom
           room.users << current_user

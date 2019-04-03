@@ -33,7 +33,7 @@ class MissionGenerator
         end
 
         # remove items
-        Item.remove_from_user(user: mission.user, location: Location.find(mission.deliver_to), loader: mission.mission_loader, amount: mission.mission_amount)
+        Item::RemoveFromUser.(user: mission.user, location: Location.find(mission.deliver_to), loader: mission.mission_loader, amount: mission.mission_amount)
     when 'combat', 'vip'
       # check enemy_amound
       return I18n.t('errors.you_didnt_kill_all_enemies') if mission.enemy_amount > 0
@@ -48,7 +48,7 @@ class MissionGenerator
         end
 
         # remove items
-        Item.remove_from_user(user: mission.user, location: mission.location, loader: mission.mission_loader, amount: mission.mission_amount)
+        Item::RemoveFromUser.(user: mission.user, location: mission.location, loader: mission.mission_loader, amount: mission.mission_amount)
     when 'mining'
       # check amount
       return I18n.t('errors.you_didnt_mine_enough_ore') if mission.mission_amount > 0
@@ -126,7 +126,7 @@ class MissionGenerator
       mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system_security_status == 'low'
 
       # Generate Items
-      mission.mission_loader = Item.delivery.sample
+      mission.mission_loader = Item::DELIVERY.sample
       mission.mission_amount = rand(2..5)
     elsif mission.mission_type == 'combat'
       mission.enemy_amount = rand(2..5) * (difficulty + 1)
@@ -137,9 +137,9 @@ class MissionGenerator
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
     elsif mission.mission_type == 'mining' || mission.mission_type == 'market'
       if mission.mission_type == 'market'
-        mission.mission_loader = Item.equipment_easy.sample
+        mission.mission_loader = Item::EQUIPMENT_EASY.sample
       else
-        mission.mission_loader = (Item.asteroids - ["asteroid.tryon_ore", "asteroid.lunarium_ore"]).sample
+        mission.mission_loader = (Item::ASTEROIDS - ["asteroid.tryon_ore", "asteroid.lunarium_ore"]).sample
       end
       mission.mission_amount = ((difficulty + 1) * rand(5..10))
 

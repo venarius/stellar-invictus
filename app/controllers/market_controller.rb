@@ -34,7 +34,7 @@ class MarketController < ApplicationController
 
         # If listing is item -> else..
         if listing.item?
-          Item.give_to_user(location: current_user.location, user: current_user, loader: listing.loader, amount: amount)
+          Item::GiveToUser.(location: current_user.location, user: current_user, loader: listing.loader, amount: amount)
         else
 
           # Check if met requirements
@@ -56,11 +56,11 @@ class MarketController < ApplicationController
         if listing.user
           listing.user.give_units(listing.price * amount * 0.95)
           if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: Item.get_attribute(listing.loader, :name)))
+            ActionCable.server.broadcast(listing.user.channel_id, method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: Item.get_attribute(listing.loader, :name)))
           else
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: listing.loader))
+            ActionCable.server.broadcast(listing.user.channel_id, method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: listing.loader))
           end
-          ActionCable.server.broadcast("player_#{listing.user_id}", method: 'refresh_player_info')
+          ActionCable.server.broadcast(listing.user.channel_id, method: 'refresh_player_info')
         end
 
         # Destroy Listing
@@ -102,7 +102,7 @@ class MarketController < ApplicationController
         render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if (Item.find_by(loader: params[:loader], user: current_user, location: current_user.location).count rescue 0) < quantity
 
         # Destroy items
-        Item.remove_from_user(loader: params[:loader], user: current_user, location: current_user.location, amount: quantity)
+        Item::RemoveFromUser.(loader: params[:loader], user: current_user, location: current_user.location, amount: quantity)
 
       elsif (params[:type] == "ship") && params[:loader]
 
@@ -190,21 +190,21 @@ class MarketController < ApplicationController
         render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if (Item.find_by(loader: listing.loader, location: current_user.location, user: current_user).count rescue 0) < amount
         render(json: { 'error_message': I18n.t('errors.buyer_doesnt_want_that_much') }, status: 400) && (return) if amount > listing.amount
         # Remove Items and give credits
-        Item.remove_from_user(loader: listing.loader, amount: amount, location: current_user.location, user: current_user)
+        Item::RemoveFromUser.(loader: listing.loader, amount: amount, location: current_user.location, user: current_user)
         current_user.give_units(listing.price * amount * 0.95)
         # Give Items to Buyer and reduce listing
-        Item.give_to_user(loader: listing.loader, amount: amount, location: current_user.location, user: listing.user)
+        Item::GiveToUser.(loader: listing.loader, amount: amount, location: current_user.location, user: listing.user)
         new_amount = listing.amount - amount
         listing.update_columns(amount: new_amount)
         listing.destroy if new_amount == 0
         # If listing belonged to user -> notify
         if listing.user
           if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: Item.get_attribute(listing.loader, :name)))
+            ActionCable.server.broadcast(listing.user.channel_id, method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: Item.get_attribute(listing.loader, :name)))
           else
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: listing.loader))
+            ActionCable.server.broadcast(listing.user.channel_id, method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: listing.loader))
           end
-          ActionCable.server.broadcast("player_#{listing.user_id}", method: 'refresh_player_info')
+          ActionCable.server.broadcast(listing.user.channel_id, method: 'refresh_player_info')
         end
         render(json: { new_amount: new_amount }, status: 200) && (return)
       end
@@ -227,7 +227,7 @@ class MarketController < ApplicationController
         if listing.buy?
           current_user.give_units(listing.amount * listing.price)
         elsif listing.sell? && listing.item?
-          Item.give_to_user(location: current_user.location, user: current_user, loader: listing.loader, amount: listing.amount)
+          Item::GiveToUser.(location: current_user.location, user: current_user, loader: listing.loader, amount: listing.amount)
         elsif listing.sell? && listing.ship?
           listing.amount.times do
             Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))

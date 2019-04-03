@@ -44,26 +44,26 @@ RSpec.describe SystemsController, type: :controller do
     describe 'GET info' do
       it 'should render template info' do
         get :info, params: { id: 1 }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('systems/_info')
       end
 
       it 'should respond with 400 if no params' do
         get :info
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
     describe 'POST route' do
       it 'should plot route if params given' do
         post :route, params: { id: System.last.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(response.body).not_to eq(nil)
       end
 
       it 'should respond 400 if no params given' do
         post :route
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe SystemsController, type: :controller do
       it 'should clear route of user' do
         @user.update_columns(route: ["1", "2", "3"])
         post :clear_route
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.route).to eq([])
       end
     end
@@ -81,7 +81,7 @@ RSpec.describe SystemsController, type: :controller do
         Location.create(system: @user.system, name: "Test", location_type: :exploration_site, hidden: true)
         Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: true)
         post :scan
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('game/_locations_table')
       end
 
@@ -89,18 +89,18 @@ RSpec.describe SystemsController, type: :controller do
         @user.system.locations.where(hidden: true).destroy_all
         Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: true)
         post :scan
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not render template if user has scanner not equipped' do
         Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: false)
         post :scan
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not render template if user has no scanner' do
         post :scan
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
   end

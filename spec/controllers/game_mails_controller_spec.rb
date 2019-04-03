@@ -44,7 +44,7 @@ RSpec.describe GameMailsController, type: :controller do
     describe 'GET index' do
       it 'should render index' do
         get :index
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('index')
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe GameMailsController, type: :controller do
     describe 'GET new' do
       it 'should render new' do
         get :new
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('new')
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe GameMailsController, type: :controller do
 
       it 'should not create message with invalid recipient' do
         post :create, params: { game_mail: { recipient_name: 'Test', body: 'Test', header: 'Test' } }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('new')
         expect(flash[:alert]).to be_present
       end
@@ -104,7 +104,7 @@ RSpec.describe GameMailsController, type: :controller do
         @mail = FactoryBot.create(:game_mail, sender: @user, recipient: @user)
         expect(@mail.read).to be_falsey
         get :show, params: { id: @mail.id }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('game_mails/_show')
         expect(@mail.reload.read).to be_truthy
       end

@@ -77,7 +77,7 @@ class StationsController < ApplicationController
       when 3
         current_user.update_columns(reputation_3: current_user.reputation_3 + 0.05 * item.count)
       end
-      ActionCable.server.broadcast("player_#{current_user.id}", method: 'notify_alert', text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * item.count).round(2)), delay: 1000)
+      ActionCable.server.broadcast(current_user.channel_id, method: 'notify_alert', text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * item.count).round(2)), delay: 1000)
       item.destroy
     end
 
@@ -89,7 +89,7 @@ class StationsController < ApplicationController
       amount = params[:amount].to_i
       item = Item.find_by(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false)
       if item && (amount <= item.count) && (amount > 0)
-        Item.store_in_station(loader: params[:loader], user: current_user, amount: amount)
+        Item::GiveToStation.(loader: params[:loader], user: current_user, amount: amount)
         render(json: {}, status: 200) && (return)
       end
     end
@@ -111,7 +111,7 @@ class StationsController < ApplicationController
         end
         render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if item.count < amount
         if item && (amount <= item.count) && (amount > 0)
-          Item.store_in_ship(user: current_user, loader: params[:loader], amount: amount)
+          Item::GiveToShip.(user: current_user, loader: params[:loader], amount: amount)
           render(json: {}, status: 200) && (return)
         end
       else
@@ -124,7 +124,7 @@ class StationsController < ApplicationController
         if item.get_attribute('weight') <= free_weight
           count = (free_weight / item.get_attribute('weight')).round
           count = item.count if count > item.count
-          Item.store_in_ship(user: current_user, loader: params[:loader], amount: count)
+          Item::GiveToShip.(user: current_user, loader: params[:loader], amount: count)
           free_weight = free_weight - item.get_attribute('weight') * count
         end
 

@@ -52,7 +52,7 @@ RSpec.describe FriendsController, type: :controller do
     describe 'GET index' do
       it 'should render index' do
         get :index
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -60,23 +60,23 @@ RSpec.describe FriendsController, type: :controller do
       it 'should add other user as friend' do
         user = FactoryBot.create(:user_with_faction)
         post :add_friend, params: { id: user.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(1)
       end
 
       it 'should not add self as friend' do
         post :add_friend, params: { id: @user.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(Friendship.count).to eq(0)
       end
 
       it 'should not add as friend twice' do
         user = FactoryBot.create(:user_with_faction)
         post :add_friend, params: { id: user.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(1)
         post :add_friend, params: { id: user.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(Friendship.count).to eq(1)
       end
 
@@ -85,7 +85,7 @@ RSpec.describe FriendsController, type: :controller do
         sign_in user
         Friendship.create(user: @user, friend: user, accepted: false)
         post :add_friend, params: { id: @user.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(2)
       end
     end
@@ -98,7 +98,7 @@ RSpec.describe FriendsController, type: :controller do
 
       it 'should not be able to accept own request' do
         post :accept_request, params: { id: @friendship.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@friendship.reload.accepted).to be_falsey
         expect(Friendship.last.accepted).to be_falsey
       end
@@ -106,7 +106,7 @@ RSpec.describe FriendsController, type: :controller do
       it 'should be able to accept other request' do
         sign_in @user2
         post :accept_request, params: { id: @friendship.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@friendship.reload.accepted).to be_truthy
         expect(Friendship.last.accepted).to be_truthy
       end
@@ -115,7 +115,7 @@ RSpec.describe FriendsController, type: :controller do
         user3 = FactoryBot.create(:user_with_faction)
         sign_in user3
         post :accept_request, params: { id: @friendship.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@friendship.reload.accepted).to be_falsey
         expect(Friendship.last.accepted).to be_falsey
       end
@@ -129,14 +129,14 @@ RSpec.describe FriendsController, type: :controller do
 
       it 'should be able to remove friendship as user' do
         post :remove_friend, params: { id: @user2.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(0)
       end
 
       it 'should be able to remove friendship as other user' do
         sign_in @user2
         post :remove_friend, params: { id: @user.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(0)
       end
 
@@ -144,26 +144,26 @@ RSpec.describe FriendsController, type: :controller do
         user3 = FactoryBot.create(:user_with_faction)
         sign_in user3
         post :remove_friend, params: { id: @user.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(2)
       end
 
       it 'should not be able to remove friendship if no id given' do
         post :remove_friend, params: { id: 2000 }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
     describe 'POST search' do
       it 'should render template if name given' do
         post :search, params: { name: @user.name }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('friends/_search')
       end
 
       it 'should render nothing if no name given' do
         post :search
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
   end

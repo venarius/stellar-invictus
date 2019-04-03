@@ -12,31 +12,30 @@ class EquipmentController < ApplicationController
     # Update items which are not equipped anymore
     ids = []
     if params[:ids]
-      ids = ids + params[:ids][:main] if params[:ids][:main]
-      ids = ids + params[:ids][:utility] if params[:ids][:utility]
+      ids += Array(params[:ids][:main]) + Array(params[:ids][:utility])
     end
 
     ship.get_equipped_equipment.each do |item|
       loader = item.loader
-      if !ids || !ids.include?(loader)
+      if !ids&.include?(loader)
         # check black hole
-        render(json: { error_message: I18n.t('errors.clear_storage_first') }, status: 400) && (return) if item.loader.include?("equipment.storage") && (current_user.active_spaceship.get_weight > 0)
+        if item.loader.include?("equipment.storage") && (current_user.active_spaceship.get_weight > 0)
+          render(json: { error_message: I18n.t('errors.clear_storage_first') }, status: 400) && (return)
+        end
 
-        Item.give_to_user(loader: loader, user: current_user, amount: 1)
-        item.delete && next
+        Item::GiveToUser.(loader: loader, user: current_user, amount: 1)
+        item.delete
       else
-        ids.slice!(ids.index(loader))
+        ids -= [loader]
       end
     end
 
     ids.each do |loader|
-
       # Find item with id
-      item = Item.find_by(loader: loader, spaceship: ship, equipped: false) rescue nil
+      item = ship.items.where(loader: loader, equipped: false).first
 
       # Item and item belongs to spaceship and item's spaceship is ship of user
       if item
-
         # Equip item
         if item.get_attribute('slot_type') == "main"
           if ship.get_free_main_slots > 0

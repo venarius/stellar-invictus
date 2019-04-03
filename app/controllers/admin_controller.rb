@@ -24,7 +24,7 @@ class AdminController < ApplicationController
 
   def set_credits
     @user.update_columns(units: params[:credits].to_i)
-    ActionCable.server.broadcast("player_#{@user.id}", method: 'refresh_player_info')
+    ActionCable.server.broadcast(@user.channel_id, method: 'refresh_player_info')
     render(json: { message: I18n.t('admin.successfully_set_credits') }, status: 200) && (return)
   end
 

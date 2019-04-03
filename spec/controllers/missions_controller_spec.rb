@@ -54,49 +54,49 @@ RSpec.describe MissionsController, type: :controller do
     describe 'GET info' do
       it 'should render template' do
         get :info, params: { id: Mission.last.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/missions/_info')
       end
 
       it 'should not render template if user not docked' do
         @user.update_columns(docked: false)
         get :info, params: { id: Mission.last.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not render template if mission belongs to other user' do
         user2 = FactoryBot.create(:user_with_faction)
         Mission.last.update_columns(mission_status: 1, user_id: user2.id)
         get :info, params: { id: Mission.last.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
     describe 'POST accept' do
       it 'should accept mission' do
         post :accept, params: { id: Mission.last.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.missions.count).to eq(1)
       end
 
       it 'should not accept mission if mission is already accepted' do
         Mission.last.update_columns(mission_status: 1, user_id: @user.id)
         post :accept, params: { id: Mission.last.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.missions.count).to eq(1)
       end
 
       it 'should not accept mission if user has already 5 missions' do
         Mission.limit(5).update_all(mission_status: 1, user_id: @user.id)
         post :accept, params: { id: Mission.last.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.missions.count).to eq(5)
       end
 
       it 'should not accept mission if user is in another location' do
         @user.update_columns(location_id: Location.where(location_type: 'station').last.id)
         post :accept, params: { id: Mission.last.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.missions.count).to eq(0)
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe MissionsController, type: :controller do
     describe 'GET popup' do
       it 'should render template' do
         get :popup
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/missions/_popup')
       end
     end
@@ -114,7 +114,7 @@ RSpec.describe MissionsController, type: :controller do
         faction_id = Mission.last.faction_id
         Mission.last.update_columns(mission_status: 1, user_id: @user.id)
         get :abort, params: { id: Mission.last.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.missions.count).to eq(0)
         expect(@user["reputation_#{faction_id}"]).to eq(-0.2)
       end
@@ -123,7 +123,7 @@ RSpec.describe MissionsController, type: :controller do
         user2 = FactoryBot.create(:user_with_faction)
         Mission.last.update_columns(mission_status: 1, user_id: user2.id)
         get :abort, params: { id: Mission.last.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(user2.reload.missions.count).to eq(1)
       end
 
@@ -132,7 +132,7 @@ RSpec.describe MissionsController, type: :controller do
         FactoryBot.create(:user_with_faction, location: mission.mission_location)
         mission.update_columns(mission_status: 1, user_id: @user.id)
         get :abort, params: { id: mission.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(@user.reload.missions.count).to eq(1)
       end
     end
@@ -141,7 +141,7 @@ RSpec.describe MissionsController, type: :controller do
       it 'should not finish mission' do
         Mission.last.update_columns(mission_status: 1, user_id: @user.id)
         post :finish, params: { id: Mission.last.id }
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should finish mission' do
@@ -152,13 +152,13 @@ RSpec.describe MissionsController, type: :controller do
 
         if @mission.delivery?
           @user.update_columns(location_id: @mission.deliver_to)
-          Item.give_to_user(amount: @mission.mission_amount, loader: @mission.mission_loader, user: @user, location: @user.location)
+          Item::GiveToUser.(amount: @mission.mission_amount, loader: @mission.mission_loader, user: @user, location: @user.location)
         elsif @mission.market?
-          Item.give_to_user(amount: @mission.mission_amount, loader: @mission.mission_loader, user: @user, location: @user.location)
+          Item::GiveToUser.(amount: @mission.mission_amount, loader: @mission.mission_loader, user: @user, location: @user.location)
         end
 
         post :finish, params: { id: @mission.id }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 

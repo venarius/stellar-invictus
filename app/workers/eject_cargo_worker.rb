@@ -23,7 +23,7 @@ class EjectCargoWorker
       ActionCable.server.broadcast(user.location.channel_id, method: 'log', text: I18n.t('log.user_ejected_cargo', user: user.full_name))
 
       # Tell user to update player info
-      ActionCable.server.broadcast("player_#{user.id}", method: 'refresh_player_info')
+      ActionCable.server.broadcast(user.channel_id, method: 'refresh_player_info')
     end
   end
 end

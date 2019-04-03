@@ -10,7 +10,7 @@ class FleetsController < ApplicationController
         # If current user is not in fleet
         if current_user.fleet.nil?
           # Create new room and new fleet
-          room = ChatRoom.create(title: 'Fleet', chatroom_type: 'custom')
+          room = ChatRoom.create(title: 'Fleet', chatroom_type: :custom)
           room.users << current_user
           fleet = Fleet.create(creator: current_user, chat_room: room)
           current_user.update_columns(fleet_id: fleet.id)
@@ -91,7 +91,7 @@ class FleetsController < ApplicationController
       ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_joined_channel', user: user.full_name)}</td></tr>")
     else
       ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_left_channel', user: user.full_name)}</td></tr>")
-      ActionCable.server.broadcast("player_#{user.id}", method: 'reload_fleet')
+      ActionCable.server.broadcast(user.channel_id, method: 'reload_fleet')
     end
     room.update_local_players
     ActionCable.server.broadcast(user.location.channel_id, method: 'player_appeared')

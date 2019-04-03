@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: npcs
+#
+#  id          :bigint(8)        not null, primary key
+#  hp          :integer
+#  name        :string
+#  npc_state   :integer
+#  npc_type    :integer
+#  target      :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  location_id :bigint(8)
+#
+# Indexes
+#
+#  index_npcs_on_location_id  (location_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (location_id => locations.id)
+#
+
 class Npc < ApplicationRecord
   include ApplicationHelper
 
@@ -23,15 +46,15 @@ class Npc < ApplicationRecord
   # Lets the npc drop loot
   def drop_loot
     if self.location.location_type == 'exploration_site'
-      loader = Item.materials
+      loader = Item::MATERIALS
       loader = loader + ["asteroid.lunarium_ore"] if self.location.system.wormhole?
       case rand(1..100)
       when 1..75
-        loader = Item.equipment_easy + loader
+        loader = Item::EQUIPMENT_EASY + loader
       when 76..95
-        loader = Item.equipment_medium + loader
+        loader = Item::EQUIPMENT_MEDIUM + loader
       when 96..100
-        loader = Item.equipment_hard + loader
+        loader = Item::EQUIPMENT_HARD + loader
       end
 
       # Drop Passengers if last NPC or wanted enemy
@@ -40,28 +63,28 @@ class Npc < ApplicationRecord
         Item.create(structure: structure, loader: "delivery.passenger", count: rand(1..5))
       end
     else
-      loader = Item.materials
+      loader = Item::MATERIALS
     end
 
     structure = Structure.create(location: self.location, structure_type: 'wreck')
     Item.create(loader: loader.sample, structure: structure, equipped: false, count: rand(1..3))
-    Item.create(loader: Item.materials.sample, structure: structure, equipped: false, count: rand(3..6))
+    Item.create(loader: Item::MATERIALS.sample, structure: structure, equipped: false, count: rand(3..6))
 
   end
 
   # Give randbom Blueprint
   def drop_blueprint(user)
     if rand(1..2) == 1
-      @loader = Item.equipment.sample
+      @loader = Item::EQUIPMENT.sample
       if Blueprint.where(loader: @loader, user: user).empty?
         Blueprint.create(user: user, loader: @loader, efficiency: 1)
-        ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, :name), npc: self.name))
+        ActionCable.server.broadcast(user.channel_id, method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, :name), npc: self.name))
       end
     else
       @loader = Spaceship.ship_variables.keys.sample
       if Blueprint.where(loader: @loader, user: user).empty?
         Blueprint.create(user: user, loader: Spaceship.ship_variables.keys.sample, efficiency: 1)
-        ActionCable.server.broadcast("player_#{user.id}", method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: @loader.titleize, npc: self.name))
+        ActionCable.server.broadcast(user.channel_id, method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: @loader.titleize, npc: self.name))
       end
     end
   end
@@ -70,7 +93,7 @@ class Npc < ApplicationRecord
   def remove_being_targeted
     User.where(npc_target_id: self.id).each do |user|
       user.update_columns(npc_target_id: nil, is_attacking: false)
-      ActionCable.server.broadcast("player_#{user.id}", method: 'remove_target')
+      ActionCable.server.broadcast(user.channel_id, method: 'remove_target')
     end
   end
 
@@ -92,7 +115,7 @@ class Npc < ApplicationRecord
     if corporation
       amount = 0.01
       amount = amount * 3 if self.wanted_enemy?
-      ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.gained_reputation', user: self.name, amount: amount))
+      ActionCable.server.broadcast(player.channel_id, method: 'notify_alert', text: I18n.t('notification.gained_reputation', user: self.name, amount: amount))
       case corporation
       when 1
         player.update_columns(reputation_1: player.reputation_1 + amount)
@@ -103,7 +126,7 @@ class Npc < ApplicationRecord
       end
     end
 
-    ActionCable.server.broadcast("player_#{player.id}", method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.name, amount: value))
-    ActionCable.server.broadcast("player_#{player.id}", method: 'refresh_player_info')
+    ActionCable.server.broadcast(player.channel_id, method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.name, amount: value))
+    ActionCable.server.broadcast(player.channel_id, method: 'refresh_player_info')
   end
 end

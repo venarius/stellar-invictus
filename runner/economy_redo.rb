@@ -1,12 +1,3 @@
-def Item.get_attribute(loader, attribute)
-  atty = loader.split(".")
-  out = Item.item_variables[atty[0]]
-  loader.count('.').times do |i|
-    out = out[atty[i + 1]]
-  end
-  out[attribute] rescue nil
-end
-
 noise = Perlin::Noise.new 1, seed: 1000
 noise_level = [0, 1, 2, 3, 4, 5, 6, 7, 8 , 9, 8, 7, 6, 5, 4, 3, 2, 1]
 i = 0
@@ -64,7 +55,7 @@ Location.where(location_type: 'station', player_market: false).order(Arel.sql("R
   end
 
   if MarketListing.where(location: location, listing_type: 'item').count < rand(45..65)
-    (Item.equipment_easy + Item.equipment_medium).each do |item|
+    (Item::EQUIPMENT_EASY + Item::EQUIPMENT_MEDIUM).each do |item|
       next if item == "asteroid.lunarium_ore"
       rand(0..1).times do
         rand(3..6).times do

@@ -1,35 +1,53 @@
+# == Schema Information
+#
+# Table name: systems
+#
+#  id              :bigint(8)        not null, primary key
+#  name            :string
+#  security_status :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class System < ApplicationRecord
-  has_many :users
   has_many :locations, dependent: :destroy
+  has_many :users, through: :locations
   has_many :chat_rooms, dependent: :destroy
 
   enum security_status: [:high, :medium, :low, :wormhole]
 
   after_create do
-    ChatRoom.create(chatroom_type: 'local', title: self.name, system: self)
+    ChatRoom.create(chatroom_type: :local, title: self.name, system: self)
   end
 
   # Updates local players of every user in system
   def update_local_players
-    users = User.where("online > 0").where(system: self)
-    self.locations.each do |location|
-      ActionCable.server.broadcast(location.channel_id, method: 'update_players_in_system',
-                                                              count: users.count, names: ApplicationController.helpers.map_and_sort(users)) if location.users.count > 0
+    user_query = self.users.is_online
+    user_count = user_query.count
+    user_names = ApplicationController.helpers.map_and_sort(user_query)
+    location_ids = user_query.select(:location_id).distinct.pluck(:location_id)
+
+    self.locations.where(id: location_ids).each do |location|
+      ActionCable.server.broadcast(location.channel_id,
+        method: 'update_players_in_system',
+        count: user_count,
+        names: user_names
+      )
     end
   end
 
   # Get owning Faction
   def get_faction
-    self.locations.where(location_type: 'station').first.faction rescue nil
+    self.locations.station.first&.faction
   end
 
   # Mapdata
   def self.mapdata
-    YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml")
+    @mapdata ||= YAML.load_file("#{Rails.root}/config/variables/mapdata.yml")
   end
 
   # Pathfinder
   def self.pathfinder
-    YAML.load_file("#{Rails.root.to_s}/config/variables/pathfinder.yml")
+    @pathfinder ||= YAML.load_file("#{Rails.root}/config/variables/pathfinder.yml")
   end
 end

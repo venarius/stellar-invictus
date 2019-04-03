@@ -12,21 +12,21 @@ RSpec.describe AsteroidsController, type: :controller do
         Item.create(loader: "equipment.miner.basic_miner", spaceship: @user.active_spaceship, equipped: true)
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
         post :mine, params: { id: @user.location.asteroids.first.id }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(MiningWorker.jobs.size).to eq(1)
       end
 
       it 'should not start mine worker when player is attackable and at location but has no mining laser' do
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
         post :mine, params: { id: @user.location.asteroids.first.id }
-        expect(response.code).to eq('400')
+        expect(response).to have_http_status(:bad_request)
         expect(MiningWorker.jobs.size).to eq(0)
       end
 
       it 'should not start when player is docked' do
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id, docked: true)
         post :mine, params: { id: @user.location.asteroids.first.id }
-        expect(response.code).to eq('400')
+        expect(response).to have_http_status(:bad_request)
         expect(MiningWorker.jobs.size).to eq(0)
       end
 
@@ -37,27 +37,27 @@ RSpec.describe AsteroidsController, type: :controller do
         Item.create(loader: "equipment.miner.basic_miner", spaceship: @user.active_spaceship, equipped: true)
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
         post :mine, params: { id: @user.location.asteroids.first.id }
-        expect(response.code).to eq('400')
+        expect(response).to have_http_status(:bad_request)
         expect(MiningWorker.jobs.size).to eq(0)
       end
 
       it 'should not start when player is not at this location' do
         post :mine, params: { id: Location.where(location_type: 'asteroid_field').first.asteroids.first.id }
-        expect(response.code).to eq('400')
+        expect(response).to have_http_status(:bad_request)
         expect(MiningWorker.jobs.size).to eq(0)
       end
 
       it 'should not start when player tries to mine non existant asteroid' do
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
         post :mine, params: { id: 50000 }
-        expect(response.code).to eq('400')
+        expect(response).to have_http_status(:bad_request)
         expect(MiningWorker.jobs.size).to eq(0)
       end
 
       it 'should not start when player is in warp' do
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id, in_warp: true)
         post :mine, params: { id: @user.location.asteroids.first.id }
-        expect(response.code).to eq('400')
+        expect(response).to have_http_status(:bad_request)
         expect(MiningWorker.jobs.size).to eq(0)
       end
 
@@ -67,7 +67,7 @@ RSpec.describe AsteroidsController, type: :controller do
         end
         @user.update_columns(location_id: Location.where(location_type: 'asteroid_field').first.id)
         post :mine, params: { id: @user.location.asteroids.first.id }
-        expect(response.code).to eq('400')
+        expect(response).to have_http_status(:bad_request)
         expect(MiningWorker.jobs.size).to eq(0)
       end
     end
@@ -77,7 +77,7 @@ RSpec.describe AsteroidsController, type: :controller do
         @user.update_columns(mining_target_id: Asteroid.first.id)
         expect(@user.mining_target).to eq(Asteroid.first)
         post :stop_mine
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(@user.reload.mining_target).to eq(nil)
       end
     end

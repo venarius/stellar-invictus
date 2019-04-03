@@ -26,8 +26,8 @@ class ShipsController < ApplicationController
   end
 
   def untarget
-    if current_user.target_id
-      ActionCable.server.broadcast("player_#{current_user.target_id}", method: 'stopping_target', name: current_user.full_name)
+    if current_user.target
+      ActionCable.server.broadcast(current_user.target.channel_id, method: 'stopping_target', name: current_user.full_name)
       current_user.update_columns(target_id: nil, is_attacking: false)
       current_user.active_spaceship.deactivate_equipment
     end
@@ -113,7 +113,7 @@ class ShipsController < ApplicationController
 
       # Delete ressources
       current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
-        Item.remove_from_user(loader: key, user: current_user, location: current_user.location, amount: value)
+        Item::RemoveFromUser.(loader: key, user: current_user, location: current_user.location, amount: value)
       end
 
       current_user.active_spaceship.update_columns(level: current_user.active_spaceship.level + 1)

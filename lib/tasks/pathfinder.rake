@@ -9,7 +9,7 @@ namespace :pathfinder do
       d[sys.name] = Pathfinder.dijkstra(sys, dst = nil)
 
     end
-    File.open("#{Rails.root.to_s}/config/variables/pathfinder.yml", 'w') { |f| f.write d.to_yaml }
+    File.open("#{Rails.root}/config/variables/pathfinder.yml", 'w') { |f| f.write d.to_yaml }
   end
 
   desc "Generate Map Data for mapdata.yml"
@@ -22,7 +22,7 @@ namespace :pathfinder do
       next if jg.origin&.wormhole? || jg.destination&.wormhole? || !jg.destination || !jg.origin
       d['jumpgates'][jg.id] = { 'from' => Location.find(jg.origin_id).system_id, 'to' => Location.find(jg.destination_id).system_id }
     end
-    File.open("#{Rails.root.to_s}/config/variables/mapdata.yml", 'w') { |f| f.write d.to_yaml }
+    File.open("#{Rails.root}/config/variables/mapdata.yml", 'w') { |f| f.write d.to_yaml }
   end
 
 end

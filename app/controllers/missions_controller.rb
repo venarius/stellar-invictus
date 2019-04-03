@@ -15,7 +15,7 @@ class MissionsController < ApplicationController
   def accept
     if @mission&.offered? && (@mission.location == current_user.location) && (current_user.missions.count < 5)
 
-      Item.give_to_user(user: current_user, location: @mission.location, loader: @mission.mission_loader, amount: @mission.mission_amount) if @mission.delivery?
+      Item::GiveToUser.(user: current_user, location: @mission.location, loader: @mission.mission_loader, amount: @mission.mission_amount) if @mission.delivery?
 
       @mission.active! && @mission.update_columns(user_id: current_user.id)
 
