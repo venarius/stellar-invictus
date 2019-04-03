@@ -70,7 +70,7 @@
             <td>
               <div class="row bounty-row">
                 <div class="col vert-center">
-                  <h4 class="mb-0"><strong class="color-sec-<%= user.system_security_status %>"><%= user.system_name %></strong></h4>
+                  <h4 class="mb-0"><strong class="color-sec-<%= user.system.security_status %>"><%= user.system_name %></strong></h4>
                 </div>
                 <div class="col vert-center">
                   <h4 class="mb-0"><%= image_tag("avatars/#{user.avatar}.jpg") %> <a class='player-modal' href="#" data-id="<%= user.id %>"><%= user.full_name %></a></h4>
@@ -94,7 +94,7 @@
             <td>
               <div class="row bounty-row">
                 <div class="col vert-center">
-                  <h4 class="mb-0"><strong class="color-sec-<%= location.system_security_status %>"><%= location.system_name %></strong></h4>
+                  <h4 class="mb-0"><strong class="color-sec-<%= location.system.security_status %>"><%= location.system_name %></strong></h4>
                 </div>
                 <div class="col vert-center">
                   <h4 class="mb-0"><%= I18n.t('npcs.wanted_outlaw') %></h4>

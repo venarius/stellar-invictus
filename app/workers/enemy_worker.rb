@@ -117,8 +117,8 @@ class EnemyWorker
       ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: @enemy.name)
 
       # Create attack value
-      if @location.mission && @location.mission_difficulty
-        case @location.mission_difficulty
+      if @location.mission && @location.mission.difficulty
+        case @location.mission.difficulty
         when 'easy'
           @attack = rand(2..5) * (1.0 - target_spaceship.get_defense / 100.0)
         when 'medium'

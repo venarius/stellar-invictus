@@ -123,7 +123,7 @@ class MissionGenerator
 
       # Set Reward
       mission.reward = (20 * path.size * rand(0.8..1.2)).round
-      mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system_security_status == 'low'
+      mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system.security_status == 'low'
 
       # Generate Items
       mission.mission_loader = Item::DELIVERY.sample
