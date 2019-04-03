@@ -34,9 +34,9 @@ class Location < ApplicationRecord
   belongs_to :mission, optional: true
 
   has_many :users
-  has_many :asteroids, dependent: :destroy
-  has_many :items, dependent: :destroy
-  has_many :npcs, dependent: :destroy
+  has_many :asteroids,  dependent: :destroy
+  has_many :items,      dependent: :destroy
+  has_many :npcs,       dependent: :destroy
   has_many :structures, dependent: :destroy
   has_many :spaceships
   has_many :market_listings, dependent: :destroy
@@ -44,12 +44,14 @@ class Location < ApplicationRecord
 
   has_one :chat_room, dependent: :destroy
 
-  enum location_type: [:station, :asteroid_field, :jumpgate, :mission, :exploration_site, :wormhole]
-  enum station_type: [:industrial_station, :warfare_plant, :mining_station, :research_station, :trillium_casino]
+  enum location_type: %i[station asteroid_field jumpgate mission exploration_site wormhole]
+  enum station_type:  %i[industrial_station warfare_plant mining_station research_station trillium_casino]
 
-  delegate :security_status, :name, to: :system, prefix: true
-  delegate :difficulty, :enemy_amount, to: :mission, prefix: true
-  delegate :name, to: :faction, prefix: true
+  # NOTE: This don't help readability, in fact, they make it more difficult to
+  # follow the chain of methods in other objects
+  # delegate :security_status, :name, to: :system, prefix: true
+  # delegate :difficulty, :enemy_amount, to: :mission, prefix: true
+  # delegate :name, to: :faction, prefix: true
 
   before_destroy do
     location = Location.where.not(id: self.id).first
