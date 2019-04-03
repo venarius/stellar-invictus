@@ -18,4 +18,15 @@ describe ApplicationHelper do
       expect(online_status(user)).to include("ago")
     end
   end
+
+  it "map_and_sort should work with empty set" do
+    expect( helper.map_and_sort(nil) ).to eq({})
+    expect( helper.map_and_sort([]) ).to eq({})
+  end
+
+  it "map_and_sort should work for users" do
+    create_list :user_with_faction, 3
+    result = helper.map_and_sort(User.all)
+    expect( result.size ).to eq(User.count)
+  end
 end
