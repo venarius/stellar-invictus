@@ -21,7 +21,7 @@
 
 class Fleet < ApplicationRecord
   belongs_to :chat_room, dependent: :destroy
-  belongs_to :creator, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :creator, class_name: User.name, foreign_key: 'user_id'
   has_many :users
 
   before_destroy do
