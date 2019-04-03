@@ -18,7 +18,7 @@
 class Friendship < ApplicationRecord
   ## -- RELATIONSHIPS
   belongs_to :user
-  belongs_to :friend, class_name: 'User'
+  belongs_to :friend, class_name: User.name
 
   ## -- CALLBACKS
   after_create :create_inverse_relationship
