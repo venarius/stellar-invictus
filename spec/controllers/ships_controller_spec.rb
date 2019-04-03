@@ -94,7 +94,8 @@ RSpec.describe ShipsController, type: :controller do
       end
 
       it 'should not target other player if target is in other location' do
-        user2 = create(:user_with_faction, location_id: 2)
+        other_location = create :location
+        user2 = create(:user_with_faction, location: other_location)
         post :target, params: { id: user2.id }
         expect(response).to have_http_status(:bad_request)
         expect(TargetingWorker.jobs.size).to eq(0)
