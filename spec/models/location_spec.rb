@@ -63,7 +63,7 @@ describe Location do
 
     describe 'Functions' do
       before(:each) do
-        @user = FactoryBot.create(:user_with_faction)
+        @user = create(:user_with_faction)
       end
 
       describe 'jumpgate' do
@@ -89,7 +89,7 @@ describe Location do
       describe 'before_destroy' do
         it 'should move users away from self' do
           location = Location.where(location_type: :station).first
-          user = FactoryBot.create(:user_with_faction, location: location)
+          user = create(:user_with_faction, location: location)
           location.destroy
           expect(user.reload.location.id).not_to eq(location.id)
         end

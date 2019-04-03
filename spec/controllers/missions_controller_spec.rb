@@ -45,7 +45,7 @@ RSpec.describe MissionsController, type: :controller do
 
   context 'with login' do
     before (:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
       @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
       MissionGenerator.generate_missions(@user.location.id)
@@ -65,7 +65,7 @@ RSpec.describe MissionsController, type: :controller do
       end
 
       it 'should not render template if mission belongs to other user' do
-        user2 = FactoryBot.create(:user_with_faction)
+        user2 = create(:user_with_faction)
         Mission.last.update_columns(mission_status: 1, user_id: user2.id)
         get :info, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
@@ -120,7 +120,7 @@ RSpec.describe MissionsController, type: :controller do
       end
 
       it 'should not abort mission if belongs to other user' do
-        user2 = FactoryBot.create(:user_with_faction)
+        user2 = create(:user_with_faction)
         Mission.last.update_columns(mission_status: 1, user_id: user2.id)
         get :abort, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
@@ -128,8 +128,8 @@ RSpec.describe MissionsController, type: :controller do
       end
 
       it 'should not abort mission if users still on mission site' do
-        mission = FactoryBot.create(:combat_mission)
-        FactoryBot.create(:user_with_faction, location: mission.mission_location)
+        mission = create(:combat_mission)
+        create(:user_with_faction, location: mission.mission_location)
         mission.update_columns(mission_status: 1, user_id: @user.id)
         get :abort, params: { id: mission.id }
         expect(response).to have_http_status(:bad_request)

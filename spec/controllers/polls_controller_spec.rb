@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PollsController, type: :controller do
   context 'with login' do
     before (:each) do
-      @user = FactoryBot.create(:user_with_faction, units: 1000)
+      @user = create(:user_with_faction, units: 1000)
       sign_in @user
     end
 
@@ -31,7 +31,7 @@ RSpec.describe PollsController, type: :controller do
 
     describe 'POST upvote' do
       before (:each) do
-        @poll = FactoryBot.create(:poll, status: :active)
+        @poll = create(:poll, status: :active)
       end
 
       it 'should upvote poll' do
@@ -57,7 +57,7 @@ RSpec.describe PollsController, type: :controller do
 
     describe 'POST downvote' do
       before (:each) do
-        @poll = FactoryBot.create(:poll, status: :active)
+        @poll = create(:poll, status: :active)
       end
 
       it 'should upvote poll' do
@@ -83,7 +83,7 @@ RSpec.describe PollsController, type: :controller do
 
     describe 'POST move_up' do
       before (:each) do
-        @poll = FactoryBot.create(:poll, status: :active)
+        @poll = create(:poll, status: :active)
       end
 
       it 'should move poll up as admin' do
@@ -111,7 +111,7 @@ RSpec.describe PollsController, type: :controller do
 
     describe 'POST delete' do
       before (:each) do
-        @poll = FactoryBot.create(:poll, status: :active)
+        @poll = create(:poll, status: :active)
       end
 
       it 'should delete post if admin' do

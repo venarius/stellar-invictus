@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe CorporationsController, type: :controller do
   context 'with login' do
     before (:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
     end
 
     describe 'GET index' do
       before(:each) do
         @user.update_columns(corporation_role: :founder)
-        corporation = FactoryBot.create(:corporation)
+        corporation = create(:corporation)
         corporation.users << @user
       end
 
@@ -54,7 +54,7 @@ RSpec.describe CorporationsController, type: :controller do
     describe 'GET sort_roster' do
       before(:each) do
         @user.update_columns(corporation_role: :founder)
-        corporation = FactoryBot.create(:corporation)
+        corporation = create(:corporation)
         corporation.users << @user
       end
 
@@ -100,7 +100,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST update_motd' do
       before(:each) do
-        corp = FactoryBot.create(:corporation)
+        corp = create(:corporation)
         @user.update_columns(corporation_id: corp.id)
       end
 
@@ -120,7 +120,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST update_corporation' do
       before(:each) do
-        corp = FactoryBot.create(:corporation)
+        corp = create(:corporation)
         @user.update_columns(corporation_id: corp.id)
       end
 
@@ -159,9 +159,9 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST kick_user' do
       before(:each) do
-        corp = FactoryBot.create(:corporation)
+        corp = create(:corporation)
         @user.update_columns(corporation_id: corp.id)
-        @user2 = FactoryBot.create(:user_with_faction, corporation_id: corp.id, corporation_role: 0)
+        @user2 = create(:user_with_faction, corporation_id: corp.id, corporation_role: 0)
       end
 
       it 'should kick user if has right ranks' do
@@ -203,7 +203,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'GET change_rank_modal' do
       before(:each) do
-        corp = FactoryBot.create(:corporation)
+        corp = create(:corporation)
         @user.update_columns(corporation_id: corp.id)
       end
 
@@ -222,9 +222,9 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST change_rank' do
       before(:each) do
-        corp = FactoryBot.create(:corporation)
+        corp = create(:corporation)
         @user.update_columns(corporation_id: corp.id)
-        @user2 = FactoryBot.create(:user_with_faction, corporation_id: corp.id, corporation_role: 0)
+        @user2 = create(:user_with_faction, corporation_id: corp.id, corporation_role: 0)
       end
 
       it 'should change rank' do
@@ -266,7 +266,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST deposit_credits' do
       before(:each) do
-        corp = FactoryBot.create(:corporation)
+        corp = create(:corporation)
         @user.update_columns(corporation_id: corp.id)
       end
 
@@ -305,7 +305,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST withdraw_credits' do
       before(:each) do
-        corp = FactoryBot.create(:corporation, units: 10)
+        corp = create(:corporation, units: 10)
         @user.update_columns(corporation_id: corp.id)
       end
 
@@ -344,7 +344,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'GET Info' do
       before(:each) do
-        corp = FactoryBot.create(:corporation, units: 10)
+        corp = create(:corporation, units: 10)
         @user.update_columns(corporation_id: corp.id)
       end
 
@@ -363,7 +363,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'GET apply_modal' do
       before(:each) do
-        corp = FactoryBot.create(:corporation, units: 10)
+        corp = create(:corporation, units: 10)
         @user.update_columns(corporation_id: corp.id)
       end
 
@@ -382,7 +382,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST apply' do
       before(:each) do
-        @corp = FactoryBot.create(:corporation, units: 10)
+        @corp = create(:corporation, units: 10)
         @user.update_columns(corporation_id: @corp.id)
       end
 
@@ -407,9 +407,9 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST accept_application' do
       before(:each) do
-        corp = FactoryBot.create(:corporation, units: 10)
+        corp = create(:corporation, units: 10)
         @user.update_columns(corporation_id: corp.id)
-        @user2 = FactoryBot.create(:user_with_faction)
+        @user2 = create(:user_with_faction)
         @application = CorpApplication.create(user: @user2, corporation: corp, application_text: "Test")
       end
 
@@ -430,7 +430,7 @@ RSpec.describe CorporationsController, type: :controller do
       end
 
       it 'should not accept application if application is for other corp' do
-        corp2 = FactoryBot.create(:corporation, units: 10, name: "Blaaa", ticker: "Blaaa")
+        corp2 = create(:corporation, units: 10, name: "Blaaa", ticker: "Blaaa")
         application = CorpApplication.create(user: @user2, corporation: corp2, application_text: "Test")
         @user.update_columns(corporation_role: :lieutenant)
         post :accept_application, params: { id: application.id }
@@ -442,9 +442,9 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST reject_application' do
       before(:each) do
-        corp = FactoryBot.create(:corporation, units: 10)
+        corp = create(:corporation, units: 10)
         @user.update_columns(corporation_id: corp.id)
-        @user2 = FactoryBot.create(:user_with_faction)
+        @user2 = create(:user_with_faction)
         @application = CorpApplication.create(user: @user2, corporation: corp, application_text: "Test")
       end
 
@@ -465,7 +465,7 @@ RSpec.describe CorporationsController, type: :controller do
       end
 
       it 'should not reject application if application is for other corp' do
-        corp2 = FactoryBot.create(:corporation, units: 10, name: "Blaaa", ticker: "Blaaa")
+        corp2 = create(:corporation, units: 10, name: "Blaaa", ticker: "Blaaa")
         application = CorpApplication.create(user: @user2, corporation: corp2, application_text: "Test")
         @user.update_columns(corporation_role: :lieutenant)
         post :reject_application, params: { id: application.id }
@@ -477,9 +477,9 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST disband' do
       before(:each) do
-        corp = FactoryBot.create(:corporation, units: 10)
+        corp = create(:corporation, units: 10)
         @user.update_columns(corporation_id: corp.id, corporation_role: :founder)
-        @user2 = FactoryBot.create(:user_with_faction, corporation_id: corp.id, corporation_role: :recruit)
+        @user2 = create(:user_with_faction, corporation_id: corp.id, corporation_role: :recruit)
       end
 
       it 'should disband corporation' do

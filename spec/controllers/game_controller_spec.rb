@@ -52,15 +52,15 @@ RSpec.describe GameController, type: :controller do
   end
 
   context 'with login' do
+    let(:user) { create :user_with_faction }
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction)
-      sign_in @user
+      sign_in user
     end
 
     describe 'GET index' do
       it 'should redirect to faction when user has no faction' do
-        @user = FactoryBot.create(:user)
-        sign_in @user
+        user = create(:user)
+        sign_in user
 
         get :index
         expect(response.code).to eq('302')
@@ -73,8 +73,8 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should redirect to station when player is docked' do
-        @user = FactoryBot.create(:user_with_faction, docked: true)
-        sign_in @user
+        user = create(:user_with_faction, docked: true)
+        sign_in user
 
         get :index
         expect(response.code).to eq('302')
@@ -90,31 +90,31 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should do nothing with id of location in other system given' do
-        @user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
+        user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
         post :warp, params: { id: System.second.locations.first.id }
         expect(WarpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should do nothing when police is engaged' do
-        @user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
-        FactoryBot.create(:npc_police, target: @user.id)
+        user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
+        create(:npc_police, target: user.id)
         post :warp, params: { id: System.first.locations.second.id }
         expect(WarpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should start job with valid id given' do
-        @user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
+        user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
         post :warp, params: { id: System.first.locations.second.id }
         expect(WarpWorker.jobs.size).to eq(1)
         expect(response).to have_http_status(:ok)
       end
 
       it 'should warp to user if in same fleet' do
-        user2 = FactoryBot.create(:user_with_faction, system: @user.system, location: @user.system.locations.last)
-        fleet = FactoryBot.create(:fleet, creator: @user)
-        @user.update_columns(fleet_id: fleet.id)
+        user2 = create(:user_with_faction, system: user.system, location: user.system.locations.last)
+        fleet = create(:fleet, creator: user)
+        user.update_columns(fleet_id: fleet.id)
         user2.update_columns(fleet_id: fleet.id)
 
         post :warp, params: { uid: user2.id }
@@ -123,7 +123,7 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should not warp to user if not in fleet' do
-        user2 = FactoryBot.create(:user_with_faction, system: @user.system, location: @user.system.locations.last)
+        user2 = create(:user_with_faction, system: user.system, location: user.system.locations.last)
 
         post :warp, params: { uid: user2.id }
         expect(WarpWorker.jobs.size).to eq(0)
@@ -131,9 +131,9 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should not warp if not in same system' do
-        user2 = FactoryBot.create(:user_with_faction, system: System.second, location: System.second.locations.first)
-        fleet = FactoryBot.create(:fleet, creator: @user)
-        @user.update_columns(fleet_id: fleet.id)
+        user2 = create(:user_with_faction, system: System.second, location: System.second.locations.first)
+        fleet = create(:fleet, creator: user)
+        user.update_columns(fleet_id: fleet.id)
         user2.update_columns(fleet_id: fleet.id)
 
         post :warp, params: { uid: user2.id }
@@ -142,9 +142,9 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should not warp if already there' do
-        user2 = FactoryBot.create(:user_with_faction, system: @user.system, location: @user.location)
-        fleet = FactoryBot.create(:fleet, creator: @user)
-        @user.update_columns(fleet_id: fleet.id)
+        user2 = create(:user_with_faction, system: user.system, location: user.location)
+        fleet = create(:fleet, creator: user)
+        user.update_columns(fleet_id: fleet.id)
         user2.update_columns(fleet_id: fleet.id)
 
         post :warp, params: { uid: user2.id }
@@ -163,29 +163,29 @@ RSpec.describe GameController, type: :controller do
 
     describe 'POST jump' do
       it 'should do nothing when user not at jumpgate' do
-        @user.update_columns(location_id: Location.where(location_type: 'station').first.id)
+        user.update_columns(location_id: Location.where(location_type: 'station').first.id)
         post :jump
         expect(JumpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should jump when user at jumpgate' do
-        @user.update_columns(location_id: Location.where(system_id: @user.system.id, location_type: 'jumpgate').first.id)
+        user.update_columns(location_id: Location.where(system_id: user.system.id, location_type: 'jumpgate').first.id)
         post :jump
         expect(JumpWorker.jobs.size).to eq(1)
         expect(response).to have_http_status(:ok)
       end
 
       it 'should not jump when user at jumpgate but in warp' do
-        @user.update_columns(location_id: Location.where(system_id: @user.system.id, location_type: 'jumpgate').first.id, in_warp: true)
+        user.update_columns(location_id: Location.where(system_id: user.system.id, location_type: 'jumpgate').first.id, in_warp: true)
         post :jump
         expect(JumpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not jump when user at jumpgate but police is engaged' do
-        @user.update_columns(location_id: Location.where(system_id: @user.system.id, location_type: 'jumpgate').first.id)
-        FactoryBot.create(:npc_police, target: @user.id)
+        user.update_columns(location_id: Location.where(system_id: user.system.id, location_type: 'jumpgate').first.id)
+        create(:npc_police, target: user.id)
         post :jump
         expect(response).to have_http_status(:bad_request)
         expect(JumpWorker.jobs.size).to eq(0)

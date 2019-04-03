@@ -19,7 +19,7 @@ RSpec.describe FactoriesController, type: :controller do
 
   context 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction, location_id: Location.where(station_type: 0).first.id, docked: true)
+      @user = create(:user_with_faction, location_id: Location.where(station_type: 0).first.id, docked: true)
       sign_in @user
     end
 

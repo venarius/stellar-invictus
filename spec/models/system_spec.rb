@@ -31,12 +31,12 @@ describe System do
 
     describe 'Functions' do
       before(:each) do
-        @system = FactoryBot.create(:system)
+        @system = create(:system)
       end
 
       describe 'update_local_players' do
         it 'should broadcast' do
-          FactoryBot.create(:location, system: @system)
+          create(:location, system: @system)
           @system.update_local_players
         end
       end

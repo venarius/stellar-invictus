@@ -45,7 +45,7 @@ RSpec.describe MarketController, type: :controller do
 
   context 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
       @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
     end
@@ -270,7 +270,7 @@ RSpec.describe MarketController, type: :controller do
       end
 
       it 'should not be able to remove another players listing' do
-        user2 = FactoryBot.create(:user_with_faction)
+        user2 = create(:user_with_faction)
         listing = MarketListing.create(order_type: :sell, user: user2, listing_type: :ship,
                                        loader: "Nano", amount: 2, price: 100, location: @user.location)
 

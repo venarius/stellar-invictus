@@ -40,7 +40,7 @@ describe Npc do
 
     describe 'Functions' do
       before(:each) do
-        @npc = FactoryBot.create(:npc, location: Location.first)
+        @npc = create(:npc, location: Location.first)
       end
 
       describe 'die' do
@@ -60,7 +60,7 @@ describe Npc do
 
       describe 'remove_being_targeted' do
         it 'should remove npc as target from others' do
-          user = FactoryBot.create(:user_with_faction, npc_target_id: @npc.id)
+          user = create(:user_with_faction, npc_target_id: @npc.id)
           @npc.remove_being_targeted
           expect(user.reload.npc_target).to eq(nil)
         end
@@ -68,7 +68,7 @@ describe Npc do
 
       describe 'give_bounty' do
         it 'should give user random bounty' do
-          user = FactoryBot.create(:user_with_faction)
+          user = create(:user_with_faction)
           @npc.give_bounty(user)
           expect(user.reload.units).not_to eq(10)
         end

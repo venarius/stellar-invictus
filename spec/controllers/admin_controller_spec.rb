@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AdminController, type: :controller do
   context 'with login but no admin' do
     before (:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
     end
 
@@ -19,7 +19,7 @@ RSpec.describe AdminController, type: :controller do
   context 'with login and admin' do
     before (:each) do
       $allow_login = true
-      @user = FactoryBot.create(:user_with_faction, admin: true)
+      @user = create(:user_with_faction, admin: true)
       sign_in @user
     end
 
@@ -46,7 +46,7 @@ RSpec.describe AdminController, type: :controller do
 
     describe 'POST teleport' do
       it 'should teleport admin to other user' do
-        user2 = FactoryBot.create(:user_with_faction, location: Location.last, system: Location.last.system)
+        user2 = create(:user_with_faction, location: Location.last, system: Location.last.system)
         post :teleport, params: { id: user2.id }
         expect(response).to have_http_status(:ok)
         expect(@user.reload.location).to eq(Location.last)
@@ -54,7 +54,7 @@ RSpec.describe AdminController, type: :controller do
       end
 
       it 'should dock if user to teleport to is docked' do
-        user2 = FactoryBot.create(:user_with_faction, location: Location.where(location_type: :station).last, system: Location.where(location_type: :station).last.system, docked: true)
+        user2 = create(:user_with_faction, location: Location.where(location_type: :station).last, system: Location.where(location_type: :station).last.system, docked: true)
         post :teleport, params: { id: user2.id }
         expect(response).to have_http_status(:ok)
         expect(@user.reload.docked).to eq(true)
@@ -83,7 +83,7 @@ RSpec.describe AdminController, type: :controller do
 
     describe 'POST ban' do
       before(:each) do
-        @user2 = FactoryBot.create(:user_with_faction)
+        @user2 = create(:user_with_faction)
       end
 
       it 'should ban user permanently' do
@@ -110,7 +110,7 @@ RSpec.describe AdminController, type: :controller do
 
     describe 'POST unban' do
       before(:each) do
-        @user2 = FactoryBot.create(:user_with_faction, banned: true, banreason: "Test")
+        @user2 = create(:user_with_faction, banned: true, banreason: "Test")
       end
 
       it 'should unban user' do
@@ -169,7 +169,7 @@ RSpec.describe AdminController, type: :controller do
 
   context 'with ban' do
     before (:each) do
-      @user = FactoryBot.create(:user_with_faction, banned: true, banreason: "Test")
+      @user = create(:user_with_faction, banned: true, banreason: "Test")
       sign_in @user
     end
 

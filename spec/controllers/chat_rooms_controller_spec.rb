@@ -80,15 +80,15 @@ RSpec.describe ChatRoomsController, type: :controller do
       end
 
       it 'should success if chatroom is custom type' do
-        chatroom = FactoryBot.create(:chat_room, chatroom_type: :custom)
+        chatroom = create(:chat_room, chatroom_type: :custom)
         post :join, params: { id: chatroom.identifier }
         expect(response).to have_http_status(:ok)
         expect(chatroom.reload.users.count).to eq(1)
       end
 
       it 'should success if chatroom has fleet' do
-        chatroom = FactoryBot.create(:chat_room, chatroom_type: :custom)
-        fleet = FactoryBot.create(:fleet, chat_room: chatroom, creator: user)
+        chatroom = create(:chat_room, chatroom_type: :custom)
+        fleet = create(:fleet, chat_room: chatroom, creator: user)
         post :join, params: { id: chatroom.identifier }
         expect(response).to have_http_status(:ok)
         expect(chatroom.reload.users.count).to eq(1)
@@ -97,7 +97,7 @@ RSpec.describe ChatRoomsController, type: :controller do
       end
 
       it 'should not succeed if user has already joined' do
-        chatroom = FactoryBot.create(:chat_room, chatroom_type: :custom)
+        chatroom = create(:chat_room, chatroom_type: :custom)
         post :join, params: { id: chatroom.identifier }
         expect(response).to have_http_status(:ok)
         expect(chatroom.reload.users.count).to eq(1)
@@ -107,7 +107,7 @@ RSpec.describe ChatRoomsController, type: :controller do
       end
 
       it 'should not succeed if id not found' do
-        chatroom = FactoryBot.create(:chat_room, chatroom_type: :custom)
+        chatroom = create(:chat_room, chatroom_type: :custom)
         post :join, params: { id: 2000 }
         expect(response).to have_http_status(:bad_request)
         expect(chatroom.reload.users.count).to eq(0)
@@ -134,7 +134,7 @@ RSpec.describe ChatRoomsController, type: :controller do
       end
 
       it 'should leave room and reset fleet id if room has fleet' do
-        FactoryBot.create(:fleet, chat_room: room, creator: user)
+        create(:fleet, chat_room: room, creator: user)
         expect {
           post :leave, params: { id: room.identifier }
           expect(response).to have_http_status(:ok)
@@ -166,7 +166,7 @@ RSpec.describe ChatRoomsController, type: :controller do
       end
 
       it 'should create channel if id given' do
-        user2 = FactoryBot.create(:user_with_faction)
+        user2 = create(:user_with_faction)
         expect {
           post :start_conversation, params: { id: user2.id }
           expect(response).to have_http_status(:ok)

@@ -132,14 +132,14 @@ RSpec.describe StationsController, type: :controller do
       end
 
       it 'should do nothing when police is engaged' do
-        FactoryBot.create(:npc_police, target_user: user)
+        create(:npc_police, target_user: user)
         post :dock
         expect(response).to have_http_status(:bad_request)
         expect(user.docked).to eq(false)
       end
 
       it 'should remove user as target of other users' do
-        user2 = FactoryBot.create(:user_with_faction)
+        user2 = create(:user_with_faction)
         user2.update(target: user)
 
         expect(user2.target).to eq(user)

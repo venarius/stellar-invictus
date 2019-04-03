@@ -22,7 +22,7 @@ System.all.each do |system|
       when 2
         # Create Structure with loot and some enemies
         loader = Item::ASTEROIDS + Item::MATERIALS
-          structure = Structure.create(location: location, structure_type: 'wreck')
+          structure = Structure.create(location: location, structure_type: :wreck)
           amount = rand(2..3)
           amount = amount * 3 if location.system.security_status == 'low'
           case rand(1..100)

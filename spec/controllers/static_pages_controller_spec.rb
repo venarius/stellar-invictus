@@ -23,7 +23,7 @@ RSpec.describe StaticPagesController, type: :controller do
     end
 
     it 'should render map when user is logged in' do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
 
       get :map

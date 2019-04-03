@@ -13,9 +13,9 @@ RSpec.describe NpcsController, type: :controller do
 
   describe 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
-      @enemy = FactoryBot.create(:npc, location: @user.location, hp: 100)
+      @enemy = create(:npc, location: @user.location, hp: 100)
     end
 
     describe 'POST target' do

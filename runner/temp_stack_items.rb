@@ -18,7 +18,7 @@ end
 # Cargocontainer
 Structure.where(structure_type: 'container').destroy_all
 # Wrecks
-Structure.where(structure_type: 'wreck').destroy_all
+Structure.where(structure_type: :wreck).destroy_all
 
 # Mission Scunk
 Location.where(location_type: 'mission', mission: nil).destroy_all

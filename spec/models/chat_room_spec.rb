@@ -55,7 +55,7 @@ describe ChatRoom do
     describe 'Functions' do
       describe 'update_local_players' do
         it 'should send actioncable' do
-          room = FactoryBot.create(:chat_room)
+          room = create(:chat_room)
           room.update_local_players
         end
       end

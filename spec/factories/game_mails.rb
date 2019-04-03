@@ -20,8 +20,8 @@
 
 FactoryBot.define do
   factory :game_mail do
-    sender_id { FactoryBot.create(:user) }
-    recipient_id { FactoryBot.create(:user) }
+    sender_id { create(:user) }
+    recipient_id { create(:user) }
     header { "MyString" }
     body { "MyText" }
     units { 0 }
