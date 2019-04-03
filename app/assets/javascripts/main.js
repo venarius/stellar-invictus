@@ -94,7 +94,7 @@ $(document).on("turbolinks:load", function() {
     var avatar = $(".slick-current")
       .children("img")
       .attr("id");
-    $("#user_avatar").val(avatar);
+    $("#user.avatar").val(avatar);
     $(this)
       .unbind("submit")
       .submit();

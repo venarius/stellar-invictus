@@ -5,7 +5,7 @@
         <% if friendship.user == current_user %>
           <tr>
             <td>
-              <%= image_tag("avatars/#{friendship.friend_avatar}.jpg", class: 'float-left') %>
+              <%= image_tag(friendship.friend_avatar_url, class: 'float-left') %>
               <div class="float-right">
                 <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.friend_id %>">
                   <i class="fa fa-times"></i>
@@ -19,7 +19,7 @@
         <% else %>
           <tr>
             <td>
-              <%= image_tag("avatars/#{friendship.user_avatar}.jpg", class: 'float-left') %>
+              <%= image_tag(friendship.user_avatar_url, class: 'float-left') %>
               <div class="float-right">
                 <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.user_id %>">
                   <i class="fa fa-times"></i>
