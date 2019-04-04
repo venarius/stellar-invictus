@@ -1,5 +1,3 @@
-ac_server = ActionCable.server
-
 if System.where(security_status: :wormhole).count < 15
 
   systems = []
@@ -14,8 +12,8 @@ if System.where(security_status: :wormhole).count < 15
     s = System.where.not(security_status: :wormhole).where(security_status: :low).order(Arel.sql("RANDOM()")).first
 
     # Jumpgates
-    a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
-    b = Location.find_or_create_by(name: s.name, system: sys, location_type: 5, hidden: true)
+    a = Location.where(name: sys.name, system: s, location_type: 5, hidden: true).first_or_create
+    b = Location.where(name: s.name, system: sys, location_type: 5, hidden: true).first_or_create
     Jumpgate.find_or_create_by(origin: a, destination: b, traveltime: 5)
 
     # Asteroid Belts
@@ -40,7 +38,7 @@ if System.where(security_status: :wormhole).count < 15
     rand(1..3).times do
       location = Location.create(system: sys, location_type: 'exploration_site', hidden: true)
       amount = rand(4..10)
-      location.update_columns(enemy_amount: amount, name: I18n.t('exploration.combat_site'))
+      location.update(enemy_amount: amount, name: I18n.t('exploration.combat_site'))
     end
   end
 
@@ -68,18 +66,18 @@ System.where(security_status: :wormhole).each do |sys|
         loc.jumpgate.destroy
 
         # Tell players
-        ac_server.broadcast("location_#{loc.id}", method: 'player_appeared')
-        ac_server.broadcast("location_#{origin}", method: 'player_appeared') if origin
+        loc.broadcast(:player_appeared)
+        origin.broadcast(:player_appeared) if origin
       else
         s = System.where(security_status: :low).order(Arel.sql("RANDOM()")).first
 
         a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
-        Jumpgate.find_or_create_by(origin: a, destination: loc, traveltime: 5)
-        loc.update_columns(name: s.name)
+        Jumpgate.where(origin: a, destination: loc, traveltime: 5).first_or_create
+        loc.update(name: s.name)
 
         # Tell players
-        ac_server.broadcast("location_#{loc.id}", method: 'player_appeared')
-        ac_server.broadcast("location_#{a.id}", method: 'player_appeared')
+        loc.broadcast(:player_appeared)
+        a.broadcast(:player_appeared)
       end
     end
   elsif sys.locations.where(location_type: 5).empty?
@@ -88,16 +86,16 @@ System.where(security_status: :wormhole).each do |sys|
     # Jumpgates
     a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
     b = Location.find_or_create_by(name: s.name, system: sys, location_type: 5, hidden: true)
-    Jumpgate.find_or_create_by(origin: a, destination: b, traveltime: 5)
+    Jumpgate.where(origin: a, destination: b, traveltime: 5).first_or_create
 
     # Tell players
-    ac_server.broadcast("location_#{a.id}", method: 'player_appeared')
-    ac_server.broadcast("location_#{b.id}", method: 'player_appeared')
+    a.broadcast(:player_appeared)
+    b.broadcast(:player_appeared)
   end
 end
 
 # Junk Cleaner
-Location.where(location_type: :wormhole).each do |loc|
+Location.wormhole.each do |loc|
   if !loc.jumpgate || loc.jumpgate.destination == nil || loc.jumpgate.origin == nil
     loc.destroy if loc.users.empty? && Spaceship.where(warp_target_id: loc.id).empty?
   end

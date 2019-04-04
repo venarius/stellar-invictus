@@ -1,11 +1,7 @@
-class EjectCargoWorker
+class EjectCargoWorker < ApplicationWorker
   # This worker will be run when the user ejects cargo
-
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-
-  def perform(user_id, loader, amount)
-    user = User.find(user_id)
+  def perform(user, loader, amount)
+    user = User.ensure(user)
 
     item = Item.find_by(loader: loader, spaceship: user.active_spaceship, equipped: false, active: false)
     if item && amount
@@ -19,11 +15,11 @@ class EjectCargoWorker
       end
 
       # Tell everyone at location to refresh players and log the eject
-      ActionCable.server.broadcast(user.location.channel_id, method: 'player_appeared')
-      ActionCable.server.broadcast(user.location.channel_id, method: 'log', text: I18n.t('log.user_ejected_cargo', user: user.full_name))
+      user.location.broadcast(:player_appeared)
+      user.location.broadcast(:log, text: I18n.t('log.user_ejected_cargo', user: user.full_name))
 
       # Tell user to update player info
-      ActionCable.server.broadcast(user.channel_id, method: 'refresh_player_info')
+      user.broadcast(:refresh_player_info)
     end
   end
 end

@@ -1,36 +1,29 @@
-class NpcDiedWorker
-  # This worker will be run whenever a npc died
-
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-
+class NpcDiedWorker < ApplicationWorker
   def perform(npc_id)
-    npc = Npc.find(npc_id) rescue nil
+    npc = Npc.ensure(npc_id)
+    return unless npc
 
-    if npc
+    # Tell others in system that npc "warped out" and log
+    npc.location.broadcast(:player_warp_out, name: npc.name)
+    npc.location.broadcast(:log, text: I18n.t('log.got_killed', name: npc.name))
 
-      # Tell others in system that npc "warped out" and log
-      ActionCable.server.broadcast(npc.location.channel_id, method: 'player_warp_out', name: npc.name)
-      ActionCable.server.broadcast(npc.location.channel_id, method: 'log', text: I18n.t('log.got_killed', name: npc.name))
+    # Create Wreck and fill with random loot
+    npc.drop_loot
+    npc.location.broadcast(:player_appeared)
 
-      # Create Wreck and fill with random loot
-      npc.drop_loot
-      ActionCable.server.broadcast(npc.location.channel_id, method: 'player_appeared')
-
-      # If npc was in mission location -> credit kill
-      if npc.location.mission?
-        if npc.location.mission.enemy_amount > 0
-          npc.location.mission.update_columns(enemy_amount: npc.location.mission.enemy_amount - 1)
-        end
+    # If npc was in mission location -> credit kill
+    if npc.location.mission?
+      if npc.location.mission.enemy_amount > 0
+        npc.location.mission.update_columns(enemy_amount: npc.location.mission.enemy_amount - 1)
       end
-
-      # If npc was in combat site -> remove from amount
-      if (npc.location.exploration_site?) && (npc.location.enemy_amount > 0)
-        npc.location.update_columns(enemy_amount: npc.location.enemy_amount - 1)
-      end
-
-      # Destroy npc
-      npc.destroy
     end
+
+    # If npc was in combat site -> remove from amount
+    if (npc.location.exploration_site?) && (npc.location.enemy_amount > 0)
+      npc.location.update_columns(enemy_amount: npc.location.enemy_amount - 1)
+    end
+
+    # Destroy npc
+    npc.destroy
   end
 end

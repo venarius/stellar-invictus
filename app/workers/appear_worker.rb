@@ -1,9 +1,5 @@
-class AppearWorker
-  # This Worker will be run when the user loggs in
-
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-
+class AppearWorker < ApplicationWorker
+  # This Worker will be run when the user logs in
   def perform(user)
     User::Appear.(user: user)
   end

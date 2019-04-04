@@ -27,7 +27,7 @@ class ShipsController < ApplicationController
 
   def untarget
     if current_user.target
-      ActionCable.server.broadcast(current_user.target.channel_id, method: 'stopping_target', name: current_user.full_name)
+      current_user.target.broadcast(:stopping_target, name: current_user.full_name)
       current_user.update_columns(target_id: nil, is_attacking: false)
       current_user.active_spaceship.deactivate_equipment
     end

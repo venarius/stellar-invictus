@@ -32,7 +32,9 @@ class UsersController < ApplicationController
 
         user.update_columns(bounty: user.bounty + amount)
 
-        ActionCable.server.broadcast(user.channel_id, method: 'notify_alert', text: I18n.t('notification.placed_bounty', user: current_user.full_name, amount: amount))
+        user.broadcast(:notify_alert, 
+          text: I18n.t('notification.placed_bounty', user: current_user.full_name, amount: amount)
+        )
 
         render(json: {}, status: 200) && (return)
       end

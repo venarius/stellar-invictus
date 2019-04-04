@@ -1,12 +1,7 @@
-class GameMailWorker
+class GameMailWorker < ApplicationWorker
   # This Worker will be run to tell another user that they got mail
-
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-
-  def perform(recipient_id)
-    user = User.find(recipient_id)
-    # Tell user he received mail
-    ActionCable.server.broadcast(user.channel_id, method: 'received_mail')
+  def perform(recipient)
+    recipient = User.ensure(recipient)
+    recipient&.broadcast(:received_mail)
   end
 end

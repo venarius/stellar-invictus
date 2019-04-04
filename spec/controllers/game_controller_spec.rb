@@ -76,7 +76,7 @@ RSpec.describe GameController, type: :controller do
 
     describe 'POST warp' do
       it 'should do nothing with no or invalid id given' do
-        post :warp, params: { id: 2022 }
+        post :warp, params: { id: 9999999 }
         expect(WarpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end

@@ -42,6 +42,14 @@ class Spaceship < ApplicationRecord
     @lookup_data
   end
 
+  def self.build_for_user(user, ship: , hp: , starting_equipment: {})
+    ship = self.create(user: user, name: ship, hp: hp)
+    starting_equipment.each do |item, equipped|
+      ship.items.create(loader: item, equipped: equipped)
+    end
+    ship
+  end
+
   ## — INSTANCE METHODS
 
   # Get Weight of all Items in Ship

@@ -13,7 +13,7 @@ class User::Appear < ApplicationService
     # If only connection and user is not docked
     if (user.online == 1) && !user.docked?
       # Tell everyone in the location that user has logged in
-      ActionCable.server.broadcast(user.location.channel_id, method: 'player_appeared')
+      user.location.broadcast(:player_appeared)
     end
 
     # Tell everyone in system to update their local players
