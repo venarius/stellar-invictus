@@ -30,7 +30,7 @@ class System < ApplicationRecord
     location_ids = user_query.select(:location_id).distinct.pluck(:location_id)
 
     self.locations.where(id: location_ids).each do |location|
-      location.broadcast( :update_players_in_system, count: user_count, names: user_names)
+      location.broadcast(:update_players_in_system, count: user_count, names: user_names)
     end
   end
 

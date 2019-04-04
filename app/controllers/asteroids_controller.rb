@@ -3,7 +3,7 @@ class AsteroidsController < ApplicationController
   def mine
     svc_result = Asteroid::Mine.(user: current_user, asteroid: params[:id])
     if svc_result.failure?
-      render json: {error_message: svc_result.failure}, status: :bad_request
+      render json: { error_message: svc_result.failure }, status: :bad_request
     else
       render json: svc_result.value!
     end

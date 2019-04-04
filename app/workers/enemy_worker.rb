@@ -1,4 +1,4 @@
-class EnemyWorker <  ApplicationWorker
+class EnemyWorker < ApplicationWorker
   # This worker simulates an enemy
 
   def perform(npc, location, target = nil, attack = nil, count = nil, hard = nil)

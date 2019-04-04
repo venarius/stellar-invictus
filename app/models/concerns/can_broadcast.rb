@@ -9,4 +9,3 @@ module CanBroadcast
     raise "Override me"
   end
 end
-
