@@ -5,7 +5,6 @@ RSpec.describe GameController, type: :controller do
     describe 'GET index' do
       it 'should redirect_to login' do
         get :index
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -13,7 +12,6 @@ RSpec.describe GameController, type: :controller do
     describe 'POST warp' do
       it 'should redirect_to login' do
         post :warp
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -21,7 +19,6 @@ RSpec.describe GameController, type: :controller do
     describe 'POST jump' do
       it 'should redirect_to login' do
         post :jump
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -29,7 +26,6 @@ RSpec.describe GameController, type: :controller do
     describe 'GET local_players' do
       it 'should redirect_to login' do
         get :local_players
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -37,7 +33,6 @@ RSpec.describe GameController, type: :controller do
     describe 'GET player_info' do
       it 'should redirect_to login' do
         get :player_info
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -45,7 +40,6 @@ RSpec.describe GameController, type: :controller do
     describe 'GET assets' do
       it 'should redirect_to login' do
         get :assets
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -63,7 +57,6 @@ RSpec.describe GameController, type: :controller do
         sign_in user
 
         get :index
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(factions_path)
       end
 
@@ -77,7 +70,6 @@ RSpec.describe GameController, type: :controller do
         sign_in user
 
         get :index
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(station_path)
       end
     end
@@ -90,14 +82,14 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should do nothing with id of location in other system given' do
-        user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
+        user.update(system: System.first, location: System.first.locations.first)
         post :warp, params: { id: System.second.locations.first.id }
         expect(WarpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should do nothing when police is engaged' do
-        user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
+        user.update(system: System.first, location: System.first.locations.first)
         create(:npc_police, target: user.id)
         post :warp, params: { id: System.first.locations.second.id }
         expect(WarpWorker.jobs.size).to eq(0)
@@ -105,17 +97,19 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should start job with valid id given' do
-        user.update_columns(system_id: System.first.id, location_id: System.first.locations.first.id)
+        user.update(system: System.first, location: System.first.locations.first)
         post :warp, params: { id: System.first.locations.second.id }
         expect(WarpWorker.jobs.size).to eq(1)
         expect(response).to have_http_status(:ok)
       end
 
       it 'should warp to user if in same fleet' do
-        user2 = create(:user_with_faction, system: user.system, location: user.system.locations.last)
+        cur_system = user.system
+        user.update(location: cur_system.locations.first)
+        user2 = create(:user_with_faction, system: cur_system, location: cur_system.locations.last)
         fleet = create(:fleet, creator: user)
-        user.update_columns(fleet_id: fleet.id)
-        user2.update_columns(fleet_id: fleet.id)
+        user.update(fleet: fleet)
+        user2.update(fleet: fleet)
 
         post :warp, params: { uid: user2.id }
         expect(WarpWorker.jobs.size).to eq(1)
@@ -133,8 +127,8 @@ RSpec.describe GameController, type: :controller do
       it 'should not warp if not in same system' do
         user2 = create(:user_with_faction, system: System.second, location: System.second.locations.first)
         fleet = create(:fleet, creator: user)
-        user.update_columns(fleet_id: fleet.id)
-        user2.update_columns(fleet_id: fleet.id)
+        user.update(fleet: fleet)
+        user2.update(fleet: fleet)
 
         post :warp, params: { uid: user2.id }
         expect(WarpWorker.jobs.size).to eq(0)
@@ -144,8 +138,8 @@ RSpec.describe GameController, type: :controller do
       it 'should not warp if already there' do
         user2 = create(:user_with_faction, system: user.system, location: user.location)
         fleet = create(:fleet, creator: user)
-        user.update_columns(fleet_id: fleet.id)
-        user2.update_columns(fleet_id: fleet.id)
+        user.update(fleet: fleet)
+        user2.update(fleet: fleet)
 
         post :warp, params: { uid: user2.id }
         expect(WarpWorker.jobs.size).to eq(0)
@@ -163,28 +157,28 @@ RSpec.describe GameController, type: :controller do
 
     describe 'POST jump' do
       it 'should do nothing when user not at jumpgate' do
-        user.update_columns(location_id: Location.station.first.id)
+        user.update(location: Location.station.first)
         post :jump
         expect(JumpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should jump when user at jumpgate' do
-        user.update_columns(location_id: Location.where(system_id: user.system.id, location_type: 'jumpgate').first.id)
+        user.update(location: Location.where(system: user.system, location_type: :jumpgate).first)
         post :jump
         expect(JumpWorker.jobs.size).to eq(1)
         expect(response).to have_http_status(:ok)
       end
 
       it 'should not jump when user at jumpgate but in warp' do
-        user.update_columns(location_id: Location.where(system_id: user.system.id, location_type: 'jumpgate').first.id, in_warp: true)
+        user.update(location: Location.where(system: user.system, location_type: :jumpgate).first, in_warp: true)
         post :jump
         expect(JumpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not jump when user at jumpgate but police is engaged' do
-        user.update_columns(location_id: Location.where(system_id: user.system.id, location_type: 'jumpgate').first.id)
+        user.update(location: Location.where(system: user.system, location_type: :jumpgate).first)
         create(:npc_police, target: user.id)
         post :jump
         expect(response).to have_http_status(:bad_request)
