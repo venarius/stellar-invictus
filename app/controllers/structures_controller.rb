@@ -56,7 +56,7 @@ class StructuresController < ApplicationController
           # Destroy Structure if items gone and tell players to update players
           if Item.where(structure: params[:id]).empty?
             structure.destroy
-            ActionCable.server.broadcast(current_user.location.channel_id, method: 'player_appeared')
+            current_user.location.broadcast(:player_appeared)
           end
 
           if count > 0
@@ -85,8 +85,10 @@ class StructuresController < ApplicationController
         # Destroy Structure
         structure.destroy
         # Tell Players in location
-        ActionCable.server.broadcast(current_user.location.channel_id, method: 'player_appeared')
-        ActionCable.server.broadcast(current_user.location.channel_id, method: 'log', text: I18n.t('log.user_destroyed_cargo', user: current_user.full_name))
+        current_user.location.broadcast(:player_appeared)
+        current_user.location.broadcast(:log,
+          text: I18n.t('log.user_destroyed_cargo', user: current_user.full_name)
+        )
 
         render(json: {}, status: :ok)
         return
@@ -112,8 +114,8 @@ class StructuresController < ApplicationController
             structure.increment!(:attempts)
             if structure.attempts > 5
               structure.destroy
-              ActionCable.server.broadcast(current_user.location.channel_id, method: 'player_appeared')
-              ActionCable.server.broadcast(current_user.channel_id, method: 'notify_alert', text: I18n.t('structures.abandoned_ship_selfdestruction'))
+              current_user.location.broadcast(:player_appeared)
+              current_user.broadcast(:notify_alert, text: I18n.t('structures.abandoned_ship_selfdestruction'))
             end
           end
         else

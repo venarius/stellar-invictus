@@ -77,7 +77,10 @@ class StationsController < ApplicationController
       when 3
         current_user.update_columns(reputation_3: current_user.reputation_3 + 0.05 * item.count)
       end
-      ActionCable.server.broadcast(current_user.channel_id, method: 'notify_alert', text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * item.count).round(2)), delay: 1000)
+      current_user.broadcast(:notify_alert,
+        text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * item.count).round(2)),
+        delay: 1000
+      )
       item.destroy
     end
 

@@ -6,7 +6,7 @@ class InviteToFleetJob < ApplicationJob
     fleet = Fleet.ensure(fleet)
     target = User.ensure(target)
 
-    ActionCable.server.broadcast(target.channel_id, method: 'invited_to_fleet', data: render_message(user, fleet))
+    target.broadcast(:invited_to_fleet, data: render_message(user, fleet))
   end
 
   private

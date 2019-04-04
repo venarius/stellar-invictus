@@ -29,6 +29,8 @@
 #
 
 class Location < ApplicationRecord
+  include CanBroadcast
+
   belongs_to :system
   belongs_to :faction, optional: true
   belongs_to :mission, optional: true

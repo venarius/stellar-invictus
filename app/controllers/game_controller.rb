@@ -24,9 +24,9 @@ class GameController < ApplicationController
               unless user.in_warp
                 WarpWorker.perform_async(user.id, location.id, 0, 0, false, align)
                 if user.active_spaceship.warp_target_id == location.id
-                  ActionCable.server.broadcast(user.channel_id, method: 'fleet_warp', location: location.id, align_time: 0) if user != current_user
+                  user.broadcast(:fleet_warp, location: location.id, align_time: 0) if user != current_user
                 else
-                  ActionCable.server.broadcast(user.channel_id, method: 'fleet_warp', location: location.id, align_time: align) if user != current_user
+                  user.broadcast(:fleet_warp, location: location.id, align_time: align) if user != current_user
                 end
               end
             end

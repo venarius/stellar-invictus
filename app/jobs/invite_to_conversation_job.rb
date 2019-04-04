@@ -6,7 +6,7 @@ class InviteToConversationJob < ApplicationJob
     room = ChatRoom.ensure(room_id)
     target = User.ensure(target_id)
 
-    ActionCable.server.broadcast(target.channel_id, method: 'invited_to_conversation', data: render_message(user, room))
+    target.broadcast(:invited_to_conversation, data: render_message(user, room))
   end
 
   private

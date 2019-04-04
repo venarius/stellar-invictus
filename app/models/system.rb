@@ -10,6 +10,8 @@
 #
 
 class System < ApplicationRecord
+  ensure_by :id, :name
+
   has_many :locations, dependent: :destroy
   has_many :users, through: :locations
   has_many :chat_rooms, dependent: :destroy
@@ -28,11 +30,7 @@ class System < ApplicationRecord
     location_ids = user_query.select(:location_id).distinct.pluck(:location_id)
 
     self.locations.where(id: location_ids).each do |location|
-      ActionCable.server.broadcast(location.channel_id,
-        method: 'update_players_in_system',
-        count: user_count,
-        names: user_names
-      )
+      location.broadcast( :update_players_in_system, count: user_count, names: user_names)
     end
   end
 

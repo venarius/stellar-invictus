@@ -42,7 +42,7 @@ class Corporation < ApplicationRecord
   before_destroy do
     self.users.each do |user|
       user.update_columns(corporation_id: nil, corporation_role: :recruit)
-      ActionCable.server.broadcast(user.channel_id, method: 'reload_corporation')
+      user.broadcast(:reload_corporation)
     end
   end
 end

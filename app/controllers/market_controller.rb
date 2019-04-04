@@ -36,7 +36,6 @@ class MarketController < ApplicationController
         if listing.item?
           Item::GiveToUser.(location: current_user.location, user: current_user, loader: listing.loader, amount: amount)
         else
-
           # Check if met requirements
           ship = Spaceship.get_attributes(listing.loader)
           if ship['faction'] && ship['reputation_requirement']
@@ -45,7 +44,12 @@ class MarketController < ApplicationController
           end
 
           amount.times do
-            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))
+            Spaceship.create(
+              location: current_user.location,
+              user: current_user,
+              name: listing.loader,
+              hp: Spaceship.get_attribute(listing.loader, :hp)
+            )
           end
         end
 
@@ -55,17 +59,15 @@ class MarketController < ApplicationController
         # If listing belonged to user -> give 95% of price to user and inform
         if listing.user
           listing.user.give_units(listing.price * amount * 0.95)
-          if listing.item?
-            ActionCable.server.broadcast(listing.user.channel_id, method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: Item.get_attribute(listing.loader, :name)))
-          else
-            ActionCable.server.broadcast(listing.user.channel_id, method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: listing.loader))
-          end
-          ActionCable.server.broadcast(listing.user.channel_id, method: 'refresh_player_info')
+          listing.user.broadcast(:notify_info,
+            text: I18n.t('notification.someone_bought', amount: amount, name: listing.name)
+          )
+          listing.user.broadcast(:refresh_player_info)
         end
 
         # Destroy Listing
         new_amount = listing.amount - amount
-        listing.update_columns(amount: new_amount)
+        listing.update(amount: new_amount)
         listing.destroy if new_amount == 0
 
         render(json: { 'new_amount': new_amount }, status: 200) && (return)
@@ -131,20 +133,20 @@ class MarketController < ApplicationController
       # Generate Listing
       fill_listing = MarketListing.where(loader: params[:loader], location: current_user.location).where("amount < 20").first rescue nil
       if fill_listing && !player_market
-        fill_listing.update_columns(amount: fill_listing.amount + quantity)
+        fill_listing.update(amount: fill_listing.amount + quantity)
       else
         rabat = (rand(1.0..1.2) * rand(0.98..1.02)) unless player_market
         if params[:type] == "item"
           if player_market
-            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: price, amount: quantity, user: current_user)
+            MarketListing.create(loader: params[:loader], listing_type: :item, location: current_user.location, price: price, amount: quantity, user: current_user)
           else
-            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (Item.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
+            MarketListing.create(loader: params[:loader], listing_type: :item, location: current_user.location, price: (Item.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
           end
         elsif params[:type] == "ship"
           if player_market
-            MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: price, amount: quantity, user: current_user)
+            MarketListing.create(loader: params[:loader], listing_type: :ship, location: current_user.location, price: price, amount: quantity, user: current_user)
           else
-            MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: (Spaceship.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
+            MarketListing.create(loader: params[:loader], listing_type: :ship, location: current_user.location, price: (Spaceship.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
           end
         end
       end
@@ -195,16 +197,14 @@ class MarketController < ApplicationController
         # Give Items to Buyer and reduce listing
         Item::GiveToUser.(loader: listing.loader, amount: amount, location: current_user.location, user: listing.user)
         new_amount = listing.amount - amount
-        listing.update_columns(amount: new_amount)
+        listing.update(amount: new_amount)
         listing.destroy if new_amount == 0
         # If listing belonged to user -> notify
         if listing.user
-          if listing.item?
-            ActionCable.server.broadcast(listing.user.channel_id, method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: Item.get_attribute(listing.loader, :name)))
-          else
-            ActionCable.server.broadcast(listing.user.channel_id, method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: listing.loader))
-          end
-          ActionCable.server.broadcast(listing.user.channel_id, method: 'refresh_player_info')
+          listing.user.broadcast(:notify_info,
+            text: I18n.t('notification.someone_sold', amount: amount, name: listing.name)
+          )
+          listing.user.broadcast(:refresh_player_info)
         end
         render(json: { new_amount: new_amount }, status: 200) && (return)
       end

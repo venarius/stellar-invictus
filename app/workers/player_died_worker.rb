@@ -1,16 +1,9 @@
-class PlayerDiedWorker
-  # This worker will be run whenever a player died
-
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-
-  def perform(player_id)
-    user = User.find(player_id) rescue nil
-
-    return unless user
+class PlayerDiedWorker < ApplicationWorker
+  def perform(player)
+    player = User.ensure(player)
+    return unless player
 
     # Tell user to show died modal
-    ActionCable.server.broadcast(user.channel_id, method: 'died_modal', text: I18n.t('modal.died_text', location: "#{user.location.get_name} - #{user.system_name}"))
-
+    player.broadcast(:died_modal, text: I18n.t('modal.died_text', location: "#{player.location.get_name} - #{player.system_name}"))
   end
 end

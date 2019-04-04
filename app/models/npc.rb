@@ -35,6 +35,11 @@ class Npc < ApplicationRecord
   ## -- SCOPES
   scope :targeting_user, ->(user) { where(target: user.id) }
 
+  ## — CLASS METHODS
+  def self.random_name
+    "#{Faker::Name.first_name} #{Faker::Name.last_name}"
+  end
+
   ## — INSTANCE METHODS
   def die
     NpcDiedWorker.perform_async(self.id)
@@ -73,21 +78,21 @@ class Npc < ApplicationRecord
       @loader = Item::EQUIPMENT.sample
       if Blueprint.where(loader: @loader, user: user).empty?
         Blueprint.create(user: user, loader: @loader, efficiency: 1)
-        ActionCable.server.broadcast(user.channel_id, method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, :name), npc: self.name))
+        user.broadcast(:notify_alert, text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, :name), npc: self.name))
       end
     else
       @loader = Spaceship.ship_variables.keys.sample
       if Blueprint.where(loader: @loader, user: user).empty?
         Blueprint.create(user: user, loader: Spaceship.ship_variables.keys.sample, efficiency: 1)
-        ActionCable.server.broadcast(user.channel_id, method: 'notify_alert', text: I18n.t('notification.received_blueprint_destruction', name: @loader.titleize, npc: self.name))
+        user.broadcast(:notify_alert, text: I18n.t('notification.received_blueprint_destruction', name: @loader.titleize, npc: self.name))
       end
     end
   end
 
   def remove_being_targeted
     User.where(npc_target_id: self.id).each do |user|
-      user.update_columns(npc_target_id: nil, is_attacking: false)
-      ActionCable.server.broadcast(user.channel_id, method: 'remove_target')
+      user.update(npc_target_id: nil, is_attacking: false)
+      user.broadcast(:remove_target)
     end
   end
 
@@ -108,18 +113,18 @@ class Npc < ApplicationRecord
     if corporation
       amount = 0.01
       amount = amount * 3 if self.wanted_enemy?
-      ActionCable.server.broadcast(player.channel_id, method: 'notify_alert', text: I18n.t('notification.gained_reputation', user: self.name, amount: amount))
+      player.broadcast(:notify_alert, text: I18n.t('notification.gained_reputation', user: self.name, amount: amount))
       case corporation
       when 1
-        player.update_columns(reputation_1: player.reputation_1 + amount)
+        player.update(reputation_1: player.reputation_1 + amount)
       when 2
-        player.update_columns(reputation_2: player.reputation_2 + amount)
+        player.update(reputation_2: player.reputation_2 + amount)
       when 3
-        player.update_columns(reputation_3: player.reputation_3 + amount)
+        player.update(reputation_3: player.reputation_3 + amount)
       end
     end
 
-    ActionCable.server.broadcast(player.channel_id, method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.name, amount: value))
-    ActionCable.server.broadcast(player.channel_id, method: 'refresh_player_info')
+    player.broadcast(:notify_alert, text: I18n.t('notification.received_bounty', user: self.name, amount: value))
+    player.broadcast(:refresh_player_info)
   end
 end

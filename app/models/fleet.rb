@@ -27,7 +27,7 @@ class Fleet < ApplicationRecord
   before_destroy do
     self.users.each do |user|
       user.update_columns(fleet_id: nil)
-      ActionCable.server.broadcast(user.channel_id, method: 'reload_fleet')
+      user.broadcast(:reload_fleet)
     end
   end
 end

@@ -1,71 +1,75 @@
-class PoliceWorker
+class PoliceWorker < ApplicationWorker
   # This worker simulates the police
+  DEFAULT_UPDATE_SECONDS = 3
 
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-
-  def perform(player_id, seconds, npc_id = nil, idle = false, done = false)
-    player = User.find(player_id) rescue nil
+  def perform(player, seconds, police_id = nil, idle = false, done = false)
+    player = User.ensure(player)
     location = player.location
-    police = Npc.find(npc_id) rescue nil if npc_id
+    police = Npc.ensure(police)
+    return unless police if police_id
+    seconds ||= DEFAULT_UPDATE_SECONDS
 
-    return unless police if npc_id
-
-    if npc_id == nil
+    if police_id == nil
       police = Npc.create(npc_type: :police, target_user: player, name: generate_name)
 
-      PoliceWorker.perform_in(seconds.second, player_id, seconds, police.id) && (return)
+      PoliceWorker.perform_in(seconds.second, player.id, seconds, police.id)
+      return
     end
 
-    unless police.npc_state
-      police.update_columns(location_id: location.id, npc_state: 'created')
+    if police.npc_state.nil?
+      police.update(location_id: location.id, npc_state: 'created')
 
       # Tell everyone in the location that police has come
-      ActionCable.server.broadcast(location.channel_id, method: 'player_appeared')
+      location.broadcast(:player_appeared)
 
-      PoliceWorker.perform_in(2.second, player_id, seconds, police.id) && (return)
+      PoliceWorker.perform_in(2.second, player.id, seconds, police.id)
+      return
     end
 
     if police.created?
       # Tell user he is getting targeted by police
-      ActionCable.server.broadcast(player.channel_id, method: 'getting_targeted', name: police.name)
-
+      player.broadcast(:getting_targeted, name: police.name)
       police.targeting!
 
-      PoliceWorker.perform_in(3.second, player_id, seconds, police.id) && (return)
+      PoliceWorker.perform_in(3.second, player.id, seconds, police.id)
+      return
     end
 
     if police.targeting?
       # Tell user he is getting attacked by police
-      ActionCable.server.broadcast(player.channel_id, method: 'getting_attacked', name: police.name)
-
+      player.broadcast(:getting_attacked, name: police.name)
       police.attacking!
 
-      PoliceWorker.perform_in(3.second, player_id, seconds, police.id) && (return)
+      PoliceWorker.perform_in(3.second, player.id, seconds, police.id)
+      return
     end
 
     if !idle
       # Let user die
       player.die(true)
 
-      PoliceWorker.perform_in(3.second, player_id, seconds, police.id, true) && (return)
+      PoliceWorker.perform_in(3.second, player.id, seconds, police.id, true)
+      return
     end
 
     if !done
       # Let police warp out
-      ActionCable.server.broadcast(police.location.channel_id, method: 'player_warp_out', name: police.name)
-      police.update_columns(location_id: nil)
+      police.location.broadcast(:player_warp_out, name: police.name)
+      police.update(location: nil)
 
-      PoliceWorker.perform_in(3.second, player_id, seconds, police.id, true, true) && (return)
+      PoliceWorker.perform_in(3.second, player.id, seconds, police.id, true, true)
+      return
     end
 
     # Destroy police
     police.destroy
   end
 
-  def generate_name
-    title = ["Sergeant", "Marshall", "Officer"].sample
-    "#{title} #{Faker::Name.last_name}"
-  end
+  private
+
+    TITLES = %w[Sergeant Marshall Officer Ranger"].freeze
+    def generate_name
+      "#{TITLES.sample} #{Faker::Name.last_name}"
+    end
 
 end

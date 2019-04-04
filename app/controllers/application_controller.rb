@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
 
+  rescue_from InvalidRequest, with: :render_error_response
+
   protected
 
   def configure_permitted_parameters
@@ -78,8 +80,12 @@ class ApplicationController < ActionController::Base
   end
 
   def find_user
-    @user = User.find(params[:id]) rescue nil if params[:id]
-    render(json: {}, status: 400) && (return) unless @user
+    @user = User.ensure(params[:id])
+    render(json: {}, status: :bad_request) && (return) unless @user
+  end
+
+  def render_error_response(err)
+    render json: { error_message: err.message }, status: :bad_request
   end
 
 end

@@ -1,18 +1,14 @@
-class EquipmentWorker
+class EquipmentWorker < ApplicationWorker
   # This Worker will be run when a player uses equipment
 
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-
-  def perform(player_id)
+  def perform(player)
     # Get the Player and ship
-    player = User.find(player_id)
+    player = User.ensure(player)
 
     # Set Player status to using equipment worker
     player.update_columns(equipment_worker: true)
 
     player_ship = player.active_spaceship
-    player_name = player.full_name
 
     # Target Ship
     if player.target
@@ -22,9 +18,6 @@ class EquipmentWorker
       target_ship = player.npc_target
       target_id = player.npc_target.id
     end
-
-    # Set ActionCable Server
-    ac_server = ActionCable.server
 
     # Equipment Cycle
     while true do
@@ -40,12 +33,13 @@ class EquipmentWorker
       remote_repair = player_ship.get_remoterepair
 
       # If is attacking else
-      if  (power > 0 || player_ship.has_active_warp_disruptor) || ((power > 0) && (remote_repair > 0))
+      if (power > 0 || player_ship.has_active_warp_disruptor) ||
+         (power > 0 && remote_repair > 0)
 
         # If player is targeting user -> Call Police and Broadcast
         if player.target
           call_police(player) unless (player.target.target_id == player.id) && player.target.is_attacking
-          ac_server.broadcast("player_#{target_id}", method: 'getting_attacked', name: player_name)
+          target.broadcast(:getting_attacked, name: player.full_name)
         end
 
         # Set Attacking to True
@@ -58,7 +52,7 @@ class EquipmentWorker
 
         # If player had user targeted -> stop
         if player.target
-          ac_server.broadcast("player_#{target_id}", method: 'stopping_attack', name: player_name)
+          target.broadcast(:stopping_attack, name: player.full_name)
         end
 
         # Shutdown if repair also 0
@@ -67,7 +61,7 @@ class EquipmentWorker
       elsif remote_repair > 0
         # If player is targeting user -> Broadcast
         if player.target
-          ac_server.broadcast("player_#{target_id}", method: 'getting_helped', name: player_name)
+          player.target.broadcast(:getting_helped, name: player.full_name)
         end
 
         # Set Attacking to True
@@ -84,16 +78,15 @@ class EquipmentWorker
             player_ship.update_columns(hp: player_ship.hp + self_repair)
           end
 
-          # Broadcast
-          ac_server.broadcast("player_#{player_id}", method: 'update_health', hp: player_ship.hp)
+          player.broadcast(:update_health, hp: player_ship.hp)
 
           User.where(target_id: player_id).is_online.each do |u|
-            ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: player_ship.hp)
+            u.broadcast(:update_target_health, hp: player_ship.hp)
           end
         else
           player.active_spaceship.deactivate_selfrepair_equipment
           self_repair = 0
-          ac_server.broadcast("player_#{player_id}", method: 'disable_equipment')
+          player.broadcast(:disable_equipment)
         end
       end
 
@@ -103,11 +96,8 @@ class EquipmentWorker
         if can_attack(player)
 
           # The attack
-          if player.target
-            attack = power * (1.0 - target_ship.get_defense / 100.0)
-          else
-            attack = power
-          end
+          attack = power
+          attack = power * (1.0 - target_ship.get_defense / 100.0) if player.target
 
           target_ship.update_columns(hp: target_ship.reload.hp - attack.round + remote_repair)
 
@@ -119,24 +109,24 @@ class EquipmentWorker
 
           # Tell both parties to update their hp and log
           if player.target
-            ac_server.broadcast("player_#{target_id}", method: 'update_health', hp: target_hp)
-            ac_server.broadcast("player_#{target_id}", method: 'log', text: I18n.t('log.you_got_hit_hp', attacker: player_name, hp: attack.round))
-            ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.target.full_name, hp: attack.round))
+            target.broadcast(:update_health, hp: target_hp)
+            target.broadcast(:log, text: I18n.t('log.you_got_hit_hp', attacker: player.full_name, hp: attack.round))
+            player.broadcast(:log,  text: I18n.t('log.you_hit_for_hp', target: player.target.full_name, hp: attack.round))
           elsif player.npc_target
-            ac_server.broadcast("player_#{player_id}", method: 'log', text: I18n.t('log.you_hit_for_hp', target: player.npc_target.name, hp: attack.round))
+            player.broadcast(:log, text: I18n.t('log.you_hit_for_hp', target: player.npc_target.name, hp: attack.round))
           end
 
           # Tell other users who targeted target to also update hp
           if player.target
             User.where(target_id: target_id).is_online.each do |u|
-              ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
+              u.broadcast(:update_target_health, hp: target_hp)
             end
             if player.target.fleet
               ChatChannel.broadcast_to(player.target.fleet.chat_room, method: 'update_hp_color', color: target_ship.get_hp_color, id: player.target.id)
             end
           elsif player.npc_target
             User.where(npc_target_id: target_id).is_online.each do |u|
-              ac_server.broadcast("player_#{u.id}", method: 'update_target_health', hp: target_hp)
+              u.broadcast(:update_target_health, hp: target_hp)
             end
           end
 
@@ -158,33 +148,35 @@ class EquipmentWorker
                 player.npc_target.die if player.npc_target
                 player.active_spaceship.deactivate_weapons
               rescue
-                shutdown(player) && (return)
+                shutdown(player)
+                return
               end
             end
           end
 
         else
-
-          ActionCable.server.broadcast(player.channel_id, method: 'disable_equipment')
-          shutdown(player) && (return)
-
+          player.broadcast(:disable_equipment)
+          shutdown(player)
+          return
         end
 
       end
 
       # Rescue Global
-      if (power == 0) && (self_repair == 0) && remote_repair == 0 && !player_ship.has_active_warp_disruptor || !player.can_be_attacked
-        # Broadcast
-        ActionCable.server.broadcast(player.channel_id, method: 'disable_equipment')
+      if (power == 0) &&
+        (self_repair == 0) &&
+        remote_repair == 0 &&
+        !player_ship.has_active_warp_disruptor ||
+        !player.can_be_attacked?
 
-        shutdown(player) && (return)
+        player.broadcast(:disable_equipment)
+        shutdown(player)
+        return
       end
 
       # Global Cooldown
-      EquipmentWorker.perform_in(2.second, player.id) && (return)
-
+      EquipmentWorker.perform_in(2.second, player.id)
     end
-
   end
 
   # Shutdown Method
@@ -197,7 +189,11 @@ class EquipmentWorker
   def call_police(player)
     player_id = player.id
 
-    if !player.system.low? && !player.system.wormhole? && !Npc.police.targeting_user(player).exists? && !player.target.in_same_fleet_as(player)
+    if !player.system.low? &&
+      !player.system.wormhole? &&
+      !Npc.police.targeting_user(player).exists? &&
+      !player.target.in_same_fleet_as(player)
+
       if player.system.security_status == 'high'
         PoliceWorker.perform_async(player_id, 2)
       else

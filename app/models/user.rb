@@ -73,6 +73,7 @@
 #
 
 class User < ApplicationRecord
+  include CanBroadcast
 
   acts_as_voter
 
@@ -165,12 +166,20 @@ class User < ApplicationRecord
 
   # Will be called when a user loggs off
   def disappear
-    self.update_columns(target_id: nil) && DisappearWorker.perform_async(self.id)
+    self.update(target_id: nil) && DisappearWorker.perform_async(self.id)
+  end
+
+  def is_online?
+    self.online > 0
+  end
+
+  def ship_is_functional?
+    !self.active_spaceship&.hp.to_i.zero?
   end
 
   # Returns if player can be attacked
   def can_be_attacked
-    !docked && !in_warp && (online > 0) && ((self.active_spaceship.hp rescue 0) > 0)
+    !docked? && !in_warp? && is_online? && ship_is_functional?
   end
   alias can_be_attacked? can_be_attacked
 
@@ -187,32 +196,29 @@ class User < ApplicationRecord
     hash.reverse_merge!(corporation: { id: self.corporation.id, name: self.corporation.name, ticker: self.corporation.ticker }) if self.corporation
     KillmailWorker.perform_async(hash, attackers, loot)
 
-    # Get ActionCable Server
-    ac_server = ActionCable.server
-
     # Tell others in system that player "warped out"
-    ac_server.broadcast(self.location.channel_id, method: 'player_warp_out', name: self.full_name)
-    ac_server.broadcast(self.location.channel_id, method: 'log', text: I18n.t('log.got_killed', name: self.full_name))
+    self.location.broadcast(:player_warp_out, name: self.full_name)
+    self.location.broadcast(:log, text: I18n.t('log.got_killed', name: self.full_name))
 
     # Create Wreck and fill with random loot
     self.active_spaceship.deactivate_equipment
-    ac_server.broadcast(self.location.channel_id, method: 'player_appeared')
+    self.location.broadcast(:player_appeared)
 
     # Destroy current spaceship of user and give him a nano if not insured
     old_ship = self.active_spaceship.destroy if self.active_spaceship
     if old_ship&.insured && !police
       spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: Spaceship.get_attribute(old_ship.name, :hp))
-      self.update_columns(active_spaceship_id: spaceship.id)
+      self.update(active_spaceship_id: spaceship.id)
     else
       self.give_nano
     end
 
     # Make User docked at his factions station
     rand_location = self.faction.locations.where(location_type: :station).order(Arel.sql("RANDOM()")).first rescue nil
-    self.update_columns(in_warp: false, docked: true, location_id: rand_location.id, system_id: rand_location.system.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
+    self.update(in_warp: false, docked: true, location_id: rand_location.id, system_id: rand_location.system.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
 
     # Tell user to reload page
-    ac_server.broadcast("player_#{self.id}", method: 'reload_page')
+    self.broadcast(:reload_page)
 
     # Tell everyone in new system to update their local players
     old_system.update_local_players
@@ -234,24 +240,24 @@ class User < ApplicationRecord
   def remove_being_targeted
     Npc.targeting_user(self).update_all(target: nil)
     User.targeting_user(self).each do |user|
-      user.update_columns(target_id: nil)
+      user.update(target_id: nil)
       user.active_spaceship.deactivate_equipment if user.is_attacking?
-      ActionCable.server.broadcast(user.channel_id, method: 'remove_target')
+      user.broadcast(:remove_target)
     end
   end
 
   # Docks the player
   def dock
-    self.update_columns(docked: true, target_id: nil)
-    ActionCable.server.broadcast(self.location.channel_id, method: 'player_warp_out', name: self.full_name)
+    self.update(docked: true, target_id: nil)
+    self.location.broadcast(:player_warp_out, name: self.full_name)
     remove_being_targeted
   end
 
   # Undocks the player
   def undock
     if self.docked
-      self.update_columns(docked: false)
-      ActionCable.server.broadcast(self.location.channel_id, method: 'player_appeared')
+      self.update(docked: false)
+      self.location.broadcast(:player_appeared)
     end
   end
 
@@ -281,11 +287,19 @@ class User < ApplicationRecord
   end
 
   # Give user a nano
+  # { loader => equipped }
+  STARTING_EQUIPMENT = {
+    "equipment.miner.basic_miner" => true,
+    "equipment.weapons.laser_gatling" => true
+  }.freeze
   def give_nano
-    spaceship = Spaceship.create(user_id: self.id, name: 'Nano', hp: 150)
-    Item.create(loader: 'equipment.miner.basic_miner', spaceship: spaceship, equipped: true)
-    Item.create(loader: 'equipment.weapons.laser_gatling', spaceship: spaceship, equipped: true)
-    self.update_columns(active_spaceship_id: spaceship.id)
+    self.active_spaceship = Spaceship.build_for_user(
+      self,
+      ship: 'Nano',
+      hp: 150,
+      starting_equipment: STARTING_EQUIPMENT
+    )
+    self.save
   end
 
   # Give bounty to player (50% share of loss)
@@ -294,17 +308,17 @@ class User < ApplicationRecord
       value = (self.active_spaceship.get_total_value * 0.5).round
 
       if value <= self.bounty
-        self.update_columns(bounty: self.bounty - value)
+        self.decrement!(:bounty, value)
       else
         value = self.bounty
-        self.update_columns(bounty: 0)
+        self.update(bounty: 0)
       end
 
-      player.update_columns(bounty_claimed: player.reload.bounty_claimed + value)
+      player.increment!(:bounty_claimed, value)
       player.give_units(value)
 
-      ActionCable.server.broadcast(player.channel_id, method: 'notify_alert', text: I18n.t('notification.received_bounty', user: self.full_name, amount: value))
-      ActionCable.server.broadcast(player.channel_id, method: 'refresh_player_info')
+      player.broadcast(:notify_alert, text: I18n.t('notification.received_bounty', user: self.full_name, amount: value))
+      player.broadcast(:refresh_player_info)
     end
   end
 
@@ -330,28 +344,28 @@ class User < ApplicationRecord
 
   # Teleports to another user
   def teleport(user)
-    ActionCable.server.broadcast(self.location.channel_id, method: 'player_warp_out', name: full_name)
+    self.location.broadcast(:player_warp_out, name: full_name)
     old_system = self.system
-    self.update_columns(location_id: user.location_id, system_id: user.system_id, docked: user.docked, in_warp: false)
+    self.update(location_id: user.location_id, system_id: user.system_id, docked: user.docked, in_warp: false)
     # Tell everyone in old system to update their local players
     old_system.update_local_players
     # Tell everyone in new system to update their local players
     self.reload.system.update_local_players
-    ActionCable.server.broadcast(self.location.channel_id, method: 'player_appeared')
-    ActionCable.server.broadcast(self.channel_id, method: 'warp_finish')
+    self.location.broadcast(:player_appeared)
+    self.broadcast(:warp_finish)
   end
 
   def ban(duration, reason)
     if duration.to_i == 0
-      self.update_columns(banned: true, banned_until: nil, banreason: reason)
+      self.update(banned: true, banned_until: nil, banreason: reason)
     else
-      self.update_columns(banned: true, banned_until: (DateTime.now.to_time + duration.to_i.hours).to_datetime , banreason: reason)
+      self.update(banned: true, banned_until: (DateTime.now.to_time + duration.to_i.hours).to_datetime , banreason: reason)
     end
-    ActionCable.server.broadcast(self.channel_id, method: 'reload_page')
+    self.broadcast(:reload_page)
   end
 
   def unban
-    self.update_columns(banned: false, banned_until: nil, banreason: nil) if banned
+    self.update(banned: false, banned_until: nil, banreason: nil)
   end
 
   def has_blueprints_for?(loader)
