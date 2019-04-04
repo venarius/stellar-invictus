@@ -28,14 +28,16 @@
 
 class Spaceship < ApplicationRecord
   include HasLookupAttributes
+  @lookup_data = YAML.load_file("#{Rails.root}/config/variables/spaceships.yml")
+  @default_base = :name
 
   ## -- RELATIONSHIPS
   belongs_to :user, optional: true
   belongs_to :location, optional: true
   has_many :items, dependent: :destroy
 
-  @lookup_data = YAML.load_file("#{Rails.root}/config/variables/spaceships.yml")
-  @default_base = :name
+  ## -- VALIDATIONS
+  validates :custom_name, length: { maximum: 15 }
 
   ## — CLASS METHODS
   def self.ship_variables

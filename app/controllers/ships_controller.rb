@@ -35,8 +35,8 @@ class ShipsController < ApplicationController
   end
 
   def cargohold
-    var1 = Item.where(user: current_user, spaceship: nil, structure: nil).pluck(:location_id)
-    var2 = Spaceship.where(user: current_user).pluck(:location_id)
+    var1 = current_user.items.where(spaceship: nil, structure: nil).pluck(:location_id)
+    var2 = current_user.spaceships.pluck(:location_id)
     locations = (var1 + var2).uniq.compact
     render partial: 'ships/cargohold', locals: { items: current_user.active_spaceship.get_items(true), locations: locations }
   end
@@ -50,7 +50,7 @@ class ShipsController < ApplicationController
 
   def eject_cargo
     if params[:loader] && params[:amount] && current_user.can_be_attacked
-      amount = params[:amount].to_i rescue nil
+      amount = params[:amount].to_i
 
       if amount && (amount > 0)
         # check amount
@@ -68,17 +68,20 @@ class ShipsController < ApplicationController
   def insure
     if params[:id]
       ship = Spaceship.ensure(params[:id])
-      if ship && (ship.user == current_user) && !ship.insured && current_user.docked
+      if ship && (ship.user == current_user) && !ship.insured? && current_user.docked?
         price = (Spaceship.get_attribute(ship.name, :price) / 2).round
 
-        # check credits
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: :bad_request) && (return) unless current_user.units >= price
+        # check that they have enough units
+        if price > current_user.units
+          render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: :bad_request)
+          return
+        end
 
-        # Insure
-        ship.update_columns(insured: true)
-
-        # Deduct units
-        current_user.reduce_units(price)
+        # Insure & charge them
+        ActiveRecord::Base.transaction do
+          ship.update_columns(insured: true)
+          current_user.reduce_units(price)
+        end
 
         render(json: {}, status: :ok) && (return)
       end
@@ -90,10 +93,11 @@ class ShipsController < ApplicationController
     if params[:name] && params[:id]
       ship = Spaceship.ensure(params[:id])
 
-      if ship && (ship.user == current_user) && (params[:name].length <= 15)
-        ship.update_columns(custom_name: params[:name])
-        render(json: {}, status: :ok)
-        return
+      if ship && (ship.user == current_user)
+        if ship.update(custom_name: params[:name])
+          render(json: {}, status: :ok)
+          return
+        end
       end
     end
     render json: {}, status: :bad_request
@@ -104,12 +108,14 @@ class ShipsController < ApplicationController
   end
 
   def upgrade
-    if current_user.docked && current_user.active_spaceship && (current_user.active_spaceship.level < 5)
+    if current_user.docked? && current_user.active_spaceship && (current_user.active_spaceship.level < 5)
       # Check required materials
-
       current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
-        item = Item.find_by(loader: key, user: current_user, location: current_user.location) rescue nil
-        render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: :bad_request) && (return) if !item || item.count < value
+        item = current_user.items.where(loader: key, location: current_user.location).first
+        if !item || item.count < value
+          render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: :bad_request)
+          return
+        end
       end
 
       # Delete ressources
