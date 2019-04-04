@@ -1,5 +1,5 @@
 # Asteroids
-Location.where(location_type: 'asteroid_field').each do |loc|
+Location.asteroid_field.each do |loc|
   if loc.asteroids.count < 5
     if loc.system.low?
       rand(2..7).times do

@@ -47,7 +47,7 @@ RSpec.describe MarketController, type: :controller do
     before(:each) do
       @user = create(:user_with_faction)
       sign_in @user
-      @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
+      @user.update_columns(location_id: Location.station.first.id, docked: true)
     end
 
     describe 'GET list' do
