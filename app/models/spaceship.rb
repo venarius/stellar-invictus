@@ -54,6 +54,14 @@ class Spaceship < ApplicationRecord
 
   ## — INSTANCE METHODS
 
+  # TODO: Seems like custom_name isn't being used yet, or was removed.
+  # But this would return the custom name if present or use the default name if not.
+  # def name
+  #   result = self.custom_name
+  #   result = super if result.blank?
+  #   result
+  # end
+
   # Get Weight of all Items in Ship
   def get_weight
     Item.where(spaceship: self, equipped: false).map(&:total_weight).sum

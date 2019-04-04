@@ -94,6 +94,7 @@ class ShipsController < ApplicationController
       ship = Spaceship.ensure(params[:id])
 
       if ship && (ship.user == current_user)
+        params[:name] = nil if params[:name].blank?
         if ship.update(custom_name: params[:name])
           render(json: {}, status: :ok)
           return
