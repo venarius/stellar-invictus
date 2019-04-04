@@ -21,6 +21,8 @@ We encourage you to contribute to stellar-invictus!
 
 We expect contributors to abide by our underlying [code of conduct](CODE_OF_CONDUCT.md). All conversations and discussions on GitHub (issues, pull requests) must be respectful and harassment-free.
 
+We also have a [slack](https://join.slack.com/t/stellarinvictus/shared_invite/enQtNjAwMzczMjUzMTI1LWQ4NjljMWFhYjhmYWFlZDhjYjJiMDgxYmYwODA1YTIwZTA2YmE3MzA1NzI3MmVhZjRlOGJhN2Y1ZjhkYTRiYWY) for developers!
+
 ### How to contribute
 
 1.  Fork the project & clone locally. Follow the initial setup [here](#getting-started).
