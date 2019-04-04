@@ -12,7 +12,7 @@ RSpec.configure do |config|
     Rails.application.load_seed
 
     Asteroid.destroy_all
-    Location.where(location_type: 'asteroid_field').each do |loc|
+    Location.asteroid_field.each do |loc|
       rand(5..10).times do
         Asteroid.create(location: loc, asteroid_type: rand(3), resources: 35000)
       end

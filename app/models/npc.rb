@@ -41,7 +41,7 @@ class Npc < ApplicationRecord
   end
 
   def drop_loot
-    if self.location.location_type == 'exploration_site'
+    if self.location.exploration_site?
       loader = Item::MATERIALS
       loader = loader + ["asteroid.lunarium_ore"] if self.location.system.wormhole?
       case rand(1..100)
@@ -95,7 +95,7 @@ class Npc < ApplicationRecord
 
     value = rand(5..15)
 
-    value = value * 3 if self.location.system.security_status == 'low' || self.location.location_type == 'exploration_site' || self.politician?
+    value = value * 3 if self.location.system.security_status == 'low' || self.location.exploration_site? || self.politician?
 
     value = value * 50 if self.wanted_enemy?
 

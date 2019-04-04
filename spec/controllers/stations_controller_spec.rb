@@ -150,7 +150,7 @@ RSpec.describe StationsController, type: :controller do
       end
 
       it 'should refuse request if user standing below or eq -10 with faction' do
-        faction_station = Location.where(location_type: 'station').where(faction_id: 1).first
+        faction_station = Location.station.where(faction_id: 1).first
         user.update(location: faction_station)
         user.update(reputation_1: -10)
         post :dock

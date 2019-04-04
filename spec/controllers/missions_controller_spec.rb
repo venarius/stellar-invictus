@@ -47,7 +47,7 @@ RSpec.describe MissionsController, type: :controller do
     before (:each) do
       @user = create(:user_with_faction)
       sign_in @user
-      @user.update_columns(location_id: Location.where(location_type: 'station').first.id, docked: true)
+      @user.update_columns(location_id: Location.station.first.id, docked: true)
       MissionGenerator.generate_missions(@user.location.id)
     end
 
@@ -94,7 +94,7 @@ RSpec.describe MissionsController, type: :controller do
       end
 
       it 'should not accept mission if user is in another location' do
-        @user.update_columns(location_id: Location.where(location_type: 'station').last.id)
+        @user.update_columns(location_id: Location.station.last.id)
         post :accept, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
         expect(@user.reload.missions.count).to eq(0)

@@ -53,7 +53,7 @@ class Pathfinder
 
   def self.neighbors(name)
     neighbors = []
-    System.find_by(name: name).locations.where(location_type: 'jumpgate').each do |location|
+    System.find_by(name: name).locations.jumpgate.each do |location|
       neighbors << location.get_name
     end
     neighbors

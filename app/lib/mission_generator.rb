@@ -102,11 +102,11 @@ class MissionGenerator
       mission.mission_type = rand(1..5)
     end
 
-    if mission.mission_type == 'delivery'
-
+    if mission.delivery?
       # Get System to Deliver To
+      station_ids = Location.station.ids
       loop do
-        mission.deliver_to = Location.uncached do Location.where(location_type: 'station').order(Arel.sql("RANDOM()")).limit(1).pluck(:id)[0] end
+        mission.deliver_to = station_ids.sample
         break if mission.deliver_to != location.id
       end
 
@@ -128,15 +128,18 @@ class MissionGenerator
       # Generate Items
       mission.mission_loader = Item::DELIVERY.sample
       mission.mission_amount = rand(2..5)
-    elsif mission.mission_type == 'combat'
+    elsif mission.combat?
       mission.enemy_amount = rand(2..5) * (difficulty + 1)
-      mission.mission_location = Location.create(location_type: 'mission', system_id: System.find_by(name: location.system.locations.where(location_type: 'jumpgate').order(Arel.sql("RANDOM()")).first.name).id)
+      system = location.system
+      jumpgate = system.locations.jumpgate.order(Arel.sql("RANDOM()")).first
+      mission_system = System.find_by(name: jumpgate.name)
+      mission.mission_location = Location.create(location_type: :mission, system: mission_system)
 
       # Set Reward
       mission.reward = (40 * (difficulty + 1) * mission.enemy_amount * rand(0.8..1.2)).round
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
-    elsif mission.mission_type == 'mining' || mission.mission_type == 'market'
-      if mission.mission_type == 'market'
+    elsif mission.mining? || mission.market?
+      if mission.market?
         mission.mission_loader = Item::EQUIPMENT_EASY.sample
       else
         mission.mission_loader = (Item::ASTEROIDS - ["asteroid.tryon_ore", "asteroid.lunarium_ore"]).sample
@@ -145,9 +148,9 @@ class MissionGenerator
 
       # Set Reward
       mission.reward = (Item.get_attribute(mission.mission_loader, :price) * mission.mission_amount * rand(1.05..1.10)).round
-    elsif mission.mission_type == 'vip'
+    elsif mission.vip?
       mission.enemy_amount = 3
-      m_location = Location.where.not(faction_id: mission.faction_id).where("faction_id IS NOT NULL").order(Arel.sql("RANDOM()")).first
+      m_location = Location.where.not(faction_id: mission.faction_id).where.not(faction_id: nil).order(Arel.sql("RANDOM()")).first
       mission.mission_location = Location.create(location_type: 'mission', system_id: m_location.system.id, faction_id: m_location.faction_id)
 
       # Set Reward
