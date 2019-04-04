@@ -60,7 +60,7 @@ class ChatRoom < ApplicationRecord
   end
 
   private
-    def set_identifier
-      self.identifier ||= SecureRandom.uuid
-    end
+  def set_identifier
+    self.identifier ||= SecureRandom.uuid
+  end
 end

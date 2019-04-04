@@ -47,21 +47,21 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect {
           post :create, params: { title: "Test" }
           expect(response).to have_http_status(:ok)
-        }.to change{ ChatRoom.count }.by(1)
+        }.to change { ChatRoom.count }.by(1)
       end
 
       it 'shouldnt create new room without params' do
         expect {
           post :create
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ ChatRoom.count }
+        }.not_to change { ChatRoom.count }
       end
 
       it 'shouldnt create new room with too long title' do
         expect {
           post :create, params: { title: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ ChatRoom.count }
+        }.not_to change { ChatRoom.count }
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe ChatRoomsController, type: :controller do
     end
 
     describe 'POST leave' do
-      let(:room) { create :chat_room, title: "Test"}
+      let(:room) { create :chat_room, title: "Test" }
       before(:each) do
         room.users << user
       end
@@ -130,7 +130,7 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect {
           post :leave, params: { id: room.identifier }
           expect(response).to have_http_status(:ok)
-        }.to change{room.users.count}.by(-1)
+        }.to change { room.users.count }.by(-1)
       end
 
       it 'should leave room and reset fleet id if room has fleet' do
@@ -138,7 +138,7 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect {
           post :leave, params: { id: room.identifier }
           expect(response).to have_http_status(:ok)
-        }.to change{room.users.count}.by(-1)
+        }.to change { room.users.count }.by(-1)
         expect(room.fleet.users.count).to eq(0)
         expect(user.reload.fleet_id).to eq(nil)
       end
@@ -147,13 +147,13 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect {
           post :leave, params: { id: room.identifier }
           expect(response).to have_http_status(:ok)
-        }.to change{room.users.count}.by(-1)
+        }.to change { room.users.count }.by(-1)
         expect(room.users.count).to eq(0)
 
         expect {
           post :leave, params: { id: room.identifier }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ room.users.count }
+        }.not_to change { room.users.count }
       end
     end
 
@@ -162,7 +162,7 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect {
           post :start_conversation
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ChatRoom.count}
+        }.not_to change { ChatRoom.count }
       end
 
       it 'should create channel if id given' do
@@ -170,7 +170,7 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect {
           post :start_conversation, params: { id: user2.id }
           expect(response).to have_http_status(:ok)
-        }.to change{ChatRoom.count}.by(1)
+        }.to change { ChatRoom.count }.by(1)
       end
 
       it 'should take existing channel if identifier given' do
@@ -179,14 +179,14 @@ RSpec.describe ChatRoomsController, type: :controller do
         expect {
           post :start_conversation, params: { id: user2.id, identifier: room.identifier }
           expect(response).to have_http_status(:ok)
-        }.not_to change{ChatRoom.count}
+        }.not_to change { ChatRoom.count }
       end
 
       it 'should fail if inviting self' do
         expect {
           post :start_conversation, params: { id: user.id }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ChatRoom.count}
+        }.not_to change { ChatRoom.count }
       end
     end
 

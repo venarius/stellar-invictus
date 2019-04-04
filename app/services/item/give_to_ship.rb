@@ -8,7 +8,7 @@ class Item::GiveToShip < ApplicationService
     fail!("Item(#{loader}) not found") unless item
 
     if item.count > amount
-      # If they have enough, 
+      # If they have enough,
       Item.transaction do
         item.decrement!(:count, amount)
         Item::GiveToUser.(user: user, loader: loader, amount: amount)
