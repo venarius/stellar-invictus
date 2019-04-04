@@ -11,8 +11,6 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def send_message(data)
-    ap "ChatChannel.send_message"
-    ap data
     unless current_user.reload.muted
       if data['room'] == "local"
         ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.local.where(system: current_user.reload.system).first)
