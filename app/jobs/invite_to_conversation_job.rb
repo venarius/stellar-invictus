@@ -10,7 +10,11 @@ class InviteToConversationJob < ApplicationJob
   end
 
   private
+
   def render_message(user, room)
-    ApplicationController.renderer.render(partial: 'chat_messages/invited_to_conversation', locals: { user: user, room: room })
+    ApplicationController.renderer.render(
+      partial: 'chat_messages/invited_to_conversation',
+      locals: { user: user, room: room }
+    )
   end
 end

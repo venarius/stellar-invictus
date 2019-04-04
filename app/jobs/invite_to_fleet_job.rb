@@ -10,7 +10,11 @@ class InviteToFleetJob < ApplicationJob
   end
 
   private
+
   def render_message(user, fleet)
-    ApplicationController.renderer.render(partial: 'chat_messages/invited_to_fleet', locals: { user: user, fleet: fleet })
+    ApplicationController.renderer.render(
+      partial: 'chat_messages/invited_to_fleet',
+      locals: { user: user, fleet: fleet }
+    )
   end
 end
