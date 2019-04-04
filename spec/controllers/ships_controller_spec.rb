@@ -202,29 +202,29 @@ RSpec.describe ShipsController, type: :controller do
     end
 
     describe 'POST custom_name' do
+      let(:spaceship) { create :spaceship, name: "Valadria", hp: 500, user: user }
       before(:each) do
-        @spaceship = create(:spaceship, name: "Valadria", hp: "500", user: user)
-        user.update(active_spaceship_id: @spaceship.id)
+        user.update(active_spaceship: spaceship)
       end
 
       it 'should rename ship' do
-        post :custom_name, params: { name: "Test", id: @spaceship.id }
+        post :custom_name, params: { name: "Test", id: spaceship.id }
         expect(response).to have_http_status(:ok)
-        expect(@spaceship.reload.custom_name).to eq("Test")
+        expect(spaceship.reload.custom_name).to eq("Test")
       end
 
       it 'should not rename ship to longer name than 15' do
-        post :custom_name, params: { name: "Testtttttttttttttttttttttttttttttttttt", id: @spaceship.id }
+        post :custom_name, params: { name: "Testtttttttttttttttttttttttttttttttttt", id: spaceship.id }
         expect(response).to have_http_status(:bad_request)
-        expect(@spaceship.reload.custom_name).to eq(nil)
+        expect(spaceship.reload.custom_name).to eq(nil)
       end
 
       it 'should not rename ship of another user' do
         user2 = create(:user_with_faction)
-        @spaceship.update(user_id: user2.id)
-        post :custom_name, params: { name: "Test", id: @spaceship.id }
+        spaceship.update(user_id: user2.id)
+        post :custom_name, params: { name: "Test", id: spaceship.id }
         expect(response).to have_http_status(:bad_request)
-        expect(@spaceship.reload.custom_name).to eq(nil)
+        expect(spaceship.reload.custom_name).to eq(nil)
       end
     end
   end
