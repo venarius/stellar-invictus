@@ -50,7 +50,7 @@ RSpec.describe BlueprintsController, type: :controller do
         expect {
           post :buy, params: { loader: 'Nano', type: 'ship' }
           expect(response).to have_http_status(:ok)
-        }.to change{ Blueprint.count }.by(1)
+        }.to change { Blueprint.count }.by(1)
       end
 
       it 'should buy item blueprint for ITEM if enough credits' do
@@ -58,7 +58,7 @@ RSpec.describe BlueprintsController, type: :controller do
         expect {
           post :buy, params: { loader: Item::EQUIPMENT.sample, type: 'item' }
           expect(response).to have_http_status(:ok)
-        }.to change{ Blueprint.count }.by(1)
+        }.to change { Blueprint.count }.by(1)
       end
 
       it 'should NOT buy blueprint if not enough credits' do
@@ -66,7 +66,7 @@ RSpec.describe BlueprintsController, type: :controller do
         expect {
           post :buy, params: { loader: 'Valadria', type: 'ship' }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Blueprint.count }
+        }.not_to change { Blueprint.count }
       end
 
       it 'should NOT buy blueprint if not at industrial station' do
@@ -75,7 +75,7 @@ RSpec.describe BlueprintsController, type: :controller do
         expect {
           post :buy, params: { loader: 'Nano', type: 'ship' }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Blueprint.count }
+        }.not_to change { Blueprint.count }
       end
 
       it 'should NOT buy blueprint if user not docked' do
@@ -84,7 +84,7 @@ RSpec.describe BlueprintsController, type: :controller do
         expect {
           post :buy, params: { loader: 'Nano', type: 'ship' }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Blueprint.count }
+        }.not_to change { Blueprint.count }
       end
 
       it 'should NOT buy blueprint if user already has blueprint' do
@@ -93,7 +93,7 @@ RSpec.describe BlueprintsController, type: :controller do
         expect {
           post :buy, params: { loader: 'Nano', type: 'ship' }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Blueprint.count }
+        }.not_to change { Blueprint.count }
       end
     end
 

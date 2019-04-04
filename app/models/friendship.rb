@@ -35,14 +35,14 @@ class Friendship < ApplicationRecord
 
   private
 
-    def create_inverse_relationship
-      if self.accepted && friend.friendships.where(friend: user).empty?
-        friend.friendships.create(friend: user, accepted: false)
-      end
+  def create_inverse_relationship
+    if self.accepted && friend.friendships.where(friend: user).empty?
+      friend.friendships.create(friend: user, accepted: false)
     end
+  end
 
-    def destroy_inverse_relationship
-      friendship = friend.friendships.find_by(friend: user)
-      friendship.destroy if friendship
-    end
+  def destroy_inverse_relationship
+    friendship = friend.friendships.find_by(friend: user)
+    friendship.destroy if friendship
+  end
 end

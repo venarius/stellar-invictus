@@ -79,7 +79,7 @@ RSpec.describe StructuresController, type: :controller do
       it 'should pickup_cargo and not call police if same user' do
         expect {
           post :pickup_cargo, params: { id: container.id, loader: 'test' }
-        }.to change{ Structure.count }.by(-1)
+        }.to change { Structure.count }.by(-1)
         expect(response).to have_http_status(:ok)
         expect(user.reload.active_spaceship.get_weight).to eq(5)
         expect(PoliceWorker.jobs.size).to eq(0)
@@ -88,7 +88,7 @@ RSpec.describe StructuresController, type: :controller do
       it 'should pickup all cargo and not call police if same user' do
         expect {
           post :pickup_cargo, params: { id: container.id }
-        }.to change{ Structure.count }.by(-1)
+        }.to change { Structure.count }.by(-1)
         expect(response).to have_http_status(:ok)
         expect(user.reload.active_spaceship.get_weight).to eq(5)
         expect(PoliceWorker.jobs.size).to eq(0)
@@ -99,7 +99,7 @@ RSpec.describe StructuresController, type: :controller do
         sign_in user2
         expect {
           post :pickup_cargo, params: { id: container.id, loader: 'test' }
-        }.to change{ Structure.count }.by(-1)
+        }.to change { Structure.count }.by(-1)
         expect(response).to have_http_status(:ok)
         expect(user2.reload.active_spaceship.get_weight).to eq(5)
       end
@@ -109,7 +109,7 @@ RSpec.describe StructuresController, type: :controller do
         expect {
           post :pickup_cargo, params: { id: container.id, loader: 'test' }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Structure.count }
+        }.not_to change { Structure.count }
       end
 
       it 'should not pickup_cargo user in other location' do
@@ -117,7 +117,7 @@ RSpec.describe StructuresController, type: :controller do
         expect {
           post :pickup_cargo, params: { id: container.id, loader: 'test' }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Structure.count }
+        }.not_to change { Structure.count }
       end
 
       it 'should not pickup_cargo if user full' do
@@ -125,7 +125,7 @@ RSpec.describe StructuresController, type: :controller do
         expect {
           post :pickup_cargo, params: { id: container.id, loader: 'test' }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Structure.count }
+        }.not_to change { Structure.count }
       end
 
       it 'should only pickup cargo until user is full' do
@@ -133,7 +133,7 @@ RSpec.describe StructuresController, type: :controller do
         expect {
           post :pickup_cargo, params: { id: container.id, loader: 'test' }
           expect(response).to have_http_status(:ok)
-        }.not_to change{ Structure.count }
+        }.not_to change { Structure.count }
         expect(user.reload.active_spaceship.get_weight).to eq(10)
       end
     end
@@ -152,7 +152,7 @@ RSpec.describe StructuresController, type: :controller do
         expect {
           post :attack, params: { id: container.id }
           expect(response).to have_http_status(:ok)
-        }.to change{ Structure.count }.by(-1)
+        }.to change { Structure.count }.by(-1)
       end
 
       it 'should not destroy if user in other location' do
@@ -160,7 +160,7 @@ RSpec.describe StructuresController, type: :controller do
         expect {
           post :attack, params: { id: container.id }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Structure.count }
+        }.not_to change { Structure.count }
       end
     end
 
@@ -206,14 +206,14 @@ RSpec.describe StructuresController, type: :controller do
               post :abandoned_ship, params: { id: abandoned_ship.id, text: "Glub" }
               expect(response).to have_http_status(:bad_request)
             end
-          }.to change{ Structure.count }.by(-1)
+          }.to change { Structure.count }.by(-1)
         end
 
         it 'should succeed if right answer given' do
           expect {
             post :abandoned_ship, params: { id: abandoned_ship.id, text: "9" }
             expect(response).to have_http_status(:ok)
-          }.to change{ Structure.count }.by(1)
+          }.to change { Structure.count }.by(1)
         end
 
         it 'should fail if user in other location' do
@@ -221,7 +221,7 @@ RSpec.describe StructuresController, type: :controller do
           expect {
             post :abandoned_ship, params: { id: abandoned_ship.id, text: "9" }
             expect(response).to have_http_status(:bad_request)
-          }.not_to change{ Structure.count }
+          }.not_to change { Structure.count }
         end
       end
     end
