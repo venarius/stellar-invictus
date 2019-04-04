@@ -7,7 +7,7 @@ class EquipmentController < ApplicationController
     ship = current_user.active_spaceship
 
     # Return if current user is not docked
-    render(json: {}, status: 400) && (return) if !current_user.docked
+    render(json: {}, status: :bad_request) && (return) if !current_user.docked
 
     # Update items which are not equipped anymore
     ids = []
@@ -20,7 +20,7 @@ class EquipmentController < ApplicationController
       if !ids&.include?(loader)
         # check black hole
         if item.loader.include?("equipment.storage") && (current_user.active_spaceship.get_weight > 0)
-          render(json: { error_message: I18n.t('errors.clear_storage_first') }, status: 400) && (return)
+          render(json: { error_message: I18n.t('errors.clear_storage_first') }, status: :bad_request) && (return)
         end
 
         Item::GiveToUser.(loader: loader, user: current_user, amount: 1)
@@ -46,7 +46,7 @@ class EquipmentController < ApplicationController
               item.update_columns(equipped: true)
             end
           else
-            render(json: {}, status: 400) && (return)
+            render(json: {}, status: :bad_request) && (return)
           end
         elsif item.get_attribute('slot_type') == "utility"
           if ship.get_free_utility_slots > 0
@@ -57,18 +57,18 @@ class EquipmentController < ApplicationController
               item.update_columns(equipped: true)
             end
           else
-            render(json: {}, status: 400) && (return)
+            render(json: {}, status: :bad_request) && (return)
           end
         else
-          render(json: {}, status: 400) && (return)
+          render(json: {}, status: :bad_request) && (return)
         end
 
       else
-        render(json: {}, status: 400) && (return)
+        render(json: {}, status: :bad_request) && (return)
       end
     end
 
-    render(json: { defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time, target: ship.get_target_time }, status: 200) && (return)
+    render(json: { defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time, target: ship.get_target_time }, status: :ok) && (return)
   end
 
   def switch
@@ -81,10 +81,10 @@ class EquipmentController < ApplicationController
           EquipmentWorker.perform_async(current_user.id)
         end
 
-        render(json: { type: item.get_attribute('type') }, status: 200) && (return)
+        render(json: { type: item.get_attribute('type') }, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def info

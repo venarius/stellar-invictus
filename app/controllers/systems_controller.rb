@@ -7,7 +7,7 @@ class SystemsController < ApplicationController
         render(partial: 'systems/info', locals: { sys: system }) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def route
@@ -24,27 +24,27 @@ class SystemsController < ApplicationController
         end
 
         current_user.update_columns(route: jumpgates)
-        render(json: { old_route: old_route, route: jumpgates, card: render_to_string(partial: 'systems/route_card') }, status: 200) && (return)
+        render(json: { old_route: old_route, route: jumpgates, card: render_to_string(partial: 'systems/route_card') }, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def clear_route
     old_route = current_user.route
     current_user.update_columns(route: [])
-    render json: { route: old_route }, status: 200
+    render json: { route: old_route }, status: :ok
   end
 
   def scan
     scanner_range = current_user.active_spaceship.get_scanner_range
     if scanner_range && current_user.can_be_attacked
       # check count
-      render(json: { error_message: I18n.t('errors.no_exploration_sites_found') }, status: 400) && (return) if current_user.system.locations.where(hidden: true).count == 0
+      render(json: { error_message: I18n.t('errors.no_exploration_sites_found') }, status: :bad_request) && (return) if current_user.system.locations.where(hidden: true).count == 0
 
       render partial: 'game/locations_table', locals: { locations: current_user.system.locations.where(hidden: true).limit(scanner_range) }
     else
-      render json: {}, status: 400
+      render json: {}, status: :bad_request
     end
   end
 
@@ -63,9 +63,9 @@ class SystemsController < ApplicationController
         end
       end
 
-      render(json: { locations: locations }, status: 200) && (return)
+      render(json: { locations: locations }, status: :ok) && (return)
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def jump_drive
@@ -74,12 +74,12 @@ class SystemsController < ApplicationController
 
       # Check Warp Disrupt
       if current_user.active_spaceship.is_warp_disrupted
-        render(json: { 'error_message' => I18n.t('errors.warp_disrupted') }, status: 400) && (return)
+        render(json: { 'error_message' => I18n.t('errors.warp_disrupted') }, status: :bad_request) && (return)
       end
 
       # Check in combat
       if User.targeting_user(current_user).where(is_attacking: true).exists? || Npc.targeting_user(current_user).exists?
-        render(json: { 'error_message' => I18n.t('errors.cant_do_that_whilst_in_combat') }, status: 400) && (return)
+        render(json: { 'error_message' => I18n.t('errors.cant_do_that_whilst_in_combat') }, status: :bad_request) && (return)
       end
 
       if system && (system.medium? || system.high?) && (current_user.system.medium? || current_user.system.high?)
@@ -94,10 +94,10 @@ class SystemsController < ApplicationController
         end
 
         JumpWorker.perform_async(current_user.id, false, (traveltime * 0.75).round, system.id)
-        render(json: { traveltime: (traveltime * 0.75).round }, status: 200) && (return)
+        render(json: { traveltime: (traveltime * 0.75).round }, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
 end

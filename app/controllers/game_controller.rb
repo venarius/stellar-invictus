@@ -35,42 +35,42 @@ class GameController < ApplicationController
           end
 
           if current_user.active_spaceship&.warp_target_id == location.id
-            render json: { align_time: 0 }, status: 200
+            render json: { align_time: 0 }, status: :ok
           else
-            render json: { align_time: align ? align : current_user.active_spaceship&.get_align_time }, status: 200
+            render json: { align_time: align ? align : current_user.active_spaceship&.get_align_time }, status: :ok
           end
         else
-          render json: {}, status: 400
+          render json: {}, status: :bad_request
         end
       elsif params[:uid]
         user = User.find(params[:uid]) rescue nil
         if user && user.in_same_fleet_as(current_user)
           # Check location
-          render(json: { "error_message": I18n.t('errors.user_must_be_in_same_system') }, status: 400) && (return) unless user.system == current_user.system
-          render(json: { "error_message": I18n.t('errors.already_at_location') }, status: 400) && (return) if user.location == current_user.location
+          render(json: { "error_message": I18n.t('errors.user_must_be_in_same_system') }, status: :bad_request) && (return) unless user.system == current_user.system
+          render(json: { "error_message": I18n.t('errors.already_at_location') }, status: :bad_request) && (return) if user.location == current_user.location
 
           WarpWorker.perform_async(current_user.id, user.location.id)
 
           if current_user.active_spaceship&.warp_target_id == user.location.id
-            render json: { align_time: 0 }, status: 200
+            render json: { align_time: 0 }, status: :ok
           else
-            render json: { align_time: current_user.active_spaceship&.get_align_time }, status: 200
+            render json: { align_time: current_user.active_spaceship&.get_align_time }, status: :ok
           end
         else
-          render json: {}, status: 400
+          render json: {}, status: :bad_request
         end
       end
     else
-      render json: {}, status: 400
+      render json: {}, status: :bad_request
     end
   end
 
   def jump
     if !current_user.in_warp && (current_user.location.jumpgate || current_user.location.wormhole?)
       JumpWorker.perform_async(current_user.id)
-      render json: {}, status: 200
+      render json: {}, status: :ok
     else
-      render json: {}, status: 400
+      render json: {}, status: :bad_request
     end
   end
 
@@ -120,13 +120,13 @@ class GameController < ApplicationController
 
   def check_police
     if Npc.police.targeting_user(current_user).exists?
-      render(json: { 'error_message' => I18n.t('errors.police_inbound') }, status: 400) && (return)
+      render(json: { 'error_message' => I18n.t('errors.police_inbound') }, status: :bad_request) && (return)
     end
   end
 
   def check_warp_disrupt
     if current_user.active_spaceship&.is_warp_disrupted
-      render(json: { 'error_message' => I18n.t('errors.warp_disrupted') }, status: 400) && (return)
+      render(json: { 'error_message' => I18n.t('errors.warp_disrupted') }, status: :bad_request) && (return)
     end
   end
 end

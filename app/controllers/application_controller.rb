@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_docked
-    render(json: {}, status: 400) && (return) unless current_user.docked
+    render(json: {}, status: :bad_request) && (return) unless current_user.docked
   end
 
   def check_admin

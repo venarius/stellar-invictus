@@ -11,9 +11,9 @@ class UsersController < ApplicationController
   def update_bio
     if params[:text]
       current_user.update_attribute('bio', params[:text])
-      render(json: {}, status: 200) && (return)
+      render(json: {}, status: :ok) && (return)
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def place_bounty
@@ -23,10 +23,10 @@ class UsersController < ApplicationController
 
       if amount && user
         # Check minimum
-        render(json: { 'error_message': I18n.t('errors.minimum_amount_is_1k_credits') }, status: 400) && (return) unless amount >= 1000
+        render(json: { 'error_message': I18n.t('errors.minimum_amount_is_1k_credits') }, status: :bad_request) && (return) unless amount >= 1000
 
         # Check balance
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: 400) && (return) unless current_user.units >= amount
+        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: :bad_request) && (return) unless current_user.units >= amount
 
         current_user.reduce_units(amount)
 
@@ -36,10 +36,10 @@ class UsersController < ApplicationController
           text: I18n.t('notification.placed_bounty', user: current_user.full_name, amount: amount)
         )
 
-        render(json: {}, status: 200) && (return)
+        render(json: {}, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
 end

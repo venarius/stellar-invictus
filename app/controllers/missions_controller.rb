@@ -7,7 +7,7 @@ class MissionsController < ApplicationController
     if @mission.offered? || (@mission.active? && (@mission.user == current_user))
       render(partial: 'stations/missions/info', locals: { mission: @mission }) && (return)
     else
-      render json: {}, status: 400
+      render json: {}, status: :bad_request
     end
   end
 
@@ -21,18 +21,18 @@ class MissionsController < ApplicationController
 
       MissionGenerator.generate_missions(current_user.location.id)
 
-      render(json: { message: I18n.t('missions.successfully_accepted_mission') }, status: 200) && (return)
+      render(json: { message: I18n.t('missions.successfully_accepted_mission') }, status: :ok) && (return)
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   # Finish a mission
   def finish
     error = MissionGenerator.finish_mission(@mission.id)
     if error
-      render json: { 'error_message': error }, status: 400
+      render json: { 'error_message': error }, status: :bad_request
     else
-      render json: { message: I18n.t('missions.successfully_finished_mission') }, status: 200
+      render json: { message: I18n.t('missions.successfully_finished_mission') }, status: :ok
     end
   end
 
@@ -41,12 +41,12 @@ class MissionsController < ApplicationController
     if @mission.active? && (@mission.user == current_user)
       error = MissionGenerator.abort_mission(@mission.id)
       if error
-        render json: { 'error_message': error }, status: 400
+        render json: { 'error_message': error }, status: :bad_request
       else
-        render json: { message: I18n.t('missions.successfully_aborted_mission') }, status: 200
+        render json: { message: I18n.t('missions.successfully_aborted_mission') }, status: :ok
       end
     else
-      render json: {}, status: 400
+      render json: {}, status: :bad_request
     end
   end
 
@@ -61,7 +61,7 @@ class MissionsController < ApplicationController
     if params[:id]
       @mission = Mission.ensure(params[:id])
       unless @mission && current_user.docked
-        render(json: {}, status: 400) && (return)
+        render(json: {}, status: :bad_request) && (return)
       end
     end
   end

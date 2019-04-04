@@ -5,12 +5,12 @@ class ChatRoomsController < ApplicationController
       room = ChatRoom.new(title: params[:title], chatroom_type: :custom)
       if room.save
         room.users << current_user
-        render(json: { 'id': room.identifier }, status: 200) && (return)
+        render(json: { 'id': room.identifier }, status: :ok) && (return)
       else
-        render(json: { error_message: room.errors.full_messages }, status: 400) && (return)
+        render(json: { error_message: room.errors.full_messages }, status: :bad_request) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   # Join a ChatRoom
@@ -25,7 +25,7 @@ class ChatRoomsController < ApplicationController
       if room && room.custom?
 
         # Check if already joined
-        render(json: { 'error_message': I18n.t('errors.already_joined_chat_room') }, status: 400) && (return) unless room_users.where(id: current_user.id).empty?
+        render(json: { 'error_message': I18n.t('errors.already_joined_chat_room') }, status: :bad_request) && (return) unless room_users.where(id: current_user.id).empty?
 
         # If room has fleet -> Fleet Stuff
         if room.fleet
@@ -41,12 +41,12 @@ class ChatRoomsController < ApplicationController
         room.update_local_players
 
         # Render 200 OK
-        render(json: { 'id': room.identifier }, status: 200) && (return)
+        render(json: { 'id': room.identifier }, status: :ok) && (return)
       else
-        render(json: { 'error_message': I18n.t('errors.couldnt_find_chat_room') }, status: 400) && (return)
+        render(json: { 'error_message': I18n.t('errors.couldnt_find_chat_room') }, status: :bad_request) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   # Leave a ChatRoom
@@ -87,10 +87,10 @@ class ChatRoomsController < ApplicationController
         end
 
         # Render 200 OK
-        render(json: {}, status: 200) && (return)
+        render(json: {}, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   # Invite other user to conversation
@@ -115,10 +115,10 @@ class ChatRoomsController < ApplicationController
         InviteToConversationJob.perform_now(current_user.id, room.identifier, user.id)
 
         # Render 200 OK
-        render(json: { 'id': room.identifier }, status: 200) && (return)
+        render(json: { 'id': room.identifier }, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def search
@@ -126,6 +126,6 @@ class ChatRoomsController < ApplicationController
       result = User.where("full_name ILIKE ?", "%#{params[:name]}%").where.not(faction_id: nil).first(20)
       render(partial: 'game/chat/search', locals: { users: result, identifier: params[:identifier] }) && (return)
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 end
