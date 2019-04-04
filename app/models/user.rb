@@ -263,17 +263,20 @@ class User < ApplicationRecord
 
   # Reduce the user's units
   def reduce_units(amount)
-    self.update_columns(units: self.reload.units - amount)
+    self.decrement!(:units, amount)
   end
 
   # Give the user units
   def give_units(amount)
     if self.corporation && (self.corporation.tax > 0)
-      new_amount = amount - amount * (self.corporation.tax / 100)
-      self.corporation.update_columns(units: self.corporation.units + (amount - new_amount))
-      self.update_columns(units: self.reload.units + new_amount)
+      corp_tax = amount * (self.corporation.tax / 100)
+      new_amount = amount - corp_tax
+      ActiveRecord::Base.transaction do
+        self.corporation.increment!(:units, corp_tax)
+        self.increment!(:units, new_amount)
+      end
     else
-      self.update_columns(units: self.reload.units + amount)
+      self.increment!(:units, amount)
     end
   end
 
@@ -338,7 +341,6 @@ class User < ApplicationRecord
     ActionCable.server.broadcast(self.channel_id, method: 'warp_finish')
   end
 
-  # Ban User
   def ban(duration, reason)
     if duration.to_i == 0
       self.update_columns(banned: true, banned_until: nil, banreason: reason)
@@ -348,9 +350,19 @@ class User < ApplicationRecord
     ActionCable.server.broadcast(self.channel_id, method: 'reload_page')
   end
 
-  # Unban User
   def unban
     self.update_columns(banned: false, banned_until: nil, banreason: nil) if banned
+  end
+
+  def has_blueprints_for?(loader)
+    self.blueprints.where(loader: loader).exists?
+  end
+
+  def give_blueprints_for(loader, efficiency: 1.5)
+    blueprint = Blueprint.where(user: self, loader: loader).first_or_initialize
+    blueprint.efficiency = efficiency
+    blueprint.save
+    blueprint
   end
 
 end

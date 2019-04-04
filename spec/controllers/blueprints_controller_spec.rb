@@ -45,49 +45,55 @@ RSpec.describe BlueprintsController, type: :controller do
     end
 
     describe 'POST buy' do
-      it 'should buy blueprint if enough credits' do
+      it 'should buy blueprint for SHIP if enough credits' do
         user.update(units: 1000)
-        post :buy, params: { loader: 'Nano', type: 'ship' }
-        expect(response).to have_http_status(:ok)
-        expect(Blueprint.count).to eq(1)
+        expect {
+          post :buy, params: { loader: 'Nano', type: 'ship' }
+          expect(response).to have_http_status(:ok)
+        }.to change{ Blueprint.count }.by(1)
       end
 
-      it 'should buy item blueprint if enough credits' do
-        user.update(units: 100000)
-        post :buy, params: { loader: Item::EQUIPMENT.sample, type: 'item' }
-        expect(response).to have_http_status(:ok)
-        expect(Blueprint.count).to eq(1)
+      it 'should buy item blueprint for ITEM if enough credits' do
+        user.update(units: 1_000_000)
+        expect {
+          post :buy, params: { loader: Item::EQUIPMENT.sample, type: 'item' }
+          expect(response).to have_http_status(:ok)
+        }.to change{ Blueprint.count }.by(1)
       end
 
-      it 'should not buy blueprint if not enough credits' do
+      it 'should NOT buy blueprint if not enough credits' do
         user.update(units: 1000)
-        post :buy, params: { loader: 'Valadria', type: 'ship' }
-        expect(response).to have_http_status(:bad_request)
-        expect(Blueprint.count).to eq(0)
+        expect {
+          post :buy, params: { loader: 'Valadria', type: 'ship' }
+          expect(response).to have_http_status(:bad_request)
+        }.not_to change{ Blueprint.count }
       end
 
-      it 'should not buy blueprint if not at industrial station' do
+      it 'should NOT buy blueprint if not at industrial station' do
         user.update(location_id: Location.where(station_type: 0).first.id, docked: true)
         user.update(units: 1000)
-        post :buy, params: { loader: 'Nano', type: 'ship' }
-        expect(response).to have_http_status(:bad_request)
-        expect(Blueprint.count).to eq(0)
+        expect {
+          post :buy, params: { loader: 'Nano', type: 'ship' }
+          expect(response).to have_http_status(:bad_request)
+        }.not_to change{ Blueprint.count }
       end
 
-      it 'should not buy blueprint if user not docked' do
+      it 'should NOT buy blueprint if user not docked' do
         user.update(docked: false)
         user.update(units: 1000)
-        post :buy, params: { loader: 'Nano', type: 'ship' }
-        expect(response).to have_http_status(:bad_request)
-        expect(Blueprint.count).to eq(0)
+        expect {
+          post :buy, params: { loader: 'Nano', type: 'ship' }
+          expect(response).to have_http_status(:bad_request)
+        }.not_to change{ Blueprint.count }
       end
 
-      it 'should not buy blueprint if user already has blueprint' do
+      it 'should NOT buy blueprint if user already has blueprint' do
         Blueprint.create(loader: 'Nano', user: user)
         user.update(units: 1000)
-        post :buy, params: { loader: 'Nano', type: 'ship' }
-        expect(response).to have_http_status(:bad_request)
-        expect(Blueprint.count).to eq(1)
+        expect {
+          post :buy, params: { loader: 'Nano', type: 'ship' }
+          expect(response).to have_http_status(:bad_request)
+        }.not_to change{ Blueprint.count }
       end
     end
 
