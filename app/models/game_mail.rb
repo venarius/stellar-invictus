@@ -21,21 +21,32 @@
 class GameMail < ApplicationRecord
   paginates_per 10
 
+  ## -- RELATIONSHIPS
   belongs_to :sender, foreign_key: :sender_id, class_name: User.name
   belongs_to :recipient, foreign_key: :recipient_id, class_name: User.name
 
+  ## -- VALIDATIONS
   validates :body, presence: true
   validates :header, presence: true
 
   validates :body, length: { maximum: 500, too_long: I18n.t('validations.too_long_mail_body') }
   validates :header, length: { maximum: 100, too_long: I18n.t('validations.too_long_mail_header') }
 
-  after_create do
-    if self.units && (self.units > 0) && (units <= sender.units)
-      sender.reduce_units(self.units)
-      recipient.give_units(self.units)
-    end
-  end
+  ## -- CALLBACKS
+  after_create_commit :transfer_units, :start_worker
 
-  after_create_commit { GameMailWorker.perform_async(self.recipient.id) }
+  private
+
+    def transfer_units
+      if (self&.units.to_i > 0) && (self.units <= sender.units)
+        ActiveRecord::Base.transaction do
+          sender.reduce_units(self.units)
+          recipient.give_units(self.units)
+        end
+      end
+    end
+
+    def start_worker
+      GameMailWorker.perform_async(self.recipient.id)
+    end
 end

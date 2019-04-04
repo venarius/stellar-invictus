@@ -11,7 +11,8 @@
 #
 # Indexes
 #
-#  index_asteroids_on_location_id  (location_id)
+#  index_asteroids_on_asteroid_type  (asteroid_type)
+#  index_asteroids_on_location_id    (location_id)
 #
 # Foreign Keys
 #

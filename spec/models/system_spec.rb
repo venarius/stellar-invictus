@@ -8,6 +8,10 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+# Indexes
+#
+#  index_systems_on_name  (name) UNIQUE
+#
 
 require 'rails_helper'
 

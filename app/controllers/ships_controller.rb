@@ -5,7 +5,7 @@ class ShipsController < ApplicationController
   end
 
   def activate
-    spaceship = Spaceship.find(params[:id]) rescue nil
+    spaceship = Spaceship.ensure(params[:id])
     if spaceship && (spaceship.user == current_user) && current_user.docked && (spaceship.location == current_user.location)
       current_user.active_spaceship.update_columns(location_id: current_user.location.id)
       current_user.update_columns(active_spaceship_id: spaceship.id)
@@ -16,7 +16,7 @@ class ShipsController < ApplicationController
   end
 
   def target
-    user = User.find(params[:id]) rescue nil if params[:id]
+    user = User.ensure(params[:id]) if params[:id]
     if user && user.can_be_attacked && (user.location == current_user.location) && current_user.can_be_attacked && (current_user.target != user)
       TargetingWorker.perform_async(current_user.id, user.id)
       render json: { time: current_user.active_spaceship.get_target_time }, status: 200
@@ -67,7 +67,7 @@ class ShipsController < ApplicationController
 
   def insure
     if params[:id]
-      ship = Spaceship.find(params[:id]) rescue nil
+      ship = Spaceship.ensure(params[:id])
       if ship && (ship.user == current_user) && !ship.insured && current_user.docked
         price = (Spaceship.get_attribute(ship.name, :price) / 2).round
 
@@ -88,7 +88,7 @@ class ShipsController < ApplicationController
 
   def custom_name
     if params[:name] && params[:id]
-      ship = Spaceship.find(params[:id]) rescue nil
+      ship = Spaceship.ensure(params[:id])
 
       if ship && (ship.user == current_user) && (params[:name].length <= 15)
         ship.update_columns(custom_name: params[:name])

@@ -59,7 +59,7 @@ class MissionsController < ApplicationController
 
   def get_mission
     if params[:id]
-      @mission = Mission.find(params[:id]) rescue nil
+      @mission = Mission.ensure(params[:id])
       unless @mission && current_user.docked
         render(json: {}, status: 400) && (return)
       end

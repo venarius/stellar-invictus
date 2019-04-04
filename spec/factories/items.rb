@@ -17,6 +17,7 @@
 #
 # Indexes
 #
+#  index_items_on_loader        (loader)
 #  index_items_on_location_id   (location_id)
 #  index_items_on_mission_id    (mission_id)
 #  index_items_on_spaceship_id  (spaceship_id)

@@ -29,12 +29,15 @@ class StationsController < ApplicationController
 
   def index
     unless current_user.docked
-      redirect_to(game_path) && (return)
+      redirect_to(game_path)
+      return
     end
 
     # Fallback
-    if current_user.location.location_type != "station"
-      current_user.update_columns(docked: false) && redirect_to(game_path) && (return)
+    if !current_user.location.station?
+      current_user.update_columns(docked: false)
+      redirect_to(game_path)
+      return
     end
 
     # Render Tabs

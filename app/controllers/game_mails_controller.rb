@@ -21,7 +21,7 @@ class GameMailsController < ApplicationController
   end
 
   def show
-    mail = GameMail.find(params[:id]) rescue nil
+    mail = GameMail.ensure(params[:id])
     if mail
       if mail.recipient == current_user || mail.sender == current_user
         mail.update_columns(read: true)

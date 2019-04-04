@@ -13,8 +13,10 @@
 #
 # Indexes
 #
-#  index_chat_rooms_on_location_id  (location_id)
-#  index_chat_rooms_on_system_id    (system_id)
+#  index_chat_rooms_on_chatroom_type  (chatroom_type)
+#  index_chat_rooms_on_identifier     (identifier) UNIQUE
+#  index_chat_rooms_on_location_id    (location_id)
+#  index_chat_rooms_on_system_id      (system_id)
 #
 # Foreign Keys
 #
@@ -34,6 +36,7 @@ class ChatRoom < ApplicationRecord
 
   ## -- VALIDATIONS
   validates :title, presence: true, length: { maximum: 20, too_long: I18n.t('validations.too_long_chat_room') }
+  validates :identifier, presence: true, uniqueness: true
 
   ## -- ATTRIBUTES
   enum chatroom_type: [:global, :local, :custom, :corporation]

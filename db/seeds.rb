@@ -103,8 +103,8 @@ jumpgates = [
 travels = [5, 10, 15, 20]
 
 jumpgates.each do |jgs|
-  a = Location.find_or_create_by(name: jgs.last, system: System.find_by(name: jgs.first), location_type: :jumpgate)
-  b = Location.find_or_create_by(name: jgs.first, system: System.find_by(name: jgs.last), location_type: :jumpgate)
+  a = Location.find_or_create_by(name: jgs.last, system: System.ensure(jgs.first), location_type: :jumpgate)
+  b = Location.find_or_create_by(name: jgs.first, system: System.ensure(jgs.last), location_type: :jumpgate)
   Jumpgate.find_or_create_by(origin: a, destination: b, traveltime: travels.sample)
 end
 

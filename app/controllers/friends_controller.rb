@@ -6,7 +6,7 @@ class FriendsController < ApplicationController
 
   def add_friend
     if params[:id]
-      friend = User.find(params[:id]) rescue nil
+      friend = User.ensure(params[:id])
       if friend && (friend != current_user) && current_user.friends.where(id: friend.id).empty?
         friendship = Friendship.find_by(user: friend, friend: current_user, accepted: false) rescue nil
         if friendship
@@ -35,7 +35,7 @@ class FriendsController < ApplicationController
 
   def remove_friend
     if params[:id]
-      friend = User.find(params[:id]) rescue nil
+      friend = User.ensure(params[:id])
       if friend
         find = current_user.friends.find(friend.id) rescue nil
         if find
