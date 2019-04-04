@@ -67,9 +67,9 @@ class PoliceWorker < ApplicationWorker
 
   private
 
-    TITLES = %w[Sergeant Marshall Officer Ranger"].freeze
-    def generate_name
-      "#{TITLES.sample} #{Faker::Name.last_name}"
-    end
+  TITLES = %w[Sergeant Marshall Officer Ranger"].freeze
+  def generate_name
+    "#{TITLES.sample} #{Faker::Name.last_name}"
+  end
 
 end
