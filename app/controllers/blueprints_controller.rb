@@ -6,25 +6,32 @@ class BlueprintsController < ApplicationController
   def buy
     if params[:loader] && params[:type] && current_user.location.research_station?
       if params[:type] == 'item'
-        price = Item.get_attribute(params[:loader], :price) * 20 rescue nil
+        raise ArgumentError.new("Unknown Item") unless Item.get_attributes(params[:loader])
+        price = Item.get_attribute(params[:loader], :price) * 20
       else
-        price = Spaceship.get_attribute(params[:loader], :price) * 20 rescue nil
+        raise ArgumentError.new("Unknown Spaceship") unless Spaceship.get_attributes(params[:loader])
+        price = Spaceship.get_attribute(params[:loader], :price) * 20
       end
 
-      if price && current_user.blueprints.where(loader: params[:loader]).empty?
+      if price && !current_user.has_blueprints_for?(params[:loader])
         # Check Balance
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: 400) && (return) unless current_user.units >= price
+        if current_user.units < price
+          render(json: { error_message: I18n.t('errors.you_dont_have_enough_credits') }, status: :bad_request)
+          return
+        end
 
-        # Give Blueprint to User
-        Blueprint.create(user: current_user, loader: params[:loader], efficiency: 1.5)
+        ActiveRecord::Base.transaction do
+          # Give Blueprint to User
+          current_user.give_blueprints_for(params[:loader], efficiency: 1.5)
+          # Deduct units
+          current_user.reduce_units(price)
+        end
 
-        # Deduct units
-        current_user.reduce_units(price)
-
-        render(json: {}, status: 200) && (return)
+        render(json: {}, status: :ok)
+        return
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def modal
