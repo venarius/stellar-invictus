@@ -15,6 +15,8 @@
 # Indexes
 #
 #  index_npcs_on_location_id  (location_id)
+#  index_npcs_on_npc_type     (npc_type)
+#  index_npcs_on_target       (target)
 #
 # Foreign Keys
 #

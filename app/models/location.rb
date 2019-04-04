@@ -17,9 +17,12 @@
 #
 # Indexes
 #
-#  index_locations_on_faction_id  (faction_id)
-#  index_locations_on_mission_id  (mission_id)
-#  index_locations_on_system_id   (system_id)
+#  index_locations_on_faction_id     (faction_id)
+#  index_locations_on_location_type  (location_type)
+#  index_locations_on_mission_id     (mission_id)
+#  index_locations_on_name           (name)
+#  index_locations_on_station_type   (station_type)
+#  index_locations_on_system_id      (system_id)
 #
 # Foreign Keys
 #
@@ -31,6 +34,7 @@
 class Location < ApplicationRecord
   include CanBroadcast
 
+  ## -- RELATIONSHIPS
   belongs_to :system
   belongs_to :faction, optional: true
   belongs_to :mission, optional: true
@@ -46,14 +50,14 @@ class Location < ApplicationRecord
 
   has_one :chat_room, dependent: :destroy
 
+  ## -- ATTRIBUTES
   enum location_type: %i[station asteroid_field jumpgate mission exploration_site wormhole]
   enum station_type:  %i[industrial_station warfare_plant mining_station research_station trillium_casino]
 
-  before_destroy do
-    location = Location.where.not(id: self.id).first
-    self.users.update_all(location_id: location.id, system_id: location.system.id)
-  end
+  ## -- CALLBACKS
+  before_destroy :move_users_in_this_location_to_the_first_location
 
+  ## — INSTANCE METHODS
   def channel_id
     "location_#{self.id}"
   end
@@ -63,7 +67,7 @@ class Location < ApplicationRecord
   end
 
   def get_items(id)
-    Item.where(user: User.find(id), location: self)
+    Item.where(user_id: id, location: self)
   end
 
   def get_name
@@ -78,4 +82,10 @@ class Location < ApplicationRecord
     end
   end
 
+  private
+
+  def move_users_in_this_location_to_the_first_location
+    location = Location.where.not(id: self.id).first
+    self.users.update_all(location_id: location.id, system_id: location.system.id)
+  end
 end

@@ -8,21 +8,38 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+# Indexes
+#
+#  index_systems_on_name  (name) UNIQUE
+#
 
 class System < ApplicationRecord
   ensure_by :id, :name
 
+  ## -- RELATIONSHIPS
   has_many :locations, dependent: :destroy
   has_many :users, through: :locations
   has_many :chat_rooms, dependent: :destroy
 
+  ## -- ATTRIBUTES
   enum security_status: [:high, :medium, :low, :wormhole]
 
-  after_create do
-    ChatRoom.create(chatroom_type: :local, title: self.name, system: self)
+  ## -- VALIDATIONS
+  validates :name, presence: true, uniqueness: true
+
+  ## -- CALLBACKS
+  after_create_commit :create_chatroom
+
+  ## — CLASS METHODS
+  def self.mapdata
+    @mapdata ||= YAML.load_file("#{Rails.root}/config/variables/mapdata.yml")
   end
 
-  # Updates local players of every user in system
+  def self.pathfinder
+    @pathfinder ||= YAML.load_file("#{Rails.root}/config/variables/pathfinder.yml")
+  end
+
+  ## — INSTANCE METHODS
   def update_local_players
     user_query = self.users.is_online
     user_count = user_query.count
@@ -34,18 +51,13 @@ class System < ApplicationRecord
     end
   end
 
-  # Get owning Faction
   def get_faction
     self.locations.station.first&.faction
   end
 
-  # Mapdata
-  def self.mapdata
-    @mapdata ||= YAML.load_file("#{Rails.root}/config/variables/mapdata.yml")
-  end
+  private
 
-  # Pathfinder
-  def self.pathfinder
-    @pathfinder ||= YAML.load_file("#{Rails.root}/config/variables/pathfinder.yml")
+  def create_chatroom
+    ChatRoom.create(chatroom_type: :local, title: self.name, system: self)
   end
 end

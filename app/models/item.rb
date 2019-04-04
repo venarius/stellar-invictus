@@ -17,6 +17,7 @@
 #
 # Indexes
 #
+#  index_items_on_loader        (loader)
 #  index_items_on_location_id   (location_id)
 #  index_items_on_mission_id    (mission_id)
 #  index_items_on_spaceship_id  (spaceship_id)
@@ -35,6 +36,8 @@ class Item < ApplicationRecord
   include HasLookupAttributes
   @lookup_data = YAML.load_file("#{Rails.root}/config/variables/items.yml")
   @default_base = :loader
+
+  ensure_by :id, :loader
 
   ## -- RELATIONSHIPS
   belongs_to :user, optional: true

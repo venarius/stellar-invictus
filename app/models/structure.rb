@@ -15,8 +15,9 @@
 #
 # Indexes
 #
-#  index_structures_on_location_id  (location_id)
-#  index_structures_on_user_id      (user_id)
+#  index_structures_on_location_id     (location_id)
+#  index_structures_on_structure_type  (structure_type)
+#  index_structures_on_user_id         (user_id)
 #
 # Foreign Keys
 #
@@ -25,19 +26,22 @@
 #
 
 class Structure < ApplicationRecord
+  ## -- RELATIONSHIPS
   belongs_to :location
   belongs_to :user, optional: true
   has_many :items, dependent: :destroy
 
+  ## -- ATTRIBUTES
   enum structure_type: [:container, :wreck, :abandoned_ship, :monument]
 
-  def get_items
-    self.items
-  end
-
-  # Riddles
+  ## — CLASS METHODS
   def self.riddles
     @riddles ||= YAML.load_file("#{Rails.root}/config/variables/riddles.yml")
+  end
+
+  ## — INSTANCE METHODS
+  def get_items
+    self.items
   end
 
   def riddle

@@ -33,7 +33,7 @@ class PollsController < ApplicationController
   private
 
   def get_poll
-    @poll = Poll.find(params[:id]) rescue nil
+    @poll = Poll.ensure(params[:id])
     render json: {}, status: 400 if @poll.nil?
   end
 

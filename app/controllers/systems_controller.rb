@@ -2,7 +2,7 @@ class SystemsController < ApplicationController
 
   def info
     if params[:id]
-      system = System.find(params[:id]) rescue nil
+      system = System.ensure(params[:id])
       if system
         render(partial: 'systems/info', locals: { sys: system }) && (return)
       end
@@ -12,14 +12,14 @@ class SystemsController < ApplicationController
 
   def route
     if params[:id]
-      system = System.find(params[:id]) rescue nil
+      system = System.ensure(params[:id])
       if system && !current_user.system.wormhole?
         old_route = current_user.route
         path = Pathfinder.find_path(current_user.system.id, system.id)
 
         jumpgates = []
         path.each_with_index do |step, index|
-          location = System.find_by(name: step).locations.where("name ilike ?", path[index + 1]).first
+          location = System.ensure(step).locations.where("name ILIKE ?", path[index + 1]).first
           jumpgates << location.jumpgate.id if location
         end
 
@@ -70,7 +70,7 @@ class SystemsController < ApplicationController
 
   def jump_drive
     if params[:id] && current_user.active_spaceship.get_jump_drive && current_user.can_be_attacked
-      system = System.find(params[:id]) rescue nil
+      system = System.ensure(params[:id])
 
       # Check Warp Disrupt
       if current_user.active_spaceship.is_warp_disrupted
@@ -88,7 +88,7 @@ class SystemsController < ApplicationController
 
         path = Pathfinder.find_path(current_user.system.id, system.id)
         path.each_with_index do |step, index|
-          location = System.find_by(name: step).locations.where("name ilike ?", path[index + 1]).first
+          location = System.ensure(step).locations.where("name ilike ?", path[index + 1]).first
           traveltime = traveltime + location.jumpgate.traveltime if location
           traveltime = traveltime + ship_align + 10
         end

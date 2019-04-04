@@ -15,8 +15,10 @@
 #
 # Indexes
 #
-#  index_market_listings_on_location_id  (location_id)
-#  index_market_listings_on_user_id      (user_id)
+#  index_market_listings_on_listing_type  (listing_type)
+#  index_market_listings_on_location_id   (location_id)
+#  index_market_listings_on_order_type    (order_type)
+#  index_market_listings_on_user_id       (user_id)
 #
 # Foreign Keys
 #

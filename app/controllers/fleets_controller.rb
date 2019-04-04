@@ -2,7 +2,7 @@ class FleetsController < ApplicationController
   # Invite user to fleet
   def invite
     if params[:id]
-      user = User.find(params[:id]) rescue nil
+      user = User.ensure(params[:id])
 
       # If user and user is not in fleet
       if user && user.fleet.nil?
@@ -34,7 +34,7 @@ class FleetsController < ApplicationController
   # Accept invitation of another user
   def accept_invite
     if params[:id] && current_user.fleet.nil?
-      fleet = Fleet.find(params[:id]) rescue nil
+      fleet = Fleet.ensure(params[:id])
 
       # If fleet
       if fleet
@@ -60,7 +60,7 @@ class FleetsController < ApplicationController
   # Remove user from fleet
   def remove
     if params[:id] && current_user.fleet && (current_user.fleet.creator == current_user)
-      user = User.find(params[:id]) rescue nil
+      user = User.ensure(params[:id])
 
       # If user and user is in current users fleet and user is not current user
       if user && (user.fleet == current_user.fleet) && (user != current_user)

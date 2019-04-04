@@ -101,7 +101,7 @@ class CorporationsController < ApplicationController
 
   def change_rank
     if params[:id] && params[:rank] && (current_user.founder? || current_user.admiral? || current_user.commodore? || current_user.lieutenant?)
-      user = User.find(params[:id]) rescue nil
+      user = User.ensure(params[:id])
       rank = params[:rank].to_i rescue nil
 
       if user && rank && (user.corporation_id == current_user.corporation_id)
@@ -163,7 +163,7 @@ class CorporationsController < ApplicationController
   end
 
   def info
-    corporation = Corporation.find(params[:id]) rescue nil
+    corporation = Corporation.ensure(params[:id])
     if corporation
       render partial: 'corporations/info', locals: { corporation: corporation }
     else
@@ -172,7 +172,7 @@ class CorporationsController < ApplicationController
   end
 
   def apply_modal
-    corporation = Corporation.find(params[:id]) rescue nil
+    corporation = Corporation.ensure(params[:id])
     if corporation
       render partial: 'corporations/apply_modal', locals: { corporation: corporation }
     else
@@ -182,7 +182,7 @@ class CorporationsController < ApplicationController
 
   def apply
     if params[:id] && params[:text]
-      corporation = Corporation.find(params[:id]) rescue nil
+      corporation = Corporation.ensure(params[:id])
 
       if corporation
 
@@ -198,7 +198,7 @@ class CorporationsController < ApplicationController
 
   def accept_application
     if params[:id] && (current_user.founder? || current_user.admiral? || current_user.commodore?)
-      application = CorpApplication.find(params[:id]) rescue nil
+      application = CorpApplication.ensure(params[:id])
 
       if application && (application.corporation = current_user.corporation)
         application.user.update_columns(corporation_role: :recruit, corporation_id: current_user.corporation_id)
@@ -213,7 +213,7 @@ class CorporationsController < ApplicationController
 
   def reject_application
     if params[:id] && (current_user.founder? || current_user.admiral? || current_user.commodore?)
-      application = CorpApplication.find(params[:id]) rescue nil
+      application = CorpApplication.ensure(params[:id])
 
       if application && (application.corporation == current_user.corporation)
         application.destroy

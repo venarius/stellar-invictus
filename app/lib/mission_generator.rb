@@ -96,10 +96,10 @@ class MissionGenerator
 
     if location.faction == nil
       mission.faction_id = rand(1..3)
-      mission.mission_type = rand(1..4)
+      mission.mission_type = [:delivery, :combat, :mining, :market].sample
     else
       mission.faction_id = location.faction_id
-      mission.mission_type = rand(1..5)
+      mission.mission_type = [:delivery, :combat, :mining, :market, :vip].sample
     end
 
     if mission.delivery?
@@ -132,7 +132,7 @@ class MissionGenerator
       mission.enemy_amount = rand(2..5) * (difficulty + 1)
       system = location.system
       jumpgate = system.locations.jumpgate.order(Arel.sql("RANDOM()")).first
-      mission_system = System.find_by(name: jumpgate.name)
+      mission_system = System.ensure(jumpgate.name)
       mission.mission_location = Location.create(location_type: :mission, system: mission_system)
 
       # Set Reward
@@ -150,8 +150,8 @@ class MissionGenerator
       mission.reward = (Item.get_attribute(mission.mission_loader, :price) * mission.mission_amount * rand(1.05..1.10)).round
     elsif mission.vip?
       mission.enemy_amount = 3
-      m_location = Location.where.not(faction_id: mission.faction_id).where.not(faction_id: nil).order(Arel.sql("RANDOM()")).first
-      mission.mission_location = Location.create(location_type: 'mission', system_id: m_location.system.id, faction_id: m_location.faction_id)
+      m_location = Location.where.not(faction_id: [mission.faction_id, nil]).order(Arel.sql("RANDOM()")).first
+      mission.mission_location = Location.create(location_type: :mission, system: m_location.system, faction: m_location.faction)
 
       # Set Reward
       mission.reward = (400 * rand(0.8..1.2)).round

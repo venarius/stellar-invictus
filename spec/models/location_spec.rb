@@ -17,9 +17,12 @@
 #
 # Indexes
 #
-#  index_locations_on_faction_id  (faction_id)
-#  index_locations_on_mission_id  (mission_id)
-#  index_locations_on_system_id   (system_id)
+#  index_locations_on_faction_id     (faction_id)
+#  index_locations_on_location_type  (location_type)
+#  index_locations_on_mission_id     (mission_id)
+#  index_locations_on_name           (name)
+#  index_locations_on_station_type   (station_type)
+#  index_locations_on_system_id      (system_id)
 #
 # Foreign Keys
 #

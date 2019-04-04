@@ -13,8 +13,10 @@
 #
 # Indexes
 #
-#  index_chat_rooms_on_location_id  (location_id)
-#  index_chat_rooms_on_system_id    (system_id)
+#  index_chat_rooms_on_chatroom_type  (chatroom_type)
+#  index_chat_rooms_on_identifier     (identifier) UNIQUE
+#  index_chat_rooms_on_location_id    (location_id)
+#  index_chat_rooms_on_system_id      (system_id)
 #
 # Foreign Keys
 #

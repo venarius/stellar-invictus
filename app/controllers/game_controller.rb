@@ -14,7 +14,7 @@ class GameController < ApplicationController
     if (params[:id] || params[:uid]) && !current_user.in_warp
 
       if params[:id]
-        location = Location.find(params[:id]) rescue nil
+        location = Location.ensure(params[:id])
         if location && (location.system_id == current_user.system_id)
 
           # Fleet Warp

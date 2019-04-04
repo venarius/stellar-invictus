@@ -23,7 +23,7 @@ class MarketController < ApplicationController
   def buy
     if params[:id] && params[:amount]
       amount = params[:amount].to_i
-      listing = MarketListing.find(params[:id]) rescue nil
+      listing = MarketListing.ensure(params[:id])
       if listing && (listing.location == current_user.location) && (amount >= 1)
 
         # Check Amount
@@ -186,7 +186,7 @@ class MarketController < ApplicationController
   def fulfill_buy
     if params[:id] && params[:amount]
       amount = params[:amount].to_i rescue nil
-      listing = MarketListing.find(params[:id]) rescue nil
+      listing = MarketListing.ensure(params[:id])
       if amount && listing && (listing.location == current_user.location) && (amount >= 1)
         # Check Amount
         render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if (Item.find_by(loader: listing.loader, location: current_user.location, user: current_user).count rescue 0) < amount
@@ -219,7 +219,7 @@ class MarketController < ApplicationController
 
   def delete_listing
     if params[:id]
-      listing = MarketListing.find(params[:id]) rescue nil
+      listing = MarketListing.ensure(params[:id])
 
       if listing && (listing.user == current_user) && (listing.location == current_user.location)
 

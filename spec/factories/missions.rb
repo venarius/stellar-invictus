@@ -28,6 +28,7 @@
 #  index_missions_on_faction_id           (faction_id)
 #  index_missions_on_location_id          (location_id)
 #  index_missions_on_mission_location_id  (mission_location_id)
+#  index_missions_on_mission_type         (mission_type)
 #  index_missions_on_user_id              (user_id)
 #
 # Foreign Keys

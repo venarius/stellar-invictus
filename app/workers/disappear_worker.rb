@@ -3,55 +3,11 @@ class DisappearWorker < ApplicationWorker
   def perform(user, remove_logout = false)
     user = User.ensure(user)
 
-    if user
-      system = user.system
-
-      if (system.low? || system.wormhole?) && user.is_online? && !user.logout_timer
-        user.update(logout_timer: true)
-        DisappearWorker.perform_in(2.minutes, user.id, true)
-      else
-
-        # Remove logout timer
-        user.update(logout_timer: false) if remove_logout
-
-        # Remove 1 from user's online count
-        user.decrement!(:online) if user.is_online?
-
-        # If user is not docked and now closed last connection
-        if user.online == 0
-          # If user is not docked
-          if !user.docked
-            # Tell everyone in location that user warped out
-            user.location.broadcast(:player_warp_out, name: user.full_name)
-
-            # Drop Loot if Combatlogging
-            if User.where(target: user, is_attacking: true).exists?
-              user.active_spaceship.drop_loot
-              user.location.broadcast(:player_appeared)
-            end
-
-            # Remove user as target from every player that targeted him
-            user.remove_being_targeted
-          end
-
-          # Remove Targets
-          user.update(
-            target_id: nil,
-            mining_target_id: nil,
-            npc_target_id: nil,
-            is_attacking: false
-          )
-
-          # Tell everyone in system to update their local players
-          system.update_local_players unless system.wormhole?
-
-          # Tell all users in custom chat channels to update
-          user.chat_rooms.where(chatroom_type: [:custom, :corporation]).each do |room|
-            room.update_local_players
-          end
-        end
-      end
+    if (user.system.low? || user.system.wormhole?) && user.is_online? && !user.logout_timer
+      user.update(logout_timer: true)
+      DisappearWorker.perform_in(2.minutes, user.id, true)
+    else
+      User::Disappear.(user: user, remove_logout: remove_logout)
     end
-
   end
 end

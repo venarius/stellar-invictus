@@ -15,8 +15,9 @@
 #
 # Indexes
 #
-#  index_structures_on_location_id  (location_id)
-#  index_structures_on_user_id      (user_id)
+#  index_structures_on_location_id     (location_id)
+#  index_structures_on_structure_type  (structure_type)
+#  index_structures_on_user_id         (user_id)
 #
 # Foreign Keys
 #
