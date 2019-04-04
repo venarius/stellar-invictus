@@ -10,18 +10,18 @@ class ShipsController < ApplicationController
       current_user.active_spaceship.update_columns(location_id: current_user.location.id)
       current_user.update_columns(active_spaceship_id: spaceship.id)
       spaceship.update_columns(location_id: nil)
-      render(json: {}, status: 200) && (return)
+      render(json: {}, status: :ok) && (return)
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def target
-    user = User.ensure(params[:id]) if params[:id]
+    user = User.ensure(params[:id])
     if user && user.can_be_attacked && (user.location == current_user.location) && current_user.can_be_attacked && (current_user.target != user)
       TargetingWorker.perform_async(current_user.id, user.id)
-      render json: { time: current_user.active_spaceship.get_target_time }, status: 200
+      render json: { time: current_user.active_spaceship.get_target_time }, status: :ok
     else
-      render json: {}, status: 400
+      render json: {}, status: :bad_request
     end
   end
 
@@ -31,7 +31,7 @@ class ShipsController < ApplicationController
       current_user.update_columns(target_id: nil, is_attacking: false)
       current_user.active_spaceship.deactivate_equipment
     end
-    render json: {}, status: 200
+    render json: {}, status: :ok
   end
 
   def cargohold
@@ -54,15 +54,15 @@ class ShipsController < ApplicationController
 
       if amount && (amount > 0)
         # check amount
-        render(json: { error_message: I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if Item.find_by(loader: params[:loader], spaceship: current_user.active_spaceship, equipped: false).count < amount
+        render(json: { error_message: I18n.t('errors.you_dont_have_enough_of_this') }, status: :bad_request) && (return) if Item.find_by(loader: params[:loader], spaceship: current_user.active_spaceship, equipped: false).count < amount
 
         EjectCargoWorker.perform_async(current_user.id, params[:loader], amount)
-        render(json: {}, status: 200) && (return)
+        render(json: {}, status: :ok) && (return)
       else
-        render(json: { error_message: I18n.t('errors.invalid_amount') }, status: 400) && (return)
+        render(json: { error_message: I18n.t('errors.invalid_amount') }, status: :bad_request) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def insure
@@ -72,7 +72,7 @@ class ShipsController < ApplicationController
         price = (Spaceship.get_attribute(ship.name, :price) / 2).round
 
         # check credits
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: 400) && (return) unless current_user.units >= price
+        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: :bad_request) && (return) unless current_user.units >= price
 
         # Insure
         ship.update_columns(insured: true)
@@ -80,10 +80,10 @@ class ShipsController < ApplicationController
         # Deduct units
         current_user.reduce_units(price)
 
-        render(json: {}, status: 200) && (return)
+        render(json: {}, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def custom_name
@@ -92,10 +92,11 @@ class ShipsController < ApplicationController
 
       if ship && (ship.user == current_user) && (params[:name].length <= 15)
         ship.update_columns(custom_name: params[:name])
-        render(json: {}, status: 200) && (return)
+        render(json: {}, status: :ok)
+        return
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def upgrade_modal
@@ -108,7 +109,7 @@ class ShipsController < ApplicationController
 
       current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
         item = Item.find_by(loader: key, user: current_user, location: current_user.location) rescue nil
-        render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: 400) && (return) if !item || item.count < value
+        render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: :bad_request) && (return) if !item || item.count < value
       end
 
       # Delete ressources
@@ -118,9 +119,10 @@ class ShipsController < ApplicationController
 
       current_user.active_spaceship.update_columns(level: current_user.active_spaceship.level + 1)
       current_user.active_spaceship.repair
-      render(json: {}, status: 200) && (return)
+      render(json: {}, status: :ok)
+      return
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
 end

@@ -11,7 +11,7 @@ class FactoriesController < ApplicationController
         render(partial: 'stations/factory/shipmodal', locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) }) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   def craft
@@ -22,19 +22,19 @@ class FactoriesController < ApplicationController
       elsif params[:loader].include?('equipment.')
         ressources = Item.get_attribute(params[:loader], :crafting)
       else
-        render(json: {}, status: 400) && (return)
+        render(json: {}, status: :bad_request) && (return)
       end
 
       if ressources && current_user.blueprints.where(loader: params[:loader]).present?
 
         # Check max concurrent factory runs (100)
-        render(json: { 'error_message': I18n.t('errors.cant_more_than_100_factory_runs') }, status: 400) && (return) if (CraftJob.where(user: current_user).count + params[:amount].to_i) > 100
+        render(json: { 'error_message': I18n.t('errors.cant_more_than_100_factory_runs') }, status: :bad_request) && (return) if (CraftJob.where(user: current_user).count + params[:amount].to_i) > 100
 
         # Check if has ressources
         ressources.each do |key, value|
           item = Item.find_by(loader: key, user: current_user, location: current_user.location) rescue nil
           value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
-          render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: 400) && (return) if !item || item.count < value.round * params[:amount].to_i
+          render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: :bad_request) && (return) if !item || item.count < value.round * params[:amount].to_i
         end
 
         params[:amount].to_i.times do
@@ -52,17 +52,17 @@ class FactoriesController < ApplicationController
           end
         end
 
-        render(json: {}, status: 200) && (return)
+        render(json: {}, status: :ok) && (return)
       end
     end
-    render json: { message: 'plub' }, status: 400
+    render json: { message: 'plub' }, status: :bad_request
   end
 
   def dismantle_modal
     if params[:loader]
       render(partial: 'stations/factory/dismantlemodal', locals: { item: params[:loader] }) && (return)
     end
-    render(json: {}, status: 400) && (return)
+    render(json: {}, status: :bad_request) && (return)
   end
 
   def dismantle
@@ -72,7 +72,7 @@ class FactoriesController < ApplicationController
 
       if item
         # Check if trying to dismantle more than has
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if amount > item.count
+        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: :bad_request) && (return) if amount > item.count
 
         # Get Crafting Materials and Destroy Items
         materials = item.get_attribute('crafting')
@@ -81,10 +81,10 @@ class FactoriesController < ApplicationController
           Item::GiveToUser.(item_id: key, location: current_user.location, user: current_user, amount: (value * amount * 0.4 * rand(0.9..1.1)).round)
         end
 
-        render(json: { message: I18n.t('station.dismantling_successful') }, status: 200) && (return)
+        render(json: { message: I18n.t('station.dismantling_successful') }, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
 end

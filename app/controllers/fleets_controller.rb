@@ -25,10 +25,10 @@ class FleetsController < ApplicationController
         InviteToFleetJob.perform_now(current_user.id, user.id, fleet.id)
 
         # Render 200 OK
-        render(json: { 'id': room.identifier }, status: 200) && (return)
+        render(json: { 'id': room.identifier }, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   # Accept invitation of another user
@@ -51,10 +51,10 @@ class FleetsController < ApplicationController
         broadcast("join", current_user, room)
 
         # Render 200 OK
-        render(json: { 'id': room.identifier }, status: 200) && (return)
+        render(json: { 'id': room.identifier }, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   # Remove user from fleet
@@ -78,10 +78,10 @@ class FleetsController < ApplicationController
         user.update_columns(fleet_id: nil)
 
         # Render 200 OK
-        render(json: {}, status: 200) && (return)
+        render(json: {}, status: :ok) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
   private

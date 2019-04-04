@@ -42,7 +42,7 @@ class BlueprintsController < ApplicationController
         render(partial: 'stations/blueprints/shipmodal', locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) }) && (return)
       end
     end
-    render json: {}, status: 400
+    render json: {}, status: :bad_request
   end
 
 end
