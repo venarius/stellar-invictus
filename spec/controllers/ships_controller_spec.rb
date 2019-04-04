@@ -213,6 +213,13 @@ RSpec.describe ShipsController, type: :controller do
         expect(spaceship.reload.custom_name).to eq("Test")
       end
 
+      it 'should remove custom name of ship' do
+        spaceship.update(custom_name: "Nostromo")
+        post :custom_name, params: { name: "", id: spaceship.id }
+        expect(response).to have_http_status(:ok)
+        expect(spaceship.reload.custom_name).to eq(nil)
+      end
+
       it 'should not rename ship to longer name than 15' do
         post :custom_name, params: { name: "Testtttttttttttttttttttttttttttttttttt", id: spaceship.id }
         expect(response).to have_http_status(:bad_request)
