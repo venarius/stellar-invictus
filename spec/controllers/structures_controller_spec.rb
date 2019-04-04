@@ -113,7 +113,7 @@ RSpec.describe StructuresController, type: :controller do
       end
 
       it 'should not pickup_cargo user in other location' do
-        user.update(location_id: Location.last.id)
+        user.update(location: create(:location, location_type: :station))
         expect {
           post :pickup_cargo, params: { id: container.id, loader: 'test' }
           expect(response).to have_http_status(:bad_request)
