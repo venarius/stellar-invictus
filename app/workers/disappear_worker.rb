@@ -46,10 +46,7 @@ class DisappearWorker
           system.update_local_players unless system.wormhole?
 
           # Tell all users in custom chat channels to update
-          user.chat_rooms.where(chatroom_type: :custom).each do |room|
-            room.update_local_players
-          end
-          user.chat_rooms.where(chatroom_type: :corporation).each do |room|
+          user.chat_rooms.where(chatroom_type: [:custom, :corporation]).each do |room|
             room.update_local_players
           end
         end
