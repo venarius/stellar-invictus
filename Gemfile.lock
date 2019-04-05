@@ -36,8 +36,6 @@ GEM
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
       arel (>= 9.0)
-    activerecord-import (1.0.1)
-      activerecord (>= 3.2)
     activestorage (5.2.3)
       actionpack (= 5.2.3)
       activerecord (= 5.2.3)
@@ -345,7 +343,6 @@ PLATFORMS
 
 DEPENDENCIES
   action-cable-testing
-  activerecord-import
   acts_as_votable
   annotate
   awesome_print
