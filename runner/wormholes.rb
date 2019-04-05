@@ -12,8 +12,8 @@ if System.where(security_status: :wormhole).count < 15
     s = System.where.not(security_status: :wormhole).where(security_status: :low).order(Arel.sql("RANDOM()")).first
 
     # Jumpgates
-    a = Location.where(name: sys.name, system: s, location_type: 5, hidden: true).first_or_create
-    b = Location.where(name: s.name, system: sys, location_type: 5, hidden: true).first_or_create
+    a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
+    b = Location.find_or_create_by(name: s.name, system: sys, location_type: 5, hidden: true)
     Jumpgate.find_or_create_by(origin: a, destination: b, traveltime: 5)
 
     # Asteroid Belts
@@ -72,7 +72,7 @@ System.where(security_status: :wormhole).each do |sys|
         s = System.where(security_status: :low).order(Arel.sql("RANDOM()")).first
 
         a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
-        Jumpgate.where(origin: a, destination: loc, traveltime: 5).first_or_create
+        Jumpgate.find_or_create_by(origin: a, destination: loc, traveltime: 5)
         loc.update(name: s.name)
 
         # Tell players
@@ -86,7 +86,7 @@ System.where(security_status: :wormhole).each do |sys|
     # Jumpgates
     a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
     b = Location.find_or_create_by(name: s.name, system: sys, location_type: 5, hidden: true)
-    Jumpgate.where(origin: a, destination: b, traveltime: 5).first_or_create
+    Jumpgate.find_or_create_by(origin: a, destination: b, traveltime: 5)
 
     # Tell players
     a.broadcast(:player_appeared)
