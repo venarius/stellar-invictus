@@ -1,5 +1,5 @@
 # Update all users to move to first system
-User.update_all(location_id: Location.where(location_type: :station).first.id, system_id: Location.where(location_type: :station).first.system.id, docked: true)
+User.update_all(location_id: Location.station.first.id, system_id: Location.station.first.system.id, docked: true)
 
 # Delete all Hidden Locations
 Location.where(hidden: true).each do |loc|
@@ -29,31 +29,31 @@ Spaceship.all.each do |ship|
     item.update_columns(user_id: ship.user.id, location_id: ship.user.location.id, spaceship_id: nil, equipped: false, active: false)
   end
 end
-Spaceship.update_all(location_id: Location.where(location_type: :station).first.id)
+Spaceship.update_all(location_id: Location.station.first.id)
 
 # Move all items from stations to first station
-Location.where(location_type: :station).each do |loc|
-  loc.items.update_all(location_id: Location.where(location_type: :station).first.id, equipped: false, active: false)
+Location.station.each do |loc|
+  loc.items.update_all(location_id: Location.station.first.id, equipped: false, active: false)
 end
 
 # Check for Items
-raise "error" if Item.where.not(location: Location.where(location_type: :station).first).present?
+raise "error" if Item.where.not(location: Location.station.first).present?
 
 # Stacking
 User.all.each do |user|
-  loaders = Item.where(location: Location.where(location_type: :station).first.id, user: user).map(&:loader).uniq
+  loaders = Item.where(location: Location.station.first.id, user: user).map(&:loader).uniq
 
     next unless loaders
 
     loaders.each do |loader|
-      items = Item.where(location: Location.where(location_type: :station).first.id, loader: loader, user: user)
+      items = Item.where(location: Location.station.first.id, loader: loader, user: user)
         if items.present?
           counter = 0
             items.each do |i|
               counter = counter + i.count
             end
             items.delete_all
-            Item.create(location: Location.where(location_type: :station).first, loader: loader, user: user, count: counter)
+            Item.create(location: Location.station.first, loader: loader, user: user, count: counter)
             puts Item.count
         end
     end

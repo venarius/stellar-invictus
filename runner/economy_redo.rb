@@ -73,8 +73,9 @@ query.limit(one_third).each_with_index do |location, index|
   location.market_listings.each do |ml|
     listings = MarketListing.where(location: location, price: ml.price, loader: ml.loader).where.not(id: ml.id)
     if listings.present?
-      listings.first.update_columns(amount: listings.first.amount + ml.amount)
-      ml.destroy && next
+      listings.first.increment!(:amount, ml.amount)
+      ml.destroy
+      next
     end
   end
 end

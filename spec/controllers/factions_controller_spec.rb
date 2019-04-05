@@ -18,9 +18,9 @@ RSpec.describe FactionsController, type: :controller do
   end
 
   context 'with login' do
+    let(:user) { create(:user) }
     before(:each) do
-      @user = create(:user)
-      sign_in @user
+      sign_in user
     end
 
     describe 'GET index' do
@@ -40,26 +40,28 @@ RSpec.describe FactionsController, type: :controller do
 
     describe 'POST choose_faction' do
       it 'should redirect_to game_path' do
-        post :choose_faction, params: { id: 1 }
+        expect {
+          post :choose_faction, params: { id: 1 }
+        }.to change { ChatRoom.ensure('ROOKIES').users.count }.by(1)
         expect(response).to redirect_to(game_path)
-        expect(@user.reload.faction_id).to eq(1)
+        expect(user.reload.faction_id).to eq(1)
       end
 
       it 'should redirect_to game_path if already has faction' do
-        @user = create(:user, faction: Faction.first)
-        sign_in @user
+        user = create(:user, faction: Faction.first)
+        sign_in user
 
         post :choose_faction, params: { id: 2 }
         expect(response).to redirect_to(game_path)
-        expect(@user.reload.faction_id).to eq(1)
+        expect(user.reload.faction_id).to eq(1)
       end
 
       it 'should redirect_to game_path if faction doesnt exist' do
-        @user = create(:user)
-        sign_in @user
+        user = create(:user)
+        sign_in user
 
         post :choose_faction, params: { id: 5221 }
-        expect(response).to redirect_to(factions_path)
+        expect(response).to redirect_to(game_path)
       end
     end
   end

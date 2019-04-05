@@ -111,7 +111,7 @@ class Npc < ApplicationRecord
     player.give_units(value)
 
     # Also give reputation
-    corporation = player.system.locations.where(location_type: :station).first&.faction.id rescue nil
+    corporation = player.system.locations.station.first&.faction.id rescue nil
     if corporation
       amount = 0.01
       amount = amount * 3 if self.wanted_enemy?

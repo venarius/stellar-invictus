@@ -67,7 +67,7 @@ RSpec.describe ChatRoomsController, type: :controller do
 
     describe 'POST join' do
       it 'should fail if chatroom is not custom type' do
-        room = ChatRoom.global.first
+        room = ChatRoom.global
         post :join, params: { id: room.identifier }
         expect(response).to have_http_status(:bad_request)
         expect(room.users.count).to eq(0)
@@ -192,7 +192,7 @@ RSpec.describe ChatRoomsController, type: :controller do
 
     describe 'POST search' do
       it 'should render template if name given' do
-        room = ChatRoom.global.first
+        room = ChatRoom.global
         post :search, params: { name: user.name, identifier: room.identifier }
         expect(response).to have_http_status(:ok)
         expect(response).to render_template('game/chat/_search')

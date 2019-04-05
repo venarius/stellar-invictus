@@ -112,7 +112,7 @@ class ShipsController < ApplicationController
     if current_user.docked? && current_user.active_spaceship && (current_user.active_spaceship.level < 5)
       # Check required materials
       current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
-        item = current_user.items.where(loader: key, location: current_user.location).first
+        item = current_user.items.find_by(loader: key, location: current_user.location)
         if !item || item.count < value
           render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: :bad_request)
           return
