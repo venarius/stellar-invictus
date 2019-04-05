@@ -1,90 +1,96 @@
 class FactoriesController < ApplicationController
   before_action :check_docked
 
-  include ApplicationHelper
-
   def modal
-    if params[:loader] && params[:type]
-      if params[:type] == 'item'
-        render(partial: 'stations/factory/itemmodal', locals: { item: params[:loader] }) && (return)
-      else
-        render(partial: 'stations/factory/shipmodal', locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) }) && (return)
-      end
+    raise InvalidRequest if !params[:loader] || !params[:type]
+
+    if params[:type] == 'item'
+      render(partial: 'stations/factory/itemmodal', locals: { item: params[:loader] })
+    else
+      render(partial: 'stations/factory/shipmodal', locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) })
     end
-    render json: {}, status: :bad_request
   end
 
   def craft
-    if params[:loader] && params[:type] && params[:amount] && current_user.location.industrial_station?
+    raise InvalidRequest if !params[:loader] || !params[:type] || !params[:amount]
+    raise InvalidReqeust if !current_user.location.industrial_station?
 
-      if params[:type] == 'ship'
-        ressources = Spaceship.get_attribute(params[:loader], :crafting) rescue nil
-      elsif params[:loader].include?('equipment.')
-        ressources = Item.get_attribute(params[:loader], :crafting)
-      else
-        render(json: {}, status: :bad_request) && (return)
-      end
+    amount = params[:amount].to_i
 
-      if ressources && current_user.blueprints.where(loader: params[:loader]).present?
+    if params[:type] == 'ship'
+      ressources = Spaceship.get_attribute(params[:loader], :crafting)
+    elsif params[:loader].include?('equipment.')
+      ressources = Item.get_attribute(params[:loader], :crafting)
+    else
+      raise InvalidRequest
+    end
+    raise InvalidRequest unless ressources
+    raise InvalidRequest unless current_user.blueprints.where(loader: params[:loader]).present?
 
-        # Check max concurrent factory runs (100)
-        render(json: { 'error_message': I18n.t('errors.cant_more_than_100_factory_runs') }, status: :bad_request) && (return) if (CraftJob.where(user: current_user).count + params[:amount].to_i) > 100
+    # Check max concurrent factory runs (100)
+    if (current_user.craft_jobs.count + amount) > 100
+      raise InvalidRequest.new('errors.cant_more_than_100_factory_runs')
+    end
 
-        # Check if has ressources
-        ressources.each do |key, value|
-          item = Item.where(loader: key, user: current_user, location: current_user.location).first
-          value = value * current_user.blueprints.where(loader: params[:loader]).first.efficiency
-          render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: :bad_request) && (return) if !item || item.count < value.round * params[:amount].to_i
-        end
-
-        params[:amount].to_i.times do
-          # Delete ressources
-          ressources.each do |key, value|
-            value = value * current_user.blueprints.where(loader: params[:loader]).first.efficiency
-            Item::RemoveFromUser.(loader: key, user: current_user, location: current_user.location, amount: value.round)
-          end
-
-          # Create CraftJob
-          if params[:type] == 'ship'
-            CraftJob.create(completion: DateTime.now + (Spaceship.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
-          else
-            CraftJob.create(completion: DateTime.now + (Item.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0), loader: params[:loader], user: current_user, location: current_user.location)
-          end
-        end
-
-        render(json: {}, status: :ok) && (return)
+    # Check if has ressources
+    ressources.each do |key, value|
+      item = Item.where(loader: key, user: current_user, location: current_user.location).first
+      value = value * current_user.blueprints.where(loader: params[:loader]).first.efficiency
+      if !item || item.count < (value.round * amount)
+        raise InvalidRequest.new('errors.not_required_material')
       end
     end
-    render json: { message: 'plub' }, status: :bad_request
+
+    ActiveRecord::Base.transaction do
+      amount.times do
+        # Delete ressources
+        ressources.each do |key, value|
+          value = value * current_user.blueprints.where(loader: params[:loader]).first.efficiency
+          Item::RemoveFromUser.(loader: key, user: current_user, location: current_user.location, amount: value.round)
+        end
+
+        # Create CraftJob
+        attrs = {loader: params[:loader], user: current_user, location: current_user.location}
+        if params[:type] == 'ship'
+          attrs[:completion] = DateTime.now + (Spaceship.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0)
+        else
+          attrs[:completion] = DateTime.now + (Item.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0)
+        end
+        CraftJob.create(**attrs)
+      end
+    end
+
+    render(json: {}, status: :ok) && (return)
   end
 
   def dismantle_modal
-    if params[:loader]
-      render(partial: 'stations/factory/dismantlemodal', locals: { item: params[:loader] }) && (return)
-    end
-    render(json: {}, status: :bad_request) && (return)
+    raise InvalidRequest unless params[:loader]
+
+    render(partial: 'stations/factory/dismantlemodal', locals: { item: params[:loader] })
   end
 
   def dismantle
-    if params[:loader] && params[:amount] && current_user.docked && current_user.location.industrial_station?
-      amount = params[:amount].to_i rescue 0
-      item = Item.where(loader: params[:loader], location: current_user.location, user: current_user).first
+    raise InvalidRequest if !params[:loader] || !params[:amount]
+    raise InvalidRequest if !current_user.location.industrial_station?
 
-      if item
-        # Check if trying to dismantle more than has
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: :bad_request) && (return) if amount > item.count
+    amount = params[:amount].to_i # FYI  nil.to_i == 0
+    item = Item.where(loader: params[:loader], location: current_user.location, user: current_user).first
+    raise InvalidRequest unless item
 
-        # Get Crafting Materials and Destroy Items
-        materials = item.get_attribute('crafting')
-        Item::RemoveFromUser.(loader: params[:loader], location: current_user.location, user: current_user, amount: amount)
-        materials.each do |key, value|
-          Item::GiveToUser.(item_id: key, location: current_user.location, user: current_user, amount: (value * amount * 0.4 * rand(0.9..1.1)).round)
-        end
+    # Check if trying to dismantle more than has
+    raise InvalidRequest.new('errors.you_dont_have_enough_of_this') if amount > item.count
 
-        render(json: { message: I18n.t('station.dismantling_successful') }, status: :ok) && (return)
+    # Get Crafting Materials and Destroy Items
+    materials = item.get_attribute('crafting')
+
+    ActiveRecord::Base.transaction do
+      Item::RemoveFromUser.(loader: params[:loader], location: current_user.location, user: current_user, amount: amount)
+      materials.each do |key, value|
+        Item::GiveToUser.(item_id: key, location: current_user.location, user: current_user, amount: (value * amount * 0.4 * rand(0.9..1.1)).round)
       end
     end
-    render json: {}, status: :bad_request
+
+    render(json: { message: I18n.t('station.dismantling_successful') }, status: :ok) && (return)
   end
 
 end
