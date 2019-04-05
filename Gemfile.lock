@@ -99,8 +99,6 @@ GEM
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.4, >= 0.4.4)
       dry-equalizer
-    ensurance (0.1.19)
-      activesupport (>= 3, < 6)
     erubi (1.8.0)
     execjs (2.7.0)
     factory_bot (5.0.2)
@@ -146,9 +144,6 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
-    light_service_object (0.1.4)
-      dry-initializer (~> 2.0)
-      dry-monads (~> 1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -354,14 +349,14 @@ DEPENDENCIES
   database_cleaner
   devise
   dotenv-rails
-  ensurance
+  dry-initializer
+  dry-monads
   factory_bot_rails
   faker
   fuubar
   jquery-rails
   jquery-ui-rails
   kaminari
-  light_service_object
   listen (>= 3.0.5, < 3.2)
   omniauth-facebook
   omniauth-google-oauth2

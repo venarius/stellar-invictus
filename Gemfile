@@ -78,5 +78,6 @@ gem 'rails-assets-jquery-hoverintent', source: 'https://rails-assets.org'
 # Rubocop
 gem 'rubocop'
 gem 'rubocop-rspec'
-gem 'ensurance'             # better way to ensure you're dealing with a Model
-gem 'light_service_object'  # simple base service class
+# For Service Object functionality
+gem 'dry-initializer'
+gem 'dry-monads'
