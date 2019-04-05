@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
     if current_user && current_user.system
       @system_users = []
       @system_users = current_user.system.users.is_online unless current_user.system.wormhole?
-      @global_messages = ChatMessage.includes(:user).where(chat_room: ChatRoom.global.first).last(20)
+      @global_messages = ChatRoom.global.first.chat_messages.includes(:user).last(20)
     end
   end
 
