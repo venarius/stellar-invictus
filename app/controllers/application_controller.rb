@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_docked
-    render(json: {}, status: :bad_request) && (return) unless current_user.docked
+    raise InvalidRequest unless current_user.docked
   end
 
   def check_banned
@@ -76,6 +76,11 @@ class ApplicationController < ActionController::Base
     msg = err.message
     msg = nil if msg == "InvalidRequest"
     # ap msg if msg.present?
+    if msg
+      temp_msg = I18n.t(msg)
+      msg = temp_msg.start_with?("translation missing:") ? msg : temp_msg
+    end
+    # ap msg if msg
     render json: { error_message: msg }.compact, status: :bad_request
   end
 

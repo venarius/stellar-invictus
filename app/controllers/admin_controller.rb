@@ -7,14 +7,12 @@ class AdminController < ApplicationController
 
   def search
     raise InvalidRequest unless params[:name]
-
     result = User.where("full_name ILIKE ?", "%#{params[:name]}%").where.not(faction_id: nil).first(20)
     render partial: 'admin/search', locals: { users: result }, status: :ok
   end
 
   def teleport
-    raise InvalidRequest if current_user.in_warp
-
+    raise InvalidRequest if current_user.in_warp?
     current_user.teleport(user)
     render json: {}, status: :ok
   end
@@ -27,7 +25,6 @@ class AdminController < ApplicationController
 
   def ban
     raise InvalidRequest if !params[:duration] || !params[:reason]
-
     user.ban(params[:duration], params[:reason])
     render json: {
       message: I18n.t('admin.successfully_banned_user'),
@@ -42,7 +39,6 @@ class AdminController < ApplicationController
 
   def server_message
     raise InvalidRequest unless params[:text]
-
     ActionCable.server.broadcast("appearance", method: 'server_message', text: params[:text])
     render json: {}, status: :ok # could do (head :ok)
   end

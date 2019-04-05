@@ -68,7 +68,7 @@ class CorporationsController < ApplicationController
     raise InvalidRequest unless corp.is_member?(user_to_kick)
     raise InvalidRequest unless corp.can_kick_users?(current_user) || current_user == user_to_kick
     if User.corporation_roles[user_to_kick.corporation_role] > User.corporation_roles[current_user.corporation_role]
-      raise InvalidRequest.new(I18n.t('errors.cant_change_a_higher_rank'))
+      raise InvalidRequest.new('errors.cant_change_a_higher_rank')
     end
 
     result = Corporation::KickUser.(user: user_to_kick)
@@ -96,13 +96,13 @@ class CorporationsController < ApplicationController
     rank = params[:rank].to_i
 
     if User.corporation_roles[current_user.corporation_role] < rank
-      raise InvalidRequest.new(I18n.t('errors.cant_change_to_higher_rank_than_self'))
+      raise InvalidRequest.new('errors.cant_change_to_higher_rank_than_self')
     end
     if User.corporation_roles[user_with_rank.corporation_role] > User.corporation_roles[current_user.corporation_role]
-      raise InvalidRequest.new(I18n.t('errors.cant_change_a_higher_rank'))
+      raise InvalidRequest.new('errors.cant_change_a_higher_rank')
     end
     if (user_with_rank == current_user) && user_with_rank.founder? && (user_with_rank.corporation.users.founder.count == 1)
-      raise InvalidRequest.new(I18n.t('errors.cant_derank_only_founder'))
+      raise InvalidRequest.new('errors.cant_derank_only_founder')
     end
 
     user_with_rank.update(corporation_role: rank)
@@ -115,8 +115,8 @@ class CorporationsController < ApplicationController
 
     amount = params[:amount].to_i
 
-    raise InvalidRequest.new(I18n.t('errors.amount_must_be_bigger_than_0')) unless amount > 0
-    raise InvalidRequest.new(I18n.t('errors.you_dont_have_enough_credits')) unless current_user.units >= amount
+    raise InvalidRequest.new('errors.amount_must_be_bigger_than_0') unless amount > 0
+    raise InvalidRequest.new('errors.you_dont_have_enough_credits') unless current_user.units >= amount
 
     ActiveRecord::Base.transaction do
       current_user.reduce_units(amount)
@@ -133,8 +133,8 @@ class CorporationsController < ApplicationController
 
     amount = params[:amount].to_i
 
-    raise InvalidRequest.new(I18n.t('errors.amount_must_be_bigger_than_0')) unless amount > 0
-    raise InvalidRequest.new(I18n.t('errors.corporation_dont_have_enough_credits')) unless corp.units >= amount
+    raise InvalidRequest.new('errors.amount_must_be_bigger_than_0') unless amount > 0
+    raise InvalidRequest.new('errors.corporation_dont_have_enough_credits') unless corp.units >= amount
 
     ActiveRecord::Base.transaction do
       current_user.increment!(:units, amount)
@@ -166,7 +166,7 @@ class CorporationsController < ApplicationController
   def apply
     corporation = Corporation.ensure(params[:id])
     raise InvalidRequest unless corporation
-    raise InvalidRequest.new(I18n.t('errors.already_in_corporation')) if corporation.is_member?(current_user)
+    raise InvalidRequest.new('errors.already_in_corporation') if corporation.is_member?(current_user)
 
     CorpApplication.create(user: current_user, corporation: corporation, application_text: params[:text])
 
