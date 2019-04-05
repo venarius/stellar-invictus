@@ -6,7 +6,7 @@ class ChatChannel < ApplicationCable::Channel
       stream_for ChatRoom.global.first
     elsif params['room'].include?("chatroom-")
       room_id = params['room'].gsub("chatroom-", '')
-      stream_for ChatRoom.where(identifier: room_id).first
+      stream_for ChatRoom.ensure(room_id)
     end
   end
 
@@ -18,7 +18,7 @@ class ChatChannel < ApplicationCable::Channel
         ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.global.first)
       elsif data['room'].include?("chatroom-")
         room_id = data['room'].gsub("chatroom-", '')
-        ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.where(identifier: room_id).first)
+        ChatMessage.create(user: current_user, body: data['message'], chat_room: ChatRoom.ensure(room_id))
       end
     end
   end

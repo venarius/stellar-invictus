@@ -32,7 +32,7 @@ class EquipmentController < ApplicationController
 
     ids.each do |loader|
       # Find item with id
-      item = ship.items.where(loader: loader, equipped: false).first
+      item = ship.items.find_by(loader: loader, equipped: false)
 
       # Item and item belongs to spaceship and item's spaceship is ship of user
       if item
