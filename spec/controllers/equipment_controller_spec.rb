@@ -84,13 +84,14 @@ RSpec.describe EquipmentController, type: :controller do
         expect(equipment1.reload.equipped).to eq(false)
       end
 
-      it 'should unequip items no listed in params' do
+      it 'should unequip items not listed in params' do
         post :update, params: { ids: { "main": [equipment1.loader] } }
         expect(response).to have_http_status(:ok)
         expect(equipment1.reload.equipped).to eq(true)
+
         post :update
         expect(response).to have_http_status(:ok)
-        expect(Item.where(loader: equipment1.loader, spaceship: user.active_spaceship).count).to eq(1)
+        expect(user.active_spaceship.reload.items.where(loader: equipment1.loader).count).to eq(1)
       end
     end
 
