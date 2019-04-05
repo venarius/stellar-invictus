@@ -1,6 +1,6 @@
 class ChatRoomsController < ApplicationController
   def create
-    raise InvalidRequest unless params[:title]
+    raise InvalidRequest if params[:title].blank?
 
     room = ChatRoom.new(title: params[:title], chatroom_type: :custom)
     if room.save
@@ -53,7 +53,7 @@ class ChatRoomsController < ApplicationController
       end
     end
 
-    if (room.users.count.zero?) && (!%w[ROOKIES RECRUIT].include?(room.identifier))
+    if room.users.count.zero? && !%w[ROOKIES RECRUIT].include?(room.identifier)
       room.destroy
     end
 

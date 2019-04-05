@@ -25,7 +25,7 @@
 #
 
 class ChatRoom < ApplicationRecord
-  ensure_by :id, :identifier
+  ensure_by :identifier, :id
 
   ## -- RELATIONSHIPS
   belongs_to :location, optional: true
