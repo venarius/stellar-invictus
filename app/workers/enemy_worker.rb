@@ -6,7 +6,7 @@ class EnemyWorker < ApplicationWorker
     @location = Location.ensure(location)
     return unless @location
 
-    # FIXME: really should remove this "global" state
+    # FIXME: really should remove all this "global" state
     @enemy = Npc.ensure(npc)
     @target = User.ensure(target)
     @attack = attack
@@ -16,16 +16,16 @@ class EnemyWorker < ApplicationWorker
     if (@enemy.nil? || @enemy.npc_state == nil) && @attack.nil?
       if @location.mission && @location.mission.vip? && @count
         if (@count == 1) && (@location.mission.enemy_amount == 3)
-          @enemy = Npc.create(npc_type: :politician, location: @location, hp: 150, name: Npc.random_name)
+          @enemy = Npc.create(npc_type: :politician, location: @location, hp: 150)
         else
-          @enemy = Npc.create(npc_type: :bodyguard, location: @location, hp: 75, name: Npc.random_name)
+          @enemy = Npc.create(npc_type: :bodyguard, location: @location, hp: 75)
         end
       elsif @location.system.wormhole?
-        @enemy = Npc.create(npc_type: :enemy, location: @location, hp: 1250, name: Npc.random_name)
+        @enemy = Npc.create(npc_type: :enemy, location: @location, hp: 1250)
       elsif (@location.exploration_site? && (@location.enemy_amount == 1)) || @hard
-        @enemy = Npc.create(npc_type: :wanted_enemy, location: @location, hp: 650, name: Npc.random_name)
+        @enemy = Npc.create(npc_type: :wanted_enemy, location: @location, hp: 650)
       else
-        @enemy = Npc.create(npc_type: :enemy, location: @location, hp: [50, 75, 100].sample, name: Npc.random_name)
+        @enemy = Npc.create(npc_type: :enemy, location: @location, hp: [50, 75, 100].sample)
       end
 
       @enemy.created!
@@ -88,7 +88,7 @@ class EnemyWorker < ApplicationWorker
 
     if @enemy.reload.created?
       # Sets user as target of npc
-      @enemy.update(target: @target.id)
+      @enemy.update(target: @target)
 
       # Tell user he is getting targeted by outlaw
       @target.broadcast(:getting_targeted, name: @enemy.name)

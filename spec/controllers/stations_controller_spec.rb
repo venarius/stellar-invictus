@@ -132,7 +132,7 @@ RSpec.describe StationsController, type: :controller do
       end
 
       it 'should do nothing when police is engaged' do
-        create(:npc_police, target_user: user)
+        create(:npc_police, target: user)
         post :dock
         expect(response).to have_http_status(:bad_request)
         expect(user.docked).to eq(false)

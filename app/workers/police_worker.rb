@@ -10,7 +10,7 @@ class PoliceWorker < ApplicationWorker
     seconds ||= DEFAULT_UPDATE_SECONDS
 
     if police_id == nil
-      police = Npc.create(npc_type: :police, target_user: player, name: generate_name)
+      police = Npc.create(npc_type: :police, target: player, name: generate_name)
 
       PoliceWorker.perform_in(seconds.second, player.id, seconds, police.id)
       return
