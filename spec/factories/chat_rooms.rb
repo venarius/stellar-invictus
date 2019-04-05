@@ -26,7 +26,7 @@
 
 FactoryBot.define do
   factory :chat_room do
-    title { Faker::TvShows::StrangerThings.quote[0..19] }
+    title { SecureRandom.hex(rand(5..10)) }
     chatroom_type { :custom }
   end
 end

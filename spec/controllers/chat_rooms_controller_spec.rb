@@ -98,9 +98,8 @@ RSpec.describe ChatRoomsController, type: :controller do
 
       it 'should not succeed if user has already joined' do
         chatroom = create(:chat_room, chatroom_type: :custom)
-        post :join, params: { id: chatroom.identifier }
-        expect(response).to have_http_status(:ok)
-        expect(chatroom.reload.users.count).to eq(1)
+        chatroom.users << user
+
         post :join, params: { id: chatroom.id }
         expect(response).to have_http_status(:bad_request)
         expect(chatroom.reload.users.count).to eq(1)
