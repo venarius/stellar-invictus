@@ -10,7 +10,7 @@ class AsteroidsController < ApplicationController
   end
 
   def stop_mine
-    current_user.update_columns(mining_target_id: nil)
+    current_user.update(mining_target_id: nil)
     render json: {}, status: :ok
   end
 

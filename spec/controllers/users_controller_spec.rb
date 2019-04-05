@@ -62,7 +62,7 @@ RSpec.describe UsersController, type: :controller do
 
     describe 'POST place_bounty' do
       before(:each) do
-        @user.update_columns(units: 1000)
+        @user.update(units: 1000)
       end
 
       it 'should place bounty on user' do

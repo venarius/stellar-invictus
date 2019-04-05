@@ -195,7 +195,7 @@ class MarketController < ApplicationController
       listing = MarketListing.ensure(params[:id])
       if amount && listing && (listing.location == current_user.location) && (amount >= 1)
         # Check Amount
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: :bad_request) && (return) if (Item.find_by(loader: listing.loader, location: current_user.location, user: current_user).count rescue 0) < amount
+        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: :bad_request) && (return) if Item.where(loader: listing.loader, location: current_user.location, user: current_user).first.count < amount
         render(json: { 'error_message': I18n.t('errors.buyer_doesnt_want_that_much') }, status: :bad_request) && (return) if amount > listing.amount
         # Remove Items and give credits
         Item::RemoveFromUser.(loader: listing.loader, amount: amount, location: current_user.location, user: current_user)

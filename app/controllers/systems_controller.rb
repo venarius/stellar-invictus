@@ -23,7 +23,7 @@ class SystemsController < ApplicationController
           jumpgates << location.jumpgate.id if location
         end
 
-        current_user.update_columns(route: jumpgates)
+        current_user.update(route: jumpgates)
         render(json: { old_route: old_route, route: jumpgates, card: render_to_string(partial: 'systems/route_card') }, status: :ok) && (return)
       end
     end
@@ -32,7 +32,7 @@ class SystemsController < ApplicationController
 
   def clear_route
     old_route = current_user.route
-    current_user.update_columns(route: [])
+    current_user.update(route: [])
     render json: { route: old_route }, status: :ok
   end
 

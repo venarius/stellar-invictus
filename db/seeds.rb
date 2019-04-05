@@ -186,4 +186,4 @@ thomas_french_description = "<p><strong>THOMAS FRENCH - INTREPID TRADE PIONEER</
 <p>It did not.  The galactic community rallied behind his cause, galvanized by his loss, and drove the Collective's fleets back from where they came.  Odin would become the galaxy's new trade hub, a neutral zone where the people chose what to sell and what to pay.  And it all sprang forth by the vision and boldness of one man.</p>
 
 <p>The galaxy honors the memory of Thomas French with this monument.</p>"
-Structure.find_or_create_by(location: Location.find_by(name: "The Lithium Exchange"), structure_type: :monument, name: "Thomas French Monument", description: thomas_french_description)
+Structure.find_or_create_by(location: Location.where(name: "The Lithium Exchange").first, structure_type: :monument, name: "Thomas French Monument", description: thomas_french_description)

@@ -32,15 +32,15 @@ class FactoriesController < ApplicationController
 
         # Check if has ressources
         ressources.each do |key, value|
-          item = Item.find_by(loader: key, user: current_user, location: current_user.location) rescue nil
-          value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
+          item = Item.where(loader: key, user: current_user, location: current_user.location).first
+          value = value * current_user.blueprints.where(loader: params[:loader]).first.efficiency
           render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: :bad_request) && (return) if !item || item.count < value.round * params[:amount].to_i
         end
 
         params[:amount].to_i.times do
           # Delete ressources
           ressources.each do |key, value|
-            value = value * current_user.blueprints.find_by(loader: params[:loader]).efficiency
+            value = value * current_user.blueprints.where(loader: params[:loader]).first.efficiency
             Item::RemoveFromUser.(loader: key, user: current_user, location: current_user.location, amount: value.round)
           end
 
@@ -68,7 +68,7 @@ class FactoriesController < ApplicationController
   def dismantle
     if params[:loader] && params[:amount] && current_user.docked && current_user.location.industrial_station?
       amount = params[:amount].to_i rescue 0
-      item = Item.find_by(loader: params[:loader], location: current_user.location, user: current_user) rescue nil
+      item = Item.where(loader: params[:loader], location: current_user.location, user: current_user).first
 
       if item
         # Check if trying to dismantle more than has

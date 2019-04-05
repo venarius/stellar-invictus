@@ -13,7 +13,7 @@ class FleetsController < ApplicationController
           room = ChatRoom.create(title: 'Fleet', chatroom_type: :custom)
           room.users << current_user
           fleet = Fleet.create(creator: current_user, chat_room: room)
-          current_user.update_columns(fleet_id: fleet.id)
+          current_user.update(fleet_id: fleet.id)
         # If current user is in fleet
         else
           # Only get some variables
@@ -45,7 +45,7 @@ class FleetsController < ApplicationController
         room.users << current_user
 
         # Set fleet_id of current_user
-        current_user.update_columns(fleet_id: fleet.id)
+        current_user.update(fleet_id: fleet.id)
 
         # Broadcast
         broadcast("join", current_user, room)
@@ -75,7 +75,7 @@ class FleetsController < ApplicationController
         broadcast("leave", user, room)
 
         # Remove fleet id of user
-        user.update_columns(fleet_id: nil)
+        user.update(fleet_id: nil)
 
         # Render 200 OK
         render(json: {}, status: :ok) && (return)

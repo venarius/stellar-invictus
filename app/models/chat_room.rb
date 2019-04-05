@@ -46,10 +46,14 @@ class ChatRoom < ApplicationRecord
 
   ## — CLASS METHODS
   def self.global
-    @global ||= ChatRoom.find_by(chatroom_type: :global)
+    @global ||= ChatRoom.where(chatroom_type: :global).first
   end
 
   ## — INSTANCE METHODS
+  def user_in_room?(user)
+    self.users.where(id: user.id).exists?
+  end
+
   def update_local_players
     if self.fleet.present?
       color = self.users.is_online.in_name_order.map { |p| p.active_spaceship.get_hp_color }

@@ -179,7 +179,7 @@ describe User do
         end
 
         it 'should return nil if no active spaceship' do
-          user.update_columns(active_spaceship_id: nil)
+          user.update(active_spaceship_id: nil)
           expect(user.reload.active_spaceship).to eq(nil)
         end
       end
@@ -200,7 +200,7 @@ describe User do
         end
 
         it 'should return false if player in space and not in warp but not online' do
-          user.update_columns(online: 0)
+          user.update(online: 0)
           expect(user.can_be_attacked).to eq(false)
         end
       end
@@ -208,7 +208,7 @@ describe User do
       describe 'target' do
         it 'should return current target of user' do
           enemy = create(:user_with_faction)
-          user.update_columns(target_id: enemy.id)
+          user.update(target_id: enemy.id)
           expect(user.reload.target).to eq(enemy)
         end
       end
@@ -216,7 +216,7 @@ describe User do
       describe 'npc_target' do
         it 'should return current npc_target of user' do
           enemy = create(:npc)
-          user.update_columns(npc_target_id: enemy.id)
+          user.update(npc_target_id: enemy.id)
           expect(user.reload.npc_target).to eq(enemy)
         end
       end
@@ -230,7 +230,7 @@ describe User do
 
       describe 'mining_target' do
         it 'should return asteroid if mining_target_id' do
-          user.update_columns(mining_target_id: Asteroid.first.id)
+          user.update(mining_target_id: Asteroid.first.id)
           expect(user.mining_target).to eq(Asteroid.first)
         end
 
@@ -242,16 +242,16 @@ describe User do
       describe 'give_bounty' do
         it 'should give given user some bounty if user has bounty' do
           enemy = create(:user_with_faction)
-          user.active_spaceship.update_columns(name: 'Valadria')
-          user.update_columns(bounty: 1000)
+          user.active_spaceship.update(name: 'Valadria')
+          user.update(bounty: 1000)
           user.give_bounty(enemy)
           expect(enemy.units).not_to eq(10)
         end
 
         it 'should give given user some bounty if user has less bounty than worth bounty' do
           enemy = create(:user_with_faction)
-          user.active_spaceship.update_columns(name: 'Valadria')
-          user.update_columns(bounty: 1)
+          user.active_spaceship.update(name: 'Valadria')
+          user.update(bounty: 1)
           user.give_bounty(enemy)
           expect(enemy.units).to eq(11)
         end

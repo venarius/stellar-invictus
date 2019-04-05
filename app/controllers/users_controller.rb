@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
         current_user.reduce_units(amount)
 
-        user.update_columns(bounty: user.bounty + amount)
+        user.update(bounty: user.bounty + amount)
 
         user.broadcast(:notify_alert,
           text: I18n.t('notification.placed_bounty', user: current_user.full_name, amount: amount)

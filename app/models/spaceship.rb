@@ -137,14 +137,14 @@ class Spaceship < ApplicationRecord
   # Deactivate Selfrepair Equipment
   def deactivate_selfrepair_equipment
     self.get_equipped_equipment_of_type('Repair Bot').each do |item|
-      item.update_columns(active: false)
+      item.update(active: false)
     end
   end
 
   # Deactivate Remoterepair Equipment
   def deactivate_remoterepair_equipment
     self.get_equipped_equipment_of_type('Repair Beam').each do |item|
-      item.update_columns(active: false)
+      item.update(active: false)
     end
   end
 
@@ -156,7 +156,7 @@ class Spaceship < ApplicationRecord
       self.items.each do |item|
         if rand(0..1) == 1
           hash << { name: item.get_attribute('name'), dropped: true, amount: item.count, equipped: item.equipped }
-          item.update_columns(structure_id: structure.id, spaceship_id: nil, equipped: false, count: item.count)
+          item.update(structure_id: structure.id, spaceship_id: nil, equipped: false, count: item.count)
         else
           hash << { name: item.get_attribute('name'), dropped: false, amount: item.count, equipped: item.equipped }
         end

@@ -10,7 +10,7 @@ Spaceship.all.each do |ship|
    if main_amount > ship.get_attribute(:main_equipment_slots)
      ship.get_equipped_equipment.each do |equipment|
        if (equipment.get_attribute('slot_type') == "main") && (main_amount > ship.get_attribute(:main_equipment_slots))
-         equipment.update_columns(equipped: false)
+         equipment.update(equipped: false)
           main_amount = main_amount - 1
        end
      end
@@ -19,7 +19,7 @@ Spaceship.all.each do |ship|
    if utility_amount > ship.get_attribute(:utility_equipment_slots)
      ship.get_equipped_equipment.each do |equipment|
        if (equipment.get_attribute('slot_type') == "utility") && (utility_amount > ship.get_attribute(:utility_equipment_slots))
-         equipment.update_columns(equipped: false)
+         equipment.update(equipped: false)
           utility_amount = utility_amount - 1
        end
      end

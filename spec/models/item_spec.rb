@@ -78,7 +78,7 @@ describe Item do
         end
 
         it 'should remove item from users ship' do
-          item.update_columns(location_id: nil, spaceship_id: user.active_spaceship.id)
+          item.update(location_id: nil, spaceship_id: user.active_spaceship.id)
           expect {
             Item::RemoveFromUser.(user: user, loader: item.loader, amount: 1)
           }.to change {
@@ -87,7 +87,7 @@ describe Item do
         end
 
         it 'should remove item from counter if less than item amount' do
-          item.update_columns(count: 2)
+          item.update(count: 2)
           expect {
             Item::RemoveFromUser.(user: user, loader: item.loader, location: user.location, amount: 1)
           }.to change {
@@ -122,7 +122,7 @@ describe Item do
         end
 
         it 'should move to station and remove from counter of original if amount less than count' do
-          @item.update_columns(count: 2)
+          @item.update(count: 2)
           expect {
             Item::GiveToStation.(user: @user, loader: @item.loader, amount: 1)
           }.to change {
@@ -158,7 +158,7 @@ describe Item do
         end
 
         it 'should move to ship and remove from counter of original if amount less than count' do
-          @item.update_columns(count: 2)
+          @item.update(count: 2)
           expect {
             Item::GiveToShip.(user: @user, loader: @item.loader, amount: 1)
           }.to change {

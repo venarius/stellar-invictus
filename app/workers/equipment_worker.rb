@@ -6,7 +6,7 @@ class EquipmentWorker < ApplicationWorker
     player = User.ensure(player)
 
     # Set Player status to using equipment worker
-    player.update_columns(equipment_worker: true)
+    player.update(equipment_worker: true)
 
     player_ship = player.active_spaceship
 
@@ -43,12 +43,12 @@ class EquipmentWorker < ApplicationWorker
         end
 
         # Set Attacking to True
-        player.update_columns(is_attacking: true) if !player.is_attacking
+        player.update(is_attacking: true) if !player.is_attacking
 
       elsif (power == 0) && (remote_repair == 0) && !player_ship.has_active_warp_disruptor && player.is_attacking
 
         # Set Attacking to False
-        player.update_columns(is_attacking: false)
+        player.update(is_attacking: false)
 
         # If player had user targeted -> stop
         if player.target
@@ -65,7 +65,7 @@ class EquipmentWorker < ApplicationWorker
         end
 
         # Set Attacking to True
-        player.update_columns(is_attacking: true) if !player.is_attacking
+        player.update(is_attacking: true) if !player.is_attacking
       end
 
       # If Repair -> repair
@@ -73,9 +73,9 @@ class EquipmentWorker < ApplicationWorker
         if player_ship.hp < player_ship.get_max_hp
 
           if player_ship.hp + self_repair > player_ship.get_max_hp
-            player_ship.update_columns(hp: player_ship.get_max_hp)
+            player_ship.update(hp: player_ship.get_max_hp)
           else
-            player_ship.update_columns(hp: player_ship.hp + self_repair)
+            player_ship.update(hp: player_ship.hp + self_repair)
           end
 
           player.broadcast(:update_health, hp: player_ship.hp)
@@ -99,10 +99,10 @@ class EquipmentWorker < ApplicationWorker
           attack = power
           attack = power * (1.0 - target_ship.get_defense / 100.0) if player.target
 
-          target_ship.update_columns(hp: target_ship.reload.hp - attack.round + remote_repair)
+          target_ship.update(hp: target_ship.reload.hp - attack.round + remote_repair)
 
           if player.target
-            target_ship.update_columns(hp: target_ship.get_max_hp) if target_ship.hp > target_ship.get_max_hp
+            target_ship.update(hp: target_ship.get_max_hp) if target_ship.hp > target_ship.get_max_hp
           end
 
           target_hp = target_ship.hp
@@ -132,7 +132,7 @@ class EquipmentWorker < ApplicationWorker
 
           # If target hp is below 0 -> die
           if target_hp <= 0
-            target_ship.update_columns(hp: 0)
+            target_ship.update(hp: 0)
             if player.target
               player.target.give_bounty(player)
               # Remove user from being targeted by others
@@ -182,7 +182,7 @@ class EquipmentWorker < ApplicationWorker
   # Shutdown Method
   def shutdown(player)
     player.active_spaceship.deactivate_equipment
-    player.update_columns(is_attacking: false, equipment_worker: false)
+    player.update(is_attacking: false, equipment_worker: false)
   end
 
   # Call Police

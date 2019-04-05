@@ -47,7 +47,7 @@ RSpec.describe MissionsController, type: :controller do
     before (:each) do
       @user = create(:user_with_faction)
       sign_in @user
-      @user.update_columns(location_id: Location.station.first.id, docked: true)
+      @user.update(location_id: Location.station.first.id, docked: true)
       MissionGenerator.generate_missions(@user.location.id)
     end
 
@@ -59,14 +59,14 @@ RSpec.describe MissionsController, type: :controller do
       end
 
       it 'should not render template if user not docked' do
-        @user.update_columns(docked: false)
+        @user.update(docked: false)
         get :info, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not render template if mission belongs to other user' do
         user2 = create(:user_with_faction)
-        Mission.last.update_columns(mission_status: 1, user_id: user2.id)
+        Mission.last.update(mission_status: 1, user_id: user2.id)
         get :info, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
       end
@@ -80,7 +80,7 @@ RSpec.describe MissionsController, type: :controller do
       end
 
       it 'should not accept mission if mission is already accepted' do
-        Mission.last.update_columns(mission_status: 1, user_id: @user.id)
+        Mission.last.update(mission_status: 1, user_id: @user.id)
         post :accept, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
         expect(@user.reload.missions.count).to eq(1)
@@ -94,7 +94,7 @@ RSpec.describe MissionsController, type: :controller do
       end
 
       it 'should not accept mission if user is in another location' do
-        @user.update_columns(location_id: Location.station.last.id)
+        @user.update(location_id: Location.station.last.id)
         post :accept, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
         expect(@user.reload.missions.count).to eq(0)
@@ -112,7 +112,7 @@ RSpec.describe MissionsController, type: :controller do
     describe 'GET abort' do
       it 'should abort mission' do
         faction_id = Mission.last.faction_id
-        Mission.last.update_columns(mission_status: 1, user_id: @user.id)
+        Mission.last.update(mission_status: 1, user_id: @user.id)
         get :abort, params: { id: Mission.last.id }
         expect(response).to have_http_status(:ok)
         expect(@user.reload.missions.count).to eq(0)
@@ -121,7 +121,7 @@ RSpec.describe MissionsController, type: :controller do
 
       it 'should not abort mission if belongs to other user' do
         user2 = create(:user_with_faction)
-        Mission.last.update_columns(mission_status: 1, user_id: user2.id)
+        Mission.last.update(mission_status: 1, user_id: user2.id)
         get :abort, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
         expect(user2.reload.missions.count).to eq(1)
@@ -130,7 +130,7 @@ RSpec.describe MissionsController, type: :controller do
       it 'should not abort mission if users still on mission site' do
         mission = create(:combat_mission)
         create(:user_with_faction, location: mission.mission_location)
-        mission.update_columns(mission_status: 1, user_id: @user.id)
+        mission.update(mission_status: 1, user_id: @user.id)
         get :abort, params: { id: mission.id }
         expect(response).to have_http_status(:bad_request)
         expect(@user.reload.missions.count).to eq(1)
@@ -139,19 +139,19 @@ RSpec.describe MissionsController, type: :controller do
 
     describe 'POST finish' do
       it 'should not finish mission' do
-        Mission.last.update_columns(mission_status: 1, user_id: @user.id)
+        Mission.last.update(mission_status: 1, user_id: @user.id)
         post :finish, params: { id: Mission.last.id }
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should finish mission' do
-        Mission.last.update_columns(mission_status: 1, user_id: @user.id)
+        Mission.last.update(mission_status: 1, user_id: @user.id)
         @mission = Mission.last
 
-        @mission.update_columns(mission_amount: 0, enemy_amount: 0)
+        @mission.update(mission_amount: 0, enemy_amount: 0)
 
         if @mission.delivery?
-          @user.update_columns(location_id: @mission.deliver_to)
+          @user.update(location_id: @mission.deliver_to)
           Item::GiveToUser.(amount: @mission.mission_amount, loader: @mission.mission_loader, user: @user, location: @user.location)
         elsif @mission.market?
           Item::GiveToUser.(amount: @mission.mission_amount, loader: @mission.mission_loader, user: @user, location: @user.location)

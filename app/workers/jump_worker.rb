@@ -20,7 +20,7 @@ class JumpWorker < ApplicationWorker
         else
           to_system = System.ensure(player.location.jumpgate.origin.system_id)
         end
-        new_loc = Location.find_by(name: old_system.name, system_id: to_system.id)
+        new_loc = Location.where(name: old_system.name, system: to_system).first
       end
 
       # Check for to_system
