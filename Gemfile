@@ -66,8 +66,6 @@ gem 'acts_as_votable'
 gem 'recaptcha'
 # Bugsnag for Errors
 gem 'bugsnag'
-# Activerecord-Import for fast transactions
-# gem 'activerecord-import'  # Not being used
 # Social Logins
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
