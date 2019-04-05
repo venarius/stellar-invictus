@@ -23,4 +23,11 @@
 class CorpApplication < ApplicationRecord
   belongs_to :user
   belongs_to :corporation
+
+  def application_text=(value)
+    # Keep the application Text to 1000 chars or less
+    value = value.to_s[0..1000] if value
+    super(value)
+  end
+
 end

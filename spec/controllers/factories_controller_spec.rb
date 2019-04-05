@@ -44,7 +44,7 @@ RSpec.describe FactoriesController, type: :controller do
 
     describe 'POST craft' do
       it 'should not craft if user not docked' do
-        @user.update_columns(docked: false)
+        @user.update(docked: false)
         post :craft
         expect(response).to have_http_status(:bad_request)
       end
@@ -89,7 +89,7 @@ RSpec.describe FactoriesController, type: :controller do
 
       it 'should start crafting if has enough material' do
         Blueprint.create(loader: 'Nano', user: @user)
-        @user.update_columns(location_id: Location.where(station_type: 0).first.id, docked: true)
+        @user.update(location_id: Location.where(station_type: 0).first.id, docked: true)
         Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false, count: 10)
         Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false, count: 20)
         Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)
@@ -100,7 +100,7 @@ RSpec.describe FactoriesController, type: :controller do
       end
 
       it 'should not start crafting if has enough material but no blueprint' do
-        @user.update_columns(location_id: Location.where(station_type: 0).first.id, docked: true)
+        @user.update(location_id: Location.where(station_type: 0).first.id, docked: true)
         Item.create(loader: 'asteroid.nickel_ore', user: @user, location: @user.location, equipped: false, count: 10)
         Item.create(loader: 'asteroid.cobalt_ore', user: @user, location: @user.location, equipped: false, count: 20)
         Item.create(loader: 'materials.laser_diodes', user: @user, location: @user.location, equipped: false, count: 2)

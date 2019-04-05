@@ -69,7 +69,7 @@ RSpec.describe SystemsController, type: :controller do
 
     describe 'POST clear_route' do
       it 'should clear route of user' do
-        @user.update_columns(route: ["1", "2", "3"])
+        @user.update(route: ["1", "2", "3"])
         post :clear_route
         expect(response).to have_http_status(:ok)
         expect(@user.reload.route).to eq([])

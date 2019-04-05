@@ -4,7 +4,7 @@ class StructuresController < ApplicationController
 
   def open_container
     if params[:id]
-      container = Structure.find_by(id: params[:id]) rescue nil
+      container = Structure.ensure(params[:id])
       if container && (container.location == current_user.location) && current_user.can_be_attacked
         if container.container?
           render partial: 'structures/cargocontainer', locals: { items: container.get_items, container_id: container.id, owner_name: container.user.full_name }
@@ -47,7 +47,7 @@ class StructuresController < ApplicationController
               amount = (free_weight / item.get_attribute('weight')).round
               amount = item.count if amount > item.count
               Item::GiveToUser.(loader: item.loader, user: current_user, amount: amount)
-              amount >= item.count ? item.destroy : item.update_columns(count: item.count - amount)
+              amount >= item.count ? item.destroy : item.update(count: item.count - amount)
               free_weight = free_weight - item.get_attribute('weight') * amount
               count = count + amount
             end

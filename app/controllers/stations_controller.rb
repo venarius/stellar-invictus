@@ -35,7 +35,7 @@ class StationsController < ApplicationController
 
     # Fallback
     if !current_user.location.station?
-      current_user.update_columns(docked: false)
+      current_user.update(docked: false)
       redirect_to(game_path)
       return
     end
@@ -70,15 +70,15 @@ class StationsController < ApplicationController
     end
 
     # Receive Passengers
-    if current_user.location.faction && Item.find_by(loader: "delivery.passenger", spaceship: current_user.active_spaceship).present?
-      item = Item.find_by(loader: "delivery.passenger", spaceship: current_user.active_spaceship)
+    if current_user.location.faction && Item.where(loader: "delivery.passenger", spaceship: current_user.active_spaceship).present?
+      item = Item.where(loader: "delivery.passenger", spaceship: current_user.active_spaceship).first
       case current_user.location.faction_id
       when 1
-        current_user.update_columns(reputation_1: current_user.reputation_1 + 0.05 * item.count)
+        current_user.update(reputation_1: current_user.reputation_1 + 0.05 * item.count)
       when 2
-        current_user.update_columns(reputation_2: current_user.reputation_2 + 0.05 * item.count)
+        current_user.update(reputation_2: current_user.reputation_2 + 0.05 * item.count)
       when 3
-        current_user.update_columns(reputation_3: current_user.reputation_3 + 0.05 * item.count)
+        current_user.update(reputation_3: current_user.reputation_3 + 0.05 * item.count)
       end
       current_user.broadcast(:notify_alert,
         text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * item.count).round(2)),
@@ -93,7 +93,7 @@ class StationsController < ApplicationController
   def store
     if params[:loader] && params[:amount] && current_user.docked
       amount = params[:amount].to_i
-      item = Item.find_by(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false)
+      item = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false).first
       if item && (amount <= item.count) && (amount > 0)
         Item::GiveToStation.(loader: params[:loader], user: current_user, amount: amount)
         render(json: {}, status: :ok) && (return)
@@ -107,7 +107,7 @@ class StationsController < ApplicationController
     if params[:loader] && current_user.docked
       amount = params[:amount].to_i if params[:amount]
 
-      item = Item.find_by(user: current_user, location: current_user.location, loader: params[:loader])
+      item = Item.where(user: current_user, location: current_user.location, loader: params[:loader]).first
 
       render(json: {}, status: :bad_request) && (return) unless item
 

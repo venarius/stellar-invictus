@@ -14,8 +14,8 @@ while time < 50 do
       end
 
       # Increase Effiency
-      blueprint = job.user.blueprints.find_by(loader: job.loader) rescue nil
-      blueprint.update_columns(efficiency: blueprint.reload.efficiency - 0.025) if blueprint && (blueprint.efficiency > 0.5)
+      blueprint = job.user.blueprints.where(loader: job.loader).first
+      blueprint.update(efficiency: blueprint.reload.efficiency - 0.025) if blueprint && (blueprint.efficiency > 0.5)
 
       job.destroy
     end

@@ -17,7 +17,7 @@ class MissionsController < ApplicationController
 
       Item::GiveToUser.(user: current_user, location: @mission.location, loader: @mission.mission_loader, amount: @mission.mission_amount) if @mission.delivery?
 
-      @mission.active! && @mission.update_columns(user_id: current_user.id)
+      @mission.active! && @mission.update(user_id: current_user.id)
 
       MissionGenerator.generate_missions(current_user.location.id)
 

@@ -26,7 +26,7 @@ Location.where(location_type: 'mission', mission: nil).destroy_all
 # Move all items to first station
 Spaceship.all.each do |ship|
   ship.items.each do |item|
-    item.update_columns(user_id: ship.user.id, location_id: ship.user.location.id, spaceship_id: nil, equipped: false, active: false)
+    item.update(user_id: ship.user.id, location_id: ship.user.location.id, spaceship_id: nil, equipped: false, active: false)
   end
 end
 Spaceship.update_all(location_id: Location.station.first.id)

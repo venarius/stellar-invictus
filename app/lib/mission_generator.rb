@@ -27,7 +27,7 @@ class MissionGenerator
       return I18n.t('errors.this_isnt_the_right_station') if mission.deliver_to != mission.user.location.id
 
         # check amount
-        item = Item.find_by(user: mission.user, location: Location.find(mission.deliver_to), loader: mission.mission_loader) rescue nil
+        item = Item.where(user: mission.user, location: Location.find(mission.deliver_to), loader: mission.mission_loader).first
         if !item || item.count < mission.mission_amount
           return I18n.t('errors.you_dont_have_the_required_amount_in_storage')
         end
@@ -42,7 +42,7 @@ class MissionGenerator
         return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.mission_location.id).present?
     when 'market'
       # check amount
-      item = Item.find_by(user: mission.user, location: mission.location, loader: mission.mission_loader) rescue nil
+      item = Item.where(user: mission.user, location: mission.location, loader: mission.mission_loader).first
         if !item || item.count < mission.mission_amount
           return I18n.t('errors.you_dont_have_the_required_amount_in_storage')
         end
@@ -62,11 +62,11 @@ class MissionGenerator
     else
       case mission.faction_id
       when 1
-        mission.user.update_columns(reputation_1: mission.user.reputation_1 + mission.faction_bonus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
+        mission.user.update(reputation_1: mission.user.reputation_1 + mission.faction_bonus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
       when 2
-        mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 + mission.faction_bonus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
+        mission.user.update(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 + mission.faction_bonus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
       when 3
-        mission.user.update_columns(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 + mission.faction_bonus)
+        mission.user.update(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 + mission.faction_bonus)
       end
     end
 

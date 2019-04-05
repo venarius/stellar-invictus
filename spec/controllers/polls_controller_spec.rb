@@ -9,7 +9,7 @@ RSpec.describe PollsController, type: :controller do
 
     describe 'POST create' do
       it 'should create poll as admin' do
-        @user.update_columns(admin: true)
+        @user.update(admin: true)
         post :create, params: { question: "Test", link: "Test" }
         expect(response).to have_http_status(:ok)
         expect(Poll.count).to eq(1)
@@ -22,7 +22,7 @@ RSpec.describe PollsController, type: :controller do
       end
 
       it 'should not create poll as admin but with no params' do
-        @user.update_columns(admin: true)
+        @user.update(admin: true)
         post :create
         expect(response).to have_http_status(:bad_request)
         expect(Poll.count).to eq(0)
@@ -48,7 +48,7 @@ RSpec.describe PollsController, type: :controller do
       end
 
       it 'should not upvote poll if not enough credits' do
-        @user.update_columns(units: 100)
+        @user.update(units: 100)
         post :upvote, params: { id: @poll.id }
         expect(response).to have_http_status(:bad_request)
         expect(@poll.get_upvotes.size).to eq(0)
@@ -74,7 +74,7 @@ RSpec.describe PollsController, type: :controller do
       end
 
       it 'should not downvote poll if not enough credits' do
-        @user.update_columns(units: 100)
+        @user.update(units: 100)
         post :downvote, params: { id: @poll.id }
         expect(response).to have_http_status(:bad_request)
         expect(@poll.get_downvotes.size).to eq(0)
@@ -88,7 +88,7 @@ RSpec.describe PollsController, type: :controller do
 
       it 'should move poll up as admin' do
         @poll.waiting!
-        @user.update_columns(admin: true)
+        @user.update(admin: true)
         post :move_up, params: { id: @poll.id }
         expect(response).to have_http_status(:ok)
         expect(@poll.reload.in_progress?).to be_truthy
@@ -115,7 +115,7 @@ RSpec.describe PollsController, type: :controller do
       end
 
       it 'should delete post if admin' do
-        @user.update_columns(admin: true)
+        @user.update(admin: true)
         post :delete, params: { id: @poll.id }
         expect(response).to have_http_status(:ok)
         expect(Poll.count).to eq(0)

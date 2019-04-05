@@ -3,14 +3,14 @@ class EjectCargoWorker < ApplicationWorker
   def perform(user, loader, amount)
     user = User.ensure(user)
 
-    item = Item.find_by(loader: loader, spaceship: user.active_spaceship, equipped: false, active: false)
+    item = Item.where(loader: loader, spaceship: user.active_spaceship, equipped: false, active: false).first
     if item && amount
       structure = Structure.create(structure_type: 'container', location: user.location, user: user)
 
       if amount == item.count
-        item.update_columns(structure_id: structure.id, user_id: nil, spaceship_id: nil, equipped: false)
+        item.update(structure_id: structure.id, user_id: nil, spaceship_id: nil, equipped: false)
       else
-        item.update_columns(count: item.count - amount)
+        item.update(count: item.count - amount)
         Item.create(structure: structure, loader: item.loader, count: amount)
       end
 

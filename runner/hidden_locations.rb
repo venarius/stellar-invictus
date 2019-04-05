@@ -18,7 +18,7 @@ System.all.each do |system|
         # Enemies with loot
         amount = rand(2..5)
           amount = amount * 2 if location.system.security_status == 'low'
-          location.update_columns(enemy_amount: amount, name: I18n.t('exploration.combat_site'))
+          location.update(enemy_amount: amount, name: I18n.t('exploration.combat_site'))
       when 2
         # Create Structure with loot and some enemies
         loader = Item::ASTEROIDS + Item::MATERIALS
@@ -33,7 +33,7 @@ System.all.each do |system|
           when 96..100
             Item.create(loader: (loader + Item::EQUIPMENT_HARD).sample, structure: structure, equipped: false, count: amount)
           end
-          location.update_columns(enemy_amount: rand(1..2), name: I18n.t('exploration.combat_site'))
+          location.update(enemy_amount: rand(1..2), name: I18n.t('exploration.combat_site'))
       when 3
         # Abandoned Ship with Riddle
         loader = Item::ASTEROIDS + Item::MATERIALS
@@ -48,21 +48,21 @@ System.all.each do |system|
           when 96..100
             Item.create(loader: (loader + Item::EQUIPMENT_HARD).sample, structure: structure, equipped: false, count: amount)
           end
-          location.update_columns(name: I18n.t('exploration.lost_wreck'))
+          location.update(name: I18n.t('exploration.lost_wreck'))
       when 4
         # Asteroids
         rand(3..5).times do
           Asteroid.create(location: location, asteroid_type: 4, resources: 35000)
         end
-          location.update_columns(name: I18n.t('exploration.mining_site'))
+          location.update(name: I18n.t('exploration.mining_site'))
       when 5
         # Hard to kill NPC with lots of bounty
-        location.update_columns(enemy_amount: 1)
-          location.update_columns(name: I18n.t('exploration.outlaw_hideout'))
+        location.update(enemy_amount: 1)
+          location.update(name: I18n.t('exploration.outlaw_hideout'))
       when 6
         # Wreck with Passengers
-        location.update_columns(enemy_amount: rand(4..6))
-          location.update_columns(name: I18n.t('exploration.emergency_beacon'))
+        location.update(enemy_amount: rand(4..6))
+          location.update(name: I18n.t('exploration.emergency_beacon'))
       end
 
     end

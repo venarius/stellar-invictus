@@ -149,7 +149,7 @@ RSpec.describe AdminController, type: :controller do
 
     describe 'POST unmute_user' do
       it 'should unmute user' do
-        @user.update_columns(muted: true)
+        @user.update(muted: true)
         post :unmute, params: { id: @user.id }
         expect(response).to have_http_status(:ok)
         expect(@user.reload.muted).to be_falsey
@@ -181,14 +181,14 @@ RSpec.describe AdminController, type: :controller do
       end
 
       it 'should redirect to root path and show flash' do
-        @user.update_columns(banned_until: (DateTime.now.to_time + 1.hours).to_datetime)
+        @user.update(banned_until: (DateTime.now.to_time + 1.hours).to_datetime)
         get :index
         expect(response.status).to eq(302)
         expect(flash[:notice]).to be_present
       end
 
       it 'should unban if ban is in the past' do
-        @user.update_columns(banned_until: (DateTime.now.to_time - 1.hours).to_datetime)
+        @user.update(banned_until: (DateTime.now.to_time - 1.hours).to_datetime)
         get :index
         expect(response.status).to eq(302)
       end

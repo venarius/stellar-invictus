@@ -12,25 +12,25 @@ query.limit(one_third).each_with_index do |location, index|
   MarketListing.where(location: location).each do |ml|
     # Restock
     while ml.reload.amount < rand(5..10)
-      ml.update_columns(amount: ml.amount + rand(3..5))
+      ml.update(amount: ml.amount + rand(3..5))
     end
 
     # Customization
     if location.industrial_station?
       location.market_listings.where("loader ilike ?", "equipment.").each do |listing|
-        listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
+        listing.update(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
 
     if location.warfare_plant?
       location.market_listings.where("loader ilike ?", "equipment.weapons").each do |listing|
-        listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
+        listing.update(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
 
     if location.mining_station?
       location.market_listings.where("loader ilike ?", "asteroid.").each do |listing|
-        listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
+        listing.update(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
   end

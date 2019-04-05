@@ -1,28 +1,24 @@
 class CorporationsController < ApplicationController
 
   def index
-    @corporation = current_user.corporation
+    @corporation = corp
 
-    # Render Tabs
-    if params[:tab]
-      case params[:tab]
-      when 'info'
-        render partial: 'corporations/about'
-      when 'roster'
-        render partial: 'corporations/roster', locals: { corporation_users: @corporation.users }
-      when 'finances'
-        render partial: 'corporations/finances' if current_user.founder? || current_user.admiral?
-      when 'applications'
-        render partial: 'corporations/applications' if current_user.founder? || current_user.admiral? || current_user.commodore?
-      when 'help'
-        render partial: 'corporations/help'
-      end
-      return
+    case params[:tab]
+    when 'info'
+      render partial: 'corporations/about'
+    when 'roster'
+      render partial: 'corporations/roster', locals: { corporation_users: @corporation.users }
+    when 'finances'
+      render partial: 'corporations/finances' if @corporation.can_deposit?(current_user)
+    when 'applications'
+      render partial: 'corporations/applications' if @corporation.can_see_applications?(current_user)
+    when 'help'
+      render partial: 'corporations/help'
     end
   end
 
   def sort_roster
-    render partial: 'corporations/roster', locals: { corporation_users: current_user.corporation.users.order("#{sort_column} #{sort_direction}") }
+    render partial: 'corporations/roster', locals: { corporation_users: corp.users.order("#{sort_column} #{sort_direction}") }
   end
 
   def new
@@ -32,13 +28,11 @@ class CorporationsController < ApplicationController
   def create
     unless current_user.corporation
       corporation = Corporation.new(corporation_params)
-      corporation.chat_room = ChatRoom.create(title: 'Corporation', chatroom_type: :corporation)
       if corporation.save
-        current_user.update_columns(corporation_role: :founder, corporation_id: corporation.id)
+        current_user.update(corporation_role: :founder, corporation: corporation)
         corporation.chat_room.users << current_user
         redirect_to corporations_path
       else
-        corporation.chat_room.destroy
         @corporation = corporation
         render :new
       end
@@ -46,120 +40,109 @@ class CorporationsController < ApplicationController
   end
 
   def update_motd
-    if params[:text] && (current_user.founder? || current_user.admiral? || current_user.commodore? || current_user.lieutenant?)
-      current_user.corporation.update_columns(motd: params[:text][0, 1000])
-      render(json: { text: current_user.corporation.motd.strip, button_text: I18n.t('corporations.edit') }, status: :ok) && (return)
-    end
-    render json: {}, status: :bad_request
+    raise InvalidRequest unless params[:text]
+    raise InvalidRequest unless current_user.corporation.can_update_motd?(current_user)
+
+    corp.update(motd: params[:text].to_s[0, 1000].strip)
+    render json: { text: corp.motd, button_text: I18n.t('corporations.edit') }, status: :ok
   end
 
   def update_corporation
-    if params[:about] && params[:tax] && current_user.founder?
-      tax = params[:tax].to_f rescue nil
+    raise InvalidRequest if !params[:tax] || !corp.is_founder?(current_user)
 
-      if tax
-        tax = 100 if tax > 100
-        tax = 0 if tax < 0
-
-        current_user.corporation.update_columns(tax: tax, bio: params[:about][0, 1000])
-        render(json: { tax: current_user.corporation.tax, about: MARKDOWN.render(current_user.corporation.bio), button_text: I18n.t('corporations.edit') }, status: :ok) && (return)
-      end
+    if !corp.update(tax: params[:tax], bio: params[:about].to_s[0, 1000])
+      raise InvalidRequest.new(corp.errors.full_messages.join(', '))
     end
-    render json: {}, status: :bad_request
-  end
+
+    json = {
+       tax: corp.tax,
+       about: MARKDOWN.render(corp.bio),
+       button_text: I18n.t('corporations.edit')
+    }
+    render(json: json, status: :ok)
+   end
 
   def kick_user
-    if params[:id] && ((current_user.founder? || current_user.admiral? || current_user.commodore? || current_user.lieutenant?) || User.find(params[:id]) == current_user)
-      corporation = current_user.corporation
-      user = User.find(params[:id])
-
-      if user && (user.corporation == current_user.corporation)
-        # Check Permissions
-        render(json: { 'error_message': I18n.t('errors.cant_change_a_higher_rank') }, status: :bad_request) && (return) if User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role]
-
-        user.update_columns(corporation_id: nil, corporation_role: :recruit)
-        user.broadcast(:reload_corporation)
-        current_user.corporation.chat_room.users.destroy(user)
-
-        if corporation.users.count == 0
-          corporation.destroy
-        end
-
-        render(json: { reload: (corporation.users.count == 0 || User.find(params[:id]) == current_user) }, status: :ok) && (return)
-      end
+    user_to_kick = User.ensure(params[:id])
+    raise InvalidRequest unless user_to_kick
+    raise InvalidRequest unless corp.is_member?(user_to_kick)
+    raise InvalidRequest unless corp.can_kick_users?(current_user) || current_user == user_to_kick
+    if User.corporation_roles[user_to_kick.corporation_role] > User.corporation_roles[current_user.corporation_role]
+      raise InvalidRequest.new(I18n.t('errors.cant_change_a_higher_rank'))
     end
-    render json: {}, status: :bad_request
+
+    result = Corporation::KickUser.(user: user_to_kick)
+    raise InvalidRequest if result.failure?
+
+    render(json: { reload: (result.value! == 0 || user_to_kick == current_user) }, status: :ok)
   end
 
   def change_rank_modal
-    if params[:id] && (current_user.founder? || current_user.admiral? || current_user.commodore? || current_user.lieutenant?)
-      render partial: 'corporations/change_rank_modal', locals: { user: User.find(params[:id]) }
-    else
-      render json: {}, status: :bad_request
-    end
+    user_with_rank = User.ensure(params[:id])
+    raise InvalidRequest unless user_with_rank
+    raise InvalidRequest unless corp.is_member?(user_with_rank)
+    raise InvalidRequest unless corp.can_change_rank?(current_user)
+
+    render partial: 'corporations/change_rank_modal', locals: { user: user_with_rank }
   end
 
   def change_rank
-    if params[:id] && params[:rank] && (current_user.founder? || current_user.admiral? || current_user.commodore? || current_user.lieutenant?)
-      user = User.ensure(params[:id])
-      rank = params[:rank].to_i rescue nil
+    raise InvalidRequest unless params[:rank]
+    user_with_rank = User.ensure(params[:id])
+    raise InvalidRequest unless user_with_rank
+    raise InvalidRequest unless corp.is_member?(user_with_rank)
+    raise InvalidRequest unless corp.can_change_rank?(current_user)
 
-      if user && rank && (user.corporation_id == current_user.corporation_id)
+    rank = params[:rank].to_i
 
-        # Check Permissions
-        render(json: { 'error_message': I18n.t('errors.cant_change_to_higher_rank_than_self') }, status: :bad_request) && (return) if User.corporation_roles[current_user.corporation_role] < rank
-
-        # Check Permissions
-        render(json: { 'error_message': I18n.t('errors.cant_change_a_higher_rank') }, status: :bad_request) && (return) if User.corporation_roles[user.corporation_role] > User.corporation_roles[current_user.corporation_role]
-
-        # Check Founder
-        render(json: { 'error_message': I18n.t('errors.cant_derank_only_founder') }, status: :bad_request) && (return) if (user == current_user) && user.founder? && (user.corporation.users.where(corporation_role: 'founder').count == 1)
-
-        user.update_columns(corporation_role: rank)
-        render(json: {}, status: :ok) && (return)
-      end
+    if User.corporation_roles[current_user.corporation_role] < rank
+      raise InvalidRequest.new(I18n.t('errors.cant_change_to_higher_rank_than_self'))
     end
-    render json: {}, status: :bad_request
+    if User.corporation_roles[user_with_rank.corporation_role] > User.corporation_roles[current_user.corporation_role]
+      raise InvalidRequest.new(I18n.t('errors.cant_change_a_higher_rank'))
+    end
+    if (user_with_rank == current_user) && user_with_rank.founder? && (user_with_rank.corporation.users.founder.count == 1)
+      raise InvalidRequest.new(I18n.t('errors.cant_derank_only_founder'))
+    end
+
+    user_with_rank.update(corporation_role: rank)
+    render json: {}, status: :ok
   end
 
   def deposit_credits
-    if params[:amount] && current_user.corporation && (current_user.founder? || current_user.admiral?)
-      amount = params[:amount].to_i rescue nil
+    raise InvalidRequest unless params[:amount]
+    raise InvalidRequest unless corp.can_deposit?(current_user)
 
-      if amount
-        # Check Amount
-        render(json: { 'error_message': I18n.t('errors.amount_must_be_bigger_than_0') }, status: :bad_request) && (return) unless amount > 0
+    amount = params[:amount].to_i
 
-        # Check Balance
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: :bad_request) && (return) unless current_user.units >= amount
+    raise InvalidRequest.new(I18n.t('errors.amount_must_be_bigger_than_0')) unless amount > 0
+    raise InvalidRequest.new(I18n.t('errors.you_dont_have_enough_credits')) unless current_user.units >= amount
 
-        current_user.reduce_units(amount)
-        current_user.corporation.update_columns(units: current_user.corporation.units + amount)
-        FinanceHistory.create(user: current_user, action: :deposit, amount: amount, corporation: current_user.corporation)
-        render(json: {}, status: :ok) && (return)
-      end
+    ActiveRecord::Base.transaction do
+      current_user.reduce_units(amount)
+      corp.increment!(:units, amount)
+      FinanceHistory.create(user: current_user, action: :deposit, amount: amount, corporation: corp)
     end
-    render json: {}, status: :bad_request
+
+    render json: {}, status: :ok
   end
 
   def withdraw_credits
-    if params[:amount] && current_user.corporation && (current_user.founder? || current_user.admiral?)
-      amount = params[:amount].to_i rescue nil
+    raise InvalidRequest unless params[:amount]
+    raise InvalidRequest unless corp.can_withdraw?(current_user)
 
-      if amount
-        # Check Amount
-        render(json: { 'error_message': I18n.t('errors.amount_must_be_bigger_than_0') }, status: :bad_request) && (return) unless amount > 0
+    amount = params[:amount].to_i
 
-        # Check Balance
-        render(json: { 'error_message': I18n.t('errors.corporation_dont_have_enough_credits') }, status: :bad_request) && (return) unless current_user.corporation.units >= amount
+    raise InvalidRequest.new(I18n.t('errors.amount_must_be_bigger_than_0')) unless amount > 0
+    raise InvalidRequest.new(I18n.t('errors.corporation_dont_have_enough_credits')) unless corp.units >= amount
 
-        current_user.update_columns(units: current_user.units + amount)
-        current_user.corporation.update_columns(units: current_user.corporation.units - amount)
-        FinanceHistory.create(user: current_user, action: :withdraw, amount: amount, corporation: current_user.corporation)
-        render(json: {}, status: :ok) && (return)
-      end
+    ActiveRecord::Base.transaction do
+      current_user.increment!(:units, amount)
+      corp.decrement!(:units, amount)
+      FinanceHistory.create(user: current_user, action: :withdraw, amount: amount, corporation: corp)
     end
-    render json: {}, status: :bad_request
+
+    render json: {}, status: :ok
   end
 
   def info
@@ -181,65 +164,65 @@ class CorporationsController < ApplicationController
   end
 
   def apply
-    if params[:id] && params[:text]
-      corporation = Corporation.ensure(params[:id])
+    corporation = Corporation.ensure(params[:id])
+    raise InvalidRequest unless corporation
+    raise InvalidRequest.new(I18n.t('errors.already_in_corporation')) if corporation.is_member?(current_user)
 
-      if corporation
+    CorpApplication.create(user: current_user, corporation: corporation, application_text: params[:text])
 
-        # Check if already in Corporation
-        render(json: { error_message: I18n.t('errors.already_in_corporation') }, status: :bad_request) && (return) if corporation.users.where(id: current_user.id).present?
-
-        CorpApplication.create(user: current_user, corporation: corporation, application_text: params[:text])
-        render(json: { message: I18n.t('corporations.received_application') }, status: :ok) && (return)
-      end
-    end
-    render json: {}, status: :bad_request
+    render json: { message: I18n.t('corporations.received_application') }, status: :ok
   end
 
+  # FIXME: There should be a separate controller for CorpApplications
   def accept_application
-    if params[:id] && (current_user.founder? || current_user.admiral? || current_user.commodore?)
-      application = CorpApplication.ensure(params[:id])
+    raise InvalidRequest unless application.corporation.user_can_edit?(current_user)
 
-      if application && (application.corporation = current_user.corporation)
-        application.user.update_columns(corporation_role: :recruit, corporation_id: current_user.corporation_id)
-        current_user.corporation.chat_room.users << application.user
-        CorpApplication.where(user: application.user).destroy_all
-        application.user.broadcast(:reload_corporation)
-        render(json: {}, status: :ok) && (return)
-      end
-    end
-    render json: {}, status: :bad_request
+    result = Corporation::AcceptApplication.(application: application)
+    raise InvalidRequest.new(result.failure) if result.failure?
+
+    render json: {}, status: :ok
   end
 
   def reject_application
-    if params[:id] && (current_user.founder? || current_user.admiral? || current_user.commodore?)
-      application = CorpApplication.ensure(params[:id])
+    raise InvalidRequest unless application.corporation.can_reject_applications?(current_user)
 
-      if application && (application.corporation == current_user.corporation)
-        application.destroy
-        render(json: {}, status: :ok) && (return)
-      end
-    end
-    render json: {}, status: :bad_request
+    application.destroy
+
+    render json: {}, status: :ok
   end
 
   def disband
-    if current_user.founder? && current_user.corporation
-      current_user.corporation.destroy && render(json: {}, status: :ok)
-    else
-      render json: {}, status: :bad_request
-    end
+    raise InvalidRequest unless corp.is_founder?(current_user)
+
+    current_user.corporation.destroy
+
+    render json: {}, status: :ok
   end
 
   def search
-    if params[:search]
-      result = Corporation.where("name ILIKE ?", "%#{params[:search]}%").first(20)
-      render(partial: 'corporations/search', locals: { corporations: result }) && (return)
-    end
-    render json: {}, status: :bad_request
+    raise InvalidRequest unless params[:search].present?
+
+    result = Corporation.where("name ILIKE ?", "%#{params[:search]}%").first(20)
+    render partial: 'corporations/search', locals: { corporations: result }
   end
 
   private
+
+  def corp
+    @corp ||= begin
+      corp = current_user.corporation
+      raise InvalidRequest unless corp
+      corp
+    end
+  end
+
+  def application
+    @application ||= begin
+      app = CorpApplication.ensure(params[:id])
+      raise InvalidRequest unless app
+      app
+    end
+  end
 
   def corporation_params
     params.require(:corporation).permit(:name, :ticker, :bio, :tax)

@@ -8,7 +8,7 @@ class FriendsController < ApplicationController
     if params[:id]
       friend = User.ensure(params[:id])
       if friend && (friend != current_user) && current_user.friends.where(id: friend.id).empty?
-        friendship = Friendship.find_by(user: friend, friend: current_user, accepted: false) rescue nil
+        friendship = Friendship.where(user: friend, friend: current_user, accepted: false).first
         if friendship
           if accept_friendship(friendship.id)
             render(json: {}, status: :ok) && (return)
@@ -41,7 +41,7 @@ class FriendsController < ApplicationController
         if find
           current_user.friends.destroy(friend)
         else
-          friendship = Friendship.find_by(user: friend, friend: current_user)
+          friendship = Friendship.where(user: friend, friend: current_user).first
           friendship.destroy if friendship
         end
         render(json: {}, status: :ok) && (return)

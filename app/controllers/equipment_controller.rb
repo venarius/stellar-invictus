@@ -32,7 +32,7 @@ class EquipmentController < ApplicationController
 
     ids.each do |loader|
       # Find item with id
-      item = ship.items.find_by(loader: loader, equipped: false)
+      item = ship.items.where(loader: loader, equipped: false).first
 
       # Item and item belongs to spaceship and item's spaceship is ship of user
       if item
@@ -40,10 +40,10 @@ class EquipmentController < ApplicationController
         if item.get_attribute('slot_type') == "main"
           if ship.get_free_main_slots > 0
             if item.count > 1
-              item.update_columns(count: item.count - 1)
+              item.update(count: item.count - 1)
               Item.create(loader: item.loader, spaceship: ship, equipped: true)
             else
-              item.update_columns(equipped: true)
+              item.update(equipped: true)
             end
           else
             render(json: {}, status: :bad_request) && (return)
@@ -51,10 +51,10 @@ class EquipmentController < ApplicationController
         elsif item.get_attribute('slot_type') == "utility"
           if ship.get_free_utility_slots > 0
             if item.count > 1
-              item.update_columns(count: item.count - 1)
+              item.update(count: item.count - 1)
               Item.create(loader: item.loader, spaceship: item.spaceship, equipped: true)
             else
-              item.update_columns(equipped: true)
+              item.update(equipped: true)
             end
           else
             render(json: {}, status: :bad_request) && (return)
@@ -75,7 +75,7 @@ class EquipmentController < ApplicationController
     if params[:id]
       item = Item.ensure(params[:id])
       if item && current_user.active_spaceship&.get_main_equipment.map(&:id).include?(item.id) && current_user.can_be_attacked
-        item.update_columns(active: !item.active)
+        item.update(active: !item.active)
 
         if (current_user.reload.active_spaceship.get_main_equipment(true).count == 1) && !current_user.equipment_worker
           EquipmentWorker.perform_async(current_user.id)

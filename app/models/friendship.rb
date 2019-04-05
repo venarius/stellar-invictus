@@ -42,7 +42,7 @@ class Friendship < ApplicationRecord
   end
 
   def destroy_inverse_relationship
-    friendship = friend.friendships.find_by(friend: user)
+    friendship = friend.friendships.where(friend: user).first
     friendship.destroy if friendship
   end
 end

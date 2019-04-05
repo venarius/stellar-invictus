@@ -48,7 +48,7 @@ RSpec.describe FleetsController, type: :controller do
 
       it 'should not invite other player if player already in fleet' do
         fleet2 = create(:fleet, creator: @user2)
-        @user2.update_columns(fleet_id: fleet2.id)
+        @user2.update(fleet_id: fleet2.id)
         post :invite, params: { id: @user2.id }
         expect(response).to have_http_status(:bad_request)
         expect(@user.reload.fleet_id).to eq(nil)
@@ -57,7 +57,7 @@ RSpec.describe FleetsController, type: :controller do
 
       it 'should invite other player but not create another fleet if already in fleet' do
         fleet2 = create(:fleet, creator: @user)
-        @user.update_columns(fleet_id: fleet2.id)
+        @user.update(fleet_id: fleet2.id)
         post :invite, params: { id: @user2.id }
         expect(response).to have_http_status(:ok)
         expect(@user.reload.fleet_id).to eq(fleet2.id)
@@ -68,7 +68,7 @@ RSpec.describe FleetsController, type: :controller do
     describe 'POST accept_invite' do
       before(:each) do
         @fleet2 = create(:fleet, creator: @user2)
-        @user2.update_columns(fleet_id: @fleet2.id)
+        @user2.update(fleet_id: @fleet2.id)
       end
 
       it 'should join another fleet' do
@@ -87,8 +87,8 @@ RSpec.describe FleetsController, type: :controller do
     describe 'POST remove' do
       before(:each) do
         @fleet = create(:fleet, creator: @user)
-        @user.update_columns(fleet_id: @fleet.id)
-        @user2.update_columns(fleet_id: @fleet.id)
+        @user.update(fleet_id: @fleet.id)
+        @user2.update(fleet_id: @fleet.id)
       end
 
       it 'should be able to remove other user from fleet if fleet creator' do
@@ -99,8 +99,8 @@ RSpec.describe FleetsController, type: :controller do
 
       it 'should not be able to remove other user from fleet if not fleet creator' do
         fleet = create(:fleet, creator: @user2)
-        @user2.update_columns(fleet_id: fleet.id)
-        @user.update_columns(fleet_id: fleet.id)
+        @user2.update(fleet_id: fleet.id)
+        @user.update(fleet_id: fleet.id)
         post :remove, params: { id: @user2.id }
         expect(response).to have_http_status(:bad_request)
         expect(@user2.reload.fleet_id).to eq(fleet.id)
@@ -114,7 +114,7 @@ RSpec.describe FleetsController, type: :controller do
 
       it 'should not bet able to remove user from other fleet' do
         fleet = create(:fleet, creator: @user2)
-        @user2.update_columns(fleet_id: fleet.id)
+        @user2.update(fleet_id: fleet.id)
         post :remove, params: { id: @user2.id }
         expect(response).to have_http_status(:bad_request)
         expect(@user2.reload.fleet_id).to eq(fleet.id)
