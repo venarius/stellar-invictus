@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   rescue_from InvalidRequest, with: :render_error_response
+  rescue_from RedirectRequest, with: :handle_redirect_request
 
   protected
 
@@ -72,13 +73,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def translate(text)
+    if text
+      temp_text = I18n.t(text)
+      text = temp_text.start_with?("translation missing:") ? text : temp_text
+    end
+    text
+  end
+
   def render_error_response(err)
     msg = err.message
     msg = nil if msg == "InvalidRequest"
-    if msg
-      temp_msg = I18n.t(msg)
-      msg = temp_msg.start_with?("translation missing:") ? msg : temp_msg
-    end
+    msg = translate(msg)
 
     # Uncomment to show backtrace of InvalidRequests
     # ap msg if msg.present?
@@ -90,6 +96,15 @@ class ApplicationController < ActionController::Base
     #   .map { |e| e.gsub(root, "") }
 
     render json: { error_message: msg }.compact, status: :bad_request
+  end
+
+  def handle_redirect_request(req)
+    # ap "!! Redirecting to: #{req.route} error:\"#{req.error}\""
+    if req.error.present?
+      redirect_to req.route, flash: { error: translate(req.error) }
+    else
+      redirect_to req.route
+    end
   end
 
 end
