@@ -4,7 +4,7 @@ class User::Disappear < ApplicationService
   optional :remove_logout
 
   def perform
-   # Remove logout timer
+    # Remove logout timer
     user.update(logout_timer: false) if remove_logout
 
     # Remove 1 from user's online count

@@ -44,6 +44,11 @@ class ChatRoom < ApplicationRecord
   ## -- CALLBACKS
   before_validation :set_identifier
 
+  ## — CLASS METHODS
+  def self.global
+    @global ||= ChatRoom.find_by(chatroom_type: :global)
+  end
+
   ## — INSTANCE METHODS
   def update_local_players
     if self.fleet.present?

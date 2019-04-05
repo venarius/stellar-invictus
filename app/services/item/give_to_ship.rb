@@ -4,7 +4,7 @@ class Item::GiveToShip < ApplicationService
   required :amount
 
   def perform
-    item = Item.where(user: user, location: user.location, loader: loader, equipped: false).first
+    item = Item.find_by(user: user, location: user.location, loader: loader, equipped: false)
     fail!("Item(#{loader}) not found") unless item
 
     if item.count > amount

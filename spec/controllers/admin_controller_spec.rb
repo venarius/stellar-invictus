@@ -54,12 +54,12 @@ RSpec.describe AdminController, type: :controller do
       end
 
       it 'should dock if user to teleport to is docked' do
-        user2 = create(:user_with_faction, location: Location.where(location_type: :station).last, system: Location.where(location_type: :station).last.system, docked: true)
+        user2 = create(:user_with_faction, location: Location.station.last, system: Location.station.last.system, docked: true)
         post :teleport, params: { id: user2.id }
         expect(response).to have_http_status(:ok)
         expect(@user.reload.docked).to eq(true)
-        expect(@user.reload.location).to eq(Location.where(location_type: :station).last)
-        expect(@user.system).to eq(Location.where(location_type: :station).last.system)
+        expect(@user.reload.location).to eq(Location.station.last)
+        expect(@user.system).to eq(Location.station.last.system)
       end
 
       it 'should render nothing without params' do

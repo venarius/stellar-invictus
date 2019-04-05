@@ -7,16 +7,16 @@ class FactionsController < ApplicationController
   end
 
   def choose_faction
-    if !current_user.faction
-      faction = Faction.ensure(params[:id])
-      rand_location = faction.locations.where(location_type: :station).order(Arel.sql("RANDOM()")).first rescue nil
-      if faction && rand_location && current_user.update_columns(faction_id: faction.id, location_id: rand_location.id, system_id: rand_location.system.id, docked: true)
+    faction = Faction.ensure(params[:id])
+    if faction && !current_user.faction
+      rand_location = faction.locations.station.order(Arel.sql("RANDOM()")).first
+      if rand_location && current_user.update(faction: faction, location: rand_location, system: rand_location.system, docked: true)
 
         # Give player ship and equipment
         current_user.give_nano
 
         # Add user to rookie channel
-        ChatRoom.find_by(identifier: 'ROOKIES').users << current_user
+        ChatRoom.ensure('ROOKIES').users << current_user
 
         redirect_to game_path
       else

@@ -156,7 +156,7 @@ RSpec.describe StructuresController, type: :controller do
       end
 
       it 'should not destroy if user in other location' do
-        container.update(location: Location.last)
+        container.update(location: create(:location))
         expect {
           post :attack, params: { id: container.id }
           expect(response).to have_http_status(:bad_request)

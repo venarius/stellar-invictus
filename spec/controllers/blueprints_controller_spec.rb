@@ -54,9 +54,9 @@ RSpec.describe BlueprintsController, type: :controller do
       end
 
       it 'should buy item blueprint for ITEM if enough credits' do
-        user.update(units: 1_000_000)
+        user.update(units: 10_000_000)
         expect {
-          post :buy, params: { loader: Item::EQUIPMENT.sample, type: 'item' }
+          post :buy, params: { loader: Item::EQUIPMENT.sample, type: :item }
           expect(response).to have_http_status(:ok)
         }.to change { Blueprint.count }.by(1)
       end

@@ -159,6 +159,13 @@ class User < ApplicationRecord
     "player_#{self.id}"
   end
 
+  def location=(value)
+    # The user's system should always be the same as the system of their current Location
+    super(value)
+    self.system = value.system if value
+    value
+  end
+
   # Will be called when a user loggs in
   def appear
     AppearWorker.perform_async(self.id)
@@ -166,7 +173,7 @@ class User < ApplicationRecord
 
   # Will be called when a user loggs off
   def disappear
-    self.update(target_id: nil) && DisappearWorker.perform_async(self.id)
+    self.update(target: nil) && DisappearWorker.perform_async(self.id)
   end
 
   def is_online?
@@ -185,8 +192,7 @@ class User < ApplicationRecord
 
   # Lets the player die
   def die(police = false, attackers = nil)
-    # Get old System
-    old_system = System.find(self.system_id)
+    old_system = self.system
 
     loot = self.active_spaceship.drop_loot if self.active_spaceship
 
@@ -205,17 +211,24 @@ class User < ApplicationRecord
     self.location.broadcast(:player_appeared)
 
     # Destroy current spaceship of user and give him a nano if not insured
-    old_ship = self.active_spaceship.destroy if self.active_spaceship
+    old_ship = self.active_spaceship&.destroy
     if old_ship&.insured && !police
-      spaceship = Spaceship.create(user_id: self.id, name: old_ship.name, hp: Spaceship.get_attribute(old_ship.name, :hp))
-      self.update(active_spaceship_id: spaceship.id)
+      spaceship = user.spaceships.create(name: old_ship.name, hp: Spaceship.get_attribute(old_ship.name, :hp))
+      self.update(active_spaceship: spaceship)
     else
       self.give_nano
     end
 
     # Make User docked at his factions station
-    rand_location = self.faction.locations.where(location_type: :station).order(Arel.sql("RANDOM()")).first rescue nil
-    self.update(in_warp: false, docked: true, location_id: rand_location.id, system_id: rand_location.system.id, target_id: nil, mining_target_id: nil, npc_target_id: nil)
+    rand_location = self.faction.locations.station.order(Arel.sql("RANDOM()")).first
+    self.update(
+      in_warp: false,
+      docked: true,
+      location: rand_location,
+      target_id: nil,
+      mining_target_id: nil,
+      npc_target_id: nil
+    )
 
     # Tell user to reload page
     self.broadcast(:reload_page)
@@ -240,7 +253,7 @@ class User < ApplicationRecord
   def remove_being_targeted
     Npc.targeting_user(self).update_all(target: nil)
     User.targeting_user(self).each do |user|
-      user.update(target_id: nil)
+      user.update(target: nil)
       user.active_spaceship.deactivate_equipment if user.is_attacking?
       user.broadcast(:remove_target)
     end
@@ -248,7 +261,7 @@ class User < ApplicationRecord
 
   # Docks the player
   def dock
-    self.update(docked: true, target_id: nil)
+    self.update(docked: true, target: nil)
     self.location.broadcast(:player_warp_out, name: self.full_name)
     remove_being_targeted
   end
@@ -346,7 +359,7 @@ class User < ApplicationRecord
   def teleport(user)
     self.location.broadcast(:player_warp_out, name: full_name)
     old_system = self.system
-    self.update(location_id: user.location_id, system_id: user.system_id, docked: user.docked, in_warp: false)
+    self.update(location: user.location, docked: user.docked, in_warp: false)
     # Tell everyone in old system to update their local players
     old_system.update_local_players
     # Tell everyone in new system to update their local players
@@ -355,12 +368,14 @@ class User < ApplicationRecord
     self.broadcast(:warp_finish)
   end
 
-  def ban(duration, reason)
-    if duration.to_i == 0
-      self.update(banned: true, banned_until: nil, banreason: reason)
-    else
-      self.update(banned: true, banned_until: (DateTime.now.to_time + duration.to_i.hours).to_datetime , banreason: reason)
-    end
+  def ban(duration_in_hours, reason)
+    duration_in_hours = duration_in_hours.to_i
+
+    self.banned = true
+    self.banreason = reason
+    # Q: Are these times in UTC?
+    self.banned_until = (duration_in_hours == 0) ? nil : (Time.now.utc + duration_in_hours.hours)
+    self.save
     self.broadcast(:reload_page)
   end
 

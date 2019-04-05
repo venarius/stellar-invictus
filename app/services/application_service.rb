@@ -87,4 +87,3 @@ class ApplicationService
     "#{self}: #{error}"
   end
 end
-

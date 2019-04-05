@@ -37,16 +37,16 @@ class GameMail < ApplicationRecord
 
   private
 
-    def transfer_units
-      if (self&.units.to_i > 0) && (self.units <= sender.units)
-        ActiveRecord::Base.transaction do
-          sender.reduce_units(self.units)
-          recipient.give_units(self.units)
-        end
+  def transfer_units
+    if (self&.units.to_i > 0) && (self.units <= sender.units)
+      ActiveRecord::Base.transaction do
+        sender.reduce_units(self.units)
+        recipient.give_units(self.units)
       end
     end
+  end
 
-    def start_worker
-      GameMailWorker.perform_async(self.recipient.id)
-    end
+  def start_worker
+    GameMailWorker.perform_async(self.recipient.id)
+  end
 end
