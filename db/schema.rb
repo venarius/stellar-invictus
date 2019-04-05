@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_04_153711) do
+ActiveRecord::Schema.define(version: 2019_04_05_143442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -250,13 +250,13 @@ ActiveRecord::Schema.define(version: 2019_04_04_153711) do
     t.bigint "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "target"
+    t.integer "target_id"
     t.string "name"
     t.integer "hp"
     t.integer "npc_state"
     t.index ["location_id"], name: "index_npcs_on_location_id"
     t.index ["npc_type"], name: "index_npcs_on_npc_type"
-    t.index ["target"], name: "index_npcs_on_target"
+    t.index ["target_id"], name: "index_npcs_on_target_id"
   end
 
   create_table "polls", force: :cascade do |t|

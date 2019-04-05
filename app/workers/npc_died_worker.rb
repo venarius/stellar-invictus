@@ -11,16 +11,9 @@ class NpcDiedWorker < ApplicationWorker
     npc.drop_loot
     npc.location.broadcast(:player_appeared)
 
-    # If npc was in mission location -> credit kill
-    if npc.location.mission?
-      if npc.location.mission.enemy_amount > 0
-        npc.location.mission.update_columns(enemy_amount: npc.location.mission.enemy_amount - 1)
-      end
-    end
-
-    # If npc was in combat site -> remove from amount
-    if (npc.location.exploration_site?) && (npc.location.enemy_amount > 0)
-      npc.location.update_columns(enemy_amount: npc.location.enemy_amount - 1)
+    # If npc was in mission or combat location -> credit kill
+    if %w[mission exploration_site].include?(npc.location.location_type)
+      npc.location.mission.decrement!(:enemy_amount) if npc.location.mission.enemy_amount > 0
     end
 
     # Destroy npc

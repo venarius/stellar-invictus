@@ -90,7 +90,7 @@ RSpec.describe GameController, type: :controller do
 
       it 'should do nothing when police is engaged' do
         user.update(system: System.first, location: System.first.locations.first)
-        create(:npc_police, target: user.id)
+        create(:npc_police, target: user)
         post :warp, params: { id: System.first.locations.second.id }
         expect(WarpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
@@ -179,7 +179,7 @@ RSpec.describe GameController, type: :controller do
 
       it 'should not jump when user at jumpgate but police is engaged' do
         user.update(location: Location.where(system: user.system, location_type: :jumpgate).first)
-        create(:npc_police, target: user.id)
+        create(:npc_police, target: user)
         post :jump
         expect(response).to have_http_status(:bad_request)
         expect(JumpWorker.jobs.size).to eq(0)

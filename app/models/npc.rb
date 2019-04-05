@@ -7,16 +7,16 @@
 #  name        :string
 #  npc_state   :integer
 #  npc_type    :integer
-#  target      :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  location_id :bigint(8)
+#  target_id   :integer
 #
 # Indexes
 #
 #  index_npcs_on_location_id  (location_id)
 #  index_npcs_on_npc_type     (npc_type)
-#  index_npcs_on_target       (target)
+#  index_npcs_on_target_id    (target_id)
 #
 # Foreign Keys
 #
@@ -28,14 +28,17 @@ class Npc < ApplicationRecord
 
   ## -- RELATIONSHIPS
   belongs_to :location, optional: true
-  belongs_to :target_user, class_name: User.name, foreign_key: :target, optional: true
+  belongs_to :target, class_name: User.name, foreign_key: :target_id, optional: true
 
   ## -- ATTRIBUTES
   enum npc_type: [:enemy, :police, :politician, :bodyguard, :wanted_enemy]
   enum npc_state: [:created, :targeting, :attacking, :waiting]
 
   ## -- SCOPES
-  scope :targeting_user, ->(user) { where(target: user.id) }
+  scope :targeting_user, ->(user) { where(target: user) }
+
+  ## -- CALLBACKS
+  before_validation :set_name
 
   ## — CLASS METHODS
   def self.random_name
@@ -128,5 +131,11 @@ class Npc < ApplicationRecord
 
     player.broadcast(:notify_alert, text: I18n.t('notification.received_bounty', user: self.name, amount: value))
     player.broadcast(:refresh_player_info)
+  end
+
+  private
+
+  def set_name
+    self.name ||= self.class.random_name
   end
 end
