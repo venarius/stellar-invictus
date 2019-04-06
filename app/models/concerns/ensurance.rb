@@ -33,12 +33,12 @@ module Ensurance
 
       found = []
       things = [thing].flatten
-      things.each do |thing|
+      things.each do |a_thing|
         record = nil
         @_ensure_by.each do |ensure_field|
-          value = thing
-          if thing.is_a?(Hash)
-            value = thing.fetch(ensure_field.to_sym, nil) || thing.fetch(ensure_field.to_s, nil)
+          value = a_thing
+          if a_thing.is_a?(Hash)
+            value = a_thing.fetch(ensure_field.to_sym, nil) || a_thing.fetch(ensure_field.to_s, nil)
           end
           if ensure_field.to_sym == :id
             begin
