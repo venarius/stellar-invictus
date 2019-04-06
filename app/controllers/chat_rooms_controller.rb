@@ -16,7 +16,7 @@ class ChatRoomsController < ApplicationController
     room = ChatRoom.ensure(params[:id])
     raise InvalidRequest unless room
     raise InvalidRequest.new('errors.couldnt_find_chat_room') unless room.custom?
-    raise InvalidRequest.new('errors.already_joined_chat_room') unless room.users.where(id: current_user.id).empty?
+    raise InvalidRequest.new('errors.already_joined_chat_room') if room.user_in_room?(current_user)
 
     if room.fleet
       ChatChannel.broadcast_to(room, method: 'player_appeared')

@@ -89,11 +89,7 @@ class ApplicationController < ActionController::Base
     # Uncomment to show backtrace of InvalidRequests
     # ap msg if msg.present?
     # root = Rails.root.to_s
-    # ap err
-    #   .backtrace
-    #   .select { |e| e.index(root) }
-    #   .reject { |e| e.index("spec/support") }
-    #   .map { |e| e.gsub(root, "") }
+    # ap err.backtrace.select { |e| e.index(root) }.reject{ |e| e.index("spec/support") }.map{ |e| e.gsub(root, "") }
 
     render json: { error_message: msg }.compact, status: :bad_request
   end

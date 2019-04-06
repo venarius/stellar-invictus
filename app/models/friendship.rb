@@ -24,6 +24,9 @@ class Friendship < ApplicationRecord
   after_create :create_inverse_relationship
   after_destroy :destroy_inverse_relationship
 
+  ## -- SCOPES
+  scope :is_request, ->{ where(accepted: [false,nil]) }
+
   ## — INSTANCE METHODS
   def friend_avatar_url
     "avatars/#{self.friend.avatar}.jpg"
