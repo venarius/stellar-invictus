@@ -62,14 +62,14 @@ RSpec.describe FriendsController, type: :controller do
         expect {
           post :add_friend, params: { id: friend.id }
           expect(response).to have_http_status(:ok)
-        }.to change{ Friendship.count }.by(1)
+        }.to change { Friendship.count }.by(1)
       end
 
       it 'should not add self as friend' do
         expect {
           post :add_friend, params: { id: user.id }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Friendship.count }
+        }.not_to change { Friendship.count }
       end
 
       it 'should not add as friend twice' do
@@ -77,12 +77,12 @@ RSpec.describe FriendsController, type: :controller do
         expect {
           post :add_friend, params: { id: friend.id }
           expect(response).to have_http_status(:ok)
-        }.to change{ Friendship.count }.by(1)
+        }.to change { Friendship.count }.by(1)
 
         expect {
           post :add_friend, params: { id: friend.id }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ Friendship.count }
+        }.not_to change { Friendship.count }
       end
 
       it 'should accept request if request open' do
@@ -93,7 +93,7 @@ RSpec.describe FriendsController, type: :controller do
         expect {
           post :add_friend, params: { id: friend.id }
           expect(response).to have_http_status(:ok)
-        }.to change{ Friendship.count }.by(1)
+        }.to change { Friendship.count }.by(1)
       end
     end
 

@@ -8,11 +8,11 @@ class BlueprintsController < ApplicationController
     raise InvalidRequest if current_user.has_blueprints_for?(params[:loader])
 
     price = case params[:type]
-      when 'item'
-        raise ArgumentError.new("Unknown Item") unless Item.get_attributes(params[:loader])
+            when 'item'
+              raise ArgumentError.new("Unknown Item") unless Item.get_attributes(params[:loader])
         Item.get_attribute(params[:loader], :price) * 20
-      when 'ship'
-        raise ArgumentError.new("Unknown Spaceship") unless Spaceship.get_attributes(params[:loader])
+            when 'ship'
+              raise ArgumentError.new("Unknown Spaceship") unless Spaceship.get_attributes(params[:loader])
         Spaceship.get_attribute(params[:loader], :price) * 20
       end
 
@@ -30,12 +30,12 @@ class BlueprintsController < ApplicationController
     raise InvalidRequest if !params[:loader].present? || !params[:type].present?
     if params[:type] == 'item'
       render partial: 'stations/blueprints/itemmodal',
-        locals: { item: params[:loader] },
-        status: :ok
+             locals: { item: params[:loader] },
+             status: :ok
     else
       render partial: 'stations/blueprints/shipmodal',
-        locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) },
-        status: :ok
+             locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) },
+             status: :ok
     end
   end
 

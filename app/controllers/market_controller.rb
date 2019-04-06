@@ -9,7 +9,7 @@ class MarketController < ApplicationController
       where("loader ilike ?", "%#{params[:loader]}%")
 
     render partial: 'stations/market/list',
-      locals: {
+           locals: {
         market_listings: listings,
         can_create_buy_order: current_user.location.player_market
       }
@@ -23,7 +23,7 @@ class MarketController < ApplicationController
       where("loader ilike ?", "%#{params[:search].gsub(' ', '_')}%")
 
     render partial: 'stations/market/list',
-      locals: {
+           locals: {
          market_listings: listings,
          can_create_buy_order: false
       }
@@ -269,10 +269,10 @@ class MarketController < ApplicationController
           price = Spaceship.get_attribute(loader, :price, default: 0) * 0.9
         end
 
-        listings = [listings,1].max
+        listings = [listings, 1].max
         if price
           price = price * quantity.to_i
-          price = (price/ (1.05**listings)).round
+          price = (price / (1.05**listings)).round
         end
 
         price

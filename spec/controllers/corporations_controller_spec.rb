@@ -77,7 +77,7 @@ RSpec.describe CorporationsController, type: :controller do
         expect {
           post :create, params: { corporation: { name: "Text", ticker: "Test", bio: "Test", tax: 0 } }
           expect(response).to redirect_to(corporations_path)
-        }.to change{ Corporation.count }.by(1)
+        }.to change { Corporation.count }.by(1)
         expect(user.reload.corporation.chat_room).to be_present
       end
 
@@ -147,7 +147,7 @@ RSpec.describe CorporationsController, type: :controller do
         expect {
           post :update_corporation, params: { tax: 3, about: "" }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ corp.reload.tax }
+        }.not_to change { corp.reload.tax }
       end
 
       it 'should not update corporation if no params given' do
@@ -199,7 +199,7 @@ RSpec.describe CorporationsController, type: :controller do
         expect {
           post :kick_user, params: { id: user.id }
           expect(response).to have_http_status(:ok)
-        }.to change{ Corporation.count }.by(-1)
+        }.to change { Corporation.count }.by(-1)
       end
     end
 
@@ -389,7 +389,7 @@ RSpec.describe CorporationsController, type: :controller do
         expect {
           post :apply, params: { id: corp.id, text: "My application letter" }
           expect(response).to have_http_status(:ok)
-        }.to change{ CorpApplication.count }.by(1)
+        }.to change { CorpApplication.count }.by(1)
       end
 
       it 'should apply at given corporation with NO TEXT' do
@@ -397,14 +397,14 @@ RSpec.describe CorporationsController, type: :controller do
         expect {
           post :apply, params: { id: corp.id }
           expect(response).to have_http_status(:ok)
-        }.to change{ CorpApplication.count }.by(1)
+        }.to change { CorpApplication.count }.by(1)
       end
 
       it 'should not apply at given corporation if user already in corporation' do
         expect {
           post :apply, params: { id: corp.id, text: "" }
           expect(response).to have_http_status(:bad_request)
-        }.not_to change{ CorpApplication.count }
+        }.not_to change { CorpApplication.count }
       end
 
       it 'should not apply if no params given' do
@@ -428,7 +428,7 @@ RSpec.describe CorporationsController, type: :controller do
           post :accept_application, params: { id: application.id }
           expect(response).to have_http_status(:ok)
           expect(user2.reload.corporation_id).to eq(user.corporation_id)
-        }.to change{ CorpApplication.count }.by(-1)
+        }.to change { CorpApplication.count }.by(-1)
       end
 
       it 'should NOT accept application if not right rights' do
@@ -437,7 +437,7 @@ RSpec.describe CorporationsController, type: :controller do
           post :accept_application, params: { id: application.id }
           expect(response).to have_http_status(:bad_request)
           expect(user2.reload.corporation_id).to eq(nil)
-        }.not_to change{ CorpApplication.count }
+        }.not_to change { CorpApplication.count }
       end
 
       it 'should NOT accept application if application is for other corp' do
@@ -448,7 +448,7 @@ RSpec.describe CorporationsController, type: :controller do
           post :accept_application, params: { id: application.id }
           expect(response).to have_http_status(:bad_request)
           expect(user2.reload.corporation_id).to eq(nil)
-        }.not_to change{ CorpApplication.count }
+        }.not_to change { CorpApplication.count }
       end
     end
 
@@ -467,7 +467,7 @@ RSpec.describe CorporationsController, type: :controller do
           post :reject_application, params: { id: application.id }
           expect(response).to have_http_status(:ok)
           expect(user2.reload.corporation_id).to eq(nil)
-        }.to change{ CorpApplication.count }.by(-1)
+        }.to change { CorpApplication.count }.by(-1)
       end
 
       it 'fail if not right rights' do
@@ -476,7 +476,7 @@ RSpec.describe CorporationsController, type: :controller do
           post :reject_application, params: { id: application.id }
           expect(response).to have_http_status(:bad_request)
           expect(user2.reload.corporation_id).to eq(nil)
-        }.not_to change{ CorpApplication.count }
+        }.not_to change { CorpApplication.count }
       end
 
       it 'fail if application is for other corp' do
@@ -487,7 +487,7 @@ RSpec.describe CorporationsController, type: :controller do
           post :reject_application, params: { id: application.id }
           expect(response).to have_http_status(:bad_request)
           expect(user2.reload.corporation_id).to eq(nil)
-        }.not_to change{ CorpApplication.count }
+        }.not_to change { CorpApplication.count }
       end
     end
 

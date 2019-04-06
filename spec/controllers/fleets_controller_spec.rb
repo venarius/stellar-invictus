@@ -66,7 +66,7 @@ RSpec.describe FleetsController, type: :controller do
     end
 
     describe 'POST accept_invite' do
-      let(:fleet2) { create :fleet, creator: user2}
+      let(:fleet2) { create :fleet, creator: user2 }
       let(:fleet3) { create :fleet, creator: create(:user_with_faction) }
       before(:each) do
         user2.update(fleet: fleet2)
