@@ -6,23 +6,28 @@ class ShipsController < ApplicationController
 
   def activate
     spaceship = Spaceship.ensure(params[:id])
-    if spaceship && (spaceship.user == current_user) && current_user.docked && (spaceship.location == current_user.location)
-      current_user.active_spaceship.update(location_id: current_user.location.id)
-      current_user.update(active_spaceship_id: spaceship.id)
-      spaceship.update(location_id: nil)
-      render(json: {}, status: :ok) && (return)
-    end
-    render json: {}, status: :bad_request
+    raise InvalidRequest unless spaceship
+    raise InvalidRequest unless spaceship.user_id == current_user.id
+    raise InvlaidRequest unless spaceship.location_id == current_user.location_id
+    raise InvalidRequest unless current_user.docked?
+
+    current_user.active_spaceship.update(location_id: current_user.location.id)
+    current_user.update(active_spaceship_id: spaceship.id)
+    spaceship.update(location_id: nil)
+
+    render json: {}, status: :ok
   end
 
   def target
     user = User.ensure(params[:id])
-    if user && user.can_be_attacked && (user.location == current_user.location) && current_user.can_be_attacked && (current_user.target != user)
-      TargetingWorker.perform_async(current_user.id, user.id)
-      render json: { time: current_user.active_spaceship.get_target_time }, status: :ok
-    else
-      render json: {}, status: :bad_request
-    end
+    raise InvalidRequest unless user
+    raise InvalidRequest unless user.can_be_attacked?
+    raise InvalidRequest unless user.location_id == current_user.location_id
+    raise InvalidRequest unless current_user.can_be_attacked?
+    raise InvalidRequest unless current_user.target_id != user.id
+
+    TargetingWorker.perform_async(current_user.id, user.id)
+    render json: { time: current_user.active_spaceship.get_target_time }, status: :ok
   end
 
   def untarget
@@ -49,87 +54,80 @@ class ShipsController < ApplicationController
   end
 
   def eject_cargo
-    if params[:loader] && params[:amount] && current_user.can_be_attacked
-      amount = params[:amount].to_i
+    amount = params[:amount].to_i
+    raise InvalidRequest.new('errors.invalid_amount') unless amount > 0
+    raise InvalidRequest unless params[:loader]
+    raise InvalidRequest unless current_user.can_be_attacked?
 
-      if amount && (amount > 0)
-        # check amount
-        render(json: { error_message: I18n.t('errors.you_dont_have_enough_of_this') }, status: :bad_request) && (return) if Item.where(loader: params[:loader], spaceship: current_user.active_spaceship, equipped: false).first.count < amount
-
-        EjectCargoWorker.perform_async(current_user.id, params[:loader], amount)
-        render(json: {}, status: :ok) && (return)
-      else
-        render(json: { error_message: I18n.t('errors.invalid_amount') }, status: :bad_request) && (return)
-      end
+    # check amount
+    if Item.where(loader: params[:loader], spaceship: current_user.active_spaceship, equipped: false).first.count < amount
+      raise InvalidRequest.new('errors.you_dont_have_enough_of_this')
     end
-    render json: {}, status: :bad_request
+
+    EjectCargoWorker.perform_async(current_user.id, params[:loader], amount)
+
+    render json: {}, status: :ok
   end
 
   def insure
-    if params[:id]
-      ship = Spaceship.ensure(params[:id])
-      if ship && (ship.user == current_user) && !ship.insured? && current_user.docked?
-        price = (Spaceship.get_attribute(ship.name, :price) / 2).round
+    ship = Spaceship.ensure(params[:id])
+    raise InvalidRequest unless ship
+    raise InvalidRequest if ship.insured?
+    raise InvalidRequest unless ship.user_id == current_user.id
+    raise InvalidRequest unless current_user.docked?
 
-        # check that they have enough units
-        if price > current_user.units
-          render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: :bad_request)
-          return
-        end
+    price = (Spaceship.get_attribute(ship.name, :price) / 2).round
 
-        # Insure & charge them
-        ActiveRecord::Base.transaction do
-          ship.update(insured: true)
-          current_user.reduce_units(price)
-        end
+    # check that they have enough units
+    raise InvalidRequest.new('errors.you_dont_have_enough_credits') if price > current_user.units
 
-        render(json: {}, status: :ok) && (return)
-      end
+    # Insure & charge them
+    ActiveRecord::Base.transaction do
+      ship.update(insured: true)
+      current_user.reduce_units(price)
     end
-    render json: {}, status: :bad_request
+
+    render json: {}, status: :ok
   end
 
   def custom_name
-    if params[:name] && params[:id]
-      ship = Spaceship.ensure(params[:id])
+    ship = Spaceship.ensure(params[:id])
+    raise InvalidRequest unless ship
+    raise InvalidRequest unless params[:name]
+    raise InvalidRequest unless ship.user_id == current_user.id
 
-      if ship && (ship.user == current_user)
-        params[:name] = nil if params[:name].blank?
-        if ship.update(custom_name: params[:name])
-          render(json: {}, status: :ok)
-          return
-        end
-      end
+    params[:name] = nil if params[:name].blank?
+    if !ship.update(custom_name: params[:name])
+      raise InvalidRequest
     end
-    render json: {}, status: :bad_request
-  end
+
+    render json: {}, status: :ok
+   end
 
   def upgrade_modal
     render partial: 'ships/upgrade_modal', locals: { ship: current_user.active_spaceship }
   end
 
   def upgrade
-    if current_user.docked? && current_user.active_spaceship && (current_user.active_spaceship.level < 5)
-      # Check required materials
-      current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
-        item = current_user.items.where(loader: key, location: current_user.location).first
-        if !item || item.count < value
-          render(json: { 'error_message': I18n.t('errors.not_required_material') }, status: :bad_request)
-          return
-        end
-      end
+    raise InvalidRequest unless current_user.docked?
+    raise InvalidRequest unless current_user.active_spaceshp
+    raise InvalidRequest unless current_user.active_spaceship.level < 5
 
-      # Delete ressources
-      current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
-        Item::RemoveFromUser.(loader: key, user: current_user, location: current_user.location, amount: value)
-      end
-
-      current_user.active_spaceship.update(level: current_user.active_spaceship.level + 1)
-      current_user.active_spaceship.repair
-      render(json: {}, status: :ok)
-      return
+    # Check required materials
+    current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
+      item = current_user.items.where(loader: key, location: current_user.location).first
+      raise InvalidRequest.new('errors.not_required_material') if !item || item.count < value
     end
-    render json: {}, status: :bad_request
+
+    # Delete ressources
+    current_user.active_spaceship.get_attribute('upgrade.ressources').each do |key, value|
+      Item::RemoveFromUser.(loader: key, user: current_user, location: current_user.location, amount: value)
+    end
+
+    current_user.active_spaceship.update(level: current_user.active_spaceship.level + 1)
+    current_user.active_spaceship.repair
+
+    render json: {}, status: :ok
   end
 
 end
