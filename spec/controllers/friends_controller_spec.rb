@@ -44,9 +44,9 @@ RSpec.describe FriendsController, type: :controller do
   end
 
   context 'with login' do
+    let(:user) { create :user_with_faction }
     before(:each) do
-      @user = create(:user_with_faction)
-      sign_in @user
+      sign_in user
     end
 
     describe 'GET index' do
@@ -58,84 +58,87 @@ RSpec.describe FriendsController, type: :controller do
 
     describe 'POST add_friend' do
       it 'should add other user as friend' do
-        user = create(:user_with_faction)
-        post :add_friend, params: { id: user.id }
-        expect(response).to have_http_status(:ok)
-        expect(Friendship.count).to eq(1)
+        friend = create(:user_with_faction)
+        expect {
+          post :add_friend, params: { id: friend.id }
+          expect(response).to have_http_status(:ok)
+        }.to change{ Friendship.count }.by(1)
       end
 
       it 'should not add self as friend' do
-        post :add_friend, params: { id: @user.id }
-        expect(response).to have_http_status(:bad_request)
-        expect(Friendship.count).to eq(0)
+        expect {
+          post :add_friend, params: { id: user.id }
+          expect(response).to have_http_status(:bad_request)
+        }.not_to change{ Friendship.count }
       end
 
       it 'should not add as friend twice' do
-        user = create(:user_with_faction)
-        post :add_friend, params: { id: user.id }
-        expect(response).to have_http_status(:ok)
-        expect(Friendship.count).to eq(1)
-        post :add_friend, params: { id: user.id }
-        expect(response).to have_http_status(:bad_request)
-        expect(Friendship.count).to eq(1)
+        friend = create(:user_with_faction)
+        expect {
+          post :add_friend, params: { id: friend.id }
+          expect(response).to have_http_status(:ok)
+        }.to change{ Friendship.count }.by(1)
+
+        expect {
+          post :add_friend, params: { id: friend.id }
+          expect(response).to have_http_status(:bad_request)
+        }.not_to change{ Friendship.count }
       end
 
       it 'should accept request if request open' do
-        user = create(:user_with_faction)
-        sign_in user
-        Friendship.create(user: @user, friend: user, accepted: false)
-        post :add_friend, params: { id: @user.id }
-        expect(response).to have_http_status(:ok)
-        expect(Friendship.count).to eq(2)
+        friend = create(:user_with_faction)
+        # friend is requesting friendship with User
+        create :friendship, user: friend, friend: user, accepted: false
+
+        expect {
+          post :add_friend, params: { id: friend.id }
+          expect(response).to have_http_status(:ok)
+        }.to change{ Friendship.count }.by(1)
       end
     end
 
     describe 'POST accept_request' do
-      before(:each) do
-        @user2 = create(:user_with_faction)
-        @friendship = Friendship.create(user: @user, friend: @user2, accepted: false)
-      end
+      let(:user2) { create(:user_with_faction) }
+      let!(:friendship) { create :friendship, user: user, friend: user2, accepted: false }
 
       it 'should not be able to accept own request' do
-        post :accept_request, params: { id: @friendship.id }
+        post :accept_request, params: { id: friendship.id }
         expect(response).to have_http_status(:bad_request)
-        expect(@friendship.reload.accepted).to be_falsey
+        expect(friendship.reload.accepted).to be_falsey
         expect(Friendship.last.accepted).to be_falsey
       end
 
       it 'should be able to accept other request' do
-        sign_in @user2
-        post :accept_request, params: { id: @friendship.id }
+        sign_in user2
+        post :accept_request, params: { id: friendship.id }
         expect(response).to have_http_status(:ok)
-        expect(@friendship.reload.accepted).to be_truthy
+        expect(friendship.reload.accepted).to be_truthy
         expect(Friendship.last.accepted).to be_truthy
       end
 
       it 'should be able to accept request of other friendship' do
         user3 = create(:user_with_faction)
         sign_in user3
-        post :accept_request, params: { id: @friendship.id }
+        post :accept_request, params: { id: friendship.id }
         expect(response).to have_http_status(:bad_request)
-        expect(@friendship.reload.accepted).to be_falsey
+        expect(friendship.reload.accepted).to be_falsey
         expect(Friendship.last.accepted).to be_falsey
       end
     end
 
     describe 'POST remove_friend' do
-      before(:each) do
-        @user2 = create(:user_with_faction)
-        Friendship.create(user: @user, friend: @user2, accepted: true)
-      end
+      let(:user2) { create :user_with_faction }
+      let!(:friendship) { create :friendship, user: user, friend: user2, accepted: true }
 
       it 'should be able to remove friendship as user' do
-        post :remove_friend, params: { id: @user2.id }
+        post :remove_friend, params: { id: user2.id }
         expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(0)
       end
 
       it 'should be able to remove friendship as other user' do
-        sign_in @user2
-        post :remove_friend, params: { id: @user.id }
+        sign_in user2
+        post :remove_friend, params: { id: user.id }
         expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(0)
       end
@@ -143,7 +146,7 @@ RSpec.describe FriendsController, type: :controller do
       it 'should not be able to remove friendship as third user' do
         user3 = create(:user_with_faction)
         sign_in user3
-        post :remove_friend, params: { id: @user.id }
+        post :remove_friend, params: { id: user.id }
         expect(response).to have_http_status(:ok)
         expect(Friendship.count).to eq(2)
       end
@@ -156,7 +159,7 @@ RSpec.describe FriendsController, type: :controller do
 
     describe 'POST search' do
       it 'should render template if name given' do
-        post :search, params: { name: @user.name }
+        post :search, params: { name: user.name }
         expect(response).to have_http_status(:ok)
         expect(response).to render_template('friends/_search')
       end
