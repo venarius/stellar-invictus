@@ -34,8 +34,6 @@ class MarketListing < ApplicationRecord
   enum order_type: [:sell, :buy]
 
   def name
-    result = loader
-    result = Item.get_attribute(loader) if self.item?
-    result
+    self.item? ? Item.get_attribute(loader) : self.loader
   end
 end
