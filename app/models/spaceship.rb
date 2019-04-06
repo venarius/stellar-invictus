@@ -319,6 +319,7 @@ class Spaceship < ApplicationRecord
     end
     weight > 0 ? true : false
   end
+  alias is_warp_disrupted? is_warp_disrupted
 
   # Has active warp disruptor
   def has_active_warp_disruptor
