@@ -9,7 +9,9 @@ class StructuresController < ApplicationController
     owner_name = ""
     owner_name = container.user.full_name if container.container?
 
-    render partial: 'structures/cargocontainer', locals: { items: container.get_items, container_id: container.id, owner_name: owner_name }
+    render partial: 'structures/cargocontainer',
+      locals: { items: container.get_items, container_id: container.id, owner_name: owner_name },
+      status: :ok
   end
 
   def pickup_cargo
@@ -110,7 +112,7 @@ class StructuresController < ApplicationController
         raise InvalidRequest
       end
     else
-      render(partial: 'structures/abandoned_ship', locals: { structure: structure })
+      render partial: 'structures/abandoned_ship', locals: { structure: structure }, status: :ok
       return
     end
 
