@@ -46,7 +46,9 @@ RSpec.describe GameController, type: :controller do
   end
 
   context 'with login' do
-    let(:user) { create :user_with_faction }
+    let(:system) { System.first }
+    let(:user) { create :user_with_faction, system: system, location: system.locations.first }
+
     before(:each) do
       sign_in user
     end
@@ -82,31 +84,26 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should do nothing with id of location in other system given' do
-        user.update(system: System.first, location: System.first.locations.first)
         post :warp, params: { id: System.second.locations.first.id }
         expect(WarpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should do nothing when police is engaged' do
-        user.update(system: System.first, location: System.first.locations.first)
         create(:npc_police, target: user)
-        post :warp, params: { id: System.first.locations.second.id }
+        post :warp, params: { id: system.locations.second.id }
         expect(WarpWorker.jobs.size).to eq(0)
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should start job with valid id given' do
-        user.update(system: System.first, location: System.first.locations.first)
-        post :warp, params: { id: System.first.locations.second.id }
+        post :warp, params: { id: system.locations.second.id }
         expect(WarpWorker.jobs.size).to eq(1)
         expect(response).to have_http_status(:ok)
       end
 
       it 'should warp to user if in same fleet' do
-        cur_system = user.system
-        user.update(location: cur_system.locations.first)
-        user2 = create(:user_with_faction, system: cur_system, location: cur_system.locations.last)
+        user2 = create(:user_with_faction, location: system.locations.last)
         fleet = create(:fleet, creator: user)
         user.update(fleet: fleet)
         user2.update(fleet: fleet)
@@ -117,7 +114,7 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should not warp to user if not in fleet' do
-        user2 = create(:user_with_faction, system: user.system, location: user.system.locations.last)
+        user2 = create(:user_with_faction, location: system.locations.last)
 
         post :warp, params: { uid: user2.id }
         expect(WarpWorker.jobs.size).to eq(0)
@@ -125,7 +122,7 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should not warp if not in same system' do
-        user2 = create(:user_with_faction, system: System.second, location: System.second.locations.first)
+        user2 = create(:user_with_faction, location: System.second.locations.first)
         fleet = create(:fleet, creator: user)
         user.update(fleet: fleet)
         user2.update(fleet: fleet)
@@ -136,7 +133,7 @@ RSpec.describe GameController, type: :controller do
       end
 
       it 'should not warp if already there' do
-        user2 = create(:user_with_faction, system: user.system, location: user.location)
+        user2 = create(:user_with_faction, location: user.location)
         fleet = create(:fleet, creator: user)
         user.update(fleet: fleet)
         user2.update(fleet: fleet)

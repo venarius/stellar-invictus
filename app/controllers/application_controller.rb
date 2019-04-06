@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_docked
-    raise InvalidRequest unless current_user.docked
+    raise InvalidRequest unless current_user.docked?
   end
 
   def check_banned

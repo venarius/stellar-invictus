@@ -1,80 +1,70 @@
 class GameController < ApplicationController
-  before_action :get_local_users, only: [:index, :local_players]
-  before_action :check_police, only: [:warp, :jump]
-  before_action :check_warp_disrupt, only: [:warp, :jump]
-
   def index
-    if current_user.docked
-      redirect_to(station_path) && (return)
-    end
+    get_local_users
+    raise RedirectRequest.new(station_path) if current_user.docked?
+
     @ship_vars = current_user.active_spaceship&.get_attributes
   end
 
   def warp
-    if (params[:id] || params[:uid]) && !current_user.in_warp
+    check_police
+    check_warp_disrupt
 
-      if params[:id]
-        location = Location.ensure(params[:id])
-        if location && (location.system_id == current_user.system_id)
+    raise InvalidRequest if current_user.in_warp? || !(params[:id] || params[:uid])
+    align_time = nil
+    ship = current_user.active_spaceship
 
-          # Fleet Warp
-          if params[:fleet] && current_user.fleet
-            align = current_user.fleet.users.where(system: current_user.system).map { |p| p.active_spaceship&.get_align_time }.sort.reverse.first
-            current_user.fleet.users.where(system: current_user.system).each do |user|
-              unless user.in_warp
-                WarpWorker.perform_async(user.id, location.id, 0, 0, false, align)
-                if user.active_spaceship.warp_target_id == location.id
-                  user.broadcast(:fleet_warp, location: location.id, align_time: 0) if user != current_user
-                else
-                  user.broadcast(:fleet_warp, location: location.id, align_time: align) if user != current_user
-                end
-              end
-            end
-          else
-            WarpWorker.perform_async(current_user.id, location.id)
+    if params[:id]
+      location = Location.ensure(params[:id])
+      raise InvalidRequest if location&.system_id != current_user.system_id
+      align = ship.get_align_time
+
+      # Fleet Warp
+      if params[:fleet] && current_user.fleet
+        fleet_members_in_system = current_user.fleet.users.where(system: current_user.system)
+        align = fleet_members_in_system.map{ |p| p.active_spaceship&.get_align_time }.compact.max
+
+        fleet_members_in_system.each do |user|
+          if !user.in_warp?
+            WarpWorker.perform_async(user.id, location.id, 0, 0, false, align)
+            align_time = (user.active_spaceship.warp_target_id == location.id) ? 0 : align
+            user.broadcast(:fleet_warp, location: location.id, align_time: align_time) if user != current_user
           end
-
-          if current_user.active_spaceship&.warp_target_id == location.id
-            render json: { align_time: 0 }, status: :ok
-          else
-            render json: { align_time: align ? align : current_user.active_spaceship&.get_align_time }, status: :ok
-          end
-        else
-          render json: {}, status: :bad_request
         end
-      elsif params[:uid]
-        user = User.find(params[:uid]) rescue nil
-        if user && user.in_same_fleet_as(current_user)
-          # Check location
-          render(json: { "error_message": I18n.t('errors.user_must_be_in_same_system') }, status: :bad_request) && (return) unless user.system == current_user.system
-          render(json: { "error_message": I18n.t('errors.already_at_location') }, status: :bad_request) && (return) if user.location == current_user.location
-
-          WarpWorker.perform_async(current_user.id, user.location.id)
-
-          if current_user.active_spaceship&.warp_target_id == user.location.id
-            render json: { align_time: 0 }, status: :ok
-          else
-            render json: { align_time: current_user.active_spaceship&.get_align_time }, status: :ok
-          end
-        else
-          render json: {}, status: :bad_request
-        end
+      else
+        WarpWorker.perform_async(current_user.id, location.id)
       end
-    else
-      render json: {}, status: :bad_request
+      align_time = (ship.warp_target_id == location.id) ? 0 : align
+
+    elsif params[:uid]
+      user = User.ensure(params[:uid])
+      raise InvalidRequest unless user
+      raise InvalidRequest unless user.in_same_fleet_as(current_user)
+
+      # Check location
+      raise InvalidRequest.new('errors.user_must_be_in_same_system') unless user.system == current_user.system
+      raise InvalidRequest.new('errors.already_at_location') if user.location == current_user.location
+
+      WarpWorker.perform_async(current_user.id, user.location.id)
+      align_time = (ship.warp_target_id == user.location.id) ? 0 : ship.get_align_time
     end
+
+    render json: { align_time: align_time }, status: :ok
   end
 
   def jump
-    if !current_user.in_warp && (current_user.location.jumpgate || current_user.location.wormhole?)
-      JumpWorker.perform_async(current_user.id)
-      render json: {}, status: :ok
-    else
-      render json: {}, status: :bad_request
-    end
+    check_police
+    check_warp_disrupt
+    raise InvalidRequest if current_user.in_warp?
+    raise InvalidRequest unless (current_user.location.jumpgate || current_user.location.wormhole?)
+
+    JumpWorker.perform_async(current_user.id)
+
+    render json: {}, status: :ok
   end
 
   def local_players
+    get_local_users
     render partial: 'players', locals: { local_users: @local_users }
   end
 
@@ -87,9 +77,9 @@ class GameController < ApplicationController
   end
 
   def assets
-    var1 = Item.where(user: current_user, spaceship: nil, structure: nil).pluck(:location_id)
-    var2 = Spaceship.where(user: current_user).pluck(:location_id)
-    @locations = (var1 + var2).uniq.compact
+    var1 = Item.where(user: current_user, spaceship: nil, structure: nil).select(:location_id).distinct.pluck(:location_id)
+    var2 = Spaceship.where(user: current_user).select(:location_id).distinct.pluck(:location_id)
+    @locations = (var1 + var2).uniq
   end
 
   def chat
@@ -106,28 +96,24 @@ class GameController < ApplicationController
   end
 
   def system_card
-    render partial: 'game/system_card' unless current_user.docked
+    render partial: 'game/system_card' unless current_user.docked?
   end
 
   def locations_card
-    render partial: 'game/locations' unless current_user.docked
+    render partial: 'game/locations' unless current_user.docked?
   end
 
   private
 
   def get_local_users
-    @local_users = User.includes(:faction).where(location: current_user.location, in_warp: false, docked: false).is_online
+    @local_users ||= User.includes(:faction).is_online.where(location: current_user.location, in_warp: false, docked: false)
   end
 
   def check_police
-    if Npc.police.targeting_user(current_user).exists?
-      render(json: { 'error_message' => I18n.t('errors.police_inbound') }, status: :bad_request) && (return)
-    end
+    raise InvalidRequest.new('errors.police_inbound') if Npc.police.targeting_user(current_user).exists?
   end
 
   def check_warp_disrupt
-    if current_user.active_spaceship&.is_warp_disrupted
-      render(json: { 'error_message' => I18n.t('errors.warp_disrupted') }, status: :bad_request) && (return)
-    end
+    raise InvalidRequest.new('errors.warp_disrupted') if current_user.active_spaceship&.is_warp_disrupted?
   end
 end
