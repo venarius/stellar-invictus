@@ -33,4 +33,18 @@ class Poll < ApplicationRecord
     end
   end
 
+  def upvote_pct
+    return 0 if total_votes.zero?
+    (self.get_upvotes.size.to_f / total_votes) *  100.0
+  end
+
+  def downvote_pct
+    return 0 if total_votes.zero?
+    (self.get_downvotes.size.to_f / total_votes) * 100.0
+  end
+
+  def total_votes
+    @total_votes ||= self.votes_for.size
+  end
+
 end
