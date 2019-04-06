@@ -105,19 +105,19 @@ RSpec.describe SystemsController, type: :controller do
         it "all is good" do
           user.update(location: System.medium.first.locations.first)
           user.active_spaceship.update(name: 'Atlas')
-          post :jump_drive, params:{ id: System.all.high.last }
+          post :jump_drive, params: { id: System.all.high.last }
           expect(response).to have_http_status(:ok)
         end
       end
 
       describe 'should FAIL if' do
         it 'no system id provided' do
-          post :jump_drive, params:{}
+          post :jump_drive, params: {}
           expect(response).to have_http_status(:bad_request)
         end
 
         it 'no jump_drive' do
-          post :jump_drive, params:{ id: System.all.last }
+          post :jump_drive, params: { id: System.all.last }
           expect(response).to have_http_status(:bad_request)
         end
 
@@ -129,14 +129,14 @@ RSpec.describe SystemsController, type: :controller do
         it "origin system isn't medium or high" do
           user.update(location: System.low.first.locations.first)
           user.active_spaceship.update(name: 'Atlas')
-          post :jump_drive, params:{ id: System.all.high.last }
+          post :jump_drive, params: { id: System.all.high.last }
           expect(response).to have_http_status(:bad_request)
         end
 
         it "destination system isn't medium or high" do
           user.update(location: System.medium.first.locations.first)
           user.active_spaceship.update(name: 'Atlas')
-          post :jump_drive, params:{ id: System.all.low.last }
+          post :jump_drive, params: { id: System.all.low.last }
           expect(response).to have_http_status(:bad_request)
         end
 
