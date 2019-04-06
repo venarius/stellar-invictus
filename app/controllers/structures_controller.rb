@@ -10,8 +10,8 @@ class StructuresController < ApplicationController
     owner_name = container.user.full_name if container.container?
 
     render partial: 'structures/cargocontainer',
-      locals: { items: container.get_items, container_id: container.id, owner_name: owner_name },
-      status: :ok
+           locals: { items: container.get_items, container_id: container.id, owner_name: owner_name },
+           status: :ok
   end
 
   def pickup_cargo
