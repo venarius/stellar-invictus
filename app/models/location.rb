@@ -56,7 +56,7 @@ class Location < ApplicationRecord
 
   ## -- SCOPES
   scope :is_hidden, -> { where(hidden: true) }
-  scope :not_hidden, -> { where(hidden: [false,nil]) }
+  scope :not_hidden, -> { where(hidden: [false, nil]) }
 
   ## -- CALLBACKS
   before_destroy :move_users_in_this_location_to_the_first_location
