@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def update_bio
-    raise InvalidRequest unless params[:text].present?
+    raise InvalidRequest if params[:text].nil?
     current_user.update_attribute('bio', params[:text])
 
     render json: {}, status: :ok
