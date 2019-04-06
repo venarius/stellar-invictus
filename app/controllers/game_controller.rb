@@ -22,7 +22,7 @@ class GameController < ApplicationController
       # Fleet Warp
       if params[:fleet] && current_user.fleet
         fleet_members_in_system = current_user.fleet.users.where(system: current_user.system)
-        align = fleet_members_in_system.map{ |p| p.active_spaceship&.get_align_time }.compact.max
+        align = fleet_members_in_system.map { |p| p.active_spaceship&.get_align_time }.compact.max
 
         fleet_members_in_system.each do |user|
           if !user.in_warp?

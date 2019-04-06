@@ -70,6 +70,6 @@ class EquipmentController < ApplicationController
   end
 
   def update_params
-    params.permit(ids: { main: [], utility: []})
+    params.permit(ids: { main: [], utility: [] })
   end
 end
