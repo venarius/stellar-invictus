@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   def info
-    user = User.ensure(params[:id])
-    if user
+    if (user = User.ensure(params[:id]))
       render partial: 'info', locals: { user: user }
     else
       render html: ''
@@ -9,37 +8,29 @@ class UsersController < ApplicationController
   end
 
   def update_bio
-    if params[:text]
-      current_user.update_attribute('bio', params[:text])
-      render(json: {}, status: :ok) && (return)
-    end
-    render json: {}, status: :bad_request
+    raise InvalidRequest unless params[:text].present?
+    current_user.update_attribute('bio', params[:text])
+
+    render json: {}, status: :ok
   end
 
   def place_bounty
-    if params[:amount] && params[:id]
-      amount = params[:amount].to_i rescue nil
-      user = User.find(params[:id].to_i) rescue nil
+    amount = params[:amount].to_i
+    user = User.ensure(params[:id])
+    raise InvalidRequest unless amount > 0
+    raise InvalidRequest unless user
+    raise InvalidRequest.new('errors.minimum_amount_is_1k_credits') unless amount >= 1000
+    raise InvalidRequest.new('errors.you_dont_have_enough_credits') unless current_user.units >= amount
 
-      if amount && user
-        # Check minimum
-        render(json: { 'error_message': I18n.t('errors.minimum_amount_is_1k_credits') }, status: :bad_request) && (return) unless amount >= 1000
-
-        # Check balance
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: :bad_request) && (return) unless current_user.units >= amount
-
-        current_user.reduce_units(amount)
-
-        user.update(bounty: user.bounty + amount)
-
-        user.broadcast(:notify_alert,
-          text: I18n.t('notification.placed_bounty', user: current_user.full_name, amount: amount)
-        )
-
-        render(json: {}, status: :ok) && (return)
-      end
+    ActiveRecord::Base.transaction do
+      current_user.reduce_units(amount)
+      user.increment!(:bounty, amount)
     end
-    render json: {}, status: :bad_request
+    user.broadcast(:notify_alert,
+      text: I18n.t('notification.placed_bounty', user: current_user.full_name, amount: amount)
+    )
+
+    render json: {}, status: :ok
   end
 
 end
