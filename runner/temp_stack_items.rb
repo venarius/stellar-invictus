@@ -2,7 +2,7 @@
 User.update_all(location_id: Location.station.first.id, system_id: Location.station.first.system.id, docked: true)
 
 # Delete all Hidden Locations
-Location.where(hidden: true).each do |loc|
+Location.is_hidden.each do |loc|
   loc.destroy if loc.users.empty? && Spaceship.where(warp_target_id: loc.id).empty?
 end
 

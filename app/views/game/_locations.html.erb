@@ -19,7 +19,7 @@
   </h5>
   <div class="collapse show" id="collapse-locations">
     <div class="card-body">
-      <%= render partial: 'game/locations_table', locals: {locations: current_user.system.locations.where(hidden: false).includes(mission: :user)} %>
+      <%= render partial: 'game/locations_table', locals: {locations: current_user.system.locations.not_hidden.includes(mission: :user)} %>
     </div>
   </div>
 </div>
