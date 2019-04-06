@@ -7,15 +7,16 @@ class BlueprintsController < ApplicationController
     raise InvalidRequest unless %[item ship].include?(params[:type])
     raise InvalidRequest if current_user.has_blueprints_for?(params[:loader])
 
-    price = nil
+    klass = nil
     case params[:type]
     when 'item'
       raise ArgumentError.new("Unknown Item") unless Item.get_attributes(params[:loader])
-      price = Item.get_attribute(params[:loader], :price) * 20
+      klass = Item
     when 'ship'
       raise ArgumentError.new("Unknown Spaceship") unless Spaceship.get_attributes(params[:loader])
-      price = Spaceship.get_attribute(params[:loader], :price) * 20
+      klass = Spaceship
     end
+    price = klass.get_attribute(params[:loader], :price) * 20
 
     raise InvalidRequest.new('errors.you_dont_have_enough_credits') if current_user.units < price
 
