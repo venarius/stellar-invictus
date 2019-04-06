@@ -5,7 +5,6 @@ RSpec.describe SystemsController, type: :controller do
     describe 'GET info' do
       it 'should redirect_to login' do
         get :info, params: { id: 1 }
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -13,7 +12,6 @@ RSpec.describe SystemsController, type: :controller do
     describe 'POST route' do
       it 'should redirect_to login' do
         post :route
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -21,7 +19,6 @@ RSpec.describe SystemsController, type: :controller do
     describe 'POST clear_route' do
       it 'should redirect_to login' do
         post :clear_route
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -29,16 +26,16 @@ RSpec.describe SystemsController, type: :controller do
     describe 'POST scan' do
       it 'should redirect_to login' do
         post :scan
-        expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
   context 'with login' do
+    let(:system) { System.first }
+    let(:user) { create :user_with_faction, location: system.locations.first }
     before(:each) do
-      @user = create(:user_with_faction)
-      sign_in @user
+      sign_in user
     end
 
     describe 'GET info' do
@@ -69,31 +66,30 @@ RSpec.describe SystemsController, type: :controller do
 
     describe 'POST clear_route' do
       it 'should clear route of user' do
-        @user.update(route: ["1", "2", "3"])
+        user.update(route: ["1", "2", "3"])
         post :clear_route
         expect(response).to have_http_status(:ok)
-        expect(@user.reload.route).to eq([])
+        expect(user.reload.route).to eq([])
       end
     end
 
     describe 'POST scan' do
       it 'should render template if user has scanner equipped and is in system where there are exploration sites' do
-        Location.create(system: @user.system, name: "Test", location_type: :exploration_site, hidden: true)
-        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: true)
+        Location.create(system: user.system, name: "Test", location_type: :exploration_site, hidden: true)
+        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: user.active_spaceship, equipped: true)
         post :scan
-        expect(response).to have_http_status(:ok)
         expect(response).to render_template('game/_locations_table')
       end
 
       it 'should render not template if user has scanner equipped but no hidden sites' do
-        @user.system.locations.where(hidden: true).destroy_all
-        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: true)
+        user.system.locations.is_hidden.destroy_all
+        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: user.active_spaceship, equipped: true)
         post :scan
         expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not render template if user has scanner not equipped' do
-        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: @user.active_spaceship, equipped: false)
+        Item.create(loader: 'equipment.scanner.military_scanner', spaceship: user.active_spaceship, equipped: false)
         post :scan
         expect(response).to have_http_status(:bad_request)
       end
@@ -102,6 +98,50 @@ RSpec.describe SystemsController, type: :controller do
         post :scan
         expect(response).to have_http_status(:bad_request)
       end
+    end
+
+    describe "POST jump_drive" do
+      describe 'should SUCCEED if' do
+        it "all is good" do
+          user.update(location: System.medium.first.locations.first)
+          user.active_spaceship.update(name: 'Atlas')
+          post :jump_drive, params:{ id: System.all.high.last }
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      describe 'should FAIL if' do
+        it 'no system id provided' do
+          post :jump_drive, params:{}
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'no jump_drive' do
+          post :jump_drive, params:{ id: System.all.last }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'user cannot be attacked' do
+          user.active_spaceship.update(name: 'Atlas')
+          user.update(docked: true)
+        end
+
+        it "origin system isn't medium or high" do
+          user.update(location: System.low.first.locations.first)
+          user.active_spaceship.update(name: 'Atlas')
+          post :jump_drive, params:{ id: System.all.high.last }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it "destination system isn't medium or high" do
+          user.update(location: System.medium.first.locations.first)
+          user.active_spaceship.update(name: 'Atlas')
+          post :jump_drive, params:{ id: System.all.low.last }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+      end
+
     end
   end
 

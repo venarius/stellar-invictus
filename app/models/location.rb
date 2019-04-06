@@ -54,6 +54,10 @@ class Location < ApplicationRecord
   enum location_type: %i[station asteroid_field jumpgate mission exploration_site wormhole]
   enum station_type:  %i[industrial_station warfare_plant mining_station research_station trillium_casino]
 
+  ## -- SCOPES
+  scope :is_hidden, -> { where(hidden: true) }
+  scope :not_hidden, -> { where(hidden: [false,nil]) }
+
   ## -- CALLBACKS
   before_destroy :move_users_in_this_location_to_the_first_location
 

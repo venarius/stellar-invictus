@@ -275,7 +275,7 @@ class Spaceship < ApplicationRecord
         stack = stack + 1
       end
 
-      item_attr = item_attr * self.get_attribute("trait.align_amplifier") if (self.get_attribute("trait.align_amplifier") rescue nil) && item_attr
+      item_attr = item_attr * self.get_attribute("trait.align_amplifier") if self.get_attribute("trait.align_amplifier") && item_attr
       item_attr = 0 unless item_attr
       align_time = align_time - align_time * (item_attr / 100)
     end
@@ -293,7 +293,7 @@ class Spaceship < ApplicationRecord
         stack = stack + 1
       end
 
-      item_attr = item_attr * self.get_attribute("trait.target_amplifier") if (self.get_attribute("trait.target_amplifier") rescue nil) && item_attr
+      item_attr = item_attr * self.get_attribute("trait.target_amplifier") if self.get_attribute("trait.target_amplifier") && item_attr
       item_attr = 0 unless item_attr
       target_time = target_time - target_time * (item_attr / 100)
     end
@@ -303,21 +303,21 @@ class Spaceship < ApplicationRecord
   # If is warp disrupted
   def is_warp_disrupted
     weight = 0
-    User.where(target_id: self.user.id, is_attacking: true).where.not(online: 0).each do |user|
+    User.where(target_id: self.user.id, is_attacking: true).is_online.each do |user|
       if user.active_spaceship.has_active_warp_disruptor
         user.active_spaceship.get_main_equipment(true).each do |item|
           item_attr = item.get_attribute('disrupt_strength') if (item.get_attribute('type') == "Warp Disruptor") && item.active && item.equipped
-          item_attr = item_attr * self.get_attribute("trait.warp_disrupt_amplifier") if (self.get_attribute("trait.warp_disrupt_amplifier") rescue nil) && item_attr
+          item_attr = item_attr * self.get_attribute("trait.warp_disrupt_amplifier") if self.get_attribute("trait.warp_disrupt_amplifier") && item_attr
           item_attr = 0 unless item_attr
-          weight = weight + (item_attr.round rescue 0)
+          weight += item_attr.to_f.round
         end
       end
     end
     self.get_utility_equipment.each do |item|
       weight = weight - item.get_attribute('disrupt_immunity') if (item.get_attribute('type') == "Warp Core Stabilizer") && item.equipped
-      weight = weight - self.get_attribute("trait.disrupt_immunity") if (self.get_attribute("trait.disrupt_immunity") rescue nil)
+      weight = weight - self.get_attribute("trait.disrupt_immunity") if self.get_attribute("trait.disrupt_immunity")
     end
-    weight > 0 ? true : false
+    (weight > 0)
   end
   alias is_warp_disrupted? is_warp_disrupted
 
@@ -331,23 +331,15 @@ class Spaceship < ApplicationRecord
 
   # Get value in credits of ship and its items
   def get_total_value
-    # Add ship
-    value = self.get_attribute(:price, default: 0)
-
-    # Add for items / equipment
-    value += self.get_items.map(&:total_price).sum
-
-    value
+    self.get_attribute(:price, default: 0) + self.get_items.map(&:total_price).sum
   end
 
   # Get Scanner of Ship
   def get_scanner_range
-    attribute = 0
-    self.get_main_equipment.each do |item|
-      attribute = attribute + item.get_attribute('scanner_range') if item.get_attribute('type') == "Scanner"
-    end
-    attribute = attribute + self.get_attribute("trait.scanner_range") if (self.get_attribute("trait.scanner_range") rescue nil)
-    return attribute
+    self.get_attribute("trait.scanner_range").to_i +
+      self.get_main_equipment.map do |item|
+        item.get_attribute('scanner_range').to_i
+      end.sum
   end
 
   # Get HP Color Value
@@ -365,7 +357,7 @@ class Spaceship < ApplicationRecord
 
   # Check if has directional_scanner
   def get_directional_scanner
-    return true if (self.get_attribute("trait.directional_scanner") rescue false)
+    return true if self.get_attribute("trait.directional_scanner")
     self.get_main_equipment().each do |item|
       return true if item.get_attribute('type') == 'Directional Scanner'
     end
@@ -373,9 +365,8 @@ class Spaceship < ApplicationRecord
   end
 
   # Check if has jump drive
-  def get_jump_drive
-    return true if (self.get_attribute("trait.jump_drive") rescue false)
-    false
+  def has_jump_drive?
+    !!self.get_attribute("trait.jump_drive")
   end
 
   # Get max HP
