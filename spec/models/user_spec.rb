@@ -58,6 +58,7 @@
 #  index_users_on_corporation_id        (corporation_id)
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_faction_id            (faction_id)
+#  index_users_on_family_name_and_name  (family_name,name) UNIQUE
 #  index_users_on_fleet_id              (fleet_id)
 #  index_users_on_location_id           (location_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
@@ -150,6 +151,19 @@ describe User do
         it { should validate_length_of :family_name }
         it { should allow_values('Utrigas', 'Gregory', 'Meyers', 'Al').for :family_name }
         it { should_not allow_values('', nil, 'A', 'TestMeLongerThanTenChars', 'Utrgas11', '111').for :family_name }
+      end
+
+      describe 'full_name' do
+        it "should not allow duplicate full_names" do
+          user = create :user
+          user2 = build :user, name: user.name, family_name: user.family_name
+          expect(user2.valid?).to eq(false)
+          user2.name = "Peter"
+          expect(user2.valid?).to eq(true)
+          user2.name = user.name
+          user2.family_name = "Venkman"
+          expect(user2.valid?).to eq(true)
+        end
       end
 
       describe 'avatar' do

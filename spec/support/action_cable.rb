@@ -29,4 +29,5 @@ end
 
 RSpec.configure do |config|
   config.include ActionCable::TestHelper, type: :service
+  config.include ActionCable::TestHelper, type: :worker
 end

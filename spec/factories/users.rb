@@ -58,6 +58,7 @@
 #  index_users_on_corporation_id        (corporation_id)
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_faction_id            (faction_id)
+#  index_users_on_family_name_and_name  (family_name,name) UNIQUE
 #  index_users_on_fleet_id              (fleet_id)
 #  index_users_on_location_id           (location_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE

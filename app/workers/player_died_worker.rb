@@ -1,9 +1,11 @@
 class PlayerDiedWorker < ApplicationWorker
-  def perform(player)
-    player = User.ensure(player)
-    return unless player
+  def perform(player_id)
+    # debug_args(player_id: player_id)
+    player = User.ensure(player_id)
 
     # Tell user to show died modal
-    player.broadcast(:died_modal, text: I18n.t('modal.died_text', location: "#{player.location.get_name} - #{player.system_name}"))
+    player&.broadcast(:died_modal,
+      text: I18n.t('modal.died_text', location: player.location.full_name)
+    )
   end
 end

@@ -1,7 +1,7 @@
 class JumpWorker < ApplicationWorker
   # This worker will be run whenever a user jumps through a jumpgate
-  def perform(player, in_jump = false, traveltime = nil, custom_system = nil)
-    player = User.ensure(player)
+  def perform(player_id, in_jump = false, traveltime = nil, custom_system = nil)
+    player = User.ensure(player_id)
     old_system = player.system
 
     if in_jump

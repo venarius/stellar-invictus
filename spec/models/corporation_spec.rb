@@ -16,6 +16,8 @@
 # Indexes
 #
 #  index_corporations_on_chat_room_id  (chat_room_id)
+#  index_corporations_on_name          (name) UNIQUE
+#  index_corporations_on_ticker        (ticker) UNIQUE
 #
 # Foreign Keys
 #

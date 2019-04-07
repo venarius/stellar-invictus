@@ -43,6 +43,8 @@ class Mission < ApplicationRecord
   belongs_to :faction
   belongs_to :user, optional: true
   belongs_to :location
+  belongs_to :deliver_location, class_name: Location.name, foreign_key: :deliver_to, optional: true
+
   has_one :mission_location, class_name: Location.name, dependent: :destroy
 
   ## -- ATTRIBUTES

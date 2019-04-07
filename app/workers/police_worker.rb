@@ -2,11 +2,19 @@ class PoliceWorker < ApplicationWorker
   # This worker simulates the police
   DEFAULT_UPDATE_SECONDS = 3
 
-  def perform(player, seconds, police_id = nil, idle = false, done = false)
-    player = User.ensure(player)
+  def perform(player_id, seconds = nil, police_id = nil, idle = false, done = false)
+    # debug_args(player_id: player_id, seconds: seconds, police_id: police_id, idle: idle, done: done)
+
+    player = User.ensure(player_id)
+    return unless player
+
     location = player.location
-    police = Npc.ensure(police)
-    return unless police if police_id
+
+    if police_id.present?
+      police = Npc.ensure(police_id)
+      return unless police
+    end
+
     seconds ||= DEFAULT_UPDATE_SECONDS
 
     if police_id == nil

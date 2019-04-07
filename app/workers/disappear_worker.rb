@@ -1,7 +1,7 @@
 class DisappearWorker < ApplicationWorker
   # This Worker will be run when the user logs off
-  def perform(user, remove_logout = false)
-    user = User.ensure(user)
+  def perform(user_id, remove_logout = false)
+    user = User.ensure(user_id)
 
     if (user.system.low? || user.system.wormhole?) && user.is_online? && !user.logout_timer
       user.update(logout_timer: true)

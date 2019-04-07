@@ -1,39 +1,35 @@
 class EquipmentWorker < ApplicationWorker
   # This Worker will be run when a player uses equipment
 
-  def perform(player)
+  def perform(player_id)
     # Get the Player and ship
-    player = User.ensure(player)
+    player = User.ensure(player_id)
 
     # Set Player status to using equipment worker
     player.update(equipment_worker: true)
 
-    player_ship = player.active_spaceship
-
-    # Target Ship
-    if player.target
-      target_ship = player.target.active_spaceship
-      target_id = player.target.id
-    elsif player.npc_target
-      target_ship = player.npc_target
-      target_id = player.npc_target.id
-    end
-
     # Equipment Cycle
     while true do
+      player_ship = player.active_spaceship
+
+      # Target Ship
+      if player.target
+        target_ship = player.target.active_spaceship
+        target_id = player.target.id
+      elsif player.npc_target
+        target_ship = player.npc_target
+        target_id = player.npc_target.id
+      end
 
       # Reload Player
       player = player.reload
-
-      # Get Power of Player
       power = player_ship.get_power
-
-      # Get Repair Amount of Player
       self_repair = player_ship.get_selfrepair
       remote_repair = player_ship.get_remoterepair
 
       # If is attacking else
-      if (power > 0 || player_ship.has_active_warp_disruptor) ||
+      if (power > 0 ||
+         player_ship.has_active_warp_disruptor) ||
          (power > 0 && remote_repair > 0)
 
         # If player is targeting user -> Call Police and Broadcast
@@ -179,13 +175,11 @@ class EquipmentWorker < ApplicationWorker
     end
   end
 
-  # Shutdown Method
   def shutdown(player)
     player.active_spaceship.deactivate_equipment
     player.update(is_attacking: false, equipment_worker: false)
   end
 
-  # Call Police
   def call_police(player)
     player_id = player.id
 
@@ -202,7 +196,6 @@ class EquipmentWorker < ApplicationWorker
     end
   end
 
-  # Can Attack Method
   def can_attack(player)
     player = player.reload
 
