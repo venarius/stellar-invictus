@@ -2,6 +2,7 @@ class EquipmentWorker < ApplicationWorker
   # This Worker will be run when a player uses equipment
 
   def perform(player_id)
+    debug_args(player_id: player_id)
     # Get the Player and ship
     player = User.ensure(player_id)
 
@@ -10,26 +11,23 @@ class EquipmentWorker < ApplicationWorker
 
     # Equipment Cycle
     while true do
-      player_ship = player.active_spaceship
-
       # Target Ship
-      if player.target
-        target_ship = player.target.active_spaceship
-        target_id = player.target.id
-      elsif player.npc_target
-        target_ship = player.npc_target
-        target_id = player.npc_target.id
-      end
+      target_ship = player.target&.ship || player.npc_target
+      target_id = player.target&.id || player.npc_target_id
+
+      ap "target_ship: #{target_ship}"
+      ap "  target_id: #{target_id}"
 
       # Reload Player
-      player = player.reload
-      power = player_ship.get_power
-      self_repair = player_ship.get_selfrepair
-      remote_repair = player_ship.get_remoterepair
+      player.reload
+      power = player.ship.get_power
+      ap "power: #{power}"
+      self_repair = player.ship.get_selfrepair
+      remote_repair = player.ship.get_remoterepair
 
       # If is attacking else
       if (power > 0 ||
-         player_ship.has_active_warp_disruptor) ||
+         player.ship.has_active_warp_disruptor) ||
          (power > 0 && remote_repair > 0)
 
         # If player is targeting user -> Call Police and Broadcast
@@ -41,7 +39,7 @@ class EquipmentWorker < ApplicationWorker
         # Set Attacking to True
         player.update(is_attacking: true) if !player.is_attacking
 
-      elsif (power == 0) && (remote_repair == 0) && !player_ship.has_active_warp_disruptor && player.is_attacking
+      elsif (power == 0) && (remote_repair == 0) && !player.ship.has_active_warp_disruptor && player.is_attacking
 
         # Set Attacking to False
         player.update(is_attacking: false)
@@ -66,21 +64,21 @@ class EquipmentWorker < ApplicationWorker
 
       # If Repair -> repair
       if self_repair > 0
-        if player_ship.hp < player_ship.get_max_hp
+        if player.ship.hp < player.ship.get_max_hp
 
-          if player_ship.hp + self_repair > player_ship.get_max_hp
-            player_ship.update(hp: player_ship.get_max_hp)
+          if player.ship.hp + self_repair > player.ship.get_max_hp
+            player.ship.update(hp: player.ship.get_max_hp)
           else
-            player_ship.update(hp: player_ship.hp + self_repair)
+            player.ship.update(hp: player.ship.hp + self_repair)
           end
 
-          player.broadcast(:update_health, hp: player_ship.hp)
+          player.broadcast(:update_health, hp: player.ship.hp)
 
           User.where(target_id: player_id).is_online.each do |u|
-            u.broadcast(:update_target_health, hp: player_ship.hp)
+            u.broadcast(:update_target_health, hp: player.ship.hp)
           end
         else
-          player.active_spaceship.deactivate_selfrepair_equipment
+          player.ship.deactivate_selfrepair_equipment
           self_repair = 0
           player.broadcast(:disable_equipment)
         end
@@ -89,11 +87,11 @@ class EquipmentWorker < ApplicationWorker
       # If player can attack target or remote repair
       if ((power > 0) && target_ship) || ((remote_repair > 0) && target_ship)
 
-        if can_attack(player)
+        if can_attack?(player)
 
           # The attack
           attack = power
-          attack = power * (1.0 - target_ship.get_defense / 100.0) if player.target
+          attack *= (1.0 - target_ship.get_defense / 100.0) if player.target
 
           target_ship.update(hp: target_ship.reload.hp - attack.round + remote_repair)
 
@@ -134,16 +132,17 @@ class EquipmentWorker < ApplicationWorker
               # Remove user from being targeted by others
               attackers = User.where(target_id: player.target.id, is_attacking: true).pluck(:id)
               player.target.remove_being_targeted
-              player.target.die(false, attackers) && player.active_spaceship.deactivate_weapons
+              player.target.die(false, attackers) && player.ship.deactivate_weapons
             else
               begin
                 player.npc_target.give_bounty(player)
                 # Remove user from being targeted by others
                 player.npc_target.remove_being_targeted
                 player.npc_target.drop_blueprint if player.system.wormhole? && (rand(1..100) == 100)
-                player.npc_target.die if player.npc_target
-                player.active_spaceship.deactivate_weapons
-              rescue
+                player.npc_target&.die
+                player.ship.deactivate_weapons
+              rescue Exception => e
+                ap "#{e}"
                 shutdown(player)
                 return
               end
@@ -151,22 +150,19 @@ class EquipmentWorker < ApplicationWorker
           end
 
         else
-          player.broadcast(:disable_equipment)
-          shutdown(player)
+          ap "cannot attack player"
+          disable_equipment(player)
           return
         end
 
       end
 
       # Rescue Global
-      if (power == 0) &&
-        (self_repair == 0) &&
-        remote_repair == 0 &&
-        !player_ship.has_active_warp_disruptor ||
-        !player.can_be_attacked?
+      if (power == 0) && (self_repair == 0) && (remote_repair == 0) &&
+        (!player.ship.has_active_warp_disruptor || !player.can_be_attacked?)
 
-        player.broadcast(:disable_equipment)
-        shutdown(player)
+        ap "rescue_global"
+        disable_equipment(player)
         return
       end
 
@@ -175,40 +171,48 @@ class EquipmentWorker < ApplicationWorker
     end
   end
 
+  def disable_equipment(player)
+    debug_args(:disable_equipment, player: player.id)
+    player.broadcast(:disable_equipment)
+    shutdown(player)
+  end
+
   def shutdown(player)
-    player.active_spaceship.deactivate_equipment
+    debug_args(:shutdown, player: player.id)
+    player.ship.deactivate_equipment
     player.update(is_attacking: false, equipment_worker: false)
   end
 
   def call_police(player)
-    player_id = player.id
-
+    debug_args(:call_police, player: player.id)
     if !player.system.low? &&
       !player.system.wormhole? &&
       !Npc.police.targeting_user(player).exists? &&
       !player.target.in_same_fleet_as(player)
 
       if player.system.security_status == 'high'
-        PoliceWorker.perform_async(player_id, 2)
+        PoliceWorker.perform_async(player.id, 2)
       else
-        PoliceWorker.perform_async(player_id, 10)
+        # TODO: Maybe have police respond in a random amount of time (5..15)?
+        PoliceWorker.perform_async(player.id, 10)
       end
     end
   end
 
-  def can_attack(player)
-    player = player.reload
+  def can_attack?(player)
+    debug_args(:can_attack?, player: player.id)
+    player.reload
 
     if player.target
       # Get Target
       target = player.target
       # Return true if both can be attacked, are in the same location and player has target locked on
-      target.can_be_attacked && player.can_be_attacked && (target.location == player.location) && (player.target == target)
+      target.can_be_attacked? && player.can_be_attacked? && (target.location_id == player.location_id) && (player.target_id == target.id)
     elsif player.npc_target
       # Get Target
       target = player.npc_target
       # Return true if both can be attacked, are in the same location and player has target locked on
-      player.can_be_attacked && (target.hp > 0) && (target.location == player.location) && (player.npc_target == target)
+      player.can_be_attacked? && (target.hp > 0) && (target.location_id == player.location_id) && (player.npc_target_id == target.id)
     else
       false
     end
