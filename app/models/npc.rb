@@ -46,6 +46,10 @@ class Npc < ApplicationRecord
   end
 
   ## — INSTANCE METHODS
+  def find_enemy_target
+    self.location.random_online_in_space_user
+  end
+
   def die
     NpcDiedWorker.perform_async(self.id)
   end

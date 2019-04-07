@@ -2,44 +2,48 @@ class MissionGenerator
 
   # Generate Mission
   def self.generate_missions(location_id)
-    location = Location.find(location_id) rescue nil
-    if location && (location.missions.where(mission_status: 'offered').count < 6)
+    location = Location.ensure(location_id)
+    return unless location
 
-      (6 - location.missions.where(mission_status: 'offered').count).times do
+    offered_mission_count = location.missions.offered.count
+    if (offered_mission_count < 6)
+      (6 - offered_mission_count).times do
         generate_mission(location)
       end
-
     end
   end
 
   # Finish Mission
   def self.finish_mission(mission_id)
-    mission = Mission.find(mission_id) rescue nil
-
+    mission = Mission.ensure(mission_id)
     return nil unless mission
 
     # check location
-    return I18n.t('errors.this_agent_is_not_on_this_station') if (mission.location != mission.user.location) && (mission.mission_type != 'delivery')
+    if (mission.location != mission.user.location) && !mission.delivery?
+      return I18n.t('errors.this_agent_is_not_on_this_station')
+    end
 
     case mission.mission_type
     when 'delivery'
       # check location
       return I18n.t('errors.this_isnt_the_right_station') if mission.deliver_to != mission.user.location.id
 
-        # check amount
-        item = Item.where(user: mission.user, location: Location.find(mission.deliver_to), loader: mission.mission_loader).first
-        if !item || item.count < mission.mission_amount
-          return I18n.t('errors.you_dont_have_the_required_amount_in_storage')
-        end
+      # check amount
+      item = Item.where(user: mission.user, location: mission.deliver_location, loader: mission.mission_loader).first
+      if !item || item.count < mission.mission_amount
+        return I18n.t('errors.you_dont_have_the_required_amount_in_storage')
+      end
 
-        # remove items
-        Item::RemoveFromUser.(user: mission.user, location: Location.find(mission.deliver_to), loader: mission.mission_loader, amount: mission.mission_amount)
+      # remove items
+      Item::RemoveFromUser.(user: mission.user, location: mission.deliver_location, loader: mission.mission_loader, amount: mission.mission_amount)
     when 'combat', 'vip'
       # check enemy_amound
       return I18n.t('errors.you_didnt_kill_all_enemies') if mission.enemy_amount > 0
 
-        # check if user is onsite
-        return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.mission_location.id).present?
+      # check if user is onsite
+      if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.mission_location.id).present?
+        return I18n.t('errors.mission_location_not_cleared')
+      end
     when 'market'
       # check amount
       item = Item.where(user: mission.user, location: mission.location, loader: mission.mission_loader).first
@@ -47,8 +51,8 @@ class MissionGenerator
           return I18n.t('errors.you_dont_have_the_required_amount_in_storage')
         end
 
-        # remove items
-        Item::RemoveFromUser.(user: mission.user, location: mission.location, loader: mission.mission_loader, amount: mission.mission_amount)
+      # remove items
+      Item::RemoveFromUser.(user: mission.user, location: mission.location, loader: mission.mission_loader, amount: mission.mission_amount)
     when 'mining'
       # check amount
       return I18n.t('errors.you_didnt_mine_enough_ore') if mission.mission_amount > 0
@@ -70,19 +74,15 @@ class MissionGenerator
       end
     end
 
-    mission.destroy && (return nil)
+    mission.destroy
+    nil
   end
 
   # Generate Mission Sub
   def self.generate_mission(location)
-
-    mission = Mission.new
-
-    mission.location = location
+    mission = Mission.new(location: location, mission_status: :offered)
 
     difficulty = rand(3)
-
-    mission.mission_status = 'offered'
 
     if rand(1) == 1
       mission.agent_name = "#{Faker::Name.male_first_name} #{Faker::Name.last_name}"
@@ -111,23 +111,21 @@ class MissionGenerator
       end
 
       # Set Difficulty based on Path
-      path = Pathfinder.find_path(location.system.id, Location.find(mission.deliver_to).system.id)
+      path = Pathfinder.find_path(location.system.id, mission.deliver_location.system.id)
       case
-      when path.size > 10
-        difficulty = 2
-      when path.size > 5
-        difficulty = 1
-      when path.size >= 0
-        difficulty = 0
+      when path.size > 10 then difficulty = 2
+      when path.size > 5  then difficulty = 1
+      when path.size >= 0 then difficulty = 0
       end
 
       # Set Reward
       mission.reward = (20 * path.size * rand(0.8..1.2)).round
-      mission.reward = mission.reward * 3 if Location.find(mission.deliver_to).system.security_status == 'low'
+      mission.reward = mission.reward * 3 if mission.deliver_location.system.security_status == 'low'
 
       # Generate Items
       mission.mission_loader = Item::DELIVERY.sample
       mission.mission_amount = rand(2..5)
+
     elsif mission.combat?
       mission.enemy_amount = rand(2..5) * (difficulty + 1)
       system = location.system
@@ -138,6 +136,7 @@ class MissionGenerator
       # Set Reward
       mission.reward = (40 * (difficulty + 1) * mission.enemy_amount * rand(0.8..1.2)).round
       mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
+
     elsif mission.mining? || mission.market?
       if mission.market?
         mission.mission_loader = Item::EQUIPMENT_EASY.sample
@@ -148,6 +147,7 @@ class MissionGenerator
 
       # Set Reward
       mission.reward = (Item.get_attribute(mission.mission_loader, :price) * mission.mission_amount * rand(1.05..1.10)).round
+
     elsif mission.vip?
       mission.enemy_amount = 3
       m_location = Location.where.not(faction_id: [mission.faction_id, nil]).order(Arel.sql("RANDOM()")).first
@@ -166,32 +166,35 @@ class MissionGenerator
     end
 
     mission.faction_bonus = (0.05 * (difficulty + 1)) unless mission.faction_bonus
-
     mission.faction_malus = (0.05 * rand(0..1)) unless mission.faction_malus
 
     mission.difficulty = difficulty
 
     if !mission.save
-      Rails.logger.info mission.errors.full_messages
+      Rails.logger.info "!!BAD MISSION: #{mission.errors.full_messages}"
     end
 
+    mission
   end
 
   # Abort Mission
   def self.abort_mission(mission_id)
-    mission = Mission.find(mission_id)
+    mission = Mission.ensure(mission_id)
 
     case mission.mission_type
     when 'delivery'
-      Item.where(mission_id: mission.id).destroy_all
+      Item.where(mission: mission).destroy_all
     when 'combat'
       # check if user is onsite
-      return I18n.t('errors.mission_location_not_cleared') if mission.mission_location.users.count > 0 || Spaceship.where(warp_target_id: mission.mission_location.id).present?
+      if mission.mission_location.users.count > 0 || Spaceship.where(warp_target: mission.mission_location).present?
+        return I18n.t('errors.mission_location_not_cleared')
+      end
     end
 
     # Reduce Reputation
     mission.user.update_attribute("reputation_#{mission.faction_id}", mission.user["reputation_#{mission.faction_id}"] - 0.2)
 
-    mission.destroy && (return nil)
+    mission.destroy
+    nil
   end
 end

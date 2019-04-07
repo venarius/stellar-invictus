@@ -58,6 +58,7 @@
 #  index_users_on_corporation_id        (corporation_id)
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_faction_id            (faction_id)
+#  index_users_on_family_name_and_name  (family_name,name) UNIQUE
 #  index_users_on_fleet_id              (fleet_id)
 #  index_users_on_location_id           (location_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
@@ -103,15 +104,22 @@ class User < ApplicationRecord
   has_and_belongs_to_many :chat_rooms
 
   ## -- ATTRIBUTES
+  alias_attribute :ship, :active_spaceship
+
   enum corporation_role: [:recruit, :lieutenant, :commodore, :admiral, :founder]
 
   ## -- VALIDATIONS
-  validates :name, :family_name, :avatar, presence: true
-  validates :name, uniqueness: { scope: :family_name }
-  validates :email, uniqueness: true
-  validates_format_of :name, :family_name, with: /\A[a-zA-Z]+\z/i, message: I18n.t('validations.can_only_contain_letters')
-  validates :name, :family_name, length: { minimum: 2, maximum: 20,
-                                           too_short: I18n.t('validations.too_short_2'), too_long: I18n.t('validations.too_long_name') }
+  validates :name,
+    presence: true,
+    uniqueness: { scope: :family_name },
+    format: { with: /\A[a-zA-Z]+\z/i, message: I18n.t('validations.can_only_contain_letters') },
+    length: { minimum: 2, maximum: 20, too_short: I18n.t('validations.too_short_2'), too_long: I18n.t('validations.too_long_name') }
+  validates :family_name,
+    presence: true,
+    format: { with: /\A[a-zA-Z]+\z/i, message: I18n.t('validations.can_only_contain_letters') },
+    length: { minimum: 2, maximum: 20, too_short: I18n.t('validations.too_short_2'), too_long: I18n.t('validations.too_long_name') }
+  validates :avatar, presence: true
+  validates :email, presence: true, uniqueness: true
 
   validate :check_avatar, on: :create
 

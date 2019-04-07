@@ -1,6 +1,8 @@
 class KillmailWorker < ApplicationWorker
   # This Worker will be run when a player is mining something
   def perform(body, attackers = nil, loot = nil)
+    return if Rails.env.test? # Do nothing when testing
+
     uri = URI(ENV.fetch("KILLBOARD_URL", "https://killboard.stellar-invictus.com/"))
     req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 

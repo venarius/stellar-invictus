@@ -5,10 +5,10 @@ class MiningWorker < ApplicationWorker
     player = User.ensure(player_id)
     asteroid = Asteroid.ensure(asteroid_id)
 
-    return unless player.active_spaceship && player && asteroid
+    return unless player.ship && player && asteroid
 
     # Get mining amount
-    mining_amount = player.active_spaceship.get_mining_amount
+    mining_amount = player.ship.get_mining_amount
 
     if !is_mining
 
@@ -44,8 +44,8 @@ class MiningWorker < ApplicationWorker
       asteroid.update(resources: asteroid.resources - (100 * mining_amount))
 
       # Add Items to player
-      if player.active_spaceship.get_free_weight < mining_amount
-        Item::GiveToUser.(loader: "asteroid.#{asteroid.asteroid_type}_ore", amount: player.active_spaceship.get_free_weight, user: player)
+      if player.ship.get_free_weight < mining_amount
+        Item::GiveToUser.(loader: "asteroid.#{asteroid.asteroid_type}_ore", amount: player.ship.get_free_weight, user: player)
       else
         Item::GiveToUser.(loader: "asteroid.#{asteroid.asteroid_type}_ore", amount: mining_amount, user: player)
       end
@@ -104,7 +104,7 @@ class MiningWorker < ApplicationWorker
     end
 
     # Stop mining if player's ship is full
-    if player.active_spaceship.get_free_weight <= 0
+    if player.ship.get_free_weight <= 0
       # Q: if the ship is full, is the asteroid really depleted?
       player.broadcast(:asteroid_depleted)
       player.update(mining_target_id: nil)

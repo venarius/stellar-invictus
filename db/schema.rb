@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_05_143442) do
+ActiveRecord::Schema.define(version: 2019_04_07_122321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 2019_04_05_143442) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chat_room_id"], name: "index_corporations_on_chat_room_id"
+    t.index ["name"], name: "index_corporations_on_name", unique: true
+    t.index ["ticker"], name: "index_corporations_on_ticker", unique: true
   end
 
   create_table "craft_jobs", force: :cascade do |t|
@@ -366,6 +368,7 @@ ActiveRecord::Schema.define(version: 2019_04_05_143442) do
     t.index ["corporation_id"], name: "index_users_on_corporation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["faction_id"], name: "index_users_on_faction_id"
+    t.index ["family_name", "name"], name: "index_users_on_family_name_and_name", unique: true
     t.index ["fleet_id"], name: "index_users_on_fleet_id"
     t.index ["location_id"], name: "index_users_on_location_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

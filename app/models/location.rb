@@ -86,6 +86,14 @@ class Location < ApplicationRecord
     end
   end
 
+  def full_name
+    "#{get_name} #{self.system.name}"
+  end
+
+  def random_online_in_space_user
+    self.users.where(docked: false).is_online.sample
+  end
+
   private
 
   def move_users_in_this_location_to_the_first_location
