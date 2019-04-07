@@ -6,7 +6,7 @@ class ApplicationWorker
     # Comment this line out for debugging info on workers
     return
 
-    mapped = kwargs.map{|k,v| "#{k}: #{v.nil? ? 'nil' : v}"}
+    mapped = kwargs.map { |k, v| "#{k}: #{v.nil? ? 'nil' : v}" }
     output = +"#{self.class}"
     output << ".#{method}" if method
     output << "(#{mapped.join(', ')})"

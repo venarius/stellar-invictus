@@ -32,5 +32,4 @@ RSpec.describe EquipmentWorker, type: :worker do
     expect(user.equipment_worker).to eq(false)
   end
 
-
 end
