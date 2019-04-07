@@ -122,30 +122,22 @@ class Spaceship < ApplicationRecord
 
   # Deactivate Equipment
   def deactivate_equipment
-    self.get_equipped_equipment.each do |item|
-      item.update(active: false)
-    end
+    self.get_equipped_equipment.update_all(active: false)
   end
 
   # Deactivate Weapons
   def deactivate_weapons
-    self.get_equipped_equipment_of_type('Weapon').each do |item|
-      item.update(active: false)
-    end
+    self.get_equipped_equipment_of_type('Weapon').update_all(active: false)
   end
 
   # Deactivate Selfrepair Equipment
   def deactivate_selfrepair_equipment
-    self.get_equipped_equipment_of_type('Repair Bot').each do |item|
-      item.update(active: false)
-    end
+    self.get_equipped_equipment_of_type('Repair Bot').update_all(active: false)
   end
 
   # Deactivate Remoterepair Equipment
   def deactivate_remoterepair_equipment
-    self.get_equipped_equipment_of_type('Repair Beam').each do |item|
-      item.update(active: false)
-    end
+    self.get_equipped_equipment_of_type('Repair Beam').update_all(active: false)
   end
 
   # Drop Loot
