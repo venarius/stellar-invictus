@@ -2,7 +2,7 @@ class EnemyWorker < ApplicationWorker
   # This worker simulates an enemy
 
   def perform(npc_id, location_id, target_id = nil, attack = nil, count = nil, hard = nil)
-    debug_args(npc: npc_id, location: location_id, target: target_id, attack: attack, count: count, hard:hard)
+    debug_args(npc: npc_id, location: location_id, target: target_id, attack: attack, count: count, hard: hard)
 
     # Set some vars
     location = Location.ensure(location_id)

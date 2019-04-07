@@ -31,4 +31,3 @@ RSpec.describe EjectCargoWorker, type: :worker do
   end
 
 end
-

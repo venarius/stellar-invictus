@@ -32,4 +32,3 @@ RSpec.describe PoliceWorker, type: :worker do
   end
 
 end
-
