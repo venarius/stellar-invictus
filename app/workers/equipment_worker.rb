@@ -2,9 +2,10 @@ class EquipmentWorker < ApplicationWorker
   # This Worker will be run when a player uses equipment
 
   def perform(player_id)
-    debug_args(player_id: player_id)
     # Get the Player and ship
     player = User.ensure(player_id)
+    return unless player
+    debug_args(player_id: player&.id)
 
     # Set Player status to using equipment worker
     player.update(equipment_worker: true)
@@ -15,13 +16,9 @@ class EquipmentWorker < ApplicationWorker
       target_ship = player.target&.ship || player.npc_target
       target_id = player.target&.id || player.npc_target_id
 
-      ap "target_ship: #{target_ship}"
-      ap "  target_id: #{target_id}"
-
       # Reload Player
       player.reload
       power = player.ship.get_power
-      ap "power: #{power}"
       self_repair = player.ship.get_selfrepair
       remote_repair = player.ship.get_remoterepair
 
@@ -141,8 +138,7 @@ class EquipmentWorker < ApplicationWorker
                 player.npc_target.drop_blueprint if player.system.wormhole? && (rand(1..100) == 100)
                 player.npc_target&.die
                 player.ship.deactivate_weapons
-              rescue Exception => e
-                ap "#{e}"
+              rescue # Should _really_ define the exception you're expecting here
                 shutdown(player)
                 return
               end
@@ -150,7 +146,6 @@ class EquipmentWorker < ApplicationWorker
           end
 
         else
-          ap "cannot attack player"
           disable_equipment(player)
           return
         end
@@ -161,7 +156,6 @@ class EquipmentWorker < ApplicationWorker
       if (power == 0) && (self_repair == 0) && (remote_repair == 0) &&
         (!player.ship.has_active_warp_disruptor || !player.can_be_attacked?)
 
-        ap "rescue_global"
         disable_equipment(player)
         return
       end
@@ -173,18 +167,21 @@ class EquipmentWorker < ApplicationWorker
 
   def disable_equipment(player)
     debug_args(:disable_equipment, player: player.id)
+
     player.broadcast(:disable_equipment)
     shutdown(player)
   end
 
   def shutdown(player)
     debug_args(:shutdown, player: player.id)
+
     player.ship.deactivate_equipment
     player.update(is_attacking: false, equipment_worker: false)
   end
 
   def call_police(player)
     debug_args(:call_police, player: player.id)
+
     if !player.system.low? &&
       !player.system.wormhole? &&
       !Npc.police.targeting_user(player).exists? &&
@@ -201,6 +198,7 @@ class EquipmentWorker < ApplicationWorker
 
   def can_attack?(player)
     debug_args(:can_attack?, player: player.id)
+
     player.reload
 
     if player.target

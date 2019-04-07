@@ -1,7 +1,10 @@
 class NpcDiedWorker < ApplicationWorker
   def perform(npc_id)
+    debug_args(npc: npc_id)
     npc = Npc.ensure(npc_id)
     return unless npc
+
+    User.where(npc_target_id: npc.id).update_all(npc_target_id: nil)
 
     # Tell others in system that npc "warped out" and log
     npc.location.broadcast(:player_warp_out, name: npc.name)
