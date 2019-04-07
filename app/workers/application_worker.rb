@@ -3,8 +3,9 @@ class ApplicationWorker
   sidekiq_options retry: false
 
   def debug_args(method = :perform, **kwargs)
+    # Comment this line out for debugging info on workers
     return
-    return unless Rails.env.test?
+
     mapped = kwargs.map{|k,v| "#{k}: #{v.nil? ? 'nil' : v}"}
     output = +"#{self.class}"
     output << ".#{method}" if method

@@ -3,7 +3,7 @@ class PoliceWorker < ApplicationWorker
   DEFAULT_UPDATE_SECONDS = 3
 
   def perform(player_id, seconds = nil, police_id = nil, idle = false, done = false)
-    # debug_args(player_id: player_id, seconds: seconds, police_id: police_id, idle: idle, done: done)
+    debug_args(player_id: player_id, seconds: seconds, police_id: police_id, idle: idle, done: done)
 
     player = User.ensure(player_id)
     return unless player
