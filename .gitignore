@@ -62,3 +62,5 @@ docker/.DS_Store
 public/.DS_Store
 
 spec/examples.txt
+.irb-history
+config/application.yml

@@ -34,6 +34,7 @@ class Spaceship < ApplicationRecord
   ## -- RELATIONSHIPS
   belongs_to :user, optional: true
   belongs_to :location, optional: true
+  belongs_to :warp_target, class_name: Location.name, optional: true
   has_many :items, dependent: :destroy
 
   ## -- VALIDATIONS

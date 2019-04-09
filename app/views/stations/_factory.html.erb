@@ -64,14 +64,14 @@
             <% if job.loader.include? "equipment." %>
               <th><%= Item.get_attribute(job.loader, :name) %></th>
               <td class="w-50">
-                <div class="progress crafting-progress" style="height:21px" data-current="<%= (Item.get_attribute(job.loader, :crafting_duration) * 60 - (job.completion.to_time - Time.current) / 1.second).round %>" data-max="<%= Item.get_attribute(job.loader, :crafting_duration) %>">
+                <div class="progress crafting-progress" style="height:21px" data-current="<%= (Item.get_attribute(job.loader, :crafting_duration) * 60 - (job.completed_at.to_time - Time.current) / 1.second).round %>" data-max="<%= Item.get_attribute(job.loader, :crafting_duration) %>">
                   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
                 </div>
               </td>
             <% else %>
               <th><%= job.loader %></th>
               <td class="w-50">
-                <div class="progress crafting-progress" style="height:21px" data-current="<%= (Spaceship.get_attribute(job.loader, :crafting_duration) * 60 - (job.completion.to_time - Time.current) / 1.second).round %>" data-max="<%= Spaceship.get_attribute(job.loader, :crafting_duration) %>">
+                <div class="progress crafting-progress" style="height:21px" data-current="<%= (Spaceship.get_attribute(job.loader, :crafting_duration) * 60 - (job.completed_at.to_time - Time.current) / 1.second).round %>" data-max="<%= Spaceship.get_attribute(job.loader, :crafting_duration) %>">
                   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
                 </div>
               </td>
