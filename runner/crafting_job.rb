@@ -5,7 +5,7 @@ while time < 50 do
   sleep(10)
   time = time + 10
 
-  CraftJob.where("completed_at < ?",Time.now.utc).each do |job|
+  CraftJob.where("completed_at < ?", Time.now.utc).each do |job|
     if job.loader.include? "equipment."
       Item::GiveToUser.(loader: job.loader, user: job.user, location: job.location, amount: 1)
     else
