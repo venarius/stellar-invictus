@@ -44,6 +44,7 @@ class Item < ApplicationRecord
   belongs_to :location, optional: true
   belongs_to :spaceship, optional: true
   belongs_to :structure, optional: true
+  belongs_to :mission, optional: true
 
   ## -- CONSTANTS
   STACK_PENALTIES = [1.0, 0.87, 0.57, 0.28, 0.10, 0.03, 0.0, 0.0, 0.0].freeze

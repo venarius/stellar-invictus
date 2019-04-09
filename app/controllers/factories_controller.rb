@@ -50,11 +50,16 @@ class FactoriesController < ApplicationController
         end
 
         # Create CraftJob
-        attrs = { loader: params[:loader], user: current_user, location: current_user.location }
+        attrs = {
+          loader: params[:loader],
+          user: current_user,
+          location: current_user.location
+        }
         if params[:type] == 'ship'
-          attrs[:completion] = DateTime.now + (Spaceship.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0)
+          # Q: What time duration is :crafting_duration in?
+          attrs[:completed_at] = Time.now.utc + (Spaceship.get_attribute(params[:loader], :crafting_duration) / 1440.0)
         else
-          attrs[:completion] = DateTime.now + (Item.get_attribute(params[:loader], :crafting_duration).to_f / 1440.0)
+          attrs[:completed_at] = Time.now.utc + (Item.get_attribute(params[:loader], :crafting_duration) / 1440.0)
         end
         CraftJob.create(**attrs)
       end
