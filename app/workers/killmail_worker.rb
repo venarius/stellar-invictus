@@ -8,8 +8,8 @@ class KillmailWorker < ApplicationWorker
 
     if attackers && (attackers != [])
       temp = []
-      attackers.each do |at|
-        attacker = User.ensure(at)
+      attackers.each do |attacker|
+        attacker = User.ensure(attacker)
         next unless attacker
 
         hash = {
