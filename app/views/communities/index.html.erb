@@ -48,7 +48,7 @@
     <div class="card black-card">
       <h5 class="card-header"><%= I18n.t('community.in_progress') %></h5>
       <div class="card-body">
-        <% if Poll.where(status: :in_progress).count == 0 and Poll.where(status: :finished).count == 0 %>
+        <% if Poll.where(status: [:in_progress, :finished]).count == 0 %>
           <h2 class="text-center">...</h2>
         <% end %>
         <% Poll.where(status: :in_progress).each do |poll| %>

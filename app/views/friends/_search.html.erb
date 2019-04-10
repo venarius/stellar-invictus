@@ -1,3 +1,4 @@
+<% not_current_user = user != current_user %>
 <table class="table table-striped table-bordered friends-search-table">
   <tbody>
     <% users.each do |user| %>
@@ -5,11 +6,11 @@
         <td>
           <%= image_tag("avatars/#{user.avatar}.jpg", class: 'float-left') %>
           <div class="float-right">
-            <% if current_user.friends.where(id: user.id).empty? and current_user != user %>
+            <% if current_user.friends.where(id: user.id).empty? && not_current_user %>
               <button class="btn btn-outline-primary search-add-as-friend-btn" data-id="<%= user.id %>">
                 <i class="fa fa-user-plus"></i>
               </button>
-            <% elsif current_user != user %>
+            <% elsif not_current_user %>
               <button class="btn btn-outline-danger search-remove-as-friend-btn" data-id="<%= user.id %>">
                 <i class="fa fa-user-minus"></i>
               </button>
