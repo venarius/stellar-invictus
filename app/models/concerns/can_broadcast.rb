@@ -6,6 +6,6 @@ module CanBroadcast
   end
 
   def channel_id
-    raise "Override me"
+    raise "Subclasses should override this method to generate their own type of channel_id"
   end
 end
