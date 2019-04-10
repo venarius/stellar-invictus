@@ -31,19 +31,19 @@ RSpec.describe ApplicationController, type: :controller do
 
   describe 'Call Police' do
     it 'should call police on user in highsec' do
-      system = System.where(security_status: 'high').first
+      system = System.high.first
       @user = create(:user_with_faction, system: system, location: system.locations.first)
       controller.call_police(@user)
       expect(PoliceWorker.jobs.size).to eq(1)
     end
     it 'should call police on user in midsec' do
-      system = System.where(security_status: 'medium').first
+      system = System.medium.first
       @user = create(:user_with_faction, system: system, location: system.locations.first)
       controller.call_police(@user)
       expect(PoliceWorker.jobs.size).to eq(1)
     end
     it 'shouldnt call police on user in lowsec' do
-      system = System.where(security_status: 'low').first
+      system = System.low.first
       @user = create(:user_with_faction, system: system, location: system.locations.first)
       controller.call_police(@user)
       expect(PoliceWorker.jobs.size).to eq(0)

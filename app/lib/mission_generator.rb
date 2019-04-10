@@ -120,7 +120,7 @@ class MissionGenerator
 
       # Set Reward
       mission.reward = (20 * path.size * rand(0.8..1.2)).round
-      mission.reward = mission.reward * 3 if mission.deliver_location.system.security_status == 'low'
+      mission.reward = mission.reward * 3 if mission.deliver_location.system.low?
 
       # Generate Items
       mission.mission_loader = Item::DELIVERY.sample
@@ -135,7 +135,7 @@ class MissionGenerator
 
       # Set Reward
       mission.reward = (40 * (difficulty + 1) * mission.enemy_amount * rand(0.8..1.2)).round
-      mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
+      mission.reward = mission.reward * 3 if mission.mission_location.system.low?
 
     elsif mission.mining? || mission.market?
       if mission.market?
@@ -155,7 +155,7 @@ class MissionGenerator
 
       # Set Reward
       mission.reward = (400 * rand(0.8..1.2)).round
-      mission.reward = mission.reward * 3 if mission.mission_location.system.security_status == 'low'
+      mission.reward = mission.reward * 3 if mission.mission_location.system.low?
 
       # Set Difficulty
       difficulty = 1

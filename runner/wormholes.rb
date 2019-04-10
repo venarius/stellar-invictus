@@ -1,4 +1,4 @@
-if System.where(security_status: :wormhole).count < 15
+if System.wormhole.count < 15
 
   systems = []
 
@@ -9,7 +9,7 @@ if System.where(security_status: :wormhole).count < 15
 
   # Stuff generation
   systems.each do |sys|
-    s = System.where.not(security_status: :wormhole).where(security_status: :low).order(Arel.sql("RANDOM()")).first
+    s = System.low.order(Arel.sql("RANDOM()")).first
 
     # Jumpgates
     a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
@@ -46,7 +46,7 @@ else
 
   # Delete Wormholes
   rand(2..4).times do
-    sys = System.where(security_status: :wormhole).order(Arel.sql("RANDOM()")).first
+    sys = System.wormhole.order(Arel.sql("RANDOM()")).first
     if sys.users.empty?
       sys.locations.where(location_type: 5).each do |loc|
         loc.jumpgate.destroy if loc.jumpgate
@@ -58,7 +58,7 @@ else
 end
 
 # Random Exit Spawner and Despawner
-System.where(security_status: :wormhole).each do |sys|
+System.wormhole.each do |sys|
   if (rand(1..2) == 2) && sys.locations.where(location_type: 5).present?
     sys.locations.where(location_type: 5).each do |loc|
       if loc.jumpgate
@@ -69,7 +69,7 @@ System.where(security_status: :wormhole).each do |sys|
         loc.broadcast(:player_appeared)
         origin.broadcast(:player_appeared) if origin
       else
-        s = System.where(security_status: :low).order(Arel.sql("RANDOM()")).first
+        s = System.low.order(Arel.sql("RANDOM()")).first
 
         a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
         Jumpgate.find_or_create_by(origin: a, destination: loc, traveltime: 5)
@@ -81,7 +81,7 @@ System.where(security_status: :wormhole).each do |sys|
       end
     end
   elsif sys.locations.where(location_type: 5).empty?
-    s = System.where(security_status: :low).order(Arel.sql("RANDOM()")).first
+    s = System.low.order(Arel.sql("RANDOM()")).first
 
     # Jumpgates
     a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)

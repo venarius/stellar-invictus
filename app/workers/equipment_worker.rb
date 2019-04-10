@@ -187,7 +187,7 @@ class EquipmentWorker < ApplicationWorker
       !Npc.police.targeting_user(player).exists? &&
       !player.target.in_same_fleet_as(player)
 
-      if player.system.security_status == 'high'
+      if player.system..high?
         PoliceWorker.perform_async(player.id, 2)
       else
         # TODO: Maybe have police respond in a random amount of time (5..15)?

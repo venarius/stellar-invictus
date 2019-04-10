@@ -157,7 +157,7 @@ Location.find_or_create_by(station_type: :trillium_casino, system: foves, locati
 
 # Random Stations
 System.all.each do |sys|
-  if (sys.security_status == 'medium') && sys.locations.station.empty?
+  if (sys.medium?) && sys.locations.station.empty?
     rand(1..2).times do
       type = [:industrial_station, :warfare_plant, :mining_station, :research_station].sample
       if sys.locations.where(station_type: type).empty?
