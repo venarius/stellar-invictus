@@ -20,7 +20,7 @@ namespace :economy do
           end
         end
       end
-      Spaceship.ship_variables.each do |key, value|
+      Spaceship.get_attributes.each do |key, value|
         next if %w{Clipper Galleon Brigand Bilander}.include? key
         if !value['faction']
           rand(0..10).times do

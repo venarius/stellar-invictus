@@ -186,7 +186,7 @@
       <% Item.items.each do |item| %>
         "<%= Item.get_attribute(item, :name) %> (<%= item %>)",
       <% end %>
-      <% Spaceship.ship_variables.keys.each do |ship| %>
+      <% Spaceship.get_attributes.keys.each do |ship| %>
         "<%= ship %>",
       <% end %>
     ]

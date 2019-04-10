@@ -90,9 +90,9 @@ class Npc < ApplicationRecord
         user.broadcast(:notify_alert, text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, :name), npc: self.name))
       end
     else
-      @loader = Spaceship.ship_variables.keys.sample
+      @loader = Spaceship.get_attributes.keys.sample
       if Blueprint.where(loader: @loader, user: user).empty?
-        Blueprint.create(user: user, loader: Spaceship.ship_variables.keys.sample, efficiency: 1)
+        Blueprint.create(user: user, loader: Spaceship.get_attributes.keys.sample, efficiency: 1)
         user.broadcast(:notify_alert, text: I18n.t('notification.received_blueprint_destruction', name: @loader.titleize, npc: self.name))
       end
     end

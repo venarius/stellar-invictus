@@ -37,7 +37,7 @@
         </a>
         <div class="dropdown-menu">
           <% things = [] %>
-          <% Spaceship.ship_variables.each do |key, value| %>
+          <% Spaceship.get_attributes.each do |key, value| %>
             <% things << value['type'] %>
           <% end %>
           <% things.uniq.each do |key| %>
@@ -47,7 +47,7 @@
               </a>
               <div class="dropdown-menu">
                 <% count = 0 %>
-                <% Spaceship.ship_variables.each do |subkey, subvalue| %>
+                <% Spaceship.get_attributes.each do |subkey, subvalue| %>
                   <% if subvalue['type'] == key and ((subvalue['faction'] and !current_user.location.player_market) ? subvalue['faction'] == current_user.location.faction_id : true) %>
                     <% count = count + 1 %>
                     <a href="#0" class="dropdown-item market-loader-btn" data-loader="<%= subkey %>"><%= subkey.titleize %> (<%= market_listings.count { |element| element.include? subkey } %>)</a>
