@@ -17,8 +17,12 @@ module HasLookupAttributes
     end
 
     # Return all the lookup attributes from a top-level key
-    def get_attributes(base)
-      self.get_attribute(base)
+    def get_attributes(base = nil)
+      if base
+        self.get_attribute(base)
+      else
+        @lookup_data
+      end
     end
   end
 

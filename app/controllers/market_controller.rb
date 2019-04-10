@@ -172,7 +172,7 @@ class MarketController < ApplicationController
     current_user.reduce_units(amount * price)
 
     # Find Loader
-    if Spaceship.ship_variables.keys.include?(name)
+    if Spaceship.get_attributes.keys.include?(name)
       type = "ship"
     elsif Item.get_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), :name)
       type = "item"

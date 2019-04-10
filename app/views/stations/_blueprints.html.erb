@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <% Spaceship.ship_variables.sort.each do |key, value| %>
+        <% Spaceship.get_attributes.sort.each do |key, value| %>
           <tr class="<%= 'color-sec-high' if Blueprint.where(loader: key, user: current_user).present? %>">
             <td><%= key %></td>
             <td class="color-highgreen"><%= value['price'] * 20 %> Cr</td>
