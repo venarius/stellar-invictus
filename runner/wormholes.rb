@@ -9,7 +9,7 @@ if System.wormhole.count < 15
 
   # Stuff generation
   systems.each do |sys|
-    s = System.low.order(Arel.sql("RANDOM()")).first
+    s = System.low.random_row
 
     # Jumpgates
     a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
@@ -46,7 +46,7 @@ else
 
   # Delete Wormholes
   rand(2..4).times do
-    sys = System.wormhole.order(Arel.sql("RANDOM()")).first
+    sys = System.wormhole.random_row
     if sys.users.empty?
       sys.locations.where(location_type: 5).each do |loc|
         loc.jumpgate.destroy if loc.jumpgate
@@ -69,7 +69,7 @@ System.wormhole.each do |sys|
         loc.broadcast(:player_appeared)
         origin.broadcast(:player_appeared) if origin
       else
-        s = System.low.order(Arel.sql("RANDOM()")).first
+        s = System.low.random_row
 
         a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)
         Jumpgate.find_or_create_by(origin: a, destination: loc, traveltime: 5)
@@ -81,7 +81,7 @@ System.wormhole.each do |sys|
       end
     end
   elsif sys.locations.where(location_type: 5).empty?
-    s = System.low.order(Arel.sql("RANDOM()")).first
+    s = System.low.random_row
 
     # Jumpgates
     a = Location.find_or_create_by(name: sys.name, system: s, location_type: 5, hidden: true)

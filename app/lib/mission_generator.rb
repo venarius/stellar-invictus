@@ -129,7 +129,7 @@ class MissionGenerator
     elsif mission.combat?
       mission.enemy_amount = rand(2..5) * (difficulty + 1)
       system = location.system
-      jumpgate = system.locations.jumpgate.order(Arel.sql("RANDOM()")).first
+      jumpgate = system.locations.jumpgate.random_row
       mission_system = System.ensure(jumpgate.name)
       mission.mission_location = Location.create(location_type: :mission, system: mission_system)
 
@@ -150,7 +150,7 @@ class MissionGenerator
 
     elsif mission.vip?
       mission.enemy_amount = 3
-      m_location = Location.where.not(faction_id: [mission.faction_id, nil]).order(Arel.sql("RANDOM()")).first
+      m_location = Location.where.not(faction_id: [mission.faction_id, nil]).random_row
       mission.mission_location = Location.create(location_type: :mission, system: m_location.system, faction: m_location.faction)
 
       # Set Reward

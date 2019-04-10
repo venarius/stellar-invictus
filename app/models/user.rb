@@ -229,7 +229,7 @@ class User < ApplicationRecord
     end
 
     # Make User docked at his factions station
-    rand_location = self.faction.locations.station.order(Arel.sql("RANDOM()")).first
+    rand_location = self.faction.locations.station.random_row
     self.update(
       in_warp: false,
       docked: true,

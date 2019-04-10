@@ -91,7 +91,7 @@ class Location < ApplicationRecord
   end
 
   def random_online_in_space_user
-    self.users.in_space.is_online.sample
+    self.users.in_space.is_online.random_row
   end
 
   def scan_visible?(user)
