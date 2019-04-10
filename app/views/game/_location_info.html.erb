@@ -1,4 +1,5 @@
-<% if (current_user.location.jumpgate? || current_user.location.wormhole?) and current_user.location.jumpgate %>
+<% # This makes no sense... if (jumpgate? || wormhole?) && jumpgate? %>
+<% if (current_user.location.jumpgate? || current_user.location.wormhole?) && current_user.location.jumpgate? %>
   <tr class="<%= 'color-yellow' if current_user.route.include?(current_user.location.jumpgate.id.to_s) %>">
     <td><%= image_tag('icons/jumpgate.png') %></td>
     <td class="name"><%= current_user.location.get_name %></td>

@@ -91,7 +91,19 @@ class Location < ApplicationRecord
   end
 
   def random_online_in_space_user
-    self.users.where(docked: false).is_online.sample
+    self.users.in_space.is_online.sample
+  end
+
+  def scan_visible?(user)
+    # Logic from _locations_table.html.erb
+    return false if self == user.location
+    return false if self.wormhole? && user.active_spaceship&.get_scanner_range.to_i < 10
+    if self.mission
+      return true if self.mission.active? && self.mission.user_id == user.ids
+      return true if self.mission.user&.in_same_fleet_as(user)
+      return false
+    end
+    true
   end
 
   private

@@ -131,6 +131,7 @@ class User < ApplicationRecord
   scope :targeting_user, ->(user) { where(target: user) }
   scope :is_online, -> { where("users.online > 0") }
   scope :in_name_order, -> { order(:family_name, :name) }
+  scope :in_space, -> { where(docked: false) }
 
   ## -- CALLBACKS
   # Sets full name after create

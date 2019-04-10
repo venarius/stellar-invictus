@@ -37,7 +37,7 @@
       <div class="col-lg-10">
         <table class="table table-striped table-bordered">
           <tbody>
-            
+
           </tbody>
         </table>
       </div>
@@ -187,7 +187,7 @@
           </div>
         </div>
         <div id="add-to-chat-modal-result">
-          
+
         </div>
       </div>
       <div class="modal-footer">
@@ -200,7 +200,7 @@
 
 <!-- Chat Rooms JS -->
 <script>
-  <% if current_user and current_user.chat_rooms.present? %>
+  <% if current_user&.chat_rooms.present? %>
     <% current_user.chat_rooms.each do |room| %>
       if (!App['chatroom-<%= room.identifier %>']) {
         App['chatroom-<%= room.identifier %>'] = App.cable.subscriptions.create({
