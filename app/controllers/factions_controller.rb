@@ -10,7 +10,7 @@ class FactionsController < ApplicationController
     faction = Faction.ensure(params[:id])
     raise RedirectRequest.new(game_path, error: "Haste makes waste") if !faction || current_user.faction
 
-    rand_location = faction.locations.station.order(Arel.sql("RANDOM()")).first
+    rand_location = faction.locations.station.random_row
     raise RedirectRequest.new(factions_path, error: 'errors.something_went_wrong') if !rand_location
 
     if !current_user.update(faction: faction, location: rand_location, docked: true)
