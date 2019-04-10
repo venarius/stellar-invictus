@@ -51,8 +51,8 @@ describe System do
         end
 
         it 'should return faction of first station' do
-          System.where(security_status: :high).first.locations.station.first.update(faction_id: 1)
-          expect(System.where(security_status: :high).first.get_faction).to eq(Faction.first)
+          System.high.first.locations.station.first.update(faction_id: 1)
+          expect(System.high.first.get_faction).to eq(Faction.first)
         end
       end
 
