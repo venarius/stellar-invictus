@@ -398,8 +398,7 @@ class User < ApplicationRecord
   def give_blueprints_for(loader, efficiency: 1.5)
     blueprint = Blueprint.where(user: self, loader: loader).first_or_initialize
     blueprint.efficiency = efficiency
-    blueprint.save
-    blueprint
+    blueprint.save!
   end
 
 end
