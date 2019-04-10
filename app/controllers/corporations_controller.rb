@@ -40,6 +40,7 @@ class CorporationsController < ApplicationController
   end
 
   def update_motd
+    raise InvalidRequest unless corp
     raise InvalidRequest unless params[:text]
     raise InvalidRequest unless current_user.corporation.can_update_motd?(current_user)
 
@@ -48,6 +49,7 @@ class CorporationsController < ApplicationController
   end
 
   def update_corporation
+    raise InvalidRequest unless corp
     raise InvalidRequest if !params[:tax] || !corp.is_founder?(current_user)
 
     if !corp.update(tax: params[:tax], bio: params[:about].to_s[0, 1000])
@@ -63,6 +65,7 @@ class CorporationsController < ApplicationController
    end
 
   def kick_user
+    raise InvalidRequest unless corp
     user_to_kick = User.ensure(params[:id])
     raise InvalidRequest unless user_to_kick
     raise InvalidRequest unless corp.is_member?(user_to_kick)
@@ -78,6 +81,7 @@ class CorporationsController < ApplicationController
   end
 
   def change_rank_modal
+    raise InvalidRequest unless corp
     user_with_rank = User.ensure(params[:id])
     raise InvalidRequest unless user_with_rank
     raise InvalidRequest unless corp.is_member?(user_with_rank)
@@ -87,6 +91,7 @@ class CorporationsController < ApplicationController
   end
 
   def change_rank
+    raise InvalidRequest unless corp
     raise InvalidRequest unless params[:rank]
     user_with_rank = User.ensure(params[:id])
     raise InvalidRequest unless user_with_rank
@@ -110,6 +115,7 @@ class CorporationsController < ApplicationController
   end
 
   def deposit_credits
+    raise InvalidRequest unless corp
     raise InvalidRequest unless params[:amount]
     raise InvalidRequest unless corp.can_deposit?(current_user)
 
@@ -128,6 +134,7 @@ class CorporationsController < ApplicationController
   end
 
   def withdraw_credits
+    raise InvalidRequest unless corp
     raise InvalidRequest unless params[:amount]
     raise InvalidRequest unless corp.can_withdraw?(current_user)
 
@@ -209,11 +216,7 @@ class CorporationsController < ApplicationController
   private
 
   def corp
-    @corp ||= begin
-      corp = current_user.corporation
-      raise InvalidRequest unless corp
-      corp
-    end
+    @corp ||= current_user.corporation
   end
 
   def application
