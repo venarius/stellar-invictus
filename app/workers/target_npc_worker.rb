@@ -1,9 +1,9 @@
 class TargetNpcWorker < ApplicationWorker
   # This worker will be run whenever a player targets an npc
-  def perform(player, target, round = 0, max_rounds = 0)
-    target = Npc.ensure(target)
+  def perform(player_id, target_id, round = 0, max_rounds = 0)
+    target = Npc.ensure(target_id)
     return unless target
-    player = User.ensure(player)
+    player = User.ensure(player_id)
 
     if max_rounds == 0
       # Untarget old target if player is targeting new target
@@ -18,7 +18,7 @@ class TargetNpcWorker < ApplicationWorker
       # Get max rounds
       max_rounds = player.active_spaceship.get_target_time
 
-      TargetNpcWorker.perform_in(1.second, player_id, target_id, round + 1, max_rounds)
+      TargetNpcWorker.perform_in(1.second, player.id, target.id, round + 1, max_rounds)
 
     # Look every second if player docked or warped to stop targeting counter
     elsif round < max_rounds
@@ -29,7 +29,7 @@ class TargetNpcWorker < ApplicationWorker
          (player.target_id != nil) ||
          (player.npc_target_id != nil)
 
-      TargetNpcWorker.perform_in(1.second, player_id, target_id, round + 1, max_rounds)
+      TargetNpcWorker.perform_in(1.second, player.id, target.id, round + 1, max_rounds)
     else
       # Target npc
       player.update(npc_target: target)
