@@ -2,10 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :redirect_if_no_faction
-  before_action :update_last_action
-  before_action :check_banned
-  before_action :set_chat
+  before_action :redirect_if_no_faction, :update_last_action, :check_banned, :set_chat
 
   include ApplicationHelper
 

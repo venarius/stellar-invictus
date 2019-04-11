@@ -32,8 +32,7 @@ class MarketController < ApplicationController
   def buy
     listing = MarketListing.ensure(params[:id])
     amount = params[:amount].to_i
-    raise InvalidRequest if !listing || listing.location_id != current_user.location_id
-    raise InvalidRequest unless amount > 0
+    raise InvalidRequest if !listing || listing.location_id != current_user.location_id || amount <= 0
 
     # Check Amount && Balance
     raise InvalidRequest.new('errors.you_cant_buy_that_much') if amount > listing.amount
@@ -227,9 +226,7 @@ class MarketController < ApplicationController
 
   def delete_listing
     listing = MarketListing.ensure(params[:id])
-    raise InvalidRequest unless listing
-    raise InvalidRequest unless listing.user_id == current_user.id
-    raise InvalidRequest unless listing.location_id == current_user.location_id
+    raise InvalidRequest if !listing || (listing.user_id != current_user.id) || (listing.location_id != current_user.location_id)
 
     # Is listing is buy -> return money
     if listing.buy?

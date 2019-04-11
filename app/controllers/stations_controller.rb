@@ -2,8 +2,7 @@ class StationsController < ApplicationController
   def dock
     raise InvalidRequest.new('errors.police_inbound') if police_inbound?
     location = current_user.location
-    raise InvalidRequest unless location.station?
-    raise InvalidRequest unless current_user.can_be_attacked?
+    raise InvalidRequest if !location.station? || !current_user.can_be_attacked?
 
     # Refuse if standing below -10
     if location.faction && (current_user["reputation_#{location.faction_id}"] <= -10)
@@ -90,12 +89,10 @@ class StationsController < ApplicationController
   def store
     raise InvalidRequest unless params[:loader]
     amount = params[:amount].to_i
-    raise InvalidRequest unless amount > 0
-    raise InvalidRequest unless current_user.docked?
+    raise InvalidRequest if (amount <= 0) || !current_user.docked?
 
     item = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false).first
-    raise InvalidRequest unless item
-    raise InvalidRequest if amount > item.count
+    raise InvalidRequest if !item || (amount > item.count)
 
     Item::GiveToStation.(loader: params[:loader], user: current_user, amount: amount)
 
@@ -104,8 +101,7 @@ class StationsController < ApplicationController
 
   # Station -> Ship
   def load
-    raise InvalidRequest unless params[:loader]
-    raise InvalidRequest unless current_user.docked?
+    raise InvalidRequest if !params[:loader] || !current_user.docked?
     json_result = {}
 
     item = Item.where(user: current_user, location: current_user.location, loader: params[:loader]).first
@@ -144,11 +140,7 @@ class StationsController < ApplicationController
   end
 
   def dice_roll
-    # FIXME: No tests for this currently
-    raise InvalidRequest unless params[:bet]
-    raise InvalidRequest unless params[:roll_under]
-    raise InvalidRequest unless current_user.docked?
-    raise InvalidRequest unless current_user.location.trillium_casino?
+    raise InvalidRequest if !params[:bet] || !params[:roll_under] || !current_user.docked? || !current_user.location.trillium_casino?
 
     bet = params[:bet].to_i
     roll_under = params[:roll_under].to_i

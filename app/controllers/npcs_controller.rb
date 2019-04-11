@@ -2,10 +2,12 @@ class NpcsController < ApplicationController
   def target
     target = Npc.ensure(params[:id])
 
-    raise InvalidRequest.new(time: current_user.active_spaceship.get_target_time) if !target ||
-       !current_user.can_be_attacked? ||
-       target.location_id != current_user.location_id ||
-       current_user.npc_target_id == target.id
+    if !target ||
+      !current_user.can_be_attacked? ||
+      target.location_id != current_user.location_id ||
+      current_user.npc_target_id == target.id
+      raise InvalidRequest.new(time: current_user.active_spaceship.get_target_time)
+    end
 
     TargetNpcWorker.perform_async(current_user.id, target.id)
 

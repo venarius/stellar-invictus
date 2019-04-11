@@ -40,17 +40,14 @@ class CorporationsController < ApplicationController
   end
 
   def update_motd
-    raise InvalidRequest unless corp
-    raise InvalidRequest unless params[:text]
-    raise InvalidRequest unless current_user.corporation.can_update_motd?(current_user)
+    raise InvalidRequest if !corp || !params[:text] || !current_user.corporation.can_update_motd?(current_user)
 
     corp.update(motd: params[:text].to_s[0, 1000].strip)
     render json: { text: corp.motd, button_text: I18n.t('corporations.edit') }, status: :ok
   end
 
   def update_corporation
-    raise InvalidRequest unless corp
-    raise InvalidRequest if !params[:tax] || !corp.is_founder?(current_user)
+    raise InvalidRequest if !corp || !(params[:tax] || corp.is_founder?(current_user))
 
     if !corp.update(tax: params[:tax], bio: params[:about].to_s[0, 1000])
       raise InvalidRequest.new(corp.errors.full_messages.join(', '))
@@ -67,9 +64,7 @@ class CorporationsController < ApplicationController
   def kick_user
     raise InvalidRequest unless corp
     user_to_kick = User.ensure(params[:id])
-    raise InvalidRequest unless user_to_kick
-    raise InvalidRequest unless corp.is_member?(user_to_kick)
-    raise InvalidRequest unless corp.can_kick_users?(current_user) || current_user == user_to_kick
+    raise InvalidRequest if !user_to_kick || !corp.is_member?(user_to_kick) || (!corp.can_kick_users?(current_user) && current_user != user_to_kick)
     if User.corporation_roles[user_to_kick.corporation_role] > User.corporation_roles[current_user.corporation_role]
       raise InvalidRequest.new('errors.cant_change_a_higher_rank')
     end
@@ -83,20 +78,15 @@ class CorporationsController < ApplicationController
   def change_rank_modal
     raise InvalidRequest unless corp
     user_with_rank = User.ensure(params[:id])
-    raise InvalidRequest unless user_with_rank
-    raise InvalidRequest unless corp.is_member?(user_with_rank)
-    raise InvalidRequest unless corp.can_change_rank?(current_user)
+    raise InvalidRequest if !user_with_rank || !corp.is_member?(user_with_rank) || !corp.can_change_rank?(current_user)
 
     render partial: 'corporations/change_rank_modal', locals: { user: user_with_rank }
   end
 
   def change_rank
-    raise InvalidRequest unless corp
-    raise InvalidRequest unless params[:rank]
+    raise InvalidRequest if !corp || !params[:rank]
     user_with_rank = User.ensure(params[:id])
-    raise InvalidRequest unless user_with_rank
-    raise InvalidRequest unless corp.is_member?(user_with_rank)
-    raise InvalidRequest unless corp.can_change_rank?(current_user)
+    raise InvalidRequest if !user_with_rank || !corp.is_member?(user_with_rank) || !corp.can_change_rank?(current_user)
 
     rank = params[:rank].to_i
 
@@ -115,9 +105,7 @@ class CorporationsController < ApplicationController
   end
 
   def deposit_credits
-    raise InvalidRequest unless corp
-    raise InvalidRequest unless params[:amount]
-    raise InvalidRequest unless corp.can_deposit?(current_user)
+    raise InvalidRequest if !corp || !params[:amount] || !corp.can_deposit?(current_user)
 
     amount = params[:amount].to_i
 
@@ -134,9 +122,7 @@ class CorporationsController < ApplicationController
   end
 
   def withdraw_credits
-    raise InvalidRequest unless corp
-    raise InvalidRequest unless params[:amount]
-    raise InvalidRequest unless corp.can_withdraw?(current_user)
+    raise InvalidRequest if !corp || !params[:amount] || !corp.can_withdraw?(current_user)
 
     amount = params[:amount].to_i
 

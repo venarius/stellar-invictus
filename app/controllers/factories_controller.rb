@@ -12,8 +12,7 @@ class FactoriesController < ApplicationController
   end
 
   def craft
-    raise InvalidRequest if !params[:loader] || !params[:type] || !params[:amount]
-    raise InvalidReqeust if !current_user.location.industrial_station?
+    raise InvalidRequest if !params[:loader] || !params[:type] || !params[:amount] || !current_user.location.industrial_station?
 
     amount = params[:amount].to_i
 
@@ -24,8 +23,7 @@ class FactoriesController < ApplicationController
     else
       raise InvalidRequest
     end
-    raise InvalidRequest unless ressources
-    raise InvalidRequest unless current_user.blueprints.where(loader: params[:loader]).present?
+    raise InvalidRequest if !ressources || !current_user.blueprints.where(loader: params[:loader]).present?
 
     # Check max concurrent factory runs (100)
     if (current_user.craft_jobs.count + amount) > 100
@@ -75,8 +73,7 @@ class FactoriesController < ApplicationController
   end
 
   def dismantle
-    raise InvalidRequest if !params[:loader] || !params[:amount]
-    raise InvalidRequest if !current_user.location.industrial_station?
+    raise InvalidRequest if !params[:loader] || !params[:amount] || !current_user.location.industrial_station?
 
     amount = params[:amount].to_i # FYI  nil.to_i == 0
     item = Item.where(loader: params[:loader], location: current_user.location, user: current_user).first

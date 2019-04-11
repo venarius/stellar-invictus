@@ -26,8 +26,7 @@ class FleetsController < ApplicationController
 
   def accept_invite
     fleet = Fleet.ensure(params[:id])
-    raise InvalidRequest if !fleet
-    raise InvalidRequest if current_user.fleet
+    raise InvalidRequest if !fleet || current_user.fleet
 
     room = fleet.chat_room
     room.users << current_user
@@ -39,9 +38,7 @@ class FleetsController < ApplicationController
 
   def remove
     user = User.ensure(params[:id])
-    raise InvalidRequest if !user || (user == current_user)
-    raise InvalidRequest if user.fleet != current_user.fleet
-    raise InvalidRequest if !current_user.fleet || (current_user.fleet.creator != current_user)
+    raise InvalidRequest if !user || (user == current_user) || (user.fleet != current_user.fleet) || !current_user.fleet || (current_user.fleet.creator != current_user)
 
     room = current_user.fleet.chat_room
     room.users.delete(user)

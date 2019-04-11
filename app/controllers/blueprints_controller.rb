@@ -2,10 +2,12 @@ class BlueprintsController < ApplicationController
   before_action :check_docked
 
   def buy
-    raise InvalidRequest unless params[:loader].present?
-    raise InvalidRequest unless current_user.location.research_station?
-    raise InvalidRequest unless %[item ship].include?(params[:type])
-    raise InvalidRequest if current_user.has_blueprints_for?(params[:loader])
+    if !params[:loader].present? ||
+      !current_user.location.research_station? ||
+      !%w[item ship].include?(params[:type]) ||
+      current_user.has_blueprints_for?(params[:loader])
+      raise InvalidRequest
+    end
 
     klass = nil
     case params[:type]
@@ -27,6 +29,7 @@ class BlueprintsController < ApplicationController
 
   def modal
     raise InvalidRequest if !params[:loader].present? || !params[:type].present?
+
     if params[:type] == 'item'
       render partial: 'stations/blueprints/itemmodal',
              locals: { item: params[:loader] },

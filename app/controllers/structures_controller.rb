@@ -2,9 +2,7 @@ class StructuresController < ApplicationController
 
   def open_container
     container = Structure.ensure(params[:id])
-    raise InvalidRequest unless container
-    raise InvalidRequest unless container.location_id == current_user.location_id
-    raise InvalidRequest unless current_user.can_be_attacked?
+    raise InvalidRequest if !container || (container.location_id != current_user.location_id) || !current_user.can_be_attacked?
 
     owner_name = ""
     owner_name = container.user.full_name if container.container?
@@ -16,9 +14,7 @@ class StructuresController < ApplicationController
 
   def pickup_cargo
     structure = Structure.ensure(params[:id])
-    raise InvalidRequest unless structure
-    raise InvalidRequest unless current_user.can_be_attacked?
-    raise InvalidRequest unless structure.location_id == current_user.location_id
+    raise InvalidRequest if !structure || !current_user.can_be_attacked? || (structure.location_id != current_user.location_id)
 
     items = Item.where(structure: structure)
     items = items.where(loader: params[:loader]) if params[:loader]
@@ -64,10 +60,8 @@ class StructuresController < ApplicationController
   end
 
   def attack
-    raise InvalidRequest unless current_user.can_be_attacked?
     structure = Structure.ensure(params[:id])
-    raise InvalidRequest unless structure
-    raise InvalidRequest unless structure.location_id == current_user.location_id
+    raise InvalidRequest if !structure || !current_user.can_be_attacked? || (structure.location_id != current_user.location_id)
 
     # Call police
     if (structure.user != current_user) &&
@@ -90,10 +84,8 @@ class StructuresController < ApplicationController
   end
 
   def abandoned_ship
-    raise InvalidRequest unless current_user.can_be_attacked?
     structure = Structure.ensure(params[:id])
-    raise InvalidRequest unless structure
-    raise InvalidRequest unless structure.location_id == current_user.location_id
+    raise InvalidRequest if !structure || !current_user.can_be_attacked? || (structure.location_id != current_user.location_id)
 
     if params[:text] && structure.items.present?
       if structure.correct_answer?(params[:text])
@@ -120,10 +112,8 @@ class StructuresController < ApplicationController
   end
 
   def monument_info
-    raise InvalidRequest unless current_user.can_be_attacked?
     structure = Structure.ensure(params[:id])
-    raise InvalidRequest unless structure
-    raise InvalidRequest unless structure.location_id == current_user.location_id
+    raise InvalidRequest if !structure || !current_user.can_be_attacked? || (structure.location_id != current_user.location_id)
 
     render partial: 'structures/monument', locals: { structure: structure }, status: :ok
   end

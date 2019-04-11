@@ -9,8 +9,7 @@ class SystemsController < ApplicationController
 
   def route
     system = System.ensure(params[:id])
-    raise InvalidRequest unless system
-    raise InvalidRequest if current_user.system.wormhole?
+    raise InvalidRequest if !system || current_user.system.wormhole?
 
     old_route = current_user.route
     path = Pathfinder.find_path(current_user.system.id, system.id)
@@ -33,8 +32,7 @@ class SystemsController < ApplicationController
 
   def scan
     scanner_range = current_user.active_spaceship.get_scanner_range
-    raise InvalidRequest unless scanner_range
-    raise InvalidRequest unless current_user.can_be_attacked?
+    raise InvalidRequest if !scanner_range || !current_user.can_be_attacked?
     cur_system = current_user.system
 
     raise InvalidRequest.new('errors.no_exploration_sites_found') if cur_system.locations.is_hidden.count == 0
@@ -63,9 +61,7 @@ class SystemsController < ApplicationController
 
   def jump_drive
     system = System.ensure(params[:id])
-    raise InvalidRequest unless system
-    raise InvalidRequest unless current_user.active_spaceship.has_jump_drive?
-    raise InvalidRequest unless current_user.can_be_attacked?
+    raise InvalidRequest if !system || !current_user.active_spaceship.has_jump_drive? || !current_user.can_be_attacked?
 
     # Check Warp Disrupt
     raise InvalidRequest.new('errors.warp_disrupted') if current_user.active_spaceship.is_warp_disrupted?
@@ -76,9 +72,7 @@ class SystemsController < ApplicationController
       raise InvalidRequest.new('errors.cant_do_that_whilst_in_combat')
     end
 
-    # ap "#{current_user.system.name}[#{current_user.system.security_status}] => #{system.name}[#{system.security_status}]"
-    raise InvalidRequest if !%w[medium high].include?(system.security_status)
-    raise InvalidRequest if !%w[medium high].include?(current_user.system.security_status)
+    raise InvalidRequest if !%w[medium high].include?(system.security_status) || !%w[medium high].include?(current_user.system.security_status)
 
     ship_align = current_user.active_spaceship.get_align_time
     traveltime = 0

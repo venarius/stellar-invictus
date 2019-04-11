@@ -55,8 +55,7 @@ class GameController < ApplicationController
   def jump
     check_police
     check_warp_disrupt
-    raise InvalidRequest if current_user.in_warp?
-    raise InvalidRequest unless (current_user.location.jumpgate || current_user.location.wormhole?)
+    raise InvalidRequest if current_user.in_warp? || !(current_user.location.jumpgate || current_user.location.wormhole?)
 
     JumpWorker.perform_async(current_user.id)
 

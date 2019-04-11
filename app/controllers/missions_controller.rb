@@ -7,9 +7,7 @@ class MissionsController < ApplicationController
   end
 
   def accept
-    raise InvalidRequest unless mission.offered?
-    raise InvalidRequest unless mission.location_id == current_user.location_id
-    raise InvalidRequest unless current_user.missions.count < 5
+    raise InvalidRequest if !mission.offered? || (mission.location_id != current_user.location_id) || (current_user.missions.count >= 5)
 
     Item::GiveToUser.(user: current_user, location: mission.location, loader: mission.mission_loader, amount: mission.mission_amount) if mission.delivery?
 

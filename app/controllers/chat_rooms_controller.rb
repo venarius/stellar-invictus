@@ -34,8 +34,7 @@ class ChatRoomsController < ApplicationController
   # Leave a ChatRoom
   def leave
     room = ChatRoom.ensure(params[:id])
-    raise InvalidRequest unless room
-    raise InvalidRequest unless room.user_in_room?(current_user)
+    raise InvalidRequest if !room || !room.user_in_room?(current_user)
 
     room.users.destroy(current_user)
 
@@ -63,8 +62,7 @@ class ChatRoomsController < ApplicationController
   # Invite other user to conversation
   def start_conversation
     user = User.ensure(params[:id])
-    raise InvalidRequest unless user
-    raise InvalidRequest unless user != current_user
+    raise InvalidRequest if !user || user == current_user
 
     if !params[:identifier]
       room = ChatRoom.create(title: I18n.t('chat.conversation'), chatroom_type: :custom)

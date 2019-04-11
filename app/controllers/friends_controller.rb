@@ -6,9 +6,7 @@ class FriendsController < ApplicationController
 
   def add_friend
     friend = User.ensure(params[:id])
-    raise InvalidRequest if !friend
-    raise InvalidRequest if (friend == current_user)
-    raise InvalidRequest if current_user.friendships.where(friend: friend).exists?
+    raise InvalidRequest if !friend || (friend == current_user) || current_user.friendships.where(friend: friend).exists?
 
     if (request = friend.friendships.is_request.where(friend: current_user).first)
       raise InvalidRequest if !accept_friendship(request)
@@ -50,9 +48,7 @@ class FriendsController < ApplicationController
 
   def accept_friendship(friendship)
     friendship = Friendship.ensure(friendship)
-    return false unless friendship
-    return false if friendship.user == current_user || friendship.friend != current_user
-    return false if friendship.accepted?
+    return false if !friendship || friendship.user == current_user || friendship.friend != current_user || friendship.accepted?
 
     friendship.update(accepted: true)
     # make the reverse friendship record
