@@ -47,7 +47,7 @@ class CorporationsController < ApplicationController
   end
 
   def update_corporation
-    raise InvalidRequest if !corp || !(params[:tax] || corp.is_founder?(current_user))
+    raise InvalidRequest if !corp || !params[:tax] || !corp.is_founder?(current_user)
 
     if !corp.update(tax: params[:tax], bio: params[:about].to_s[0, 1000])
       raise InvalidRequest.new(corp.errors.full_messages.join(', '))
