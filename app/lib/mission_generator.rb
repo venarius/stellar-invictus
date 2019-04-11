@@ -61,17 +61,16 @@ class MissionGenerator
     mission.user.give_units(mission.reward)
 
     if mission.vip? && mission.mission_location.faction
-      mission.user.update_attribute("reputation_#{mission.faction_id}", mission.user["reputation_#{mission.faction_id}"] + mission.faction_bonus)
-      mission.user.update_attribute("reputation_#{mission.mission_location.faction_id}", mission.user["reputation_#{mission.mission_location.faction_id}"] - mission.faction_malus)
+      mission.user.increment!("reputation_#{mission.faction_id}", mission.faction_bonus)
+      mission.user.decrement!("reputation_#{mission.mission_location.faction_id}", mission.faction_malus)
     else
-      case mission.faction_id
-      when 1
-        mission.user.update(reputation_1: mission.user.reputation_1 + mission.faction_bonus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
-      when 2
-        mission.user.update(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 + mission.faction_bonus, reputation_3: mission.user.reputation_3 - mission.faction_malus)
-      when 3
-        mission.user.update(reputation_1: mission.user.reputation_1 - mission.faction_malus, reputation_2: mission.user.reputation_2 - mission.faction_malus, reputation_3: mission.user.reputation_3 + mission.faction_bonus)
-      end
+      params = {
+        reputation_1: mission.user.reputation_1 - mission.faction_malus,
+        reputation_2: mission.user.reputation_2 - mission.faction_malus,
+        reputation_3: mission.user.reputation_3 - mission.faction_malus
+      }
+      params["reputation_#{mission.faction_id}".to_sym] += mission.faction_malus + mission.faction_bonus
+      mission.user.update(params)
     end
 
     mission.destroy
