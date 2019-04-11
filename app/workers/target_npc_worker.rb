@@ -18,7 +18,7 @@ class TargetNpcWorker < ApplicationWorker
       # Get max rounds
       max_rounds = player.active_spaceship.get_target_time
 
-      TargetNpcWorker.perform_in(1.second, player_id, target_id, round + 1, max_rounds) && (return)
+      TargetNpcWorker.perform_in(1.second, player_id, target_id, round + 1, max_rounds)
 
     # Look every second if player docked or warped to stop targeting counter
     elsif round < max_rounds
@@ -29,7 +29,7 @@ class TargetNpcWorker < ApplicationWorker
          (player.target_id != nil) ||
          (player.npc_target_id != nil)
 
-      TargetNpcWorker.perform_in(1.second, player_id, target_id, round + 1, max_rounds) && (return)
+      TargetNpcWorker.perform_in(1.second, player_id, target_id, round + 1, max_rounds)
     else
       # Target npc
       player.update(npc_target: target)

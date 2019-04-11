@@ -21,7 +21,7 @@ class TargetingWorker < ApplicationWorker
       # Get max rounds
       max_rounds = player.active_spaceship.get_target_time
 
-      TargetingWorker.perform_in(1.second, player.id, target.id, round + 1, max_rounds) && (return)
+      TargetingWorker.perform_in(1.second, player.id, target.id, round + 1, max_rounds)
 
     # Look every second if player docked or warped to stop targeting counter
     elsif round < max_rounds
@@ -38,7 +38,7 @@ class TargetingWorker < ApplicationWorker
 
       # Broadcast Targeting
       target.broadcast(:getting_targeted, name: player.full_name)
-      TargetingWorker.perform_in(1.second, player.id, target.id, round + 1, max_rounds) && (return)
+      TargetingWorker.perform_in(1.second, player.id, target.id, round + 1, max_rounds)
     else
       # Target player
       player.update(target: target)
