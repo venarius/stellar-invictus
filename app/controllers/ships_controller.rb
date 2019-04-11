@@ -6,7 +6,7 @@ class ShipsController < ApplicationController
 
   def activate
     spaceship = Spaceship.ensure(params[:id])
-    raise InvalidRequest if !spaceship || (spaceship.user_id != current_user.id) || (spaceship.location_id != current_user.location_id) || current_user.docked?
+    raise InvalidRequest if !spaceship || (spaceship.user_id != current_user.id) || (spaceship.location_id != current_user.location_id) || !current_user.docked?
 
     current_user.active_spaceship.update(location_id: current_user.location.id)
     current_user.update(active_spaceship_id: spaceship.id)
@@ -48,7 +48,7 @@ class ShipsController < ApplicationController
 
   def eject_cargo
     amount = params[:amount].to_i
-    raise InvalidRequest.new('errors.invalid_amount') unless amount > 0
+    raise InvalidRequest.new('errors.invalid_amount') if amount <= 0
     raise InvalidRequest if !params[:loader] || !current_user.can_be_attacked?
 
     # check amount
