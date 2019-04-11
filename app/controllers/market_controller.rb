@@ -222,7 +222,7 @@ class MarketController < ApplicationController
 
   def my_listings
     listings = MarketListing.where(location: current_user.location).where(user: current_user)
-    render(partial: 'stations/market/my_listings', locals: { market_listings: listings }) && (return)
+    render partial: 'stations/market/my_listings', locals: { market_listings: listings }
   end
 
   def delete_listing

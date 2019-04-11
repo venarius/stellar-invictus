@@ -65,7 +65,7 @@ class FactoriesController < ApplicationController
       end
     end
 
-    render(json: {}, status: :ok) && (return)
+    render json: {}, status: :ok
   end
 
   def dismantle_modal
@@ -95,7 +95,7 @@ class FactoriesController < ApplicationController
       end
     end
 
-    render(json: { message: I18n.t('station.dismantling_successful') }, status: :ok) && (return)
+    render json: { message: I18n.t('station.dismantling_successful') }, status: :ok
   end
 
 end

@@ -42,7 +42,7 @@ class WarpWorker < ApplicationWorker
         return
       end
 
-      WarpWorker.perform_in(1.second, user.id, location_id, align_current + 1, align_time) && (return)
+      WarpWorker.perform_in(1.second, user.id, location_id, align_current + 1, align_time)
     elsif !in_warp
       # Make user in warp and loose its target / mining target
       user.update(
@@ -64,7 +64,7 @@ class WarpWorker < ApplicationWorker
       user.active_spaceship.deactivate_equipment
 
       # Sleep for global warp time, which is 10
-      WarpWorker.perform_in(10.second, user.id, location_id, align_current, align_time, true) && (return)
+      WarpWorker.perform_in(10.second, user.id, location_id, align_current, align_time, true)
     else
       # Set users location to new location
       user.update(location_id: location_id, in_warp: false)

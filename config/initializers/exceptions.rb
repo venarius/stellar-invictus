@@ -1,4 +1,5 @@
 class InvalidRequest < StandardError; end
+
 class RedirectRequest < StandardError
   attr_reader :error
 

@@ -82,16 +82,22 @@ class ApplicationController < ActionController::Base
   end
 
   def render_error_response(err)
-    msg = err.message
-    msg = nil if msg == "InvalidRequest"
-    msg = translate(msg)
+    json = {}
 
+    msg = err.message
+    if msg.is_a?(String)
+      msg = nil if msg == "InvalidRequest"
+      msg = translate(msg)
+      json = { error_message: msg }
+    else
+      json = msg
+    end
     # Uncomment to show backtrace of InvalidRequests
     # ap msg if msg.present?
     # root = Rails.root.to_s
     # ap err.backtrace.select { |e| e.index(root) }.reject{ |e| e.index("spec/support") }.map{ |e| e.gsub(root, "") }
 
-    render json: { error_message: msg }.compact, status: :bad_request
+    render json: json.compact, status: :bad_request
   end
 
   def handle_redirect_request(req)

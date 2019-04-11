@@ -42,7 +42,7 @@ class EquipmentController < ApplicationController
       end
     end
 
-    render(json: { defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time, target: ship.get_target_time }, status: :ok) && (return)
+    render json: { defense: ship.get_defense, storage: ship.get_storage_capacity, align: ship.get_align_time, target: ship.get_target_time }, status: :ok
   end
 
   def switch
