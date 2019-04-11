@@ -1,7 +1,7 @@
 <% if poll.finished? %>
   <div class="card card-body" style="padding:0.25rem;display:block;">
     <span><s><%= poll.question %></s></span>
-    <% if current_user.admin %>
+    <% if current_user.admin? %>
       <a href="#" class="display-inline-block float-right poll-delete-btn color-red" data-id="<%= poll.id %>"><i class="fa fa-times"></i></a>
     <% end %>
   </div>
@@ -24,7 +24,7 @@
         <button class="btn btn-outline-danger display-inline-block float-right poll-downvote-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_no') %></button>
       </div>
     <% end %>
-    <% if current_user.admin %>
+    <% if current_user.admin? %>
       <div class="text-center mt-3">
         <button class="btn btn-outline-primary display-inline-block float-left poll-move-up-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_move_up') %></button>
         <button class="btn btn-outline-danger display-inline-block float-right poll-delete-btn" data-id="<%= poll.id %>"><%= I18n.t('community.poll_delete') %></button>

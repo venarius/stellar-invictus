@@ -27,7 +27,7 @@
           <div class="dropdown-menu dropdown-menu-right">
             <p class="dropdown-item mb-0"><%= current_user.full_name.truncate(20) %></p>
             <div class="dropdown-divider"></div>
-            <% if current_user.admin %>
+            <% if current_user.admin? %>
               <%= link_to I18n.t('navbar.admin_dashboard'), main_app.admin_path, class: 'dropdown-item' %>
             <% end %>
             <%= link_to I18n.t('navbar.profile'), main_app.edit_user_registration_path, class: 'dropdown-item' %>

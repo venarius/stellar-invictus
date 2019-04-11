@@ -62,7 +62,7 @@ class AdminController < ApplicationController
   private
 
   def check_chat_mod
-    redirect_back(fallback_location: root_path) if !current_user.chat_mod && !current_user.admin
+    redirect_back(fallback_location: root_path) if !current_user.chat_mod?  && !current_user.admin
   end
 
   def check_admin

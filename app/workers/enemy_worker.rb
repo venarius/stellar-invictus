@@ -48,7 +48,7 @@ class EnemyWorker < ApplicationWorker
       enemy.reload
       target.reload
 
-      target.can_be_attacked &&
+      target.can_be_attacked? &&
         (target.location_id == enemy.location_id) &&
         (enemy.hp > 0) &&
         (target.ship.hp > 0)
