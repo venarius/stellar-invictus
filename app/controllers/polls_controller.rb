@@ -25,13 +25,13 @@ class PollsController < ApplicationController
 
   def move_up
     poll
-    poll.move_up if current_user.admin
+    poll.move_up if current_user.admin?
     render json: {}, status: :ok
   end
 
   def delete
     poll
-    poll.destroy if current_user.admin
+    poll.destroy if current_user.admin?
     render json: {}, status: :ok
   end
 
