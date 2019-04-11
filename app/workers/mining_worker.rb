@@ -60,7 +60,7 @@ class MiningWorker < ApplicationWorker
       end
 
       # Add to mission if user has active mission
-      mission = player.missions.where(mission_loader: "asteroid.#{asteroid.asteroid_type}_ore", mission_status: 'active', mission_type: 'mining').where("mission_amount > 0").first rescue nil
+      mission = player.missions.where(mission_loader: "asteroid.#{asteroid.asteroid_type}_ore", mission_status: 'active', mission_type: 'mining').where("mission_amount > 0").first
       if mission
         mission.update(mission_amount: mission.mission_amount - mining_amount)
         mission.update(mission_amount: 0) if mission.mission_amount < 0

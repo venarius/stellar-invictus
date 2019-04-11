@@ -18,7 +18,7 @@ class AdminController < ApplicationController
   end
 
   def set_credits
-    user.update(units: params[:credits].to_i)
+    user.update(units: params[:credits])
     user.broadcast(:refresh_player_info)
     render json: { message: I18n.t('admin.successfully_set_credits') }, status: :ok
   end
@@ -44,6 +44,7 @@ class AdminController < ApplicationController
   end
 
   def mute
+
     user.update(muted: true)
     render json: { message: I18n.t('admin.successfully_muted_user') }, status: :ok
   end
@@ -65,7 +66,7 @@ class AdminController < ApplicationController
   end
 
   def check_admin
-    redirect_back(fallback_location: root_path) unless current_user.admin
+    redirect_back(fallback_location: root_path) unless current_user.admin?
   end
 
   def user

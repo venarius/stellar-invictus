@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <%= link_to I18n.t('corporations.contact_founder'), new_game_mail_path(to: (corporation.users.where(corporation_role: :founder).first.full_name rescue nil)), class: 'btn btn-outline-primary' %>
+        <%= link_to I18n.t('corporations.contact_founder'), new_game_mail_path(to: (corporation.users.where(corporation_role: :founder).first&.full_name)), class: 'btn btn-outline-primary' %>
         <button class="btn btn-outline-primary corporation-apply-modal-btn" data-id="<%= corporation.id %>"><%= I18n.t('corporations.apply') %></button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
