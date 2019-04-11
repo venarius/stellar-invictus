@@ -17,8 +17,7 @@ class UsersController < ApplicationController
   def place_bounty
     amount = params[:amount].to_i
     user = User.ensure(params[:id])
-    raise InvalidRequest unless amount > 0
-    raise InvalidRequest unless user
+    raise InvalidRequest if (amount <= 0) || !user
     raise InvalidRequest.new('errors.minimum_amount_is_1k_credits') unless amount >= 1000
     raise InvalidRequest.new('errors.you_dont_have_enough_credits') unless current_user.units >= amount
 

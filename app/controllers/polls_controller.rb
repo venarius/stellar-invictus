@@ -1,9 +1,7 @@
 class PollsController < ApplicationController
 
   def create
-    raise InvalidRequest unless params[:question]
-    raise InvalidRequest unless params[:link]
-    raise InvalidRequest unless current_user.admin?
+    raise InvalidRequest if !params[:question] || !params[:link] || !current_user.admin?
 
     Poll.create(status: :active, question: params[:question], forum_link: params[:link])
     render json: {}, status: :ok
