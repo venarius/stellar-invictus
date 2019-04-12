@@ -132,11 +132,13 @@ class EquipmentWorker < ApplicationWorker
               player.target.die(false, attackers) && player.ship.deactivate_weapons
             else
               begin
-                player.npc_target.give_bounty(player)
-                # Remove user from being targeted by others
-                player.npc_target.remove_being_targeted
-                player.npc_target.drop_blueprint if player.system.wormhole? && (rand(1..100) == 100)
-                player.npc_target&.die
+                if player.npc_target
+                  player.npc_target.give_bounty(player)
+                  # Remove user from being targeted by others
+                  player.npc_target.remove_being_targeted
+                  player.npc_target.drop_blueprint if player.system.wormhole? && (rand(1..100) == 100)
+                  player.npc_target.die
+                end
                 player.ship.deactivate_weapons
               rescue # Should _really_ define the exception you're expecting here
                 shutdown(player)
