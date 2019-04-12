@@ -14,7 +14,7 @@ while time < 50 do
 
     # Increase Efficiency
     blueprint = job.user.blueprints.where(loader: job.loader).first
-    blueprint.decrement!(:efficiency: 0.025) if blueprint&.efficiency.to_f > 0.5
+    blueprint.decrement!(:efficiency, 0.025) if blueprint&.efficiency.to_f > 0.5
 
     job.destroy
   end
