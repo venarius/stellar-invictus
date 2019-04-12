@@ -49,39 +49,9 @@ class Item < ApplicationRecord
   ## -- CONSTANTS
   STACK_PENALTIES = [1.0, 0.87, 0.57, 0.28, 0.10, 0.03, 0.0, 0.0, 0.0].freeze
 
-  EQUIPMENT = %w[
-    equipment.defense.ion_shield
-    equipment.defense.try_pyon_shield
+  EQUIPMENT_XTRA = %w[
     equipment.directional_scanners.directional_scanner
-    equipment.hulls.light_hull
-    equipment.hulls.ultralight_hull
-    equipment.miner.advanced_miner
-    equipment.miner.basic_miner
-    equipment.miner.core_miner
-    equipment.remote_repair.advanced_repair_beam
-    equipment.remote_repair.colton_repair_beam
-    equipment.remote_repair.simple_repair_beam
-    equipment.repair_bots.advanced_repair_bot
-    equipment.repair_bots.colton_repair_bot
-    equipment.repair_bots.simple_repair_bot
-    equipment.scanner.advanced_scanner
-    equipment.scanner.basic_scanner
     equipment.scanner.deepspace_scanner
-    equipment.scanner.military_scanner
-    equipment.sensors.small_sensor
-    equipment.sensors.try_pyon_sensor
-    equipment.storage.large_black_hole
-    equipment.storage.medium_black_hole
-    equipment.storage.small_black_hole
-    equipment.warp_core_stabilizers.basic_warp_core_stabilizer
-    equipment.warp_core_stabilizers.military_warp_core_stabilizer
-    equipment.warp_core_stabilizers.try_pyon_warp_core_stabilizer
-    equipment.warp_disruptors.basic_warp_disruptor
-    equipment.warp_disruptors.military_warp_disruptor
-    equipment.warp_disruptors.try_pyon_warp_disruptor
-    equipment.weapons.laser_gatling
-    equipment.weapons.military_laser
-    equipment.weapons.try_pyon_laser
   ].freeze
 
   EQUIPMENT_EASY = %w[
@@ -124,10 +94,12 @@ class Item < ApplicationRecord
     equipment.weapons.military_laser
   ].freeze
 
+  EQUIPMENT = EQUIPMENT_EASY + EQUIPMENT_MEDIUM + EQUIPMENT_HARD + EQUIPMENT_XTRA
+
   MATERIALS = %w[
     materials.ai_components
     materials.antimatter
-    materials.fusion_electronics,
+    materials.fusion_electronics
     materials.laser_diodes
     materials.metal_plates
     materials.sensor_electronics
