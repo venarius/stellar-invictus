@@ -81,19 +81,26 @@ class Npc < ApplicationRecord
     Item.create(loader: Item::MATERIALS.sample, structure: structure, equipped: false, count: rand(3..6))
   end
 
-  # Give randbom Blueprint
   def drop_blueprint(user)
     if rand(1..2) == 1
-      @loader = Item::EQUIPMENT.sample
-      if Blueprint.where(loader: @loader, user: user).empty?
-        Blueprint.create(user: user, loader: @loader, efficiency: 1)
-        user.broadcast(:notify_alert, text: I18n.t('notification.received_blueprint_destruction', name: Item.get_attribute(@loader, :name), npc: self.name))
+      loader = Item::EQUIPMENT.sample
+      if !user.has_blueprints_for?(loader)
+        user.give_blueprints_for(loader, efficiency: 1)
+        user.broadcast(:notify_alert,
+          text: I18n.t('notification.received_blueprint_destruction',
+            name: Item.get_attribute(loader, :name),
+            npc: self.name)
+          )
       end
     else
-      @loader = Spaceship.get_attributes.keys.sample
-      if Blueprint.where(loader: @loader, user: user).empty?
-        Blueprint.create(user: user, loader: Spaceship.get_attributes.keys.sample, efficiency: 1)
-        user.broadcast(:notify_alert, text: I18n.t('notification.received_blueprint_destruction', name: @loader.titleize, npc: self.name))
+      random_ship = Spaceship.get_attributes.keys.sample
+      if !user.has_blueprints_for?(random_ship)
+        user.give_blueprints_for(random_ship, efficiency: 1)
+        user.broadcast(:notify_alert,
+          text: I18n.t('notification.received_blueprint_destruction',
+            name: random_ship.titleize,
+            npc: self.name)
+          )
       end
     end
   end
