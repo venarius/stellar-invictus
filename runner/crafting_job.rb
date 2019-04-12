@@ -12,9 +12,9 @@ while time < 50 do
       Spaceship.create(user_id: job.user.id, name: job.loader, hp: Spaceship.get_attribute(job.loader, :hp), location: job.location)
     end
 
-    # Increase Effiency
+    # Increase Efficiency
     blueprint = job.user.blueprints.where(loader: job.loader).first
-    blueprint.update(efficiency: blueprint.reload.efficiency - 0.025) if blueprint && (blueprint.efficiency > 0.5)
+    blueprint.decrement!(:efficiency: 0.025) if blueprint&.efficiency.to_f > 0.5
 
     job.destroy
   end
