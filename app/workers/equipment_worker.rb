@@ -129,7 +129,8 @@ class EquipmentWorker < ApplicationWorker
               # Remove user from being targeted by others
               attackers = User.where(target_id: player.target.id, is_attacking: true).pluck(:id)
               player.target.remove_being_targeted
-              player.target.die(false, attackers) && player.ship.deactivate_weapons
+              player.target.die(false, attackers)
+              player.ship.deactivate_weapons
             else
               begin
                 if (npc = player.npc_target) # assignment
