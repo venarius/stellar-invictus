@@ -168,15 +168,57 @@ describe Item do
         end
       end
 
+      describe 'asteroids' do
+        it 'should return array of asteroids' do
+          expect(Item::ASTEROIDS).to be_an(Array)
+          Item::ASTEROIDS.each do |loader|
+            expect(Item.get_attribute(loader, :name)).to be_present, "Expected #{loader} to have a name"
+          end
+        end
+      end
+
+      describe 'materials' do
+        it 'should return array of materials' do
+          expect(Item::MATERIALS).to be_an(Array)
+          Item::MATERIALS.each do |loader|
+            expect(Item.get_attribute(loader, :name)).to be_present, "Expected #{loader} to have a name"
+          end
+        end
+      end
+
+       describe 'equipment_easy' do
+        it 'should return array of easy items' do
+          expect(Item::EQUIPMENT_EASY).to be_an(Array)
+          Item::EQUIPMENT_EASY.each do |loader|
+            expect(Item.get_attribute(loader, :name)).to be_present, "Expected #{loader} to have a name"
+          end
+        end
+      end
+
       describe 'equipment_medium' do
         it 'should return array of medium items' do
           expect(Item::EQUIPMENT_MEDIUM).to be_an(Array)
+          Item::EQUIPMENT_MEDIUM.each do |loader|
+            expect(Item.get_attribute(loader, :name)).to be_present, "Expected #{loader} to have a name"
+          end
         end
       end
 
       describe 'equipment_hard' do
         it 'should return array of hard items' do
           expect(Item::EQUIPMENT_HARD).to be_an(Array)
+          Item::EQUIPMENT_HARD.each do |loader|
+            expect(Item.get_attribute(loader, :name)).to be_present, "Expected #{loader} to have a name"
+          end
+        end
+      end
+
+      describe 'equipment_xtra' do
+        it 'should return array of xtra items' do
+          expect(Item::EQUIPMENT_XTRA).to be_an(Array)
+          Item::EQUIPMENT_XTRA.each do |loader|
+            expect(Item.get_attribute(loader, :name)).to be_present, "Expected #{loader} to have a name"
+          end
         end
       end
 
