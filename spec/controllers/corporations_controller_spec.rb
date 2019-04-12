@@ -75,23 +75,23 @@ RSpec.describe CorporationsController, type: :controller do
     describe 'POST create' do
       it 'should create new corporation' do
         expect {
-          post :create, params: { corporation: { name: "Text", ticker: "Test", bio: "Test", tax: 0 } }
+          post :create, params: { corporation: { name: 'Text', ticker: 'Test', bio: 'Test', tax: 0 } }
           expect(response).to redirect_to(corporations_path)
         }.to change { Corporation.count }.by(1)
         expect(user.reload.corporation.chat_room).to be_present
       end
 
       it 'should not create new corporation without params' do
-        post :create, params: { corporation: { name: "Text" } }
+        post :create, params: { corporation: { name: 'Text' } }
         expect(response).to have_http_status(:ok)
         expect(response).to render_template('corporations/new')
         expect(Corporation.count).to eq(0)
       end
 
       it 'should not create new corporation if user already in corporation' do
-        post :create, params: { corporation: { name: "Text", ticker: "Test", bio: "Test", tax: 0 } }
+        post :create, params: { corporation: { name: 'Text', ticker: 'Test', bio: 'Test', tax: 0 } }
         expect(response.status).to eq(302)
-        post :create, params: { corporation: { name: "Text", ticker: "Test", bio: "Test", tax: 0 } }
+        post :create, params: { corporation: { name: 'Text', ticker: 'Test', bio: 'Test', tax: 0 } }
         expect(response.status).to eq(204)
         expect(Corporation.count).to eq(1)
       end
@@ -145,7 +145,7 @@ RSpec.describe CorporationsController, type: :controller do
 
       it 'should not update corporation if has not right ranks' do
         expect {
-          post :update_corporation, params: { tax: 3, about: "" }
+          post :update_corporation, params: { tax: 3, about: '' }
           expect(response).to have_http_status(:bad_request)
         }.not_to change { corp.reload.tax }
       end
@@ -233,13 +233,13 @@ RSpec.describe CorporationsController, type: :controller do
         user.update(corporation_role: :admiral)
         post :change_rank, params: { id: user2.id, rank: 1 }
         expect(response).to have_http_status(:ok)
-        expect(user2.reload.corporation_role).to eq("lieutenant")
+        expect(user2.reload.corporation_role).to eq('lieutenant')
       end
 
       it 'should not change rank if no rights' do
         post :change_rank, params: { id: user2.id, rank: 1 }
         expect(response).to have_http_status(:bad_request)
-        expect(user2.reload.corporation_role).to eq("recruit")
+        expect(user2.reload.corporation_role).to eq('recruit')
       end
 
       it 'should not change rank if user has higher rights' do
@@ -247,14 +247,14 @@ RSpec.describe CorporationsController, type: :controller do
         user.update(corporation_role: :commodore)
         post :change_rank, params: { id: user2.id, rank: 1 }
         expect(response).to have_http_status(:bad_request)
-        expect(user2.reload.corporation_role).to eq("admiral")
+        expect(user2.reload.corporation_role).to eq('admiral')
       end
 
       it 'should not change rank of only founder' do
         user.update(corporation_role: :founder)
         post :change_rank, params: { id: user.id, rank: 1 }
         expect(response).to have_http_status(:bad_request)
-        expect(user.reload.corporation_role).to eq("founder")
+        expect(user.reload.corporation_role).to eq('founder')
       end
 
       it 'should change rank of founder if more than one founder' do
@@ -262,7 +262,7 @@ RSpec.describe CorporationsController, type: :controller do
         user2.update(corporation_role: :founder)
         post :change_rank, params: { id: user.id, rank: 1 }
         expect(response).to have_http_status(:ok)
-        expect(user.reload.corporation_role).to eq("lieutenant")
+        expect(user.reload.corporation_role).to eq('lieutenant')
       end
     end
 
@@ -356,7 +356,7 @@ RSpec.describe CorporationsController, type: :controller do
       it 'should render info template if wrong id' do
         get :info, params: { id: 1000 }
         expect(response).to have_http_status(:ok)
-        expect(response.body).to eq("")
+        expect(response.body).to eq('')
       end
     end
 
@@ -374,7 +374,7 @@ RSpec.describe CorporationsController, type: :controller do
       it 'should render apply template if wrong id' do
         get :apply_modal, params: { id: 1000 }
         expect(response).to have_http_status(:ok)
-        expect(response.body).to eq("")
+        expect(response.body).to eq('')
       end
     end
 
@@ -387,7 +387,7 @@ RSpec.describe CorporationsController, type: :controller do
       it 'should apply at given corporation WITH TEXT' do
         user.update(corporation_id: nil)
         expect {
-          post :apply, params: { id: corp.id, text: "My application letter" }
+          post :apply, params: { id: corp.id, text: 'My application letter' }
           expect(response).to have_http_status(:ok)
         }.to change { CorpApplication.count }.by(1)
       end
@@ -402,7 +402,7 @@ RSpec.describe CorporationsController, type: :controller do
 
       it 'should not apply at given corporation if user already in corporation' do
         expect {
-          post :apply, params: { id: corp.id, text: "" }
+          post :apply, params: { id: corp.id, text: '' }
           expect(response).to have_http_status(:bad_request)
         }.not_to change { CorpApplication.count }
       end
@@ -416,7 +416,7 @@ RSpec.describe CorporationsController, type: :controller do
     describe 'POST accept_application' do
       let(:corp) { create(:corporation, units: 10) }
       let(:user2) { create(:user_with_faction) }
-      let!(:application) { create :corp_application, user: user2, corporation: corp, application_text: "Test" }
+      let!(:application) { create :corp_application, user: user2, corporation: corp, application_text: 'Test' }
 
       before(:each) do
         user.update(corporation: corp)
@@ -441,8 +441,8 @@ RSpec.describe CorporationsController, type: :controller do
       end
 
       it 'should NOT accept application if application is for other corp' do
-        corp2 = create(:corporation, units: 10, name: "Blaaa", ticker: "Blaaa")
-        application = create(:corp_application, user: user2, corporation: corp2, application_text: "Test")
+        corp2 = create(:corporation, units: 10, name: 'Blaaa', ticker: 'Blaaa')
+        application = create(:corp_application, user: user2, corporation: corp2, application_text: 'Test')
         user.update(corporation_role: :lieutenant)
         expect {
           post :accept_application, params: { id: application.id }
@@ -455,7 +455,7 @@ RSpec.describe CorporationsController, type: :controller do
     describe 'POST reject_application' do
       let(:corp) { create(:corporation, units: 10) }
       let(:user2) { create(:user_with_faction) }
-      let!(:application) { create :corp_application, user: user2, corporation: corp, application_text: "Test" }
+      let!(:application) { create :corp_application, user: user2, corporation: corp, application_text: 'Test' }
 
       before(:each) do
         user.update(corporation: corp)
@@ -480,8 +480,8 @@ RSpec.describe CorporationsController, type: :controller do
       end
 
       it 'fail if application is for other corp' do
-        corp2 = create(:corporation, units: 10, name: "Blaaa", ticker: "Blaaa")
-        application = create(:corp_application, user: user2, corporation: corp2, application_text: "Test")
+        corp2 = create(:corporation, units: 10, name: 'Blaaa', ticker: 'Blaaa')
+        application = create(:corp_application, user: user2, corporation: corp2, application_text: 'Test')
         user.update(corporation_role: :lieutenant)
         expect {
           post :reject_application, params: { id: application.id }
@@ -519,7 +519,7 @@ RSpec.describe CorporationsController, type: :controller do
 
     describe 'POST search' do
       it 'should render template' do
-        post :search, params: { search: "test" }
+        post :search, params: { search: 'test' }
         expect(response).to have_http_status(:ok)
         expect(response).to render_template('corporations/_search')
       end

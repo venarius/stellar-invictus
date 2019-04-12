@@ -16,7 +16,7 @@ class SystemsController < ApplicationController
 
     jumpgates = []
     path.each_with_index do |step, index|
-      location = System.ensure(step).locations.where("name ILIKE ?", path[index + 1]).first
+      location = System.ensure(step).locations.where('name ILIKE ?', path[index + 1]).first
       jumpgates << location.jumpgate.id if location
     end
 
@@ -79,7 +79,7 @@ class SystemsController < ApplicationController
 
     path = Pathfinder.find_path(current_user.system.id, system.id)
     path.each_with_index do |step, index|
-      location = System.ensure(step).locations.where("name ILIKE ?", path[index + 1]).first
+      location = System.ensure(step).locations.where('name ILIKE ?', path[index + 1]).first
       traveltime += location.jumpgate.traveltime if location
       traveltime += ship_align + 10
     end

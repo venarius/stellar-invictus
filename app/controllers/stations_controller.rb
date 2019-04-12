@@ -66,8 +66,8 @@ class StationsController < ApplicationController
     end
 
     # Receive Passengers
-    if current_user.location.faction && Item.where(loader: "delivery.passenger", spaceship: current_user.active_spaceship).present?
-      item = Item.where(loader: "delivery.passenger", spaceship: current_user.active_spaceship).first
+    if current_user.location.faction && Item.where(loader: 'delivery.passenger', spaceship: current_user.active_spaceship).present?
+      item = Item.where(loader: 'delivery.passenger', spaceship: current_user.active_spaceship).first
       case current_user.location.faction_id
       when 1
         current_user.update(reputation_1: current_user.reputation_1 + 0.05 * item.count)
@@ -160,7 +160,7 @@ class StationsController < ApplicationController
       roll = rand(0..100)
 
       json_result = {
-        time: DateTime.now().strftime("%H:%M"),
+        time: DateTime.now().strftime('%H:%M'),
         roll: roll,
         bet: bet,
         units: current_user.reload.units,

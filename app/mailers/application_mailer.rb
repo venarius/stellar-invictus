@@ -5,7 +5,7 @@ class ApplicationMailer < ActionMailer::Base
   layout 'mailer', except: :support_ticket
 
   def support_ticket
-    @created_at = DateTime.now.strftime("%F %H:%M")
+    @created_at = DateTime.now.strftime('%F %H:%M')
     @username = params[:name]
     @category = params[:category]
     @subject = params[:subject]

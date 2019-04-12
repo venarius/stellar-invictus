@@ -59,7 +59,7 @@ describe Spaceship do
 
       describe 'get_items' do
         it 'should return items in storage of ship' do
-          create :item, loader: "test", spaceship: ship, count: 2
+          create :item, loader: 'test', spaceship: ship, count: 2
           expect(ship.get_items.first.count).to eq(2)
         end
       end

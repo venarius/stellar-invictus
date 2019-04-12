@@ -154,14 +154,14 @@ describe User do
       end
 
       describe 'full_name' do
-        it "should not allow duplicate full_names" do
+        it 'should not allow duplicate full_names' do
           user = create :user
           user2 = build :user, name: user.name, family_name: user.family_name
           expect(user2.valid?).to eq(false)
-          user2.name = "Peter"
+          user2.name = 'Peter'
           expect(user2.valid?).to eq(true)
           user2.name = user.name
-          user2.family_name = "Venkman"
+          user2.family_name = 'Venkman'
           expect(user2.valid?).to eq(true)
         end
       end
@@ -182,8 +182,8 @@ describe User do
         end
 
         it 'should update full_name when name or family_name changes' do
-          user.update(name: "Bob")
-          expect(user.full_name.split.first).to eq("Bob")
+          user.update(name: 'Bob')
+          expect(user.full_name.split.first).to eq('Bob')
         end
       end
 

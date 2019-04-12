@@ -21,7 +21,7 @@ module Stellar
 
     # Devise Mailer
     config.to_prepare do
-      Devise::Mailer.layout "mailer"
+      Devise::Mailer.layout 'mailer'
     end
   end
 end

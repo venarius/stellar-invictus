@@ -20,7 +20,7 @@ RSpec.describe GameMailsController, type: :controller do
 
     describe 'POST create' do
       it 'should redirect_to login' do
-        post :create, params: { game_mail: { recipient_name: "Test Test", header: 'Test', body: 'Test' } }
+        post :create, params: { game_mail: { recipient_name: 'Test Test', header: 'Test', body: 'Test' } }
         expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end

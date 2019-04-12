@@ -67,7 +67,7 @@ class Location < ApplicationRecord
   end
 
   def jumpgate
-    Jumpgate.where("origin_id = ? OR destination_id = ?", self.id, self.id).first
+    Jumpgate.where('origin_id = ? OR destination_id = ?', self.id, self.id).first
   end
 
   def get_items(id)
@@ -75,7 +75,7 @@ class Location < ApplicationRecord
   end
 
   def get_name
-    if I18n.t("locations.#{self.location_type}") != ""
+    if I18n.t("locations.#{self.location_type}") != ''
       "#{I18n.t("locations.#{self.location_type}")} #{self.name}"
     else
       if self.station? && !self.name

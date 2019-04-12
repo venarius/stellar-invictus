@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "action_cable/testing/rspec"
+require 'action_cable/testing/rspec'
 
 module ActionCable::TestHelper
 
@@ -19,7 +19,7 @@ module ActionCable::TestHelper
     end
 
     message = new_messages.find do |msg|
-      ActiveSupport::JSON.decode(msg)["method"] == value
+      ActiveSupport::JSON.decode(msg)['method'] == value
     end
 
     assert message, "No messages sent with method(\"#{value})\") to #{stream}"

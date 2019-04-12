@@ -13,7 +13,7 @@ class EquipmentController < ApplicationController
       loader = item.loader
       if !ids.include?(loader)
         # check black hole
-        if item.loader.include?("equipment.storage") && (current_user.active_spaceship.get_weight > 0)
+        if item.loader.include?('equipment.storage') && (current_user.active_spaceship.get_weight > 0)
           raise InvalidRequest.new('errors.clear_storage_first')
         end
 

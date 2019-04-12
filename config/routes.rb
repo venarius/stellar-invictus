@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist', edit: 'pilot' }, controllers: { registrations: "registrations", omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, path: '', path_names: { sign_in: 'connect', sign_out: 'disconnect', sign_up: 'enlist', edit: 'pilot' }, controllers: { registrations: 'registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
   # Static Pages
   root 'static_pages#home'

@@ -129,7 +129,7 @@ class User < ApplicationRecord
 
   ## -- SCOPES
   scope :targeting_user, ->(user) { where(target: user) }
-  scope :is_online, -> { where("users.online > 0") }
+  scope :is_online, -> { where('users.online > 0') }
   scope :in_name_order, -> { order(:family_name, :name) }
   scope :in_space, -> { where(docked: false) }
 
@@ -160,7 +160,7 @@ class User < ApplicationRecord
   ].freeze
   def check_avatar
     unless VALID_AVATARS.include?(self.avatar)
-      errors.add(:avatar, "has not a correct value")
+      errors.add(:avatar, 'has not a correct value')
     end
   end
 
@@ -311,8 +311,8 @@ class User < ApplicationRecord
   # Give user a nano
   # { loader => equipped }
   STARTING_EQUIPMENT = {
-    "equipment.miner.basic_miner" => true,
-    "equipment.weapons.laser_gatling" => true
+    'equipment.miner.basic_miner' => true,
+    'equipment.weapons.laser_gatling' => true
   }.freeze
   def give_nano
     self.active_spaceship = Spaceship.build_for_user(
@@ -354,11 +354,11 @@ class User < ApplicationRecord
 
   def self.new_with_session(params, session)
     super.tap do |user|
-      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
-        user.email = data["email"] if user.email.blank?
+      if data = session['devise.facebook_data'] && session['devise.facebook_data']['extra']['raw_info']
+        user.email = data['email'] if user.email.blank?
         user.password = Devise.friendly_token[0, 20]
-        user.uid = session["devise.facebook_data"]["uid"]
-        user.provider = session["devise.facebook_data"]["provider"]
+        user.uid = session['devise.facebook_data']['uid']
+        user.provider = session['devise.facebook_data']['provider']
         user.skip_confirmation!
       end
     end

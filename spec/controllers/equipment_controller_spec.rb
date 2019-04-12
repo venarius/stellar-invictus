@@ -10,12 +10,12 @@ RSpec.describe EquipmentController, type: :controller do
 
     describe 'POST update' do
       let!(:equipment1) { create :item,
-          loader: "equipment.weapons.laser_gatling",
+          loader: 'equipment.weapons.laser_gatling',
           spaceship: user.active_spaceship,
           equipped: false
       }
       let!(:equipment2) { create :item,
-          loader: "equipment.storage.small_black_hole",
+          loader: 'equipment.storage.small_black_hole',
           spaceship: user.active_spaceship,
           equipped: false
       }
@@ -33,8 +33,8 @@ RSpec.describe EquipmentController, type: :controller do
       end
 
       it 'should update not equip status of items on utility slot if ship has no slots' do
-        equipment3 = create(:item, loader: "equipment.weapons.laser_gatling", spaceship: user.active_spaceship, equipped: false)
-        equipment4 = create(:item, loader: "equipment.weapons.laser_gatling", spaceship: user.active_spaceship, equipped: false)
+        equipment3 = create(:item, loader: 'equipment.weapons.laser_gatling', spaceship: user.active_spaceship, equipped: false)
+        equipment4 = create(:item, loader: 'equipment.weapons.laser_gatling', spaceship: user.active_spaceship, equipped: false)
 
         post :update, params: { ids: { "main": [equipment1.loader, equipment3.loader, equipment4.loader] } }
 
@@ -44,7 +44,7 @@ RSpec.describe EquipmentController, type: :controller do
       end
 
       it 'should update equip status of items on utility slot if ship has slots' do
-        ship = create(:spaceship, name: "Valadria", user: user)
+        ship = create(:spaceship, name: 'Valadria', user: user)
         user.update(active_spaceship: ship)
         equipment2.update(spaceship: ship)
         post :update, params: { ids: { "utility": [equipment2.loader] } }
@@ -97,7 +97,7 @@ RSpec.describe EquipmentController, type: :controller do
 
     describe 'POST switch' do
       let(:user2) { create :user_with_faction }
-      let!(:equipment1) { create(:item, loader: "equipment.weapons.laser_gatling", spaceship: user.active_spaceship, equipped: true) }
+      let!(:equipment1) { create(:item, loader: 'equipment.weapons.laser_gatling', spaceship: user.active_spaceship, equipped: true) }
 
       before(:each) do
         user.update(docked: false, target: user2)

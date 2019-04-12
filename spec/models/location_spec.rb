@@ -79,7 +79,7 @@ describe Location do
       describe 'get_items' do
         it 'should return items of current_user in this station' do
           @location = Location.station.first
-          Item.create(loader: "test", user: @user, location: @location, count: 3)
+          Item.create(loader: 'test', user: @user, location: @location, count: 3)
           expect(@location.get_items(@user.id).first.count).to eq(3)
         end
 

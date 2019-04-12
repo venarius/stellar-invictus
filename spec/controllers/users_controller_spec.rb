@@ -46,16 +46,16 @@ RSpec.describe UsersController, type: :controller do
 
     describe 'POST update_bio' do
       it 'should update bio of user' do
-        post :update_bio, params: { text: "Bla" }
+        post :update_bio, params: { text: 'Bla' }
         expect(response).to have_http_status(:ok)
-        expect(user.reload.bio).to eq("Bla")
+        expect(user.reload.bio).to eq('Bla')
       end
 
       it 'should update bio of user with empty string' do
-        user.update(bio: "TEST THIS")
-        post :update_bio, params: { text: "" }
+        user.update(bio: 'TEST THIS')
+        post :update_bio, params: { text: '' }
         expect(response).to have_http_status(:ok)
-        expect(user.reload.bio).to eq("")
+        expect(user.reload.bio).to eq('')
       end
 
       it 'should not update bio of user if no params' do
@@ -82,7 +82,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'should not place invalid bounty' do
-        post :place_bounty, params: { amount: "bla", id: 2000 }
+        post :place_bounty, params: { amount: 'bla', id: 2000 }
         expect(response).to have_http_status(:bad_request)
         expect(user.reload.units).to eq(1000)
         expect(user.reload.bounty).to eq(0)

@@ -25,7 +25,7 @@ RSpec.describe NpcDiedWorker, type: :worker do
     }.not_to change(Structure, :count)
   end
 
-  it "should decrement mission enemy count" do
+  it 'should decrement mission enemy count' do
     location = create :location, location_type: :mission
     npc.update(location: location)
     user.update(location: location)
@@ -36,6 +36,5 @@ RSpec.describe NpcDiedWorker, type: :worker do
       mission.reload
     }.to change(mission, :enemy_amount).by(-1)
   end
-
 
 end

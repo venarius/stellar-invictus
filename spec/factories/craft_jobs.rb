@@ -25,7 +25,7 @@
 FactoryBot.define do
   factory :craft_job do
     completed_at { Time.now.utc + 1.hour }
-    loader { "MyString" }
+    loader { 'MyString' }
     user { nil }
   end
 end

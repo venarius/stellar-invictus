@@ -192,18 +192,18 @@ RSpec.describe StructuresController, type: :controller do
         expect(response).to have_http_status(:bad_request)
       end
 
-      describe "structure with items" do
+      describe 'structure with items' do
         let!(:item) { create :item, structure: abandoned_ship }
 
         it 'should fail if false answer given' do
-          post :abandoned_ship, params: { id: abandoned_ship.id, text: "Glub" }
+          post :abandoned_ship, params: { id: abandoned_ship.id, text: 'Glub' }
           expect(response).to have_http_status(:bad_request)
         end
 
         it 'should destroy itself if false answer given for the sixth time' do
           expect {
             6.times do
-              post :abandoned_ship, params: { id: abandoned_ship.id, text: "Glub" }
+              post :abandoned_ship, params: { id: abandoned_ship.id, text: 'Glub' }
               expect(response).to have_http_status(:bad_request)
             end
           }.to change { Structure.count }.by(-1)
@@ -211,7 +211,7 @@ RSpec.describe StructuresController, type: :controller do
 
         it 'should succeed if right answer given' do
           expect {
-            post :abandoned_ship, params: { id: abandoned_ship.id, text: "9" }
+            post :abandoned_ship, params: { id: abandoned_ship.id, text: '9' }
             expect(response).to have_http_status(:ok)
           }.to change { Structure.count }.by(1)
         end
@@ -219,7 +219,7 @@ RSpec.describe StructuresController, type: :controller do
         it 'should fail if user in other location' do
           user.update(location: create(:location))
           expect {
-            post :abandoned_ship, params: { id: abandoned_ship.id, text: "9" }
+            post :abandoned_ship, params: { id: abandoned_ship.id, text: '9' }
             expect(response).to have_http_status(:bad_request)
           }.not_to change { Structure.count }
         end

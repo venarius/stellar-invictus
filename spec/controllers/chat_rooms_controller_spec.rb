@@ -45,7 +45,7 @@ RSpec.describe ChatRoomsController, type: :controller do
     describe 'POST create' do
       it 'should create new room' do
         expect {
-          post :create, params: { title: "Test" }
+          post :create, params: { title: 'Test' }
           expect(response).to have_http_status(:ok)
         }.to change { ChatRoom.count }.by(1)
       end
@@ -59,7 +59,7 @@ RSpec.describe ChatRoomsController, type: :controller do
 
       it 'shouldnt create new room with too long title' do
         expect {
-          post :create, params: { title: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" }
+          post :create, params: { title: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }
           expect(response).to have_http_status(:bad_request)
         }.not_to change { ChatRoom.count }
       end
@@ -114,7 +114,7 @@ RSpec.describe ChatRoomsController, type: :controller do
     end
 
     describe 'POST leave' do
-      let(:room) { create :chat_room, title: "Test" }
+      let(:room) { create :chat_room, title: 'Test' }
       before(:each) do
         room.users << user
       end

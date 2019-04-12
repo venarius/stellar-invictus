@@ -78,7 +78,7 @@ class Spaceship < ApplicationRecord
 
   # Get all Equipment in Ship
   def get_equipment
-    self.items.where("loader LIKE ?", "equipment%")
+    self.items.where('loader LIKE ?', 'equipment%')
   end
 
   # Get all unequipped Equipment in Ship
@@ -157,15 +157,15 @@ class Spaceship < ApplicationRecord
   # Get Storage Capacity of Ship
   def get_storage_capacity
     storage = self.get_attribute('storage')
-    storage = storage + (self.get_attribute("upgrade.storage_amplifier", default: 1)**self.level).round if (self.level > 0)
+    storage = storage + (self.get_attribute('upgrade.storage_amplifier', default: 1)**self.level).round if (self.level > 0)
     stack = 0
     self.get_utility_equipment.each do |item|
-      if (item.get_attribute('type') == "Storage") && item.equipped
+      if (item.get_attribute('type') == 'Storage') && item.equipped
         item_attr = item.get_attribute('storage_amplifier') * Item::STACK_PENALTIES[stack]
         stack = stack + 1
       end
 
-      item_attr = item_attr * self.get_attribute("trait.storage_amplifier", default: 1) if item_attr
+      item_attr = item_attr * self.get_attribute('trait.storage_amplifier', default: 1) if item_attr
       item_attr = 0 unless item_attr
       storage = storage + storage * (item_attr / 100)
     end
@@ -177,8 +177,8 @@ class Spaceship < ApplicationRecord
   def get_power
     power = 0
     self.get_main_equipment.each do |item|
-      item_attr = item.get_attribute('damage') if (item.get_attribute('type') == "Weapon") && item.equipped && item.active
-      item_attr = item_attr * self.get_attribute("trait.damage_amplifier", default: 1) if item_attr
+      item_attr = item.get_attribute('damage') if (item.get_attribute('type') == 'Weapon') && item.equipped && item.active
+      item_attr = item_attr * self.get_attribute('trait.damage_amplifier', default: 1) if item_attr
       item_attr = 0 unless item_attr
       power = power + item_attr
     end
@@ -190,8 +190,8 @@ class Spaceship < ApplicationRecord
   def get_selfrepair
     repair = 0
     self.get_main_equipment.each do |item|
-      item_attr = item.get_attribute('repair_amount') if (item.get_attribute('type') == "Repair Bot") && item.equipped && item.active
-      item_attr = item_attr * self.get_attribute("trait.repair_amount_amplifier", default: 1) if item_attr
+      item_attr = item.get_attribute('repair_amount') if (item.get_attribute('type') == 'Repair Bot') && item.equipped && item.active
+      item_attr = item_attr * self.get_attribute('trait.repair_amount_amplifier', default: 1) if item_attr
       item_attr = 0 unless item_attr
       repair = repair + item_attr
     end
@@ -202,8 +202,8 @@ class Spaceship < ApplicationRecord
   def get_remoterepair
     repair = 0
     self.get_main_equipment.each do |item|
-      item_attr = item.get_attribute('repair_amount') if (item.get_attribute('type') == "Repair Beam") && item.equipped && item.active
-      item_attr = item_attr * self.get_attribute("trait.remote_repair_amplifier", default: 1) if item_attr
+      item_attr = item.get_attribute('repair_amount') if (item.get_attribute('type') == 'Repair Beam') && item.equipped && item.active
+      item_attr = item_attr * self.get_attribute('trait.remote_repair_amplifier', default: 1) if item_attr
       item_attr = 0 unless item_attr
       repair = repair + item_attr
     end
@@ -213,15 +213,15 @@ class Spaceship < ApplicationRecord
   # Get Defense of ship
   def get_defense
     defense = self.get_attribute('defense')
-    defense = defense + (self.get_attribute("upgrade.defense_amplifier", default: 1)**self.level).round if self.level > 0
+    defense = defense + (self.get_attribute('upgrade.defense_amplifier', default: 1)**self.level).round if self.level > 0
     stack = 0
     self.get_utility_equipment.each do |item|
-      if (item.get_attribute('type') == "Defense") && item.equipped
+      if (item.get_attribute('type') == 'Defense') && item.equipped
         item_attr = item.get_attribute('defense_amplifier') * Item::STACK_PENALTIES[stack]
         stack = stack + 1
       end
 
-      item_attr = item_attr * self.get_attribute("trait.defense_amplifier", default: 1) if item_attr
+      item_attr = item_attr * self.get_attribute('trait.defense_amplifier', default: 1) if item_attr
       item_attr = 0 unless item_attr
       defense = defense + defense * (item_attr / 100)
     end
@@ -235,8 +235,8 @@ class Spaceship < ApplicationRecord
   def get_mining_amount
     mining_amount = 0
     self.get_main_equipment.each do |item|
-      item_attr = item.get_attribute('mining_amount') if (item.get_attribute('type') == "Mining Laser") && item.equipped
-      item_attr = item_attr * self.get_attribute("trait.mining_amount_amplifier", default: 1) if item_attr
+      item_attr = item.get_attribute('mining_amount') if (item.get_attribute('type') == 'Mining Laser') && item.equipped
+      item_attr = item_attr * self.get_attribute('trait.mining_amount_amplifier', default: 1) if item_attr
       item_attr = 0 unless item_attr
       mining_amount = mining_amount + item_attr
     end
@@ -256,15 +256,15 @@ class Spaceship < ApplicationRecord
   # Get align time
   def get_align_time
     align_time = self.get_attribute('align_time')
-    align_time = align_time - (self.get_attribute("upgrade.align_amplifier")**self.level).round if self.get_attribute("upgrade.align_amplifier") && (self.level > 0)
+    align_time = align_time - (self.get_attribute('upgrade.align_amplifier')**self.level).round if self.get_attribute('upgrade.align_amplifier') && (self.level > 0)
     stack = 0
     self.get_equipment.each do |item|
-      if (item.get_attribute('type') == "Hull") && item.equipped
+      if (item.get_attribute('type') == 'Hull') && item.equipped
         item_attr = item.get_attribute('align_amplifier') * Item::STACK_PENALTIES[stack]
         stack = stack + 1
       end
 
-      item_attr = item_attr * self.get_attribute("trait.align_amplifier") if self.get_attribute("trait.align_amplifier") && item_attr
+      item_attr = item_attr * self.get_attribute('trait.align_amplifier') if self.get_attribute('trait.align_amplifier') && item_attr
       item_attr = 0 unless item_attr
       align_time = align_time - align_time * (item_attr / 100)
     end
@@ -274,15 +274,15 @@ class Spaceship < ApplicationRecord
   # Get target time
   def get_target_time
     target_time = self.get_attribute('target_time')
-    target_time = target_time - (self.get_attribute("upgrade.target_amplifier")**self.level).round if self.get_attribute("upgrade.target_amplifier") && (self.level > 0)
+    target_time = target_time - (self.get_attribute('upgrade.target_amplifier')**self.level).round if self.get_attribute('upgrade.target_amplifier') && (self.level > 0)
     stack = 0
     self.get_equipment.each do |item|
-      if (item.get_attribute('type') == "Sensor") && item.equipped
+      if (item.get_attribute('type') == 'Sensor') && item.equipped
         item_attr = item.get_attribute('target_amplifier') * Item::STACK_PENALTIES[stack]
         stack = stack + 1
       end
 
-      item_attr = item_attr * self.get_attribute("trait.target_amplifier") if self.get_attribute("trait.target_amplifier") && item_attr
+      item_attr = item_attr * self.get_attribute('trait.target_amplifier') if self.get_attribute('trait.target_amplifier') && item_attr
       item_attr = 0 unless item_attr
       target_time = target_time - target_time * (item_attr / 100)
     end
@@ -295,16 +295,16 @@ class Spaceship < ApplicationRecord
     User.where(target_id: self.user.id, is_attacking: true).is_online.each do |user|
       if user.active_spaceship.has_active_warp_disruptor
         user.active_spaceship.get_main_equipment(true).each do |item|
-          item_attr = item.get_attribute('disrupt_strength') if (item.get_attribute('type') == "Warp Disruptor") && item.active && item.equipped
-          item_attr = item_attr * self.get_attribute("trait.warp_disrupt_amplifier") if self.get_attribute("trait.warp_disrupt_amplifier") && item_attr
+          item_attr = item.get_attribute('disrupt_strength') if (item.get_attribute('type') == 'Warp Disruptor') && item.active && item.equipped
+          item_attr = item_attr * self.get_attribute('trait.warp_disrupt_amplifier') if self.get_attribute('trait.warp_disrupt_amplifier') && item_attr
           item_attr = 0 unless item_attr
           weight += item_attr.to_f.round
         end
       end
     end
     self.get_utility_equipment.each do |item|
-      weight = weight - item.get_attribute('disrupt_immunity') if (item.get_attribute('type') == "Warp Core Stabilizer") && item.equipped
-      weight = weight - self.get_attribute("trait.disrupt_immunity") if self.get_attribute("trait.disrupt_immunity")
+      weight = weight - item.get_attribute('disrupt_immunity') if (item.get_attribute('type') == 'Warp Core Stabilizer') && item.equipped
+      weight = weight - self.get_attribute('trait.disrupt_immunity') if self.get_attribute('trait.disrupt_immunity')
     end
     (weight > 0)
   end
@@ -313,7 +313,7 @@ class Spaceship < ApplicationRecord
   # Has active warp disruptor
   def has_active_warp_disruptor
     self.get_main_equipment(true).each do |item|
-      return true if item.get_attribute('type') == "Warp Disruptor"
+      return true if item.get_attribute('type') == 'Warp Disruptor'
     end
     false
   end
@@ -325,7 +325,7 @@ class Spaceship < ApplicationRecord
 
   # Get Scanner of Ship
   def get_scanner_range
-    self.get_attribute("trait.scanner_range").to_i +
+    self.get_attribute('trait.scanner_range').to_i +
       self.get_main_equipment.map do |item|
         item.get_attribute('scanner_range').to_i
       end.sum
@@ -346,7 +346,7 @@ class Spaceship < ApplicationRecord
 
   # Check if has directional_scanner
   def get_directional_scanner
-    return true if self.get_attribute("trait.directional_scanner")
+    return true if self.get_attribute('trait.directional_scanner')
     self.get_main_equipment().each do |item|
       return true if item.get_attribute('type') == 'Directional Scanner'
     end
@@ -355,13 +355,13 @@ class Spaceship < ApplicationRecord
 
   # Check if has jump drive
   def has_jump_drive?
-    !!self.get_attribute("trait.jump_drive")
+    !!self.get_attribute('trait.jump_drive')
   end
 
   # Get max HP
   def get_max_hp
     hp = get_attribute(:hp)
-    hp += (self.get_attribute("upgrade.hp_amplifier", default: 0)**self.level).round if (self.level > 0)
+    hp += (self.get_attribute('upgrade.hp_amplifier', default: 0)**self.level).round if (self.level > 0)
     hp
   end
 

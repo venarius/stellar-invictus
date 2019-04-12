@@ -10,19 +10,19 @@ RSpec.describe EjectCargoWorker, type: :worker do
     create :item, spaceship: user.ship, loader: loader, count: 10
   end
 
-  it "should do nothing unless user" do
+  it 'should do nothing unless user' do
     expect {
       subject.perform(-1, loader, 10)
     }.not_to change(Item, :count)
   end
 
-  it "should do nothing unless user has loader" do
+  it 'should do nothing unless user has loader' do
     expect {
       subject.perform(user, 'something.else', 10)
     }.not_to change(Item, :count)
   end
 
-  it "should create structure with removed items" do
+  it 'should create structure with removed items' do
     expect {
       subject.perform(user, loader, 10)
     }.to change(Structure, :count).by(1)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "dry/initializer"
-require "dry/monads/result"
+require 'dry/initializer'
+require 'dry/monads/result'
 
 class ApplicationService
   extend Dry::Initializer
@@ -13,7 +13,7 @@ class ApplicationService
   end
 
   def self.param(key, **options)
-    raise Error.new("Do not use param in a service object")
+    raise Error.new('Do not use param in a service object')
   end
 
   def self.required(key, **options)

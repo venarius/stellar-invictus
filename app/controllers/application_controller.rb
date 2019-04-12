@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
     if current_user&.banned?
       if current_user.banned_until
         if current_user.banned_until > DateTime.now
-          flash[:notice] = I18n.t('errors.account_suspended_until', time: current_user.banned_until.strftime("%F %H:%M"), reason: current_user.banreason)
+          flash[:notice] = I18n.t('errors.account_suspended_until', time: current_user.banned_until.strftime('%F %H:%M'), reason: current_user.banreason)
           sign_out(current_user) && redirect_to(root_path)
         else
           current_user.update(banned: false, banned_until: nil, banreason: nil)
@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
   def translate(text)
     if text
       temp_text = I18n.t(text)
-      text = temp_text.start_with?("translation missing:") ? text : temp_text
+      text = temp_text.start_with?('translation missing:') ? text : temp_text
     end
     text
   end
@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
 
     msg = err.message
     if msg.is_a?(String)
-      msg = nil if msg == "InvalidRequest"
+      msg = nil if msg == 'InvalidRequest'
       msg = translate(msg)
       json = { error_message: msg }
     else

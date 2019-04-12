@@ -11,7 +11,7 @@ RSpec.describe AsteroidsController, type: :controller do
 
     describe 'POST mine' do
       it 'should start mine worker when player is attackable and at location and has mining laser equipped' do
-        create :item, loader: "equipment.miner.basic_miner", spaceship: user.active_spaceship, equipped: true
+        create :item, loader: 'equipment.miner.basic_miner', spaceship: user.active_spaceship, equipped: true
         post :mine, params: { id: user.location.asteroids.first.id }
         expect(response).to have_http_status(:ok)
         expect(MiningWorker.jobs.size).to eq(1)
@@ -34,7 +34,7 @@ RSpec.describe AsteroidsController, type: :controller do
         user.active_spaceship.get_storage_capacity.times do
           create :item, spaceship: user.active_spaceship, loader: 'asteroid.nickel_ore'
         end
-        create :item, loader: "equipment.miner.basic_miner", spaceship: user.active_spaceship, equipped: true
+        create :item, loader: 'equipment.miner.basic_miner', spaceship: user.active_spaceship, equipped: true
         post :mine, params: { id: user.location.asteroids.first.id }
         expect(response).to have_http_status(:bad_request)
         expect(MiningWorker.jobs.size).to eq(0)

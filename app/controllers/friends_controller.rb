@@ -40,7 +40,7 @@ class FriendsController < ApplicationController
 
   def search
     raise InvalidRequest unless params[:name]
-    result = User.where("full_name ILIKE ?", "%#{params[:name]}%").where.not(faction_id: nil).first(20)
+    result = User.where('full_name ILIKE ?', "%#{params[:name]}%").where.not(faction_id: nil).first(20)
     render partial: 'friends/search', locals: { users: result }
   end
 

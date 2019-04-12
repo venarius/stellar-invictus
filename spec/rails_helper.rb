@@ -1,13 +1,13 @@
 require 'simplecov'
 SimpleCov.start do
-  add_filter "/app/workers"
-  add_filter "/app/services"
-  add_filter "/config/initializers"
-  add_filter "/app/helpers/devise_helper.rb"
-  add_filter "/app/channels"
-  add_filter "/app/lib"
-  add_filter "/spec"
-  add_filter "/app/helpers/application_helper.rb"
+  add_filter '/app/workers'
+  add_filter '/app/services'
+  add_filter '/config/initializers'
+  add_filter '/app/helpers/devise_helper.rb'
+  add_filter '/app/channels'
+  add_filter '/app/lib'
+  add_filter '/spec'
+  add_filter '/app/helpers/application_helper.rb'
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
@@ -15,7 +15,7 @@ require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 

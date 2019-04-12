@@ -11,7 +11,7 @@ RSpec.describe User::Disappear, type: :service do
     expect {
       User::Disappear.(user: user)
     }.to change { user.online }.by(-1)
-    assert_broadcast_method(user.location.channel_id, "player_warp_out")
+    assert_broadcast_method(user.location.channel_id, 'player_warp_out')
   end
 
   it 'should send message to custom chat_room' do
@@ -25,7 +25,7 @@ RSpec.describe User::Disappear, type: :service do
 
     User::Disappear.(user: user)
 
-    assert_broadcast_method(user.location.channel_id, "player_warp_out")
+    assert_broadcast_method(user.location.channel_id, 'player_warp_out')
   end
 
 end

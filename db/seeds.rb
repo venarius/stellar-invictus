@@ -87,17 +87,17 @@ belinara = System.find_or_create_by(name: 'Belinara', security_status: 'high')
 
 # Jumpgates 58
 jumpgates = [
-    ["RE-FII", "CR-181"], ["RE-FII", "VB-233"], ["CR-181", "KI-233"], ["CR-181", "KE-35F"], ["KE-35F", "VB-233"],
-    ["KI-233", "SR-378"], ["SR-378", "TZ-877"], ["TZ-877", "ZU-6TT"], ["ZU-6TT", "KQ-43R"], ["SR-378", "KQ-43R"],
-    ["VB-233", "Talos"], ["KE-35F", "Urus"], ["KQ-43R", "Dresi"], ["Talos", "Komo"], ["Komo", "Decon"], ["Decon", "Aulin"],
-    ["Aulin", "Urus"], ["Urus", "Zimse"], ["Zimse", "Latos"], ["Dresi", "Zimse"], ["Dresi", "Dau"], ["Alba", "Dresi"],
-    ["Komo", "Zenais"], ["Zenais", "Hyperion"], ["Hyperion", "Aulin"], ["Perseus", "Pherona"], ["Zenais", "Pherona"], ["Pherona", "Foves"],
-    ["Foves", "Odin"], ["Foves", "Finid"], ["Odin", "Latos"], ["Alba", "Odin"], ["Alba", "Dresi"], ["Dau", "Inari"],
-    ["Alba", "Inari"], ["Inari", "Joamma"], ["Joamma", "Belinara"], ["Joamma", "Nodens"], ["Belinara", "Finid"],
-    ["Finid", "NF-Z66"], ["NF-Z66", "FT-R3T"], ["UC-233", "NF-Z66"], ["UC-233", "FT-R3T"], ["FT-R3T", "WQ-F65"],
-    ["FH-232", "WQ-F65"], ["ZZ-23F", "FH-232"], ["TK-63R", "ZZ-23F"], ["Draconis", "Belinara"], ["Draconis", "FH-232"], ["Nodens", "TK-63R"],
-    ["Nodens", "Nordar"], ["Nordar", "Aunia"], ["Aunia", "Minin"], ["Chanoun", "Minin"], ["Dau", "Chanoun"], ["Aunia", "Joamma"],
-    ["Perseus", "Latos"], ["Chanoun", "Aunia"]
+    ['RE-FII', 'CR-181'], ['RE-FII', 'VB-233'], ['CR-181', 'KI-233'], ['CR-181', 'KE-35F'], ['KE-35F', 'VB-233'],
+    ['KI-233', 'SR-378'], ['SR-378', 'TZ-877'], ['TZ-877', 'ZU-6TT'], ['ZU-6TT', 'KQ-43R'], ['SR-378', 'KQ-43R'],
+    ['VB-233', 'Talos'], ['KE-35F', 'Urus'], ['KQ-43R', 'Dresi'], ['Talos', 'Komo'], ['Komo', 'Decon'], ['Decon', 'Aulin'],
+    ['Aulin', 'Urus'], ['Urus', 'Zimse'], ['Zimse', 'Latos'], ['Dresi', 'Zimse'], ['Dresi', 'Dau'], ['Alba', 'Dresi'],
+    ['Komo', 'Zenais'], ['Zenais', 'Hyperion'], ['Hyperion', 'Aulin'], ['Perseus', 'Pherona'], ['Zenais', 'Pherona'], ['Pherona', 'Foves'],
+    ['Foves', 'Odin'], ['Foves', 'Finid'], ['Odin', 'Latos'], ['Alba', 'Odin'], ['Alba', 'Dresi'], ['Dau', 'Inari'],
+    ['Alba', 'Inari'], ['Inari', 'Joamma'], ['Joamma', 'Belinara'], ['Joamma', 'Nodens'], ['Belinara', 'Finid'],
+    ['Finid', 'NF-Z66'], ['NF-Z66', 'FT-R3T'], ['UC-233', 'NF-Z66'], ['UC-233', 'FT-R3T'], ['FT-R3T', 'WQ-F65'],
+    ['FH-232', 'WQ-F65'], ['ZZ-23F', 'FH-232'], ['TK-63R', 'ZZ-23F'], ['Draconis', 'Belinara'], ['Draconis', 'FH-232'], ['Nodens', 'TK-63R'],
+    ['Nodens', 'Nordar'], ['Nordar', 'Aunia'], ['Aunia', 'Minin'], ['Chanoun', 'Minin'], ['Dau', 'Chanoun'], ['Aunia', 'Joamma'],
+    ['Perseus', 'Latos'], ['Chanoun', 'Aunia']
   ]
 
 travels = [5, 10, 15, 20]
@@ -110,7 +110,7 @@ end
 
 # Locations - Asteroid Belts
 System.all.each do |sys|
-  romans = ["I", "II", "III", "IV", "V", "VI"]
+  romans = ['I', 'II', 'III', 'IV', 'V', 'VI']
   count = 0
   if sys.locations.where(location_type: 1).empty?
     (rand(0..6)).times do
@@ -151,7 +151,7 @@ Location.find_or_create_by(station_type: :mining_station,     system: urus,     
 Location.find_or_create_by(station_type: :industrial_station, system: alba,     location_type: :station, faction: faction1)
 
 # Lithex
-Location.find_or_create_by(station_type: :industrial_station, system: odin, location_type: :station, faction: nil, name: "The Lithium Exchange", player_market: true)
+Location.find_or_create_by(station_type: :industrial_station, system: odin, location_type: :station, faction: nil, name: 'The Lithium Exchange', player_market: true)
 # Trillium Casino
 Location.find_or_create_by(station_type: :trillium_casino, system: foves, location_type: :station, faction: nil)
 
@@ -186,4 +186,4 @@ thomas_french_description = "<p><strong>THOMAS FRENCH - INTREPID TRADE PIONEER</
 <p>It did not.  The galactic community rallied behind his cause, galvanized by his loss, and drove the Collective's fleets back from where they came.  Odin would become the galaxy's new trade hub, a neutral zone where the people chose what to sell and what to pay.  And it all sprang forth by the vision and boldness of one man.</p>
 
 <p>The galaxy honors the memory of Thomas French with this monument.</p>"
-Structure.find_or_create_by(location: Location.where(name: "The Lithium Exchange").first, structure_type: :monument, name: "Thomas French Monument", description: thomas_french_description)
+Structure.find_or_create_by(location: Location.where(name: 'The Lithium Exchange').first, structure_type: :monument, name: 'Thomas French Monument', description: thomas_french_description)

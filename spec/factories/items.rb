@@ -37,6 +37,6 @@ FactoryBot.define do
     user { nil }
     location { nil }
     spaceship { nil }
-    loader { "test" }
+    loader { 'test' }
   end
 end
