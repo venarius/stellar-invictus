@@ -17,6 +17,11 @@ Style/AndOr:
 Style/BracesAroundHashParameters:
   Enabled: true
 
+# Use single quotes for everything that doesn't require interpolation
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
 # Align `when` with `case`.
 Layout/CaseIndentation:
   Enabled: true
