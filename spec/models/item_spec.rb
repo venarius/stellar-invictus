@@ -111,7 +111,7 @@ describe Item do
         end
 
         it 'should move to station and stack' do
-          Item.create(loader: "asteroid.iron_ore", location: @user.location, user: @user)
+          Item.create(loader: 'asteroid.iron_ore', location: @user.location, user: @user)
           expect {
             Item::GiveToStation.(user: @user, loader: @item.loader, amount: 1)
           }.to change {
@@ -147,7 +147,7 @@ describe Item do
         end
 
         it 'should move to ship and stack' do
-          Item.create(loader: "asteroid.iron_ore", spaceship: @user.active_spaceship)
+          Item.create(loader: 'asteroid.iron_ore', spaceship: @user.active_spaceship)
           expect {
             Item::GiveToShip.(user: @user, loader: @item.loader, amount: 1)
           }.to change {

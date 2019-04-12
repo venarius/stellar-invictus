@@ -1,6 +1,6 @@
 class AppearanceChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "appearance"
+    stream_from 'appearance'
     User::Appear.(user: current_user)
   end
 

@@ -77,13 +77,13 @@ RSpec.describe MarketController, type: :controller do
 
     describe 'POST appraisal' do
       it 'should response with price' do
-        post :appraisal, params: { loader: 'asteroid.nickel_ore', quantity: "10", type: "item" }
+        post :appraisal, params: { loader: 'asteroid.nickel_ore', quantity: '10', type: 'item' }
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("price")
+        expect(response.body).to include('price')
       end
 
       it 'should not response with price if shit given' do
-        post :appraisal, params: { loader: 'noot.noot', quantity: "10", type: "noot" }
+        post :appraisal, params: { loader: 'noot.noot', quantity: '10', type: 'noot' }
         expect(response).to have_http_status(:ok)
       end
     end
@@ -251,7 +251,7 @@ RSpec.describe MarketController, type: :controller do
     describe 'POST delete_listing' do
       it 'should remove buy order' do
         listing = MarketListing.create(order_type: :buy, user: user, listing_type: :ship,
-                                       loader: "Nano", amount: 2, price: 100, location: user.location)
+                                       loader: 'Nano', amount: 2, price: 100, location: user.location)
 
         post :delete_listing, params: { id: listing.id }
         expect(response).to have_http_status(:ok)
@@ -261,7 +261,7 @@ RSpec.describe MarketController, type: :controller do
 
       it 'should remove sell order' do
         listing = MarketListing.create(order_type: :sell, user: user, listing_type: :ship,
-                                       loader: "Nano", amount: 2, price: 100, location: user.location)
+                                       loader: 'Nano', amount: 2, price: 100, location: user.location)
 
         post :delete_listing, params: { id: listing.id }
         expect(response).to have_http_status(:ok)
@@ -272,7 +272,7 @@ RSpec.describe MarketController, type: :controller do
       it 'should not be able to remove another players listing' do
         user2 = create(:user_with_faction)
         listing = MarketListing.create(order_type: :sell, user: user2, listing_type: :ship,
-                                       loader: "Nano", amount: 2, price: 100, location: user.location)
+                                       loader: 'Nano', amount: 2, price: 100, location: user.location)
 
         post :delete_listing, params: { id: listing.id }
         expect(response).to have_http_status(:bad_request)
@@ -283,7 +283,7 @@ RSpec.describe MarketController, type: :controller do
       it 'should not be able to delete listing while in space' do
         user.update(docked: false)
         listing = MarketListing.create(order_type: :sell, user: user, listing_type: :ship,
-                                       loader: "Nano", amount: 2, price: 100, location: user.location)
+                                       loader: 'Nano', amount: 2, price: 100, location: user.location)
 
         post :delete_listing, params: { id: listing.id }
         expect(response).to have_http_status(:bad_request)
@@ -293,7 +293,7 @@ RSpec.describe MarketController, type: :controller do
 
       it 'should not be able to delete listing while docked at another station' do
         listing = MarketListing.create(order_type: :sell, user: user, listing_type: :ship,
-                                       loader: "Nano", amount: 2, price: 100, location: Location.station.last)
+                                       loader: 'Nano', amount: 2, price: 100, location: Location.station.last)
 
         post :delete_listing, params: { id: listing.id }
         expect(response).to have_http_status(:bad_request)

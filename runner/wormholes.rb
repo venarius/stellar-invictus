@@ -4,7 +4,7 @@ if System.wormhole.count < 15
 
   # Wormhole Systems
   rand(5..10).times do
-    systems << System.create(name: "Unknown", security_status: :wormhole)
+    systems << System.create(name: 'Unknown', security_status: :wormhole)
   end
 
   # Stuff generation
@@ -17,7 +17,7 @@ if System.wormhole.count < 15
     Jumpgate.find_or_create_by(origin: a, destination: b, traveltime: 5)
 
     # Asteroid Belts
-    romans = ["I", "II", "III", "IV", "V", "VI"]
+    romans = ['I', 'II', 'III', 'IV', 'V', 'VI']
     count = 0
     if sys.locations.where(location_type: 1).empty?
       (rand(0..3)).times do

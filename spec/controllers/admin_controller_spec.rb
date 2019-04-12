@@ -33,7 +33,7 @@ RSpec.describe AdminController, type: :controller do
 
     describe 'POST search' do
       it 'should render template' do
-        post :search, params: { name: "Gerno" }
+        post :search, params: { name: 'Gerno' }
         expect(response).to have_http_status(:ok)
         expect(response).to render_template('admin/_search')
       end
@@ -87,19 +87,19 @@ RSpec.describe AdminController, type: :controller do
       end
 
       it 'should ban user permanently' do
-        post :ban, params: { id: @user2.id, duration: 0, reason: "Test" }
+        post :ban, params: { id: @user2.id, duration: 0, reason: 'Test' }
         expect(response).to have_http_status(:ok)
         expect(@user2.reload.banned).to be_truthy
         expect(@user2.banned_until).to eq(nil)
-        expect(@user2.banreason).to eq("Test")
+        expect(@user2.banreason).to eq('Test')
       end
 
       it 'should ban user for given hours' do
-        post :ban, params: { id: @user2.id, duration: 1, reason: "Test" }
+        post :ban, params: { id: @user2.id, duration: 1, reason: 'Test' }
         expect(response).to have_http_status(:ok)
         expect(@user2.reload.banned).to be_truthy
         expect(@user2.banned_until).not_to eq(nil)
-        expect(@user2.banreason).to eq("Test")
+        expect(@user2.banreason).to eq('Test')
       end
 
       it 'should render nothing without params' do
@@ -110,7 +110,7 @@ RSpec.describe AdminController, type: :controller do
 
     describe 'POST unban' do
       before(:each) do
-        @user2 = create(:user_with_faction, banned: true, banreason: "Test")
+        @user2 = create(:user_with_faction, banned: true, banreason: 'Test')
       end
 
       it 'should unban user' do
@@ -129,7 +129,7 @@ RSpec.describe AdminController, type: :controller do
 
     describe 'POST server_message' do
       it 'should send server_message' do
-        post :server_message, params: { text: "Test" }
+        post :server_message, params: { text: 'Test' }
         expect(response).to have_http_status(:ok)
       end
 
@@ -158,7 +158,7 @@ RSpec.describe AdminController, type: :controller do
 
     describe 'POST delete_chat' do
       it 'should delete chat messages of user' do
-        ChatMessage.create(user: @user, body: "Test", chat_room: ChatRoom.first)
+        ChatMessage.create(user: @user, body: 'Test', chat_room: ChatRoom.first)
         post :delete_chat, params: { id: @user.id }
         expect(response).to have_http_status(:ok)
         expect(@user.reload.chat_messages.count).to eq(0)
@@ -169,7 +169,7 @@ RSpec.describe AdminController, type: :controller do
 
   context 'with ban' do
     before (:each) do
-      @user = create(:user_with_faction, banned: true, banreason: "Test")
+      @user = create(:user_with_faction, banned: true, banreason: 'Test')
       sign_in @user
     end
 

@@ -6,7 +6,7 @@ RSpec.describe Item::GiveToUser, type: :service do
 
   let(:user) { create :user_with_location }
 
-  it "should give item to user" do
+  it 'should give item to user' do
     Item::GiveToUser.(
       amount: 10,
       loader: Item::ITEMS.sample,

@@ -253,7 +253,7 @@ RSpec.describe StationsController, type: :controller do
         sign_in user
       end
 
-      it "should win" do
+      it 'should win' do
         # NOTE: This will keep trying until they run out of money
         result = nil
         loop do
@@ -266,7 +266,7 @@ RSpec.describe StationsController, type: :controller do
         expect(result['payout']).to be > 100
       end
 
-      it "should lose" do
+      it 'should lose' do
         # NOTE: This will keep trying until they run out of money
         result = nil
         loop do
@@ -279,54 +279,54 @@ RSpec.describe StationsController, type: :controller do
         expect(result['payout']).to eq(0)
       end
 
-      describe "should fail if" do
-        it "no BET" do
+      describe 'should fail if' do
+        it 'no BET' do
           post :dice_roll, params: { roll_under: 10 }
           expect(response).to have_http_status(:bad_request)
         end
 
-        it "no ROLL_UNDER" do
+        it 'no ROLL_UNDER' do
           post :dice_roll, params: { bet: 100 }
           expect(response).to have_http_status(:bad_request)
         end
 
-        it "NOT DOCKED" do
+        it 'NOT DOCKED' do
           user.update(docked: false)
           post :dice_roll, params: { bet: 100, roll_under: 50 }
           expect(response).to have_http_status(:bad_request)
         end
 
-        it "NOT AT CASINO" do
+        it 'NOT AT CASINO' do
           user.update(location: Location.station.first)
           post :dice_roll, params: { bet: 100, roll_under: 50 }
           expect(response).to have_http_status(:bad_request)
         end
 
-        it "BELOW MINIMUM BET" do
+        it 'BELOW MINIMUM BET' do
           user.update(location: Location.station.first)
           post :dice_roll, params: { bet: 1, roll_under: 50 }
           expect(response).to have_http_status(:bad_request)
         end
 
-        it "ABOVE MAXIMUM BET" do
+        it 'ABOVE MAXIMUM BET' do
           user.update(location: Location.station.first, units: 1_000_000)
           post :dice_roll, params: { bet: 1_000_000, roll_under: 50 }
           expect(response).to have_http_status(:bad_request)
         end
 
-        it "ABOVE AVAILABLE CREDITS" do
+        it 'ABOVE AVAILABLE CREDITS' do
           user.update(location: Location.station.first)
           post :dice_roll, params: { bet: user.units + 100, roll_under: 50 }
           expect(response).to have_http_status(:bad_request)
         end
 
-        it "ABOVE MAXIMUM ROLL_UNDER" do
+        it 'ABOVE MAXIMUM ROLL_UNDER' do
           user.update(location: Location.station.first)
           post :dice_roll, params: { bet: 2000, roll_under: 100 }
           expect(response).to have_http_status(:bad_request)
         end
 
-        it "BELOW MINIMUM ROLL_UNDER" do
+        it 'BELOW MINIMUM ROLL_UNDER' do
           user.update(location: Location.station.first)
           post :dice_roll, params: { bet: 2000, roll_under: 2 }
           expect(response).to have_http_status(:bad_request)

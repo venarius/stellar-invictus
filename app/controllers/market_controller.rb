@@ -6,7 +6,7 @@ class MarketController < ApplicationController
 
     listings = MarketListing.
       where(location: current_user.location).
-      where("loader ilike ?", "%#{params[:loader]}%")
+      where('loader ilike ?', "%#{params[:loader]}%")
 
     render partial: 'stations/market/list',
            locals: {
@@ -20,7 +20,7 @@ class MarketController < ApplicationController
 
     listings = MarketListing.
       where(location: current_user.location).
-      where("loader ilike ?", "%#{params[:search].gsub(' ', '_')}%")
+      where('loader ilike ?', "%#{params[:search].gsub(' ', '_')}%")
 
     render partial: 'stations/market/list',
            locals: {
@@ -104,7 +104,7 @@ class MarketController < ApplicationController
     quantity = params[:quantity].to_i
 
     # If type == item -> else..
-    if params[:type] == "item"
+    if params[:type] == 'item'
       # Check if user tries to sell more
       if Item.where(loader: params[:loader], user: current_user, location: current_user.location).count < quantity
         raise InvalidRequest.new('errors.you_dont_have_enough_of_this')
@@ -113,7 +113,7 @@ class MarketController < ApplicationController
       # Destroy items
       Item::RemoveFromUser.(loader: params[:loader], user: current_user, location: current_user.location, amount: quantity)
 
-    elsif (params[:type] == "ship") && params[:loader]
+    elsif (params[:type] == 'ship') && params[:loader]
 
       # Check if user tries to sell more
       if Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).count < quantity
@@ -133,7 +133,7 @@ class MarketController < ApplicationController
     current_user.give_units(price) unless player_market
 
     # Generate Listing
-    fill_listing = MarketListing.where(loader: params[:loader], location: current_user.location).where("amount < 20").first
+    fill_listing = MarketListing.where(loader: params[:loader], location: current_user.location).where('amount < 20').first
     if fill_listing && !player_market
       fill_listing.increment!(:amount, quantity)
     else
@@ -149,7 +149,7 @@ class MarketController < ApplicationController
         attrs = attrs.merge(price: price, user: current_user)
       else
         rabat = (rand(1.0..1.2) * rand(0.98..1.02))
-        info_class = (params[:type] == "item") ? Item : Spaceship
+        info_class = (params[:type] == 'item') ? Item : Spaceship
         attrs[:price] = (info_class.get_attribute(params[:loader], :price) * rabat).round
       end
 
@@ -172,10 +172,10 @@ class MarketController < ApplicationController
 
     # Find Loader
     if Spaceship.get_attributes.keys.include?(name)
-      type = "ship"
-    elsif Item.get_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), :name)
-      type = "item"
-      name = name[/\(.*?\)/].gsub("(", "").gsub(")", "")
+      type = 'ship'
+    elsif Item.get_attribute(name[/\(.*?\)/].gsub('(', '').gsub(')', ''), :name)
+      type = 'item'
+      name = name[/\(.*?\)/].gsub('(', '').gsub(')', '')
     else
       raise InvalidRequest.new('errors.name_not_found')
     end
@@ -250,17 +250,17 @@ class MarketController < ApplicationController
     if loader && type
       listings = MarketListing.where(loader: loader, location: current_user.location).count
       if quantity && (quantity.to_i > 0)
-        if type == "item"
+        if type == 'item'
           price = Item.get_attribute(loader, :price, default: 0) * 0.9
 
           # Customization
           location = current_user.location
           if location.industrial_station?
-            price = price * 0.75 if loader.include?("equipment.")
+            price = price * 0.75 if loader.include?('equipment.')
           elsif location.warfare_plant?
-            price = price * 0.75 if loader.include?("equipment.weapons")
+            price = price * 0.75 if loader.include?('equipment.weapons')
           elsif location.mining_station?
-            price = price * 0.75 if loader.include?("asteroid.")
+            price = price * 0.75 if loader.include?('asteroid.')
           end
         else # type == "ship"
           price = Spaceship.get_attribute(loader, :price, default: 0) * 0.9

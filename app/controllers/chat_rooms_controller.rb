@@ -79,7 +79,7 @@ class ChatRoomsController < ApplicationController
   def search
     raise InvalidRequest if !params[:name] || !params[:identifier]
 
-    result = User.where("full_name ILIKE ?", "%#{params[:name]}%").where.not(faction_id: nil).first(20)
+    result = User.where('full_name ILIKE ?', "%#{params[:name]}%").where.not(faction_id: nil).first(20)
 
     render(partial: 'game/chat/search', locals: { users: result, identifier: params[:identifier] })
   end

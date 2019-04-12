@@ -11,13 +11,13 @@ RSpec.describe PollsController, type: :controller do
     describe 'POST create' do
       it 'should create poll as admin' do
         user.update(admin: true)
-        post :create, params: { question: "Test", link: "Test" }
+        post :create, params: { question: 'Test', link: 'Test' }
         expect(response).to have_http_status(:ok)
         expect(Poll.count).to eq(1)
       end
 
       it 'should not create poll as non admin' do
-        post :create, params: { question: "Test", link: "Test" }
+        post :create, params: { question: 'Test', link: 'Test' }
         expect(response).to have_http_status(:bad_request)
         expect(Poll.count).to eq(0)
       end

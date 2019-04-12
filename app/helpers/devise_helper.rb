@@ -1,6 +1,6 @@
 module DeviseHelper
   def devise_error_messages!
-    return "" unless devise_error_messages?
+    return '' unless devise_error_messages?
 
     msg_count = resource.errors.full_messages.count
     if msg_count > 1

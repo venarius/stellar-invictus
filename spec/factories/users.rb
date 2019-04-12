@@ -83,7 +83,7 @@ FactoryBot.define do
     password_confirmation { pass }
     name { "#{Faker::Name.first_name}AA" }
     family_name { "#{Faker::Name.first_name}AA" }
-    avatar { "M_1" }
+    avatar { 'M_1' }
     confirmed_at { Date.today }
     docked { false }
     online { 1 }

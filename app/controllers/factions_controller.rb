@@ -8,7 +8,7 @@ class FactionsController < ApplicationController
 
   def choose_faction
     faction = Faction.ensure(params[:id])
-    raise RedirectRequest.new(game_path, error: "Haste makes waste") if !faction || current_user.faction
+    raise RedirectRequest.new(game_path, error: 'Haste makes waste') if !faction || current_user.faction
 
     rand_location = faction.locations.station.random_row
     raise RedirectRequest.new(factions_path, error: 'errors.something_went_wrong') if !rand_location

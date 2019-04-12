@@ -9,8 +9,8 @@ module ApplicationHelper
       tmp << "    #{I18n.t(name)}"
     end
     tmp << "      <span class='sr-only'>(current)</span>" if current_page?(path)
-    tmp << "  </a>"
-    tmp << "</li>"
+    tmp << '  </a>'
+    tmp << '</li>'
     tmp.join("\n").html_safe
   end
 

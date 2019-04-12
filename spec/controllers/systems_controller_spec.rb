@@ -66,7 +66,7 @@ RSpec.describe SystemsController, type: :controller do
 
     describe 'POST clear_route' do
       it 'should clear route of user' do
-        user.update(route: ["1", "2", "3"])
+        user.update(route: ['1', '2', '3'])
         post :clear_route
         expect(response).to have_http_status(:ok)
         expect(user.reload.route).to eq([])
@@ -75,7 +75,7 @@ RSpec.describe SystemsController, type: :controller do
 
     describe 'POST scan' do
       it 'should render template if user has scanner equipped and is in system where there are exploration sites' do
-        Location.create(system: user.system, name: "Test", location_type: :exploration_site, hidden: true)
+        Location.create(system: user.system, name: 'Test', location_type: :exploration_site, hidden: true)
         Item.create(loader: 'equipment.scanner.military_scanner', spaceship: user.active_spaceship, equipped: true)
         post :scan
         expect(response).to render_template('game/_locations_table')
@@ -100,9 +100,9 @@ RSpec.describe SystemsController, type: :controller do
       end
     end
 
-    describe "POST jump_drive" do
+    describe 'POST jump_drive' do
       describe 'should SUCCEED if' do
-        it "all is good" do
+        it 'all is good' do
           user.update(location: System.medium.first.locations.first)
           user.active_spaceship.update(name: 'Atlas')
           post :jump_drive, params: { id: System.all.high.last }

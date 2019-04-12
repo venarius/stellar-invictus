@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :spaceship do
     user { create(:user_without_spaceship) }
-    name { "Nano" }
+    name { 'Nano' }
     hp { 50 }
   end
 end

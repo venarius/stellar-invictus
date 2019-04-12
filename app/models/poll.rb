@@ -24,11 +24,11 @@ class Poll < ApplicationRecord
 
   def move_up
     case self.status
-    when "active"
+    when 'active'
       self.waiting!
-    when "waiting"
+    when 'waiting'
       self.in_progress!
-    when "in_progress"
+    when 'in_progress'
       self.finished!
     end
   end

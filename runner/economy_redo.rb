@@ -3,7 +3,7 @@ noise_level = [0, 1, 2, 3, 4, 5, 6, 7, 8 , 9, 8, 7, 6, 5, 4, 3, 2, 1]
 i = 0
 
 one_third = Location.all.count / 3
-query = Location.station.where(player_market: false).order(Arel.sql("RANDOM()"))
+query = Location.station.where(player_market: false).order(Arel.sql('RANDOM()'))
 query.limit(one_third).each_with_index do |location, index|
   rabat = ((noise[(noise_level[i] + 1.0) / 10.0] + 1) - 0.5).clamp(0.98, 1.02)
   i = i + 1
@@ -17,19 +17,19 @@ query.limit(one_third).each_with_index do |location, index|
 
     # Customization
     if location.industrial_station?
-      location.market_listings.where("loader ilike ?", "equipment.").each do |listing|
+      location.market_listings.where('loader ilike ?', 'equipment.').each do |listing|
         listing.update(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
 
     if location.warfare_plant?
-      location.market_listings.where("loader ilike ?", "equipment.weapons").each do |listing|
+      location.market_listings.where('loader ilike ?', 'equipment.weapons').each do |listing|
         listing.update(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
 
     if location.mining_station?
-      location.market_listings.where("loader ilike ?", "asteroid.").each do |listing|
+      location.market_listings.where('loader ilike ?', 'asteroid.').each do |listing|
         listing.update(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
       end
     end
@@ -58,7 +58,7 @@ query.limit(one_third).each_with_index do |location, index|
 
   if MarketListing.where(location: location, listing_type: 'item').count < rand(45..65)
     (Item::EQUIPMENT_EASY + Item::EQUIPMENT_MEDIUM).each do |item|
-      next if item == "asteroid.lunarium_ore"
+      next if item == 'asteroid.lunarium_ore'
       rand(0..1).times do
         rand(3..6).times do
           MarketListing.create(loader: item, location: location, listing_type: 'item', price: (Item.get_attribute(item, :price) * rabat * rand(0.98..1.02)).round, amount: rand(10..30))

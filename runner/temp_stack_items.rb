@@ -37,7 +37,7 @@ Location.station.each do |loc|
 end
 
 # Check for Items
-raise "error" if Item.where.not(location: Location.station.first).present?
+raise 'error' if Item.where.not(location: Location.station.first).present?
 
 # Stacking
 User.all.each do |user|

@@ -3,7 +3,7 @@ class KillmailWorker < ApplicationWorker
   def perform(body, attackers = nil, loot = nil)
     return if Rails.env.test? # Do nothing when testing
 
-    uri = URI(ENV.fetch("KILLBOARD_URL", "https://killboard.stellar-invictus.com/"))
+    uri = URI(ENV.fetch('KILLBOARD_URL', 'https://killboard.stellar-invictus.com/'))
     req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 
     if attackers && (attackers != [])
@@ -13,11 +13,11 @@ class KillmailWorker < ApplicationWorker
         next unless attacker
 
         hash = {
-          "id" => attacker.id,
-          "name" => attacker.full_name,
-          "avatar" => attacker.avatar,
-          "ship_name" => attacker.active_spaceship.name,
-          "bounty" => attacker.bounty
+          'id' => attacker.id,
+          'name' => attacker.full_name,
+          'avatar' => attacker.avatar,
+          'ship_name' => attacker.active_spaceship.name,
+          'bounty' => attacker.bounty
         }
         if attacker.corporation
           hash['corporation'] = {
@@ -31,7 +31,7 @@ class KillmailWorker < ApplicationWorker
       end
       body.reverse_merge!(killers: temp)
     else
-      body.reverse_merge!(killers: ["npc"])
+      body.reverse_merge!(killers: ['npc'])
     end
 
     if loot && (loot != [])

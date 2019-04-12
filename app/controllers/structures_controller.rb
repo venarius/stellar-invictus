@@ -4,7 +4,7 @@ class StructuresController < ApplicationController
     container = Structure.ensure(params[:id])
     raise InvalidRequest if !container || (container.location_id != current_user.location_id) || !current_user.can_be_attacked?
 
-    owner_name = ""
+    owner_name = ''
     owner_name = container.user.full_name if container.container?
 
     render partial: 'structures/cargocontainer',

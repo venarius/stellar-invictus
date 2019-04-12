@@ -195,7 +195,7 @@ class CorporationsController < ApplicationController
   def search
     raise InvalidRequest unless params[:search].present?
 
-    result = Corporation.where("name ILIKE ?", "%#{params[:search]}%").first(20)
+    result = Corporation.where('name ILIKE ?', "%#{params[:search]}%").first(20)
     render partial: 'corporations/search', locals: { corporations: result }
   end
 
@@ -218,14 +218,14 @@ class CorporationsController < ApplicationController
   end
 
   def sortable_columns
-    ["corporation_role", "full_name", "last_action"]
+    ['corporation_role', 'full_name', 'last_action']
   end
 
   def sort_column
-    sortable_columns.include?(params[:column]) ? params[:column] : "id"
+    sortable_columns.include?(params[:column]) ? params[:column] : 'id'
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 end

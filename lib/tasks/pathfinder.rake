@@ -2,7 +2,7 @@ namespace :pathfinder do
 
   require 'yaml'
 
-  desc "Generate Paths for Pathfinder.yml"
+  desc 'Generate Paths for Pathfinder.yml'
   task generate_paths: :environment do
     d = {}
     System.where.not(security_status: :wormhole).each do |sys|
@@ -12,9 +12,9 @@ namespace :pathfinder do
     File.open("#{Rails.root}/config/variables/pathfinder.yml", 'w') { |f| f.write d.to_yaml }
   end
 
-  desc "Generate Map Data for mapdata.yml"
+  desc 'Generate Map Data for mapdata.yml'
   task generate_mapdata: :environment do
-    d = { "systems" => {}, "jumpgates" => {} }
+    d = { 'systems' => {}, 'jumpgates' => {} }
     System.where.not(security_status: :wormhole).each do |sys|
       d['systems'][sys.id] = { 'faction' => sys.get_faction&.get_ticker, 'name' => sys.name, 'security' => sys.security_status }
     end

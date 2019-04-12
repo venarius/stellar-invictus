@@ -39,19 +39,19 @@ describe Poll do
       describe 'move_up' do
         it 'should move up' do
           @poll.move_up
-          expect(@poll.reload.status).to eq("in_progress")
+          expect(@poll.reload.status).to eq('in_progress')
         end
 
         it 'should move up' do
           @poll.active!
           @poll.move_up
-          expect(@poll.reload.status).to eq("waiting")
+          expect(@poll.reload.status).to eq('waiting')
         end
 
         it 'should move up' do
           @poll.in_progress!
           @poll.move_up
-          expect(@poll.reload.status).to eq("finished")
+          expect(@poll.reload.status).to eq('finished')
         end
       end
     end

@@ -140,7 +140,7 @@ class MissionGenerator
       if mission.market?
         mission.mission_loader = Item::EQUIPMENT_EASY.sample
       else
-        mission.mission_loader = (Item::ASTEROIDS - ["asteroid.tryon_ore", "asteroid.lunarium_ore"]).sample
+        mission.mission_loader = (Item::ASTEROIDS - ['asteroid.tryon_ore', 'asteroid.lunarium_ore']).sample
       end
       mission.mission_amount = ((difficulty + 1) * rand(5..10))
 

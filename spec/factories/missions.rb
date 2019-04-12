@@ -42,15 +42,15 @@ FactoryBot.define do
   factory :mission do
     mission_type { :delivery }
     mission_status { :active }
-    agent_name { "MyString" }
-    agent_avatar { "MyString" }
+    agent_name { 'MyString' }
+    agent_avatar { 'MyString' }
     text { 1 }
     reward { 1 }
     faction { Faction.all.sample }
     user { nil }
     difficulty { 1 }
     enemy_amount { 1 }
-    mission_loader { "MyString" }
+    mission_loader { 'MyString' }
     mission_amount { 1 }
     faction_bonus { 1.5 }
     faction_malus { 1.5 }

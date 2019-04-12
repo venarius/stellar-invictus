@@ -21,7 +21,7 @@
 
 FactoryBot.define do
   factory :blueprint do
-    loader { "MyString" }
+    loader { 'MyString' }
     chance { 1 }
   end
 end

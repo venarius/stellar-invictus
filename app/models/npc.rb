@@ -57,7 +57,7 @@ class Npc < ApplicationRecord
   def drop_loot
     if self.location.exploration_site?
       loader = Item::MATERIALS
-      loader = loader + ["asteroid.lunarium_ore"] if self.location.system.wormhole?
+      loader = loader + ['asteroid.lunarium_ore'] if self.location.system.wormhole?
       case rand(1..100)
       when 1..75
         loader = Item::EQUIPMENT_EASY + loader
@@ -70,7 +70,7 @@ class Npc < ApplicationRecord
       # Drop Passengers if last NPC or wanted enemy
       if ((self.location.name == I18n.t('exploration.emergency_beacon')) && (self.location.npcs.count == 1)) || (self.wanted_enemy? && (rand(1..5) == 5))
         structure = Structure.create(location: self.location, structure_type: :wreck)
-        Item.create(structure: structure, loader: "delivery.passenger", count: rand(1..5))
+        Item.create(structure: structure, loader: 'delivery.passenger', count: rand(1..5))
       end
     else
       loader = Item::MATERIALS
