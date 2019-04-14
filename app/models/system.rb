@@ -44,7 +44,7 @@ class System < ApplicationRecord
     user_query = self.users.is_online
     user_count = user_query.count
     user_names = ApplicationController.helpers.map_and_sort(user_query)
-    location_ids = user_query.select(:location_id).distinct.pluck(:location_id)
+    location_ids = user_query.select(:location_id).distinct
 
     self.locations.where(id: location_ids).each do |location|
       location.broadcast(:update_players_in_system, count: user_count, names: user_names)
