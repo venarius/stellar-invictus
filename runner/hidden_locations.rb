@@ -5,6 +5,16 @@ System.all.each do |system|
 
   # Clear all hidden locations
   system.locations.where(hidden: true).each do |loc|
+    if loc.users.present?
+      can_move = true
+      loc.users.each do |user|
+        can_move = false if user.online > 0 || user.last_action > Time.now - 1.days
+      end
+      if can_move
+        loc.users.update_all(location_id: Location.where(location_type: :station).first.id, system_id: Location.where(location_type: :station).first.system_id, docked: true)
+      end
+    end
+
     loc.destroy if loc.users.empty? && Spaceship.where(warp_target_id: loc.id).empty? && !loc.wormhole?
   end
 
