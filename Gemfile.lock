@@ -61,7 +61,7 @@ GEM
       uniform_notifier (~> 1.11)
     character_set (1.2.0)
     chronic (0.10.2)
-    client_side_validations (13.1.0)
+    client_side_validations (14.0.0)
       jquery-rails (~> 4.3)
       js_regex (~> 3.1)
       rails (>= 5.0.0.1, <= 6.0.0.beta3)
