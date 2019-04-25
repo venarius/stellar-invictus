@@ -4,7 +4,7 @@
       <% if friendship.friend == current_user %>
         <tr>
           <td>
-            <%= image_tag("avatars/#{friendship.user_avatar}.jpg", class: 'float-left') %>
+            <%= image_tag(friendship.user_avatar_url, class: 'float-left') %>
             <div class="float-right">
               <button class="btn btn-outline-success accept-friend-request-btn btn-sm" data-id="<%= friendship.id %>">
                 <i class="fa fa-plus"></i>
@@ -13,14 +13,14 @@
                 <i class="fa fa-times"></i>
               </button>
             </div>
-            <a href="#" class="player-modal" data-id=<%= friendship.user_id %>><strong><%= friendship.user_full_name %></strong></a><br>
+            <a href="#" class="player-modal" data-id=<%= friendship.user_id %>><strong><%= friendship.user.full_name %></strong></a><br>
             <%= online_status(friendship.user) %>
           </td>
         </tr>
       <% else %>
         <tr>
           <td>
-            <%= image_tag("avatars/#{friendship.friend_avatar}.jpg", class: 'float-left') %>
+            <%= image_tag(friendship.friend_avatar_url, class: 'float-left') %>
             <div class="float-right">
               <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.friend_id %>">
                 <i class="fa fa-times"></i>

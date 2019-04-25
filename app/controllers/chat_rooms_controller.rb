@@ -1,131 +1,86 @@
 class ChatRoomsController < ApplicationController
-  # Create a new ChatRoom
   def create
-    if params[:title]
-      room = ChatRoom.new(title: params[:title], chatroom_type: 'custom')
-      if room.save
-        room.users << current_user
-        render(json: { 'id': room.identifier }, status: 200) && (return)
-      else
-        render(json: { error_message: room.errors.full_messages }, status: 400) && (return)
-      end
+    raise InvalidRequest if params[:title].blank?
+
+    room = ChatRoom.new(title: params[:title], chatroom_type: :custom)
+    if room.save
+      room.users << current_user
+      render json: { 'id': room.identifier }, status: :ok
+    else
+      render json: { error_message: room.errors.full_messages }, status: :bad_request
     end
-    render json: {}, status: 400
   end
 
   # Join a ChatRoom
   def join
-    if params[:id]
-      room = ChatRoom.find_by(identifier: params[:id]) rescue nil
+    room = ChatRoom.ensure(params[:id])
+    raise InvalidRequest unless room
+    raise InvalidRequest.new('errors.couldnt_find_chat_room') unless room.custom?
+    raise InvalidRequest.new('errors.already_joined_chat_room') if room.user_in_room?(current_user)
 
-      # Get users of room
-      room_users = room.users rescue nil
-
-      # If room found and room is custom type and player hasn't joined already
-      if room && room.custom?
-
-        # Check if already joined
-        render(json: { 'error_message': I18n.t('errors.already_joined_chat_room') }, status: 400) && (return) unless room_users.where(id: current_user.id).empty?
-
-        # If room has fleet -> Fleet Stuff
-        if room.fleet
-          ChatChannel.broadcast_to(room, method: 'player_appeared')
-          current_user.update_columns(fleet_id: room.fleet.id)
-        end
-
-        # Add current_user to room users
-        room_users << current_user
-
-        # Broadcast
-        ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_joined_channel', user: current_user.full_name)}</td></tr>")
-        room.update_local_players
-
-        # Render 200 OK
-        render(json: { 'id': room.identifier }, status: 200) && (return)
-      else
-        render(json: { 'error_message': I18n.t('errors.couldnt_find_chat_room') }, status: 400) && (return)
-      end
+    if room.fleet
+      ChatChannel.broadcast_to(room, method: 'player_appeared')
+      current_user.update(fleet_id: room.fleet.id)
     end
-    render json: {}, status: 400
+
+    room.users << current_user
+
+    ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_joined_channel', user: current_user.full_name)}</td></tr>")
+    room.update_local_players
+
+    render json: { 'id': room.identifier }, status: :ok
   end
 
   # Leave a ChatRoom
   def leave
-    if params[:id]
-      room = ChatRoom.find_by(identifier: params[:id]) rescue nil
+    room = ChatRoom.ensure(params[:id])
+    raise InvalidRequest if !room || !room.user_in_room?(current_user)
 
-      # Get users of room
-      room_users = room.users rescue nil
+    room.users.destroy(current_user)
 
-      # If room and user is in room
-      if room && room_users.where(id: current_user.id).present?
+    ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_left_channel', user: current_user.full_name)}</td></tr>")
+    room.update_local_players
 
-        # Remove user from the room
-        room_users.destroy(current_user)
+    if room.fleet
+      ChatChannel.broadcast_to(room, method: :player_appeared)
+      current_user.update(fleet: nil)
 
-        # Broadcast
-        ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_left_channel', user: current_user.full_name)}</td></tr>")
-        room.update_local_players
-
-        # If the room has a fleet
-        if room.fleet
-          # Fleet Stuff
-          ChatChannel.broadcast_to(room, method: 'player_appeared')
-          current_user.update_columns(fleet_id: nil)
-
-          # If User was creator of fleet
-          if room.fleet.creator == current_user
-            # Destroy fleet
-            room.fleet.update_columns(user_id: nil)
-            room.destroy
-          end
-        end
-
-        # If room is empty -> destroy
-        if (room_users.count <= 0) && (room.identifier != 'ROOKIES') && (room.identifier != 'RECRUIT')
-          room.destroy
-        end
-
-        # Render 200 OK
-        render(json: {}, status: 200) && (return)
+      # If User was creator of fleet, then Destroy
+      if room.fleet.creator == current_user
+        room.fleet.update(creator: nil)
+        room.destroy
       end
     end
-    render json: {}, status: 400
+
+    if room.users.count.zero? && !%w[ROOKIES RECRUIT].include?(room.identifier)
+      room.destroy
+    end
+
+    render(json: {}, status: :ok)
   end
 
   # Invite other user to conversation
   def start_conversation
-    if params[:id]
-      user = User.find(params[:id])
+    user = User.ensure(params[:id])
+    raise InvalidRequest if !user || user == current_user
 
-      # If user and user is not current_user
-      if user && (user != current_user)
-
-        if !params[:identifier]
-          # Create a new ChatRoom
-          room = ChatRoom.create(title: I18n.t('chat.conversation'), chatroom_type: 'custom')
-
-          # Add User to ChatRoom
-          room.users << current_user
-        else
-          room = ChatRoom.find_by(identifier: params[:identifier])
-        end
-
-        # Perform Job
-        InviteToConversationJob.perform_now(current_user.id, room.identifier, user.id)
-
-        # Render 200 OK
-        render(json: { 'id': room.identifier }, status: 200) && (return)
-      end
+    if !params[:identifier]
+      room = ChatRoom.create(title: I18n.t('chat.conversation'), chatroom_type: :custom)
+      room.users << current_user
+    else
+      room = ChatRoom.ensure(params[:identifier])
     end
-    render json: {}, status: 400
+
+    InviteToConversationJob.perform_now(current_user.id, room.identifier, user.id)
+
+    render json: { 'id': room.identifier }, status: :ok
   end
 
   def search
-    if params[:name] && params[:identifier]
-      result = User.where("full_name ILIKE ?", "%#{params[:name]}%").where.not(faction_id: nil).first(20)
-      render(partial: 'game/chat/search', locals: { users: result, identifier: params[:identifier] }) && (return)
-    end
-    render json: {}, status: 400
+    raise InvalidRequest if !params[:name] || !params[:identifier]
+
+    result = User.where('full_name ILIKE ?', "%#{params[:name]}%").where.not(faction_id: nil).first(20)
+
+    render(partial: 'game/chat/search', locals: { users: result, identifier: params[:identifier] })
   end
 end

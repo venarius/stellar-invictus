@@ -20,6 +20,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'bullet'
+  gem 'action-cable-testing' # remove when on Rails 6+
 end
 
 group :development, :test do
@@ -31,6 +32,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'fuubar'
   gem 'awesome_print'
+  gem 'annotate', require: false  # annotate models with their schemas
 end
 
 group :production, :development do
@@ -64,8 +66,6 @@ gem 'acts_as_votable'
 gem 'recaptcha'
 # Bugsnag for Errors
 gem 'bugsnag'
-# Activerecord-Import for fast transactions
-gem 'activerecord-import'
 # Social Logins
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
@@ -76,3 +76,6 @@ gem 'rails-assets-jquery-hoverintent', source: 'https://rails-assets.org'
 # Rubocop
 gem 'rubocop'
 gem 'rubocop-rspec'
+# For Service Object functionality
+gem 'dry-initializer'
+gem 'dry-monads'

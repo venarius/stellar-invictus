@@ -71,7 +71,7 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" data-target="#about-user-info" href="#0" role="tab"><%= I18n.t('users.about') %></a>
           </li>
-          <% if current_user.admin || current_user.chat_mod %>
+          <% if current_user.admin? || current_user.chat_mod?  %>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" data-target="#about-user-ship" href="#0" role="tab"><%= I18n.t('users.current_ship') %></a>
             </li>
@@ -92,13 +92,13 @@
           </div>
           <div class="tab-pane fade" id="about-user-info" role="tabpanel">
             <% if user.faction %>
-              <span><%= I18n.t('users.faction') %>: <%= user.faction_name %></span><br>
+              <span><%= I18n.t('users.faction') %>: <%= user.faction.name %></span><br>
             <% end %>
             <% if user.corporation %>
-              <span><%= I18n.t('users.corporation') %>: <a class="corporation-modal" href="#" data-id="<%= user.corporation_id %>"><%= user.corporation_name %></a></span><br>
+              <span><%= I18n.t('users.corporation') %>: <a class="corporation-modal" href="#" data-id="<%= user.corporation_id %>"><%= user.corporation.name %></a></span><br>
             <% end %>
           </div>
-          <% if current_user.admin || current_user.chat_mod %>
+          <% if current_user.admin? || current_user.chat_mod?  %>
             <div class="tab-pane fade" id="about-user-ship" role="tabpanel">
               <div class="mt-5px">
                 <%= render partial: 'ships/vars', locals: {value: user.active_spaceship.get_attributes(), key: user.active_spaceship.name} %>

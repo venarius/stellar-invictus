@@ -1,36 +1,28 @@
 class FactionsController < ApplicationController
-  before_action :redirect_if_faction, except: [:choose_faction]
   skip_before_action :redirect_if_no_faction
 
   def index
+    redirect_to game_path if current_user.faction
     @factions = Faction.all
   end
 
   def choose_faction
-    if !current_user.faction
-      faction = Faction.find(params[:id]) rescue nil
-      rand_location = faction.locations.where(location_type: :station).order(Arel.sql("RANDOM()")).first rescue nil
-      if faction && rand_location && current_user.update_columns(faction_id: faction.id, location_id: rand_location.id, system_id: rand_location.system.id, docked: true)
+    faction = Faction.ensure(params[:id])
+    raise RedirectRequest.new(game_path, error: 'Haste makes waste') if !faction || current_user.faction
 
-        # Give player ship and equipment
-        current_user.give_nano
+    rand_location = faction.locations.station.random_row
+    raise RedirectRequest.new(factions_path, error: 'errors.something_went_wrong') if !rand_location
 
-        # Add user to rookie channel
-        ChatRoom.find_by(identifier: 'ROOKIES').users << current_user
-
-        redirect_to game_path
-      else
-        flash[:error] = I18n.t('errors.something_went_wrong')
-        redirect_to factions_path
-      end
-    else
-      redirect_to game_path
+    if !current_user.update(faction: faction, location: rand_location, docked: true)
+      raise RedirectRequest.new(factions_path, error: 'errors.something_went_wrong')
     end
-  end
 
-  protected
+    # Give player ship and equipment
+    current_user.give_nano
 
-  def redirect_if_faction
-    redirect_to game_path if current_user.faction
+    # Add user to rookie channel
+    ChatRoom.ensure('ROOKIES').users << current_user
+
+    redirect_to game_path
   end
 end

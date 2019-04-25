@@ -2,6 +2,8 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    action-cable-testing (0.5.0)
+      actioncable (>= 5.0)
     actioncable (5.2.3)
       actionpack (= 5.2.3)
       nio4r (~> 2.0)
@@ -34,8 +36,6 @@ GEM
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
       arel (>= 9.0)
-    activerecord-import (1.0.1)
-      activerecord (>= 3.2)
     activestorage (5.2.3)
       actionpack (= 5.2.3)
       activerecord (= 5.2.3)
@@ -46,6 +46,9 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     acts_as_votable (0.12.0)
+    annotate (2.7.4)
+      activerecord (>= 3.2, < 6.0)
+      rake (>= 10.4, < 13.0)
     arel (9.0.0)
     ast (2.4.0)
     awesome_print (1.8.0)
@@ -88,6 +91,14 @@ GEM
     dotenv-rails (2.7.2)
       dotenv (= 2.7.2)
       railties (>= 3.2, < 6.1)
+    dry-core (0.4.7)
+      concurrent-ruby (~> 1.0)
+    dry-equalizer (0.2.2)
+    dry-initializer (2.5.0)
+    dry-monads (1.2.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.4, >= 0.4.4)
+      dry-equalizer
     erubi (1.8.0)
     execjs (2.7.0)
     factory_bot (5.0.2)
@@ -326,8 +337,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-import
+  action-cable-testing
   acts_as_votable
+  annotate
   awesome_print
   bootstrap4-kaminari-views
   bugsnag
@@ -337,6 +349,8 @@ DEPENDENCIES
   database_cleaner
   devise
   dotenv-rails
+  dry-initializer
+  dry-monads
   factory_bot_rails
   faker
   fuubar

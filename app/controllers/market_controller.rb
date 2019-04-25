@@ -1,245 +1,247 @@
 class MarketController < ApplicationController
   before_action :check_docked
 
-  include ApplicationHelper
-
   def list
-    if params[:loader]
-      listings = MarketListing.where(location: current_user.location).where("loader ilike ?", "%#{params[:loader]}%")
-      render(partial: 'stations/market/list', locals: { market_listings: listings, can_create_buy_order: current_user.location.player_market }) && (return)
-    end
-    render json: {}, status: 400
+    raise InvalidRequest unless params[:loader]
+
+    listings = MarketListing.
+      where(location: current_user.location).
+      where('loader ilike ?', "%#{params[:loader]}%")
+
+    render partial: 'stations/market/list',
+           locals: {
+        market_listings: listings,
+        can_create_buy_order: current_user.location.player_market
+      }
   end
 
   def search
-    if params[:search]
+    raise InvalidRequest unless params[:search]
 
-      listings = MarketListing.where(location: current_user.location).where("loader ilike ?", "%#{params[:search].gsub(' ', '_')}%")
-      render(partial: 'stations/market/list', locals: { market_listings: listings, can_create_buy_order: false }) && (return)
-    end
-    render json: {}, status: 400
+    listings = MarketListing.
+      where(location: current_user.location).
+      where('loader ilike ?', "%#{params[:search].gsub(' ', '_')}%")
+
+    render partial: 'stations/market/list',
+           locals: {
+         market_listings: listings,
+         can_create_buy_order: false
+      }
   end
 
   def buy
-    if params[:id] && params[:amount]
-      amount = params[:amount].to_i
-      listing = MarketListing.find(params[:id]) rescue nil
-      if listing && (listing.location == current_user.location) && (amount >= 1)
+    listing = MarketListing.ensure(params[:id])
+    amount = params[:amount].to_i
+    raise InvalidRequest if !listing || listing.location_id != current_user.location_id || amount <= 0
 
-        # Check Amount
-        render(json: { 'error_message': I18n.t('errors.you_cant_buy_that_much') }, status: 400) && (return) if amount > listing.amount
+    # Check Amount && Balance
+    raise InvalidRequest.new('errors.you_cant_buy_that_much') if amount > listing.amount
+    raise InvalidRequest.new('errors.you_dont_have_enough_credits') if current_user.reload.units < (listing.price * amount)
 
-        # Check Balance
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: 400) && (return) unless current_user.reload.units >= listing.price * amount
+    # If listing is item -> else..
+    if listing.item?
+      Item::GiveToUser.(location: current_user.location, user: current_user, loader: listing.loader, amount: amount)
+    else
+      # Check if met requirements
+      ship = Spaceship.get_attributes(listing.loader)
+      if ship['faction'] && ship['reputation_requirement']
+        rank = Faction.ensure(ship['faction']).get_rank(current_user)
+        raise InvalidRequest.new('errors.you_dont_have_the_required_reputation') if !rank || (rank['type'] < ship['reputation_requirement'])
+      end
 
-        # If listing is item -> else..
-        if listing.item?
-          Item.give_to_user(location: current_user.location, user: current_user, loader: listing.loader, amount: amount)
-        else
-
-          # Check if met requirements
-          ship = Spaceship.get_attributes(listing.loader)
-          if ship['faction'] && ship['reputation_requirement']
-            rank = Faction.find(ship['faction']).get_rank(current_user)
-            render(json: { 'error_message': I18n.t('errors.you_dont_have_the_required_reputation') }, status: 400) && (return) unless rank && (rank['type'] >= ship['reputation_requirement'])
-          end
-
-          amount.times do
-            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))
-          end
-        end
-
-        # Deduct units
-        current_user.reduce_units(listing.price * amount)
-
-        # If listing belonged to user -> give 95% of price to user and inform
-        if listing.user
-          listing.user.give_units(listing.price * amount * 0.95)
-          if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: Item.get_attribute(listing.loader, :name)))
-          else
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_bought', amount: amount, name: listing.loader))
-          end
-          ActionCable.server.broadcast("player_#{listing.user_id}", method: 'refresh_player_info')
-        end
-
-        # Destroy Listing
-        new_amount = listing.amount - amount
-        listing.update_columns(amount: new_amount)
-        listing.destroy if new_amount == 0
-
-        render(json: { 'new_amount': new_amount }, status: 200) && (return)
+      amount.times do
+        Spaceship.create(
+          location: current_user.location,
+          user: current_user,
+          name: listing.loader,
+          hp: Spaceship.get_attribute(listing.loader, :hp)
+        )
       end
     end
-    render json: {}, status: 400
+
+    # Deduct units
+    current_user.reduce_units(listing.price * amount)
+
+    # If listing belonged to user -> give 95% of price to user and inform
+    if listing.user
+      listing.user.give_units(listing.price * amount * 0.95)
+      listing.user.broadcast(:notify_info,
+        text: I18n.t('notification.someone_bought', amount: amount, name: listing.name)
+      )
+      listing.user.broadcast(:refresh_player_info)
+    end
+
+    # Destroy Listing
+    new_amount = listing.amount - amount
+    if new_amount == 0
+      listing.destroy
+    else
+      listing.update(amount: new_amount)
+    end
+
+    render json: { 'new_amount': new_amount }, status: :ok
   end
 
   def appraisal
     price = generate_price(params[:loader], params[:type], params[:quantity])
-    if price != nil
-      render json: { "price": price }, status: 200
-    else
-      render json: {}, status: 400
-    end
+    raise InvalidRequest unless price
+
+    render json: { "price": price }, status: :ok
   end
 
   def sell
+    raise InvalidRequest unless %w[item ship].include?(params[:type])
 
     # check if player market -> else generate price
     player_market = current_user.location.player_market
     if player_market
-      price = params[:price].to_i rescue nil
+      price = params[:price].to_i
     else
       price = generate_price(params[:loader], params[:type], params[:quantity])
     end
+    raise InvalidRequest unless price
 
     quantity = params[:quantity].to_i
-    if price != nil
 
-      # If type == item -> else..
-      if params[:type] == "item"
-        # Check if user tries to sell more
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if (Item.find_by(loader: params[:loader], user: current_user, location: current_user.location).count rescue 0) < quantity
-
-        # Destroy items
-        Item.remove_from_user(loader: params[:loader], user: current_user, location: current_user.location, amount: quantity)
-
-      elsif (params[:type] == "ship") && params[:loader]
-
-        # Check if user tries to sell more
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this_or_trying_to_sell_active_ship') }, status: 400) && (return) if Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).count < quantity
-
-        ships = Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).limit(quantity) rescue nil
-
-        if ships
-          ships.each do |ship|
-            # Check if active ship - Fallback
-            render(json: { 'error_message': I18n.t('errors.you_cant_sell_active_ship') }, status: 400) && (return) if ship == current_user.active_spaceship
-
-            ship.destroy
-          end
-        else
-          render(json: {}, status: 400) && (return)
-        end
-      else
-        render(json: {}, status: 400) && (return)
+    # If type == item -> else..
+    if params[:type] == 'item'
+      # Check if user tries to sell more
+      if Item.where(loader: params[:loader], user: current_user, location: current_user.location).count < quantity
+        raise InvalidRequest.new('errors.you_dont_have_enough_of_this')
       end
 
-      # Deduct Units
-      current_user.give_units(price) unless player_market
+      # Destroy items
+      Item::RemoveFromUser.(loader: params[:loader], user: current_user, location: current_user.location, amount: quantity)
 
-      # Generate Listing
-      fill_listing = MarketListing.where(loader: params[:loader], location: current_user.location).where("amount < 20").first rescue nil
-      if fill_listing && !player_market
-        fill_listing.update_columns(amount: fill_listing.amount + quantity)
-      else
-        rabat = (rand(1.0..1.2) * rand(0.98..1.02)) unless player_market
-        if params[:type] == "item"
-          if player_market
-            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: price, amount: quantity, user: current_user)
-          else
-            MarketListing.create(loader: params[:loader], listing_type: 'item', location: current_user.location, price: (Item.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
-          end
-        elsif params[:type] == "ship"
-          if player_market
-            MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: price, amount: quantity, user: current_user)
-          else
-            MarketListing.create(loader: params[:loader], listing_type: 'ship', location: current_user.location, price: (Spaceship.get_attribute(params[:loader], :price) * rabat).round, amount: quantity)
-          end
-        end
+    elsif (params[:type] == 'ship') && params[:loader]
+
+      # Check if user tries to sell more
+      if Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).count < quantity
+        raise InvalidRequest.new('errors.you_dont_have_enough_of_this_or_trying_to_sell_active_ship')
       end
+      ships = Spaceship.where(user: current_user, location: current_user.location, name: params[:loader]).limit(quantity)
+      raise InvalidRequest unless ships.present?
+      ships.each do |ship|
+        # Check if active ship - Fallback
+        raise InvalidRequest.new('errors.you_cant_sell_active_ship') if ship == current_user.active_spaceship
 
-      render(json: {}, status: 200) && (return)
+        ship.destroy
+      end
     end
-    render json: {}, status: 400
+
+    # Deduct Units
+    current_user.give_units(price) unless player_market
+
+    # Generate Listing
+    fill_listing = MarketListing.where(loader: params[:loader], location: current_user.location).where('amount < 20').first
+    if fill_listing && !player_market
+      fill_listing.increment!(:amount, quantity)
+    else
+
+      attrs = {
+        loader: params[:loader],
+        location: current_user.location,
+        amount: quantity,
+        listing_type: params[:type]
+      }
+
+      if player_market
+        attrs = attrs.merge(price: price, user: current_user)
+      else
+        rabat = (rand(1.0..1.2) * rand(0.98..1.02))
+        info_class = (params[:type] == 'item') ? Item : Spaceship
+        attrs[:price] = (info_class.get_attribute(params[:loader], :price) * rabat).round
+      end
+
+      MarketListing.create(**attrs)
+    end
+
+    render json: {}, status: :ok
   end
 
   def create_buy
-    if params[:name] && params[:amount] && params[:price]
-      name = params[:name]
-      amount = params[:amount].to_i
-      price = params[:price].to_i
+    raise InvalidRequest if !params[:name] || !params[:amount] || !params[:price]
 
-      # Check Balance
-      render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: 400) && (return) unless current_user.reload.units >= amount * price
-      current_user.reduce_units(amount * price)
+    name = params[:name]
+    amount = params[:amount].to_i
+    price = params[:price].to_i
 
-      # Find Loader
-      if Spaceship.ship_variables.keys.include?(name)
-        type = "ship"
-      elsif Item.get_attribute(name[/\(.*?\)/].gsub("(", "").gsub(")", ""), :name)
-        type = "item"
-        name = name[/\(.*?\)/].gsub("(", "").gsub(")", "")
-      else
-        render(json: { 'error_message': I18n.t('errors.name_not_found') }, status: 400) && (return)
-      end
+    # Check Balance
+    raise InvalidRequest.new('errors.you_dont_have_enough_credits') if current_user.reload.units < (amount * price)
+    current_user.reduce_units(amount * price)
 
-      MarketListing.create(loader: name, listing_type: type, location: current_user.location, price: price, amount: amount, user: current_user, order_type: :buy)
-
-      render(json: {}, status: 200) && (return)
+    # Find Loader
+    if Spaceship.get_attributes.keys.include?(name)
+      type = 'ship'
+    elsif Item.get_attribute(name[/\(.*?\)/].gsub('(', '').gsub(')', ''), :name)
+      type = 'item'
+      name = name[/\(.*?\)/].gsub('(', '').gsub(')', '')
+    else
+      raise InvalidRequest.new('errors.name_not_found')
     end
-    render json: {}, status: 400
+
+    MarketListing.create(loader: name, listing_type: type, location: current_user.location, price: price, amount: amount, user: current_user, order_type: :buy)
+
+    render json: {}, status: :ok
   end
 
   def fulfill_buy
-    if params[:id] && params[:amount]
-      amount = params[:amount].to_i rescue nil
-      listing = MarketListing.find(params[:id]) rescue nil
-      if amount && listing && (listing.location == current_user.location) && (amount >= 1)
-        # Check Amount
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if (Item.find_by(loader: listing.loader, location: current_user.location, user: current_user).count rescue 0) < amount
-        render(json: { 'error_message': I18n.t('errors.buyer_doesnt_want_that_much') }, status: 400) && (return) if amount > listing.amount
-        # Remove Items and give credits
-        Item.remove_from_user(loader: listing.loader, amount: amount, location: current_user.location, user: current_user)
-        current_user.give_units(listing.price * amount * 0.95)
-        # Give Items to Buyer and reduce listing
-        Item.give_to_user(loader: listing.loader, amount: amount, location: current_user.location, user: listing.user)
-        new_amount = listing.amount - amount
-        listing.update_columns(amount: new_amount)
-        listing.destroy if new_amount == 0
-        # If listing belonged to user -> notify
-        if listing.user
-          if listing.item?
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: Item.get_attribute(listing.loader, :name)))
-          else
-            ActionCable.server.broadcast("player_#{listing.user_id}", method: 'notify_info', text: I18n.t('notification.someone_sold', amount: amount, name: listing.loader))
-          end
-          ActionCable.server.broadcast("player_#{listing.user_id}", method: 'refresh_player_info')
-        end
-        render(json: { new_amount: new_amount }, status: 200) && (return)
-      end
+    amount = params[:amount].to_i
+    listing = MarketListing.ensure(params[:id])
+    raise InvalidRequest if amount.zero? || !listing
+    raise InvalidRequest if listing.location_id != current_user.location_id
+
+    # Check Amount
+    if Item.where(loader: listing.loader, location: current_user.location, user: current_user).first.count < amount
+      raise InvalidRequest.new('errors.you_dont_have_enough_of_this')
     end
-    render json: {}, status: 400
+    raise InvalidRequest.new('errors.buyer_doesnt_want_that_much') if amount > listing.amount
+
+    # Remove Items and give credits
+    Item::RemoveFromUser.(loader: listing.loader, amount: amount, location: current_user.location, user: current_user)
+    current_user.give_units(listing.price * amount * 0.95)
+
+    # Give Items to Buyer and reduce listing
+    Item::GiveToUser.(loader: listing.loader, amount: amount, location: current_user.location, user: listing.user)
+    new_amount = listing.amount - amount
+    if new_amount == 0
+      listing.destroy
+    else
+      listing.update(amount: new_amount)
+    end
+    # If listing belonged to user -> notify
+    if listing.user
+      listing.user.broadcast(:notify_info,
+        text: I18n.t('notification.someone_sold', amount: amount, name: listing.name)
+      )
+      listing.user.broadcast(:refresh_player_info)
+    end
+    render json: { new_amount: new_amount }, status: :ok
   end
 
   def my_listings
     listings = MarketListing.where(location: current_user.location).where(user: current_user)
-    render(partial: 'stations/market/my_listings', locals: { market_listings: listings }) && (return)
+    render partial: 'stations/market/my_listings', locals: { market_listings: listings }
   end
 
   def delete_listing
-    if params[:id]
-      listing = MarketListing.find(params[:id]) rescue nil
+    listing = MarketListing.ensure(params[:id])
+    raise InvalidRequest if !listing || (listing.user_id != current_user.id) || (listing.location_id != current_user.location_id)
 
-      if listing && (listing.user == current_user) && (listing.location == current_user.location)
-
-        # Is listing is buy -> return money
-        if listing.buy?
-          current_user.give_units(listing.amount * listing.price)
-        elsif listing.sell? && listing.item?
-          Item.give_to_user(location: current_user.location, user: current_user, loader: listing.loader, amount: listing.amount)
-        elsif listing.sell? && listing.ship?
-          listing.amount.times do
-            Spaceship.create(location: current_user.location, user: current_user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))
-          end
-        end
-
-        listing.destroy
-
-        render(json: {}, status: 200) && (return)
+    # Is listing is buy -> return money
+    if listing.buy?
+      current_user.give_units(listing.amount * listing.price)
+    elsif listing.sell? && listing.item?
+      Item::GiveToUser.(location: listing.location, user: listing.user, loader: listing.loader, amount: listing.amount)
+    elsif listing.sell? && listing.ship?
+      listing.amount.times do
+        Spaceship.create(location: listing.location, user: listing.user, name: listing.loader, hp: Spaceship.get_attribute(listing.loader, :hp))
       end
     end
-    render json: {}, status: 400
+
+    listing.destroy
+
+    render json: {}, status: :ok
   end
 
   private
@@ -248,27 +250,29 @@ class MarketController < ApplicationController
     if loader && type
       listings = MarketListing.where(loader: loader, location: current_user.location).count
       if quantity && (quantity.to_i > 0)
-        if type == "item"
-
+        if type == 'item'
           price = Item.get_attribute(loader, :price, default: 0) * 0.9
 
           # Customization
           location = current_user.location
           if location.industrial_station?
-            price = price * 0.75 if loader.include?("equipment.")
+            price = price * 0.75 if loader.include?('equipment.')
           elsif location.warfare_plant?
-            price = price * 0.75 if loader.include?("equipment.weapons")
+            price = price * 0.75 if loader.include?('equipment.weapons')
           elsif location.mining_station?
-            price = price * 0.75 if loader.include?("asteroid.")
+            price = price * 0.75 if loader.include?('asteroid.')
           end
-
-        else
+        else # type == "ship"
           price = Spaceship.get_attribute(loader, :price, default: 0) * 0.9
         end
-        listings = 1 if listings == 0
-        price = price * quantity.to_i if price
-        price = (price rescue nil / (1.05**listings)).round rescue nil
-        return price
+
+        listings = [listings, 1].max
+        if price
+          price = price * quantity.to_i
+          price = (price / (1.05**listings)).round
+        end
+
+        price
       end
     end
   end

@@ -20,7 +20,7 @@ RSpec.describe GameMailsController, type: :controller do
 
     describe 'POST create' do
       it 'should redirect_to login' do
-        post :create, params: { game_mail: { recipient_name: "Test Test", header: 'Test', body: 'Test' } }
+        post :create, params: { game_mail: { recipient_name: 'Test Test', header: 'Test', body: 'Test' } }
         expect(response.code).to eq('302')
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -37,14 +37,14 @@ RSpec.describe GameMailsController, type: :controller do
 
   context 'with login' do
     before(:each) do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
     end
 
     describe 'GET index' do
       it 'should render index' do
         get :index
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('index')
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe GameMailsController, type: :controller do
     describe 'GET new' do
       it 'should render new' do
         get :new
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('new')
       end
     end
@@ -67,13 +67,13 @@ RSpec.describe GameMailsController, type: :controller do
 
       it 'should not create message with invalid recipient' do
         post :create, params: { game_mail: { recipient_name: 'Test', body: 'Test', header: 'Test' } }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('new')
         expect(flash[:alert]).to be_present
       end
 
       it 'should pass units to recipient' do
-        @user2 = FactoryBot.create(:user_with_faction)
+        @user2 = create(:user_with_faction)
         post :create, params: { game_mail: { recipient_name: @user2.full_name, body: 'Test', header: 'Test', units: 10 } }
         expect(response.code).to eq('302')
         expect(response).to redirect_to(game_mails_path)
@@ -101,17 +101,17 @@ RSpec.describe GameMailsController, type: :controller do
 
     describe 'GET show' do
       it 'should show message on valid id' do
-        @mail = FactoryBot.create(:game_mail, sender: @user, recipient: @user)
+        @mail = create(:game_mail, sender: @user, recipient: @user)
         expect(@mail.read).to be_falsey
         get :show, params: { id: @mail.id }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('game_mails/_show')
         expect(@mail.reload.read).to be_truthy
       end
 
       it 'should redirect on other id which does not belong to user' do
-        @user2 = FactoryBot.create(:user_with_faction)
-        @mail = FactoryBot.create(:game_mail, sender: @user2, recipient: @user2)
+        @user2 = create(:user_with_faction)
+        @mail = create(:game_mail, sender: @user2, recipient: @user2)
         get :show, params: { id: @mail.id }
         expect(response.code).to eq('302')
         expect(response).to redirect_to(game_mails_path)

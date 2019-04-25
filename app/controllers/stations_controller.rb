@@ -1,25 +1,25 @@
 class StationsController < ApplicationController
-  before_action :check_police, only: [:dock]
-
-  include ApplicationHelper
-
   def dock
-    # If user is at station and not docked
-    if (current_user.location.location_type == 'station') && current_user.can_be_attacked
+    raise InvalidRequest.new('errors.police_inbound') if police_inbound?
+    location = current_user.location
+    raise InvalidRequest if !location.station? || !current_user.can_be_attacked?
 
-      # Refuse if standing below -10
-      if current_user.location.faction && (current_user["reputation_#{current_user.location.faction_id}"] <= -10)
-        render(json: { error_message: I18n.t('errors.docking_request_denied_low_standing') }, status: 400) && (return)
-      end
+    # Refuse if standing below -10
+    if location.faction && (current_user["reputation_#{location.faction_id}"] <= -10)
+      raise InvalidRequest.new('errors.docking_request_denied_low_standing')
+    end
 
-      # Dock the user
-      current_user.dock
+    # Dock the user
+    current_user.dock
 
-      # Repair ship
-      current_user.active_spaceship.repair
-      if current_user.fleet
-        ChatChannel.broadcast_to(current_user.fleet.chat_room, method: 'update_hp_color', color: current_user.active_spaceship.get_hp_color, id: current_user.id)
-      end
+    # Repair ship
+    current_user.active_spaceship.repair
+    if current_user.fleet
+      ChatChannel.broadcast_to(current_user.fleet.chat_room,
+        method: 'update_hp_color',
+        color: current_user.active_spaceship.get_hp_color,
+        id: current_user.id
+      )
     end
   end
 
@@ -28,13 +28,12 @@ class StationsController < ApplicationController
   end
 
   def index
-    unless current_user.docked
-      redirect_to(game_path) && (return)
-    end
+    raise RedirectRequest.new(game_path) unless current_user.docked?
 
     # Fallback
-    if current_user.location.location_type != "station"
-      current_user.update_columns(docked: false) && redirect_to(game_path) && (return)
+    if !current_user.location.station?
+      current_user.update(docked: false)
+      raise RedirectRequest.new(game_path)
     end
 
     # Render Tabs
@@ -67,17 +66,20 @@ class StationsController < ApplicationController
     end
 
     # Receive Passengers
-    if current_user.location.faction && Item.find_by(loader: "delivery.passenger", spaceship: current_user.active_spaceship).present?
-      item = Item.find_by(loader: "delivery.passenger", spaceship: current_user.active_spaceship)
+    if current_user.location.faction && Item.where(loader: 'delivery.passenger', spaceship: current_user.active_spaceship).present?
+      item = Item.where(loader: 'delivery.passenger', spaceship: current_user.active_spaceship).first
       case current_user.location.faction_id
       when 1
-        current_user.update_columns(reputation_1: current_user.reputation_1 + 0.05 * item.count)
+        current_user.update(reputation_1: current_user.reputation_1 + 0.05 * item.count)
       when 2
-        current_user.update_columns(reputation_2: current_user.reputation_2 + 0.05 * item.count)
+        current_user.update(reputation_2: current_user.reputation_2 + 0.05 * item.count)
       when 3
-        current_user.update_columns(reputation_3: current_user.reputation_3 + 0.05 * item.count)
+        current_user.update(reputation_3: current_user.reputation_3 + 0.05 * item.count)
       end
-      ActionCable.server.broadcast("player_#{current_user.id}", method: 'notify_alert', text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * item.count).round(2)), delay: 1000)
+      current_user.broadcast(:notify_alert,
+        text: I18n.t('notification.received_reputation_passengers', amount: (0.05 * item.count).round(2)),
+        delay: 1000
+      )
       item.destroy
     end
 
@@ -85,99 +87,105 @@ class StationsController < ApplicationController
 
   # Ship -> Station
   def store
-    if params[:loader] && params[:amount] && current_user.docked
-      amount = params[:amount].to_i
-      item = Item.find_by(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false)
-      if item && (amount <= item.count) && (amount > 0)
-        Item.store_in_station(loader: params[:loader], user: current_user, amount: amount)
-        render(json: {}, status: 200) && (return)
-      end
-    end
-    render json: {}, status: 400
+    raise InvalidRequest unless params[:loader]
+    amount = params[:amount].to_i
+    raise InvalidRequest if (amount <= 0) || !current_user.docked?
+
+    item = Item.where(spaceship: current_user.active_spaceship, loader: params[:loader], equipped: false).first
+    raise InvalidRequest if !item || (amount > item.count)
+
+    Item::GiveToStation.(loader: params[:loader], user: current_user, amount: amount)
+
+    render json: {}, status: :ok
   end
 
   # Station -> Ship
   def load
-    if params[:loader] && current_user.docked
-      amount = params[:amount].to_i if params[:amount]
+    raise InvalidRequest if !params[:loader] || !current_user.docked?
+    json_result = {}
 
-      item = Item.find_by(user: current_user, location: current_user.location, loader: params[:loader])
+    item = Item.where(user: current_user, location: current_user.location, loader: params[:loader]).first
+    raise InvalidRequest unless item
 
-      render(json: {}, status: 400) && (return) unless item
+    if params[:amount]
+      amount = params[:amount].to_i
+      raise InvalidRequest unless amount > 0
 
-      if amount
-        if (item.get_attribute('weight') rescue 0) * amount > current_user.active_spaceship.get_free_weight
-          render(json: { 'error_message': I18n.t('errors.your_ship_cant_carry_that_much') }, status: 400) && (return)
-        end
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_of_this') }, status: 400) && (return) if item.count < amount
-        if item && (amount <= item.count) && (amount > 0)
-          Item.store_in_ship(user: current_user, loader: params[:loader], amount: amount)
-          render(json: {}, status: 200) && (return)
-        end
-      else
-        # Check if player has enough space
-        free_weight = current_user.active_spaceship.get_free_weight
-        item_count = item.count
+      if (item.get_attribute('weight', default: 0) * amount) > current_user.active_spaceship.get_free_weight
+        raise InvalidRequest.new('errors.your_ship_cant_carry_that_much')
+      end
+      raise InvalidRequest.new('errors.you_dont_have_enough_of_this') unless amount <= item.count
 
-        count = 0
+      Item::GiveToShip.(user: current_user, loader: params[:loader], amount: amount)
+    else # No amount means all (apparently)
+      # Check if player has enough space
+      free_weight = current_user.active_spaceship.get_free_weight
+      item_count = item.count
 
-        if item.get_attribute('weight') <= free_weight
-          count = (free_weight / item.get_attribute('weight')).round
-          count = item.count if count > item.count
-          Item.store_in_ship(user: current_user, loader: params[:loader], amount: count)
-          free_weight = free_weight - item.get_attribute('weight') * count
-        end
+      count = 0
+      if item.get_attribute('weight') <= free_weight
+        count = (free_weight / item.get_attribute('weight')).round
+        count = [count, item.count].min
+        Item::GiveToShip.(user: current_user, loader: params[:loader], amount: count)
+        free_weight -= item.get_attribute('weight') * count
+      end
+      raise InvalidRequest.new('errors.your_ship_cant_carry_that_much') if count == 0
 
-        if count > 0
-          if item_count == count
-            render(json: {}, status: 200) && (return)
-          else
-            render(json: { amount: item_count - count }, status: 200) && (return)
-          end
-        else
-          render(json: { error_message: I18n.t('errors.your_ship_cant_carry_that_much') }, status: 400) && (return)
-        end
+      if item_count != count
+        json_result = { amount: item_count - count }
       end
     end
-    render json: {}, status: 400
+
+    render json: json_result, status: :ok
   end
 
   def dice_roll
-    if params[:bet] && params[:roll_under] && current_user.docked && current_user.location.trillium_casino?
-      bet = params[:bet].to_i rescue 0
-      roll_under = params[:roll_under].to_i rescue 0
+    raise InvalidRequest if !params[:bet] || !params[:roll_under] || !current_user.docked? || !current_user.location.trillium_casino?
 
-      # Check Bet Amount
-      render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: 400) && (return) unless current_user.units >= bet
+    bet = params[:bet].to_i
+    roll_under = params[:roll_under].to_i
 
-      # Check min Bet
-      render(json: { 'error_message': I18n.t('errors.minimum_bet_is_10') }, status: 400) && (return) unless bet >= 10
+    # Check Bet Amount
+    raise InvalidRequest.new('errors.you_dont_have_enough_credits') unless current_user.units >= bet
 
-      # Check max bet
-      render(json: { 'error_message': I18n.t('errors.maximum_bet_is_100k') }, status: 400) && (return) unless bet <= 100000
+    # Check min Bet
+    raise InvalidRequest.new('errors.minimum_bet_is_10') unless bet >= 10
 
-      if (roll_under >= 5) && (roll_under <= 95)
-        current_user.reduce_units(bet)
-        roll = rand(0..100)
+    # Check max bet
+    raise InvalidRequest.new('errors.maximum_bet_is_100k') unless bet <= 100000
 
-        if roll < roll_under
-          current_user.give_units((bet * (95.0 / roll_under)).round)
-          render(json: { win: true, time: DateTime.now().strftime("%H:%M"), roll: roll, bet: bet, payout: (bet * (95.0 / roll_under)).round, units: current_user.reload.units, message: I18n.t('casino.won_credits', credits: (bet * (95.0 / roll_under)).round) }, status: 200) && (return)
-        else
-          render(json: { win: false, time: DateTime.now().strftime("%H:%M"), roll: roll, bet: bet, payout: 0, units: current_user.reload.units, message: I18n.t('casino.lost_credits', credits: bet) }, status: 200) && (return)
-        end
+    json_result = {}
+    if (roll_under >= 5) && (roll_under <= 95)
+      current_user.reduce_units(bet)
+      roll = rand(0..100)
+
+      json_result = {
+        time: DateTime.now().strftime('%H:%M'),
+        roll: roll,
+        bet: bet,
+        units: current_user.reload.units,
+      }
+      if roll < roll_under
+        payout = (bet * (95.0 / roll_under)).round
+        current_user.give_units(payout)
+        json_result.merge!(
+          win: true,
+          payout: payout,
+          message: I18n.t('casino.won_credits', credits: payout)
+        )
+      else
+        json_result.merge!(
+          win: false,
+          payout: 0,
+          message: I18n.t('casino.lost_credits', credits: bet)
+        )
       end
     end
-    render json: {}, status: 400
+
+    render json: json_result, status: :ok
   end
 
   private
-
-  def check_police
-    if Npc.police.targeting_user(current_user).exists?
-      render(json: { 'error_message' => I18n.t('errors.police_inbound') }, status: 400) && (return)
-    end
-  end
 
   def get_user_ships
     @user_ships = []
@@ -187,5 +195,9 @@ class StationsController < ApplicationController
       end
     end
     @user_ships
+  end
+
+  def police_inbound?
+    Npc.police.targeting_user(current_user).exists?
   end
 end

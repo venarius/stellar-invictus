@@ -24,7 +24,7 @@
             <td class="name mobile-display-none">
               <%= user.faction.get_ticker %>
               <% if user.corporation_id %>
-                [<%= user.corporation_ticker %>]
+                [<%= user.corporation.ticker %>]
               <% end %>
             </td>
             <td>

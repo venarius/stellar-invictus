@@ -1,100 +1,64 @@
 class FleetsController < ApplicationController
-  # Invite user to fleet
+
   def invite
-    if params[:id]
-      user = User.find(params[:id]) rescue nil
+    user = User.ensure(params[:id])
+    raise InvalidRequest if !user || user.fleet
 
-      # If user and user is not in fleet
-      if user && user.fleet.nil?
-
-        # If current user is not in fleet
-        if current_user.fleet.nil?
-          # Create new room and new fleet
-          room = ChatRoom.create(title: 'Fleet', chatroom_type: 'custom')
-          room.users << current_user
-          fleet = Fleet.create(creator: current_user, chat_room: room)
-          current_user.update_columns(fleet_id: fleet.id)
-        # If current user is in fleet
-        else
-          # Only get some variables
-          fleet = current_user.fleet
-          room = current_user.fleet.chat_room
-        end
-
-        # Invite to Fleet Worker
-        InviteToFleetJob.perform_now(current_user.id, user.id, fleet.id)
-
-        # Render 200 OK
-        render(json: { 'id': room.identifier }, status: 200) && (return)
-      end
+    # If current user is not in fleet
+    if current_user.fleet.nil?
+      # Create new room and new fleet
+      room = ChatRoom.create(title: 'Fleet', chatroom_type: :custom)
+      room.users << current_user
+      fleet = Fleet.create(creator: current_user, chat_room: room)
+      current_user.update(fleet_id: fleet.id)
+    # If current user is in fleet
+    else
+      # Only get some variables
+      fleet = current_user.fleet
+      room = current_user.fleet.chat_room
     end
-    render json: {}, status: 400
+
+    # Invite to Fleet Worker
+    InviteToFleetJob.perform_now(current_user.id, user.id, fleet.id)
+
+    render json: { 'id': room.identifier }, status: :ok
   end
 
-  # Accept invitation of another user
   def accept_invite
-    if params[:id] && current_user.fleet.nil?
-      fleet = Fleet.find(params[:id]) rescue nil
+    fleet = Fleet.ensure(params[:id])
+    raise InvalidRequest if !fleet || current_user.fleet
 
-      # If fleet
-      if fleet
-        # Get Room
-        room = fleet.chat_room
+    room = fleet.chat_room
+    room.users << current_user
+    current_user.update(fleet: fleet)
+    broadcast(:join, current_user, room)
 
-        # Add current user to room users
-        room.users << current_user
-
-        # Set fleet_id of current_user
-        current_user.update_columns(fleet_id: fleet.id)
-
-        # Broadcast
-        broadcast("join", current_user, room)
-
-        # Render 200 OK
-        render(json: { 'id': room.identifier }, status: 200) && (return)
-      end
-    end
-    render json: {}, status: 400
+    render json: { 'id': room.identifier }, status: :ok
   end
 
-  # Remove user from fleet
   def remove
-    if params[:id] && current_user.fleet && (current_user.fleet.creator == current_user)
-      user = User.find(params[:id]) rescue nil
+    user = User.ensure(params[:id])
+    raise InvalidRequest if !user || (user == current_user) || (user.fleet != current_user.fleet) || !current_user.fleet || (current_user.fleet.creator != current_user)
 
-      # If user and user is in current users fleet and user is not current user
-      if user && (user.fleet == current_user.fleet) && (user != current_user)
+    room = current_user.fleet.chat_room
+    room.users.delete(user)
+    broadcast(:leave, user, room)
+    user.update(fleet_id: nil)
 
-        # Get Room of current user
-        room = current_user.fleet.chat_room
-
-        # Remove user from room
-        room.users.delete(user)
-
-        # Broadcast
-        broadcast("leave", user, room)
-
-        # Remove fleet id of user
-        user.update_columns(fleet_id: nil)
-
-        # Render 200 OK
-        render(json: {}, status: 200) && (return)
-      end
-    end
-    render json: {}, status: 400
+    render json: {}, status: :ok
   end
 
   private
 
   def broadcast(type, user, room)
-    if type == "join"
+    if type == :join
       ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_joined_channel', user: user.full_name)}</td></tr>")
     else
       ChatChannel.broadcast_to(room, message: "<tr><td>#{I18n.t('chat.user_left_channel', user: user.full_name)}</td></tr>")
-      ActionCable.server.broadcast("player_#{user.id}", method: 'reload_fleet')
+      user.broadcast(:reload_fleet)
     end
     room.update_local_players
-    ActionCable.server.broadcast("location_#{user.location_id}", method: 'player_appeared')
+    user.location.broadcast(:player_appeared)
   end
 
 end

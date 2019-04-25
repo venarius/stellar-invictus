@@ -5,7 +5,7 @@
         <% if friendship.user == current_user %>
           <tr>
             <td>
-              <%= image_tag("avatars/#{friendship.friend_avatar}.jpg", class: 'float-left') %>
+              <%= image_tag(friendship.friend_avatar_url, class: 'float-left') %>
               <div class="float-right">
                 <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.friend_id %>">
                   <i class="fa fa-times"></i>
@@ -19,14 +19,14 @@
         <% else %>
           <tr>
             <td>
-              <%= image_tag("avatars/#{friendship.user_avatar}.jpg", class: 'float-left') %>
+              <%= image_tag(friendship.user_avatar_url, class: 'float-left') %>
               <div class="float-right">
                 <button class="btn btn-outline-danger remove-as-friend-btn btn-sm" data-id="<%= friendship.user_id %>">
                   <i class="fa fa-times"></i>
                 </button>
-                <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: friendship.user_full_name), class: 'btn btn-outline-primary btn-sm', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
+                <%= link_to "<i class='fa fa-comment-alt'></i>".html_safe, new_game_mail_path(to: friendship.user.full_name), class: 'btn btn-outline-primary btn-sm', data: {toggle: 'tooltip', placement: 'top'}, title: I18n.t('tooltips.message') %>
               </div>
-              <a href="#" class="player-modal" data-id=<%= friendship.user_id %>><strong><%= friendship.user_full_name %></strong></a><br>
+              <a href="#" class="player-modal" data-id=<%= friendship.user_id %>><strong><%= friendship.user.full_name %></strong></a><br>
               <%= online_status(friendship.user) %> - <strong class="color-sec-<%= friendship.user.system.security_status %>"><%= friendship.user.system.name %></strong> <%= friendship.user.location.get_name %>
             </td>
           </tr>

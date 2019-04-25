@@ -19,35 +19,35 @@
 
 # CraftingJobs
 every 1.minutes, roles: [:db] do
-  runner "runner/crafting_job.rb"
+  runner 'runner/crafting_job.rb'
 end
 
 # Economy Redo
 every 10.minutes, roles: [:db] do
-  runner "runner/economy_redo.rb"
+  runner 'runner/economy_redo.rb'
 end
 
 # Hidden Locations
 every 15.minutes, roles: [:db] do
-  runner "runner/hidden_locations.rb"
+  runner 'runner/hidden_locations.rb'
 end
 
 # Mission Cleaner
 every 30.minutes, roles: [:db] do
-  runner "runner/mission_cleaner.rb"
+  runner 'runner/mission_cleaner.rb'
 end
 
 # Hidden Enemies
 every 1.minutes, roles: [:db] do
-  runner "runner/hidden_enemies.rb"
+  runner 'runner/hidden_enemies.rb'
 end
 
 # Asteroids Redo
 every 2.hours, roles: [:db] do
-  runner "runner/asteroids_redo.rb"
+  runner 'runner/asteroids_redo.rb'
 end
 
 # Wormholes
 every 10.minutes, roles: [:app] do
-  runner "runner/wormholes.rb"
+  runner 'runner/wormholes.rb'
 end

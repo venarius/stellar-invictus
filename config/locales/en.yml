@@ -121,6 +121,9 @@ en:
     maximum_bet_is_100k: "Maximum bet is 100k Cr"
     name_not_found: "Name not found"
     buyer_doesnt_want_that_much: "Buyer doesn't want that much"
+    cant_mine_in_warp: "Cannot mine while in warp"
+    cant_mine_when_docked: "Cannot mine while docked"
+    nothing_to_mine: "Nothing to mine here"
   validations:
     can_only_contain_letters: "can only contain letters"
     not_a_valid_email: "is not a valid email address"

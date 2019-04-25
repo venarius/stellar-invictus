@@ -1,7 +1,7 @@
-<p class="text-center"><%= online_status(user) %> - <strong class="color-sec-<%= user.system_security_status %>"><%= user.system_name %></strong> <%= user.location.get_name %></p>
+<p class="text-center"><%= online_status(user) %> - <strong class="color-sec-<%= user.system.security_status %>"><%= user.system_name %></strong> <%= user.location.get_name %></p>
 
 <div class="row">
-  <% if current_user.admin %>
+  <% if current_user.admin? %>
     <div class="col-md-4 mb-3">
       <button class="btn btn-outline-primary w-100 admin-teleport-to-btn" data-id="<%= user.id %>"><%= I18n.t('admin.teleport_to') %></button>
     </div>
@@ -13,7 +13,7 @@
     </div>
   <% end %>
   
-  <% if current_user.chat_mod || current_user.admin %>
+  <% if current_user.chat_mod?  || current_user.admin? %>
     <div class="col-md-4 mb-3">
       <button class="btn btn-outline-primary w-100" data-toggle="collapse" data-target="#admin-message-history"><%= I18n.t('admin.message_history') %></button>
     </div>
@@ -28,7 +28,7 @@
 
 <!-- COLLAPSE -->
 <div class="accordion" id="accordion">
-  <% if current_user.admin %>
+  <% if current_user.admin? %>
     <div class="collapse" id="admin-ban-modal" data-parent="#accordion">
       <% if user.banned %>
         <% if user.banned_until %>
@@ -58,7 +58,7 @@
     </div>
   <% end %>
   
-  <% if current_user.chat_mod || current_user.admin %>
+  <% if current_user.chat_mod?  || current_user.admin? %>
     <div class="collapse" id="admin-message-history" data-parent="#accordion">
       <% if user.chat_messages.empty? %>
           <h2 class="text-center">...</h2>

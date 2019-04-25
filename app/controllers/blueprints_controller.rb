@@ -1,41 +1,44 @@
 class BlueprintsController < ApplicationController
   before_action :check_docked
 
-  include ApplicationHelper
-
   def buy
-    if params[:loader] && params[:type] && current_user.location.research_station?
-      if params[:type] == 'item'
-        price = Item.get_attribute(params[:loader], :price) * 20 rescue nil
-      else
-        price = Spaceship.get_attribute(params[:loader], :price) * 20 rescue nil
-      end
-
-      if price && current_user.blueprints.where(loader: params[:loader]).empty?
-        # Check Balance
-        render(json: { 'error_message': I18n.t('errors.you_dont_have_enough_credits') }, status: 400) && (return) unless current_user.units >= price
-
-        # Give Blueprint to User
-        Blueprint.create(user: current_user, loader: params[:loader], efficiency: 1.5)
-
-        # Deduct units
-        current_user.reduce_units(price)
-
-        render(json: {}, status: 200) && (return)
-      end
+    if !params[:loader].present? ||
+      !current_user.location.research_station? ||
+      !%w[item ship].include?(params[:type]) ||
+      current_user.has_blueprints_for?(params[:loader])
+      raise InvalidRequest
     end
-    render json: {}, status: 400
+
+    klass = nil
+    case params[:type]
+    when 'item' then klass = Item
+    when 'ship' then klass = Spaceship
+    end
+    raise ArgumentError.new("Unknown #{klass}") unless klass.get_attributes(params[:loader])
+    price = klass.get_attribute(params[:loader], :price) * 20
+
+    raise InvalidRequest.new('errors.you_dont_have_enough_credits') if current_user.units < price
+
+    ActiveRecord::Base.transaction do
+      current_user.give_blueprints_for(params[:loader], efficiency: 1.5)
+      current_user.reduce_units(price)
+    end
+
+    render json: {}, status: :ok
   end
 
   def modal
-    if params[:loader] && params[:type]
-      if params[:type] == 'item'
-        render(partial: 'stations/blueprints/itemmodal', locals: { item: params[:loader] }) && (return)
-      else
-        render(partial: 'stations/blueprints/shipmodal', locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) }) && (return)
-      end
+    raise InvalidRequest if !params[:loader].present? || !params[:type].present?
+
+    if params[:type] == 'item'
+      render partial: 'stations/blueprints/itemmodal',
+             locals: { item: params[:loader] },
+             status: :ok
+    else
+      render partial: 'stations/blueprints/shipmodal',
+             locals: { key: params[:loader], value: Spaceship.get_attribute(params[:loader]) },
+             status: :ok
     end
-    render json: {}, status: 400
   end
 
 end

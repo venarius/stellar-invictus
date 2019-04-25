@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: factions
+#
+#  id          :bigint(8)        not null, primary key
+#  description :text
+#  name        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  location_id :bigint(8)
+#
+# Indexes
+#
+#  index_factions_on_location_id  (location_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (location_id => locations.id)
+#
+
 require 'rails_helper'
 
 describe Faction do
@@ -39,8 +59,8 @@ describe Faction do
 
       describe 'get_rank' do
         it 'should return rank of particular user' do
-          user = FactoryBot.create(:user_with_faction, reputation_1: -5, reputation_2: -5, reputation_3: -5)
-          expect(faction.get_rank(user)).to eq("name" => "Shunned", "reputation" => -5.0, "type" => 3, "unlocks" => [])
+          user = create(:user_with_faction, reputation_1: -5, reputation_2: -5, reputation_3: -5)
+          expect(faction.get_rank(user)).to eq('name' => 'Shunned', 'reputation' => -5.0, 'type' => 3, 'unlocks' => [])
         end
       end
     end

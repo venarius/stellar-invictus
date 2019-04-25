@@ -1,3 +1,29 @@
+# == Schema Information
+#
+# Table name: chat_rooms
+#
+#  id            :bigint(8)        not null, primary key
+#  chatroom_type :integer
+#  identifier    :string
+#  title         :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  location_id   :bigint(8)
+#  system_id     :bigint(8)
+#
+# Indexes
+#
+#  index_chat_rooms_on_chatroom_type  (chatroom_type)
+#  index_chat_rooms_on_identifier     (identifier) UNIQUE
+#  index_chat_rooms_on_location_id    (location_id)
+#  index_chat_rooms_on_system_id      (system_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (location_id => locations.id)
+#  fk_rails_...  (system_id => systems.id)
+#
+
 require 'rails_helper'
 
 describe ChatRoom do
@@ -31,7 +57,7 @@ describe ChatRoom do
     describe 'Functions' do
       describe 'update_local_players' do
         it 'should send actioncable' do
-          room = FactoryBot.create(:chat_room)
+          room = create(:chat_room)
           room.update_local_players
         end
       end

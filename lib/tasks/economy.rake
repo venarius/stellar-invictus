@@ -1,6 +1,6 @@
 namespace :economy do
 
-  desc "Redo the economy"
+  desc 'Redo the economy'
   task redo: :environment do
     MarketListing.where(user: nil).destroy_all
     noise = Perlin::Noise.new 1, seed: 1000
@@ -13,14 +13,14 @@ namespace :economy do
       i = 0 if i >= noise_level.size
 
       (Item.equipment_easy + Item.equipment_medium).each do |item|
-        next if item == "asteroid.lunarium_ore"
+        next if item == 'asteroid.lunarium_ore'
         rand(0..1).times do
           rand(3..15).times do
             MarketListing.create(loader: item, location: location, listing_type: 'item', price: (Item.get_attribute(item, :price) * rabat * rand(0.98..1.02)).round, amount: rand(10..30))
           end
         end
       end
-      Spaceship.ship_variables.each do |key, value|
+      Spaceship.get_attributes.each do |key, value|
         next if %w{Clipper Galleon Brigand Bilander}.include? key
         if !value['faction']
           rand(0..10).times do
@@ -35,19 +35,19 @@ namespace :economy do
 
       # Customization
       if location.industrial_station?
-        location.market_listings.where("loader ilike ?", "equipment.").each do |listing|
+        location.market_listings.where('loader ilike ?', 'equipment.').each do |listing|
           listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
         end
       end
 
       if location.warfare_plant?
-        location.market_listings.where("loader ilike ?", "equipment.weapons").each do |listing|
+        location.market_listings.where('loader ilike ?', 'equipment.weapons').each do |listing|
           listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
         end
       end
 
       if location.mining_station?
-        location.market_listings.where("loader ilike ?", "asteroid.").each do |listing|
+        location.market_listings.where('loader ilike ?', 'asteroid.').each do |listing|
           listing.update_columns(price: (listing.price * rand(0.96..0.98)).round, amount: listing.amount * 2)
         end
       end

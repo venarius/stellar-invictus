@@ -14,7 +14,7 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   before (:each) do
-    @user = FactoryBot.create(:user)
+    @user = create(:user)
     sign_in @user
   end
 
@@ -31,20 +31,20 @@ RSpec.describe ApplicationController, type: :controller do
 
   describe 'Call Police' do
     it 'should call police on user in highsec' do
-      system = System.where(security_status: 'high').first
-      @user = FactoryBot.create(:user_with_faction, system: system, location: system.locations.first)
+      system = System.high.first
+      @user = create(:user_with_faction, system: system, location: system.locations.first)
       controller.call_police(@user)
       expect(PoliceWorker.jobs.size).to eq(1)
     end
     it 'should call police on user in midsec' do
-      system = System.where(security_status: 'medium').first
-      @user = FactoryBot.create(:user_with_faction, system: system, location: system.locations.first)
+      system = System.medium.first
+      @user = create(:user_with_faction, system: system, location: system.locations.first)
       controller.call_police(@user)
       expect(PoliceWorker.jobs.size).to eq(1)
     end
     it 'shouldnt call police on user in lowsec' do
-      system = System.where(security_status: 'low').first
-      @user = FactoryBot.create(:user_with_faction, system: system, location: system.locations.first)
+      system = System.low.first
+      @user = create(:user_with_faction, system: system, location: system.locations.first)
       controller.call_police(@user)
       expect(PoliceWorker.jobs.size).to eq(0)
     end
@@ -52,7 +52,7 @@ RSpec.describe ApplicationController, type: :controller do
 
   describe 'update_last_action' do
     it 'should update last_action of user' do
-      @user = FactoryBot.create(:user_with_faction)
+      @user = create(:user_with_faction)
       sign_in @user
       controller.update_last_action
       expect(@user.reload.last_action).to be_present

@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: game_mails
+#
+#  id           :bigint(8)        not null, primary key
+#  body         :text
+#  header       :string
+#  read         :boolean          default(FALSE)
+#  units        :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  recipient_id :integer
+#  sender_id    :integer
+#
+# Indexes
+#
+#  index_game_mails_on_recipient_id  (recipient_id)
+#  index_game_mails_on_sender_id     (sender_id)
+#
+
 require 'rails_helper'
 
 describe GameMail do

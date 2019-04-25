@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: systems
+#
+#  id              :bigint(8)        not null, primary key
+#  name            :string
+#  security_status :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_systems_on_name  (name) UNIQUE
+#
+
 require 'rails_helper'
 
 describe System do
@@ -20,12 +35,12 @@ describe System do
 
     describe 'Functions' do
       before(:each) do
-        @system = FactoryBot.create(:system)
+        @system = create(:system)
       end
 
       describe 'update_local_players' do
         it 'should broadcast' do
-          FactoryBot.create(:location, system: @system)
+          create(:location, system: @system)
           @system.update_local_players
         end
       end
@@ -36,14 +51,14 @@ describe System do
         end
 
         it 'should return faction of first station' do
-          System.where(security_status: :high).first.locations.where(location_type: :station).first.update_columns(faction_id: 1)
-          expect(System.where(security_status: :high).first.get_faction).to eq(Faction.first)
+          System.high.first.locations.station.first.update(faction_id: 1)
+          expect(System.high.first.get_faction).to eq(Faction.first)
         end
       end
 
       describe 'mapdata' do
         it 'should return yml file' do
-          expect(System.mapdata).to eq(YAML.load_file("#{Rails.root.to_s}/config/variables/mapdata.yml"))
+          expect(System.mapdata).to eq(YAML.load_file("#{Rails.root}/config/variables/mapdata.yml"))
         end
       end
     end

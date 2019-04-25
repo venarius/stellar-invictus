@@ -4,14 +4,16 @@ System.all.each do |system|
   next if system.wormhole?
 
   # Clear all hidden locations
-  system.locations.where(hidden: true).each do |loc|
+  system.locations.is_hidden.each do |loc|
     if loc.users.present?
       can_move = true
       loc.users.each do |user|
-        can_move = false if user.online > 0 || user.last_action > Time.now - 1.days
+        can_move = false if user.online > 0 || user.last_action > (Time.now - 1.days)
       end
       if can_move
-        loc.users.update_all(location_id: Location.where(location_type: :station).first.id, system_id: Location.where(location_type: :station).first.system_id, docked: true)
+        # shouldn't this be the first station in the system they're currently in?
+        new_loc = Location.station.first
+        loc.users.update_all(location_id: new_loc.id, system_id: new_loc.system_id, docked: true)
       end
     end
 
@@ -27,52 +29,52 @@ System.all.each do |system|
       when 1
         # Enemies with loot
         amount = rand(2..5)
-          amount = amount * 2 if location.system_security_status == 'low'
-          location.update_columns(enemy_amount: amount, name: I18n.t('exploration.combat_site'))
+          amount = amount * 2 if location.system.low?
+          location.update(enemy_amount: amount, name: I18n.t('exploration.combat_site'))
       when 2
         # Create Structure with loot and some enemies
-        loader = Item.asteroids + Item.materials
-          structure = Structure.create(location: location, structure_type: 'wreck')
+        loader = Item::ASTEROIDS + Item::MATERIALS
+          structure = Structure.create(location: location, structure_type: :wreck)
           amount = rand(2..3)
-          amount = amount * 3 if location.system_security_status == 'low'
+          amount = amount * 3 if location.system.low?
           case rand(1..100)
           when 1..75
-            Item.create(loader: (loader + Item.equipment_easy).sample, structure: structure, equipped: false, count: amount)
+            Item.create(loader: (loader + Item::EQUIPMENT_EASY).sample, structure: structure, equipped: false, count: amount)
           when 76..95
-            Item.create(loader: (loader + Item.equipment_medium).sample, structure: structure, equipped: false, count: amount)
+            Item.create(loader: (loader + Item::EQUIPMENT_MEDIUM).sample, structure: structure, equipped: false, count: amount)
           when 96..100
-            Item.create(loader: (loader + Item.equipment_hard).sample, structure: structure, equipped: false, count: amount)
+            Item.create(loader: (loader + Item::EQUIPMENT_HARD).sample, structure: structure, equipped: false, count: amount)
           end
-          location.update_columns(enemy_amount: rand(1..2), name: I18n.t('exploration.combat_site'))
+          location.update(enemy_amount: rand(1..2), name: I18n.t('exploration.combat_site'))
       when 3
         # Abandoned Ship with Riddle
-        loader = Item.asteroids + Item.materials
+        loader = Item::ASTEROIDS + Item::MATERIALS
           structure = Structure.create(location: location, structure_type: 'abandoned_ship', riddle: rand(1..30))
           amount = rand(3..4)
-          amount = amount * 3 if location.system_security_status == 'low'
+          amount = amount * 3 if location.system.low?
           case rand(1..100)
           when 1..75
-            Item.create(loader: (loader + Item.equipment_easy).sample, structure: structure, equipped: false, count: amount)
+            Item.create(loader: (loader + Item::EQUIPMENT_EASY).sample, structure: structure, equipped: false, count: amount)
           when 76..95
-            Item.create(loader: (loader + Item.equipment_medium).sample, structure: structure, equipped: false, count: amount)
+            Item.create(loader: (loader + Item::EQUIPMENT_MEDIUM).sample, structure: structure, equipped: false, count: amount)
           when 96..100
-            Item.create(loader: (loader + Item.equipment_hard).sample, structure: structure, equipped: false, count: amount)
+            Item.create(loader: (loader + Item::EQUIPMENT_HARD).sample, structure: structure, equipped: false, count: amount)
           end
-          location.update_columns(name: I18n.t('exploration.lost_wreck'))
+          location.update(name: I18n.t('exploration.lost_wreck'))
       when 4
         # Asteroids
         rand(3..5).times do
           Asteroid.create(location: location, asteroid_type: 4, resources: 35000)
         end
-          location.update_columns(name: I18n.t('exploration.mining_site'))
+          location.update(name: I18n.t('exploration.mining_site'))
       when 5
         # Hard to kill NPC with lots of bounty
-        location.update_columns(enemy_amount: 1)
-          location.update_columns(name: I18n.t('exploration.outlaw_hideout'))
+        location.update(enemy_amount: 1)
+          location.update(name: I18n.t('exploration.outlaw_hideout'))
       when 6
         # Wreck with Passengers
-        location.update_columns(enemy_amount: rand(4..6))
-          location.update_columns(name: I18n.t('exploration.emergency_beacon'))
+        location.update(enemy_amount: rand(4..6))
+          location.update(name: I18n.t('exploration.emergency_beacon'))
       end
 
     end

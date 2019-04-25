@@ -1,36 +1,37 @@
-class KillmailWorker
+class KillmailWorker < ApplicationWorker
   # This Worker will be run when a player is mining something
+  def perform(body, attackers = nil, loot = nil)
+    return if Rails.env.test? # Do nothing when testing
 
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-
-  def perform(attr, attackers = nil, loot = nil)
-    uri = URI(ENV.fetch("KILLBOARD_URL", "https://killboard.stellar-invictus.com/"))
+    uri = URI(ENV.fetch('KILLBOARD_URL', 'https://killboard.stellar-invictus.com/'))
     req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-
-    body = attr
 
     if attackers && (attackers != [])
       temp = []
-      attackers.each do |at|
-        hash = {}
-        attacker = User.find(at) rescue nil
+      attackers.each do |attacker|
+        attacker = User.ensure(attacker)
         next unless attacker
-        hash['id'] = attacker.id
-        hash['name'] = attacker.full_name
-        hash['avatar'] = attacker.avatar
-        hash['ship_name'] = attacker.active_spaceship.name
-        hash['bounty'] = attacker.bounty
 
+        hash = {
+          'id' => attacker.id,
+          'name' => attacker.full_name,
+          'avatar' => attacker.avatar,
+          'ship_name' => attacker.active_spaceship.name,
+          'bounty' => attacker.bounty
+        }
         if attacker.corporation
-          hash['corporation'] = { id: attacker.corporation.id, ticker: attacker.corporation.ticker, name: attacker.corporation.name }
+          hash['corporation'] = {
+            id: attacker.corporation.id,
+            ticker: attacker.corporation.ticker,
+            name: attacker.corporation.name
+          }
         end
 
         temp << hash
       end
       body.reverse_merge!(killers: temp)
     else
-      body.reverse_merge!(killers: ["npc"])
+      body.reverse_merge!(killers: ['npc'])
     end
 
     if loot && (loot != [])

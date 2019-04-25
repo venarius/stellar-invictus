@@ -18,7 +18,7 @@
     
     <button class="btn btn-outline-primary get-route-btn" data-id="<%= sys.id %>" <%= 'disabled' if sys == current_user.system %>><%= I18n.t('routing.get_route') %></button>
     
-    <% if current_user&.active_spaceship&.get_jump_drive and (sys.high? || sys.medium?) and (current_user.system.medium? || current_user.system.high?) and current_user.can_be_attacked %>
+    <% if current_user&.active_spaceship&.has_jump_drive? and (sys.high? || sys.medium?) and (current_user.system.medium? || current_user.system.high?) and current_user.can_be_attacked? %>
       <button class="btn btn-outline-info jump-drive-btn" data-id="<%= sys.id %>" <%= 'disabled' if sys == current_user.system %>><%= I18n.t('routing.jump') %></button>
     <% end %>
   </div>

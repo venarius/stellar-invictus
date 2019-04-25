@@ -1,3 +1,31 @@
+# == Schema Information
+#
+# Table name: spaceships
+#
+#  id             :bigint(8)        not null, primary key
+#  custom_name    :string
+#  hp             :integer
+#  insured        :boolean          default(FALSE)
+#  level          :integer          default(0)
+#  name           :string
+#  warp_scrambled :boolean          default(FALSE)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  location_id    :bigint(8)
+#  user_id        :bigint(8)
+#  warp_target_id :integer
+#
+# Indexes
+#
+#  index_spaceships_on_location_id  (location_id)
+#  index_spaceships_on_user_id      (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (location_id => locations.id)
+#  fk_rails_...  (user_id => users.id)
+#
+
 require 'rails_helper'
 
 describe Spaceship do
@@ -31,7 +59,7 @@ describe Spaceship do
 
       describe 'get_items' do
         it 'should return items in storage of ship' do
-          create :item, loader: "test", spaceship: ship, count: 2
+          create :item, loader: 'test', spaceship: ship, count: 2
           expect(ship.get_items.first.count).to eq(2)
         end
       end

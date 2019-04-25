@@ -9,13 +9,13 @@ module ApplicationHelper
       tmp << "    #{I18n.t(name)}"
     end
     tmp << "      <span class='sr-only'>(current)</span>" if current_page?(path)
-    tmp << "  </a>"
-    tmp << "</li>"
+    tmp << '  </a>'
+    tmp << '</li>'
     tmp.join("\n").html_safe
   end
 
   def online_status(user)
-    if user.online > 0
+    if user.is_online?
       "<i class='fa fa-circle fa-xs color-green'></i>&nbsp;&nbsp;#{I18n.t('helpers.online_now')}".html_safe
     else
       "<i class='fa fa-circle fa-xs color-sec-low'></i>&nbsp;&nbsp;#{I18n.t('helpers.online_ago', time: time_ago_in_words(user.last_action))}".html_safe
@@ -28,7 +28,7 @@ module ApplicationHelper
     return {} if user_query.blank?
     user_query.
       select(:id, :full_name).
-      order(:family_name, :name).
+      in_name_order.
       pluck(:full_name, :id).to_h
   end
 end

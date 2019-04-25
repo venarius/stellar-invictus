@@ -44,11 +44,11 @@ class SingleSignOn
   attr_writer :sso_secret, :sso_url
 
   def self.sso_secret
-    raise RuntimeError, "sso_secret not implemented on class, be sure to set it on instance"
+    raise RuntimeError, 'sso_secret not implemented on class, be sure to set it on instance'
   end
 
   def self.sso_url
-    raise RuntimeError, "sso_url not implemented on class, be sure to set it on instance"
+    raise RuntimeError, 'sso_url not implemented on class, be sure to set it on instance'
   end
 
   def self.parse(payload, sso_secret = nil)
@@ -56,14 +56,14 @@ class SingleSignOn
     sso.sso_secret = sso_secret if sso_secret
 
     parsed = Rack::Utils.parse_query(payload)
-    decoded = Base64.decode64(parsed["sso"])
+    decoded = Base64.decode64(parsed['sso'])
     decoded_hash = Rack::Utils.parse_query(decoded)
 
     return_sso_url = decoded_hash['return_sso_url']
 
-    if sso.sign(parsed["sso"]) != parsed["sig"]
+    if sso.sign(parsed['sso']) != parsed['sig']
       diags = "\n\nsso: #{parsed["sso"]}\n\nsig: #{parsed["sig"]}\n\nexpected sig: #{sso.sign(parsed["sso"])}"
-      if parsed["sso"] =~ /[^a-zA-Z0-9=\r\n\/+]/m
+      if parsed['sso'] =~ /[^a-zA-Z0-9=\r\n\/+]/m
         raise ParseError, "The SSO field should be Base64 encoded, using only A-Z, a-z, 0-9, +, /, and = characters. Your input contains characters we don't understand as Base64, see http://en.wikipedia.org/wiki/Base64 #{diags}"
       else
         raise ParseError, "Bad signature for payload #{diags}"
@@ -74,7 +74,7 @@ class SingleSignOn
       val = decoded_hash[k.to_s]
       val = val.to_i if FIXNUMS.include? k
       if BOOLS.include? k
-        val = ["true", "false"].include?(val) ? val == "true" : nil
+        val = ['true', 'false'].include?(val) ? val == 'true' : nil
       end
       sso.send("#{k}=", val)
     end
@@ -106,7 +106,7 @@ class SingleSignOn
 
   def sign(payload, secret = nil)
     secret = secret || sso_secret
-    OpenSSL::HMAC.hexdigest("sha256", secret, payload)
+    OpenSSL::HMAC.hexdigest('sha256', secret, payload)
   end
 
   def to_url(base_url = nil)

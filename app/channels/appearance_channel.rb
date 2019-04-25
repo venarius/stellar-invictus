@@ -1,10 +1,10 @@
 class AppearanceChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "appearance"
-    current_user.appear
+    stream_from 'appearance'
+    User::Appear.(user: current_user)
   end
 
   def unsubscribed
-    current_user.disappear
+    User::Disappear.(user: current_user)
   end
 end

@@ -52,18 +52,12 @@ class Pathfinder
   end
 
   def self.neighbors(name)
-    neighbors = []
-    System.find_by(name: name).locations.where(location_type: 'jumpgate').each do |location|
-      neighbors << location.get_name
-    end
-    neighbors
+    System.ensure(name).locations.jumpgate.map(&:get_name)
   end
 
   def self.get_traveltime_between(start_sys, end_sys)
-    System.find_by(name: start_sys).locations.where(name: end_sys, location_type: "jumpgate").each do |loc|
-      # plus 20 because of align and warping to jumpgate
-      return loc.jumpgate.traveltime + 20
-    end
+    # plus 20 because of align and warping to jumpgate
+    System.ensure(start_sys).locations.jumpgate.where(name: end_sys).first.jumpgate.traveltime + 20
   end
 
   def self.shortest_path(start_system, end_system)
@@ -74,7 +68,7 @@ class Pathfinder
       path.unshift(u)
       u = previouses[u]
     end
-    return path
+    path
   end
 
 end

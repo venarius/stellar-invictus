@@ -1,3 +1,28 @@
+# == Schema Information
+#
+# Table name: npcs
+#
+#  id          :bigint(8)        not null, primary key
+#  hp          :integer
+#  name        :string
+#  npc_state   :integer
+#  npc_type    :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  location_id :bigint(8)
+#  target_id   :integer
+#
+# Indexes
+#
+#  index_npcs_on_location_id  (location_id)
+#  index_npcs_on_npc_type     (npc_type)
+#  index_npcs_on_target_id    (target_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (location_id => locations.id)
+#
+
 require 'rails_helper'
 
 describe Npc do
@@ -17,7 +42,7 @@ describe Npc do
 
     describe 'Functions' do
       before(:each) do
-        @npc = FactoryBot.create(:npc, location: Location.first)
+        @npc = create(:npc, location: Location.first)
       end
 
       describe 'die' do
@@ -37,7 +62,7 @@ describe Npc do
 
       describe 'remove_being_targeted' do
         it 'should remove npc as target from others' do
-          user = FactoryBot.create(:user_with_faction, npc_target_id: @npc.id)
+          user = create(:user_with_faction, npc_target_id: @npc.id)
           @npc.remove_being_targeted
           expect(user.reload.npc_target).to eq(nil)
         end
@@ -45,7 +70,7 @@ describe Npc do
 
       describe 'give_bounty' do
         it 'should give user random bounty' do
-          user = FactoryBot.create(:user_with_faction)
+          user = create(:user_with_faction)
           @npc.give_bounty(user)
           expect(user.reload.units).not_to eq(10)
         end

@@ -39,7 +39,7 @@ RSpec.describe StationsController, type: :controller do
   end
 
   context 'with login' do
-    let(:station) { Location.where(location_type: :station).first }
+    let(:station) { Location.station.first }
     let!(:user) { create :user_with_faction, location: station }
 
     before(:each) do
@@ -50,20 +50,20 @@ RSpec.describe StationsController, type: :controller do
       it 'should display index when user is docked' do
         user.update(docked: true)
         get :index
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'overview' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_overview')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'my_ships' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_my_ships')
         expect(assigns(:user_ships).count).to eq(0)
       end
@@ -71,42 +71,42 @@ RSpec.describe StationsController, type: :controller do
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'active_ship' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_active_ship')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'bounty_office' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_bounty_office')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'storage' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_storage')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'factory' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_factory')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'market' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_market')
       end
 
       it 'should display tab when user is docked' do
         user.update(docked: true)
         get :index, params: { tab: 'missions' }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(response).to render_template('stations/_missions')
         expect(Mission.count).to eq(6)
       end
@@ -132,14 +132,14 @@ RSpec.describe StationsController, type: :controller do
       end
 
       it 'should do nothing when police is engaged' do
-        FactoryBot.create(:npc_police, target_user: user)
+        create(:npc_police, target: user)
         post :dock
         expect(response).to have_http_status(:bad_request)
         expect(user.docked).to eq(false)
       end
 
       it 'should remove user as target of other users' do
-        user2 = FactoryBot.create(:user_with_faction)
+        user2 = create(:user_with_faction)
         user2.update(target: user)
 
         expect(user2.target).to eq(user)
@@ -150,7 +150,7 @@ RSpec.describe StationsController, type: :controller do
       end
 
       it 'should refuse request if user standing below or eq -10 with faction' do
-        faction_station = Location.where(location_type: 'station').where(faction_id: 1).first
+        faction_station = Location.station.where(faction_id: 1).first
         user.update(location: faction_station)
         user.update(reputation_1: -10)
         post :dock
@@ -183,7 +183,7 @@ RSpec.describe StationsController, type: :controller do
       it 'should store items in station' do
         expect(user.active_spaceship.get_weight).to eq(3)
         post :store, params: { loader: 'test', amount: 3 }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(user.active_spaceship.get_weight).to eq(0)
         expect(user.location.items.count).to eq(1)
         expect(user.location.items.first.count).to eq(3)
@@ -216,7 +216,7 @@ RSpec.describe StationsController, type: :controller do
       it 'should store items in ship' do
         expect(user.location.items.count).to eq(1)
         post :load, params: { loader: 'test', amount: 3 }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(:ok)
         expect(user.active_spaceship.get_weight).to eq(3)
         expect(user.location.items.count).to eq(0)
       end
@@ -244,6 +244,93 @@ RSpec.describe StationsController, type: :controller do
         expect(response).to have_http_status(:bad_request)
         expect(user.active_spaceship.get_weight).to eq(0)
         expect(user.location.items.count).to eq(2)
+      end
+    end
+
+    describe 'POST dice_roll' do
+      let(:user) { create :user_with_faction, location: Location.trillium_casino.first, docked: true, units: 10_000 }
+      before(:each) do
+        sign_in user
+      end
+
+      it 'should win' do
+        # NOTE: This will keep trying until they run out of money
+        result = nil
+        loop do
+          post :dice_roll, params: { bet: 100, roll_under: 50 }
+          expect(response).to have_http_status(:ok)
+          result = JSON.parse(response.body)
+          break if result['win']
+        end
+        expect(result.keys).to eq(%w[time roll bet units win payout message])
+        expect(result['payout']).to be > 100
+      end
+
+      it 'should lose' do
+        # NOTE: This will keep trying until they run out of money
+        result = nil
+        loop do
+          post :dice_roll, params: { bet: 100, roll_under: 50 }
+          expect(response).to have_http_status(:ok)
+          result = JSON.parse(response.body)
+          break if !result['win']
+        end
+        expect(result.keys).to eq(%w[time roll bet units win payout message])
+        expect(result['payout']).to eq(0)
+      end
+
+      describe 'should fail if' do
+        it 'no BET' do
+          post :dice_roll, params: { roll_under: 10 }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'no ROLL_UNDER' do
+          post :dice_roll, params: { bet: 100 }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'NOT DOCKED' do
+          user.update(docked: false)
+          post :dice_roll, params: { bet: 100, roll_under: 50 }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'NOT AT CASINO' do
+          user.update(location: Location.station.first)
+          post :dice_roll, params: { bet: 100, roll_under: 50 }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'BELOW MINIMUM BET' do
+          user.update(location: Location.station.first)
+          post :dice_roll, params: { bet: 1, roll_under: 50 }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'ABOVE MAXIMUM BET' do
+          user.update(location: Location.station.first, units: 1_000_000)
+          post :dice_roll, params: { bet: 1_000_000, roll_under: 50 }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'ABOVE AVAILABLE CREDITS' do
+          user.update(location: Location.station.first)
+          post :dice_roll, params: { bet: user.units + 100, roll_under: 50 }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'ABOVE MAXIMUM ROLL_UNDER' do
+          user.update(location: Location.station.first)
+          post :dice_roll, params: { bet: 2000, roll_under: 100 }
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'BELOW MINIMUM ROLL_UNDER' do
+          user.update(location: Location.station.first)
+          post :dice_roll, params: { bet: 2000, roll_under: 2 }
+          expect(response).to have_http_status(:bad_request)
+        end
       end
     end
   end

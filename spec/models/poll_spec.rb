@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: polls
+#
+#  id                      :bigint(8)        not null, primary key
+#  cached_votes_down       :integer          default(0)
+#  cached_votes_score      :integer          default(0)
+#  cached_votes_total      :integer          default(0)
+#  cached_votes_up         :integer          default(0)
+#  cached_weighted_average :float            default(0.0)
+#  cached_weighted_score   :integer          default(0)
+#  cached_weighted_total   :integer          default(0)
+#  forum_link              :string
+#  question                :string
+#  status                  :integer          default("active")
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#
+
 require 'rails_helper'
 
 describe Poll do
@@ -14,25 +33,25 @@ describe Poll do
 
     describe 'Functions' do
       before(:each) do
-        @poll = FactoryBot.create(:poll)
+        @poll = create(:poll)
       end
 
       describe 'move_up' do
         it 'should move up' do
           @poll.move_up
-          expect(@poll.reload.status).to eq("in_progress")
+          expect(@poll.reload.status).to eq('in_progress')
         end
 
         it 'should move up' do
           @poll.active!
           @poll.move_up
-          expect(@poll.reload.status).to eq("waiting")
+          expect(@poll.reload.status).to eq('waiting')
         end
 
         it 'should move up' do
           @poll.in_progress!
           @poll.move_up
-          expect(@poll.reload.status).to eq("finished")
+          expect(@poll.reload.status).to eq('finished')
         end
       end
     end
