@@ -187,13 +187,13 @@ describe Item do
       end
 
        describe 'equipment_easy' do
-        it 'should return array of easy items' do
-          expect(Item::EQUIPMENT_EASY).to be_an(Array)
-          Item::EQUIPMENT_EASY.each do |loader|
-            expect(Item.get_attribute(loader, :name)).to be_present, "Expected #{loader} to have a name"
-          end
-        end
-      end
+         it 'should return array of easy items' do
+           expect(Item::EQUIPMENT_EASY).to be_an(Array)
+           Item::EQUIPMENT_EASY.each do |loader|
+             expect(Item.get_attribute(loader, :name)).to be_present, "Expected #{loader} to have a name"
+           end
+         end
+       end
 
       describe 'equipment_medium' do
         it 'should return array of medium items' do
