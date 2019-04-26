@@ -94,7 +94,7 @@ GEM
     dry-core (0.4.7)
       concurrent-ruby (~> 1.0)
     dry-equalizer (0.2.2)
-    dry-initializer (2.5.0)
+    dry-initializer (3.0.1)
     dry-monads (1.2.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.4, >= 0.4.4)
