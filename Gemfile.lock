@@ -56,7 +56,7 @@ GEM
     bootstrap4-kaminari-views (1.0.1)
       kaminari (>= 0.13)
       rails (>= 3.1)
-    bugsnag (6.12.2)
+    bugsnag (6.13.0)
       concurrent-ruby (~> 1.0)
     builder (3.2.4)
     bullet (6.1.0)
