@@ -191,7 +191,7 @@ GEM
     pg (1.2.2)
     puma (4.3.3)
       nio4r (~> 2.0)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-protection (2.0.8.1)
