@@ -1,3 +1,5 @@
+# WARNING: This is the first version of Stellar Invictus when it was text-based. The current Stellar Invictus is a private repository.
+
 <div align="center">
   <br>
   <img
