@@ -1,0 +1,44 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: rubocop
+    versions:
+    - 1.10.0
+    - 1.11.0
+    - 1.12.1
+    - 1.8.1
+    - 1.9.0
+    - 1.9.1
+  - dependency-name: nokogiri
+    versions:
+    - 1.11.1
+    - 1.11.2
+  - dependency-name: rspec-rails
+    versions:
+    - 4.0.2
+    - 4.1.0
+    - 5.0.0
+  - dependency-name: omniauth
+    versions:
+    - 2.0.1
+    - 2.0.2
+    - 2.0.3
+  - dependency-name: rails
+    versions:
+    - 6.0.3.4
+    - 6.0.3.5
+  - dependency-name: database_cleaner
+    versions:
+    - 1.8.5
+    - 2.0.0
+  - dependency-name: client_side_validations
+    versions:
+    - 17.2.0
+  - dependency-name: recaptcha
+    versions:
+    - 5.6.0
